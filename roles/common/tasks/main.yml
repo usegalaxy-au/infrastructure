@@ -1,0 +1,28 @@
+- name: Update the apt repos and base OS
+  apt:
+      upgrade: dist
+      update_cache: yes
+  become: yes
+  become_user: root
+
+- name: Install some common packages
+  apt:
+      name: "{{ packages }}"
+      state: latest
+  become: yes
+  become_user: root
+  vars:
+      packages:
+          - vim
+          - acl
+          - git
+          - build-essential
+          - python-dev
+          - libcurl4-openssl-dev
+          - libssl-dev
+          - virtualenv
+          - htop
+          - nfs-common
+          - atop
+          - speedometer
+          - byobu
