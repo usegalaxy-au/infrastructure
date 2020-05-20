@@ -13,14 +13,16 @@
   become_user: root
   vars:
       packages:
+          - python-is-python3
           - vim
           - acl
           - git
           - build-essential
-          - python-dev
+          - python3-dev
           - libcurl4-openssl-dev
           - libssl-dev
-          - virtualenv
+          - python3-virtualenv
+          - python3-pip
           - htop
           - nfs-common
           - atop
