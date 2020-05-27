@@ -1,0 +1,39 @@
+machine_users:
+    - name: simon
+      role: sudo
+      key: files/keys/simon.pub
+    - name: nick
+      role: sudo
+      key: files/keys/nick.pub
+    - name: cat
+      role: sudo
+      key: files/keys/catherine.pub
+    - name: igor
+      role: user
+      key: files/keys/igor.pub
+    - name: thom
+      role: sudo
+      key: files/keys/thom.pub
+    - name: mike
+      role: user
+      key: files/keys/mike.pub
+    - name: gareth
+      role: user
+      key: files/keys/gareth.pub
+
+common_packages:
+    - python-is-python3
+    - vim
+    - acl
+    - git
+    - build-essential
+    - python3-dev
+    - libcurl4-openssl-dev
+    - libssl-dev
+    - python3-virtualenv
+    - python3-pip
+    - htop
+    - nfs-common
+    - atop
+    - speedometer
+    - byobu
