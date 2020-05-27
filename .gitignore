@@ -1,2 +1,11 @@
 .vault_pass.txt
 
+# from requirements.yml
+roles/galaxyproject.galaxy/
+roles/galaxyproject.nginx/
+roles/galaxyproject.postgresql/
+roles/geerlingguy.pip/
+roles/natefoo.postgresql_objects/
+roles/uchida.miniconda/
+roles/usegalaxy-eu.certbot/
+roles/usegalaxy_eu.galaxy_systemd/
