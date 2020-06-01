@@ -6,6 +6,7 @@
       - group_vars/VAULT
   roles:
       - common
+      - insspb.hostname
       - geerlingguy.pip
-      #- jasonroyle.rabbitmq
-      #- galaxyproject.nginx
+      - jasonroyle.rabbitmq
+      - galaxyproject.nginx
