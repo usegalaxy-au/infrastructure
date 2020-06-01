@@ -14,3 +14,6 @@
   version: 0.1.2
 - src: usegalaxy_eu.certbot
   version: 0.1.4
+- src: jasonroyle.rabbitmq
+  version: 0.0.4
+- src: insspb.hostname

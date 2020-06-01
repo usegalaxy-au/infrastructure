@@ -1,3 +1,4 @@
+#List of users to install and setup /homes for
 machine_users:
     - name: simon
       role: sudo
@@ -21,6 +22,7 @@ machine_users:
       role: user
       key: files/keys/gareth.pub
 
+#Common packages to install on all of our machines.
 common_packages:
     - python-is-python3
     - vim
@@ -37,3 +39,7 @@ common_packages:
     - atop
     - speedometer
     - byobu
+    - apt-transport-https
+
+#Set pip to be pip3 by default - see roles/geerlingguy.pip/defaults/main.yml
+pip_package: python3-pip

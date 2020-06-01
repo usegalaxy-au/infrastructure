@@ -1,0 +1,11 @@
+- hosts: rabbitservers
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/rabbitservers.yml
+      - group_vars/VAULT
+  roles:
+      - common
+      - geerlingguy.pip
+      #- jasonroyle.rabbitmq
+      #- galaxyproject.nginx
