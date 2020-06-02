@@ -1,0 +1,26 @@
+# Host specific Rabbit settings
+
+rabbitmq_users:
+  - user: admin
+    password: "{{ rabbitmq_password_admin }}"
+    tags: administrator
+    vhost: /
+  - user: telegraf
+    password: "{{ rabbitmq_password_telegraf }}"
+    tags: administrator
+    vhost: /
+  - user: galaxy
+    password: "{{ rabbitmq_password_galaxy }}"
+    vhost: galaxy
+  - user: galaxy_au
+    password: "{{ rabbitmq_password_galaxy_au }}"
+    vhost: /pulsar/galaxy_au
+
+rabbitmq_vhosts:
+  - galaxy
+  - /pulsar/galaxy_au
+
+rabbitmq_password_admin: "{{ vault_rabbitmq_password_admin_dev }}"
+rabbitmq_password_telegraf: "{{ vault_rabbitmq_password_telegraf_dev }}"
+rabbitmq_password_galaxy: "{{ vault_rabbitmq_password_galaxy_dev }}"
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_au_dev }}"
