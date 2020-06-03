@@ -1,0 +1,25 @@
+- hosts: galaxyservers
+  become: true
+  pre_tasks:
+    - name: Detect attached volume
+      parted:
+        device: /dev/vdb
+        unit: GiB
+      register: volume_info
+    - debug:
+        msg: Detected {{ volume_info }}
+    - debug:
+        msg: Everything's gonna be alright
+      when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == '/dev/vdb'
+  #   - name: Create a ext4 filesystem on /dev/vdb
+  #     filesystem:
+  #       fstype: ext4
+  #       dev: /dev/vdb
+  #   - name: Mount /dev/vdb at /mnt
+  #     mount:
+  #       path: /mnt
+  #       src: /dev/vdb
+  #       fstype: ext4
+  #       state: mounted
+  # roles:
+  #   - common
