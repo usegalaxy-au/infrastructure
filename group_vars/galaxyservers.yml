@@ -1,0 +1,4 @@
+# variables for attaching mounted volume to application server
+galaxyserver_attached_volume_device: /dev/vdb
+galaxyserver_attached_volume_path: /mnt
+galaxyserver_attached_volume_fstype: ext4
