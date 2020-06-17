@@ -5,9 +5,13 @@
       - group_vars/rabbitservers.yml
       - group_vars/VAULT
       - host_vars/dev-queue.usegalaxy.org.au.yml
+      - group_vars/dev_slurm.yml
   roles:
       - common
       - insspb.hostname
       - geerlingguy.pip
       - jasonroyle.rabbitmq
       - galaxyproject.nginx
+      - mariadb
+      - galaxyproject.repos
+      - galaxyproject.slurm

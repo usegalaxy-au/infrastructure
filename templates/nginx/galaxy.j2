@@ -2,7 +2,7 @@ server {
     # Listen on port 443
     listen        *:443 ssl default_server;
     # The virtualhost is our domain name
-    server_name   "{{ inventory_hostname }}";
+    server_name   "{{ hostname }}";
 
     # Our log files will go here.
     access_log  /var/log/nginx/access.log;

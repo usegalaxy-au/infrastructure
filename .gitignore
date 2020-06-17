@@ -5,6 +5,8 @@ venv
 roles/galaxyproject.galaxy/
 roles/galaxyproject.nginx/
 roles/galaxyproject.postgresql/
+# roles/galaxyproject.slurm/ # Commented out as we have made modifications to this role so slurmdbd installation works
+roles/galaxyproject.repos/
 roles/geerlingguy.pip/
 roles/natefoo.postgresql_objects/
 roles/uchida.miniconda/

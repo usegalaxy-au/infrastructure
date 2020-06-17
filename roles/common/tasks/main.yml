@@ -11,3 +11,29 @@
       state: latest
   become: yes
   become_user: root
+
+- name: Add to head node to all worker's hosts files
+  become: yes
+  become_user: root
+  lineinfile:
+      path: "/etc/hosts"
+      #regexp: "{{ hostvars[item].ansible_host }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
+      line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
+      state: present
+      backup: yes
+  when: add_hosts_head is defined and add_hosts_head == true
+  with_items:
+      "{{ head_nodes }}"
+
+- name: Add to worker nodes to head node's host file
+  become: yes
+  become_user: root
+  lineinfile:
+      path: "/etc/hosts"
+      #regexp: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
+      line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
+      state: present
+      backup: yes
+  when: add_hosts_workers is defined and add_hosts_workers == true
+  with_items:
+      "{{ worker_nodes }}"
