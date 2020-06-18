@@ -5,7 +5,16 @@ dev-db.usegalaxy.org.au ansible_ssh_host=115.146.86.251
 dev.usegalaxy.org.au ansible_ssh_host=115.146.86.50
 
 [rabbitservers]
-dev-queue.usegalaxy.org.au ansible_ssh_host=115.146.85.163
+dev-queue ansible_ssh_host=115.146.85.163
+
+[slurmcontrollers]
+dev-queue ansible_ssh_host=115.146.85.163
+
+[dev-slurm-head]
+dev-queue ansible_ssh_host=115.146.85.163
+
+[dev-workers]
+dev-w1 ansible_ssh_host=115.146.87.253
 
 [all:vars]
 ansible_host_key_checking=False

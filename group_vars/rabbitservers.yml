@@ -16,10 +16,11 @@ certbot_post_renewal: |
     systemctl restart nginx || true
     systemctl restart rabbitmq-server || true
 certbot_domains:
- - "{{ inventory_hostname }}"
+ - "{{ hostname }}"
 certbot_agree_tos: --agree-tos
 
 # NGINX
+hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
 nginx_selinux_allow_local_connections: true
 nginx_servers:
   - redirect-ssl

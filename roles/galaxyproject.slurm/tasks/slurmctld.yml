@@ -1,0 +1,26 @@
+---
+
+- name: Install Slurm controller packages
+  package:
+    name: "{{ __slurm_packages.slurmctld }}"
+    state: "{{ 'latest' if slurm_upgrade else 'present' }}"
+
+- name: Create slurm state directory
+  file:
+    path: "{{ __slurm_config_merged.StateSaveLocation }}"
+    owner: "{{ __slurm_user_name }}"
+    group: "{{ __slurm_group_name }}"
+    mode: 0700
+    state: directory
+  when: slurm_create_dirs
+  notify:
+    - reload slurmctld
+
+- name: Create slurm log directory
+  file:
+    path: "{{ __slurm_config_merged.SlurmctldLogFile | dirname }}"
+    owner: "{{ __slurm_user_name }}"
+    group: "{{ __slurm_group_name }}"
+    mode: 0755
+    state: directory
+  when: slurm_create_dirs and __slurm_config_merged.SlurmctldLogFile != omit

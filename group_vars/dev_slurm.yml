@@ -1,0 +1,36 @@
+
+auth_key_user: ubuntu
+
+head_nodes: "{{ groups['dev-queue-head'] }}"
+worker_nodes: "{{ groups['dev-workers'] }}"
+
+# SLURM
+slurm_nodes:
+    - name: dev-queue
+      NodeAddr: 115.146.85.163
+      CPUs: 2
+      RealMemory: 3700
+      State: UNKNOWN
+
+slurm_partitions:
+    - name: main
+      nodes: "dev-queue"
+      Default: YES
+      MaxTime: '30-00:00:00'
+      State: UP
+
+slurm_config:
+    #SlurmDBd includes
+    AccountingStorageType: accounting_storage/slurmdbd
+    AccountingStorageHost: localhost
+    JobAcctGatherType: jobacct_gather/linux
+    ControlMachine: dev-queue
+    SlurmctldPidFile: /run/slurmctld.pid
+    SlurmdPidFile: /run/slurmd.pid
+    # SCHEDULING
+    FastSchedule: 2
+    SchedulerType: sched/backfill
+    SelectType: select/cons_res
+    SelectTypeParameters: CR_CPU,CR_LLN
+
+slurm_munge_key: files/keys/munge.key

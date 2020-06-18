@@ -1,0 +1,24 @@
+---
+
+- name: Check munge dir
+  file:
+    path: /etc/munge
+    owner: munge
+    group: munge
+    mode: 0700
+    state: directory
+
+- name: Install munge key
+  copy:
+    src: "{{ slurm_munge_key }}"
+    dest: /etc/munge/munge.key
+    owner: munge
+    group: munge
+    mode: 0400
+  when: slurm_munge_key is defined
+
+- name: Ensure Munge is enabled and running
+  service:
+    name: munge
+    enabled: yes
+    state: started

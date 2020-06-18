@@ -17,6 +17,7 @@
 - src: jasonroyle.rabbitmq
   version: 0.0.4
 - src: insspb.hostname
+  version: 3.0
 - src: galaxyproject.slurm
   version: 0.1.2
 - src: galaxyproject.repos
