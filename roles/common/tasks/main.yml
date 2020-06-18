@@ -12,6 +12,14 @@
   become: yes
   become_user: root
 
+- name: Install group specific packages
+  apt:
+      name: "{{ group_packages }}"
+      state: latest
+  become: yes
+  become_user: root
+  when: group_packages is defined
+
 - name: Add to head node to all worker's hosts files
   become: yes
   become_user: root
