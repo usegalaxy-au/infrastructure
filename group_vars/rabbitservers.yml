@@ -20,7 +20,6 @@ certbot_domains:
 certbot_agree_tos: --agree-tos
 
 # NGINX
-hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
 nginx_selinux_allow_local_connections: true
 nginx_servers:
   - redirect-ssl

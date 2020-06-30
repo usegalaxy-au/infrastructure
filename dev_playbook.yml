@@ -1,5 +1,9 @@
-- hosts: galaxyservers
+- hosts: dev_galaxy_server
   become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/galaxyservers.yml
+      - host_vars/dev.usegalaxy.org.au.yml
   pre_tasks:
     # The following 3 tasks are for mounting the volume attached to the galaxy
     # application server.  If this script is being run for the first time,

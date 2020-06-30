@@ -1,3 +1,6 @@
+# append domain to ansible_hostname (from hosts file) for hostname variable
+hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
+
 #List of users to install and setup /homes for
 machine_users:
     - name: simon
