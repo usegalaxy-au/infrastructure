@@ -1,0 +1,21 @@
+- hosts: dev_db_server
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/VAULT
+      - group_vars/dbservers.yml
+      - host_vars/dev-db.usegalaxy.org.au.yml
+  pre_tasks:
+      - name: Install psycopg2 for python3
+        apt:
+            name: python3-psycopg2
+            state: present
+        become: true
+  roles:
+      - common
+      - insspb.hostname
+      - geerlingguy.pip
+      - galaxyproject.postgresql
+      - role: natefoo.postgresql_objects
+        become: true
+        become_user: postgres
