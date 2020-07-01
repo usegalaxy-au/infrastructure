@@ -1,8 +1,8 @@
 
 auth_key_user: ubuntu
 
-head_nodes: "{{ groups['dev-queue-head'] }}"
-worker_nodes: "{{ groups['dev-workers'] }}"
+head_nodes: "{{ groups['dev_slurm_head'] }}"
+worker_nodes: "{{ groups['dev_workers'] }}"
 
 # SLURM
 slurm_nodes:

@@ -1,8 +1,8 @@
-[dbservers]
-dev-db.usegalaxy.org.au ansible_ssh_host=115.146.86.251
+[dev_db_server]
+dev-db ansible_ssh_host=115.146.86.251
 
-[galaxyservers]
-dev.usegalaxy.org.au ansible_ssh_host=115.146.86.50
+[dev_galaxy_server]
+dev ansible_ssh_host=115.146.86.50
 
 [rabbitservers]
 dev-queue ansible_ssh_host=115.146.85.163
@@ -10,10 +10,10 @@ dev-queue ansible_ssh_host=115.146.85.163
 [slurmcontrollers]
 dev-queue ansible_ssh_host=115.146.85.163
 
-[dev-slurm-head]
+[dev_slurm_head]
 dev-queue ansible_ssh_host=115.146.85.163
 
-[dev-workers]
+[dev_workers]
 dev-w1 ansible_ssh_host=115.146.87.253
 
 [all:vars]
