@@ -14,7 +14,7 @@ resource "openstack_compute_instance_v2" "dev" {
   image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
   flavor_name     = "m3.medium"
   key_pair        = "galaxy-australia"
-  security_groups = ["SSH", "Web-Services", "galaxy-dev"]
+  security_groups = ["SSH", "Web-Services", "galaxy-dev", "galaxy-dev-db"]
   availability_zone = "melbourne-qh2"
 }
 
