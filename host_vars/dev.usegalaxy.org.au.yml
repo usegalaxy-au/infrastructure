@@ -1,1 +1,6 @@
-# hello world
+# Specific settings for galaxy dev application/web server
+
+__galaxy_config:
+  galaxy:
+    brand: "Australia Dev"
+    database_connection: "postgres://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"

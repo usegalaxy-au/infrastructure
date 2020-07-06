@@ -2,27 +2,42 @@
   become: true
   vars_files:
       - group_vars/all.yml
+      - group_vars/VAULT
       - group_vars/galaxyservers.yml
       - host_vars/dev.usegalaxy.org.au.yml
   pre_tasks:
-    # The following 3 tasks are for mounting the volume attached to the galaxy
-    # application server.  If this script is being run for the first time,
-    # review the value of galaxyserver_attached_volume_device in group_vars
-    - name: Detect attached volume
-      parted:
-        device: "{{ galaxyserver_attached_volume_device }}"
-        unit: GiB
-      register: volume_info
-    - name: Create a ext4 filesystem on volume
-      filesystem:
-        fstype: "{{ galaxyserver_attached_volume_fstype }}"
-        dev: "{{ galaxyserver_attached_volume_device }}"
-      when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == galaxyserver_attached_volume_device
-    - name: Mount volume
-      mount:
-        path: "{{ galaxyserver_attached_volume_path }}"
-        src: "{{ galaxyserver_attached_volume_device }}"
-        fstype: "{{ galaxyserver_attached_volume_fstype }}"
-        state: mounted
-  # roles:
-  #   - common
+    - name: Attach volume to instance
+      # If this script is being run for the first time, review the value of galaxyserver_attached_volume_device in group_vars
+      block: # TODO: This is pretty generic code for attaching a volume to a device and should probably live in another file to be reused
+        - name: Detect attached volume
+          parted:
+            device: "{{ galaxyserver_attached_volume_device }}"
+            unit: GiB
+          register: volume_info
+        - name: Create a filesystem on volume
+          filesystem:
+            fstype: "{{ galaxyserver_attached_volume_fstype }}"
+            dev: "{{ galaxyserver_attached_volume_device }}"
+          when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == galaxyserver_attached_volume_device
+        - name: Mount volume
+          mount:
+            path: "{{ galaxyserver_attached_volume_path }}"
+            src: "{{ galaxyserver_attached_volume_device }}"
+            fstype: "{{ galaxyserver_attached_volume_fstype }}"
+            state: mounted
+      when: galaxyserver_attached_volume_device is defined
+  handlers:
+    - name: Restart Galaxy
+      systemd:
+        name: galaxy
+        state: restarted
+  roles:
+    - common
+    - galaxyproject.postgresql # this role is almost certainly not needed here
+    - role: natefoo.postgresql_objects # not 100% sure on whether this role is needed here
+      become: true
+      become_user: postgres
+    - geerlingguy.pip
+    - galaxyproject.galaxy
+    - usegalaxy_eu.galaxy_systemd
+    - galaxyproject.nginx
