@@ -115,12 +115,6 @@ galaxy_config:
     new_file_path: "{{ galaxy_tmp_path }}"
     job_working_directory: "{{ galaxy_tmp_path }}/job_working_directory"
 
-    # New config varariables as of 20.05.  It is necessary to put these within
-    # galaxy controlled directories as their locations default to directories
-    # that galaxy cannot write to
-    tool_cache_data_dir: "{{ galaxy_mutable_data_dir }}/tool_cache"
-    tool_search_index_dir: "{{ galaxy_mutable_data_dir }}/tool_search_index"
-
     # host specific settings
     brand: "{{ __galaxy_config['galaxy']['brand']}}"
     database_connection: "{{ __galaxy_config['galaxy']['database_connection']}}"
@@ -146,7 +140,6 @@ galaxy_config:
     support_url: "{{ galaxy_australia_website }}/help"
 
     conda_auto_init: true  # is default
-    conda_auto_install: true
     conda_debug: true
     conda_ensure_channels: 'iuc,conda-forge,bioconda,defaults'  # this is the default setting
     conda_prefix: "{{ galaxy_root }}/tool_dependencies/_conda"
