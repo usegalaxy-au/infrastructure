@@ -28,6 +28,16 @@ resource "openstack_compute_instance_v2" "dev-queue" {
   availability_zone = "melbourne-qh2"
 }
 
+# slurm worker
+resource "openstack_compute_instance_v2" "dev-w1" {
+  name            = "dev-w1"
+  image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
+  flavor_name     = "m3.medium"
+  key_pair        = "galaxy-australia"
+  security_groups = ["SSH", "galaxy-dev"]
+  availability_zone = "melbourne-qh2"
+}
+
 # Volume for application/web server
 resource "openstack_blockstorage_volume_v2" "dev-volume" {
   availability_zone = "melbourne-qh2"
