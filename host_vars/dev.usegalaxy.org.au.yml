@@ -4,3 +4,45 @@ __galaxy_config:
   galaxy:
     brand: "Australia Dev"
     database_connection: "postgres://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
+
+# NFS stuff
+nfs_exports:
+    - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
+
+#Galaxy Job Conf
+galaxy_jobconf:
+    plugin_workers: 4
+    handlers:
+        count: "{{ galaxy_handler_count }}"
+    plugins:
+      - id: local
+        load: galaxy.jobs.runners.local:LocalJobRunner
+        workers: 4
+      - id: slurm
+        load: galaxy.jobs.runners.slurm:SlurmJobRunner
+    default_destination: "slurm_dest"
+    destinations:
+      - id: local
+        runner: local
+      - id: dynamic_dtd
+        runner: dynamic
+        params:
+          type: dtd
+      - id: slurm_dest
+        runner: slurm
+        params:
+            nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
+    tools:
+      - id: upload1
+        destination: slurm_dest
+    limits:
+      #General limits for user submission
+      - type: anonymous_user_concurrent_jobs
+        value: 1
+      - type: registered_user_concurrent_jobs
+        value: 10
+
+# variables for attaching mounted volume to application server
+galaxyserver_attached_volume_device: /dev/vdb
+galaxyserver_attached_volume_path: /mnt
+galaxyserver_attached_volume_fstype: ext4

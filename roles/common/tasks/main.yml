@@ -45,3 +45,15 @@
   when: add_hosts_workers is defined and add_hosts_workers == true
   with_items:
       "{{ worker_nodes }}"
+
+- name: Add Galaxy server to all worker's host files
+  become: yes
+  become_user: root
+  lineinfile:
+      path: "/etc/hosts"
+      line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
+      state: present
+      backup: yes
+  when: add_hosts_galaxy is defined and add_hosts_galaxy == true
+  with_items:
+      "{{ galaxy_nodes }}"

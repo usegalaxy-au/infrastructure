@@ -8,15 +8,16 @@
   version: 1.1
 - name: geerlingguy.pip
   version: 1.3.0
+- name: geerlingguy.nfs
+  version: 1.6.0
 - src: usegalaxy_eu.galaxy_systemd
   version: 0.1.2
 - src: usegalaxy_eu.certbot
   version: 0.1.4
-- src: jasonroyle.rabbitmq
-  version: 0.0.4
+#- src: jasonroyle.rabbitmq
+#  version: 0.0.4
 - src: insspb.hostname
-  version: 3.0
-- src: galaxyproject.slurm
-  version: 0.1.2
+#- src: galaxyproject.slurm
+#  version: 0.1.2
 - src: galaxyproject.repos
   version: 0.0.1

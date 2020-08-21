@@ -1,13 +1,17 @@
 .vault_pass.txt
 venv
+ansible.cfg
+terraform/terraform*
+terraform/.terraform
 
 # from requirements.yml
 roles/galaxyproject.galaxy/
 roles/galaxyproject.nginx/
 roles/galaxyproject.postgresql/
 # roles/galaxyproject.slurm/ # Commented out as we have made modifications to this role so slurmdbd installation works
-roles/galaxyproject.repos/
+# roles/galaxyproject.repos/ # Commented out as Simon made a modification so ppa is added to ubuntu 20.04
 roles/geerlingguy.pip/
+roles/geerlingguy.nfs/
 roles/natefoo.postgresql_objects/
 roles/uchida.miniconda/
 roles/usegalaxy_eu.certbot/

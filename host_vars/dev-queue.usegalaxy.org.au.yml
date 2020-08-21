@@ -27,11 +27,13 @@ rabbitmq_password_galaxy: "{{ vault_rabbitmq_password_galaxy_dev }}"
 rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_au_dev }}"
 
 # Host specific Slurm settings
-slurm_roles: ['controller', 'exec', 'dbd']
+slurm_roles: ['controller', 'dbd']
 
 slurm_database_user: slurm
 slurm_database_user_password: "{{ mariadb_password_slurm }}"
 slurm_database: 'slurm_acct_db'
+
+add_hosts_workers: yes
 
 #Mariadb
 

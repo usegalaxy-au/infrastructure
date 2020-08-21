@@ -4,11 +4,6 @@ group_packages:
   - libbz2-dev
   - liblzma-dev  # 'libbz2-dev', 'liblzma-dev' have not been necessary for galaxy setup prior to ubuntu 20.04
 
-# variables for attaching mounted volume to application server
-galaxyserver_attached_volume_device: /dev/vdb
-galaxyserver_attached_volume_path: /mnt
-galaxyserver_attached_volume_fstype: ext4
-
 # Python 3 support
 pip_virtualenv_command: /usr/bin/python3 -m virtualenv # usegalaxy_eu.certbot, usegalaxy_eu.tiaas2, galaxyproject.galaxy
 certbot_virtualenv_package_name: python3-virtualenv    # usegalaxy_eu.certbot
@@ -27,6 +22,7 @@ postgresql_pg_hba_conf:
 galaxy_systemd_mode: mule
 galaxy_zergpool_listen_addr: 127.0.0.1:8080
 galaxy_restart_handler_name: "Restart Galaxy"
+galaxy_systemd_zergling_env: DRMAA_LIBRARY_PATH="/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
 
 # Certbot
 certbot_auto_renew_hour: "{{ 23 |random(seed=inventory_hostname)  }}"
@@ -70,6 +66,7 @@ galaxy_user:
 galaxy_commit_id: release_20.05
 galaxy_config_style: yaml
 galaxy_force_checkout: true
+galaxy_handler_count: 2
 
 galaxy_tmp_path: "{{ galaxy_root }}/tmp"
 galaxy_australia_website: "https://usegalaxy-au.github.io"
@@ -77,7 +74,7 @@ galaxy_australia_website: "https://usegalaxy-au.github.io"
 galaxy_server_dir: "{{ galaxy_root }}/galaxy-app"
 galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
 galaxy_mutable_data_dir: "{{ galaxy_root }}"
-# galaxy_config_dir: "{{ galaxy_server_dir }}/config" # this cannot be set this way as config paths are set before the galaxy repo is cloned: the path cannot already exist
+galaxy_config_dir: "{{ galaxy_root }}/config" # this cannot be set this way as config paths are set before the galaxy repo is cloned: the path cannot already exist #This is normally set as {{ galaxy_root }}/config
 
 galaxy_config:
   uwsgi:  # todo: check desired dev settings for processes, threads, logging, mule, farm, look at how this is defined in prod galaxy.yml
@@ -108,7 +105,7 @@ galaxy_config:
     farm: job-handlers:1,2
   galaxy:
     admin_users: simon.gladman@unimelb.edu.au,n.rhodes@qfab.org,catherine.bromhead@unimelb.edu.au  # todo: add more, better yet make this a function of something specified somewhere else
-    file_path: /data
+    file_path: "{{ galaxy_root }}/data"
     check_migrate_tools: false
     tool_data_path: "{{ galaxy_server_dir }}/tool-data"
     log_level: TRACE
@@ -159,6 +156,8 @@ galaxy_config:
     install_database_connection: "sqlite:///{{ galaxy_mutable_config_dir }}/galaxy_install_db.sqlite?isolation_level=IMMEDIATE"
 
     tool_dependency_dir: "{{ galaxy_root }}/tools"
+
+    job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
 
     # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
 
@@ -224,3 +223,12 @@ galaxy_config_template_src_dir: templates/galaxy
 galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/static/welcome.html.j2"
     dest: "{{ galaxy_server_dir }}/static/welcome.html"
+  - src: "{{ galaxy_config_template_src_dir }}/config/job_conf.xml.j2"
+    dest: "{{ galaxy_config_dir}}/job_conf.xml"
+
+
+#Slurm client
+slurm_roles: ['exec']
+
+#Add slurm controllers hostname to hosts.
+add_hosts_head: yes
