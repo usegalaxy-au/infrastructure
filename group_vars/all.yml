@@ -25,6 +25,13 @@ machine_users:
       role: user
       key: files/keys/gareth.pub
 
+galaxy_user:
+  name: galaxy
+  shell: /bin/bash
+  uid: 998
+  group: galaxy
+  gid: 998
+
 #Common packages to install on all of our machines.
 common_packages:
     - python-is-python3

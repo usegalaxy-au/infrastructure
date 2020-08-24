@@ -60,9 +60,9 @@ galaxy_separate_privileges: true
 galaxy_manage_paths: true
 galaxy_layout: root-dir
 galaxy_root: /mnt/galaxy
-galaxy_user:
-  name: galaxy
-  shell: /bin/bash
+#galaxy_user: ## shifted to all.yml
+#  name: galaxy
+#  shell: /bin/bash
 galaxy_commit_id: release_20.05
 galaxy_config_style: yaml
 galaxy_force_checkout: true

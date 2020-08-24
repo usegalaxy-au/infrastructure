@@ -50,3 +50,7 @@
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1
+    - name: Reload exportfs
+      command: exportfs -ra
+      become: yes
+      become_user: root

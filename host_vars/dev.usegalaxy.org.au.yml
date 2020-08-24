@@ -4,6 +4,7 @@ __galaxy_config:
   galaxy:
     brand: "Australia Dev"
     database_connection: "postgres://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
+    id_secret: "{{ vault_dev_id_secret }}"
 
 # NFS stuff
 nfs_exports:
