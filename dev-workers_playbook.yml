@@ -1,0 +1,13 @@
+- hosts: dev_workers
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/VAULT
+      - group_vars/dev_slurm.yml
+  roles:
+      - common
+      - insspb.hostname
+      - geerlingguy.pip
+      - mounts
+      - galaxyproject.repos
+      - galaxyproject.slurm

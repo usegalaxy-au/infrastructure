@@ -3,18 +3,31 @@ auth_key_user: ubuntu
 
 head_nodes: "{{ groups['dev_slurm_head'] }}"
 worker_nodes: "{{ groups['dev_workers'] }}"
+galaxy_nodes: "{{ groups['dev_galaxy_server'] }}"
+
+add_galaxy_user: true #Adds the galaxy user to all machines that have slurm on them
 
 # SLURM
 slurm_nodes:
+    - name: dev-w1
+      NodeAddr: "{{ hostvars['dev-w1']['ansible_ssh_host'] }}"
+      CPUs: 4
+      RealMemory: 7780
+      State: UNKNOWN
     - name: dev-queue
-      NodeAddr: 115.146.85.163
+      NodeAddr: "{{ hostvars['dev-queue']['ansible_ssh_host'] }}"
       CPUs: 2
-      RealMemory: 3700
+      RealMemory: 3300
+      State: UNKNOWN
+    - name: dev
+      NodeAddr: "{{ hostvars['dev']['ansible_ssh_host'] }}"
+      CPUs: 4
+      RealMemory: 7780
       State: UNKNOWN
 
 slurm_partitions:
     - name: main
-      nodes: "dev-queue"
+      nodes: "dev-w1"
       Default: YES
       MaxTime: '30-00:00:00'
       State: UP

@@ -4,6 +4,7 @@
       - group_vars/all.yml
       - group_vars/VAULT
       - group_vars/galaxyservers.yml
+      - group_vars/dev_slurm.yml
       - host_vars/dev.usegalaxy.org.au.yml
   pre_tasks:
     - name: Attach volume to instance
@@ -32,12 +33,24 @@
         name: galaxy
         state: restarted
   roles:
+    - galaxyproject.repos
     - common
-    - galaxyproject.postgresql # this role is almost certainly not needed here
-    - role: natefoo.postgresql_objects # not 100% sure on whether this role is needed here
+    - galaxyproject.postgresql
+    - role: natefoo.postgresql_objects
       become: true
       become_user: postgres
     - geerlingguy.pip
     - galaxyproject.galaxy
     - usegalaxy_eu.galaxy_systemd
     - galaxyproject.nginx
+    - geerlingguy.nfs
+    - galaxyproject.slurm
+
+  post_tasks:
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa1
+    - name: Reload exportfs
+      command: exportfs -ra
+      become: yes
+      become_user: root

@@ -1,0 +1,21 @@
+- name: Expand mounts for later use
+  set_fact:
+      expanded_mounts: "{{ item['path'] }}"
+  with_items: "{{ shared_mounts }}"
+
+- name: Create the mount dirs
+  file:
+      path: "{{ item }}"
+      state: directory
+  become: yes
+  become_user: root
+  with_items: expanded_mounts
+
+- name: Install shared mounts into fstab
+  mount:
+      path: "{{ item['path'] }}"
+      state: "{{ item['state'] }}"
+      src: "{{ item['src'] }}"
+      fstype: "{{ item['fstype'] }}"
+  become: yes
+  with_items: "{{ shared_mounts }}"
