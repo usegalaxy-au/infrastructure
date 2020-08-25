@@ -74,7 +74,7 @@ galaxy_australia_website: "https://usegalaxy-au.github.io"
 galaxy_server_dir: "{{ galaxy_root }}/galaxy-app"
 galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
 galaxy_mutable_data_dir: "{{ galaxy_root }}"
-galaxy_config_dir: "{{ galaxy_root }}/config" # this cannot be set this way as config paths are set before the galaxy repo is cloned: the path cannot already exist #This is normally set as {{ galaxy_root }}/config
+galaxy_config_dir: "{{ galaxy_root }}/config"
 
 galaxy_config:
   uwsgi:  # todo: check desired dev settings for processes, threads, logging, mule, farm, look at how this is defined in prod galaxy.yml
