@@ -107,7 +107,7 @@ galaxy_config:
     admin_users: simon.gladman@unimelb.edu.au,n.rhodes@qfab.org,catherine.bromhead@unimelb.edu.au  # todo: add more, better yet make this a function of something specified somewhere else
     file_path: "{{ galaxy_root }}/data"
     check_migrate_tools: false
-    tool_data_path: "{{ galaxy_server_dir }}/tool-data"
+    tool_data_path: "{{ galaxy_mutable_data_dir }}/tool-data"
     log_level: TRACE
     new_file_path: "{{ galaxy_tmp_path }}"
     job_working_directory: "{{ galaxy_tmp_path }}/job_working_directory"
