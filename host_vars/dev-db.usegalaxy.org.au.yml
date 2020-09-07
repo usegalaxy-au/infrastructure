@@ -1,4 +1,4 @@
-dev_galaxy_server_address: "115.146.86.50/32"
+dev_galaxy_server_address: "{{ hostvars['dev_galaxy_server']['ansible_ssh_host'] }}/32"
 
 postgresql_conf:
   - max_connections: 50       # Decrease connection limit

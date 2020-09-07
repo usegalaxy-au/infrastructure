@@ -22,4 +22,4 @@
 - src: galaxyproject.repos
   version: 0.0.1
 - src: galaxyproject.cvmfs
-  version: 0.2.8  # awaiting new version
+  version: 0.2.12  # awaiting new version

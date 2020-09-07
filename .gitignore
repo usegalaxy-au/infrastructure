@@ -7,6 +7,7 @@ terraform/.terraform
 # from requirements.yml
 roles/galaxyproject.galaxy/
 roles/galaxyproject.nginx/
+roles/galaxyproject.cvmfs/
 roles/galaxyproject.postgresql/
 # roles/galaxyproject.slurm/ # Commented out as we have made modifications to this role so slurmdbd installation works
 # roles/galaxyproject.repos/ # Commented out as Simon made a modification so ppa is added to ubuntu 20.04

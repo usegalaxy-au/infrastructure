@@ -15,4 +15,3 @@
       - mariadb
       - galaxyproject.repos
       - galaxyproject.slurm
-      - galaxyproject.cvmfs
