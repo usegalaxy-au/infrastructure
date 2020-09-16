@@ -11,3 +11,4 @@
       - mounts
       - galaxyproject.repos
       - galaxyproject.slurm
+      - galaxyproject.cvmfs

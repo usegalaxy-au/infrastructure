@@ -47,3 +47,7 @@ galaxy_jobconf:
 galaxyserver_attached_volume_device: /dev/vdb
 galaxyserver_attached_volume_path: /mnt
 galaxyserver_attached_volume_fstype: ext4
+
+# cvmfs
+cvmfs_cache_base: /mnt/var/lib/cvmfs
+

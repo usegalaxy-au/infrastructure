@@ -21,3 +21,5 @@
 #  version: 0.1.2
 - src: galaxyproject.repos
   version: 0.0.1
+- src: galaxyproject.cvmfs
+  version: 0.2.13

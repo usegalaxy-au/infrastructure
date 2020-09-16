@@ -45,7 +45,7 @@
     - galaxyproject.nginx
     - geerlingguy.nfs
     - galaxyproject.slurm
-
+    - galaxyproject.cvmfs
   post_tasks:
     - name: Install slurm-drmaa
       package:

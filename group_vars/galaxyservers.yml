@@ -159,6 +159,10 @@ galaxy_config:
 
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
 
+    tool_data_table_config_path:
+      - /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+      - /cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
+
     # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
 
     # data_manager_config_file: /mnt/galaxy-app/config/data_manager_conf.xml.sample  # should we be templating these?
