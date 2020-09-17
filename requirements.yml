@@ -14,12 +14,14 @@
   version: 0.1.2
 - src: usegalaxy_eu.certbot
   version: 0.1.4
-#- src: jasonroyle.rabbitmq
+#- src: jasonroyle.rabbitmq - Had to modify download URL for rabbitMQ
 #  version: 0.0.4
 - src: insspb.hostname
-#- src: galaxyproject.slurm
+#- src: galaxyproject.slurm - Waiting for a new release that sets up clustering for dbd properly
 #  version: 0.1.2
-- src: galaxyproject.repos
-  version: 0.0.1
 - src: galaxyproject.cvmfs
   version: 0.2.13
+#- src: galaxyproject.repos - Waiting for a new release with Ubuntu >= 18.04
+#  version: 0.0.1
+- src: galaxyproject.pulsar
+  version: 1.0.6

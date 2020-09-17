@@ -75,3 +75,42 @@
       group: "{{ galaxy_user.group }}"
       shell: /bin/bash
   when: add_galaxy_user is defined and add_galaxy_user == true
+
+- name: Add openssl.cnf to machine
+  template:
+      src: openssl/openssl.cnf.j2
+      dest:  /home/ubuntu/openssl.cnf
+      owner: ubuntu
+      group: ubuntu
+  when: create_ssh_key is defined
+
+- name: Create an openssl key
+  shell: "openssl genrsa 1024 > host.key && chmod 400 host.key"
+  args:
+      chdir: /home/ubuntu
+  when: create_ssh_key is defined
+
+- name: Create an openssl cert with the key
+  shell: "openssl req -new -x509 -config openssl.cnf -nodes -sha1 -days 7600 -key host.key > host.cert"
+  args:
+      chdir: /home/ubuntu
+  when: create_ssh_key is defined
+
+- name: Create an openssl pem
+  shell: "cat host.cert host.key > host.pem && chmod 400 host.pem"
+  args:
+      chdir: /home/ubuntu
+  when: create_ssh_key is defined
+
+- name: Copy the key to ssl certs location
+  copy:
+      src: "/home/ubuntu/host.pem"
+      dest: "/etc/ssl/certs/host.pem"
+      owner: ubuntu
+      group: ubuntu
+      mode: 0400
+      remote_src: yes
+  become: yes
+  become_user: root
+  when: create_ssh_key is defined
+
