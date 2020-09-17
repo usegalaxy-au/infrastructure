@@ -1,0 +1,81 @@
+#Slurm roles
+slurm_roles: ['controller', 'exec', 'dbd']
+
+slurm_database_user: slurm
+slurm_database_user_password: "{{ vault_mariadb_password_slurm }}"
+slurm_database: 'slurm_acct_db'
+
+#Mariadb for slurm accounting
+
+mariadb_root_pass: "{{ vault_mariadb_password_root }}"
+mariadb_users:
+  - name: "{{ slurm_database_user }}"
+    password: "{{ slurm_database_user_password }}"
+    priv: '{{ slurm_database }}.*:ALL'
+mariadb_databases:
+  - name: '{{ slurm_database }}'
+
+#Slurmdbd
+
+slurmdbd_config:
+  AuthType: auth/munge
+  AuthInfo: /var/run/munge/munge.socket.2
+  DbdHost: localhost
+  StorageHost: localhost
+  StorageLoc: "{{ slurm_database }}"
+  StoragePass: "{{ slurm_database_user_password }}"
+  StorageType: accounting_storage/mysql
+  StorageUser: "{{ slurm_database_user }}"
+  LogFile: /var/log/slurm-llnl/slurmdbd.log
+  PidFile: /var/run/slurm-llnl/slurmdbd.pid
+  SlurmUser: slurm
+
+#NFS shares
+
+nfs_exports:
+    - "/mnt/galaxy  *(rw,async,no_root_squash,no_subtree_check)"
+    - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
+
+# Pulsar
+pulsar_root: /mnt/pulsar
+pulsar_server_dir: /mnt/pulsar/server
+pulsar_venv_dir: /mnt/pulsar/venv
+pulsar_config_dir: /mnt/pulsar/config
+pulsar_staging_dir: /mnt/pulsar/files/staging
+pulsar_persistence_dir: /mnt/pulsar/files/persistent_data
+pulsar_pip_install: true
+pulsar_systemd: true
+pulsar_systemd_runner: webless
+
+pulsar_host: localhost
+pulsar_port: 8913
+
+pulsar_ssl_pem: /etc/ssl/certs/host.pem
+
+pulsar_optional_dependencies:
+  - pyOpenSSL
+  - psutil
+  - pycurl
+  - requests
+  - poster
+  - drmaa
+  - kombu
+
+pulsar_drmaa_library_path: /usr/lib/slurm-drmaa/lib/libdrmaa.so.1
+
+pulsar_yaml_config:
+  managers:
+      _default_:
+          type: queued_drmaa
+  dependency_resolvers_config_file: dependency_resolvers_conf.xml
+  conda_auto_init: True
+  conda_auto_install: True
+  staging_directory: "{{ pulsar_staging_dir }}"
+  persistence_directory: "{{ pulsar_persistence_dir }}"
+  message_queue_url: "pyamqp://galaxy_au:{{ rabbitmq_password_galaxy_au }}@{{ pulsar_galaxy_url }}:5671//pulsar/{{ pulsar_rabbit_username }}"
+  min_polling_interval: 0.5
+  amqp_publish_retry: True
+  amqp_publish_retry_max_retries: 5
+  amqp_publish_retry_interval_start: 10
+  amqp_publish_retry_interval_step: 10
+  amqp_publish_retry_interval_max: 60

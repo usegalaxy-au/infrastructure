@@ -1,0 +1,48 @@
+- hosts: dev-pulsar
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/pulsarservers.yml
+    - group_vars/dev_pulsar_slurm.yml
+    - group_vars/VAULT
+    - host_vars/pulsartest/dev-pulsar.usegalaxy.org.au.yml
+  pre_tasks:
+    - name: create a folder for go
+      file:
+        path: "{{ golang_install_dir }}"
+        recurse: yes
+    - name: apt update
+      apt:
+        cache_valid_time: 3600
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+  roles:
+    - common
+    - insspb.hostname
+    - geerlingguy.pip
+    - galaxyproject.repos
+    - galaxyproject.pulsar
+    - geerlingguy.nfs
+    - mariadb
+    - galaxyproject.slurm
+    - galaxyproject.cvmfs
+
+  post_tasks:
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa1
+        state: present
+    - name: own the /mnt/pulsar dirs as ubuntu
+      file:
+          path: /mnt/pulsar
+          owner: ubuntu
+          group: ubuntu
+          state: directory
+          mode: 0750
+    - name: own the /mnt/galaxy dirs as ubuntu
+      file:
+          path: /mnt/galaxy
+          owner: ubuntu
+          group: ubuntu
+          state: directory
+          mode: 0750
