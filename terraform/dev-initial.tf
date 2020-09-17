@@ -38,6 +38,16 @@ resource "openstack_compute_instance_v2" "dev-w1" {
   availability_zone = "melbourne-qh2"
 }
 
+#pulsar test server
+resource "openstack_compute_instance_v2" "dev-pulsar" {
+  name            = "dev-pulsar"
+  image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
+  flavor_name     = "m3.medium"
+  key_pair        = "galaxy-australia"
+  security_groups = ["SSH"]
+  availability_zone = "melbourne-qh2"
+}
+
 # Volume for application/web server
 resource "openstack_blockstorage_volume_v2" "dev-volume" {
   availability_zone = "melbourne-qh2"
