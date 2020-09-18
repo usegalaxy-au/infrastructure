@@ -61,3 +61,13 @@ rabbitmq_config:
     - certfile: /etc/ssl/certs/cert.pem
     - keyfile: /etc/ssl/user/privkey-rabbitmq.pem
     - fail_if_no_peer_cert: 'false'
+#- rabbitmq_management:
+#  - listener:
+#    - port: 15671
+#    - ssl: true
+#    - ssl_opts:
+#      - cacertfile: /etc/ssl/certs/fullchain.pem
+#      - certfile: /etc/ssl/certs/cert.pem
+#      - keyfile: /etc/ssl/user/privkey-rabbitmq.pem
+#      - verify: verify_none
+#      - fail_if_no_peer_cert: false

@@ -8,6 +8,10 @@ slurm_database: 'slurm_acct_db'
 #Mariadb for slurm accounting
 
 mariadb_root_pass: "{{ vault_mariadb_password_root }}"
+mariadb_options:
+  innodb_buffer_pool_size: 1073741824
+  innodb_log_file_size: 67108864
+  innodb_lock_wait_timeout: 900
 mariadb_users:
   - name: "{{ slurm_database_user }}"
     password: "{{ slurm_database_user_password }}"
@@ -27,7 +31,7 @@ slurmdbd_config:
   StorageType: accounting_storage/mysql
   StorageUser: "{{ slurm_database_user }}"
   LogFile: /var/log/slurm-llnl/slurmdbd.log
-  PidFile: /var/run/slurm-llnl/slurmdbd.pid
+  PidFile: /var/run/slurmdbd.pid
   SlurmUser: slurm
 
 #NFS shares
@@ -43,12 +47,11 @@ pulsar_venv_dir: /mnt/pulsar/venv
 pulsar_config_dir: /mnt/pulsar/config
 pulsar_staging_dir: /mnt/pulsar/files/staging
 pulsar_persistence_dir: /mnt/pulsar/files/persistent_data
+pulsar_dependencies_dir: /mnt/pulsar/deps
+
 pulsar_pip_install: true
 pulsar_systemd: true
 pulsar_systemd_runner: webless
-
-pulsar_host: localhost
-pulsar_port: 8913
 
 pulsar_ssl_pem: /etc/ssl/certs/host.pem
 
@@ -56,8 +59,6 @@ pulsar_optional_dependencies:
   - pyOpenSSL
   - psutil
   - pycurl
-  - requests
-  - poster
   - drmaa
   - kombu
 
@@ -72,7 +73,7 @@ pulsar_yaml_config:
   conda_auto_install: True
   staging_directory: "{{ pulsar_staging_dir }}"
   persistence_directory: "{{ pulsar_persistence_dir }}"
-  message_queue_url: "pyamqp://galaxy_au:{{ rabbitmq_password_galaxy_au }}@{{ pulsar_galaxy_url }}:5671//pulsar/{{ pulsar_rabbit_username }}"
+  message_queue_url: "pyamqp://{{ pulsar_rabbit_username }}:{{ rabbitmq_password_galaxy_au }}@{{ pulsar_queue_url }}:5671/{{ pulsar_rabbit_vhost }}?ssl=1"
   min_polling_interval: 0.5
   amqp_publish_retry: True
   amqp_publish_retry_max_retries: 5

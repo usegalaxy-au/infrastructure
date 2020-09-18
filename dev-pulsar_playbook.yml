@@ -5,12 +5,8 @@
     - group_vars/pulsarservers.yml
     - group_vars/dev_pulsar_slurm.yml
     - group_vars/VAULT
-    - host_vars/pulsartest/dev-pulsar.usegalaxy.org.au.yml
+    - host_vars/dev-pulsar.usegalaxy.org.au.yml
   pre_tasks:
-    - name: create a folder for go
-      file:
-        path: "{{ golang_install_dir }}"
-        recurse: yes
     - name: apt update
       apt:
         cache_valid_time: 3600
@@ -38,6 +34,7 @@
           owner: ubuntu
           group: ubuntu
           state: directory
+          recurse: yes
           mode: 0750
     - name: own the /mnt/galaxy dirs as ubuntu
       file:
@@ -45,4 +42,5 @@
           owner: ubuntu
           group: ubuntu
           state: directory
+          recurse: yes
           mode: 0750
