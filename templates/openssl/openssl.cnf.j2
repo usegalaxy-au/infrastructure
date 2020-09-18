@@ -1,0 +1,12 @@
+[ req ]
+prompt = no
+distinguished_name = req_distinguished_name
+
+[ req_distinguished_name ]
+C = "{{ ssl_country }}"
+ST = "{{ ssl_state }}"
+L = "{{ ssl_location }}"
+O = "{{ ssl_organisation }}"
+OU = "{{ ssl_operational_unit }}"
+CN = "{{ hostname }}"
+emailAddress = "{{ ssl_email }}"

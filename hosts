@@ -10,6 +10,9 @@ dev-queue ansible_ssh_host=115.146.85.163
 [slurmcontrollers]
 dev-queue ansible_ssh_host=115.146.85.163
 
+[pulsarservers]
+dev-pulsar ansible_ssh_host=115.146.86.66
+
 [dev_slurm_head]
 dev-queue ansible_ssh_host=115.146.85.163
 

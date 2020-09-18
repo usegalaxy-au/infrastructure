@@ -1,0 +1,16 @@
+# Keys and shares
+
+create_ssh_key: yes  # Only the first time.
+ssl_country: "AU"
+ssl_state: "VIC"
+ssl_location: "Melbourne"
+ssl_organisation: "Galaxy Australia"
+ssl_operational_unit: "Pulsar Dev"
+ssl_email: "help@genome.edu.au"
+
+#host specific pulsar settings
+
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_au_dev }}"
+pulsar_queue_url: "dev-queue.usegalaxy.org.au"
+pulsar_rabbit_username: "galaxy_au"
+pulsar_rabbit_vhost: "/pulsar/galaxy_au"
