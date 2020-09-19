@@ -1,0 +1,27 @@
+
+- name: Create dev group and machines users in group
+  become: true
+  become_user: root
+  block:
+  - name: Ensure group "devs" exists
+    group:
+      name: devs
+      state: present
+  - name: Add machine users
+    user:
+      name: "{{ item.name }}"
+      shell: /bin/bash
+      groups: devs
+      append: true
+    with_items: "{{ machine_users }}"
+  - name: Add SSH keys for users
+    authorized_key:
+      user: "{{ item.name }}"
+      key: "{{ lookup('file', item.key) }}"
+      state: present
+    with_items: "{{ machine_users }}"
+  - name: Add sudo users
+    copy:
+      dest: "/etc/sudoers.d/{{ item.name }}"
+      content: "{{ item.name }}  ALL=(ALL)  NOPASSWD: ALL"
+    with_items: "{{ machine_users | selectattr('role', 'equalto', 'sudo') | list }}"
