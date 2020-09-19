@@ -16,8 +16,7 @@ postgresql_objects_users:
 postgresql_objects_databases:
   - name: galaxy
     owner: galaxy
-postgresql_pg_hba_conf:
-  -
+
 # systemd
 galaxy_systemd_mode: mule
 galaxy_zergpool_listen_addr: 127.0.0.1:8080
