@@ -6,24 +6,35 @@ machine_users:
     - name: simon
       role: sudo
       key: files/keys/simon.pub
+      email: "{{ simon_email }}"
     - name: nick
       role: sudo
       key: files/keys/nick.pub
+      email: "{{ nick_email }}"
     - name: cat
       role: sudo
       key: files/keys/catherine.pub
-    - name: igor
-      role: user
-      key: files/keys/igor.pub
+      email: "{{ cat_email }}"
     - name: thom
       role: sudo
       key: files/keys/thom.pub
+      email: "{{ thom_email }}"
+    - name: igor
+      role: user
+      key: files/keys/igor.pub
+      email: "{{ igor_email }}"
     - name: mike
       role: user
       key: files/keys/mike.pub
+      email: "{{ mike_email }}"
     - name: gareth
       role: user
       key: files/keys/gareth.pub
+      email: "{{ gareth_email }}"
+    - name: jenkins_bot
+      role: sudo
+      key: files/keys/jenkins_bot.pub
+      email: "{{ jenkins_bot_email }}" # this is not a real email address and will cause issues if validation is required
 
 galaxy_user:
   name: galaxy

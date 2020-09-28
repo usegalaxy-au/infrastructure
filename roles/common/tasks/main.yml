@@ -114,3 +114,5 @@
   become_user: root
   when: create_ssh_key is defined and create_ssh_key == true
 
+- name: Add machine users
+  import_tasks: machine_users.yml
