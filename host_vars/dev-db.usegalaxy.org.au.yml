@@ -10,6 +10,8 @@ postgresql_pg_hba_conf:
 postgresql_objects_users:
   - name: galaxy
     password: "{{ galaxy_dev_db_user_password}}"
+    db: galaxy
+    priv: "ALL"
 postgresql_objects_databases:
   - name: galaxy
     owner: galaxy
