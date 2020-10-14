@@ -9,10 +9,9 @@ pip_virtualenv_command: /usr/bin/python3 -m virtualenv # usegalaxy_eu.certbot, u
 certbot_virtualenv_package_name: python3-virtualenv    # usegalaxy_eu.certbot
 
 # Postgres
-galaxy_dev_db_user_password: "{{ vault_dev_db_user_password }}"
 postgresql_objects_users:
   - name: galaxy
-    password: "{{ galaxy_dev_db_user_password}}"
+    password: "{{ galaxy_db_user_password }}"
 postgresql_objects_databases:
   - name: galaxy
     owner: galaxy
@@ -114,6 +113,7 @@ galaxy_config:
     admin_users: "{{ __galaxy_config['galaxy']['admin_users']}}"
     brand: "{{ __galaxy_config['galaxy']['brand']}}"
     database_connection: "{{ __galaxy_config['galaxy']['database_connection']}}"
+    id_secret: "{{ __galaxy_config['galaxy']['id_secret']}}"
 
     allow_user_impersonation: true
     allow_user_deletion: true
@@ -187,7 +187,6 @@ galaxy_config:
     # template_cache_path: /mnt/galaxy-app/database/template_cache
 
     # whoosh_index_dir: /mnt/galaxy-app/database/whoosh_cache
-    # id_secret: ....  # this is a hexadecimal in production config, if we use this we could encrypt it
     # openid_config_file: /mnt/galaxy-app/config/openid_conf.xml.sample
     # openid_consumer_cache_path: /mnt/galaxy-app/database/openid_consumer_cache
     # object_store_cache_path: /mnt/galaxy-app/database/object_store_cache

@@ -1,13 +1,13 @@
-# Specific settings for galaxy dev application/web server
+# Specific settings for galaxy staging application/web server
 
-galaxy_db_user_password: "{{ vault_dev_db_user_password }}"
+galaxy_db_user_password: "{{ vault_staging_db_user_password }}"
 
 __galaxy_config:
   galaxy:
-    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on dev
-    brand: "Australia Dev"
-    database_connection: "postgres://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
-    id_secret: "{{ vault_dev_id_secret }}"
+    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on staging: # TODO: update this
+    brand: "Australia Staging"
+    database_connection: "postgres://galaxy:{{ vault_staging_db_user_password }}@staging-db.usegalaxy.org.au:5432/galaxy"
+    id_secret: "{{ vault_staging_id_secret }}"
 
 # NFS stuff
 nfs_exports:
@@ -27,8 +27,8 @@ galaxy_jobconf:
       - id: pulsar_au_01
         load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
         params:
-            amqp_url: "pyamqp://galaxy_au:{{ vault_rabbitmq_password_galaxy_au_dev }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_au?ssl=1"
-            galaxy_url: "https://dev.usegalaxy.org.au"
+            amqp_url: "pyamqp://galaxy_au:{{ vault_rabbitmq_password_galaxy_au_staging }}@staging-queue.usegalaxy.org.au:5671//pulsar/galaxy_au?ssl=1"
+            galaxy_url: "https://staging.usegalaxy.org.au"
             manager: _default_
             amqp_acknowledge: True
             amqp_ack_republish_time: 300
@@ -58,13 +58,6 @@ galaxy_jobconf:
               rewrite_parameters: "true"
               persistence_directory: /mnt/pulsar/files/persisted_data
               submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
-    tools:
-      - id: upload1
-        destination: slurm_dest
-      - id: toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/1.0.1
-        destination: pulsar_destination
-      - id: toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.7.17.1
-        destination: pulsar_destination
     limits:
       #General limits for user submission
       - type: anonymous_user_concurrent_jobs
