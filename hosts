@@ -1,23 +1,38 @@
 [dev_db_server]
 dev-db ansible_ssh_host=115.146.86.251
 
+[staging_db_server]
+staging-db ansible_ssh_host=115.146.86.100
+
 [dev_galaxy_server]
 dev ansible_ssh_host=115.146.86.50
 
+[staging_galaxy_server]
+staging ansible_ssh_host=115.146.86.115
+
 [rabbitservers]
 dev-queue ansible_ssh_host=115.146.85.163
+staging-queue ansible_ssh_host=115.146.86.228
 
 [slurmcontrollers]
 dev-queue ansible_ssh_host=115.146.85.163
+staging-queue ansible_ssh_host=115.146.86.228
 
 [pulsarservers]
 dev-pulsar ansible_ssh_host=115.146.86.66
+staging-pulsar ansible_ssh_host=115.146.86.247
 
 [dev_slurm_head]
 dev-queue ansible_ssh_host=115.146.85.163
 
 [dev_workers]
 dev-w1 ansible_ssh_host=115.146.85.210
+
+[staging_slurm_head]
+staging-queue ansible_ssh_host=115.146.86.228
+
+[staging_workers]
+staging-w1 ansible_ssh_host=115.146.87.183
 
 [all:vars]
 ansible_host_key_checking=False

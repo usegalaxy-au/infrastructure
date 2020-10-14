@@ -1,0 +1,19 @@
+staging_galaxy_server_address: "{{ hostvars['staging']['ansible_ssh_host'] }}/32"
+
+postgresql_conf:
+  - max_connections: 50       # Decrease connection limit
+  - listen_addresses: "'*'"   # Allow remote connections
+
+postgresql_pg_hba_conf:
+  - host all all "{{ staging_galaxy_server_address }}" md5 #The allowed connection to the database for the dev galaxy server.
+
+postgresql_objects_users:
+  - name: galaxy
+    password: "{{ galaxy_staging_db_user_password}}"
+    db: galaxy
+    priv: "ALL"
+postgresql_objects_databases:
+  - name: galaxy
+    owner: galaxy
+
+galaxy_staging_db_user_password: "{{ vault_staging_db_user_password }}"
