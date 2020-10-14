@@ -1,0 +1,56 @@
+- hosts: staging_galaxy_server
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/VAULT
+      - group_vars/galaxyservers.yml
+      - group_vars/staging_slurm.yml
+      - host_vars/staging.usegalaxy.org.au.yml
+  pre_tasks:
+    - name: Attach volume to instance
+      # If this script is being run for the first time, review the value of galaxyserver_attached_volume_device in group_vars
+      block: # TODO: This is pretty generic code for attaching a volume to a device and should probably live in another file to be reused
+        - name: Detect attached volume
+          parted:
+            device: "{{ galaxyserver_attached_volume_device }}"
+            unit: GiB
+          register: volume_info
+        - name: Create a filesystem on volume
+          filesystem:
+            fstype: "{{ galaxyserver_attached_volume_fstype }}"
+            dev: "{{ galaxyserver_attached_volume_device }}"
+          when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == galaxyserver_attached_volume_device
+        - name: Mount volume
+          mount:
+            path: "{{ galaxyserver_attached_volume_path }}"
+            src: "{{ galaxyserver_attached_volume_device }}"
+            fstype: "{{ galaxyserver_attached_volume_fstype }}"
+            state: mounted
+      when: galaxyserver_attached_volume_device is defined
+  handlers:
+    - name: Restart Galaxy
+      systemd:
+        name: galaxy
+        state: restarted
+  roles:
+    - galaxyproject.repos
+    - common
+    - galaxyproject.postgresql
+    - role: natefoo.postgresql_objects
+      become: true
+      become_user: postgres
+    - geerlingguy.pip
+    - galaxyproject.galaxy
+    - usegalaxy_eu.galaxy_systemd
+    - galaxyproject.nginx
+    - geerlingguy.nfs
+    - galaxyproject.slurm
+    - galaxyproject.cvmfs
+  post_tasks:
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa1
+    - name: Reload exportfs
+      command: exportfs -ra
+      become: yes
+      become_user: root
