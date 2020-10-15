@@ -1,10 +1,10 @@
-- hosts: dev_workers
+- hosts: staging_workers
   become: true
   vars_files:
       - group_vars/all.yml
       - group_vars/VAULT
-      - group_vars/dev_slurm.yml
-      - group_vars/dev_workers.yml
+      - group_vars/staging_slurm.yml
+      - group_vars/staging_workers.yml
   roles:
       - common
       - insspb.hostname
