@@ -1,0 +1,11 @@
+slurm_roles: ['exec']
+
+add_hosts_head: yes
+add_hosts_galaxy: yes
+
+shared_mounts:
+    - path: /mnt/galaxy
+      src: staging:/mnt/galaxy
+      fstype: nfs
+      state: mounted
+
