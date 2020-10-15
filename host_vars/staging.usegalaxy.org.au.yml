@@ -24,17 +24,17 @@ galaxy_jobconf:
         workers: 4
       - id: slurm
         load: galaxy.jobs.runners.slurm:SlurmJobRunner
-      - id: pulsar_au_01
-        load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-        params:
-            amqp_url: "pyamqp://galaxy_au:{{ vault_rabbitmq_password_galaxy_au_staging }}@staging-queue.usegalaxy.org.au:5671//pulsar/galaxy_au?ssl=1"
-            galaxy_url: "https://staging.usegalaxy.org.au"
-            manager: _default_
-            amqp_acknowledge: True
-            amqp_ack_republish_time: 300
-            amqp_consumer_timeout: 2.0
-            amqp_publish_retry: True
-            amqp_publish_retry_max_retries: 60
+      # - id: pulsar_au_01
+      #   load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+      #   params:
+      #       amqp_url: "pyamqp://galaxy_au:{{ vault_rabbitmq_password_galaxy_au_staging }}@staging-queue.usegalaxy.org.au:5671//pulsar/galaxy_au?ssl=1"
+      #       galaxy_url: "https://staging.usegalaxy.org.au"
+      #       manager: _default_
+      #       amqp_acknowledge: True
+      #       amqp_ack_republish_time: 300
+      #       amqp_consumer_timeout: 2.0
+      #       amqp_publish_retry: True
+      #       amqp_publish_retry_max_retries: 60
     default_destination: "slurm_dest"
     destinations:
       - id: local
@@ -47,17 +47,17 @@ galaxy_jobconf:
         runner: slurm
         params:
             nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
-      - id: pulsar_destination
-        runner: pulsar_au_01
-        params:
-              jobs_directory: /mnt/pulsar/files/staging
-              transport: curl
-              remote_metadata: "false"
-              default_file_action: remote_transfer
-              dependency_resolution: remote
-              rewrite_parameters: "true"
-              persistence_directory: /mnt/pulsar/files/persisted_data
-              submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+      # - id: pulsar_destination
+      #   runner: pulsar_au_01
+      #   params:
+      #         jobs_directory: /mnt/pulsar/files/staging
+      #         transport: curl
+      #         remote_metadata: "false"
+      #         default_file_action: remote_transfer
+      #         dependency_resolution: remote
+      #         rewrite_parameters: "true"
+      #         persistence_directory: /mnt/pulsar/files/persisted_data
+      #         submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
     limits:
       #General limits for user submission
       - type: anonymous_user_concurrent_jobs

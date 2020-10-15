@@ -43,9 +43,11 @@
 {% endfor %}
 	</destinations>
 	<tools>
+{% if 'tools' in galaxy_jobconf %}
 {% for tool in galaxy_jobconf['tools'] %}
 		<tool id="{{ tool['id'] }}" destination="{{ tool['destination'] }}" />
 {% endfor %}
+{% endif %}
 {% for n in range(galaxy_handler_count) %}
 		<tool id="echo_main_handler{{ n + 1 }}" destination="local" handler="handler{{ n + 1 }}"/>
 {% endfor %}
