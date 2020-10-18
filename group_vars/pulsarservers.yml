@@ -50,6 +50,7 @@ pulsar_persistence_dir: /mnt/pulsar/files/persistent_data
 pulsar_dependencies_dir: /mnt/pulsar/deps
 
 pulsar_pip_install: true
+pulsar_pycurl_ssl_library: openssl
 pulsar_systemd: true
 pulsar_systemd_runner: webless
 
