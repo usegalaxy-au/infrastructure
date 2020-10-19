@@ -13,3 +13,8 @@
       - galaxyproject.repos
       - galaxyproject.slurm
       - galaxyproject.cvmfs
+  post_tasks:
+      - name: restart munge
+        systemd:
+            name: munge
+            state: restarted
