@@ -1,0 +1,13 @@
+- hosts: prod-rabbit
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/rabbitservers.yml
+      - group_vars/VAULT
+      - host_vars/prod-rabbit.usegalaxy.org.au.yml
+  roles:
+      - common
+      - insspb.hostname
+      - geerlingguy.pip
+      - jasonroyle.rabbitmq
+      - galaxyproject.nginx
