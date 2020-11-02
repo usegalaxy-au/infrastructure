@@ -3,6 +3,9 @@ venv
 ansible.cfg
 terraform/terraform*
 terraform/.terraform
+terraform/prod/.terraform
+terraform/dev/.terraform
+terraform/staging/.terraform
 
 # from requirements.yml
 roles/galaxyproject.galaxy/

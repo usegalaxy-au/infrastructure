@@ -13,6 +13,7 @@ staging ansible_ssh_host=115.146.86.115
 [rabbitservers]
 dev-queue ansible_ssh_host=115.146.85.163
 staging-queue ansible_ssh_host=115.146.86.228
+prod-rabbit ansible_ssh_host=115.146.86.67
 
 [slurmcontrollers]
 dev-queue ansible_ssh_host=115.146.85.163
