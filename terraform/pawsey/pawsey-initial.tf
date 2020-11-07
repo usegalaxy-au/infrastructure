@@ -14,7 +14,7 @@ resource "openstack_compute_instance_v2" "pawsey" {
   image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
   flavor_name     = "n3.16c64r"
   key_pair        = "gvl2019"
-  security_groups = ["SSH", "Web-Services"]
+  security_groups = ["SSH", "Web-Services", "default"]
   availability_zone = "nova"
 }
 
@@ -24,7 +24,7 @@ resource "openstack_compute_instance_v2" "pawsey-queue" {
   image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
   flavor_name     = "n3.4c16r"
   key_pair        = "gvl2019"
-  security_groups = ["SSH", "Web-Services", "rabbitmq"]
+  security_groups = ["SSH", "Web-Services", "rabbitmq", "default"]
   availability_zone = "nova"
 }
 
@@ -34,57 +34,53 @@ resource "openstack_compute_instance_v2" "pawsey-w1" {
   image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
   flavor_name     = "n3.16c64r"
   key_pair        = "gvl2019"
-  security_groups = ["SSH"]
+  security_groups = ["SSH", "default"]
   availability_zone = "nova"
 }
 
-# slurm worker
+# slurm workers
 resource "openstack_compute_instance_v2" "pawsey-w2" {
   name            = "pawsey-w2"
   image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
   flavor_name     = "n3.16c64r"
   key_pair        = "gvl2019"
-  security_groups = ["SSH"]
+  security_groups = ["SSH", "default"]
   availability_zone = "nova"
 }
 
-# slurm worker
 resource "openstack_compute_instance_v2" "pawsey-w3" {
   name            = "pawsey-w3"
   image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
   flavor_name     = "n3.16c64r"
   key_pair        = "gvl2019"
-  security_groups = ["SSH"]
+  security_groups = ["SSH", "default"]
   availability_zone = "nova"
 }
 
-# slurm worker
 resource "openstack_compute_instance_v2" "pawsey-w4" {
   name            = "pawsey-w4"
   image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
   flavor_name     = "n3.16c64r"
   key_pair        = "gvl2019"
-  security_groups = ["SSH"]
+  security_groups = ["SSH", "default"]
   availability_zone = "nova"
 }
 
-# slurm worker
 resource "openstack_compute_instance_v2" "pawsey-w5" {
   name            = "pawsey-w5"
   image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
   flavor_name     = "n3.16c64r"
   key_pair        = "gvl2019"
-  security_groups = ["SSH"]
+  security_groups = ["SSH", "default"]
   availability_zone = "nova"
 }
 
-# slurm worker
 resource "openstack_compute_instance_v2" "pawsey-w6" {
   name            = "pawsey-w6"
   image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
   flavor_name     = "n3.32c128r"
   key_pair        = "gvl2019"
-  security_groups = ["SSH"]
+  security_groups = ["SSH", "default"]
   availability_zone = "nova"
 }
 
