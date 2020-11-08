@@ -6,6 +6,8 @@ terraform/.terraform
 terraform/prod/.terraform
 terraform/dev/.terraform
 terraform/staging/.terraform
+terraform/pawsey/.terraform
+terraform/pawsey/terraform*
 
 # from requirements.yml
 roles/galaxyproject.galaxy/
