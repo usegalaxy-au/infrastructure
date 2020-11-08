@@ -152,19 +152,19 @@ resource "openstack_compute_volume_attach_v2" "attach-pawsey-db-volume-to-pawsey
  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-db-volume.id}"
 }
 
-## Volume for application/web server
-#resource "openstack_blockstorage_volume_v2" "pawsey-volume" {
-#  availability_zone = "nova"
-#  name        = "pawsey-volume"
-#  description = "Galaxy Australia Pawsey volume"
-#  size        = 1200
-#}
-#
-## Attachment between application/web server and volume
-#resource "openstack_compute_volume_attach_v2" "attach-pawsey-volume-to-pawsey" {
-#  instance_id = "${openstack_compute_instance_v2.pawsey.id}"
-#  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-volume.id}"
-#}
+# Volume for application/web server
+resource "openstack_blockstorage_volume_v2" "pawsey-volume" {
+  availability_zone = "nova"
+  name        = "pawsey-volume"
+  description = "Galaxy Australia Pawsey volume"
+  size        = 500
+}
+
+# Attachment between application/web server and volume
+resource "openstack_compute_volume_attach_v2" "attach-pawsey-volume-to-pawsey" {
+  instance_id = "${openstack_compute_instance_v2.pawsey.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-volume.id}"
+}
 
 # tmp volumes for worker nodes
 resource "openstack_blockstorage_volume_v2" "pawsey-w1-tmp" {
