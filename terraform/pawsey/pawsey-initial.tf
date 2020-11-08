@@ -6,6 +6,12 @@ resource "openstack_compute_instance_v2" "pawsey-db" {
   key_pair        = "gvl2019"
   security_groups = ["SSH", "default"]
   availability_zone = "nova"
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
 }
 
 # application server / web server
@@ -16,6 +22,12 @@ resource "openstack_compute_instance_v2" "pawsey" {
   key_pair        = "gvl2019"
   security_groups = ["SSH", "Web-Services"]
   availability_zone = "nova"
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
 }
 
 # slurm / rabbitMQ
@@ -26,6 +38,12 @@ resource "openstack_compute_instance_v2" "pawsey-queue" {
   key_pair        = "gvl2019"
   security_groups = ["SSH", "Web-Services", "rabbitmq"]
   availability_zone = "nova"
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
 }
 
 # slurm worker
@@ -36,6 +54,12 @@ resource "openstack_compute_instance_v2" "pawsey-w1" {
   key_pair        = "gvl2019"
   security_groups = ["SSH"]
   availability_zone = "nova"
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
 }
 
 # slurm worker
@@ -46,6 +70,12 @@ resource "openstack_compute_instance_v2" "pawsey-w2" {
   key_pair        = "gvl2019"
   security_groups = ["SSH"]
   availability_zone = "nova"
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
 }
 
 # slurm worker
@@ -56,6 +86,12 @@ resource "openstack_compute_instance_v2" "pawsey-w3" {
   key_pair        = "gvl2019"
   security_groups = ["SSH"]
   availability_zone = "nova"
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
 }
 
 # slurm worker
@@ -66,6 +102,12 @@ resource "openstack_compute_instance_v2" "pawsey-w4" {
   key_pair        = "gvl2019"
   security_groups = ["SSH"]
   availability_zone = "nova"
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
 }
 
 # slurm worker
@@ -76,6 +118,12 @@ resource "openstack_compute_instance_v2" "pawsey-w5" {
   key_pair        = "gvl2019"
   security_groups = ["SSH"]
   availability_zone = "nova"
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
 }
 
 # slurm worker
@@ -86,6 +134,12 @@ resource "openstack_compute_instance_v2" "pawsey-w6" {
   key_pair        = "gvl2019"
   security_groups = ["SSH"]
   availability_zone = "nova"
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
 }
 
 ## Volume for application/web server
