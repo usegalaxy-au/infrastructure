@@ -1,0 +1,27 @@
+pawsey_galaxy_server_address: "{{ hostvars['pawsey']['internal_ip'] }}/32"
+
+postgresql_conf:
+  - max_connections: 50       # Decrease connection limit
+  - listen_addresses: "'*'"   # Allow remote connections
+  - data_directory: "'/data/production'"
+
+postgresql_pgdata: "/data/production"
+
+
+postgresql_pg_hba_conf:
+  - host all all "{{ pawsey_galaxy_server_address }}" md5 #The allowed connection to the database for the dev galaxy server.
+
+postgresql_objects_users:
+  - name: galaxy
+    password: "{{ galaxy_pawsey_db_user_password}}"
+    db: galaxy
+    priv: "ALL"
+postgresql_objects_databases:
+  - name: galaxy
+    owner: galaxy
+
+galaxy_pawsey_db_user_password: "{{ vault_pawsey_db_user_password }}"
+
+attached_volume_device: /dev/vdc
+attached_volume_fstype: ext4
+attached_volume_path: /data
