@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<toolbox>
+    <tool file="nagios/main.xml" />
+    <tool file="nagios/handler0.xml" />
+    <tool file="nagios/handler1.xml" />
+</toolbox>
+
