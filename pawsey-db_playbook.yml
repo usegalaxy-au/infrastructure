@@ -31,6 +31,13 @@
               fstype: "{{ attached_volume_fstype }}"
               state: mounted
         when: attached_volume_device is defined
+      - name: create data directory
+        file:
+          path: /data/production
+          owner: postgres
+          group: postgres
+          state: directory
+          mode: 0700
         
   roles:
       - common
