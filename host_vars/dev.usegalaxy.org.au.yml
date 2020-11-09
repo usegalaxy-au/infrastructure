@@ -10,12 +10,16 @@ galaxy_dynamic_job_rules:
   - dynamic_rules/tool_destinations.yml
   - readme.txt
 
+galaxy_tools_indices_dir: "{{ galaxy_root }}"
+galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
+
 __galaxy_config:
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on dev
     brand: "Australia Dev"
     database_connection: "postgres://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
     id_secret: "{{ vault_dev_id_secret }}"
+    file_path: "{{ galaxy_root }}/data" 
 
 # NFS stuff
 nfs_exports:

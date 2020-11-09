@@ -2,13 +2,6 @@
 
 galaxy_db_user_password: "{{ vault_staging_db_user_password }}"
 
-__galaxy_config:
-  galaxy:
-    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on staging: # TODO: update this
-    brand: "Australia Staging"
-    database_connection: "postgres://galaxy:{{ vault_staging_db_user_password }}@staging-db.usegalaxy.org.au:5432/galaxy"
-    id_secret: "{{ vault_staging_id_secret }}"
-
 # NFS stuff
 nfs_exports:
     - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
@@ -20,6 +13,17 @@ galaxy_dynamic_job_rules:
   - dynamic_rules/destination_mapper.py
   - dynamic_rules/tool_destinations.yml
   - readme.txt
+
+galaxy_tools_indices_dir: "{{ galaxy_root }}"
+galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
+
+__galaxy_config:
+  galaxy:
+    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on staging: # TODO: update this
+    brand: "Australia Staging"
+    database_connection: "postgres://galaxy:{{ vault_staging_db_user_password }}@staging-db.usegalaxy.org.au:5432/galaxy"
+    id_secret: "{{ vault_staging_id_secret }}"
+    file_path: "{{ galaxy_root }}/data"
 
 #Galaxy Job Conf
 galaxy_jobconf:

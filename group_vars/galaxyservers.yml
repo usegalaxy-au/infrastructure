@@ -58,15 +58,12 @@ galaxy_separate_privileges: true
 galaxy_manage_paths: true
 galaxy_layout: root-dir
 galaxy_root: /mnt/galaxy
-#galaxy_user: ## shifted to all.yml
-#  name: galaxy
-#  shell: /bin/bash
+galaxy_shed_tools_dir: "{{ galaxy_tools_indices_dir }}/shed_tools"
 galaxy_commit_id: release_20.05
 galaxy_config_style: yaml
 galaxy_force_checkout: true
-galaxy_handler_count: 2
+galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
 
-galaxy_tmp_path: "{{ galaxy_root }}/tmp"
 galaxy_australia_website: "https://usegalaxy-au.github.io"
 
 galaxy_server_dir: "{{ galaxy_root }}/galaxy-app"
@@ -102,18 +99,17 @@ galaxy_config:
       - lib/galaxy/main.py
     farm: job-handlers:1,2
   galaxy:
-    file_path: "{{ galaxy_root }}/data"
     check_migrate_tools: false
-    tool_data_path: "{{ galaxy_mutable_data_dir }}/tool-data"
     log_level: TRACE
-    new_file_path: "{{ galaxy_tmp_path }}"
-    job_working_directory: "{{ galaxy_tmp_path }}/job_working_directory"
+    new_file_path: "{{ galaxy_tmp_dir }}"
+    job_working_directory: "{{ galaxy_tmp_dir }}/job_working_directory"
 
     # host specific settings
     admin_users: "{{ __galaxy_config['galaxy']['admin_users']}}"
     brand: "{{ __galaxy_config['galaxy']['brand']}}"
     database_connection: "{{ __galaxy_config['galaxy']['database_connection']}}"
     id_secret: "{{ __galaxy_config['galaxy']['id_secret']}}"
+    file_path: "{{ __galaxy_config['galaxy']['file_path']}}"
 
     allow_user_impersonation: true
     allow_user_deletion: true
@@ -128,6 +124,7 @@ galaxy_config:
     enable_quotas: true
     enable_job_recovery: true
     outputs_to_working_directory: false
+    enable_tool_recommendations: true
 
     static_enabled: true
     show_welcome_with_login: true
@@ -135,18 +132,13 @@ galaxy_config:
     email_from: <galaxy-no-reply@usegalaxy.org.au>
     support_url: "{{ galaxy_australia_website }}/help"
 
-    conda_auto_init: true  # is default
     conda_debug: true
-    conda_ensure_channels: 'iuc,conda-forge,bioconda,defaults'  # this is the default setting
-    conda_prefix: "{{ galaxy_root }}/tool_dependencies/_conda"
+    conda_prefix: "{{ galaxy_tools_indices_dir }}/tool_dependencies/_conda"
+  
+    cleanup_job: onsuccess  # default is always
+    retry_job_output_collection: 10
 
-    database_engine_option_strategy: threadlocal
-    cleanup_job: onsuccess
-    retry_job_output_collection: 10  # look this up
-    ucsc_display_sites: main,test,archaea,ucla # review
-    # ucsc_build_sites: /cvmfs/data.galaxyproject.org/managed/location/ucsc_build_sites.txt # review
-
-    heartbeat_log: "{{ galaxy_tmp_path }}/heartbeat_{server_name}.log"
+    heartbeat_log: "{{ galaxy_tmp_dir }}/heartbeat_{server_name}.log"
     heartbeat_interval: -1 # this disables automatic heartbeat logging (manual logging is still an option)
 
     database_engine_option_max_overflow: 50 # default is 10
@@ -154,14 +146,21 @@ galaxy_config:
 
     install_database_connection: "sqlite:///{{ galaxy_mutable_config_dir }}/galaxy_install_db.sqlite?isolation_level=IMMEDIATE"
 
-    tool_dependency_dir: "{{ galaxy_root }}/tools"
+    tool_dependency_dir: "{{ galaxy_tools_indices_dir }}/tools"
 
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
     tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
 
+    galaxy_data_manager_data_path: "{{ galaxy_tools_indices_dir }}/custom-indices"
+    shed_tool_data_path: "{{ galaxy_tools_indices_dir }}/tool-data/shed_tool_data"
+    tool_data_path: "{{ galaxy_tools_indices_dir }}/tool-data"
+
     tool_data_table_config_path:
       - /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
       - /cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
+
+    library_import_dir: "{{ galaxy_tmp_dir }}/library_import_dir"
+    cluster_files_directory: "{{ galaxy_tmp_dir }}/pbs"
 
     # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
 
@@ -171,25 +170,11 @@ galaxy_config:
     # tool_config_file: '/mnt/galaxy-app/config/tool_conf.xml,/mnt/galaxy-app/config/shed_tool_conf.xml,/mnt/galaxy-app/config/nagios_tool_conf.xml'
     # migrated_tools_config: /mnt/galaxy/var/migrated_tools_conf.xml
     # tool_data_table_config_path: '/mnt/galaxy-app/config/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml'
-    # galaxy_data_manager_data_path: /mnt/galaxy/custom-indices
     # builds_file_path: /cvmfs/data.galaxyproject.org/managed/location/builds.txt
     # shed_tool_data_table_config: /mnt/galaxy/var/shed_tool_data_table_conf.xml
     # datatypes_config_file: /mnt/galaxy-app/config/datatypes_conf.xml
 
-    # shed_tool_data_path: /mnt/galaxy/custom-indices/tool-data/shed_tool_data
-    # library_import_dir: /mnt/galaxy/tmp/library_import_dir
-    # cluster_files_directory: /mnt/galaxy/tmp/pbs
     # interactive_environment_plugins_directory: config/plugins/interactive_environments
-    # visualization_plugins_directory: config/plugins/visualizations
-
-    # citation_cache_data_dir: /mnt/galaxy-app/database/citations/data
-    # citation_cache_lock_dir: /mnt/galaxy-app/database/citations/locks
-    # template_cache_path: /mnt/galaxy-app/database/template_cache
-
-    # whoosh_index_dir: /mnt/galaxy-app/database/whoosh_cache
-    # openid_config_file: /mnt/galaxy-app/config/openid_conf.xml.sample
-    # openid_consumer_cache_path: /mnt/galaxy-app/database/openid_consumer_cache
-    # object_store_cache_path: /mnt/galaxy-app/database/object_store_cache
 
     # dynamic_proxy_prefix: galaxy/gie_proxy
     # dynamic_proxy_external_proxy: true
@@ -208,7 +193,6 @@ galaxy_config:
 
     # collect_outputs_from: job_working_directory # surely this is not a real path?  Relative to something?
     # nginx_x_accel_redirect_base: /_x_accel_redirect
-    # install_database_connection: 'sqlite:////mnt/galaxy/var/galaxy_install_db.sqlite?isolation_level=IMMEDIATE'
     # rsync_url: 'rsync://scofield.bx.psu.edu/indexes'
     # len_file_path: /mnt/galaxy-app/tool-data/len
     #
