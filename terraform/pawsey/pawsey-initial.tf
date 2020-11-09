@@ -138,6 +138,51 @@ resource "openstack_compute_instance_v2" "pawsey-w6" {
   }
 }
 
+resource "openstack_compute_instance_v2" "pawsey-misc-nfs" {
+  name            = "pawsey-misc-nfs"
+  image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
+  flavor_name     = "n3.8c32r"
+  key_pair        = "gvl2019"
+  security_groups = ["SSH", "default"]
+  availability_zone = "nova"
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
+}
+
+resource "openstack_compute_instance_v2" "pawsey-job-nfs" {
+  name            = "pawsey-job-nfs"
+  image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
+  flavor_name     = "n3.8c32r"
+  key_pair        = "gvl2019"
+  security_groups = ["SSH", "default"]
+  availability_zone = "nova"
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
+}
+
+resource "openstack_compute_instance_v2" "pawsey-user-nfs" {
+  name            = "pawsey-user-nfs"
+  image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
+  flavor_name     = "n3.8c32r"
+  key_pair        = "gvl2019"
+  security_groups = ["SSH", "default"]
+  availability_zone = "nova"
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
+}
+
 # Volume for database server
 resource "openstack_blockstorage_volume_v2" "pawsey-db-volume" {
  availability_zone = "nova"
@@ -237,4 +282,40 @@ resource "openstack_blockstorage_volume_v2" "pawsey-w6-tmp" {
 resource "openstack_compute_volume_attach_v2" "attach-pawsey-w6-tmp-volume" {
   instance_id = "${openstack_compute_instance_v2.pawsey-w6.id}"
   volume_id   = "${openstack_blockstorage_volume_v2.pawsey-w6-tmp.id}"
+}
+
+resource "openstack_blockstorage_volume_v2" "pawsey-misc-nfs-vol" {
+  availability_zone = "nova"
+  name        = "pawsey-misc-nfs-vol"
+  description = "ghostapp, tools and custom indices volume"
+  size        = 1000
+}
+
+resource "openstack_compute_volume_attach_v2" "attach-pawsey-misc-nfs-volume" {
+  instance_id = "${openstack_compute_instance_v2.pawsey-misc-nfs.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-misc-nfs-vol.id}"
+}
+
+resource "openstack_blockstorage_volume_v2" "pawsey-job-nfs-vol" {
+  availability_zone = "nova"
+  name        = "pawsey-misc-job-vol"
+  description = "Jobs working directories and galaxy tmp"
+  size        = 20000
+}
+
+resource "openstack_compute_volume_attach_v2" "attach-pawsey-job-nfs-volume" {
+  instance_id = "${openstack_compute_instance_v2.pawsey-job-nfs.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-job-nfs-vol.id}"
+}
+
+resource "openstack_blockstorage_volume_v2" "pawsey-user-nfs-vol" {
+  availability_zone = "nova"
+  name        = "pawsey-user-nfs-vol"
+  description = "Galaxy user data"
+  size        = 70000
+}
+
+resource "openstack_compute_volume_attach_v2" "attach-pawsey-user-nfs-volume" {
+  instance_id = "${openstack_compute_instance_v2.pawsey-user-nfs.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-user-nfs-vol.id}"
 }
