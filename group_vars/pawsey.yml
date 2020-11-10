@@ -1,2 +1,4 @@
 galaxy_uid: 1024
 galaxy_gid: 1024
+
+use_internal_ips: true
