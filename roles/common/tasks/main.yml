@@ -61,7 +61,7 @@
           "{{ galaxy_nodes }}"
   when: use_internal_ips not defined or use_internal_ips = false
 
-- name: Add external ips to hosts
+- name: Add internal ips to hosts
   block:
     - name: Add to head node to all worker's hosts files
       become: yes
