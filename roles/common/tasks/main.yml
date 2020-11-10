@@ -27,7 +27,6 @@
       become_user: root
       lineinfile:
           path: "/etc/hosts"
-          #regexp: "{{ hostvars[item].ansible_host }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
           line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
           state: present
           backup: yes
@@ -40,7 +39,6 @@
       become_user: root
       lineinfile:
           path: "/etc/hosts"
-          #regexp: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
           line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
           state: present
           backup: yes
@@ -59,7 +57,7 @@
       when: add_hosts_galaxy is defined and add_hosts_galaxy == true
       with_items:
           "{{ galaxy_nodes }}"
-  when: use_internal_ips not defined or use_internal_ips = false
+  when: use_internal_ips is not defined or use_internal_ips == false
 
 - name: Add internal ips to hosts
   block:
@@ -68,7 +66,6 @@
       become_user: root
       lineinfile:
           path: "/etc/hosts"
-          #regexp: "{{ hostvars[item].ansible_host }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
           line: "{{ hostvars[item].internal_ip }}\t{{ item }}"
           state: present
           backup: yes
@@ -81,7 +78,6 @@
       become_user: root
       lineinfile:
           path: "/etc/hosts"
-          #regexp: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
           line: "{{ hostvars[item].internal_ip }}\t{{ item }}"
           state: present
           backup: yes
@@ -100,7 +96,7 @@
       when: add_hosts_galaxy is defined and add_hosts_galaxy == true
       with_items:
           "{{ galaxy_nodes }}"
-  when: use_internal_ips is defined and use_internal_ips = true
+  when: use_internal_ips is defined and use_internal_ips == true
 
 - name: Add Galaxy group to relevant machines
   become: yes
