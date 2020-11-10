@@ -1,0 +1,8 @@
+attached_volume_device: /dev/vdc
+attached_volume_fstype: ext4
+attached_volume_path: /mnt
+
+galaxy_job_dir: /mnt/tmp
+
+nfs_exports:
+  - "{{ galaxy_job_dir }} 192.168.0.0/24(rw,async,no_root_squash,no_subtree_check)"
