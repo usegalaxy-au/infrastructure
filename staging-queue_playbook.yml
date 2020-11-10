@@ -2,6 +2,7 @@
   become: true
   vars_files:
       - group_vars/all.yml
+      - group_vars/staging.yml
       - group_vars/rabbitservers.yml
       - group_vars/VAULT
       - host_vars/staging-queue.usegalaxy.org.au.yml

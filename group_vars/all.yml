@@ -39,9 +39,9 @@ machine_users:
 galaxy_user:
   name: galaxy
   shell: /bin/bash
-  uid: 998
+  uid: "{{ galaxy_uid }}"
   group: galaxy
-  gid: 998
+  gid: "{{ galaxy_gid }}"
 
 #Common packages to install on all of our machines.
 common_packages:

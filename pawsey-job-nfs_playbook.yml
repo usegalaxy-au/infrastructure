@@ -1,17 +1,12 @@
-- hosts: pawsey_db_server
+- hosts: pawsey-job-nfs
   become: true
   vars_files:
       - group_vars/all.yml
       - group_vars/pawsey.yml
       - group_vars/VAULT
-      - group_vars/dbservers.yml
-      - host_vars/pawsey-db.usegalaxy.org.au.yml
+      - group_vars/nfs_servers.yml
+      - host_vars/pawsey-job-nfs.usegalaxy.org.au.yml
   pre_tasks:
-      - name: Install psycopg2 for python3
-        apt:
-            name: python3-psycopg2
-            state: present
-        become: true
       - name: Attach volume to instance
       # If this script is being run for the first time, review the value of attached_volume_device in group_vars
         block: # TODO: This is pretty generic code for attaching a volume to a device and should probably live in another file to be reused
@@ -32,19 +27,25 @@
               fstype: "{{ attached_volume_fstype }}"
               state: mounted
         when: attached_volume_device is defined
-      - name: create data directory
+      
+      - name: Create galaxy_user_data_dir directory
         file:
-          path: /data/production
-          owner: postgres
-          group: postgres
+          path: "{{ galaxy_job_dir }}"
           state: directory
-          mode: 0700
-        
   roles:
       - common
       - insspb.hostname
       - geerlingguy.pip
-      - galaxyproject.postgresql
-      - role: natefoo.postgresql_objects
-        become: true
-        become_user: postgres
+      - geerlingguy.nfs
+  post_tasks:
+      - name: Chown shared dirs to Galaxy user
+        file:
+          path: "{{ galaxy_job_dir }}"
+          owner: galaxy
+          group: galaxy
+          recurse: yes
+      - name: Reload exportfs
+        command: exportfs -ra
+        become: yes
+        become_user: root
+        

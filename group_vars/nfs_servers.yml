@@ -1,0 +1,4 @@
+# Common vars for nfs servers
+
+add_galaxy_user: yes
+
