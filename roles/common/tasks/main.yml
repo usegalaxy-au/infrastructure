@@ -59,7 +59,7 @@
       when: add_hosts_galaxy is defined and add_hosts_galaxy == true
       with_items:
           "{{ galaxy_nodes }}"
-  when: use_internal_ips not defined or use_internal_ips = false
+  when: use_internal_ips is not defined or use_internal_ips == false
 
 - name: Add internal ips to hosts
   block:
@@ -100,7 +100,7 @@
       when: add_hosts_galaxy is defined and add_hosts_galaxy == true
       with_items:
           "{{ galaxy_nodes }}"
-  when: use_internal_ips is defined and use_internal_ips = true
+  when: use_internal_ips is defined and use_internal_ips == true
 
 - name: Add Galaxy group to relevant machines
   become: yes
