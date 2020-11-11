@@ -13,6 +13,9 @@ galaxy_dynamic_job_rules:
 galaxy_tools_indices_dir: "{{ galaxy_root }}"
 galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
 
+# Use cloudstor branch and extra tool_conf file and user prefs for cloudstor tool
+use_cloudstor_conf: true
+
 __galaxy_config:
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on dev
