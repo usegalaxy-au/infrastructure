@@ -51,13 +51,13 @@ staging-w1 ansible_ssh_host=115.146.87.183
 [pawsey_slurm_head]
 pawsey-queue ansible_ssh_host=146.118.70.91 internal_ip=192.168.0.154
 
-[pawsey_slurm_workers]
-pawsey-w1 ansible_ssh_host=146.118.70.143
-pawsey-w2 ansible_ssh_host=146.118.69.247
-pawsey-w3 ansible_ssh_host=146.118.69.223
-pawsey-w4 ansible_ssh_host=146.118.69.246
-pawsey-w5 ansible_ssh_host=146.118.67.233
-pawsey-w6 ansible_ssh_host=146.118.69.118
+[pawsey_workers]
+pawsey-w1 ansible_ssh_host=146.118.70.143 internal_ip=192.168.0.175
+pawsey-w2 ansible_ssh_host=146.118.69.247 internal_ip=192.168.0.199
+pawsey-w3 ansible_ssh_host=146.118.69.223 internal_ip=192.168.0.162
+pawsey-w4 ansible_ssh_host=146.118.69.246 internal_ip=192.168.0.109
+pawsey-w5 ansible_ssh_host=146.118.67.233 internal_ip=192.168.0.131
+pawsey-w6 ansible_ssh_host=146.118.69.118 internal_ip=192.168.0.150
 
 [all:vars]
 ansible_host_key_checking=False
