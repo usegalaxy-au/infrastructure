@@ -77,7 +77,8 @@ __galaxy_config:
     brand: "Australia"
     database_connection: "postgres://galaxy:{{ vault_pawsey_db_user_password }}@{{ hostvars['pawsey-db']['internal_ip'] }}:5432/galaxy"
     id_secret: "{{ vault_pawsey_id_secret }}"
-    file_path: /mnt/user-data      
+    file_path: /mnt/user-data
+    object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
 
 
 # cvmfs

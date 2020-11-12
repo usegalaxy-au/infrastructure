@@ -128,6 +128,7 @@ galaxy_config:
     database_connection: "{{ __galaxy_config['galaxy']['database_connection']}}"
     id_secret: "{{ __galaxy_config['galaxy']['id_secret']}}"
     file_path: "{{ __galaxy_config['galaxy']['file_path']}}"
+    object_store_config_file: "{{ __galaxy_config['galaxy']['object_store_config_file']|default(omit) }}"
 
     allow_user_impersonation: true
     allow_user_deletion: true
@@ -170,7 +171,6 @@ galaxy_config:
     tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
     tool_config_file: "{{ tool_config_files }}"
     user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences_extra_conf.yml"
-    object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
 
     galaxy_data_manager_data_path: "{{ galaxy_tools_indices_dir }}/custom-indices"
     shed_tool_data_path: "{{ galaxy_tools_indices_dir }}/tool-data/shed_tool_data"
