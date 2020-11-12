@@ -7,6 +7,7 @@
       - group_vars/galaxyservers.yml
       - group_vars/pawsey_slurm.yml
       - host_vars/pawsey.usegalaxy.org.au.yml
+      - host_vars/pawsey_job_conf.yml
   pre_tasks:
     - name: Attach volume to instance
       # If this script is being run for the first time, review the value of galaxyserver_attached_volume_device in group_vars
@@ -36,6 +37,7 @@
   roles:
     - galaxyproject.repos
     - common
+    - mounts
     - galaxyproject.postgresql
     - role: natefoo.postgresql_objects
       become: true
@@ -57,7 +59,30 @@
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1
+        state: latest
     - name: Reload exportfs
       command: exportfs -ra
       become: yes
       become_user: root
+    - name: setup lsyncd
+      package:
+        name: lsyncd
+        state: present
+    - name: create lsync dir
+      file:
+        path: /etc/lsyncd
+        state: directory
+    - name: config lsyncd
+      copy:
+        src: lsyncd/lsyncd.conf.lua
+        dest: /etc/lsyncd/lsynd.conf.lua
+      become: yes
+    - name: restart lsyncd
+      systemd:
+        name: lsyncd
+        state: restarted
+    - name: add symlink for files mount
+      file:
+        src: /mnt/files
+        dest: /mnt/galaxy/files
+        state: link

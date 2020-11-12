@@ -1,0 +1,37 @@
+#Galaxy Job Conf
+galaxy_jobconf:
+    plugin_workers: 4
+    handlers:
+        count: "{{ galaxy_handler_count }}"
+    plugins:
+      - id: local
+        load: galaxy.jobs.runners.local:LocalJobRunner
+        workers: 4
+      - id: dynamic
+        params:
+          rules_module: dynamic_rules
+      - id: slurm
+        load: galaxy.jobs.runners.slurm:SlurmJobRunner
+    default_destination: gateway
+    destinations:
+      - id: local
+        runner: local
+      - id: gateway
+        runner: dynamic
+        params:
+            type: python
+            function: gateway
+      - id: dynamic_dtd
+        runner: dynamic
+        params:
+          type: dtd
+      - id: slurm_dest
+        runner: slurm
+        params:
+            nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
+    limits:
+      #General limits for user submission
+      - type: anonymous_user_concurrent_jobs
+        value: 1
+      - type: registered_user_concurrent_jobs
+        value: 10
