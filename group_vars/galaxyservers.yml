@@ -53,13 +53,31 @@ nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
 nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
 
 # Galaxy
+
+# Variables that will differ based on the value of use_cloudstor_conf
+default_settings:
+  galaxy_repo: https://github.com/galaxyproject/galaxy.git
+  galaxy_commit_id: release_20.05
+  tool_config_files: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_config_dir }}/nagios_tool_conf.xml"
+  user_prefs_extra_config_file: user_preferences_extra_conf.yml
+
+cloudstor_settings:
+  galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
+  galaxy_commit_id: release_20.05_cloudstor
+  tool_config_files: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_config_dir }}/nagios_tool_conf.xml,{{ galaxy_config_dir }}/cloudstor_tool_conf.xml"
+  user_prefs_extra_config_file: user_preferences_extra_conf_cloudstor.yml
+
+galaxy_repo: "{{ cloudstor_settings['galaxy_repo'] if use_cloudstor_conf|d(false) == true else default_settings['galaxy_repo'] }}"
+galaxy_commit_id: "{{ cloudstor_settings['galaxy_commit_id'] if use_cloudstor_conf|d(false) == true else default_settings['galaxy_commit_id'] }}"
+tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_conf|d(false) == true else default_settings['tool_config_files'] }}"
+user_prefs_extra_config_file: "{{ cloudstor_settings['user_prefs_extra_config_file'] if use_cloudstor_conf|d(false) == true else default_settings['user_prefs_extra_config_file'] }}"
+
 galaxy_create_user: true
 galaxy_separate_privileges: true
 galaxy_manage_paths: true
 galaxy_layout: root-dir
 galaxy_root: /mnt/galaxy
 galaxy_shed_tools_dir: "{{ galaxy_tools_indices_dir }}/shed_tools"
-galaxy_commit_id: release_20.05
 galaxy_config_style: yaml
 galaxy_force_checkout: true
 galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
@@ -150,8 +168,8 @@ galaxy_config:
 
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
     tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
-    tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_mutable_config_dir }}/shed_tool_conf.xml,{{ galaxy_config_dir }}/nagios_tool_conf.xml"
-    user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences_extra_conf.xml"
+    tool_config_file: "{{ tool_config_files }}"
+    user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences_extra_conf.yml"
 
     galaxy_data_manager_data_path: "{{ galaxy_tools_indices_dir }}/custom-indices"
     shed_tool_data_path: "{{ galaxy_tools_indices_dir }}/tool-data/shed_tool_data"
@@ -222,7 +240,9 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_conf.xml"
   - src:  "{{ galaxy_config_file_src_dir }}/config/nagios_tool_conf.xml"
     dest: "{{ galaxy_config_dir }}/nagios_tool_conf.xml"
-  - src: "{{ galaxy_config_file_src_dir }}/config/user_preferences_extra_conf.xml"
+  - src:  "{{ galaxy_config_file_src_dir }}/config/cloudstor_tool_conf.xml"
+    dest: "{{ galaxy_config_dir }}/cloudstor_tool_conf.xml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/{{ user_prefs_extra_config_file }}"
     dest: "{{ galaxy_config['galaxy']['user_preferences_extra_conf_path'] }}"
 
 #Slurm client

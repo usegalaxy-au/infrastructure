@@ -48,6 +48,12 @@
     - galaxyproject.slurm
     - galaxyproject.cvmfs
   post_tasks:
+    - name: Clone Galaxy-Owncloud-Integration
+      git:
+        repo: https://github.com/usegalaxy-au/Galaxy-Owncloud-Integration
+        dest: "{{ galaxy_server_dir }}/tools/Galaxy-Owncloud-Integration"
+        update: no
+      when: use_cloudstor_conf|d(false) == true
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1
