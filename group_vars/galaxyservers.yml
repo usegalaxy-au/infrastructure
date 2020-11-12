@@ -80,7 +80,7 @@ galaxy_root: /mnt/galaxy
 galaxy_shed_tools_dir: "{{ galaxy_tools_indices_dir }}/shed_tools"
 galaxy_config_style: yaml
 galaxy_force_checkout: true
-galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
+
 
 galaxy_australia_website: "https://usegalaxy-au.github.io"
 
@@ -112,10 +112,10 @@ galaxy_config:
       - unix_signal:15 gracefully_kill_them_all
     py-call-osafterfork: true
     enable-threads: true
-    mule:
-      - lib/galaxy/main.py
-      - lib/galaxy/main.py
-    farm: job-handlers:1,2
+    # uWSGI mules needs to be host specific and is in host_vars
+    mule: "{{ __galaxy_config['uwsgi']['mule'] }}"
+    farm: "{{ __galaxy_config['uwsgi']['farm'] }}"
+    
   galaxy:
     check_migrate_tools: false
     log_level: TRACE
@@ -186,9 +186,7 @@ galaxy_config:
     # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
 
     # data_manager_config_file: /mnt/galaxy-app/config/data_manager_conf.xml.sample  # should we be templating these?
-    # shed_data_manager_config_file: /mnt/galaxy/var/shed_data_manager_conf.xml
-    # integrated_tool_panel_config: /mnt/galaxy/var/integrated_tool_panel.xml
-    # tool_config_file: '/mnt/galaxy-app/config/tool_conf.xml,/mnt/galaxy-app/config/shed_tool_conf.xml,/mnt/galaxy-app/config/nagios_tool_conf.xml'
+    
     # migrated_tools_config: /mnt/galaxy/var/migrated_tools_conf.xml
     # tool_data_table_config_path: '/mnt/galaxy-app/config/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml'
     # builds_file_path: /cvmfs/data.galaxyproject.org/managed/location/builds.txt
@@ -253,3 +251,4 @@ slurm_roles: ['exec']
 
 #Add slurm controllers hostname to hosts.
 add_hosts_head: yes
+add_hosts_workers: yes

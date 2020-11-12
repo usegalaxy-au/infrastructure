@@ -17,12 +17,19 @@ galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
 use_cloudstor_conf: true
 
 __galaxy_config:
+  uwsgi:
+    mule:
+      - lib/galaxy/main.py
+      - lib/galaxy/main.py
+    farm: job-handlers:1,2
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on dev
     brand: "Australia Dev"
     database_connection: "postgres://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
     id_secret: "{{ vault_dev_id_secret }}"
-    file_path: "{{ galaxy_root }}/data" 
+    file_path: "{{ galaxy_root }}/data"
+
+galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
 
 # NFS stuff
 nfs_exports:

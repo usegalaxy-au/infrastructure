@@ -1,5 +1,53 @@
 # Specific settings for galaxy dev application/web server
 
+#TO DO:
+# 
+# 1. Mounts - needs checking
+# 2. lsync b/n /mnt/galaxy and /mnt/ghost-galaxy-app - make its setup a post task in the playbook. - looks simple - add to post tasks
+# 3. Check on all file locations going to correct mounts
+# 4. Job_conf - maybe move it to an included file to prevent this from becoming monolithic and unweildy
+#   a. Runners
+#   b. Destinations
+#   c. Limits
+# 5. Tool destinations
+# 6. Mail server
+# 7. Telegraf
+# 8. Add symlink /mnt/galaxy/files --> /mnt/files
+# 9. Change the version of conda that gets installed
+
+# variables for attaching mounted volume to application server
+galaxyserver_attached_volume_device: /dev/vdc
+galaxyserver_attached_volume_path: /mnt
+galaxyserver_attached_volume_fstype: ext4
+
+# Mounts for various connections:
+
+shared_mounts:
+    - path: /mnt/ghost-galaxy-app
+      src: "{{ hostvars['pawsey-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/tools-indices
+      src: "{{ hostvars['pawsey-misc-nfs']['internal_ip'] }}:/mnt/tools-indices"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/user-data
+      src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/mnt/user-data"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/tmp
+      src: "{{ hostvars['pawsey-job-nfs']['internal_ip'] }}:/mnt/tmp"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/files
+      src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/files2
+      src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
+      fstype: nfs
+      state: mounted
+
 galaxy_db_user_password: "{{ vault_pawsey_db_user_password }}"
 
 # ansible-galaxy
@@ -10,60 +58,26 @@ galaxy_dynamic_job_rules:
   - dynamic_rules/tool_destinations.yml
   - readme.txt
 
-galaxy_tools_indices_dir: /mnt/tools-indices      ########## check this
-galaxy_tmp_dir: /mnt/tmp      ########## check this
+galaxy_tools_indices_dir: /mnt/tools-indices     
+galaxy_tmp_dir: /mnt/tmp     
+
+galaxy_handler_count: 5   ############# europe uses 5, this could be host specific
 
 __galaxy_config:
+  uwsgi:
+    mule:
+      - lib/galaxy/main.py
+      - lib/galaxy/main.py
+      - lib/galaxy/main.py
+      - lib/galaxy/main.py
+      - lib/galaxy/main.py
+    farm: job-handlers:1,2,3,4,5
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on pawsey
     brand: "Australia"
-    database_connection: "postgres://galaxy:{{ vault_pawsey_db_user_password }}@pawsey-db.usegalaxy.org.au:5432/galaxy"
+    database_connection: "postgres://galaxy:{{ vault_pawsey_db_user_password }}@{{ hostvars['pawsey-db']['internal_ip'] }}:5432/galaxy"
     id_secret: "{{ vault_pawsey_id_secret }}"
-    file_path: /mnt/user-data      ########## check this
-
-# variables for attaching mounted volume to application server
-galaxyserver_attached_volume_device: /dev/vdc
-galaxyserver_attached_volume_path: /mnt
-galaxyserver_attached_volume_fstype: ext4
-
-
-#Galaxy Job Conf
-galaxy_jobconf:
-    plugin_workers: 4
-    handlers:
-        count: "{{ galaxy_handler_count }}"
-    plugins:
-      - id: local
-        load: galaxy.jobs.runners.local:LocalJobRunner
-        workers: 4
-      - id: dynamic
-        params:
-          rules_module: dynamic_rules
-      - id: slurm
-        load: galaxy.jobs.runners.slurm:SlurmJobRunner
-    default_destination: gateway
-    destinations:
-      - id: local
-        runner: local
-      - id: gateway
-        runner: dynamic
-        params:
-            type: python
-            function: gateway
-      - id: dynamic_dtd
-        runner: dynamic
-        params:
-          type: dtd
-      - id: slurm_dest
-        runner: slurm
-        params:
-            nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
-    limits:
-      #General limits for user submission
-      - type: anonymous_user_concurrent_jobs
-        value: 1
-      - type: registered_user_concurrent_jobs
-        value: 10
+    file_path: /mnt/user-data      
 
 
 # cvmfs
