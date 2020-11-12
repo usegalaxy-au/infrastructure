@@ -52,4 +52,15 @@
 		<tool id="echo_main_handler{{ n + 1 }}" destination="local" handler="handler{{ n + 1 }}"/>
 {% endfor %}
 	</tools>
+{% if 'limits' in galaxy_jobconf %}
+	<limits>
+{% for limit in galaxy_jobconf['limits'] %}
+{% if 'id' in limit %}
+		<limit type="{{ limit['type'] }}" id="{{ limit['id'] }}">{{ limit['value'] }}</limit>
+{% else %}
+		<limit type="{{ limit['type'] }}">{{ limit['value'] }}</limit>
+{% endif %}		
+{% endfor %}
+	</limits>
+{% endif %}
 </job_conf>
