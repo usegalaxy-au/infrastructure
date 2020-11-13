@@ -1,6 +1,10 @@
 tools:
   upload1:
-    default_destination: slurm_dest
-default_destination: slurm_dest
+    default_destination: slurm_1slot_upload
+  fasta-stats:
+    default_destination: slurm_1slot
+  bwa_mem:
+    default_destination: slurm_16slots
+default_destination: slurm_1slot
 
 verbose: True

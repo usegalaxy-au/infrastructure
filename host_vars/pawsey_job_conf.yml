@@ -23,7 +23,7 @@ galaxy_jobconf:
           amqp_publish_retry: True
           amqp_publish_retry_max_retries: 60
           amqp_url: "pyamqp://galaxy_mel2:{{ vault_rabbitmq_password_galaxy_mel2_prod }}@prod-rabbit.usegalaxy.org.au:5671//pulsar/galaxy_mel2?ssl=1"  ## Temporary setup to use the current rabbit server in Melbourne.
-          galaxy_url: "{{ hostname }}"
+          galaxy_url: "https://{{ hostname }}"
           manager: "_default_"
     default_destination: gateway
     destinations:
@@ -57,27 +57,27 @@ galaxy_jobconf:
         params:
           nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
       - id: slurm_3slots
-        runner:
+        runner: slurm
         params:
           nativeSpecification: "--nodes=1 --ntasks=3 --ntasks-per-node=3 --mem=11640"
       - id: slurm_5slots
-        runner:
+        runner: slurm
         params:
           nativeSpecification: "--nodes=1 --ntasks=5 --ntasks-per-node=5 --mem=19400"
       - id: slurm_7slots
-        runner:
+        runner: slurm
         params:
           nativeSpecification: "--nodes=1 --ntasks=7 --ntasks-per-node=7 --mem=27160"
       - id: slurm_9slots
-        runner:
+        runner: slurm
         params:
           nativeSpecification: "--nodes=1 --ntasks=9 --ntasks-per-node=9 --mem=34920"
       - id: slurm_16slots
-        runner:
+        runner: slurm
         params:
           nativeSpecification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62080"
       - id: slurm_32slots
-        runner:
+        runner: slurm
         params:
           nativeSpecification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=124160"
       # Pulsar mel destinations
