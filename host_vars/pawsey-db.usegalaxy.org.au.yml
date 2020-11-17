@@ -16,6 +16,10 @@ postgresql_objects_users:
     password: "{{ galaxy_pawsey_db_user_password}}"
     db: galaxy
     priv: "ALL"
+  - name: galaxyftp
+    password: "{{ vault_pawsey_db_galaxyftp_password }}"
+    db: galaxy
+    priv: "ALL"
 postgresql_objects_databases:
   - name: galaxy
     owner: galaxy

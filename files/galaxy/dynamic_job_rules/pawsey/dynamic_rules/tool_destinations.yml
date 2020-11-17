@@ -3,8 +3,32 @@ tools:
     default_destination: slurm_1slot_upload
   fasta-stats:
     default_destination: slurm_1slot
+  fastp:
+    default_destination: slurm_5slots
+  zip_collection:
+    default_destination: slurm_2slots
+  samtools_view: 
+    default_destination: slurm_5slots
+  ivar_trim:
+    default_destination: slurm_5slots
+  ivar_consensus:
+    default_destination: slurm_5slots
+  ivar_filtervariants:
+    default_destination: slurm_5slots
+  ivar_getmasked:
+    default_destination: slurm_5slots
+  ivar_removereads:
+    default_destination: slurm_5slots
+  ivar_variants:
+    default_destination: slurm_5slots
+  lofreq_viterbi:
+    default_destination: slurm_5slots
+  lofreq_indelqual:
+    default_destination: slurm_5slots
   bwa_mem:
-    default_destination: slurm_16slots
-default_destination: slurm_1slot
+    default_destination: slurm_2slots
+  prokka:
+    default_destination: slurm_5slots
+default_destination: slurm_2slots
 
 verbose: True
