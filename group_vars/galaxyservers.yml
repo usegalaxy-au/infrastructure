@@ -93,7 +93,7 @@ galaxy_config:
   uwsgi:  # todo: check desired dev settings for processes, threads, logging, mule, farm, look at how this is defined in prod galaxy.yml
     socket: 127.0.0.1:8080
     buffer-size: 16384
-    processes: 1
+    processes: 4
     threads: 4
     offload-threads: 2
     static-map:
@@ -182,6 +182,8 @@ galaxy_config:
 
     library_import_dir: "{{ galaxy_tmp_dir }}/library_import_dir"
     cluster_files_directory: "{{ galaxy_tmp_dir }}/pbs"
+
+    sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
 
     # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
 

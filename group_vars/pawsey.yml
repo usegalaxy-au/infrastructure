@@ -12,3 +12,18 @@ galaxy_cvmfs_server_urls:
       - "http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@"
       - "http://cvmfs1-mel0.gvl.org.au/cvmfs/@fqrn@"
       - "http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
+
+# Monitoring
+grafana_server_url: http://stats.genome.edu.au:8086
+
+# Monitoring
+telegraf_agent_version: 1.16.2
+telegraf_agent_package_method: repo
+telegraf_agent_hostname: "{{ inventory_hostname }}"
+
+telegraf_agent_output:
+  - type: influxdb
+    config:
+      - urls = ["{{ grafana_server_url }}"]
+      - database = "pawsey"
+      - precision = "s"

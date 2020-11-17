@@ -25,3 +25,5 @@
 #  version: 0.0.1
 - src: galaxyproject.pulsar
   version: 1.0.6
+- src: dj-wasabi.telegraf
+  version: 0.13.0
