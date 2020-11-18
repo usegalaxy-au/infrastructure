@@ -1,15 +1,9 @@
 tools:
-  upload1:
-    default_destination: slurm_1slot_upload
+  bwa_mem:
+    default_destination: slurm_2slots
   fasta-stats:
     default_destination: slurm_1slot
   fastp:
-    default_destination: slurm_5slots
-  zip_collection:
-    default_destination: slurm_2slots
-  samtools_view: 
-    default_destination: slurm_5slots
-  ivar_trim:
     default_destination: slurm_5slots
   ivar_consensus:
     default_destination: slurm_5slots
@@ -19,16 +13,64 @@ tools:
     default_destination: slurm_5slots
   ivar_removereads:
     default_destination: slurm_5slots
-  ivar_variants:
+  ivar_trim:
     default_destination: slurm_5slots
-  lofreq_viterbi:
+  ivar_variants:
     default_destination: slurm_5slots
   lofreq_indelqual:
     default_destination: slurm_5slots
-  bwa_mem:
-    default_destination: slurm_2slots
+  lofreq_viterbi:
+    default_destination: slurm_5slots
   prokka:
     default_destination: slurm_5slots
+  samtools_view: 
+    default_destination: slurm_5slots
+  spades:
+    rules:
+      - rule_type: file_size
+        nice_value: 0
+        lower_bound: 0
+        upper_bound: 15 MB
+        destination: slurm_1slot
+      - rule_type: file_size
+        nice_value: 0
+        lower_bound: 15 MB
+        upper_bound: 2 GB
+        destination: slurm_3slots
+      - rule_type: file_size
+        nice_value: 0
+        lower_bound: 2 GB
+        upper_bound: 20 GB
+        destination: slurm_16slots # pulsar-mel3_big on galaxy prod qld
+      - rule_type: file_size
+        nice_value: 0
+        lower_bound: 20 GB
+        upper_bound: Infinity
+        fail_message: Too much data, please don't use Spades for this
+        destination: fail
+    default_destination: slurm_5slots
+  unicycler:
+    rules:
+      - rule_type: file_size
+        nice_value: 0
+        lower_bound: 0
+        upper_bound: 200 MB
+        destination: slurm_1slot
+      - rule_type: file_size
+        nice_value: 0
+        lower_bound: 200 MB
+        upper_bound: 2 GB
+        destination: slurm_9slots # pulsar-mel3_mid on galaxy prod qld
+      - rule_type: file_size
+        nice_value: 0
+        lower_bound: 2 GB
+        upper_bound: 60 GB
+        destination: slurm_16slots # pulsar-mel3_big on galaxy prod qld
+    default_destination: slurm_16slots
+  upload1:
+    default_destination: slurm_1slot_upload
+  zip_collection:
+    default_destination: slurm_2slots
 default_destination: slurm_2slots
 
 verbose: True
