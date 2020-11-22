@@ -75,7 +75,7 @@
     - name: config lsyncd
       copy:
         src: lsyncd/lsyncd.conf.lua
-        dest: /etc/lsyncd/lsynd.conf.lua
+        dest: /etc/lsyncd/lsyncd.conf.lua
       become: yes
     - name: restart lsyncd
       systemd:

@@ -2,18 +2,11 @@
 
 #TO DO:
 # 
-# 1. Mounts - needs checking
-# 2. lsync b/n /mnt/galaxy and /mnt/ghost-galaxy-app - make its setup a post task in the playbook. - looks simple - add to post tasks
-# 3. Check on all file locations going to correct mounts
-# 4. Job_conf - maybe move it to an included file to prevent this from becoming monolithic and unweildy
-#   a. Runners
-#   b. Destinations
-#   c. Limits
-# 5. Tool destinations
+
 # 6. Mail server
-# 7. Telegraf
-# 8. Add symlink /mnt/galaxy/files --> /mnt/files
-# 9. Change the version of conda that gets installed
+
+# Use cloudstor branch and extra tool_conf file and user prefs for cloudstor tool
+use_cloudstor_conf: true
 
 # variables for attaching mounted volume to application server
 galaxyserver_attached_volume_device: /dev/vdc

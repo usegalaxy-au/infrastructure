@@ -22,7 +22,7 @@ galaxy_jobconf:
           amqp_consumer_timeout: 2.0
           amqp_publish_retry: True
           amqp_publish_retry_max_retries: 60
-          amqp_url: "pyamqp://galaxy_mel2:{{ vault_rabbitmq_password_galaxy_mel2_prod }}@prod-rabbit.usegalaxy.org.au:5671//pulsar/galaxy_mel2?ssl=1"  ## Temporary setup to use the current rabbit server in Melbourne.
+          amqp_url: "pyamqp://galaxy_mel2:{{ vault_rabbitmq_password_galaxy_mel2_pawsey }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel2?ssl=1"  ## Temporary setup to use the current rabbit server in Melbourne.
           galaxy_url: "https://{{ hostname }}"
           manager: "_default_"
     default_destination: gateway

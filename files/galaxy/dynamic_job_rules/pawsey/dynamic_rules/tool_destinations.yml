@@ -22,7 +22,7 @@ tools:
   lofreq_viterbi:
     default_destination: slurm_5slots
   prokka:
-    default_destination: slurm_5slots
+    default_destination: pulsar-mel_big
   samtools_view: 
     default_destination: slurm_5slots
   spades:

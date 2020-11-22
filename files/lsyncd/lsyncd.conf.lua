@@ -4,7 +4,7 @@ sync {
     target = "/mnt/ghost-galaxy-app"
 }
 
-settings = {
+settings {
     logfile = "/var/log/lsyncd/lsyncd.log",
     statusFile = "/var/log/lsyncd/lsyncd.status"
 }
