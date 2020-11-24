@@ -1,6 +1,6 @@
 tools:
   bwa_mem:
-    default_destination: slurm_2slots
+    default_destination: pulsar-mel_big
   canu:
       default_destination: slurm_32slots  # pulsar-mel3_big_canu on galaxy prod qld
   fasta-stats:
