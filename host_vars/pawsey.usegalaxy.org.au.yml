@@ -5,6 +5,10 @@
 
 # 6. Mail server
 
+certbot_domains:
+- "{{ hostname }}"
+- "usegalaxy.org.au"
+
 # Use cloudstor branch and extra tool_conf file and user prefs for cloudstor tool
 use_cloudstor_conf: true
 
