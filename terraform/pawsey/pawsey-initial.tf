@@ -183,6 +183,22 @@ resource "openstack_compute_instance_v2" "pawsey-user-nfs" {
   }
 }
 
+# Backup VM - performs database backups
+resource "openstack_compute_instance_v2" "pawsey-backup" {
+  name            = "pawsey-backup"
+  image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
+  flavor_name     = "n3.2c8r"
+  key_pair        = "gvl2019"
+  security_groups = ["SSH", "default"]
+  availability_zone = "nova"
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
+}
+
 # Volume for database server
 resource "openstack_blockstorage_volume_v2" "pawsey-db-volume" {
  availability_zone = "nova"
@@ -318,4 +334,17 @@ resource "openstack_blockstorage_volume_v2" "pawsey-user-nfs-vol" {
 resource "openstack_compute_volume_attach_v2" "attach-pawsey-user-nfs-volume" {
   instance_id = "${openstack_compute_instance_v2.pawsey-user-nfs.id}"
   volume_id   = "${openstack_blockstorage_volume_v2.pawsey-user-nfs-vol.id}"
+}
+
+# Volume for backup server
+resource "openstack_blockstorage_volume_v2" "pawsey-backup-vol" {
+  availability_zone = "nova"
+  name        = "pawsey-backup-vol"
+  description = "Galaxy user data"
+  size        = 70000
+}
+
+resource "openstack_compute_volume_attach_v2" "attach-pawsey-backup-volume" {
+  instance_id = "${openstack_compute_instance_v2.pawsey-backup.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-backup-vol.id}"
 }
