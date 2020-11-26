@@ -1,5 +1,8 @@
 # Specific settings for galaxy staging application/web server
 
+certbot_domains:
+- "{{ hostname }}"
+
 galaxy_db_user_password: "{{ vault_staging_db_user_password }}"
 
 # NFS stuff

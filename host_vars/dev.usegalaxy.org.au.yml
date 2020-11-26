@@ -1,5 +1,9 @@
 # Specific settings for galaxy dev application/web server
 
+certbot_domains:
+- "{{ hostname }}"
+- "dev2.usegalaxy.org.au"
+
 galaxy_db_user_password: "{{ vault_dev_db_user_password }}"
 
 # ansible-galaxy

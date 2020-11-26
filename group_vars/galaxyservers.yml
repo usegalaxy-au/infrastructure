@@ -35,8 +35,9 @@ certbot_share_key_users:
   - nginx
 certbot_post_renewal: |
     systemctl restart nginx || true
-certbot_domains:
-- "{{ hostname }}"
+## Moved to hostvars as can change for things.
+## certbot_domains:
+## - "{{ hostname }}"
 certbot_agree_tos: --agree-tos
 
 # NGINX
