@@ -51,6 +51,8 @@ tools:
         fail_message: Too much data, please don't use Spades for this
         destination: fail
     default_destination: slurm_5slots
+  trinotate:
+    default_destination: slurm_16slots
   unicycler:
     rules:
       - rule_type: file_size
