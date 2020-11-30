@@ -1,0 +1,3 @@
+vault_rabbitmq_password_galaxy_mel2_pawsey: test
+hostname: test
+galaxy_handler_count: 42
