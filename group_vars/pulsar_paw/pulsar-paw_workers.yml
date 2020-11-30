@@ -1,0 +1,14 @@
+slurm_roles: ['exec']
+
+add_hosts_head: yes
+
+shared_mounts:
+    - path: /mnt/galaxy
+      src: pulsar-paw:/mnt/galaxy
+      fstype: nfs
+      state: mounted
+    - path: /mnt/pulsar
+      src: pulsar-paw:/mnt/pulsar
+      fstype: nfs
+      state: mounted
+

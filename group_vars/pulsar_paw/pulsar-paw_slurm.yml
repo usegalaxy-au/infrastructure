@@ -1,0 +1,61 @@
+
+auth_key_user: ubuntu
+
+head_nodes: "{{ groups['pulsar-paw-head'] }}"
+worker_nodes: "{{ groups['pulsar-paw-workers'] }}"
+
+# SLURM
+slurm_nodes:
+    - name: pulsar-paw
+      NodeAddr: "{{ hostvars['pulsar-paw']['internal_ip'] }}"
+      CPUs: 8
+      RealMemory: 30500
+      State: UNKNOWN
+    - name: pulsar-paw-w1
+      NodeAddr: "{{ hostvars['pulsar-paw-w1']['internal_ip'] }}"
+      CPUs: 8
+      RealMemory: 30500
+      State: UNKNOWN
+    - name: pulsar-paw-w2
+      NodeAddr: "{{ hostvars['pulsar-paw-w2']['internal_ip'] }}"
+      CPUs: 8
+      RealMemory: 30500
+      State: UNKNOWN
+    - name: pulsar-paw-w3
+      NodeAddr: "{{ hostvars['pulsar-paw-w3']['internal_ip'] }}"
+      CPUs: 8
+      RealMemory: 30500
+      State: UNKNOWN
+    - name: pulsar-paw-w4
+      NodeAddr: "{{ hostvars['pulsar-paw-w4']['internal_ip'] }}"
+      CPUs: 8
+      RealMemory: 30500
+      State: UNKNOWN
+    - name: pulsar-paw-w5
+      NodeAddr: "{{ hostvars['pulsar-paw-w5']['internal_ip'] }}"
+      CPUs: 8
+      RealMemory: 30500
+      State: UNKNOWN
+
+slurm_partitions:
+    - name: main
+      nodes: "pulsar-paw-w1,pulsar-paw-w2,pulsar-paw-w3,pulsar-paw-w4,pulsar-paw-w5"
+      Default: YES
+      MaxTime: INFINITE
+      State: UP
+
+slurm_config:
+    #SlurmDBd includes
+    AccountingStorageType: accounting_storage/slurmdbd
+    AccountingStorageHost: localhost
+    JobAcctGatherType: jobacct_gather/linux
+    ControlMachine: pulsar-paw
+    SlurmctldPidFile: /run/slurmctld.pid
+    SlurmdPidFile: /run/slurmd.pid
+    # SCHEDULING
+    FastSchedule: 2
+    SchedulerType: sched/backfill
+    SelectType: select/cons_res
+    SelectTypeParameters: CR_CPU,CR_LLN
+
+slurm_munge_key: files/keys/munge.key
