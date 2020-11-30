@@ -35,6 +35,7 @@
       - galaxyproject.repos
       - galaxyproject.slurm
       - galaxyproject.cvmfs
+      - dj-wasabi.telegraf
   post_tasks:
       - name: restart munge
         systemd:
