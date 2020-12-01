@@ -27,3 +27,5 @@
   version: 1.0.6
 - src: dj-wasabi.telegraf
   version: 0.13.0
+- src: usegalaxy_eu.gxadmin
+  version: 0.0.5
