@@ -1,0 +1,32 @@
+- hosts: pawsey-backup
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/pawsey.yml
+      - group_vars/VAULT
+  pre_tasks:
+    - name: Attach volume to instance
+      # If this script is being run for the first time, review the value of galaxyserver_attached_volume_device in group_vars
+      block: # TODO: This is pretty generic code for attaching a volume to a device and should probably live in another file to be reused
+        - name: Detect attached volume
+          parted:
+            device: "{{ galaxyserver_attached_volume_device }}"
+            unit: GiB
+          register: volume_info
+        - name: Create a filesystem on volume
+          filesystem:
+            fstype: "{{ galaxyserver_attached_volume_fstype }}"
+            dev: "{{ galaxyserver_attached_volume_device }}"
+          when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == galaxyserver_attached_volume_device
+        - name: Mount volume
+          mount:
+            path: "{{ galaxyserver_attached_volume_path }}"
+            src: "{{ galaxyserver_attached_volume_device }}"
+            fstype: "{{ galaxyserver_attached_volume_fstype }}"
+            state: mounted
+      when: galaxyserver_attached_volume_device is defined
+  roles:
+    - galaxyproject.repos
+    - common
+    - geerlingguy.pip
+    - slg.db-backup

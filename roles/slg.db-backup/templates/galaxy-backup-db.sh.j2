@@ -1,0 +1,125 @@
+#!/bin/bash
+
+################################################################################
+#
+#   galaxy-aust-backup.sh
+#
+#   Author: Simon Gladman, Melbourne Bioinformatics, 2019
+#
+#   A script to:
+#     1. Backup Galaxy's database
+#       * using pgdump
+#       * compression
+#     2. Use swift to put the backup into openstack's object store
+#       * in a particular container
+#       * using a set of openstack credentials
+#     3. To write details to a log file
+#     4. Rotate the backups using a retention policy of:
+#       * Months - keep X momthly backups
+#       * Weeks - keep Y weekly backups
+#       * Daily - keep Z daily backups
+#       * backup files older than this will be removed from the local storage
+#         as well as the openstack storage.
+#
+################################################################################
+
+set -euo pipefail
+
+BACKUP_DIR='{{ backup_path }}'
+LOGFILE='{{ script_path }}/galaxy_backup.log'
+
+#The object store container to send the backups to
+SWIFT_BACKUP_CONTAINER='{{ swift_backup_container }}'
+SWIFT_CRED_FILE='{{ swift_cred_file }}'
+VENV_LOCATION='{{ venv_location }}'
+
+#The name of the database to backup
+PSQL_DB='{{ psql_db }}'
+
+# Retention time variables
+MONTHLY_BACKUP_DAY={{ monthly_backup_day }}  #Monthly backups will run on this day of the month
+WEEKLY_BACKUP_DAY={{ weekly_backup_day }}  #Weekly backups will run on this day of the week
+RETENTION_DAY={{ retention_day }}       #Keep daily backups for this many days (6 days)
+RETENTION_WEEK={{ retention_week }}     #Keep weekly backups for this many days (21 days = 3 weeks)
+RETENTION_MONTH={{ retention_month }}    #Keep monthly backups for this many days (92 days ~ 3 months)
+
+#Get the current month day and week day
+month_day=`date +"%d"`
+week_day=`date +"%u"`
+
+#On monthly backup day do:
+if [ "$month_day" -eq ${MONTHLY_BACKUP_DAY} ] ; then
+  BACKUP_TYPE='-monthly'
+  RETENTION_DAY_LOOKUP=$RETENTION_MONTH
+
+else
+
+  #On a weekly backup day do:
+  if [ "$week_day" -eq ${WEEKLY_BACKUP_DAY} ] ; then
+    BACKUP_TYPE='-weekly'
+    RETENTION_DAY_LOOKUP=$RETENTION_WEEK
+
+  else
+
+    #every other day do:
+    BACKUP_TYPE='-daily'
+    RETENTION_DAY_LOOKUP=$RETENTION_DAY
+
+  fi
+
+fi
+
+cd $BACKUP_DIR
+
+#Send the preliminary stuff to the logfile.
+echo "[$(date --iso-8601=seconds)] Starting backup" >> $LOGFILE
+echo '  Month day: '$month_day >> $LOGFILE
+echo '  Week day: '$week_day >> $LOGFILE
+echo '  Backup type: '$BACKUP_TYPE >> $LOGFILE
+echo '  Swift details: '$SWIFT_BACKUP_CONTAINER >> $LOGFILE
+echo '  Database: '$PSQL_DB >> $LOGFILE
+echo '  Retention: '$RETENTION_DAY_LOOKUP >>$LOGFILE
+
+#create the backup filename
+
+backup_filename=`date +"%d-%m-%Y"`'-'${PSQL_DB}${BACKUP_TYPE}'.sql.gz'
+
+echo '  Backup filename: '$backup_filename >> $LOGFILE
+
+#Now run the pgdump
+
+pg_dump \
+  {{ connection_string }} \
+  | pigz > ${backup_filename}
+
+#delete anything that's too old!
+#put the filenames in a file so we can get rid of them from object store.
+if [ -f search_file.ymp ] ; then
+        rm search_file.tmp
+fi
+find -maxdepth 1 -name "*${BACKUP_TYPE}*" -mtime +$RETENTION_DAY_LOOKUP > search_file.tmp
+sed -i "s/\.\///" search_file.tmp
+echo '  Contents of search_file.tmp' >> $LOGFILE
+cat 'search_file.tmp' >> $LOGFILE
+
+. ${SWIFT_CRED_FILE}
+
+set +o nounset
+source ${VENV_LOCATION}/bin/activate
+set -o nounset
+
+swift --quiet upload --segment-size 2000000000 ${SWIFT_BACKUP_CONTAINER} ${backup_filename}
+
+for f in $(<search_file.tmp)
+    do
+        echo $f
+        echo '  Deleting on swift: '$f >> $LOGFILE
+        #delete cloud copy
+        swift delete ${SWIFT_BACKUP_CONTAINER} $f
+        #delete local copy
+        rm $f
+    done
+
+rm search_file.tmp
+
+echo "[$(date --iso-8601=seconds)] Backup complete." >> $LOGFILE
