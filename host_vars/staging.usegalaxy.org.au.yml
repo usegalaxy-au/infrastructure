@@ -106,5 +106,5 @@ cvmfs_cache_base: /mnt/var/lib/cvmfs
 # vars for setting up .pgpass
 galaxy_db_password: "{{ vault_staging_db_user_password }}"
 reader_db_password: "{{ vault_staging_db_reader_password }}"
-db_address: "{{ hostvars['staging-db']['hostname'] }}"
+db_address: "staging-db.usegalaxy.org.au"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
