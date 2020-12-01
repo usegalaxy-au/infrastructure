@@ -1,0 +1,34 @@
+---
+    - name: Create .pgpass files for reader role for all users except ubuntu
+      copy:
+        dest: "/home/{{ item.name }}/.pgpass"
+        content: "{{ db_address }}:5432:*:reader:{{ reader_db_password }}"
+        mode: "600"
+        group: "{{ item.name }}"
+        owner: "{{ item.name }}"
+      loop: "{{ machine_users }}"
+    - name: Create .pgpass files for ubuntu
+      copy:
+        dest: "/home/ubuntu/.pgpass"
+        content: "{{ db_address }}:5432:*:galaxy:{{ galaxy_db_password }}"
+        mode: "600"
+        group: ubuntu
+        owner: ubuntu
+    - name: Ensure variables for gxadmin are set in .bashrc for all users
+      include: edit_bashrc.yml
+      loop: "{{ ( machine_users | map(attribute='name') | list ) + ['ubuntu'] }}"
+      loop_control:
+        loop_var: username
+    - name: Ensure gxadmin config directory exists for user ubuntu
+      file:
+        path: "{{ gxadmin_ubuntu_config_dir }}"
+        state: directory
+    - name: Ensure that ubuntu user has a copy of gxadmin-local.sh
+      copy: 
+        src: files/galaxy/gxadmin/gxadmin-local.sh
+        dest: "{{ gxadmin_ubuntu_config_dir }}/gxadmin-local.sh"
+        mode: "755"
+        group: ubuntu
+        owner: ubuntu
+        force: no # do not replace the file unless it has been deleted
+      

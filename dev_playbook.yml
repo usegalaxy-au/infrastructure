@@ -47,6 +47,8 @@
     - geerlingguy.nfs
     - galaxyproject.slurm
     - galaxyproject.cvmfs
+    - usegalaxy_eu.gxadmin
+    - pg-post-tasks
   post_tasks:
     - name: Clone Galaxy-Owncloud-Integration
       git:
