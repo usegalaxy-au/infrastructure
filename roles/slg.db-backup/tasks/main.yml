@@ -1,0 +1,50 @@
+- name: Create script directory
+  file:
+    path: "{{ script_path }}"
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+  become: yes
+
+- name: create backup directory
+  file:
+    path: "{{ backup_path }}"
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+  become: yes
+
+- name: copy python requirements file to the script directory
+  copy:
+    src: files/requirements.txt
+    dest: "{{ script_path }}/requirements.txt"
+    mode: 0755
+  become: yes
+  become_user: ubuntu
+
+- name: Create python virtualenv
+  pip:
+    virtualenv: "{{ script_path }}/venv"
+    requirements: "{{ script_path }}/requirements.txt"
+  become: yes
+  become_user: ubuntu
+
+- name: Copy script
+  template:
+    src: templates/galaxy-backup-db.sh.j2
+    dest: "{{ script_path }}/galaxy-backup-db.sh"
+    owner: ubuntu
+    group: ubuntu
+    mode: 0775
+
+- name: Make sure postgresql client is installed.
+  package:
+    name: "{{ extra_packages }}"
+    state: latest
+  become: yes
+  become_user: root
+  vars:
+    extra_packages:
+      - postgresql-client
+      - pigz
+
