@@ -1,0 +1,27 @@
+#paths
+
+script_path: /home/ubuntu/galaxy_backup
+backup_path: /mnt/galaxy-backups
+
+swift_backup_container: 'usegalaxy-au-db'
+swift_cred_file: "{{ script_path }}/GenomicsVL_QLD-openrc.sh"
+venv_location: "{{ script_path }}/venv"
+
+#The name of the database to backup
+psql_db: 'galaxy'
+
+#Database connection vars
+db_user: galaxy
+db_password: "{{ vault_pawsey_db_user_password }}"
+db_server: 192.168.0.102
+db_port: 5432
+
+# Retention time variables
+monthly_backup_day: 1  #Monthly backups will run on this day of the month
+weekly_backup_day: 6  #Weekly backups will run on this day of the week
+retention_day: 6       #Keep daily backups for this many days (6 days)
+retention_week: 21     #Keep weekly backups for this many days (21 days = 3 weeks)
+retention_month: 92    #Keep monthly backups for this many days (92 days ~ 3 months)
+
+connection_string: "postgres://{{ db_user }}:{{ db_password }}@{{ db_server }}:{{ db_port }}/{{ psql_db }}"
+

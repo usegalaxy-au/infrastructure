@@ -9,9 +9,17 @@ postgresql_pg_hba_conf:
 
 postgresql_objects_users:
   - name: galaxy
-    password: "{{ galaxy_dev_db_user_password}}"
+    password: "{{ galaxy_dev_db_user_password }}"
     db: galaxy
     priv: "ALL"
+  - name: reader
+    password: "{{ vault_dev_db_reader_password }}"
+    db: galaxy
+postgresql_objects_privileges:
+  - database: galaxy
+    roles: reader
+    objs: ALL_IN_SCHEMA
+    privs: SELECT
 postgresql_objects_databases:
   - name: galaxy
     owner: galaxy

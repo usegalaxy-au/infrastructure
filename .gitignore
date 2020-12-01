@@ -8,7 +8,8 @@ terraform/dev/.terraform
 terraform/staging/.terraform
 terraform/pawsey/.terraform
 terraform/pawsey/terraform*
-terraform/*/.terraform
+terraform/one-offs/*/.terraform
+terraform/one-offs/*/terraform*
 
 # from requirements.yml
 roles/galaxyproject.galaxy/
@@ -27,3 +28,4 @@ roles/usegalaxy_eu.galaxy_systemd/
 roles/insspb.hostname
 roles/galaxyproject.pulsar
 roles/dj-wasabi.telegraf
+roles/usegalaxy_eu.gxadmin
