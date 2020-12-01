@@ -76,6 +76,18 @@ pawsey-w4 ansible_ssh_host=146.118.69.246 internal_ip=192.168.0.109
 pawsey-w5 ansible_ssh_host=146.118.67.233 internal_ip=192.168.0.131
 pawsey-w6 ansible_ssh_host=146.118.69.118 internal_ip=192.168.0.150
 
+# Pulsar servers
+
+[pulsar-paw-head]
+pulsar-paw ansible_ssh_host=146.118.68.128 internal_ip=192.168.0.64
+
+[pulsar-paw-workers]
+pulsar-paw-w1 ansible_ssh_host=146.118.68.43 internal_ip=192.168.0.134
+pulsar-paw-w2 ansible_ssh_host=146.118.67.217 internal_ip=192.168.0.180
+pulsar-paw-w3 ansible_ssh_host=146.118.70.37 internal_ip=192.168.0.138
+pulsar-paw-w4 ansible_ssh_host=146.118.69.218 internal_ip=192.168.0.176
+pulsar-paw-w5 ansible_ssh_host=146.118.70.1 internal_ip=192.168.0.157
+
 [all:vars]
 ansible_host_key_checking=False
 ansible_user=ubuntu

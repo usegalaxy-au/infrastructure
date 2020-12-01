@@ -73,3 +73,9 @@ pip_package: python3-pip
 cvmfs_role: client
 galaxy_cvmfs_repos_enabled: true
 
+#sinfo and squeue configs
+
+SINFO_FORMAT: "%16n %.12C %.6t"
+SQUEUE_FORMAT: "%8i %9P %.35j %.9T %8r %19S %.10M %.6m %.3C %.3N %.55Z"
+SACCT_FORMAT: "jobid%8,partition%9,jobname%30,alloccpus,elapsed,totalcpu,END,state,MaxRSS,ReqMem,NodeList"
+
