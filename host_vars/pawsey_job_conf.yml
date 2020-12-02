@@ -136,7 +136,7 @@ galaxy_jobconf:
           rewrite_parameters: true
           submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8"
           transport: curl
-      # Pulsar mel destinations
+      # Pulsar paw destinations
       - id: pulsar-paw_small
         runner: pulsar-paw_runner
         params:
@@ -172,40 +172,60 @@ galaxy_jobconf:
           transport: curl
       # Pulsar mel3 destinations
       - id: pulsar-mel3_small
-        runner: pulsar_rest
+        runner: pulsar-mel3_runner
         params:
-          url: "https://pulsar-mel3.genome.edu.au/pulsar/"
-          private_token: "DrneV^JJ0ENADx0qWXIRXMp*vh57GA9$7LC^"
+          default_file_action: remote_transfer
+          dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
           submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
-          dependency_resolution: remote
+          transport: curl
       - id: pulsar-mel3_mid
-        runner: pulsar_rest
+        runner: pulsar-mel3_runner
         params:
-          url: "https://pulsar-mel3.genome.edu.au/pulsar/"
-          private_token: "DrneV^JJ0ENADx0qWXIRXMp*vh57GA9$7LC^"
+          default_file_action: remote_transfer
+          dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
           submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=31040"
-          dependency_resolution: remote
+          transport: curl
       - id: pulsar-mel3_big
-        runner: pulsar_rest
+        runner: pulsar-mel3_runner
         params:
-          url: "https://pulsar-mel3.genome.edu.au/pulsar/"
-          private_token: "DrneV^JJ0ENADx0qWXIRXMp*vh57GA9$7LC^"
+          default_file_action: remote_transfer
+          dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
           submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62080"
-          dependency_resolution: remote
+          transport: curl
       - id: pulsar-mel3_big_trinity
-        runner: pulsar_rest
+        runner: pulsar-mel3_runner
         params:
-          url: "https://pulsar-mel3.genome.edu.au/pulsar/"
-          private_token: "DrneV^JJ0ENADx0qWXIRXMp*vh57GA9$7LC^"
-          submit_native_specification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=62080"
+          default_file_action: remote_transfer
           dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
+          submit_native_specification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=62080"
+          transport: curl
       - id: pulsar-mel3_big_canu
-        runner: pulsar_rest
+        runner: pulsar-mel3_runner
         params:
-          url: "https://pulsar-mel3.genome.edu.au/pulsar/"
-          private_token: "DrneV^JJ0ENADx0qWXIRXMp*vh57GA9$7LC^"
-          submit_native_specification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=62080"
+          default_file_action: remote_transfer
           dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
+          submit_native_specification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=62080"
+          transport: curl
     limits:
       #General limits for user submission
       - type: anonymous_user_concurrent_jobs
