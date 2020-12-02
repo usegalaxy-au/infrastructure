@@ -187,14 +187,14 @@ galaxy_config:
 
     sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
 
+    nginx_x_accel_redirect_base: /_x_accel_redirect
+
     # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
 
     # data_manager_config_file: /mnt/galaxy-app/config/data_manager_conf.xml.sample  # should we be templating these?
     
     # migrated_tools_config: /mnt/galaxy/var/migrated_tools_conf.xml
-    # tool_data_table_config_path: '/mnt/galaxy-app/config/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml'
     # builds_file_path: /cvmfs/data.galaxyproject.org/managed/location/builds.txt
-    # shed_tool_data_table_config: /mnt/galaxy/var/shed_tool_data_table_conf.xml
     # datatypes_config_file: /mnt/galaxy-app/config/datatypes_conf.xml
 
     # interactive_environment_plugins_directory: config/plugins/interactive_environments
@@ -215,7 +215,6 @@ galaxy_config:
     # slow_query_log_threshold: .5
 
     # collect_outputs_from: job_working_directory # surely this is not a real path?  Relative to something?
-    # nginx_x_accel_redirect_base: /_x_accel_redirect
     # rsync_url: 'rsync://scofield.bx.psu.edu/indexes'
     # len_file_path: /mnt/galaxy-app/tool-data/len
     #
