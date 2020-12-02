@@ -14,6 +14,13 @@
       groups: devs
       append: true
     with_items: "{{ machine_users }}"
+  - name: Add some env_vars to .bashrcs
+    blockinfile:
+      path: "/home/{{ item.name }}/.bashrc"
+      block: |
+        {{ bashrc_env }}
+      marker: "# {mark} MANAGED BY ANSIBLE - DO NOT MODIFY"
+    with_items: "{{ machine_users }}"
   - name: Add SSH keys for users
     authorized_key:
       user: "{{ item.name }}"
