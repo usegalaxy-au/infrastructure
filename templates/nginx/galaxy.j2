@@ -47,6 +47,11 @@ server {
         include uwsgi_params;
     }
 
+    location /_x_accel_redirect/ {
+        internal;
+        alias /;
+    }
+
     location /robots.txt {
         alias {{ galaxy_server_dir }}/static/robots.txt;
     }
