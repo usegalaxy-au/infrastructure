@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
 <toolbox monitor="true">
     <section id="getext" name="Get Data">
-        <tool file="Galaxy-Owncloud-Integration/Galaxy_OwncloudImportExport/owncloud_import.xml"/>
+        <tool file="Galaxy-Owncloud-Integration/Galaxy_OwncloudImportExport/owncloud_import.xml" labels="beta"/>
     </section>
     <section id="send" name="Send Data">
-        <tool file="Galaxy-Owncloud-Integration/Galaxy_OwncloudImportExport/owncloud_export.xml"/>
+        <tool file="Galaxy-Owncloud-Integration/Galaxy_OwncloudImportExport/owncloud_export.xml" labels="beta"/>
     </section>
 </toolbox>
