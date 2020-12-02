@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ master ]
     paths:
-      - host_vars/pawsey_job_conf.xml
+      - host_vars/pawsey_job_conf.yml
       - files/galaxy/dynamic_job_rules/pawsey/dynamic_rules/tool_destinations.yml
 
 # # A workflow run is made up of one or more jobs that can run sequentially or in parallel
