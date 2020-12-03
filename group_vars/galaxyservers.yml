@@ -130,6 +130,7 @@ galaxy_config:
     id_secret: "{{ __galaxy_config['galaxy']['id_secret']}}"
     file_path: "{{ __galaxy_config['galaxy']['file_path']}}"
     object_store_config_file: "{{ __galaxy_config['galaxy']['object_store_config_file']|default(omit) }}"
+    smtp_server: "{{ __galaxy_config['galaxy']['smtp_server']|default(omit) }}"
 
     allow_user_impersonation: true
     allow_user_deletion: true
@@ -189,6 +190,11 @@ galaxy_config:
 
     nginx_x_accel_redirect_base: /_x_accel_redirect
 
+    statsd_host: localhost
+    statsd_port: 8125
+    statsd_prefix: galaxy-aust
+    
+
     # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
 
     # data_manager_config_file: /mnt/galaxy-app/config/data_manager_conf.xml.sample  # should we be templating these?
@@ -218,10 +224,7 @@ galaxy_config:
     # rsync_url: 'rsync://scofield.bx.psu.edu/indexes'
     # len_file_path: /mnt/galaxy-app/tool-data/len
     #
-    # statsd_host: localhost
-    # statsd_port: 8125
-    # statsd_prefix: galaxy-aust
-    #
+    
     # enable_oidc: true
     # oidc_config_file: config/oidc_config.xml
     # oidc_backends_config_file: config/oidc_backends_config.xml
