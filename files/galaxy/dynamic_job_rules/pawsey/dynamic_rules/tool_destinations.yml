@@ -258,7 +258,7 @@ tools:
     hyphy_absrel:
         default_destination: slurm_16slots
     maxquant:
-        default_destination: pulsar-mel3_big
+        default_destination: slurm_32slots
     fasterq_dump:
         default_destination: slurm_3slots
     fastq_dump:
