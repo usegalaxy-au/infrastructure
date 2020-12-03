@@ -54,6 +54,10 @@ pulsar_pycurl_ssl_library: openssl
 pulsar_systemd: true
 pulsar_systemd_runner: webless
 
+pulsar_user:
+  name: ubuntu
+  shell: /bin/bash
+
 pulsar_ssl_pem: /etc/ssl/certs/host.pem
 
 pulsar_optional_dependencies:
