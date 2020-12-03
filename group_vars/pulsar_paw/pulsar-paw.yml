@@ -17,7 +17,7 @@ galaxy_cvmfs_server_urls:
 grafana_server_url: http://stats.genome.edu.au:8086
 
 # Monitoring
-telegraf_agent_version: 1.16.2
+telegraf_agent_version: 1.16.3
 telegraf_agent_package_method: repo
 telegraf_agent_hostname: "{{ inventory_hostname }}"
 
