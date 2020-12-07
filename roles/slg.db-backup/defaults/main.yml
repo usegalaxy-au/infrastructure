@@ -1,10 +1,12 @@
 #paths
 
-script_path: /home/ubuntu/galaxy_backup
-backup_path: /mnt/galaxy-backups
+script_path: ~/galaxy_backup
+backup_path: ~/galaxy-backups
 
-swift_backup_container: 'usegalaxy-au-db'
-swift_cred_file: "{{ script_path }}/GenomicsVL_QLD-openrc.sh"
+use_swift: false
+
+swift_backup_container: ""
+swift_cred_file: ""
 venv_location: "{{ script_path }}/venv"
 
 #The name of the database to backup
@@ -12,8 +14,8 @@ psql_db: 'galaxy'
 
 #Database connection vars
 db_user: galaxy
-db_password: "{{ vault_pawsey_db_user_password }}"
-db_server: 192.168.0.102
+db_password: ""
+db_server: localhost
 db_port: 5432
 
 # Retention time variables
