@@ -1,7 +1,6 @@
 <?xml version="1.0" ?>
 <toolbox monitor="true">
- 
-    <label id="file_and_meta_tools" text="FILE AND META TOOLS" />
+    <label id="file_and_meta_tools" text="FILE AND META TOOLS"/>
     <section id="getext" name="Get Data">
         <tool file="data_source/upload.xml"/>
         <tool file="data_source/ucsc_tablebrowser.xml"/>
@@ -23,6 +22,8 @@
         <tool file="data_source/zebrafishmine.xml"/>
         <tool file="data_source/eupathdb.xml"/>
         <tool file="data_source/hbvar.xml"/>
+        <tool file="data_source/gramene_mart.xml"/>
+        <tool file="data_source/metabolicmine.xml"/>
     </section>
     <section id="send" name="Send Data">
         <tool file="cloud/send.xml"/>
@@ -42,8 +43,7 @@
         <tool file="${model_tools_path}/build_list.xml"/>
         <tool file="${model_tools_path}/extract_dataset.xml"/>
     </section>
-
-    <label id="general_text_tools" text="GENERAL TEXT TOOLS" />
+    <label id="general_text_tools" text="GENERAL TEXT TOOLS"/>
     <section id="textutil" name="Text Manipulation">
         <tool file="filters/fixedValueColumn.xml"/>
         <tool file="filters/catWrapper.xml"/>
@@ -77,7 +77,6 @@
         <tool file="filters/compare.xml"/>
         <tool file="stats/grouping.xml"/>
     </section>
-
     <label id="genomic_file_manipulation" text="Genomic File Manipulation"/>
     <section id="fastafastq" name="FASTA/FASTQ">
     </section>
@@ -100,12 +99,16 @@
         <tool file="filters/sff_extractor.xml"/>
         <tool file="filters/wig_to_bigwig.xml"/>
         <tool file="filters/bed_to_bigbed.xml"/>
+        <tool file="filters/axt_to_concat_fasta.xml"/>
+        <tool file="filters/axt_to_fasta.xml"/>
+        <tool file="filters/axt_to_lav.xml"/>
+        <tool file="filters/lav_to_bed.xml"/>
+        <tool file="filters/gtf2bedgraph.xml"/>
     </section>
     <section id="liftOver" name="Lift-Over">
         <tool file="extract/liftOver_wrapper.xml"/>
     </section>
-
-    <label id="common_genomics" text="Common Genomics Tools" />
+    <label id="common_genomics" text="Common Genomics Tools"/>
     <section id="bxops" name="Operate on Genomic Intervals">
         <tool file="filters/wiggle_to_simple.xml"/>
         <tool file="stats/aggregate_binned_scores_in_intervals.xml"/>
@@ -129,8 +132,7 @@
         <tool file="maf/maf_reverse_complement.xml"/>
         <tool file="maf/maf_filter.xml"/>
     </section>
-
-    <label id="specific_genomics" text="Genomics Analysis" />
+    <label id="specific_genomics" text="Genomics Analysis"/>
     <section id="assembly" name="Assembly">
     </section>
     <section id="annotation" name="Annotation">
@@ -167,13 +169,11 @@
     </section>
     <section id="viral_tools" name="Viral Tools">
     </section>
-
-    <label id="metagenomics" text="METAGENOMICS" />
+    <label id="metagenomics" text="METAGENOMICS"/>
     <section id="mothur" name="Mothur">
     </section>
     <section id="metagenomic_analysis" name="Metagenomic Analysis">
     </section>
-
     <label id="proteomics_metabolomics" text="PROTEOMICS, METABOLOMICS"/>
     <section id="proteomics" name="Proteomics">
     </section>
@@ -181,8 +181,7 @@
     </section>
     <section id="chemicaltoolbox" name="ChemicalToolBox">
     </section>
-
-    <label id="genomics_toolkits" text="Genomics Toolkits" />
+    <label id="genomics_toolkits" text="Genomics Toolkits"/>
     <section id="picard" name="Picard">
     </section>
     <section id="deeptools" name="DeepTools">
@@ -203,14 +202,15 @@
     </section>
     <section id="hicexplorer" name="HiCExplorer">
     </section>
-
-    <label id="statistics_and_visualisation" text="STATISTICS AND VISUALISATION" />
+    <label id="statistics_and_visualisation" text="STATISTICS AND VISUALISATION"/>
     <section id="stats" name="Statistics">
         <tool file="stats/gsummary.xml"/>
         <tool file="filters/uniq.xml"/>
     </section>
     <section id="plots" name="Graph/Display Data">
         <tool file="maf/vcf_to_maf_customtrack.xml"/>
+        <tool file="plotting/bar_chart.xml"/>
+        <tool file="plotting/boxplot.xml"/>
     </section>
     <section id="machine_learning" name="Machine Learning">
     </section>
