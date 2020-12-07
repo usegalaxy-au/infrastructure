@@ -102,6 +102,7 @@ sed -i "s/\.\///" search_file.tmp
 echo '  Contents of search_file.tmp' >> $LOGFILE
 cat 'search_file.tmp' >> $LOGFILE
 
+{% if use_swift == true %}
 . ${SWIFT_CRED_FILE}
 
 set +o nounset
@@ -110,12 +111,16 @@ set -o nounset
 
 swift --quiet upload --segment-size 2000000000 ${SWIFT_BACKUP_CONTAINER} ${backup_filename}
 
+{% end if %}
+
 for f in $(<search_file.tmp)
     do
         echo $f
+        {% if use_swift == true %}
         echo '  Deleting on swift: '$f >> $LOGFILE
         #delete cloud copy
         swift delete ${SWIFT_BACKUP_CONTAINER} $f
+        {% end if %}
         #delete local copy
         rm $f
     done
