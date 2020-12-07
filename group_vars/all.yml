@@ -64,7 +64,9 @@ common_packages:
     - apt-transport-https
     - tar
     - bzip2
-    - libgl1-mesa-glx 
+    - libgl1-mesa-glx
+    - unzip
+    - tree
 
 #Set pip to be pip3 by default - see roles/geerlingguy.pip/defaults/main.yml
 pip_package: python3-pip
