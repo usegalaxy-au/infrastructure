@@ -10,7 +10,11 @@ certbot_domains:
 - "usegalaxy.org.au"
 - "www.usegalaxy.org.au"
 
-# Use cloudstor branch and extra tool_conf file and user prefs for cloudstor tool
+# galaxy_repo: https://github.com/galaxyproject/galaxy.git
+galaxy_repo: https://github.com/usegalaxy-au/galaxy.git  # usegalaxy-au fork of galaxy
+galaxy_commit_id: release_20.05_cloudstor
+
+# Use extra tool_conf file and user prefs for cloudstor tool
 use_cloudstor_conf: true
 
 # variables for attaching mounted volume to application server

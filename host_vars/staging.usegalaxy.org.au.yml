@@ -10,6 +10,9 @@ nfs_exports:
     - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
 
 # ansible-galaxy
+galaxy_repo: https://github.com/galaxyproject/galaxy.git
+galaxy_commit_id: release_20.05
+
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/staging
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
