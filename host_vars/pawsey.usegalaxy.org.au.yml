@@ -88,3 +88,10 @@ galaxy_db_password: "{{ vault_pawsey_db_user_password }}"
 reader_db_password: "{{ vault_pawsey_db_reader_password }}"
 db_address: "{{ hostvars['pawsey-db']['internal_ip'] }}"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
+
+# vars for stats_collection
+stats_dir: /home/ubuntu/stats_collection/
+db_server: "{{ hostvars['pawsey-db']['internal_ip'] }}"
+influx_url: "http://stats.genome.edu.au:8086"
+db_password: "{{ galaxy_user_db_password }}"
+influx_salt: "{{ pawsey_queue_size_salt }}"

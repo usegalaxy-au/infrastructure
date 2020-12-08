@@ -1,0 +1,83 @@
+- name: Create stats dir
+  file:
+    path: "{{ stats_dir }}"
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+
+- name: Copy requirements file
+  copy:
+    src: files/requirements.txt
+    dest: "{{ stats_dir }}/requirements.txt"
+    mode: 0755
+
+- name: Create virtualenv
+  pip:
+    virtualenv: "{{ virtualenv_dir }}"
+    requirements: "{{ stats_dir }}/requirements.txt"
+
+- name: copy galaxy_queue_size.py
+  template:
+    src: templates/galaxy_queue_size.py.j2
+    dest: "{{ stats_dir}}/galaxy_queue_size.py"
+    mode: 0755
+    owner: ubuntu
+    group: ubuntu
+
+- name: copy current_stats
+  template:
+    src: templates/current_stats.sh.j2
+    dest: "{{ stats_dir }}/current_stats.sh"
+    mode: 0755
+    owner: ubuntu
+    group: ubuntu
+
+- name: copy daily_stats
+  template:
+    src: templates/daily_stats.sh.j2
+    dest: "{{ stats_dir }}/daily_stats.sh"
+    mode: 0755
+    owner: ubuntu
+    group: ubuntu
+
+- name: Create secret.yml
+  template:
+    src: templates/secret.yml.j2
+    dest: "{{ stats_dir }}/secret.yml"
+    mode: 0600
+    owner: ubuntu
+    group: ubuntu
+
+- name: Add env string to cron
+  cron:
+    name: SINFO_FORMAT
+    env: yes
+    job: "{{ sinfo_format }}"
+  become: yes
+  become_user: ubuntu
+
+- name: Create cron job for galaxy_queue_size.py
+  cron:
+    name: "galaxy_queue_size"
+    minute: "*"
+    job: "{{ virtualenv_dir }}/bin/python {{ stats_dir }}/galaxy_queue_size.py main {{ galaxy_config_dir }}/job_conf.xml"
+  become: yes
+  become_user: ubuntu
+
+- name: Create cron job for daily stats
+  cron:
+    name: "daily_stats"
+    minute: "30"
+    hour: "10"
+    job: "bash {{ stats_dir }}/daily_stats.sh"
+  become: yes
+  become_user: ubuntu
+
+- name: Create cron job for current stats
+  cron:
+    name: "current_stats"
+    minute: "30"
+    hour: "10"
+    job: "bash {{ stats_dir }}/current_stats.sh"
+  become: yes
+  become_user: ubuntu
