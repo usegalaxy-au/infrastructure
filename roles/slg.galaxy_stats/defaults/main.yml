@@ -1,0 +1,30 @@
+# Stats scripts directory
+stats_dir: ~/stats_collection
+
+# DB Settings
+db_server: localhost
+database: galaxy
+db_user: galaxy
+db_port: 5432
+db_password: ""
+
+# Galaxy settings
+galaxy_root: /mnt/galaxy/galaxy-app/
+galaxy_config_dir: /mnt/galaxy/config/
+galaxy_config_file: "{{galaxy_config_dir}}/galaxy.yml"
+galaxy_mutable_config_dir: /mnt/galaxy/var/
+galaxy_log_dir: /var/log/galaxy
+
+#Influx settings
+influx_url: "localhost"
+influx_db: GA_server
+influx_db_queue: galaxy_aust
+
+#Virtualenv
+virtualenv_dir: "{{ stats_dir }}/venv"
+
+#sinfo format string
+sinfo_format: "%16n %.10C %.6t"
+
+#db connection string
+connection_string: "postgres://{{ db_user }}:{{ db_password }}@{{ db_server }}:{{ db_port }}/{{ database }}"

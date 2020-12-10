@@ -1,0 +1,33 @@
+#!/usr/bin/env bash -l
+
+# [SLG 05-12-2018] Added some psql environment variables
+export PGHOST={{ db_server }}
+export PGDATABASE={{ database }}
+export PGUSER={{ db_user }}
+export PGPORT={{ db_port }}
+
+# [SLG 04-02-2019] Added some environment vars for gxadmin
+export GALAXY_ROOT="{{ galaxy_root }}"
+export GALAXY_CONFIG_FILE="{{ galaxy_config_file }}"
+export GALAXY_CONFIG_DIR="{{ galaxy_config_dir }}"
+export GALAXY_MUTABLE_CONFIG_DIR="{{ galaxy_mutable_config_dir }}"
+export GALAXY_LOG_DIR="{{ galaxy_log_dir }}"
+export INFLUX_URL="{{ influx_url }}"
+export INFLUX_DB="{{ influx_db }}"
+
+if [ -f current_slurp.txt ]; then
+    rm current_slurp.txt
+fi
+
+echo "Running gxadmin slurp"
+
+gxadmin meta slurp-current $(date --date="1 day ago" +%Y-%m-%d) > current_slurp.txt
+
+myfilesize=$(stat --format=%s "current_slurp.txt")
+echo "$myfilesize"
+
+echo "sending slurp to influx"
+
+curl --silent -XPOST "http://${INFLUX_URL}/write?db=${INFLUX_DB}" --data-binary @current_slurp.txt
+
+echo "done"

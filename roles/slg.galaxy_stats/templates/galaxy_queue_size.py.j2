@@ -1,0 +1,166 @@
+#!{{ virtualenv_dir }}/bin/python
+import sys
+import yaml
+import argparse
+import datetime
+
+import psycopg2
+from influxdb import InfluxDBClient
+import xml.etree.ElementTree as ET
+import re
+import subprocess
+
+secrets = yaml.safe_load(open('{{ stats_dir }}/secret.yml', 'r'))
+SALT = secrets['salt']
+TOP_USAGE_LIMIT = 30
+PGCONNS = secrets['pgconn']
+
+time = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
+def get_destinations(job_conf):
+    jc = ET.parse(job_conf)
+    root = jc.getroot()
+    destinations=[]
+    for child in root:
+        if child.tag == "destinations":
+            for dest in child:
+                if dest.attrib['id'] != 'dynamic_dtd':
+                    destinations.append(dest.attrib['id'])
+    return destinations
+
+def queue_monitor_v2():
+    return """
+        SELECT
+            tool_id, tool_version, destination_id, handler, state, job_runner_name, count(*) as count
+        FROM job
+        WHERE
+            state = 'running' or state = 'queued'
+        GROUP BY
+            tool_id, tool_version, destination_id, handler, state, job_runner_name;
+    """
+
+
+def make_measurement(measurement, value, tags=None):
+    m = {
+        'measurement': measurement,
+        'time': time,
+        'fields': {
+            'value': value
+        }
+    }
+    if tags:
+        m['tags'] = tags
+    return m
+
+
+def pg_execute(pconn_str, sql):
+    pconn = psycopg2.connect(pconn_str)
+    pc = pconn.cursor()
+    pc.execute(sql)
+    for row in pc:
+        yield row
+    pconn.close()
+
+
+def collect(instance,dests):
+    measurements = []
+    queued = 0
+    running = 0
+    dest_counts = {}
+    for dest in dests:
+        dest_counts[dest] = {'queued': 0, 'running': 0}
+
+    pconn_str = PGCONNS[instance]
+    for row in pg_execute(pconn_str, queue_monitor_v2()):
+        tags = {
+            'tool': row[0],
+            'tool_version': row[1],
+            'destination': row[2],
+            'handler': row[3],
+            'state': row[4],
+            'cluster': row[5],
+        }
+        if row[4] == 'queued' or row[4] == 'running':
+            dest_counts[row[2]][row[4]] += row[6]
+        if row[4] == 'queued':
+            queued += row[6]
+        if row[4] == 'running':
+            running += row[6]
+        measurements.append(make_measurement('job_queue', float(row[6]), tags=tags))
+    for dc in dest_counts:
+        tags = {'destination': dc, 'state': 'running'}
+        measurements.append(make_measurement('queue_totals', float(dest_counts[dc]['running']), tags=tags))
+        tags = {'destination': dc, 'state': 'queued'}
+        measurements.append(make_measurement('queue_totals', float(dest_counts[dc]['queued']), tags=tags))
+    tags = {'state': 'queued'}
+    measurements.append(make_measurement('queue_agg', float(queued), tags=tags))
+    tags = {'state': 'running'}
+    measurements.append(make_measurement('queue_agg', float(running), tags=tags))
+    return measurements
+
+def get_sinfo():
+    total_cpus = 0
+    cpus_allocated = 0
+    m = []
+    sout = subprocess.check_output(['sinfo']).split('\n')
+    #eprint(sout)
+    for line in sout:
+        if line.startswith('g'):
+            capts = re.search(r"(\w+-\w+-\w+)\s+(\d+)/\d+/\d+/(\d+)\s+(\w+)",line)
+            node = str(capts.groups()[0])
+            node_alloc = float(capts.groups()[1])
+            node_cpus = float(capts.groups()[2])
+            node_state = str(capts.groups()[3])
+            node_percent = node_alloc / node_cpus * 100.0
+            total_cpus += node_cpus
+            cpus_allocated += node_alloc
+            m.append({ 
+                'measurement': 'node_sinfo', 
+                'time': time, 
+                'fields': { 
+                    'node_alloc': node_alloc, 
+                    'node_cpus': node_cpus, 
+                    'node_percent': node_percent,
+                    'node_state': node_state
+                    },
+                'tags': {
+                    'node': node
+                    }
+                })
+    percent = cpus_allocated / total_cpus * 100.0
+    #eprint(str(cpus_allocated),str(total_cpus),str(percent), sep="---")
+    m.append({
+        'measurement': 'sinfo',
+        'time': time,
+        'fields': {
+            'total_cpus': total_cpus,
+            'cpus_allocated': cpus_allocated,
+            'percent_allocated': percent
+        }
+    })
+    return m
+
+def dump(instance, points):
+    client = InfluxDBClient(**secrets['influxdb'])
+    client.create_database(secrets['influxdb']['database'])
+    client.write_points(points)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Translate Galaxy DB stats from PostgreSQL to InfluxDB")
+    parser.add_argument('instance', default='main', help="Galaxy instance")
+    parser.add_argument('job_conf', default="{{ galaxy_config_dir }}/job_conf.xml", help="The Galaxy Job Conf file")
+    args = parser.parse_args()
+    destinations = get_destinations(args.job_conf)
+    points = collect(args.instance,destinations)
+    dump(args.instance, points)
+    sinfo = get_sinfo()
+    dump(args.instance, sinfo)
+    #print(sinfo)
+
+
+if __name__ == '__main__':
+    main()
