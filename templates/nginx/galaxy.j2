@@ -52,6 +52,10 @@ server {
         alias /;
     }
 
+    location /training-material/ {
+        proxy_pass https://training.galaxyproject.org/training-material/;
+    }
+
     location /robots.txt {
         alias {{ galaxy_server_dir }}/static/robots.txt;
     }
