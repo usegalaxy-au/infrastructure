@@ -171,11 +171,7 @@ galaxy_config:
     galaxy_data_manager_data_path: "{{ galaxy_tools_indices_dir }}/custom-indices"
     shed_tool_data_path: "{{ galaxy_tools_indices_dir }}/tool-data/shed_tool_data"
     tool_data_path: "{{ galaxy_tools_indices_dir }}/tool-data"
-
-    tool_data_table_config_path:
-      - "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml"
-      - /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
-      - /cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
+    tool_data_table_config_path: "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
 
     library_import_dir: "{{ galaxy_tmp_dir }}/library_import_dir"
     cluster_files_directory: "{{ galaxy_tmp_dir }}/pbs"
