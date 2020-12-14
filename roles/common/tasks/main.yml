@@ -126,3 +126,10 @@
 
 - name: Add machine users
   import_tasks: machine_users.yml
+
+- name: Make sure cloud configured hostname control is not present
+  file:
+    path: /etc/cloud/cloud.cfg.d/07_hostnamefix.cfg
+    state: absent
+  become: yes
+  become_user: root
