@@ -82,6 +82,7 @@ __galaxy_config:
     file_path: /mnt/user-data
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     smtp_server: localhost
+    ga_code: "{{ vault_pawsey_ga_code }}"
 
 
 # cvmfs

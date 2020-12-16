@@ -125,6 +125,7 @@ galaxy_config:
     file_path: "{{ __galaxy_config['galaxy']['file_path']}}"
     object_store_config_file: "{{ __galaxy_config['galaxy']['object_store_config_file']|default(omit) }}"
     smtp_server: "{{ __galaxy_config['galaxy']['smtp_server']|default(omit) }}"
+    ga_code: "{{ __galaxy_config['galaxy']['ga_code']|default(omit) }}"
 
     allow_user_impersonation: true
     allow_user_deletion: true
