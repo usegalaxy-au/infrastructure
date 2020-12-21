@@ -123,19 +123,19 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 100 MB
-              destination: pulsar-mel3_big
+              destination: slurm_16slots
             - rule_type: file_size
               nice_value: 0
               lower_bound: 100 MB
               upper_bound: 30 GB
-              destination: pulsar-mel3_big_trinity
+              destination: slurm_32slots
             - rule_type: file_size
               nice_value: 0
               lower_bound: 30 GB
               upper_bound: Infinity
               destination: fail
               fail_message: Too much data, we cannot support such large Trinity assemblies with our backend. Please use another server for your job.
-        default_destination: pulsar-mel3_big_trinity
+        default_destination: slurm_32slots
     trinity_align_and_estimate_abundance:
         default_destination: pulsar-mel3_big_trinity
     ggplot2_point:
