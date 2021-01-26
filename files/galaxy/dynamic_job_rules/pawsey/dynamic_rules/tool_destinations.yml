@@ -631,8 +631,6 @@ tools:
         default_destination: slurm_5slots
     fml_gtf2gff:
         default_destination: slurm_3slots
-    wig_to_bigWig:
-        default_destination: slurm_5slots
     gops_join_1:
         default_destination: slurm_5slots
     sam_merge2:
@@ -809,8 +807,6 @@ tools:
     macs2_bdgdiff:
         default_destination: slurm_5slots
     gatk2_variant_recalibrator:
-        default_destination: slurm_5slots
-    gatk2_unified_genotyper:
         default_destination: slurm_5slots
     gatk2_print_reads:
         default_destination: slurm_5slots
