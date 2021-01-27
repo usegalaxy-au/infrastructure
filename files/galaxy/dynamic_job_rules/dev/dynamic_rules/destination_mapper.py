@@ -2,8 +2,8 @@
 
 import os
 
-from galaxy.jobs import JobDestination
-from galaxy.jobs.mapper import JobMappingException
+# from galaxy.jobs import JobDestination
+# from galaxy.jobs.mapper import JobMappingException
 
 from galaxy.jobs.dynamic_tool_destination import map_tool_to_destination
 from random import sample
