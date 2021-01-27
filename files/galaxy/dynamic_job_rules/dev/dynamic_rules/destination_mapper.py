@@ -10,6 +10,7 @@ from random import sample
 
 TOOL_DESTINATION_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'tool_destinations.yml')
 
+pulsar_user_destinations = {'pulsar_user@usegalaxy.org.au': 'pulsar_destination'}
 
 def gateway(job, app, tool, user_email):
     """
@@ -20,6 +21,11 @@ def gateway(job, app, tool, user_email):
     Arguments to this function can include app, job, job_id, job_wrapper, tool, tool_id,
     user, user_email (see https://docs.galaxyproject.org/en/latest/admin/jobs.html)
     """
+
+    if user_email in pulsar_user_destinations.keys():
+        if hasattr(tool, 'id') and isinstance(tool.id, str) and tool.id.startswith('toolshed'):  # map shed tools only
+            return pulsar_user_destinations[user_email]
+
     destination = map_tool_to_destination(job, app, tool, user_email, path=TOOL_DESTINATION_PATH)
     return destination
 
