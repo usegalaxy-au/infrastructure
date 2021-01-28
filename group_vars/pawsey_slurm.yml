@@ -40,12 +40,12 @@ slurm_nodes:
       RealMemory: 125812
       State: UNKNOWN
     - name: pawsey-queue
-      NodeAddr: "{{ hostvars['pawsey-queue']['internal_ip'] }}"
+      NodeAddr: "{{ hostvars['pawsey-queue']['ansible_ssh_host'] }}"
       CPUs: 4
       RealMemory: 15638
       State: UNKNOWN
     - name: pawsey
-      NodeAddr: "{{ hostvars['pawsey']['internal_ip'] }}"
+      NodeAddr: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"
       CPUs: 16
       RealMemory: 62815
       State: UNKNOWN
