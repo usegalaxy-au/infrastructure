@@ -631,8 +631,6 @@ tools:
         default_destination: slurm_5slots
     fml_gtf2gff:
         default_destination: slurm_3slots
-    wig_to_bigWig:
-        default_destination: slurm_5slots
     gops_join_1:
         default_destination: slurm_5slots
     sam_merge2:
@@ -810,8 +808,6 @@ tools:
         default_destination: slurm_5slots
     gatk2_variant_recalibrator:
         default_destination: slurm_5slots
-    gatk2_unified_genotyper:
-        default_destination: slurm_5slots
     gatk2_print_reads:
         default_destination: slurm_5slots
     gatk2_indel_realigner:
@@ -841,8 +837,24 @@ tools:
     gatk2_variant_annotator:
         default_destination: slurm_5slots
     ncbi_blastn_wrapper:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              destination: pulsar-mel3_mid
+              lower_bound: 0
+              upper_bound: 1 GB
+              users:
+                  - i.makunin@uq.edu.au
         default_destination: slurm_5slots
     ncbi_blastp_wrapper:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              destination: pulsar-mel3_mid
+              lower_bound: 0
+              upper_bound: 1 GB
+              users:
+                  - i.makunin@uq.edu.au
         default_destination: slurm_5slots
     kraken:
         rules:
