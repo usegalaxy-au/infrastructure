@@ -49,7 +49,6 @@
                 state: directory
                 owner: root
                 group: root
-<<<<<<< HEAD
                 mode: 01777
           - stat:
                 path: /tmp
@@ -67,11 +66,4 @@
             become: yes
             become_user: root
             when: links.stat.islnk is defined and not links.stat.islnk
-=======
-                mode: 1777
-          - name: Move /tmp to vdc
-            command: "rm -r /tmp && ln -s /mnt/tmpdisk /tmp"
-            become: yes
-            become_user: root
->>>>>>> Added moving /tmp to vdc for worker nodes
         when: attached_volume_device is defined
