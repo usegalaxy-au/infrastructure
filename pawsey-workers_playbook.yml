@@ -41,3 +41,17 @@
         systemd:
             name: munge
             state: restarted
+      - name: Move /tmp to vdc
+        block:
+          - name: Create worker tmpdir on vdc
+            file:
+                path: /mnt/tmpdisk
+                state: directory
+                owner: root
+                group: root
+                mode: 1777
+          - name: Move /tmp to vdc
+            command: "rm -r /tmp && ln -s /mnt/tmpdisk /tmp"
+            become: yes
+            become_user: root
+        when: attached_volume_device is defined
