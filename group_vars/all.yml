@@ -75,9 +75,25 @@ pip_package: python3-pip
 cvmfs_role: client
 galaxy_cvmfs_repos_enabled: true
 
+galaxy_cvmfs_server_urls:
+  - domain: galaxyproject.org
+    use_geoapi: yes
+    urls:
+      - "http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@"
+      - "http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@"
+      - "http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@"
+      - "http://cvmfs1-mel0.gvl.org.au/cvmfs/@fqrn@"
+      - "http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
+
 #sinfo and squeue configs
 bashrc_env: |
   export SINFO_FORMAT="%16n %.12C %.6t"
   export SQUEUE_FORMAT="%8i %9P %.35j %.9T %8r %19S %.10M %.6m %.3C %.3N %.55Z"
   export SACCT_FORMAT="jobid%8,partition%9,jobname%30,alloccpus,elapsed,totalcpu,END,state,MaxRSS,ReqMem,NodeList"
 
+# Monitoring
+grafana_server_url: http://stats.genome.edu.au:8086
+
+telegraf_agent_version: 1.17.2
+telegraf_agent_package_method: repo
+telegraf_agent_hostname: "{{ inventory_hostname }}"
