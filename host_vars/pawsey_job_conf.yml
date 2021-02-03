@@ -102,6 +102,10 @@ galaxy_jobconf:
         runner: slurm
         params:
           nativeSpecification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=124160"
+      - id: slurm_9slots_1off
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=9 --ntasks-per-node=9 --mem=34920"
       # Pulsar mel destinations
       - id: pulsar-mel_small
         runner: pulsar_mel2_runner
@@ -259,6 +263,9 @@ galaxy_jobconf:
         value: 2
       - type: destination_user_concurrent_jobs
         id: slurm_32slots
+        value: 1
+      - type: destination_total_concurrent_jobs
+        id: slurm_9slots_1off
         value: 1
       #Pulsar Mel limits
       - type: destination_user_concurrent_jobs

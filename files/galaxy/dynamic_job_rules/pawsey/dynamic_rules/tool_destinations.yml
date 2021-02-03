@@ -1296,6 +1296,8 @@ tools:
         default_destination: slurm_16slots
     limma_voom:
         default_destination: slurm_7slots
+    gffread:
+        default_destination: slurm_9slots_1off
     #
     # Data managers
     #
