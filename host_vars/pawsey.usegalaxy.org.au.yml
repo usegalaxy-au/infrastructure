@@ -75,7 +75,7 @@ __galaxy_config:
       - lib/galaxy/main.py
     farm: job-handlers:1,2,3,4,5
   galaxy:
-    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on pawsey
+    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},{{ bpa_email }}" # everyone is an admin on pawsey
     brand: "Australia"
     database_connection: "postgres://galaxy:{{ vault_pawsey_db_user_password }}@{{ hostvars['pawsey-db']['internal_ip'] }}:5432/galaxy"
     id_secret: "{{ vault_pawsey_id_secret }}"
