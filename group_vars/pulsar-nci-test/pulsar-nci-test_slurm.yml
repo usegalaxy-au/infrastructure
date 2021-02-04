@@ -1,0 +1,46 @@
+
+auth_key_user: ubuntu
+
+head_nodes: "{{ groups['pulsar-nci-test-head'] }}"
+worker_nodes: "{{ groups['pulsar-nci-test-workers'] }}"
+
+# SLURM
+slurm_nodes:
+    - name: pulsar-nci-test
+      NodeAddr: "{{ hostvars['pulsar-nci-test']['internal_ip'] }}"
+      CPUs: 8
+      RealMemory: 16380
+      State: UNKNOWN
+    - name: pulsar-nci-test-w1
+      NodeAddr: "{{ hostvars['pulsar-nci-test-w1']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-test-w2
+      NodeAddr: "{{ hostvars['pulsar-nci-test-w2']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+
+slurm_partitions:
+    - name: main
+      nodes: "pulsar-nci-test-w1,pulsar-nci-test-w2"
+      Default: YES
+      MaxTime: INFINITE
+      State: UP
+
+slurm_config:
+    #SlurmDBd includes
+    AccountingStorageType: accounting_storage/slurmdbd
+    AccountingStorageHost: localhost
+    JobAcctGatherType: jobacct_gather/linux
+    ControlMachine: pulsar-nci-test
+    SlurmctldPidFile: /run/slurmctld.pid
+    SlurmdPidFile: /run/slurmd.pid
+    # SCHEDULING
+    FastSchedule: 2
+    SchedulerType: sched/backfill
+    SelectType: select/cons_res
+    SelectTypeParameters: CR_CPU,CR_LLN
+
+slurm_munge_key: files/keys/munge.key

@@ -1,0 +1,17 @@
+slurm_roles: ['exec']
+
+add_hosts_head: yes
+
+shared_mounts:
+    - path: /mnt/galaxy
+      src: pulsar-nci-test:/mnt/galaxy
+      fstype: nfs
+      state: mounted
+    - path: /mnt/pulsar
+      src: pulsar-nci-test:/mnt/pulsar
+      fstype: nfs
+      state: mounted
+
+
+# cvmfs
+cvmfs_cache_base: /mnt/var/lib/cvmfs

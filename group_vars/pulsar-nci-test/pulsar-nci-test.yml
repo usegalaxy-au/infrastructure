@@ -1,0 +1,15 @@
+galaxy_uid: 10010
+galaxy_gid: 10010
+
+use_internal_ips: false
+
+# cvmfs
+cvmfs_cache_base: /mnt/var/lib/cvmfs
+
+# Monitoring
+telegraf_agent_output:
+  - type: influxdb
+    config:
+      - urls = ["{{ grafana_server_url }}"]
+      - database = "pulsar-nci-test"
+      - precision = "s"
