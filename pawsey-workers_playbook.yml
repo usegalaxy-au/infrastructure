@@ -50,7 +50,8 @@
                 owner: root
                 group: root
                 mode: 01777
-          - stat:
+          - name: stat links
+            stat:
                 path: /tmp
             register: links
           - name: remove old tmp
