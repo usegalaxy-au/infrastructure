@@ -49,12 +49,20 @@
                 state: directory
                 owner: root
                 group: root
-                mode: 1777
+                mode: 01777
           - stat:
                 path: /tmp
             register: links
-          - name: Move /tmp to vdc
-            command: "rm -r /tmp && ln -s /mnt/tmpdisk /tmp"
+          - name: remove old tmp
+            file:
+                path: /tmp
+                state: absent
+            when: links.stat.islnk is defined and not links.stat.islnk
+          - name: Link /tmp to /mnt/tmpdisk
+            file:
+                src: /mnt/tmpdisk
+                dest: /tmp
+                state: link
             become: yes
             become_user: root
             when: links.stat.islnk is defined and not links.stat.islnk
