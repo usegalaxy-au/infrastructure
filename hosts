@@ -102,6 +102,14 @@ pulsar-mel3-w3 ansible_ssh_host=115.146.93.251
 pulsar-mel3-w4 ansible_ssh_host=45.113.234.64
 pulsar-mel3-w5 ansible_ssh_host=115.146.92.171
 
+[pulsar-nci-test-head]
+pulsar-nci-test ansible_ssh_host=130.56.246.138 internal_ip=10.0.2.29
+
+[pulsar-nci-test-workers]
+pulsar-nci-test-w1 ansible_ssh_host=130.56.246.207 internal_ip=10.0.0.20
+pulsar-nci-test-w2 ansible_ssh_host=130.56.246.186 internal_ip=10.0.1.48
+
+
 [all:vars]
 ansible_host_key_checking=False
 ansible_user=ubuntu
