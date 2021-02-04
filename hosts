@@ -77,7 +77,7 @@ pawsey-w2 ansible_ssh_host=146.118.69.247 internal_ip=192.168.0.199
 pawsey-w3 ansible_ssh_host=146.118.66.35 internal_ip=192.168.0.103
 pawsey-w4 ansible_ssh_host=146.118.69.246 internal_ip=192.168.0.109
 pawsey-w5 ansible_ssh_host=146.118.67.237 internal_ip=192.168.0.83
-#pawsey-w6 ansible_ssh_host=146.118.68.97 internal_ip=192.168.0.152
+pawsey-w6 ansible_ssh_host=146.118.68.97 internal_ip=192.168.0.152
 
 
 # Pulsar servers
