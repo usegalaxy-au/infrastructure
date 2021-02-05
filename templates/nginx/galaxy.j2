@@ -63,4 +63,12 @@ server {
     location /favicon.ico {
         alias {{ galaxy_server_dir }}/static/favicon.ico;
     }
+
+    location /reports/ {
+        uwsgi_pass           127.0.0.1:9001;
+        uwsgi_param          UWSGI_SCHEME $scheme;
+        include              uwsgi_params;
+        auth_basic "Restricted Content";
+        auth_basic_user_file /etc/nginx/.htpasswd;
+    }
 }

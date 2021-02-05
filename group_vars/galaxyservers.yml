@@ -21,6 +21,7 @@ galaxy_systemd_mode: mule
 galaxy_zergpool_listen_addr: 127.0.0.1:8080
 galaxy_restart_handler_name: "Restart Galaxy"
 galaxy_systemd_zergling_env: DRMAA_LIBRARY_PATH="/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+galaxy_systemd_reports: true
 
 # Certbot
 certbot_auto_renew_hour: "{{ 23 |random(seed=inventory_hostname)  }}"
@@ -52,6 +53,7 @@ nginx_conf_http:
 nginx_ssl_role: usegalaxy_eu.certbot
 nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
 nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
+create_nginx_htpasswd: true
 
 # Galaxy
 
@@ -228,6 +230,8 @@ galaxy_config_templates:
     dest: "{{ galaxy_server_dir }}/static/welcome.html"
   - src: "{{ galaxy_config_template_src_dir }}/config/job_conf.xml.j2"
     dest: "{{ galaxy_config_dir}}/job_conf.xml"
+  - src: "{{ galaxy_config_template_src_dir }}/config/reports.yml.j2"
+    dest: "{{ galaxy_config_dir }}/reports.yml"
 
 galaxy_config_file_src_dir: files/galaxy
 galaxy_config_files:

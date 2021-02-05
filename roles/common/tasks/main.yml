@@ -135,3 +135,13 @@
     state: absent
   become: yes
   become_user: root
+
+- name: Create a nginx .htpasswd file if required
+  htpasswd:
+    path: /etc/nginx/.htpasswd
+    name: "{{ htpass_username }}"
+    password: "{{ htpass_password }}"
+    owner: root
+    group: www-data
+    mode: 0640
+  when: create_nginx_htpasswd is defined and create_nginx_htpasswd == true
