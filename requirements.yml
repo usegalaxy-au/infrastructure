@@ -29,3 +29,5 @@
   version: 0.13.0
 - src: usegalaxy_eu.gxadmin
   version: 0.0.5
+- src: usegalaxy_eu.tiaas2
+  version: 0.0.1
