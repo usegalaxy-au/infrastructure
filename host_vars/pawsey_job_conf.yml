@@ -64,48 +64,52 @@ galaxy_jobconf:
       - id: slurm_dest
         runner: slurm
         params:
-          nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
+          nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=main"
       # Slurm destinations
       - id: slurm_1slot_upload
         runner: slurm
         params:
-          nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=40216"
+          nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=40216 --partition=main"
       - id: slurm_1slot
         runner: slurm
         params:
-          nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=3880"
+          nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=3880 --partition=main"
       - id: slurm_2slots
         runner: slurm
         params:
-          nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
+          nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=main"
       - id: slurm_3slots
         runner: slurm
         params:
-          nativeSpecification: "--nodes=1 --ntasks=3 --ntasks-per-node=3 --mem=11640"
+          nativeSpecification: "--nodes=1 --ntasks=3 --ntasks-per-node=3 --mem=11640 --partition=main"
       - id: slurm_5slots
         runner: slurm
         params:
-          nativeSpecification: "--nodes=1 --ntasks=5 --ntasks-per-node=5 --mem=19400"
+          nativeSpecification: "--nodes=1 --ntasks=5 --ntasks-per-node=5 --mem=19400 --partition=main"
       - id: slurm_7slots
         runner: slurm
         params:
-          nativeSpecification: "--nodes=1 --ntasks=7 --ntasks-per-node=7 --mem=27160"
+          nativeSpecification: "--nodes=1 --ntasks=7 --ntasks-per-node=7 --mem=27160 --partition=main"
       - id: slurm_9slots
         runner: slurm
         params:
-          nativeSpecification: "--nodes=1 --ntasks=9 --ntasks-per-node=9 --mem=34920"
+          nativeSpecification: "--nodes=1 --ntasks=9 --ntasks-per-node=9 --mem=34920 --partition=main"
       - id: slurm_16slots
         runner: slurm
         params:
-          nativeSpecification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62080"
+          nativeSpecification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62080 --partition=main"
       - id: slurm_32slots
         runner: slurm
         params:
-          nativeSpecification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=124160"
+          nativeSpecification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=124160 --partition=main"
       - id: slurm_9slots_1off
         runner: slurm
         params:
-          nativeSpecification: "--nodes=1 --ntasks=9 --ntasks-per-node=9 --mem=34920"
+          nativeSpecification: "--nodes=1 --ntasks=9 --ntasks-per-node=9 --mem=34920 --partition=main"
+      - id: slurm_training
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=7760 --partition=training"
       # Pulsar mel destinations
       - id: pulsar-mel_small
         runner: pulsar_mel2_runner

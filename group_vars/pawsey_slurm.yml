@@ -39,6 +39,11 @@ slurm_nodes:
       CPUs: 32
       RealMemory: 125812
       State: UNKNOWN
+    - name: pawsey-w7
+      NodeAddr: "{{ hostvars['pawsey-w7']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 62815
+      State: UNKNOWN
     - name: pawsey-queue
       NodeAddr: "{{ hostvars['pawsey-queue']['ansible_ssh_host'] }}"
       CPUs: 4
@@ -55,6 +60,11 @@ slurm_partitions:
       nodes: "pawsey-w1,pawsey-w2,pawsey-w3,pawsey-w4,pawsey-w5,pawsey-w6"
       Default: YES
       State: UP
+    - name: training
+      nodes: "pawsey-w7"
+      Default: YES
+      State: UP
+    
 
 slurm_config:
     #SlurmDBd includes
