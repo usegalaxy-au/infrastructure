@@ -51,6 +51,7 @@
     - galaxyproject.cvmfs
     - usegalaxy_eu.gxadmin
     - pg-post-tasks
+    - usegalaxy_eu.tiaas2
   post_tasks:
     - name: Clone Galaxy-Owncloud-Integration
       git:
