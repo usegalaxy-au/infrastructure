@@ -125,6 +125,7 @@ galaxy_config:
     database_connection: "{{ __galaxy_config['galaxy']['database_connection']}}"
     id_secret: "{{ __galaxy_config['galaxy']['id_secret']}}"
     file_path: "{{ __galaxy_config['galaxy']['file_path']}}"
+    galaxy_infrastructure_url: "{{ __galaxy_config['galaxy']['galaxy_infrastructure_url'] }}"
     object_store_config_file: "{{ __galaxy_config['galaxy']['object_store_config_file']|default(omit) }}"
     smtp_server: "{{ __galaxy_config['galaxy']['smtp_server']|default(omit) }}"
     ga_code: "{{ __galaxy_config['galaxy']['ga_code']|default(omit) }}"
