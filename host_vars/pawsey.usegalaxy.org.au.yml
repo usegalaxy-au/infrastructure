@@ -101,3 +101,14 @@ db_server: "{{ hostvars['pawsey-db']['internal_ip'] }}"
 influx_url: "http://stats.genome.edu.au:8086"
 db_password: "{{ galaxy_user_db_password }}"
 influx_salt: "{{ pawsey_queue_size_salt }}"
+
+#Vars for TIaaS
+tiaas_galaxy_db_host: "pawsey-db.usegalaxy.org.au"
+tiaas_galaxy_db_port: "5432"
+tiaas_galaxy_db_user: "tiaas"
+tiaas_galaxy_db_pass: "{{ tiaas_galaxy_db_password }}"
+tiaas_info:
+  owner: "Galaxy Australia"
+  owner_email: help@genome.edu.au
+  owner_site: "https://usegalaxy.org.au"
+  domain: "usegalaxy.org.au"
