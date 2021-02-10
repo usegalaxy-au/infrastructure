@@ -61,7 +61,7 @@ slurm_partitions:
       Default: YES
       State: UP
     - name: training
-      nodes: "pawsey-w7"
+      nodes: "pawsey-w7,pawsey-w5,pawsey-w4,pawsey-w3"
       Default: YES
       State: UP
     

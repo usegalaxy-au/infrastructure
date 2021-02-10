@@ -109,7 +109,7 @@ galaxy_jobconf:
       - id: slurm_training
         runner: slurm
         params:
-          nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=7760 --partition=training"
+          nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=training"
       # Pulsar mel destinations
       - id: pulsar-mel_small
         runner: pulsar_mel2_runner

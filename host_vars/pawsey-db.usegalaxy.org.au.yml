@@ -34,7 +34,8 @@ postgresql_pgdata: "/data/production"
 
 postgresql_pg_hba_conf:
   - host all all "{{ pawsey_galaxy_server_address }}" md5 #The allowed connection to the database for the dev galaxy server.
-  - host all all "{{ hostvars['pawsey-backup']['internal_ip'] }}" md5 #The allowed connection to the database from the backup server.
+  - host all all "{{ hostvars['pawsey']['ansible_ssh_host'] }}/32" md5
+  - host all all "{{ hostvars['pawsey-backup']['internal_ip'] }}/32" md5 #The allowed connection to the database from the backup server.
 
 postgresql_objects_users:
   - name: galaxy
@@ -50,6 +51,7 @@ postgresql_objects_users:
     db: galaxy
   - name: tiaas
     password: "{{ tiaas_galaxy_db_password }}"
+    db: galaxy
 postgresql_objects_privileges:
   - database: galaxy
     roles: reader
