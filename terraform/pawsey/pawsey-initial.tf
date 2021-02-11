@@ -23,10 +23,10 @@ resource "openstack_compute_instance_v2" "pawsey" {
   security_groups = ["SSH", "Web-Services", "default", "special"]
   availability_zone = "nova"
   network {
-    name = "galaxy-genomics-network"
+    name = "Public external"
   }
   network {
-    name = "Public external"
+    name = "galaxy-genomics-network"
   }
 }
 
@@ -46,7 +46,30 @@ resource "openstack_compute_instance_v2" "pawsey-queue" {
   }
 }
 
-# slurm worker
+resource "openstack_compute_instance_v2" "pawsey-queue2" {
+  name  = "pawsey-queue2"
+  image_name  = null  ### set image name for new instances created with terraform
+  flavor_name = "n3.4c16r"
+  key_pair    = "gvl2019"
+  security_groups = ["SSH", "Web-Services", "rabbitmq", "default", "special"]
+  availability_zone = "nova"
+  block_device {  ### only for new pawsey machines created while terraform was unavailable
+    uuid = "61c78971-fee5-4d25-b86b-067f3646ef11"
+    source_type = "image"
+    boot_index   = 0
+    delete_on_termination = true
+    destination_type  = "volume"
+    volume_size      = 40
+  }
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
+}
+
+# slurm workers
 resource "openstack_compute_instance_v2" "pawsey-w1" {
   name            = "pawsey-w1"
   image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
@@ -55,14 +78,13 @@ resource "openstack_compute_instance_v2" "pawsey-w1" {
   security_groups = ["SSH", "default"]
   availability_zone = "nova"
   network {
-    name = "galaxy-genomics-network"
+    name = "Public external"
   }
   network {
-    name = "Public external"
+    name = "galaxy-genomics-network"
   }
 }
 
-# slurm workers
 resource "openstack_compute_instance_v2" "pawsey-w2" {
   name            = "pawsey-w2"
   image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
@@ -162,6 +184,30 @@ resource "openstack_compute_instance_v2" "pawsey-w6" {
   }
 }
 
+resource "openstack_compute_instance_v2" "pawsey-w7" {
+  name            = "pawsey-w7"
+  image_name  = null  ### set image name for new instances created with terraform
+  flavor_name     = "n3.16c64r"
+  key_pair        = "gvl2019"
+  security_groups = ["SSH", "default"]
+  availability_zone = "nova"
+  block_device {  ### only for new pawsey machines created while terraform was unavailable
+    uuid = "61c78971-fee5-4d25-b86b-067f3646ef11"
+    source_type = "image"
+    boot_index   = 0
+    delete_on_termination = true
+    destination_type  = "volume"
+    volume_size      = 40
+  }
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
+}
+
+# nfs machines
 resource "openstack_compute_instance_v2" "pawsey-misc-nfs" {
   name            = "pawsey-misc-nfs"
   image_name      = "Pawsey - Ubuntu 20.04 - 2020-09-25"
@@ -170,10 +216,10 @@ resource "openstack_compute_instance_v2" "pawsey-misc-nfs" {
   security_groups = ["SSH", "default"]
   availability_zone = "nova"
   network {
-    name = "galaxy-genomics-network"
+    name = "Public external"
   }
   network {
-    name = "Public external"
+    name = "galaxy-genomics-network"
   }
 }
 
@@ -207,6 +253,29 @@ resource "openstack_compute_instance_v2" "pawsey-user-nfs" {
   }
 }
 
+resource "openstack_compute_instance_v2" "pawsey-user-nfs-2" {
+  name = "pawsey-user-nfs-2"
+  image_name  = null  ### set image name for new instances created with terraform
+  flavor_name = "n3.8c32r"
+  key_pair  = "gvl2019"
+  security_groups = ["SSH", "default"]
+  availability_zone = "nova"
+  block_device {  ### only for new pawsey machines created while terraform was unavailable
+    uuid = "61c78971-fee5-4d25-b86b-067f3646ef11"
+    source_type = "image"
+    boot_index   = 0
+    delete_on_termination = true
+    destination_type  = "volume"
+    volume_size      = 40
+  }
+  network {
+    name = "Public external"
+  }
+  network {
+    name = "galaxy-genomics-network"
+  }
+}
+
 # Backup VM - performs database backups
 resource "openstack_compute_instance_v2" "pawsey-backup" {
   name            = "pawsey-backup"
@@ -232,7 +301,7 @@ resource "openstack_blockstorage_volume_v2" "pawsey-db-volume" {
 }
 
 # Attachment between db server and volume
-resource "openstack_compute_volume_attach_v2" "attach-pawsey-db-volume-to-pawsey-db" {
+resource "openstack_compute_volume_attach_v2" "attach-pawsey-db-volume" {
  instance_id = "${openstack_compute_instance_v2.pawsey-db.id}"
  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-db-volume.id}"
 }
@@ -246,23 +315,98 @@ resource "openstack_blockstorage_volume_v2" "pawsey-volume" {
 }
 
 # Attachment between application/web server and volume
-resource "openstack_compute_volume_attach_v2" "attach-pawsey-volume-to-pawsey" {
+resource "openstack_compute_volume_attach_v2" "attach-pawsey-volume" {
   instance_id = "${openstack_compute_instance_v2.pawsey.id}"
   volume_id   = "${openstack_blockstorage_volume_v2.pawsey-volume.id}"
 }
 
-resource "openstack_blockstorage_volume_v2" "pawsey-w3-tmp" {
+# tmp volumes for worker nodes
+resource "openstack_blockstorage_volume_v2" "pawsey-w1-tmp-new" {
   availability_zone = "nova"
-  name        = "pawsey-w3-tmp"
-  description = "tmp volume for w3"
-  size        = 100
+  name        = "pawsey-w1-tmp-new"
+  description = "tmp vol for pawsey-w1"
+  size        = 200
+}
+
+resource "openstack_compute_volume_attach_v2" "attach-pawsey-w1-tmp-volume" {
+  instance_id = "${openstack_compute_instance_v2.pawsey-w1.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-w1-tmp-new.id}"
+}
+
+resource "openstack_blockstorage_volume_v2" "pawsey-w2-tmp-new" {
+  availability_zone = "nova"
+  name        = "pawsey-w2-tmp-new"
+  description = "new tmp vol for w2"
+  size        = 200
+}
+
+resource "openstack_compute_volume_attach_v2" "attach-pawsey-w2-tmp-volume" {
+  instance_id = "${openstack_compute_instance_v2.pawsey-w2.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-w2-tmp-new.id}"
+}
+
+resource "openstack_blockstorage_volume_v2" "pawsey-w3-tmp-new" {
+  availability_zone = "nova"
+  name        = "pawsey-w3-tmp-new"
+  description = ""
+  size        = 200
 }
 
 resource "openstack_compute_volume_attach_v2" "attach-pawsey-w3-tmp-volume" {
   instance_id = "${openstack_compute_instance_v2.pawsey-w3.id}"
-  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-w3-tmp.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-w3-tmp-new.id}"
 }
 
+
+resource "openstack_blockstorage_volume_v2" "pawsey-w4-tmp-new" {
+  availability_zone = "nova"
+  name        = "pawsey-w4-tmp-new"
+  description = "new tmp vol for w4"
+  size        = 200
+}
+
+resource "openstack_compute_volume_attach_v2" "attach-pawsey-w4-tmp-volume" {
+  instance_id = "${openstack_compute_instance_v2.pawsey-w4.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-w4-tmp-new.id}"
+}
+
+resource "openstack_blockstorage_volume_v2" "pawsey-w5-tmp-new" {
+  availability_zone = "nova"
+  name        = "pawsey-w5-tmp-new"
+  description = "New tmp for w5"
+  size        = 200
+}
+
+resource "openstack_compute_volume_attach_v2" "attach-pawsey-w5-tmp-volume" {
+  instance_id = "${openstack_compute_instance_v2.pawsey-w5.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-w5-tmp-new.id}"
+}
+
+resource "openstack_blockstorage_volume_v2" "pawsey-w6-tmp-new" {
+  availability_zone = "nova"
+  name        = "pawsey-w6-tmp-new"
+  description = "new tmp vol for w6"
+  size        = 200
+}
+
+resource "openstack_compute_volume_attach_v2" "attach-pawsey-w6-tmp-volume" {
+  instance_id = "${openstack_compute_instance_v2.pawsey-w6.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-w6-tmp-new.id}"
+}
+
+resource "openstack_blockstorage_volume_v2" "pawsey-w7-tmp-new" {
+  availability_zone = "nova"
+  name        = "pawsey-w7-tmp-new"
+  description = ""
+  size        = 200
+}
+
+resource "openstack_compute_volume_attach_v2" "attach-pawsey-w7-tmp-volume" {
+  instance_id = "${openstack_compute_instance_v2.pawsey-w7.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-w7-tmp-new.id}"
+}
+
+# Volumes for nfs servers
 resource "openstack_blockstorage_volume_v2" "pawsey-misc-nfs-vol" {
   availability_zone = "nova"
   name        = "pawsey-misc-nfs-vol"
@@ -294,6 +438,11 @@ resource "openstack_blockstorage_volume_v2" "pawsey-user-nfs-vol" {
   size        = 70000
 }
 
+resource "openstack_compute_volume_attach_v2" "attach-pawsey-user-nfs-2-volume" {
+  instance_id = "${openstack_compute_instance_v2.pawsey-user-nfs-2.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-user-nfs-vol.id}"
+}
+
 # Volume for backup server
 resource "openstack_blockstorage_volume_v2" "pawsey-backup-vol" {
   availability_zone = "nova"
@@ -306,119 +455,3 @@ resource "openstack_compute_volume_attach_v2" "attach-pawsey-backup-volume" {
   instance_id = "${openstack_compute_instance_v2.pawsey-backup.id}"
   volume_id   = "${openstack_blockstorage_volume_v2.pawsey-backup-vol.id}"
 }
-
-resource "openstack_blockstorage_volume_v2" "pawsey-w5-tmp-new" {
-  availability_zone = "nova"
-  name        = "pawsey-w5-tmp-new"
-  description = "New tmp for w5"
-  size        = 200
-}
-
-resource "openstack_compute_volume_attach_v2" "attach-pawsey-w5-tmp-volume" {
-  instance_id = "${openstack_compute_instance_v2.pawsey-w5.id}"
-  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-w5-tmp-new.id}"
-}
-
-resource "openstack_blockstorage_volume_v2" "pawsey-w1-tmp-new" {
-  availability_zone = "nova"
-  name        = "pawsey-w1-tmp-new"
-  description = "tmp vol for pawsey-w1"
-  size        = 200
-}
-
-resource "openstack_compute_volume_attach_v2" "attach-pawsey-w1-tmp-volume" {
-  instance_id = "${openstack_compute_instance_v2.pawsey-w1.id}"
-  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-w1-tmp-new.id}"
-}
-
-resource "openstack_blockstorage_volume_v2" "pawsey-w2-tmp-new" {
-  availability_zone = "nova"
-  name        = "pawsey-w2-tmp-new"
-  description = "new tmp vol for w2"
-  size        = 200
-}
-
-resource "openstack_compute_volume_attach_v2" "attach-pawsey-w2-tmp-volume" {
-  instance_id = "${openstack_compute_instance_v2.pawsey-w2.id}"
-  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-w2-tmp-new.id}"
-}
-
-
-resource "openstack_blockstorage_volume_v2" "pawsey-w4-tmp-new" {
-  availability_zone = "nova"
-  name        = "pawsey-w4-tmp-new"
-  description = "new tmp vol for w4"
-  size        = 200
-}
-
-resource "openstack_compute_volume_attach_v2" "attach-pawsey-w4-tmp-volume" {
-  instance_id = "${openstack_compute_instance_v2.pawsey-w4.id}"
-  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-w4-tmp-new.id}"
-}
-
-
-resource "openstack_blockstorage_volume_v2" "pawsey-w6-tmp-new" {
-  availability_zone = "nova"
-  name        = "pawsey-w6-tmp-new"
-  description = "new tmp vol for w6"
-  size        = 200
-}
-
-resource "openstack_compute_volume_attach_v2" "attach-pawsey-w6-tmp-volume" {
-  instance_id = "${openstack_compute_instance_v2.pawsey-w6.id}"
-  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-w6-tmp-new.id}"
-}
-
-
-resource "openstack_compute_volume_attach_v2" "attach-pawsey-user-nfs-2-volume" {
-  instance_id = "${openstack_compute_instance_v2.pawsey-user-nfs-2.id}"
-  volume_id   = "${openstack_blockstorage_volume_v2.pawsey-user-nfs-vol.id}"
-}
-
-resource "openstack_compute_instance_v2" "pawsey-queue2" {
-  name  = "pawsey-queue2"
-  image_name  = null  ### set image name for new instances created with terraform
-  flavor_name = "n3.4c16r"
-  key_pair    = "gvl2019"
-  security_groups = ["SSH", "Web-Services", "rabbitmq", "default", "special"]
-  availability_zone = "nova"
-  block_device {  ### only for new pawsey machines created while terraform was unavailable
-    uuid = "61c78971-fee5-4d25-b86b-067f3646ef11"
-    source_type = "image"
-    boot_index   = 0
-    delete_on_termination = true
-    destination_type  = "volume"
-    volume_size      = 40
-  }
-  network {
-    name = "Public external"
-  }
-  network {
-    name = "galaxy-genomics-network"
-  }
-}
-
-resource "openstack_compute_instance_v2" "pawsey-user-nfs-2" {
-  name = "pawsey-user-nfs-2"
-  image_name  = null  ### set image name for new instances created with terraform
-  flavor_name = "n3.8c32r"
-  key_pair  = "gvl2019"
-  security_groups = ["SSH", "default"]
-  availability_zone = "nova"
-  block_device {  ### only for new pawsey machines created while terraform was unavailable
-    uuid = "61c78971-fee5-4d25-b86b-067f3646ef11"
-    source_type = "image"
-    boot_index   = 0
-    delete_on_termination = true
-    destination_type  = "volume"
-    volume_size      = 40
-  }
-  network {
-    name = "Public external"
-  }
-  network {
-    name = "galaxy-genomics-network"
-  }
-}
-
-
