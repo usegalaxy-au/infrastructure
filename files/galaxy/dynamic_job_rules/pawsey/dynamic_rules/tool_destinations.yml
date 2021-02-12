@@ -1183,7 +1183,8 @@ tools:
               lower_bound: 0
               upper_bound: 20 MB
               destination: slurm_2slots
-        default_destination: pulsar-mel3_mid
+        default_destination: slurm_9slots
+        # default_destination: pulsar-mel3_mid
     mothur_make_shared:
         rules:
             - rule_type: file_size
