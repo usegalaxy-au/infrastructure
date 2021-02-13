@@ -195,7 +195,10 @@ galaxy_config:
     # data_manager_config_file: /mnt/galaxy-app/config/data_manager_conf.xml.sample  # should we be templating these?
     
     # migrated_tools_config: /mnt/galaxy/var/migrated_tools_conf.xml
-    # builds_file_path: /cvmfs/data.galaxyproject.org/managed/location/builds.txt
+    display_servers: hgw1.cse.ucsc.edu,hgw2.cse.ucsc.edu,hgw3.cse.ucsc.edu,hgw4.cse.ucsc.edu,hgw5.cse.ucsc.edu,hgw6.cse.ucsc.edu,hgw7.cse.ucsc.edu,hgw8.cse.ucsc.edu,lowepub.cse.ucsc.edu
+    builds_file_path: /cvmfs/data.galaxyproject.org/managed/location/builds.txt
+    build_sites_config_file: "{{ galaxy_config_dir }}/build_sites.yml"
+    enable_old_display_applications: true
     # datatypes_config_file: /mnt/galaxy-app/config/datatypes_conf.xml
 
     # interactive_environment_plugins_directory: config/plugins/interactive_environments
@@ -248,6 +251,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/{{ user_prefs_extra_config_file }}"
     dest: "{{ galaxy_config['galaxy']['user_preferences_extra_conf_path'] }}"
+  - src: "{{ galaxy_config_file_src_dir }}/config/build_sites.yml"
+    dest: "{{ galaxy_config_dir }}/build_sites.yml"
 
 #Slurm client
 slurm_roles: ['exec']
