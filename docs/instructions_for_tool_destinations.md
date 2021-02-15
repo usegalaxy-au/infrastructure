@@ -2,6 +2,7 @@
 
 We use the NML's tool_destinations.yml system included in Galaxy as the 'DTD' dynamic job destination.
 
+### The `tool_destinations.yml` file
 The tool destination file that gets copied to Galaxy Australia lives in the `files/galaxy/dynamic_job_rules/pawsey/dynamic_rules/tool_destinations.yml` file.
 
 This file sets out rules for selection of destinations for various jobs based upon: Tool Id, User and Input file sizes.
@@ -57,3 +58,26 @@ default_destination: slurm_1slot
 
 verbose: True
 ```
+
+### The available destinations
+
+The destinations available for the jobs are listed in the job conf file. In the repo this is in yaml format in the `host_vars/pawsey_job_conf.yml` file. Only destinations listed in this file are valid. They will be checked upon pull request creation.
+
+## Modifying `tool_destinations.yml` in Github GUI
+
+The easiest way for team members to modify the `tool_destinations.yml` file is via the Github GUI. 
+
+**Procedure**
+
+1. Navigate to the repo at: [https://github.com/usegalaxy-au/infrastructure](https://github.com/usegalaxy-au/infrastructure)
+2. Open the view of the `tool_destinations.yml` file (click on the file) in the `files/galaxy/dynamic_job_rules/pawsey/dynamic_rules` directory.
+3. Click the "Pencil" (edit) icon at the top of the file view.
+4. Edit the file.
+5. In the *Commit Changes* box at the bottom of the screen, give a description of what changes you made and why.
+6. Make sure you select "Create a **new branch** for this commit and start a pull request."
+7. Click "Propose Changes"
+
+This will create a Github Pull Request (PR) with your changes in it ready for review by a committer.
+
+Upon making a change and opening a PR, a validator will run to check that the contents of the file is valid and all destinations exist.
+
