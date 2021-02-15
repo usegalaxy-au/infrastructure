@@ -94,6 +94,8 @@ All contributions to these playbooks are to be made by pull request.
 
 We strongly suggest you fork the repository.
 
+Detailed instructions on modifying the tool destinations for jobs is located [here](docs/instructions_for_tool_destinations.md)
+
 ## Maintenance
 
 This repository is maintained by the Galaxy Australia team.
