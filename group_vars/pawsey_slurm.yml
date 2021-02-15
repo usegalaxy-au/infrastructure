@@ -57,7 +57,7 @@ slurm_nodes:
 
 slurm_partitions:
     - name: main
-      nodes: "pawsey-w1,pawsey-w2,pawsey-w3,pawsey-w4,pawsey-w5,pawsey-w6"
+      nodes: "pawsey-w1,pawsey-w2,pawsey-w3,pawsey-w4,pawsey-w5,pawsey-w6,pawsey-w7"
       Default: YES
       State: UP
     - name: training

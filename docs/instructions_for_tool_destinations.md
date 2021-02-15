@@ -3,6 +3,7 @@
 We use the NML's tool_destinations.yml system included in Galaxy as the 'DTD' dynamic job destination.
 
 ### The `tool_destinations.yml` file
+
 The tool destination file that gets copied to Galaxy Australia lives in the `files/galaxy/dynamic_job_rules/pawsey/dynamic_rules/tool_destinations.yml` file.
 
 This file sets out rules for selection of destinations for various jobs based upon: Tool Id, User and Input file sizes.
