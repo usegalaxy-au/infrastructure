@@ -3,6 +3,7 @@ auth_key_user: ubuntu
 
 head_nodes: "{{ groups['pulsar-nci-test-head'] }}"
 worker_nodes: "{{ groups['pulsar-nci-test-workers'] }}"
+use_internal_ips: true
 
 # SLURM
 slurm_nodes:

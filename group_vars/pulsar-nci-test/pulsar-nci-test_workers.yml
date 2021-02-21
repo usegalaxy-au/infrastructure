@@ -1,6 +1,7 @@
 slurm_roles: ['exec']
 
 add_hosts_head: yes
+use_internal_ips: true
 
 shared_mounts:
     - path: /mnt/galaxy

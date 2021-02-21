@@ -1,7 +1,7 @@
 galaxy_uid: 10010
 galaxy_gid: 10010
 
-use_internal_ips: false
+use_internal_ips: true
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs

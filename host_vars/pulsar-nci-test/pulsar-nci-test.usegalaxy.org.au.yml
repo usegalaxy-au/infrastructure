@@ -10,6 +10,8 @@ ssl_organisation: "Galaxy Australia"
 ssl_operational_unit: "Pulsar NCI Test"
 ssl_email: "help@genome.edu.au"
 
+add_hosts_workers: yes
+
 #host specific pulsar settings
 
 rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_nci_test }}"
