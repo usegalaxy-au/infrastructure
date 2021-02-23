@@ -1,0 +1,22 @@
+- name: Pulsar NCI Test worker node install
+  hosts: pulsar-nci-test-workers
+  become: yes
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/pulsar-nci-test/pulsar-nci-test.yml
+    - group_vars/pulsar-nci-test/pulsar-nci-test_workers.yml
+    - group_vars/pulsar-nci-test/pulsar-nci-test_slurm.yml
+    - group_vars/VAULT
+  roles:
+      - common
+      - insspb.hostname
+      - galaxyproject.slurm
+      - mounts
+      - galaxyproject.repos
+      - galaxyproject.cvmfs
+      - dj-wasabi.telegraf
+  post_tasks:
+      - name: Restart munge service
+        service:
+            name: munge
+            state: restarted
