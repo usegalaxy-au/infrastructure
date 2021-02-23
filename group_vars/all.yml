@@ -94,6 +94,6 @@ bashrc_env: |
 # Monitoring
 grafana_server_url: http://stats.genome.edu.au:8086
 
-telegraf_agent_version: 1.17.2
+telegraf_agent_package_state: latest
 telegraf_agent_package_method: repo
 telegraf_agent_hostname: "{{ inventory_hostname }}"
