@@ -1177,7 +1177,13 @@ tools:
               destination: slurm_5slots
         default_destination: slurm_7slots
     mothur_cluster_split:
-        default_destination: slurm_16slots
+        rules:
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 0
+            upper_bound: 20 MB
+            destination: slurm_2slots
+        default_destination: slurm_9slots
     mothur_make_shared:
         rules:
             - rule_type: file_size
