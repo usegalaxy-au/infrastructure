@@ -1177,7 +1177,7 @@ tools:
               destination: slurm_5slots
         default_destination: slurm_7slots
     mothur_cluster_split:
-        default_destination: slurm_16slots
+        default_destination: slurm_9slots
     mothur_make_shared:
         rules:
             - rule_type: file_size
