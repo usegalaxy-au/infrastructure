@@ -31,4 +31,4 @@ virtualenv -p python3 $VENV_PATH
 
 echo -e "\nUpdating tool destinations file on Galaxy\n"
 
-ansible-playbook -i hosts pawsey_update_job_conf_playbook.yml --private-key $JENKINS_KEY -u jenkins_bot --extra-vars "iamjenkins=true"
+ansible-playbook -i hosts pawsey_update_job_conf_playbook.yml -u jenkins_bot --extra-vars "iamjenkins=true"
