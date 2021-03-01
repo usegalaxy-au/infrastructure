@@ -4,7 +4,7 @@ TOOL_DEST_UPDATED=$(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat 
 
 if [ ! "$TOOL_DEST_UPDATED" ]; then
     # nothing to do
-    echo "No updates to tool destinations"
+    echo -e "\nNo updates to tool destinations\n"
     exit 0
 fi
 
@@ -29,4 +29,6 @@ VENV_PATH=".venv3"
 virtualenv -p python3 $VENV_PATH
 . $VENV_PATH/bin/activate
 
-ansible-playbook -i hosts pawsey_update_job_conf_playbook.yml --private-key $JENKINS_KEY -u jenkins_bot --extra-vars "iamjenkins=true"
+echo -e "\nUpdating tool destinations file on Galaxy\n"
+
+ansible-playbook -i hosts pawsey_update_job_conf_playbook.yml -u jenkins_bot --extra-vars "iamjenkins=true"
