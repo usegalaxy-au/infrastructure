@@ -55,26 +55,8 @@ resource "openstack_networking_floatingip_v2" "floatip_head" {
   pool = "external"
 }
 
-resource "openstack_networking_floatingip_v2" "floatip_w1" {
-  pool = "external"
-}
-
-resource "openstack_networking_floatingip_v2" "floatip_w2" {
-  pool = "external"
-}
-
 #Associate FIPs with instances
 resource "openstack_compute_floatingip_associate_v2" "fip_head" {
   floating_ip = "${openstack_networking_floatingip_v2.floatip_head.address}"
   instance_id = "${openstack_compute_instance_v2.pulsar-nci-test.id}"
-}
-
-resource "openstack_compute_floatingip_associate_v2" "fip_w1" {
-  floating_ip = "${openstack_networking_floatingip_v2.floatip_w1.address}"
-  instance_id = "${openstack_compute_instance_v2.pulsar-nci-test-w1.id}"
-}
-
-resource "openstack_compute_floatingip_associate_v2" "fip_w2" {
-  floating_ip = "${openstack_networking_floatingip_v2.floatip_w2.address}"
-  instance_id = "${openstack_compute_instance_v2.pulsar-nci-test-w2.id}"
 }
