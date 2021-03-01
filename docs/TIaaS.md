@@ -130,7 +130,7 @@ This command will delete the group/role from Galaxy and remove any user associat
 Since this setup tracks additional personal information (submitter name & email, users in the queue view), TIaaS includes some always-on features to assist with your GDPR compliance.
 
 * Users in public status dashboard are only visible by an anonymized identifier and colour
-* Email addressses in the TIaaS admin panel will be automatically expunged 60 days after a training event
+* Email addresses in the TIaaS admin panel will be automatically expunged 60 days after a training event
 
 **To Do:**
 
