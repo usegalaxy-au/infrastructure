@@ -16,15 +16,20 @@ rabbitmq_users:
   - user: galaxy_au
     password: "{{ rabbitmq_password_galaxy_au }}"
     vhost: /pulsar/galaxy_au
+  - user: galaxy_nci_test
+    password: "{{ rabbitmq_password_galaxy_nci_test }}"
+    vhost: /pulsar/galaxy_nci_test
 
 rabbitmq_vhosts:
   - galaxy
   - /pulsar/galaxy_au
+  - /pulsar/galaxy_nci_test
 
 rabbitmq_password_admin: "{{ vault_rabbitmq_password_admin_dev }}"
 rabbitmq_password_telegraf: "{{ vault_rabbitmq_password_telegraf_dev }}"
 rabbitmq_password_galaxy: "{{ vault_rabbitmq_password_galaxy_dev }}"
 rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_au_dev }}"
+rabbitmq_password_galaxy_nci_test: "{{ vault_rabbitmq_password_galaxy_nci_test }}"
 
 # Host specific Slurm settings
 slurm_roles: ['controller', 'dbd']

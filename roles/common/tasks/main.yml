@@ -69,8 +69,8 @@
       lineinfile:
           path: "/etc/hosts"
           #regexp: "{{ hostvars[item].ansible_host }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
-          line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
-          #line: "{{ hostvars[item].internal_ip }}\t{{ item }}" Altered due to issues with internal network. Please put back once fixed
+          #line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
+          line: "{{ hostvars[item].internal_ip }}\t{{ item }}" #Altered due to issues with internal network. Please put back once fixed
           state: present
           backup: yes
       when: add_hosts_head is defined and add_hosts_head == true
@@ -95,8 +95,8 @@
       become_user: root
       lineinfile:
           path: "/etc/hosts"
-          line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
-          #line: "{{ hostvars[item].internal_ip }}\t{{ item }}" Altered due to issues with internal network. Please put back once fixed.
+          #line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
+          line: "{{ hostvars[item].internal_ip }}\t{{ item }}" #Altered due to issues with internal network. Please put back once fixed.
           state: present
           backup: yes
       when: add_hosts_galaxy is defined and add_hosts_galaxy == true
