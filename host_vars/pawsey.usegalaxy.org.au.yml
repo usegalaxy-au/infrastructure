@@ -83,6 +83,7 @@ __galaxy_config:
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     smtp_server: localhost
     ga_code: "{{ vault_pawsey_ga_code }}"
+    galaxy_infrastructure_url: 'https://usegalaxy.org.au'
 
 
 # cvmfs
@@ -100,3 +101,20 @@ db_server: "{{ hostvars['pawsey-db']['internal_ip'] }}"
 influx_url: "http://stats.genome.edu.au:8086"
 db_password: "{{ galaxy_user_db_password }}"
 influx_salt: "{{ pawsey_queue_size_salt }}"
+
+#Vars for TIaaS
+tiaas_galaxy_db_host: "pawsey-db.usegalaxy.org.au"
+tiaas_galaxy_db_port: "5432"
+tiaas_galaxy_db_user: "tiaas"
+tiaas_galaxy_db_pass: "{{ tiaas_galaxy_db_password }}"
+tiaas_info:
+  owner: "Galaxy Australia"
+  owner_email: help@genome.edu.au
+  owner_site: "https://usegalaxy.org.au"
+  domain: "usegalaxy.org.au"
+tiaas_other_config: |
+    EMAIL_HOST="localhost"
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_TIMEOUT = 60
+    TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
+    TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"

@@ -17,3 +17,10 @@
       - galaxyproject.repos
       - galaxyproject.slurm
       - dj-wasabi.telegraf
+  post_tasks:
+      - name: Allow all users to run sacct
+        lineinfile:
+          path: /etc/sudoers.d/devs
+          create: true
+          line: '%devs ALL=(ALL) NOPASSWD: /usr/bin/sacct'
+          validate: /usr/sbin/visudo -cf %s

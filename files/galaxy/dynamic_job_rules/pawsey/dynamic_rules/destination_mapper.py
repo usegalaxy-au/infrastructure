@@ -16,7 +16,9 @@ pulsar_user_destinations = {  # test pulsar users whose shed-tool jobs will alwa
     'pulsar_paw_user@usegalaxy.org.au': 'pulsar-paw_small',
 }
 
-def gateway(job, app, tool, user_email):
+pulsar_list = ['shovill', 'spades', 'velvet', 'velvetoptimiser', 'prokka', 'lastz_wrapper_2', 'raxml', 'fastqc', 'abricate', 'snippy', 'bwa', 'bwa_mem', 'hisat2', 'htseq_count']
+
+def gateway(job, app, tool, user, user_email):
     """
     Function to specify the destination for a job.  At present this is exactly the same
     as using dynamic_dtd with tool_destinations.yml but can be extended to more complex
@@ -30,6 +32,18 @@ def gateway(job, app, tool, user_email):
     if user_email in pulsar_user_destinations.keys():
         if hasattr(tool, 'id') and isinstance(tool.id, str) and tool.id.startswith('toolshed'):  # map shed tools only
             return pulsar_user_destinations[user_email]
+
+    if user:
+        user_roles = [role.name for role in user.all_roles() if not role.deleted]
+
+        # If any of these are prefixed with 'training-'
+        if any([role.startswith('training-') for role in user_roles]):
+            # Then they are a training user, we will send their jobs to pulsar,
+            # Or give them extra resources
+            if hasattr(tool, 'id') and isinstance(tool.id, str) and tool.id.startswith('toolshed') and tool.id.split('/')[-2] in pulsar_list:
+                return app.job_config.get_destination('pulsar-mel_small')
+            else:
+                return app.job_config.get_destination('slurm_training')
 
     destination = map_tool_to_destination(job, app, tool, user_email, path=TOOL_DESTINATION_PATH)
     return destination

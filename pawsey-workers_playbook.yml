@@ -49,7 +49,7 @@
                 state: directory
                 owner: root
                 group: root
-                mode: 01777
+                mode: '1777'
           - name: stat links
             stat:
                 path: /tmp

@@ -73,6 +73,15 @@ pulsar_yaml_config:
   managers:
       _default_:
           type: queued_drmaa
+          preprocess_action_max_retries: 10
+          preprocess_action_interval_start: 2
+          preprocess_action_interval_step: 2
+          preprocess_action_interval_max: 60
+          postprocess_action_max_retries: 20
+          postprocess_action_interval_start: 2
+          postprocess_action_interval_step: 4
+          postprocess_action_interval_max: 120
+          min_polling_interval: 15
   dependency_resolvers_config_file: dependency_resolvers_conf.xml
   conda_auto_init: True
   conda_auto_install: True

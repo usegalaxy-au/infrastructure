@@ -1,0 +1,42 @@
+- hosts: pulsar-nci-test
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/pulsar-nci-test/pulsar-nci-test.yml
+    - group_vars/pulsarservers.yml
+    - group_vars/pulsar-nci-test/pulsar-nci-test_slurm.yml
+    - group_vars/VAULT
+    - host_vars/pulsar-nci-test/pulsar-nci-test.usegalaxy.org.au.yml
+  roles:
+    - common
+    - insspb.hostname
+    - geerlingguy.pip
+    - galaxyproject.repos
+    - galaxyproject.pulsar
+    - geerlingguy.nfs
+    - mariadb
+    - galaxyproject.slurm
+    - galaxyproject.cvmfs
+    - dj-wasabi.telegraf
+
+  post_tasks:
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa1
+        state: present
+    - name: own the /mnt/pulsar dirs as ubuntu
+      file:
+          path: /mnt/pulsar
+          owner: ubuntu
+          group: ubuntu
+          state: directory
+          recurse: yes
+          mode: 0750
+    - name: own the /mnt/galaxy dirs as ubuntu
+      file:
+          path: /mnt/galaxy
+          owner: ubuntu
+          group: ubuntu
+          state: directory
+          recurse: yes
+          mode: 0750
