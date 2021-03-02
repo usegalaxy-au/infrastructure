@@ -25,10 +25,6 @@ pip install -r $REQUIREMENTS_FILE
 cp $REQUIREMENTS_FILE $CACHED_REQUIREMENTS_FILE
 fi
 
-VENV_PATH=".venv3"
-virtualenv -p python3 $VENV_PATH
-. $VENV_PATH/bin/activate
-
 echo -e "\nUpdating tool destinations file on Galaxy\n"
 
 ansible-playbook -i hosts pawsey_update_job_conf_playbook.yml -u jenkins_bot --extra-vars "iamjenkins=true"
