@@ -30,5 +30,5 @@
         mode: "755"
         group: ubuntu
         owner: ubuntu
-        force: no # do not replace the file unless it has been deleted
+        force: yes
       
