@@ -19,16 +19,18 @@
       loop: "{{ ( machine_users | map(attribute='name') | list ) + ['ubuntu'] }}"
       loop_control:
         loop_var: username
-    - name: Ensure gxadmin config directory exists for user ubuntu
+    - name: Ensure gxadmin config directory exists for all users including ubuntu
       file:
-        path: "{{ gxadmin_ubuntu_config_dir }}"
+        path: "/home/{{ item }}/.config"
         state: directory
-    - name: Ensure that ubuntu user has a copy of gxadmin-local.sh
+      with_items: "{{ (machine_users | map(attribute='name') | list) + ['ubuntu'] }}"
+    - name: Ensure that all users + ubuntu have a copy of gxadmin-local.sh
       copy: 
         src: files/galaxy/gxadmin/gxadmin-local.sh
-        dest: "{{ gxadmin_ubuntu_config_dir }}/gxadmin-local.sh"
+        dest: "/home/{{ item }}/.config/gxadmin-local.sh"
         mode: "755"
-        group: ubuntu
-        owner: ubuntu
+        group: "{{ item }}"
+        owner: "{{ item }}"
         force: yes
+      with_items: "{{ (machine_users | map(attribute='name') | list) + ['ubuntu'] }}"
       
