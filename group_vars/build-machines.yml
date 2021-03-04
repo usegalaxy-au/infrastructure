@@ -1,0 +1,10 @@
+# Monitoring
+telegraf_agent_output:
+  - type: influxdb
+    config:
+      - urls = ["{{ grafana_server_url }}"]
+      - database = "build-machines"
+      - precision = "s"
+
+#Internal vs external ips
+use_internal_ips: true
