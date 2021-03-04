@@ -1,0 +1,19 @@
+- hosts: build-machines
+  become: yes
+  vars_files:
+    - group_vars/VAULT
+  roles:
+      - common
+      - insspb.hostname
+      - dj-wasabi.telegraf
+  post_tasks:
+      - name: install ansible
+        package:
+          name: ansible
+          state: latest
+      - name: git clone the infrastructure repo
+        git:
+          repo: 'https://github.com/usegalaxy-au/infrastructure'
+          dest: /home/ubuntu/infrastructure-ansible
+          force: yes
+  

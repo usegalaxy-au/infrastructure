@@ -22,12 +22,14 @@ staging-queue ansible_ssh_host=115.146.86.228
 prod-rabbit ansible_ssh_host=115.146.86.67
 #pawsey-queue ansible_ssh_host=146.118.70.91 internal_ip=192.168.0.154
 pawsey-queue ansible_ssh_host=146.118.69.35 internal_ip=192.168.0.194
+aarnet-dev-queue ansible_ssh_host=192.168.0.250 internal_ip=192.168.0.250
 
 [slurmcontrollers]
 dev-queue ansible_ssh_host=115.146.85.163
 staging-queue ansible_ssh_host=115.146.86.228
 #pawsey-queue ansible_ssh_host=146.118.70.91 internal_ip=192.168.0.154
 pawsey-queue ansible_ssh_host=146.118.69.35 internal_ip=192.168.0.194
+aarnet-dev-queue ansible_ssh_host=192.168.0.250 internal_ip=192.168.0.250
 
 [pulsarservers]
 dev-pulsar ansible_ssh_host=115.146.86.66
@@ -110,9 +112,24 @@ pulsar-nci-test ansible_ssh_host=130.56.246.138 internal_ip=10.0.2.29
 pulsar-test-nci-w1 ansible_ssh_host=10.0.0.20 internal_ip=10.0.0.20
 pulsar-test-nci-w2 ansible_ssh_host=10.0.1.48 internal_ip=10.0.1.48
 
-[nci-build]
+[build-machines]
 nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249
+aarnet-build ansible_ssh_host=138.44.78.47 internal_ip=192.168.0.234
 
+##### AARNet Dev environment
+
+[aarnet_dev_db_server]
+aarnet-dev-db ansible_ssh_host=192.168.0.78 internal_ip=192.168.0.78
+
+[aarnet_dev_galaxy_server]
+aarnet-dev ansible_ssh_host=138.44.78.28 internal_ip=192.168.0.12
+
+[aarnet_dev_slurm_head]
+aarnet-dev-queue ansible_ssh_host=192.168.0.250 internal_ip=192.168.0.250
+
+[aarnet_dev_workers]
+aarnet-dev-w1 ansible_ssh_host=192.168.0.252 internal_ip=192.168.0.252
+aarnet-dev-w2 ansible_ssh_host=192.168.0.44 internal_ip=192.168.0.44
 
 [all:vars]
 ansible_host_key_checking=False
