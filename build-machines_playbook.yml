@@ -16,4 +16,6 @@
           repo: 'https://github.com/usegalaxy-au/infrastructure'
           dest: /home/ubuntu/infrastructure-ansible
           force: yes
+        become: yes
+        become_user: ubuntu
   
