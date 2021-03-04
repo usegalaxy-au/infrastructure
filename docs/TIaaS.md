@@ -19,8 +19,8 @@ There are a number of web URL's associated with TIaaS at Galaxy Australia. They 
 https://usegalaxy.org.au/tiaas/admin/ | Approve and Manage requests	| Admin
 https://usegalaxy.org.au/tiaas/stats/ | Overall TIaaS statistics ([Stats](https://usegalaxy.org.au/tiaas/stats/))	| Admins, Funding Agencies
 https://usegalaxy.org.au/tiaas/calendar/ | Calendar of trainings ([Calendar](https://usegalaxy.org.au/tiaas/calendar/)) | Admins, Funding Agencies
-https://usegalaxy.org.au/join-training/\<training-id\> | Join a TIaaS training | Participants
-https://usegalaxy.org.au/join-training/\<training-id\>/status | Dashboard with job states of trainees | Instructors
+https://usegalaxy.org.au/join-training/<training-id\> | Join a TIaaS training | Participants
+https://usegalaxy.org.au/join-training/<training-id\>/status | Dashboard with job states of trainees | Instructors
 
 ### User application form
 
