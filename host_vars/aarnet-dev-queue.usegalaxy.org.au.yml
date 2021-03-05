@@ -15,7 +15,7 @@ rabbitmq_users:
     vhost: galaxy
   - user: galaxy_au
     password: "{{ rabbitmq_password_galaxy_au }}"
-    vhost: /pulsar/galaxy_mel2
+    vhost: /pulsar/galaxy_au
     
 rabbitmq_vhosts:
   - galaxy
