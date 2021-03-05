@@ -1,0 +1,54 @@
+
+auth_key_user: ubuntu
+
+head_nodes: "{{ groups['aarnet_dev_slurm_head'] }}"
+worker_nodes: "{{ groups['aarnet_dev_workers'] }}"
+galaxy_nodes: "{{ groups['aarnet_dev_galaxy_server'] }}"
+
+add_galaxy_user: true #Adds the galaxy user to all machines that have slurm on them
+
+# SLURM
+slurm_nodes:
+    - name: aarnet-dev-w1
+      NodeAddr: "{{ hostvars['aarnet-dev-w1']['internal_ip'] }}"
+      CPUs: 8
+      RealMemory: 15560
+      State: UNKNOWN
+    - name: aarnet-dev-w2
+      NodeAddr: "{{ hostvars['aarnet-dev-w2']['internal_ip'] }}"
+      CPUs: 8
+      RealMemory: 15560
+      State: UNKNOWN
+    - name: aarnet-dev-queue
+      NodeAddr: "{{ hostvars['aarnet-dev-queue']['internal_ip'] }}"
+      CPUs: 8
+      RealMemory: 15560
+      State: UNKNOWN
+    - name: aarnet-dev
+      NodeAddr: "{{ hostvars['aarnet-dev']['internal_ip'] }}"
+      CPUs: 8
+      RealMemory: 15560
+      State: UNKNOWN
+
+slurm_partitions:
+    - name: main
+      nodes: "aarnet-dev-w1,aarnet-dev-w2"
+      Default: YES
+      MaxTime: '30-00:00:00'
+      State: UP
+
+slurm_config:
+    #SlurmDBd includes
+    AccountingStorageType: accounting_storage/slurmdbd
+    AccountingStorageHost: localhost
+    JobAcctGatherType: jobacct_gather/linux
+    ControlMachine: aarnet-dev-queue
+    SlurmctldPidFile: /run/slurmctld.pid
+    SlurmdPidFile: /run/slurmd.pid
+    # SCHEDULING
+    FastSchedule: 2
+    SchedulerType: sched/backfill
+    SelectType: select/cons_res
+    SelectTypeParameters: CR_CPU,CR_LLN
+
+slurm_munge_key: files/keys/munge.key

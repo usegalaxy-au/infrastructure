@@ -1,0 +1,26 @@
+- hosts: aarnet_dev_slurm_head
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/aarnet_dev.yml
+      - group_vars/rabbitservers.yml
+      - group_vars/VAULT
+      - host_vars/aarnet-dev-queue.usegalaxy.org.au.yml
+      - group_vars/aarnet-dev-slurm.yml
+  roles:
+      - common
+      - insspb.hostname
+      - geerlingguy.pip
+      - jasonroyle.rabbitmq
+      - galaxyproject.nginx
+      - mariadb
+      - galaxyproject.repos
+      - galaxyproject.slurm
+      - dj-wasabi.telegraf
+  post_tasks:
+      - name: Allow all users to run sacct
+        lineinfile:
+          path: /etc/sudoers.d/devs
+          create: true
+          line: '%devs ALL=(ALL) NOPASSWD: /usr/bin/sacct'
+          validate: /usr/sbin/visudo -cf %s
