@@ -1,0 +1,70 @@
+
+
+# Host specific Rabbit settings
+rabbitmq_users:
+  - user: admin
+    password: "{{ rabbitmq_password_admin }}"
+    tags: administrator
+    vhost: /
+  - user: telegraf
+    password: "{{ rabbitmq_password_telegraf }}"
+    tags: administrator
+    vhost: /
+  - user: galaxy
+    password: "{{ rabbitmq_password_galaxy }}"
+    vhost: galaxy
+  - user: galaxy_au
+    password: "{{ rabbitmq_password_galaxy_au }}"
+    vhost: /pulsar/galaxy_mel2
+    
+rabbitmq_vhosts:
+  - galaxy
+  - /pulsar/galaxy_au
+  
+rabbitmq_password_admin: "{{ vault_rabbitmq_password_admin_aarnet_dev }}"
+rabbitmq_password_telegraf: "{{ vault_rabbitmq_password_telegraf_aarnet_dev }}"
+rabbitmq_password_galaxy: "{{ vault_rabbitmq_password_galaxy_aarnet_dev }}"
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_au_aarnet_dev }}"
+
+
+# Host specific Slurm settings
+slurm_roles: ['controller', 'dbd']
+
+slurm_database_user: slurm
+slurm_database_user_password: "{{ mariadb_password_slurm }}"
+slurm_database: 'slurm_acct_db'
+
+add_hosts_workers: yes
+add_hosts_galaxy: yes
+
+#Mariadb
+
+mariadb_root_pass: "{{ mariadb_password_root }}"
+mariadb_options:
+  innodb_buffer_pool_size: 1073741824
+  innodb_log_file_size: 67108864
+  innodb_lock_wait_timeout: 900
+mariadb_users:
+  - name: "{{ slurm_database_user }}"
+    password: "{{ slurm_database_user_password }}"
+    priv: '{{ slurm_database }}.*:ALL'
+mariadb_databases:
+  - name: '{{ slurm_database }}'
+
+mariadb_password_slurm: "{{ vault_mariadb_password_aarnet_dev_slurm }}"
+mariadb_password_root: "{{ vault_mariadb_password_aarnet_dev_root }}"
+
+#Slurmdbd
+
+slurmdbd_config:
+  AuthType: auth/munge
+  AuthInfo: /var/run/munge/munge.socket.2
+  DbdHost: localhost
+  StorageHost: localhost
+  StorageLoc: "{{ slurm_database }}"
+  StoragePass: "{{ slurm_database_user_password }}"
+  StorageType: accounting_storage/mysql
+  StorageUser: "{{ slurm_database_user }}"
+  LogFile: /var/log/slurm-llnl/slurmdbd.log
+  PidFile: /run/slurmdbd.pid
+  SlurmUser: slurm
