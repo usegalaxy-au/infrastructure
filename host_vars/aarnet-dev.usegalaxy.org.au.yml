@@ -32,7 +32,7 @@ __galaxy_config:
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on dev
     brand: "AARNet Dev"
-    database_connection: "postgres://galaxy:{{ vault_dev_db_user_password }}@{{ hostvars['aarnet-dev-db']['internal_ip'] }}:5432/galaxy"
+    database_connection: "postgres://galaxy:{{ galaxy_db_user_password }}@{{ hostvars['aarnet-dev-db']['internal_ip'] }}:5432/galaxy"
     id_secret: "{{ vault_aarnet_dev_id_secret }}"
     file_path: "{{ galaxy_root }}/data"
     galaxy_infrastructure_url: 'https://aarnet-dev.usegalaxy.org.au'
