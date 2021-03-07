@@ -1,0 +1,151 @@
+# Specific settings for galaxy dev application/web server
+
+certbot_domains:
+- "{{ hostname }}"
+
+galaxy_db_user_password: "{{ vault_aarnet_dev_db_user_password }}"
+
+# ansible-galaxy
+galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/aarnet-dev
+galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
+galaxy_dynamic_job_rules:
+  - dynamic_rules/destination_mapper.py
+  - dynamic_rules/tool_destinations.yml
+  - readme.txt
+
+galaxy_tools_indices_dir: "{{ galaxy_root }}"
+galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
+
+# galaxy_repo: https://github.com/galaxyproject/galaxy.git
+galaxy_repo: https://github.com/usegalaxy-au/galaxy.git  # usegalaxy-au fork of galaxy
+galaxy_commit_id: release_20.09_cloudstor
+
+# Use cloudstor branch and extra tool_conf file and user prefs for cloudstor tool
+use_cloudstor_conf: true
+
+__galaxy_config:
+  uwsgi:
+    mule:
+      - lib/galaxy/main.py
+      - lib/galaxy/main.py
+    farm: job-handlers:1,2
+  galaxy:
+    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on dev
+    brand: "AARNet Dev"
+    database_connection: "postgres://galaxy:{{ vault_dev_db_user_password }}@{{ hostvars['aarnet-dev-db']['internal_ip'] }}:5432/galaxy"
+    id_secret: "{{ vault_aarnet_dev_id_secret }}"
+    file_path: "{{ galaxy_root }}/data"
+    galaxy_infrastructure_url: 'https://aarnet-dev.usegalaxy.org.au'
+
+galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
+
+# NFS stuff
+nfs_exports:
+    - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
+
+#Galaxy Job Conf
+galaxy_jobconf:
+    plugin_workers: 4
+    handlers:
+        count: "{{ galaxy_handler_count }}"
+    plugins:
+      - id: dynamic
+        params:
+          rules_module: dynamic_rules
+      - id: local
+        load: galaxy.jobs.runners.local:LocalJobRunner
+        workers: 4
+      - id: slurm
+        load: galaxy.jobs.runners.slurm:SlurmJobRunner
+      # - id: pulsar_au_01
+      #   load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+      #   params:
+      #       amqp_url: "pyamqp://galaxy_au:{{ vault_rabbitmq_password_galaxy_au_dev }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_au?ssl=1"
+      #       galaxy_url: "https://dev.usegalaxy.org.au"
+      #       manager: _default_
+      #       amqp_acknowledge: True
+      #       amqp_ack_republish_time: 300
+      #       amqp_consumer_timeout: 2.0
+      #       amqp_publish_retry: True
+      #       amqp_publish_retry_max_retries: 60
+      # - id: pulsar_nci_test_runner
+      #   load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+      #   params:
+      #       amqp_url: "pyamqp://galaxy_nci_test:{{ vault_rabbitmq_password_galaxy_nci_test }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_nci_test?ssl=1"
+      #       galaxy_url: "https://dev.usegalaxy.org.au"
+      #       manager: _default_
+      #       amqp_acknowledge: True
+      #       amqp_ack_republish_time: 300
+      #       amqp_consumer_timeout: 2.0
+      #       amqp_publish_retry: True
+      #       amqp_publish_retry_max_retries: 60
+    default_destination: gateway
+    destinations:
+      - id: local
+        runner: local
+      - id: gateway
+        runner: dynamic
+        params:
+            type: python
+            function: gateway
+      - id: dynamic_dtd
+        runner: dynamic
+        params:
+          type: dtd
+      - id: slurm_dest
+        runner: slurm
+        params:
+            nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
+      # - id: pulsar_destination
+      #   runner: pulsar_au_01
+      #   params:
+      #         jobs_directory: /mnt/pulsar/files/staging
+      #         transport: curl
+      #         remote_metadata: "false"
+      #         default_file_action: remote_transfer
+      #         dependency_resolution: remote
+      #         rewrite_parameters: "true"
+      #         persistence_directory: /mnt/pulsar/files/persisted_data
+      #         submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+      # - id: pulsar_destination_nci
+      #   runner: pulsar_nci_test_runner
+      #   params:
+      #         jobs_directory: /mnt/pulsar/files/staging
+      #         transport: curl
+      #         remote_metadata: "false"
+      #         default_file_action: remote_transfer
+      #         dependency_resolution: remote
+      #         rewrite_parameters: "true"
+      #         persistence_directory: /mnt/pulsar/files/persisted_data
+      #         submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+    limits:
+      #General limits for user submission
+      - type: anonymous_user_concurrent_jobs
+        value: 1
+      - type: registered_user_concurrent_jobs
+        value: 10
+
+# variables for attaching mounted volume to application server
+galaxyserver_attached_volume_device: /dev/vdb
+galaxyserver_attached_volume_path: /mnt
+galaxyserver_attached_volume_fstype: ext4
+
+# cvmfs
+cvmfs_cache_base: /mnt/var/lib/cvmfs
+
+# vars for setting up .pgpass
+galaxy_db_password: "{{ vault_aarnet_dev_db_user_password }}"
+reader_db_password: "{{ vault_aarnet_dev_db_reader_password }}"
+db_address: "{{ hostvars['aarnet-dev-db']['internal_ip'] }}"
+gxadmin_ubuntu_config_dir: /home/ubuntu/.config
+
+# TIaaS specific settings
+tiaas_galaxy_db_host: "{{ hostvars['aarnet-dev-db']['internal_ip'] }}"
+tiaas_galaxy_db_port: "5432"
+tiaas_galaxy_db_user: "tiaas"
+tiaas_galaxy_db_pass: "{{ tiaas_galaxy_db_password }}"
+tiaas_info:
+  owner: "Galaxy Australia AARNet Dev"
+  owner_email: help@genome.edu.au
+  owner_site: "https://aarnet-dev.usegalaxy.org.au"
+  domain: "aarnet-dev.usegalaxy.org.au"
