@@ -12,7 +12,7 @@ postgresql_conf:
   # Data Storage: san
 
   - max_connections: 100
-  - shared_buffer: 2GB
+  #- shared_buffer: 2GB #### - not a valid parameter
   - effective_cache_size: 6GB
   - maintenance_work_mem: 512MB
   - checkpoint_completion_target: 0.7
