@@ -1,0 +1,91 @@
+- hosts: pawsey_galaxy_server
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/pawsey.yml
+      - group_vars/VAULT
+      - group_vars/galaxyservers.yml
+      - group_vars/pawsey_slurm.yml
+      - host_vars/pawsey.usegalaxy.org.au.yml
+      - host_vars/pawsey_job_conf.yml
+  pre_tasks:
+    - name: Attach volume to instance
+      # If this script is being run for the first time, review the value of galaxyserver_attached_volume_device in group_vars
+      block: # TODO: This is pretty generic code for attaching a volume to a device and should probably live in another file to be reused
+        - name: Detect attached volume
+          parted:
+            device: "{{ galaxyserver_attached_volume_device }}"
+            unit: GiB
+          register: volume_info
+        - name: Create a filesystem on volume
+          filesystem:
+            fstype: "{{ galaxyserver_attached_volume_fstype }}"
+            dev: "{{ galaxyserver_attached_volume_device }}"
+          when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == galaxyserver_attached_volume_device
+        - name: Mount volume
+          mount:
+            path: "{{ galaxyserver_attached_volume_path }}"
+            src: "{{ galaxyserver_attached_volume_device }}"
+            fstype: "{{ galaxyserver_attached_volume_fstype }}"
+            state: mounted
+      when: galaxyserver_attached_volume_device is defined
+  handlers:
+    - name: Restart Galaxy
+      systemd:
+        name: galaxy
+        state: restarted
+  roles:
+    - galaxyproject.repos
+    - common
+    - mounts
+    - galaxyproject.postgresql
+    - role: natefoo.postgresql_objects
+      become: true
+      become_user: postgres
+    - geerlingguy.pip
+    - galaxyproject.galaxy
+    - usegalaxy_eu.galaxy_systemd
+    - galaxyproject.nginx
+    - geerlingguy.nfs
+    - galaxyproject.slurm
+    - galaxyproject.cvmfs
+    - usegalaxy_eu.gxadmin
+    - pg-post-tasks
+    - usegalaxy_eu.tiaas2
+  post_tasks:
+    - name: Clone Galaxy-Owncloud-Integration
+      git:
+        repo: https://github.com/usegalaxy-au/Galaxy-Owncloud-Integration
+        dest: "{{ galaxy_server_dir }}/tools/Galaxy-Owncloud-Integration"
+        update: no
+      when: use_cloudstor_conf|d(false) == true
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa1
+        state: latest
+    - name: Reload exportfs
+      command: exportfs -ra
+      become: yes
+      become_user: root
+    - name: setup lsyncd
+      package:
+        name: lsyncd
+        state: present
+    - name: create lsync dir
+      file:
+        path: /etc/lsyncd
+        state: directory
+    - name: config lsyncd
+      copy:
+        src: lsyncd/lsyncd.conf.lua
+        dest: /etc/lsyncd/lsyncd.conf.lua
+      become: yes
+    - name: restart lsyncd
+      systemd:
+        name: lsyncd
+        state: restarted
+    - name: add symlink for files mount
+      file:
+        src: /mnt/files
+        dest: /mnt/galaxy/files
+        state: link
