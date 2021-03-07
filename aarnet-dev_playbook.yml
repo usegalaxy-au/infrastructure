@@ -1,13 +1,12 @@
-- hosts: pawsey_galaxy_server
+- hosts: aarnet_dev_galaxy_server
   become: true
   vars_files:
       - group_vars/all.yml
-      - group_vars/pawsey.yml
+      - group_vars/aarnet-dev.yml
       - group_vars/VAULT
       - group_vars/galaxyservers.yml
-      - group_vars/pawsey_slurm.yml
-      - host_vars/pawsey.usegalaxy.org.au.yml
-      - host_vars/pawsey_job_conf.yml
+      - group_vars/aarnet-dev-slurm.yml
+      - host_vars/aarnet-dev.usegalaxy.org.au.yml
   pre_tasks:
     - name: Attach volume to instance
       # If this script is being run for the first time, review the value of galaxyserver_attached_volume_device in group_vars
@@ -37,7 +36,6 @@
   roles:
     - galaxyproject.repos
     - common
-    - mounts
     - galaxyproject.postgresql
     - role: natefoo.postgresql_objects
       become: true
@@ -51,7 +49,7 @@
     - galaxyproject.cvmfs
     - usegalaxy_eu.gxadmin
     - pg-post-tasks
-    - usegalaxy_eu.tiaas2
+    #- usegalaxy_eu.tiaas2
   post_tasks:
     - name: Clone Galaxy-Owncloud-Integration
       git:
@@ -67,25 +65,3 @@
       command: exportfs -ra
       become: yes
       become_user: root
-    - name: setup lsyncd
-      package:
-        name: lsyncd
-        state: present
-    - name: create lsync dir
-      file:
-        path: /etc/lsyncd
-        state: directory
-    - name: config lsyncd
-      copy:
-        src: lsyncd/lsyncd.conf.lua
-        dest: /etc/lsyncd/lsyncd.conf.lua
-      become: yes
-    - name: restart lsyncd
-      systemd:
-        name: lsyncd
-        state: restarted
-    - name: add symlink for files mount
-      file:
-        src: /mnt/files
-        dest: /mnt/galaxy/files
-        state: link
