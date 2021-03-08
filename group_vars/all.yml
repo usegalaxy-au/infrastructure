@@ -35,6 +35,10 @@ machine_users:
       role: sudo
       key: files/keys/jenkins_bot.pub
       email: "{{ jenkins_bot_email }}" # this is not a real email address and will cause issues if validation is required
+    - name: nuwan
+      role: sudo
+      key: files/keys/nuwan.pub
+      email: "{{ nuwan_email }}"
 
 galaxy_user:
   name: galaxy
