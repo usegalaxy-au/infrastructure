@@ -1,9 +1,9 @@
 - name: galaxyproject.galaxy
-  version: 0.9.6
+  version: 0.9.11
 - name: galaxyproject.nginx
   version: 0.6.4
 - name: galaxyproject.postgresql
-  version: 1.0.2
+  version: 1.0.3
 - name: natefoo.postgresql_objects
   version: 1.1
 - name: geerlingguy.pip
@@ -20,7 +20,7 @@
 #- src: galaxyproject.slurm - Waiting for a new release that sets up clustering for dbd properly
 #  version: 0.1.2
 - src: galaxyproject.cvmfs
-  version: 0.2.13
+  version: 0.2.14
 #- src: galaxyproject.repos - Waiting for a new release with Ubuntu >= 18.04
 #  version: 0.0.1
 - src: galaxyproject.pulsar
