@@ -9,3 +9,9 @@ shared_mounts:
       fstype: nfs
       state: mounted
 
+attached_volume_device: /dev/vdb
+attached_volume_fstype: ext4
+attached_volume_path: /mnt
+
+# cvmfs
+cvmfs_cache_base: /mnt/var/lib/cvmfs
