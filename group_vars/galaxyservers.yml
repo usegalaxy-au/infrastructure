@@ -151,6 +151,8 @@ galaxy_config:
     email_from: <galaxy-no-reply@usegalaxy.org.au>
     support_url: "{{ galaxy_australia_website }}/help"
 
+    data_dir: "{{ galaxy_root }}/cache"  # cache paths are set relative to data_dir (cache_dir will become a config option in 21.05)
+
     conda_debug: true
     conda_prefix: "{{ galaxy_tools_indices_dir }}/tool_dependencies/_conda"
   
