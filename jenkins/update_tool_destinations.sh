@@ -27,4 +27,5 @@ fi
 
 echo -e "\nUpdating tool destinations file on Galaxy\n"
 
+echo "helloworld" > .vault_pass.txt  # ansible needs .vault_pass.txt to exist
 ansible-playbook -i hosts pawsey_update_job_conf_playbook.yml -u jenkins_bot --extra-vars "iamjenkins=true" --vault-password-file "$VAULT_PASS"

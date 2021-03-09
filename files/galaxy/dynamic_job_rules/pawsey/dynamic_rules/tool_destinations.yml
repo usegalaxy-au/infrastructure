@@ -1297,9 +1297,9 @@ tools:
         default_destination: slurm_7slots
     gffread:
         default_destination: slurm_9slots_1off
-    #
+    ##
     # Data managers
-    #
+    ##
     bwa_mem_index_builder_data_manager:
         default_destination: slurm_16slots
     hisat2_index_builder_data_manager:
