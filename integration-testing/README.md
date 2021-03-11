@@ -7,8 +7,7 @@ Have created a list of tools that can be used to test new server deployments. Ba
 Located in workflows directory as `.ga` files. Install with Ephemeris `workflow-install` command. You will need an admin api key.
 
 1. Calling variants in non-diploid systems
-2. qc-report (part of rna-seq reads to counts)
-3. rna-seq reads to counts
+2. rna-seq reads to counts
 
 ### List of tools
 

@@ -1,0 +1,64 @@
+- doc: Test outline for rna-seq-reads-to-counts.ga
+  job:
+    Input FASTQs collection:
+      class: Collection
+      collection_type: list
+      elements:
+      - class: File
+        identifier: MCL1-DL
+        location: https://zenodo.org/record/4249555/files/SRR1552455.fastq.gz
+        filetype: fastqsanger.gz
+      - class: File
+        identifier: MCL1-DK
+        location: https://zenodo.org/record/4249555/files/SRR1552454.fastq.gz
+        filetype: fastqsanger.gz
+      - class: File
+        identifier: MCL1-DJ
+        location: https://zenodo.org/record/4249555/files/SRR1552453.fastq.gz
+        filetype: fastqsanger.gz
+      - class: File
+        identifier: MCL1-DI
+        location: https://zenodo.org/record/4249555/files/SRR1552452.fastq.gz
+        filetype: fastqsanger.gz
+      - class: File
+        identifier: MCL1-DH
+        location: https://zenodo.org/record/4249555/files/SRR1552451.fastq.gz
+        filetype: fastqsanger.gz
+      - class: File
+        identifier: MCL1-DG
+        location: https://zenodo.org/record/4249555/files/SRR1552450.fastq.gz
+        filetype: fastqsanger.gz
+      - class: File
+        identifier: MCL1-LF
+        location: https://zenodo.org/record/4249555/files/SRR1552449.fastq.gz
+        filetype: fastqsanger.gz
+      - class: File
+        identifier: MCL1-LE
+        location: https://zenodo.org/record/4249555/files/SRR1552448.fastq.gz
+        filetype: fastqsanger.gz
+      - class: File
+        identifier: MCL1-LD
+        location: https://zenodo.org/record/4249555/files/SRR1552447.fastq.gz
+        filetype: fastqsanger.gz
+      - class: File
+        identifier: MCL1-LC
+        location: https://zenodo.org/record/4249555/files/SRR1552446.fastq.gz
+        filetype: fastqsanger.gz
+      - class: File
+        identifier: MCL1-LB
+        location: https://zenodo.org/record/4249555/files/SRR1552445.fastq.gz
+        filetype: fastqsanger.gz
+      - class: File
+        identifier: MCL1-LA
+        location: https://zenodo.org/record/4249555/files/SRR1552444.fastq.gz
+        filetype: fastqsanger.gz
+    Input Reference gene BED:
+      class: File
+      location: https://swift.rc.nectar.org.au/v1/AUTH_377/public/mm10_RefSeq.bed
+      filetype: bed
+  outputs:
+    html_report:
+      asserts:
+        has_text:
+          text: 'nilesh'
+

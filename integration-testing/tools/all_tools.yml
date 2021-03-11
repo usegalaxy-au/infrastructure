@@ -53,12 +53,14 @@ tools:
   owner: iuc
   revisions:
   - 6daca6da3059
+  - 26371a1df031
   tool_panel_section_label: RNA-seq
   tool_shed_url: https://toolshed.g2.bx.psu.edu/
 - name: featurecounts
   owner: iuc
   revisions:
   - 1759d845181e
+  - ea04b737afa0
   tool_panel_section_label: RNA-seq
   tool_shed_url: https://toolshed.g2.bx.psu.edu/
 - name: bwa
