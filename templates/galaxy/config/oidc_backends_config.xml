@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<OIDC>
+    <provider name="Custos">
+        <url>https://custos.scigap.org/apiserver/identity-management/v1.0.0/</url>
+        <client_id>{{ vault_custos_client_id }}</client_id>
+        <client_secret>{{ vault_custos_client_secret }}</client_secret>
+        <redirect_uri>{{ galaxy_infrastructure_url }}/authnz/custos/callback</redirect_uri>
+    </provider>
+</OIDC>
