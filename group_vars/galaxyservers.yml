@@ -229,6 +229,11 @@ galaxy_config:
     # oidc_config_file: config/oidc_config.xml
     # oidc_backends_config_file: config/oidc_backends_config.xml
 
+    user_activation_on: true
+    inactivity_box_content: Your account has not been activated yet.  Feel free to browse around and see what's available, but you won't be able to upload data or run jobs until you have verified your email address.
+    custom_activation_email_message:
+
+
 
 galaxy_config_template_src_dir: templates/galaxy
 galaxy_config_templates:
