@@ -48,3 +48,4 @@
       - role: natefoo.postgresql_objects
         become: true
         become_user: postgres
+      - dj-wasabi.telegraf
