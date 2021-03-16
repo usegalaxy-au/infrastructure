@@ -57,8 +57,8 @@
       location: https://swift.rc.nectar.org.au/v1/AUTH_377/public/mm10_RefSeq.bed
       filetype: bed
   outputs:
-    html_report:
+    column_join:
       asserts:
         has_text:
-          text: 'nilesh'
+          text: 'Geneid'
 
