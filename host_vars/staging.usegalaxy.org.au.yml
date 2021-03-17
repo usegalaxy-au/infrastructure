@@ -116,3 +116,9 @@ galaxy_db_password: "{{ vault_staging_db_user_password }}"
 reader_db_password: "{{ vault_staging_db_reader_password }}"
 db_address: "staging-db.usegalaxy.org.au"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
+
+# Custos/AAF specific settings
+custos_client_id: "{{ vault_custos_client_id_staging }}"
+custos_client_secret: "{{ vault_custos_client_secret_staging }}"
+aaf_client_id: "{{ vault_aaf_client_id_staging }}"
+aaf_client_secret: "{{ vault_aaf_client_secret_staging }}"
