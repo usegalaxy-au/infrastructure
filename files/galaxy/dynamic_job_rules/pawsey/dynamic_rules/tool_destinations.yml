@@ -258,7 +258,7 @@ tools:
     hyphy_absrel:
         default_destination: slurm_16slots
     maxquant:
-        default_destination: slurm_16slots
+        default_destination: pulsar-mel3_big
     maxquant_mqpar:
         default_destination: slurm_16slots
     fasterq_dump:
@@ -988,13 +988,13 @@ tools:
     roary:
         default_destination: slurm_7slots
     rseqc_RPKM_saturation:
-        default_destination: slurm_9slots
+        default_destination: pulsar-mel3_mid
     rseqc_geneBody_coverage:
-        default_destination: slurm_5slots
+        default_destination: pulsar-mel3_small
     rseqc_geneBody_coverage2:
-        default_destination: slurm_5slots
+        default_destination: pulsar-mel3_small
     rseqc_read_distribution:
-        default_destination: slurm_5slots
+        default_destination: pulsar-mel3_small
     cutadapt:
         default_destination: slurm_5slots
     ncbi_blastx_wrapper:
