@@ -449,7 +449,7 @@ tools:
               lower_bound: 1 GB
               upper_bound: 10 GB
               destination: pulsar-mel3_mid
-        default_destination: slurm_7slots
+        default_destination: pulsar-mel3_mid
     bowtie2:
         rules:
             - rule_type: file_size
