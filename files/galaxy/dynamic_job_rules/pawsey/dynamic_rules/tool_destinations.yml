@@ -37,7 +37,7 @@ tools:
             nice_value: 0
             lower_bound: 15 MB
             upper_bound: 2 GB
-            destination: slurm_3slots
+            destination: pulsar-mel3_small
           - rule_type: file_size
             nice_value: 0
             lower_bound: 2 GB
@@ -391,7 +391,7 @@ tools:
               nice_value: 0
               lower_bound: 15 MB
               upper_bound: 3 GB
-              destination: slurm_3slots
+              destination: pulsar-mel3_small
         default_destination: slurm_3slots
     abricate:
         rules:
@@ -425,7 +425,7 @@ tools:
               nice_value: 0
               lower_bound: 250 MB
               upper_bound: 1 GB
-              destination: slurm_3slots
+              destination: pulsar-mel_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 1 GB
@@ -447,9 +447,14 @@ tools:
             - rule_type: file_size
               nice_value: 0
               lower_bound: 1 GB
-              upper_bound: 10 GB
+              upper_bound: 2 GB
               destination: pulsar-mel3_mid
-        default_destination: pulsar-mel3_mid
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 2 GB
+              upper_bound: 10 GB
+              destination: slurm_5slots
+        default_destination: slurm_7slots
     bowtie2:
         rules:
             - rule_type: file_size
