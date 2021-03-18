@@ -9,6 +9,9 @@ server {
     error_log   /var/log/nginx/error.log;
     sendfile    on;
 
+    uwsgi_buffer_size 16k;
+    uwsgi_busy_buffers_size 24k;
+
     # The most important location block, by default all requests are sent to uWSGI
     location / {
         # This is the backend to send the requests to.
