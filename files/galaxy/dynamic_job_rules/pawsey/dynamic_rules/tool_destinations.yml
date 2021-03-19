@@ -263,7 +263,7 @@ tools:
             nice_value: 0
             lower_bound: 0
             upper_bound: 500 MB
-            destination: slurm3_slots
+            destination: slurm_3slots
         default_destination: pulsar-mel3_big
     maxquant_mqpar:
         default_destination: slurm_16slots
