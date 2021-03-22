@@ -141,6 +141,8 @@
     </section>
     <section id="variant_calling" name="Variant Calling">
     </section>
+    <section id="dna_metabarcoding" name="DNA Metabarcoding">
+    </section>
     <section id="chip_seq" name="ChiP-seq">
     </section>
     <section id="rna_seq" name="RNA-seq">
