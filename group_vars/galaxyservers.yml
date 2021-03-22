@@ -225,9 +225,15 @@ galaxy_config:
     # len_file_path: /mnt/galaxy-app/tool-data/len
     #
     
-    enable_oidc: true
-    oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
-    oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
+    #########################################
+    # Commented out by Simon - 22/03/2021.
+    # Requires more testing before being used in production - team meeting 22/03/2021.
+    # Once it's added to production it's no longer an issue.
+    # 
+    #########################################
+    #enable_oidc: true
+    #oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
+    #oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
 
 
 galaxy_config_template_src_dir: templates/galaxy
