@@ -12,7 +12,7 @@ nfs_exports:
 # ansible-galaxy
 # galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git  # usegalaxy-au fork of galaxy
-galaxy_commit_id: release_20.09_cloudstor
+galaxy_commit_id: release_21.01_cloudstor
 
 # Use cloudstor branch and extra tool_conf file and user prefs for cloudstor tool
 use_cloudstor_conf: true
@@ -116,3 +116,9 @@ galaxy_db_password: "{{ vault_staging_db_user_password }}"
 reader_db_password: "{{ vault_staging_db_reader_password }}"
 db_address: "staging-db.usegalaxy.org.au"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
+
+# Custos/AAF specific settings
+custos_client_id: "{{ vault_custos_client_id_staging }}"
+custos_client_secret: "{{ vault_custos_client_secret_staging }}"
+aaf_client_id: "{{ vault_aaf_client_id_staging }}"
+aaf_client_secret: "{{ vault_aaf_client_secret_staging }}"
