@@ -30,3 +30,4 @@
     - common
     - geerlingguy.pip
     - slg.db-backup
+    - dj-wasabi.telegraf
