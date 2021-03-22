@@ -142,7 +142,7 @@ galaxy_config:
     allow_user_dataset_purge: true
     enable_quotas: true
     enable_job_recovery: true
-    outputs_to_working_directory: false
+    outputs_to_working_directory: true
     enable_tool_recommendations: true
 
     static_enabled: true
