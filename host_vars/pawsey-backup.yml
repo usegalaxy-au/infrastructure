@@ -16,6 +16,10 @@ swift_backup_container: 'usegalaxy-au-db'
 swift_cred_file: "{{ script_path }}/GenomicsVL-openrc.sh"
 venv_location: "{{ script_path }}/venv"
 
+#slack integration
+use_slack: true
+slack_galaxy_log_webhook: "{{ vault_slack_galaxy_log_webhook }}"
+
 #The name of the database to backup
 psql_db: 'galaxy'
 
