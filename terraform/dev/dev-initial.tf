@@ -61,3 +61,17 @@ resource "openstack_compute_volume_attach_v2" "attach-dev-volume-to-dev" {
   instance_id = "${openstack_compute_instance_v2.dev.id}"
   volume_id   = "${openstack_blockstorage_volume_v2.dev-volume.id}"
 }
+
+# Volume for upload store
+resource "openstack_blockstorage_volume_v2" "dev-upload-store-volume" {
+  availability_zone = "melbourne-qh2"
+  name        = "dev-upload-store-volume"
+  description = "Galaxy Australia Dev volume"
+  size        = 200
+}
+
+# Attachment between application/web server and upload store volume
+resource "openstack_compute_volume_attach_v2" "attach-dev-upload-store-volume-to-dev" {
+  instance_id = "${openstack_compute_instance_v2.dev.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.dev-upload-store-volume.id}"
+}
