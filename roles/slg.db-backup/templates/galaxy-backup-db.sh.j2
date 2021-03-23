@@ -43,6 +43,12 @@ RETENTION_DAY={{ retention_day }}       #Keep daily backups for this many days (
 RETENTION_WEEK={{ retention_week }}     #Keep weekly backups for this many days (21 days = 3 weeks)
 RETENTION_MONTH={{ retention_month }}    #Keep monthly backups for this many days (92 days ~ 3 months)
 
+{% if use_slack == true and slack_galaxy_log_webhook is defined %}
+post_to_slack() {
+  curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"${1}\"}" {{ slack_galaxy_log_webhook }}
+}
+{% endif %}
+
 #Get the current month day and week day
 month_day=`date +"%d"`
 week_day=`date +"%u"`
@@ -71,20 +77,28 @@ fi
 
 cd $BACKUP_DIR
 
-#Send the preliminary stuff to the logfile.
-echo "[$(date --iso-8601=seconds)] Starting backup" >> $LOGFILE
-echo '  Month day: '$month_day >> $LOGFILE
-echo '  Week day: '$week_day >> $LOGFILE
-echo '  Backup type: '$BACKUP_TYPE >> $LOGFILE
-echo '  Swift details: '$SWIFT_BACKUP_CONTAINER >> $LOGFILE
-echo '  Database: '$PSQL_DB >> $LOGFILE
-echo '  Retention: '$RETENTION_DAY_LOOKUP >>$LOGFILE
-
 #create the backup filename
 
 backup_filename=`date +"%d-%m-%Y"`'-'${PSQL_DB}${BACKUP_TYPE}'.sql.gz'
 
-echo '  Backup filename: '$backup_filename >> $LOGFILE
+PRELIM_OUTPUT="[$(date --iso-8601=seconds)] Starting database backup\n"
+PRELIM_OUTPUT+="  Month day: ${month_day}\n"
+PRELIM_OUTPUT+="  Week day: ${week_day}\n"
+PRELIM_OUTPUT+="  Backup type: ${BACKUP_TYPE}\n"
+{% if use_swift == true %}
+PRELIM_OUTPUT+="  Swift details: ${SWIFT_BACKUP_CONTAINER}\n"
+{% endif %}
+PRELIM_OUTPUT+="  Database: ${PSQL_DB}\n"
+PRELIM_OUTPUT+="  Retention: ${RETENTION_DAY_LOOKUP}\n"
+PRELIM_OUTPUT+="  Backup filename: ${backup_filename}\n"
+
+#Send prelim output to the logfile
+echo $PRELIM_OUTPUT >> $LOGFILE
+
+{% if use_slack == true and slack_galaxy_log_webhook is defined %}
+#send prelim output to slack
+post_to_slack "$PRELIM_OUTPUT"
+{% endif %}
 
 #Now run the pgdump
 
@@ -127,4 +141,8 @@ for f in $(<search_file.tmp)
 
 rm search_file.tmp
 
-echo "[$(date --iso-8601=seconds)] Backup complete." >> $LOGFILE
+POST_OUTPUT="[$(date --iso-8601=seconds)] Database backup complete."
+echo $POST_OUTPUT >> $LOGFILE
+{% if use_slack == true and slack_galaxy_log_webhook is defined %}
+post_to_slack "$POST_OUTPUT"
+{% endif %}
