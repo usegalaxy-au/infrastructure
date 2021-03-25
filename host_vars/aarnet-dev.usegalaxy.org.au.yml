@@ -1,7 +1,17 @@
 # Specific settings for galaxy dev application/web server
 
 certbot_domains:
-- "{{ hostname }}"
+  - "{{ hostname }}"
+  - "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
+certbot_dns_provider: cloudflare
+certbot_dns_credentials:
+  api_token: "{{ vault_dns_cloudflare_api_token }}"
+dns-cloudflare-propagation-seconds: 60
+
+#nginx overrides. These settings should override the settings in group_vars/galaxyservers.yml
+nginx_ssl_servers:
+  - galaxy
+  - galaxy-gie-proxy
 
 galaxy_db_user_password: "{{ vault_aarnet_dev_db_user_password }}"
 
@@ -16,9 +26,22 @@ galaxy_dynamic_job_rules:
 galaxy_tools_indices_dir: "{{ galaxy_root }}"
 galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
 
+# ITs tool conf overrides.
+tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_conf|d(false) == true else default_settings['tool_config_files'] }},{{ galaxy_config_dir }}/tool_conf_interactive.xml"
+# Overrride the templates list from galaxy.yml
+galaxy_config_templates:
+  - src: "{{ galaxy_config_template_src_dir }}/static/welcome.html.j2"
+    dest: "{{ galaxy_server_dir }}/static/welcome.html"
+  - src: "{{ galaxy_config_template_src_dir }}/config/job_conf.xml.j2"
+    dest: "{{ galaxy_config_dir}}/job_conf.xml"
+  - src: "{{ galaxy_config_template_src_dir }}/config/reports.yml.j2"
+    dest: "{{ galaxy_config_dir }}/reports.yml"
+  - src: templates/galaxy/config/tool_conf_interactive.xml.j2
+    dest: "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
+
 # galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git  # usegalaxy-au fork of galaxy
-galaxy_commit_id: release_20.09_cloudstor
+galaxy_commit_id: release_21.01_cloudstor
 
 # Use cloudstor branch and extra tool_conf file and user prefs for cloudstor tool
 use_cloudstor_conf: true
@@ -36,6 +59,9 @@ __galaxy_config:
     id_secret: "{{ vault_aarnet_dev_id_secret }}"
     file_path: "{{ galaxy_root }}/data"
     galaxy_infrastructure_url: 'https://aarnet-dev.usegalaxy.org.au'
+    #IT overide stuff
+    interactivetools_enable: true
+    interactivetools_map: "{{ gie_proxy_sessions_path }}"
 
 galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
 
@@ -118,12 +144,29 @@ galaxy_jobconf:
       #         rewrite_parameters: "true"
       #         persistence_directory: /mnt/pulsar/files/persisted_data
       #         submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+      - id: interactive_local
+        runner: local
+        params:
+          docker_enabled: true
+          docker_volumes: $defaults
+          docker_sudo: false
+          docker_net: bridge
+          docker_auto_rm: true
+          docker_set_user: ''
+          require_container: true
     limits:
       #General limits for user submission
       - type: anonymous_user_concurrent_jobs
         value: 1
       - type: registered_user_concurrent_jobs
         value: 10
+    tools:
+      - id: interactive_tool_ethercalc
+        destination: interactive_local
+      - id: interactive_tool_rstudio
+        destination: interactive_local
+      - id: interactive_tool_jupyter_notebook
+        destination: interactive_local
 
 # variables for attaching mounted volume to application server
 galaxyserver_attached_volume_device: /dev/vdb

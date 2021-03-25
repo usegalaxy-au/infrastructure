@@ -1,0 +1,16 @@
+---
+
+# The path where per-job directories will be created
+staging_directory: "{{ galaxy_job_working_directory }}/_interactive"
+
+# Where Pulsar state information will be stored (e.g. currently active jobs)
+persistence_directory: "{{ galaxy_mutable_data_dir }}/pulsar"
+
+# Where to find Galaxy tool dependencies
+tool_dependency_dir: "{{ galaxy_tool_dependency_dir }}"
+
+# How to run jobs (see https://pulsar.readthedocs.io/en/latest/job_managers.html)
+managers:
+  _default_:
+    type: queued_python
+    num_concurrent_jobs: 1

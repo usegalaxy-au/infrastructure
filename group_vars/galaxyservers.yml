@@ -130,6 +130,9 @@ galaxy_config:
     smtp_server: "{{ __galaxy_config['galaxy']['smtp_server']|default(omit) }}"
     ga_code: "{{ __galaxy_config['galaxy']['ga_code']|default(omit) }}"
 
+    interactivetools_enable: "{{ __galaxy_config['galaxy']['interactivetools_enable']|default(omit) }}"
+    interactivetools_map: "{{ __galaxy_config['galaxy']['interactivetools_map']|default(omit) }}"
+
     allow_user_impersonation: true
     allow_user_deletion: true
     allow_path_paste: true
@@ -280,3 +283,17 @@ tiaas_group: tiaas
 tiaas_version: master
 tiaas_admin_user: admin
 tiaas_admin_pass: "{{ tiaas_password }}"
+
+# Interactive Tools
+docker_install_compose: false
+docker_users:
+  - "{{ galaxy_user.name }}"
+
+gie_proxy_dir: "{{ galaxy_root }}/gie-proxy/proxy"
+gie_proxy_git_version: master
+gie_proxy_setup_nodejs: nodeenv
+gie_proxy_virtualenv_command: "{{ pip_virtualenv_command }}"
+gie_proxy_nodejs_version: "10.13.0"
+gie_proxy_virtualenv: "{{ galaxy_root }}/gie-proxy/venv"
+gie_proxy_setup_service: systemd
+gie_proxy_sessions_path: "{{ galaxy_mutable_data_dir }}/interactivetools_map.sqlite"

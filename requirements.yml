@@ -31,3 +31,7 @@
   version: 0.0.5
 - src: usegalaxy_eu.tiaas2
   version: 0.0.1
+- src: geerlingguy.docker
+  version: 2.6.0
+- src: usegalaxy_eu.gie_proxy
+  version: 0.0.2
