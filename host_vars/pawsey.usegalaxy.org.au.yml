@@ -63,7 +63,7 @@ galaxy_tmp_dir: /mnt/tmp
 
 galaxy_handler_count: 5   ############# europe uses 5, this could be host specific
 
-host_galaxy_config:
+host_galaxy_config:  # renamed from __galaxy_config
   uwsgi:
     mule:
       - lib/galaxy/main.py

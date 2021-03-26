@@ -29,7 +29,7 @@ galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
 
 galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
 
-host_galaxy_config:
+host_galaxy_config:  # renamed from __galaxy_config
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on staging: # TODO: update this
     brand: "Australia Staging"

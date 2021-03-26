@@ -23,7 +23,7 @@ galaxy_commit_id: release_20.09_cloudstor
 # Use cloudstor branch and extra tool_conf file and user prefs for cloudstor tool
 use_cloudstor_conf: true
 
-host_galaxy_config:
+host_galaxy_config:  # renamed from __galaxy_config
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on dev
     brand: "AARNet Dev"
