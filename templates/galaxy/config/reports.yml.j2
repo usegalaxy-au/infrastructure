@@ -20,7 +20,7 @@ uwsgi:
     enable-threads: true
 reports:
     cookie-path: /reports
-    database_connection: "{{ __galaxy_config['galaxy']['database_connection']}}"
+    database_connection: "{{ host_galaxy_config['galaxy']['database_connection']}}"
     file_path: /data
     filter-with: proxy-prefix
     template_cache_path: "{{ galaxy_mutable_data_dir }}/compiled_templates"
