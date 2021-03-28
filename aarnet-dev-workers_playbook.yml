@@ -36,6 +36,7 @@
       - galaxyproject.slurm
       - galaxyproject.cvmfs
       - dj-wasabi.telegraf
+      - geerlingguy.docker
   post_tasks:
       - name: restart munge
         systemd:

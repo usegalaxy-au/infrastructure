@@ -15,3 +15,8 @@ attached_volume_path: /mnt
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
+
+# Interactive Tools
+docker_install_compose: false
+docker_users:
+  - "{{ galaxy_user.name }}"

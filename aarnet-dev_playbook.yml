@@ -50,7 +50,9 @@
     - usegalaxy_eu.gxadmin
     - pg-post-tasks
     - dj-wasabi.telegraf
-    #- usegalaxy_eu.tiaas2
+    - usegalaxy_eu.tiaas2
+    - geerlingguy.docker
+    - usegalaxy_eu.gie_proxy
   post_tasks:
     - name: Clone Galaxy-Owncloud-Integration
       git:
