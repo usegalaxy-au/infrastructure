@@ -213,12 +213,14 @@ tools:
             nice_value: 0
             lower_bound: 0
             upper_bound: 1 MB
-            destination: pulsar-mel_small
+            # destination: pulsar-mel_small
+            destination: slurm_2slots
           - rule_type: file_size
             nice_value: 0
             lower_bound: 1 MB
             upper_bound: 10 MB
-            destination: pulsar-mel_big
+            # destination: pulsar-mel_big
+            destination: pulsar-mel3_mid
           - rule_type: file_size
             nice_value: 0
             lower_bound: 10 MB
@@ -351,17 +353,20 @@ tools:
             nice_value: 0
             lower_bound: 0
             upper_bound: 10 MB
-            destination: pulsar-mel_small
+            # destination: pulsar-mel_small
+            destination: pulsar-mel3_small
           - rule_type: file_size
             nice_value: 0
             lower_bound: 10 MB
             upper_bound: 2 GB
-            destination: pulsar-mel_mid
+            # destination: pulsar-mel_mid
+            destination: pulsar-mel3_small
           - rule_type: file_size
             nice_value: 0
             lower_bound: 2 GB
             upper_bound: 5 GB
-            destination: pulsar-mel_big
+            # destination: pulsar-mel_big
+            destination: pulsar-mel3_mid
           - rule_type: file_size
             nice_value: 0
             lower_bound: 5 GB
@@ -405,12 +410,13 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 5 MB
-              destination: pulsar-mel_small
-            - rule_type: file_size
-              nice_value: 0
-              lower_bound: 5 MB
-              upper_bound: 20 MB
-              destination: pulsar-mel_mid
+              # destination: pulsar-mel_small
+              destination: slurm_2slots
+            # - rule_type: file_size
+            #   nice_value: 0
+            #   lower_bound: 5 MB
+            #   upper_bound: 20 MB
+            #   destination: pulsar-mel_mid
         default_destination: slurm_3slots
     snippy:
         rules:
@@ -418,20 +424,24 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 15 MB
-              destination: pulsar-mel_small
-        default_destination: pulsar-mel_mid
+              # destination: pulsar-mel_small
+              destination: slurm_2slots
+        # default_destination: pulsar-mel_mid
+        default_destination: slurm_3slots
     bwa:
         rules:
             - rule_type: file_size
               nice_value: 0
               lower_bound: 0
               upper_bound: 250 MB
-              destination: pulsar-mel_small
+              # destination: pulsar-mel_small
+              destination: slurm_2slots
             - rule_type: file_size
               nice_value: 0
               lower_bound: 250 MB
               upper_bound: 1 GB
-              destination: pulsar-mel_mid
+              # destination: pulsar-mel_mid
+              destination: pulsar-mel3_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 1 GB
@@ -444,12 +454,14 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 250 MB
-              destination: pulsar-mel_small
+              # destination: pulsar-mel_small
+              destination: slurm_2slots
             - rule_type: file_size
               nice_value: 0
               lower_bound: 250 MB
               upper_bound: 1 GB
-              destination: pulsar-mel_mid
+              # destination: pulsar-mel_mid
+              destination: pulsar-mel3_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 1 GB
@@ -485,7 +497,8 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 500 MB
-              destination: pulsar-mel_small
+              # destination: pulsar-mel_small
+              destination: slurm_2slots
             - rule_type: file_size
               nice_value: 0
               lower_bound: 500 MB
