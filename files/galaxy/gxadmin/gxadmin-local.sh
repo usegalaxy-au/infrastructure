@@ -513,3 +513,36 @@ local_query-job-input-size-by-tool() { ##? <tool> input tool substr,  # optional
 			LIMIT $limit
 	EOF
 }
+
+local_query-all-jobs() {  ##? <limit> number of jobs to return (optional)
+	[ ! "$1" ] && limit="50" || limit="$1"
+	handle_help "$@" <<-EOF
+
+	Produces a table of all jobs by creation time.  This is much like `gxadmin query queue-detail`
+	but it returns jobs in all states. By default it returns 50 jobs.  It can return more
+	or less if a limit is supplied.
+
+	$ gxadmin local query-all-jobs 4
+	 job_id  |          created           |     username     | state  |                                 tool_id                                  |    destination
+	---------+----------------------------+------------------+--------+--------------------------------------------------------------------------+--------------------
+	 2209960 | 2021-03-23 11:33:59.382595 | frederick_smythe | queued | upload1                                                                  | slurm_1slot_upload
+	 2209959 | 2021-03-23 11:33:42.422161 | frederick_smythe | error  | toolshed.g2.bx.psu.edu/repos/iuc/newick_utils/newick_display/1.6+galaxy1 | pulsar-mel3_small
+	 2209958 | 2021-03-23 11:33:17.148529 | frederick_smythe | ok     | upload1                                                                  | slurm_1slot_upload
+	 2209957 | 2021-03-23 11:28:40.726797 | frederick_smythe | error  | toolshed.g2.bx.psu.edu/repos/iuc/newick_utils/newick_display/1.6+galaxy1 | pulsar-mel3_small
+
+	EOF
+
+	read -r -d '' QUERY <<-EOF
+			SELECT
+				j.id as job_id,
+				j.create_time as created,
+				u.username,
+				j.state as state,
+				j.tool_id as tool_id,
+				j.destination_id as destination
+			FROM job j, galaxy_user u
+			WHERE j.user_id = u.id
+			ORDER BY j.create_time desc
+			LIMIT $limit
+	EOF
+}
