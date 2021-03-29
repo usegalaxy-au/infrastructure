@@ -95,6 +95,18 @@ pulsar-paw-w3 ansible_ssh_host=146.118.70.37 internal_ip=192.168.0.138
 pulsar-paw-w4 ansible_ssh_host=146.118.69.218 internal_ip=192.168.0.176
 pulsar-paw-w5 ansible_ssh_host=146.118.70.1 internal_ip=192.168.0.157
 
+[pulsar-mel2-head]
+pulsar-mel2 ansible_ssh_host=115.146.85.55
+
+[pulsar-mel2-workers]
+pulsar-mel2-w1 ansible_ssh_host=115.146.86.24
+pulsar-mel2-w2 ansible_ssh_host=115.146.86.70
+pulsar-mel2-w3 ansible_ssh_host=115.146.87.226
+pulsar-mel2-w4 ansible_ssh_host=115.146.84.97
+pulsar-mel2-w5 ansible_ssh_host=115.146.85.102
+pulsar-mel2-w6 ansible_ssh_host=115.146.84.131
+pulsar-mel2-w7 ansible_ssh_host=115.146.86.132
+
 [pulsar-mel3-head]
 pulsar-mel3 ansible_ssh_host=115.146.93.216
 

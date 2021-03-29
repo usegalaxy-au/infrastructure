@@ -12,6 +12,7 @@ terraform/one-offs/*/.terraform
 terraform/one-offs/*/terraform*
 terraform/*/.terraform
 terraform/pulsar-nci-test/.terraform
+terraform/pulsar-mel2/.terraform
 
 # from requirements.yml
 roles/galaxyproject.galaxy/

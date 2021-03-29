@@ -1,0 +1,22 @@
+slurm_roles: ['exec']
+
+add_hosts_head: yes
+
+shared_mounts:
+    - path: /mnt/galaxy
+      src: pulsar-mel2:/mnt/galaxy
+      fstype: nfs
+      state: mounted
+    - path: /mnt/pulsar
+      src: pulsar-mel2:/mnt/pulsar
+      fstype: nfs
+      state: mounted
+
+
+# cvmfs
+cvmfs_cache_base: /mnt/var/lib/cvmfs
+
+#Attached volume
+attached_volume_device: /dev/vdb
+attached_volume_fstype: ext4
+attached_volume_path: /mnt

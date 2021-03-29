@@ -1,0 +1,68 @@
+- hosts: pulsar-mel2
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/pulsar_mel2/pulsar-mel2.yml
+    - group_vars/pulsarservers.yml
+    - group_vars/pulsar_mel2/pulsar-mel2_slurm.yml
+    - group_vars/VAULT
+    - host_vars/pulsar-mel2/pulsar-mel2.genome.edu.au.yml
+  pre_tasks:
+    - name: apt update
+      apt:
+        cache_valid_time: 3600
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+    - name: Attach volume to instance
+      # If this script is being run for the first time, review the value of attached_volume_device in group_vars
+      block: # TODO: This is pretty generic code for attaching a volume to a device and should probably live in another file to be reused
+        - name: Detect attached volume
+          parted:
+            device: "{{ attached_volume_device }}"
+            unit: GiB
+          register: volume_info
+        - name: Create a filesystem on volume
+          filesystem:
+            fstype: "{{ attached_volume_fstype }}"
+            dev: "{{ attached_volume_device }}"
+          when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == attached_volume_device
+        - name: Mount volume
+          mount:
+            path: "{{ attached_volume_path }}"
+            src: "{{ attached_volume_device }}"
+            fstype: "{{ attached_volume_fstype }}"
+            state: mounted
+      when: attached_volume_device is defined
+  roles:
+    - common
+    - insspb.hostname
+    - geerlingguy.pip
+    - galaxyproject.repos
+    - galaxyproject.pulsar
+    - geerlingguy.nfs
+    - mariadb
+    - galaxyproject.slurm
+    - galaxyproject.cvmfs
+    - dj-wasabi.telegraf
+
+  post_tasks:
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa1
+        state: present
+    - name: own the /mnt/pulsar dirs as ubuntu
+      file:
+          path: /mnt/pulsar
+          owner: ubuntu
+          group: ubuntu
+          state: directory
+          recurse: yes
+          mode: 0750
+    - name: own the /mnt/galaxy dirs as ubuntu
+      file:
+          path: /mnt/galaxy
+          owner: ubuntu
+          group: ubuntu
+          state: directory
+          recurse: yes
+          mode: 0750
