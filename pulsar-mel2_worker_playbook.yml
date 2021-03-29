@@ -1,0 +1,49 @@
+- name: Pulsar mel2 worker node install
+  hosts: pulsar-mel2-workers
+  become: yes
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/pulsar_mel2/pulsar-mel2.yml
+    - group_vars/pulsar_mel2/pulsar-mel2_workers.yml
+    - group_vars/pulsar_mel2/pulsar-mel2_slurm.yml
+    - group_vars/VAULT
+  roles:
+      - common
+      - insspb.hostname
+      - galaxyproject.slurm
+      - mounts
+      - galaxyproject.repos
+      - galaxyproject.cvmfs
+      - dj-wasabi.telegraf
+  post_tasks:
+      - name: Restart munge service
+        service:
+            name: munge
+            state: restarted
+      - name: Move /tmp to vdb
+        block:
+          - name: Create worker tmpdir on vdb
+            file:
+                path: /mnt/tmpdisk
+                state: directory
+                owner: root
+                group: root
+                mode: '1777'
+          - name: stat links
+            stat:
+                path: /tmp
+            register: links
+          - name: remove old tmp
+            file:
+                path: /tmp
+                state: absent
+            when: links.stat.islnk is defined and not links.stat.islnk
+          - name: Link /tmp to /mnt/tmpdisk
+            file:
+                src: /mnt/tmpdisk
+                dest: /tmp
+                state: link
+            become: yes
+            become_user: root
+            when: links.stat.islnk is defined and not links.stat.islnk
+        when: attached_volume_device is defined

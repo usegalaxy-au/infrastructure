@@ -1,0 +1,22 @@
+hostname: "{{ ansible_hostname }}.genome.edu.au"
+
+# Keys and shares
+
+create_ssh_key: yes  # Only the first time.
+ssl_country: "AU"
+ssl_state: "Vic"
+ssl_location: "Melbourne"
+ssl_organisation: "Galaxy Australia"
+ssl_operational_unit: "Pulsar Mel2"
+ssl_email: "help@genome.edu.au"
+
+#host specific pulsar settings
+
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_mel2_pawsey }}"
+pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
+pulsar_rabbit_username: "galaxy_mel2"
+pulsar_rabbit_vhost: "/pulsar/galaxy_mel2"
+
+attached_volume_device: /dev/vdb
+attached_volume_fstype: ext4
+attached_volume_path: /mnt
