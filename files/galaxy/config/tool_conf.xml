@@ -141,8 +141,6 @@
     </section>
     <section id="variant_calling" name="Variant Calling">
     </section>
-    <section id="dna_metabarcoding" name="DNA Metabarcoding">
-    </section>
     <section id="chip_seq" name="ChiP-seq">
     </section>
     <section id="rna_seq" name="RNA-seq">
@@ -175,6 +173,8 @@
     <section id="mothur" name="Mothur">
     </section>
     <section id="metagenomic_analysis" name="Metagenomic Analysis">
+    </section>
+    <section id="dna_metabarcoding" name="DNA Metabarcoding">
     </section>
     <label id="proteomics_metabolomics" text="PROTEOMICS, METABOLOMICS"/>
     <section id="proteomics" name="Proteomics">
