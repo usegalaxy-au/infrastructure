@@ -467,17 +467,17 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 100 MB
-              destination: slurm_1slot
+              destination: pulsar-mel_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 100 MB
               upper_bound: 9 GB
-              destination: slurm_5slots
+              destination: pulsar-mel3_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 9 GB
               upper_bound: Infinity
-              destination: slurm_7slots
+              destination: pulsar-mel3_mid
         default_destination: slurm_5slots
     hisat2:
         rules:
