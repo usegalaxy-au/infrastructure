@@ -18,8 +18,7 @@ tools:
             nice_value: 0
             lower_bound: 2 GB
             upper_bound: 10 GB
-            destination: fail
-            fail_message: Galaxy pulsar machines are undergoing maintenance. Please try again later
+            destination: pulsar-mel3_big
           - rule_type: file_size
             nice_value: 0
             lower_bound: 10 GB
@@ -38,13 +37,12 @@ tools:
             nice_value: 0
             lower_bound: 15 MB
             upper_bound: 2 GB
-            destination: pulsar-mel_mid
+            destination: pulsar-mel3_small
           - rule_type: file_size
             nice_value: 0
             lower_bound: 2 GB
             upper_bound: 20 GB
-            destination: fail
-            fail_message: Galaxy pulsar machines are undergoing maintenance. Please try again later
+            destination: pulsar-mel3_big
           - rule_type: file_size
             nice_value: 0
             lower_bound: 20 GB
@@ -63,19 +61,17 @@ tools:
             nice_value: 0
             lower_bound: 50 MB
             upper_bound: 1 GB
-            destination: pulsar-mel_big
+            destination: pulsar-mel3_mid
           - rule_type: file_size
             nice_value: 0
             lower_bound: 1 GB
             upper_bound: 20 GB
-            destination: fail
-            fail_message: Galaxy pulsar machines are undergoing maintenance. Please try again later
+            destination: pulsar-mel3_big
           - rule_type: file_size
             nice_value: 0
             lower_bound: 20 GB
             upper_bound: 60 GB
-            destination: fail
-            fail_message: Galaxy pulsar machines are undergoing maintenance. Please try again later
+            destination: pulsar-mel3_big
           - rule_type: file_size
             nice_value: 0
             lower_bound: 60 GB
@@ -127,13 +123,12 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 100 MB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 100 MB
               upper_bound: 30 GB
-              destination: fail
-              fail_message: Galaxy pulsar machines are undergoing maintenance. Please try again later
+              destination: pulsar-mel3_big_trinity
             - rule_type: file_size
               nice_value: 0
               lower_bound: 30 GB
@@ -142,13 +137,6 @@ tools:
               fail_message: Too much data, we cannot support such large Trinity assemblies with our backend. Please use another server for your job.
         default_destination: slurm_32slots
     trinity_align_and_estimate_abundance:
-        rules:
-            - rule_type: file_size
-              nice_value: 0
-              lower_bound: 0
-              upper_bound: Infinity
-              destination: fail
-              fail_message: Galaxy pulsar machines are undergoing maintenance. Please try again later
         default_destination: pulsar-mel3_big_trinity
     ggplot2_point:
         rules:
@@ -235,7 +223,7 @@ tools:
             nice_value: 0
             lower_bound: 10 MB
             upper_bound: 30 MB
-            destination: pulsar-mel_big
+            destination: pulsar-mel3_mid
           - rule_type: file_size
             nice_value: 0
             lower_bound: 30 MB
@@ -253,18 +241,17 @@ tools:
             nice_value: 0
             lower_bound: 0
             upper_bound: 1 MB
-            destination: pulsar-mel_mid
+            destination: pulsar-mel3_small
           - rule_type: file_size
             nice_value: 0
             lower_bound: 1 MB
             upper_bound: 1 GB
-            destination: pulsar-mel_big
+            destination: pulsar-mel3_mid
           - rule_type: file_size
             nice_value: 0
             lower_bound: 1 GB
             upper_bound: 20 GB
-            destination: fail
-            fail_message: Galaxy pulsar machines are undergoing maintenance. Please try again later
+            destination: pulsar-mel3_big
         default_destination: slurm_5slots
     hyphy_gard:
         default_destination: slurm_32slots
@@ -277,12 +264,6 @@ tools:
             lower_bound: 0
             upper_bound: 500 MB
             destination: slurm_3slots
-          - rule_type: file_size
-            nice_value: 0
-            lower_bound: 500 MB
-            upper_bound: Infinity
-            destination: fail
-            fail_message: Galaxy pulsar machines are undergoing maintenance. Please try again later
         default_destination: pulsar-mel3_big
     maxquant_mqpar:
         default_destination: slurm_16slots
@@ -299,21 +280,8 @@ tools:
             lower_bound: 0
             upper_bound: 10 KB
             destination: slurm_1slot
-          - rule_type: file_size
-            nice_value: 0
-            lower_bound: 10 KB
-            upper_bound: Infinity
-            destination: fail
-            fail_message: Galaxy pulsar machines are undergoing maintenance. Please try again later
         default_destination: pulsar-mel3_big
     canu:
-        rules:
-          - rule_type: file_size
-            nice_value: 0
-            lower_bound: 0
-            upper_bound: Infinity
-            destination: fail
-            fail_message: Galaxy pulsar machines are undergoing maintenance. Please try again later
         default_destination: pulsar-mel3_big_canu
     poretools_events:
         default_destination: slurm_3slots
@@ -398,7 +366,7 @@ tools:
             nice_value: 0
             lower_bound: 5 GB
             upper_bound: Infinity
-            destination: pulsar-mel_big
+            destination: pulsar-mel3_mid
         default_destination: slurm_3slots
     iuc_pear:
         rules:
@@ -429,7 +397,7 @@ tools:
               nice_value: 0
               lower_bound: 15 MB
               upper_bound: 3 GB
-              destination: pulsar-mel_mid
+              destination: pulsar-mel3_small
         default_destination: slurm_3slots
     abricate:
         rules:
@@ -486,7 +454,7 @@ tools:
               nice_value: 0
               lower_bound: 1 GB
               upper_bound: 2 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 2 GB
@@ -504,12 +472,12 @@ tools:
               nice_value: 0
               lower_bound: 100 MB
               upper_bound: 9 GB
-              destination: pulsar-mel_mid
+              destination: pulsar-mel3_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 9 GB
               upper_bound: Infinity
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
         default_destination: slurm_5slots
     hisat2:
         rules:
@@ -522,7 +490,7 @@ tools:
               nice_value: 0
               lower_bound: 500 MB
               upper_bound: 3 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 3 GB
@@ -545,7 +513,7 @@ tools:
               nice_value: 0
               lower_bound: 500 MB
               upper_bound: 20 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 20 GB
@@ -617,7 +585,7 @@ tools:
               nice_value: 0
               lower_bound: 200 MB
               upper_bound: 10 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
         default_destination: slurm_9slots
     deseq2:
         default_destination: slurm_3slots
@@ -655,7 +623,7 @@ tools:
               nice_value: 0
               lower_bound: 100 MB
               upper_bound: 20 GB
-              destination: pulsar-mel_mid
+              destination: pulsar-mel3_small
         default_destination: slurm_2slots
     iqtree:
         rules:
@@ -712,7 +680,7 @@ tools:
               nice_value: 0
               lower_bound: 500 MB
               upper_bound: 10 GB
-              destination: pulsar-mel_mid
+              destination: pulsar-mel3_small
         default_destination: slurm_2slots
     cuffmerge:
         rules:
@@ -771,7 +739,7 @@ tools:
               nice_value: 0
               lower_bound: 1 GB
               upper_bound: 20 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
         default_destination: slurm_5slots
     fastq_paired_end_deinterlacer:
         rules:
@@ -784,7 +752,7 @@ tools:
               nice_value: 0
               lower_bound: 1 GB
               upper_bound: 20 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
         default_destination: slurm_5slots
     deeptools_compute_matrix:
         default_destination: slurm_9slots
@@ -882,7 +850,7 @@ tools:
         rules:
             - rule_type: file_size
               nice_value: 0
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
               lower_bound: 0
               upper_bound: 1 GB
               users:
@@ -892,7 +860,7 @@ tools:
         rules:
             - rule_type: file_size
               nice_value: 0
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
               lower_bound: 0
               upper_bound: 1 GB
               users:
@@ -923,13 +891,6 @@ tools:
     kraken2_build_database:
         default_destination: slurm_16slots
     minimap2:
-        rules:
-            - rule_type: file_size
-              nice_value: 0
-              lower_bound: 0
-              upper_bound: Infinity
-              destination: fail
-              fail_message: Galaxy pulsar machines are undergoing maintenance. Please try again later
         default_destination: pulsar-mel3_big
     kallisto_quant:
         rules:
@@ -966,13 +927,12 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 500 KB
-              destination: pulsar-mel_mid
+              destination: pulsar-mel3_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 500 KB
               upper_bound: 500 MB
-              destination: fail
-              fail_message: Galaxy pulsar machines are undergoing maintenance. Please try again later
+              destination: pulsar-mel3_big
             - rule_type: file_size
               nice_value: 0
               lower_bound: 500 MB
@@ -1021,13 +981,12 @@ tools:
               nice_value: 0
               lower_bound: 200 MB
               upper_bound: 2 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 2 GB
               upper_bound: 60 GB
-              destination: fail
-              fail_message: Galaxy pulsar machines are undergoing maintenance. Please try again later
+              destination: pulsar-mel3_big
         default_destination: slurm_16slots
     megahit:
         default_destination: slurm_9slots
@@ -1040,13 +999,13 @@ tools:
     roary:
         default_destination: slurm_7slots
     rseqc_RPKM_saturation:
-        default_destination: pulsar-mel_big
+        default_destination: pulsar-mel3_mid
     rseqc_geneBody_coverage:
-        default_destination: pulsar-mel_mid
+        default_destination: pulsar-mel3_small
     rseqc_geneBody_coverage2:
-        default_destination: pulsar-mel_mid
+        default_destination: pulsar-mel3_small
     rseqc_read_distribution:
-        default_destination: pulsar-mel_mid
+        default_destination: pulsar-mel3_small
     cutadapt:
         default_destination: slurm_5slots
     ncbi_blastx_wrapper:
