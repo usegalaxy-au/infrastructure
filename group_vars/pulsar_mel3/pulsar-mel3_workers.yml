@@ -15,3 +15,8 @@ shared_mounts:
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
+
+#Attached volume
+attached_volume_device: /dev/vdb
+attached_volume_fstype: ext4
+attached_volume_path: /mnt
