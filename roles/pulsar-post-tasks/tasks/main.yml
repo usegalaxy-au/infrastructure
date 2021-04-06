@@ -1,0 +1,27 @@
+---
+- name: Install slurm-drmaa
+  package:
+    name: slurm-drmaa1
+    state: present
+- name: own the /mnt/pulsar dirs as ubuntu
+  file:
+      path: /mnt/pulsar
+      owner: ubuntu
+      group: ubuntu
+      state: directory
+      recurse: yes
+      mode: 0754
+- name: own the /mnt/galaxy dirs as ubuntu
+  file:
+      path: /mnt/galaxy
+      owner: ubuntu
+      group: ubuntu
+      state: directory
+      recurse: yes
+      mode: 0750
+- name: restart munge
+  systemd:
+    name: munge
+    state: restarted
+- name: Reload exportfs
+  command: exportfs -ra
