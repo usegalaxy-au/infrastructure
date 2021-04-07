@@ -2,7 +2,7 @@
 dev-db ansible_ssh_host=115.146.86.251
 
 [staging_db_server]
-staging-db ansible_ssh_host=115.146.86.100
+staging-db ansible_ssh_host=115.146.87.93
 
 [pawsey_db_server]
 pawsey-db ansible_ssh_host=146.118.69.83 internal_ip=192.168.0.102
@@ -11,27 +11,27 @@ pawsey-db ansible_ssh_host=146.118.69.83 internal_ip=192.168.0.102
 dev ansible_ssh_host=115.146.86.50
 
 [staging_galaxy_server]
-staging ansible_ssh_host=115.146.86.115
+staging ansible_ssh_host=115.146.84.166
 
 [pawsey_galaxy_server]
 pawsey ansible_ssh_host=146.118.70.205 internal_ip=192.168.0.94
 
 [rabbitservers]
 dev-queue ansible_ssh_host=115.146.85.163
-staging-queue ansible_ssh_host=115.146.86.228
+staging-queue ansible_ssh_host=115.146.84.121
 prod-rabbit ansible_ssh_host=115.146.86.67
 pawsey-queue ansible_ssh_host=146.118.69.35 internal_ip=192.168.0.194
 aarnet-dev-queue ansible_ssh_host=192.168.0.250 internal_ip=192.168.0.250
 
 [slurmcontrollers]
 dev-queue ansible_ssh_host=115.146.85.163
-staging-queue ansible_ssh_host=115.146.86.228
+staging-queue ansible_ssh_host=115.146.84.121
 pawsey-queue ansible_ssh_host=146.118.69.35 internal_ip=192.168.0.194
 aarnet-dev-queue ansible_ssh_host=192.168.0.250 internal_ip=192.168.0.250
 
 [pulsarservers]
 dev-pulsar ansible_ssh_host=115.146.86.66
-staging-pulsar ansible_ssh_host=115.146.86.247
+staging-pulsar ansible_ssh_host=115.146.87.193
 
 [nfs_servers]
 pawsey-user-nfs ansible_ssh_host=146.118.68.13 internal_ip=192.168.0.165
@@ -45,10 +45,10 @@ dev-queue ansible_ssh_host=115.146.85.163
 dev-w1 ansible_ssh_host=115.146.85.210
 
 [staging_slurm_head]
-staging-queue ansible_ssh_host=115.146.86.228
+staging-queue ansible_ssh_host=115.146.84.121
 
 [staging_workers]
-staging-w1 ansible_ssh_host=115.146.87.183
+staging-w1 ansible_ssh_host=115.146.87.130
 
 [pawsey_slurm_head]
 pawsey-queue ansible_ssh_host=146.118.70.91 internal_ip=192.168.0.154
