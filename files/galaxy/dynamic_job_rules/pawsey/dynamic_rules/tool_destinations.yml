@@ -472,7 +472,7 @@ tools:
               nice_value: 0
               lower_bound: 100 MB
               upper_bound: 9 GB
-              destination: pulsar-mel3_small
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 9 GB
