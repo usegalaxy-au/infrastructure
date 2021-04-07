@@ -1,0 +1,27 @@
+---
+- name: Install slurm-drmaa
+  package:
+    name: slurm-drmaa1
+    state: present
+- name: own the pulsar_root dirs as ubuntu
+  file:
+      path: "{{ pulsar_root }}"
+      owner: ubuntu
+      group: ubuntu
+      state: directory
+      recurse: yes
+      mode: 0755
+- name: own the galaxy_dir dirs as ubuntu
+  file:
+      path: "{{ galaxy_dir }}"
+      owner: ubuntu
+      group: ubuntu
+      state: directory
+      recurse: yes
+      mode: 0750
+- name: restart munge
+  systemd:
+    name: munge
+    state: restarted
+- name: Reload exportfs
+  command: exportfs -ra
