@@ -3,17 +3,17 @@
   package:
     name: slurm-drmaa1
     state: present
-- name: own the /mnt/pulsar dirs as ubuntu
+- name: own the pulsar_root dirs as ubuntu
   file:
-      path: /mnt/pulsar
+      path: "{{ pulsar_root }}"
       owner: ubuntu
       group: ubuntu
       state: directory
       recurse: yes
-      mode: 0754
-- name: own the /mnt/galaxy dirs as ubuntu
+      mode: 0755
+- name: own the galaxy_dir dirs as ubuntu
   file:
-      path: /mnt/galaxy
+      path: "{{ galaxy_dir }}"
       owner: ubuntu
       group: ubuntu
       state: directory
