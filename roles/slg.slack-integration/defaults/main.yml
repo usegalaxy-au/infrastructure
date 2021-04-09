@@ -1,0 +1,28 @@
+
+
+#Install path
+ga_watch_install_path: "/root/tools"
+
+#Script owner
+ga_watch_owner: "root"
+
+# Slack integration stuff
+slack_token: "" #the authentication token - must be set
+slack_channel: "#alerts" # the channel to send the notifications to
+slack_mentions: "" #Mention any users.. Add them in the form of "@joe"
+
+#github URL for Tinker's slack tools
+slacktools_git: "https://github.com/thomcuddihy/slack_tools"
+#Path to install Tinker's slack tools
+slacktools_path: "/root/tools/slack_tools"
+
+#What to watch: Everything defaults to false - set these to true to enable.
+watch_users: false
+watch_loads: false
+watch_mounts: false
+watch_cvmfs: false
+watch_diskuse: false
+watch_slurm: false # Not implemented as yet.
+
+#How often to run the script
+ga_watch_check_time: 5 #in minutes

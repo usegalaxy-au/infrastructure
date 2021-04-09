@@ -1,0 +1,160 @@
+#!/usr/bin/env bash
+
+###
+# Notifier
+#    Monitors GA worker nodes
+#
+# Requires:
+#   Tinker's Slack Tools to be installed
+#
+# Original Author: QFAB/Thom Cuddihy <https://github.com/thomcuddihy/>
+# Modified/templated: MelbourneBioinformatics/Simon Gladman <https://github.com/slugger70/>
+
+# Slack stuff
+SLACK_TOKEN={{ slack_token }}
+SLACK_CHANNEL={{ slack_channel }}
+SLACK_MENTIONS={{ slack_mentions }}
+
+# Set watch vars
+WATCHED_USERS=("root" "ubuntu")
+NOTIFY_LOAD="160.0"
+SAFE_LOAD="12.0"
+
+# Other stuffs
+LTEXT="load average:"
+TTEXT="GA Watcher (`hostname`)"
+
+# use flock to avoid multiple runs
+FLOCK="watcher.flock"
+(
+flock -n 200 || exit 0
+echo "No flock in place. Continuing with script"
+
+notify() {
+    local NOTIFY_TITLE=${1}
+    local NOTIFY_MESSAGE=${2}
+    local NOTIFY_LEVEL=${3}
+
+    {{ slacktools_path }}/postslack -C ${SLACK_CHANNEL} -T ${SLACK_TOKEN} -rt "${NOTIFY_MESSAGE}" -c "${NOTIFY_LEVEL}" -H "${NOTIFY_TITLE}" -u "GAI" -U false
+}
+
+{% if watch_users == true %}
+# check for user logins
+for USER in ${WATCHED_USERS[@]}; do
+    touch ${USER}.log
+    echo `lastlog -u ${USER} | tail -1` > ${USER}.log.1
+
+    PREV_LOG="`tail -1 ${USER}.log`"
+    LAST_LOG="`tail -1 ${USER}.log.1`"
+
+    if [ "${LAST_LOG}" != "${PREV_LOG}" ]; then
+        MSG="User ${USER} has logged into the system"
+        notify "${TTEXT}" "${MSG}" "warning"
+        echo ${LAST_LOG} > ${USER}.log
+    fi
+    rm ${USER}.log.1
+done
+{% endif %}
+
+{% if watch_loads == true %}
+# check for load changes
+L1="`uptime | awk -F "${LTEXT}" '{ print $2 }' | cut -d, -f1 | sed 's/ //g'`"
+L5="`uptime | awk -F "${LTEXT}" '{ print $2 }' | cut -d, -f2 | sed 's/ //g'`"
+L15="`uptime | awk -F "${LTEXT}" '{ print $2 }' | cut -d, -f3 | sed 's/ //g'`"
+
+for L in L1 L5 L15; do
+    if (( $(echo "${!L} > ${NOTIFY_LOAD}" | bc -l) )); then
+        if [ ! -f ${L}.lock ]; then
+            MSG="Load ${L} is above warn threshold: ${!L}"
+            notify "${TTEXT} - ${SLACK_MENTIONS}" "${MSG}" "danger"
+            touch ${L}.lock
+        fi
+    elif (( $(echo "${!L} < ${SAFE_LOAD}" | bc -l) )); then
+        if [ -f ${L}.lock ]; then
+            MSG="Load ${L} is below warn threshold: ${!L}"
+            notify "${TTEXT} - ${SLACK_MENTIONS}" "${MSG}" "good"
+            rm ${L}.lock
+        fi
+    fi
+done
+{% endif %}
+
+{% if watch_mounts == true or watch_cvmfs == true %}
+# check for nfs mount health
+mount_ok() {
+        local M=$1
+        local M_LOCK=`echo $M | sed -e 's|/|_|g'`
+        if [ -f ${M_LOCK:1}.lock ]; then
+                MSG="Mount ${M} is back online"
+                notify "${TTEXT} - ${SLACK_MENTIONS}" "${MSG}" "good"
+                rm ${M_LOCK:1}.lock
+        fi
+}
+
+mount_down() {
+        local M=$1
+        local M_LOCK=`echo $M | sed -e 's|/|_|g'`
+        if [ ! -f ${M_LOCK:1}.lock ]; then
+                MSG="Mount ${M} is DOWN"
+                notify "${TTEXT} - ${SLACK_MENTIONS}" "${MSG}" "danger"
+                touch ${M_LOCK:1}.lock
+        fi
+}
+{% endif %}
+
+{% if watch_mounts == true %}
+while read _ _ mount _; do
+        read -t120 < <(stat -t "$mount") && mount_ok $mount || mount_down $mount;
+done < <(mount -t nfs)
+{% endif %}
+
+{% if watch_cvmfs == true %}
+# check for cvmfs mount health
+mount="/cvmfs/data.galaxyproject.org"
+stat -f $mount | grep "Type: fuseblk" && mount_ok $mount || mount_down $mount;
+{% endif %}
+
+{% if watch_diskuse == true %}
+# check for disk usage
+WARN_THRES=75
+ALERT_THRES=90
+
+disk_usage() {
+	local M=$1
+	local TITLE=$2
+	local MSG=$3
+	local COND=$4
+
+	local M_LOCK="du`echo $M | sed -e 's|/|_|g'`.lock"
+
+	if [ -f ${M_LOCK} ]; then
+			PAST_COND="`cat ${M_LOCK}`"
+			if [ "${COND}" != "${PAST_COND}" ]; then
+				notify "${TITLE}" "${MSG}" "${COND}"
+			fi
+			echo "${COND}" > ${M_LOCK}
+	else
+		echo "${COND}" > ${M_LOCK}
+		notify "${TITLE}" "${MSG}" "${COND}"
+	fi
+}
+
+df -hP | grep -vE '^Filesystem|tmpfs|cdrom' | grep -E '/dev/' | awk '{ print $5 " " $6 }' | while read LINE
+do
+  USED=$(echo ${LINE} | awk '{ print $1}' | cut -d'%' -f1  )
+  PARTITION=$(echo ${LINE} | awk '{ print $2 }' )
+  TITLE="Disk Usage (`hostname`)"
+  COND="good"
+  if [ ${USED} -ge ${WARN_THRES} ]; then
+     COND="warning"
+  fi
+  if [ ${USED} -ge ${ALERT_THRES} ]; then
+     COND="danger"
+     TITLE="Disk Usage (`hostname`) ${SLACK_MENTIONS}"
+  fi
+  disk_usage "${PARTITION}" "${TITLE}" "${USED}% used on mount ${PARTITION}" "${COND}"
+done
+{% endif %}
+
+# close flock
+) 200>"${FLOCK}"
