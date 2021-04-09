@@ -1,0 +1,26 @@
+- name: create script path
+  file:
+    path: "{{ ga_watch_install_path }}"
+    state: directory
+    owner: "{{ ga_watch_owner }}"
+    group: "{{ ga_watch_owner }}"
+
+- name: Copy script template
+  template:
+    src: ga_watch.sh.j2
+    dest: "{{ ga_watch_install_path }}/ga_watch.sh"
+    owner: "{{ ga_watch_owner }}"
+    group: "{{ ga_watch_owner }}"
+    mode: '0755'
+
+- name: Install slack tools
+  git:
+    repo: "{{ slacktools_git }}"
+    dest: "{{ slacktools_path }}"
+
+- name: Install cron job
+  cron:
+    name: "Run monitoring with slack"
+    minute: "*/{{ ga_watch_check_time }}"
+    user: "{{ ga_watch_owner }}"
+    job: "{{ ga_watch_install_path }}/ga_watch.sh"
