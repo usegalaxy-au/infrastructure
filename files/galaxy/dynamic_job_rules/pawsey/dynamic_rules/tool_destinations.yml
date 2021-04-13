@@ -585,7 +585,7 @@ tools:
               nice_value: 0
               lower_bound: 200 MB
               upper_bound: 10 GB
-              destination: pulsar-mel3_mid
+              destination: pulsar-mel_big
         default_destination: slurm_9slots
     deseq2:
         default_destination: slurm_3slots
