@@ -1,5 +1,5 @@
 - name: Pulsar NCI Test worker node install
-  hosts: pulsar-nci-test-workers
+  hosts: pulsar_nci_test_workers
   become: yes
   vars_files:
     - group_vars/all.yml

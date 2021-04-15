@@ -1,5 +1,5 @@
 - name: Pulsar mel2 worker node install
-  hosts: pulsar-mel2-workers
+  hosts: pulsar_mel2_workers
   become: yes
   vars_files:
     - group_vars/all.yml

@@ -1,8 +1,8 @@
 
 auth_key_user: ubuntu
 
-head_nodes: "{{ groups['pulsar-mel3-head'] }}"
-worker_nodes: "{{ groups['pulsar-mel3-workers'] }}"
+head_nodes: "{{ groups['pulsar_mel3_head'] }}"
+worker_nodes: "{{ groups['pulsar_mel3_workers'] }}"
 
 # SLURM
 slurm_nodes:
