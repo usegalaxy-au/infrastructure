@@ -37,7 +37,7 @@ tools:
             nice_value: 0
             lower_bound: 15 MB
             upper_bound: 2 GB
-            destination: pulsar-mel3_small
+            destination: slurm_2slots
           - rule_type: file_size
             nice_value: 0
             lower_bound: 2 GB
@@ -397,7 +397,7 @@ tools:
               nice_value: 0
               lower_bound: 15 MB
               upper_bound: 3 GB
-              destination: pulsar-mel3_small
+              destination: slurm_2slots
         default_destination: slurm_3slots
     abricate:
         rules:
@@ -472,7 +472,7 @@ tools:
               nice_value: 0
               lower_bound: 100 MB
               upper_bound: 9 GB
-              destination: pulsar-mel3_mid
+              destination: slurm_5slots
             - rule_type: file_size
               nice_value: 0
               lower_bound: 9 GB
