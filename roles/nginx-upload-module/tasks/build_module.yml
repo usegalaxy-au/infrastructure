@@ -1,0 +1,83 @@
+---
+- name: Check whether upload_module conf file exists  # Assume that module is built and in place if this file exists
+  stat:
+    path: "{{ nginx_conf_dir }}/modules-enabled/50-mod-http-upload.conf"
+  register: stat_result
+
+- name: Build upload module if it is not already built
+  when: not stat_result.stat.exists
+  block:
+    - name: Register installed nginx version
+      shell: echo "$(nginx -v 2>&1 | cut -d '/' -f 2 | cut -d ' ' -f 1)"  # note this must use shell rather than command
+      register: nginx_version
+
+    - name: Make a directory for build operations
+      file:
+        path: "{{ nginx_build_module_dir }}"
+        state: directory
+
+    - name: Install the prerequisites
+      apt:
+        name: ['libperl-dev', 'libgeoip-dev', 'libgd-dev', 'libxslt-dev', 'libpcre3-dev']
+        state: present
+        update_cache: true
+
+    - name: Get configure arguments for nginx
+      shell: echo "$(nginx -V 2>&1 | grep 'configure arguments' )"  # note this must use shell rather than command
+      register: configure_arguments_line
+
+    - name: Get configure arguments excluding label and any --add_dynamic_module flags
+      set_fact:
+        configure_arguments: "{{ configure_arguments | default([]) + [item] }}"
+      with_items: "{{ configure_arguments_line.stdout.split()[2:] }}"
+      when: '"--add-dynamic-module" not in item'
+
+    - name: Download and unzip nginx source code
+      unarchive:
+        src: "https://nginx.org/download/nginx-{{ nginx_version.stdout }}.tar.gz"
+        dest: "{{ nginx_build_module_dir }}/"
+        list_files: true
+        remote_src: true
+      register: nginx_source_download
+
+    - name: Extract nginx_source_dir from nginx_source_download variable
+      set_fact:
+        nginx_source_dir: "{{ nginx_source_download.files | first | replace('/', '') }}"
+
+    - name: Download and unzip module source code
+      unarchive:
+        src: "{{ nginx_module_source_url }}"
+        dest: "{{ nginx_build_module_dir }}/"
+        list_files: true
+        remote_src: true
+      register: module_source_download
+
+    - name: Extract module_source_dir from module_source_download variable
+      set_fact:
+        module_source_dir: "{{ module_source_download.files | first | replace('/', '') }}"
+
+    - name: Invoke configure with configure_arguments and added module
+      command:
+        cmd: "./configure {{ configure_arguments | join(' ') }} --add-dynamic-module=../{{ module_source_dir}} "
+        chdir: "{{ nginx_build_module_dir }}/{{ nginx_source_dir }}"
+
+    - name: Build module
+      command:
+        cmd: make modules
+        chdir: "{{ nginx_build_module_dir }}/{{ nginx_source_dir }}"
+
+    - name: Move module to nginx modules dir
+      command:
+        cmd: mv objs/ngx_http_upload_module.so /usr/lib/nginx/modules
+        chdir: "{{ nginx_build_module_dir }}/{{ nginx_source_dir }}"
+
+    - name: Make nginx load the module
+      lineinfile:
+        create: true
+        line: 'load_module /usr/lib/nginx/modules/ngx_http_upload_module.so;'
+        path: "{{ nginx_conf_dir }}/modules-enabled/50-mod-http-upload.conf"
+
+    - name: Clean up
+      file:
+        path: "{{ nginx_build_module_dir }}"
+        state: absent

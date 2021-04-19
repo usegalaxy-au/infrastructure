@@ -1,0 +1,7 @@
+# build_module.yml variables
+nginx_build_module_dir: /var/ansible
+nginx_module_source_url: https://github.com/fdintino/nginx-upload-module/archive/refs/tags/2.3.0.tar.gz
+
+# default variables shared with galaxyproject.nginx role
+nginx_flavor: full
+nginx_conf_dir: /etc/nginx
