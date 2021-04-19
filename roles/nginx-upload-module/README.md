@@ -2,6 +2,8 @@
 
 Ansible role for building nginx_upload_module from module source code and adding it to nginx modules-enabled
 
+This role is based on a blog post by Chris Oliver https://gorails.com/blog/how-to-compile-dynamic-nginx-modules
+
 **Author: Catherine Bromhead 2021**
 
 ### Prerequisites
@@ -24,5 +26,4 @@ default: https://github.com/fdintino/nginx-upload-module/archive/refs/tags/2.3.0
 default: full
 **nginx_conf_dir** Path to nginx configuration
 default: /etc/nginx
-
 
