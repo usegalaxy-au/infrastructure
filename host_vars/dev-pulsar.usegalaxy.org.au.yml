@@ -14,4 +14,3 @@ rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_au_aarnet_dev }}
 pulsar_queue_url: "aarnet-dev-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_au"
 pulsar_rabbit_vhost: "/pulsar/galaxy_au"
-host_pulsar_message_queue_url: "pyamqp://galaxy_au:{{ vault_rabbitmq_password_galaxy_au_aarnet_dev }}@aarnet-dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_au?ssl=1"
