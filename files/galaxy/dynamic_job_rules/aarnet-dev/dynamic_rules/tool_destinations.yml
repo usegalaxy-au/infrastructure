@@ -2,7 +2,7 @@ tools:
   upload1:
     default_destination: slurm_dest
   fasta-stats:
-    default_destination: slurm_dest
+    default_destination: pulsar_destination
   bwa_mem:
     default_destination: slurm_dest
 default_destination: slurm_dest

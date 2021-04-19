@@ -7,6 +7,8 @@
     - group_vars/dev_pulsar_slurm.yml
     - group_vars/VAULT
     - host_vars/dev-pulsar.usegalaxy.org.au.yml
+  vars:
+    special_pulsar_message_queue_url: "pyamqp://galaxy_au:{{ vault_rabbitmq_password_galaxy_au_aarnet_dev }}@aarnet-dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_au?ssl=1"
   pre_tasks:
     - name: apt update
       apt:
