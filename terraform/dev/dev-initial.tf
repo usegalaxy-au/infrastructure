@@ -66,7 +66,7 @@ resource "openstack_compute_volume_attach_v2" "attach-dev-volume-to-dev" {
 resource "openstack_blockstorage_volume_v2" "dev-upload-store-volume" {
   availability_zone = "melbourne-qh2"
   name        = "dev-upload-store-volume"
-  description = "Galaxy Australia Dev volume"
+  description = "Galaxy Australia Dev volume for upload store"
   size        = 200
 }
 

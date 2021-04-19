@@ -1,0 +1,42 @@
+---
+- name: Ensure that upload_store directories exist
+  file:
+      path: "{{ item }}"
+      state: directory
+      mode: '755'
+      owner: galaxy
+      group: galaxy
+  with_items:
+    - "{{ nginx_upload_store_dir }}"
+    - "{{ nginx_upload_job_files_store_dir }}"
+
+- name: Install nginx (APT)
+  apt:
+    pkg: nginx-{{ nginx_flavor }}
+
+- name: Ensure nginx_conf_user is the user in nginx conf
+  replace:
+      path: /etc/nginx/nginx.conf
+      regexp: '^user www-data;$'
+      replace: 'user {{ nginx_conf_user }};'
+
+# For nginx to run as the galaxy user, nginx directories that were owned by the nginx user (www-data) must now be owned by the galaxy user
+- name: Chown nginx log directories to galaxy
+  file:
+    path: /var/log/nginx
+    owner: galaxy
+    group: adm
+    recurse: true
+    state: directory
+
+- name: Chown nginx lib directories to galaxy
+  file:
+    path: /var/lib/nginx
+    owner: galaxy
+    group: galaxy
+    recurse: true
+    state: directory
+
+- name: Build and install upload module
+  import_tasks: build_module.yml
+
