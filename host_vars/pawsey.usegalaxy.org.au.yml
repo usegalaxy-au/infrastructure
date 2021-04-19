@@ -82,6 +82,7 @@ host_galaxy_config:  # renamed from __galaxy_config
     smtp_server: localhost
     ga_code: "{{ vault_pawsey_ga_code }}"
     galaxy_infrastructure_url: 'https://usegalaxy.org.au'
+    enable_oidc: false
 
 
 # cvmfs
@@ -117,8 +118,14 @@ tiaas_other_config: |
     TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
     TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"
 
-# Custos/AAF specific settings
-#custos_client_id: "{{ vault_custos_client_id_pawsey }}"
-#custos_client_secret: "{{ vault_custos_client_secret_pawsey }}"
-#aaf_client_id: "{{ vault_aaf_client_id_pawsey }}"
-#aaf_client_secret: "{{ vault_aaf_client_secret_pawsey }}"
+# # Custos/AAF specific settings
+# custos_client_id: "{{ vault_custos_client_id_pawsey }}"
+# custos_client_secret: "{{ vault_custos_client_secret_pawsey }}"
+# aaf_client_id: "{{ vault_aaf_client_id_pawsey }}"
+# aaf_client_secret: "{{ vault_aaf_client_secret_pawsey }}"
+
+# Custos/AAF placeholder setting settings DELETE WHEN ABOVE SETTINGS ARE ENABLED
+custos_client_id: "potato"
+custos_client_secret: "zucchini"
+aaf_client_id: "tomato"
+aaf_client_secret: "pumpkin"

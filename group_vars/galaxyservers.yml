@@ -54,6 +54,7 @@ nginx_ssl_role: usegalaxy_eu.certbot
 nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
 nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
 create_nginx_htpasswd: true
+nginx_conf_user: galaxy  # the nginx-with-dynamic-module role uses this (though it is a var for galaxyproject.nginx)
 
 # Galaxy
 
@@ -68,6 +69,7 @@ cloudstor_settings:
 
 tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_conf|d(false) == true else default_settings['tool_config_files'] }}"
 user_prefs_extra_config_file: "{{ cloudstor_settings['user_prefs_extra_config_file'] if use_cloudstor_conf|d(false) == true else default_settings['user_prefs_extra_config_file'] }}"
+# end variables dependent on use_cloudstor_conf
 
 galaxy_create_user: true
 galaxy_separate_privileges: true
@@ -81,6 +83,7 @@ galaxy_force_checkout: true
 galaxy_australia_website: "https://usegalaxy-au.github.io"
 
 galaxy_server_dir: "{{ galaxy_root }}/galaxy-app"
+galaxy_venv_dir: "{{ galaxy_root }}/venv" # set this explicitly as it can fail when host/group variables are used out of the context of the galaxy role
 galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
 galaxy_mutable_data_dir: "{{ galaxy_root }}"
 galaxy_config_dir: "{{ galaxy_root }}/config"
@@ -185,16 +188,16 @@ group_galaxy_config:
     statsd_port: 8125
     statsd_prefix: galaxy-aust
     
+    display_servers: hgw1.cse.ucsc.edu,hgw2.cse.ucsc.edu,hgw3.cse.ucsc.edu,hgw4.cse.ucsc.edu,hgw5.cse.ucsc.edu,hgw6.cse.ucsc.edu,hgw7.cse.ucsc.edu,hgw8.cse.ucsc.edu,lowepub.cse.ucsc.edu
+    builds_file_path: /cvmfs/data.galaxyproject.org/managed/location/builds.txt
+    build_sites_config_file: "{{ galaxy_config_dir }}/build_sites.yml"
+    enable_old_display_applications: true
 
     # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
 
     # data_manager_config_file: /mnt/galaxy-app/config/data_manager_conf.xml.sample  # should we be templating these?
     
     # migrated_tools_config: /mnt/galaxy/var/migrated_tools_conf.xml
-    display_servers: hgw1.cse.ucsc.edu,hgw2.cse.ucsc.edu,hgw3.cse.ucsc.edu,hgw4.cse.ucsc.edu,hgw5.cse.ucsc.edu,hgw6.cse.ucsc.edu,hgw7.cse.ucsc.edu,hgw8.cse.ucsc.edu,lowepub.cse.ucsc.edu
-    builds_file_path: /cvmfs/data.galaxyproject.org/managed/location/builds.txt
-    build_sites_config_file: "{{ galaxy_config_dir }}/build_sites.yml"
-    enable_old_display_applications: true
     # datatypes_config_file: /mnt/galaxy-app/config/datatypes_conf.xml
 
     # interactive_environment_plugins_directory: config/plugins/interactive_environments
@@ -219,15 +222,6 @@ group_galaxy_config:
     # len_file_path: /mnt/galaxy-app/tool-data/len
     #
     
-    #########################################
-    # Commented out by Simon - 22/03/2021.
-    # Requires more testing before being used in production - team meeting 22/03/2021.
-    # Once it's added to production it's no longer an issue.
-    # 
-    #########################################
-    #enable_oidc: true
-    #oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
-    #oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
 
 galaxy_config_template_src_dir: templates/galaxy
 galaxy_config_templates:
@@ -237,8 +231,8 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir}}/job_conf.xml"
   - src: "{{ galaxy_config_template_src_dir }}/config/reports.yml.j2"
     dest: "{{ galaxy_config_dir }}/reports.yml"
-  #- src: "{{ galaxy_config_template_src_dir }}/config/oidc_backends_config.xml.j2"
-  #  dest: "{{ galaxy_config_dir}}/oidc_backends_config.xml"
+  - src: "{{ galaxy_config_template_src_dir }}/config/oidc_backends_config.xml.j2"
+    dest: "{{ galaxy_config_dir}}/oidc_backends_config.xml"
 
 galaxy_config_file_src_dir: files/galaxy
 galaxy_config_files:
@@ -256,8 +250,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config['galaxy']['user_preferences_extra_conf_path'] }}"
   - src: "{{ galaxy_config_file_src_dir }}/config/build_sites.yml"
     dest: "{{ galaxy_config_dir }}/build_sites.yml"
-  #- src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
-  #  dest: "{{ galaxy_config_dir}}/oidc_config.xml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
+    dest: "{{ galaxy_config_dir}}/oidc_config.xml"
 
 # galaxy_config is the combination of group_galaxy_config and host_galaxy_config.  For any variable
 # defined in both group_galaxy_config and host_galaxy_config the value from host_galaxy_config will
