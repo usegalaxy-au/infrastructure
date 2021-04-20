@@ -1,4 +1,4 @@
-- hosts: build-machines
+- hosts: build_machines
   become: yes
   vars_files:
     - group_vars/VAULT
