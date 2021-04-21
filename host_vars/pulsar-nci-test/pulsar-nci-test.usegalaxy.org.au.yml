@@ -1,5 +1,10 @@
 hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
 
+attached_volumes:
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
+
 # Keys and shares
 
 create_ssh_key: yes  # Only the first time.
@@ -18,7 +23,3 @@ rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_nci_test }}"
 pulsar_queue_url: "aarnet-dev-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_nci_test"
 pulsar_rabbit_vhost: "/pulsar/galaxy_nci_test"
-
-attached_volume_device: /dev/vdc
-attached_volume_fstype: ext4
-attached_volume_path: /mnt

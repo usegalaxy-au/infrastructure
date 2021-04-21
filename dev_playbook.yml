@@ -7,14 +7,6 @@
       - group_vars/galaxyservers.yml
       - group_vars/dev_slurm.yml
       - host_vars/dev.usegalaxy.org.au.yml
-  pre_tasks:
-      - name: Attach main volume to instance
-        include_role:
-          name: set-up-volume
-        vars:
-          attached_volume_device: "{{ galaxyserver_attached_volume_device }}"
-          attached_volume_fstype: "{{ galaxyserver_attached_volume_fstype }}"
-          attached_volume_path: "{{ galaxyserver_attached_volume_path }}"
   handlers:
     - name: Restart Galaxy
       systemd:

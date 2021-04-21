@@ -1,0 +1,19 @@
+---
+- block:
+    - name: Detect attached volume
+      parted:
+        device: "{{ attached_volume.device }}"
+        unit: GiB
+      register: volume_info
+    - name: Create a filesystem on volume
+      filesystem:
+        fstype: "{{ attached_volume.fstype }}"
+        dev: "{{ attached_volume.device }}"
+      when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == attached_volume.device
+    - name: Mount volume
+      mount:
+        path: "{{ attached_volume.path }}"
+        src: "{{ attached_volume.device }}"
+        fstype: "{{ attached_volume.fstype }}"
+        state: mounted
+  when: attached_volume.device is defined and attached_volume.fstype is defined and attached_volume.path is defined
