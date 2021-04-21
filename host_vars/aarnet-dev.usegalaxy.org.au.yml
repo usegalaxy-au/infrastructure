@@ -98,7 +98,7 @@ galaxy_jobconf:
             galaxy_url: "https://aarnet-dev.usegalaxy.org.au"
             manager: _default_
             amqp_acknowledge: True
-            amqp_ack_republish_time: 300
+            amqp_ack_republish_time: 1200
             amqp_consumer_timeout: 2.0
             amqp_publish_retry: True
             amqp_publish_retry_max_retries: 60
@@ -109,7 +109,7 @@ galaxy_jobconf:
             galaxy_url: "https://aarnet-dev.usegalaxy.org.au"
             manager: _default_
             amqp_acknowledge: True
-            amqp_ack_republish_time: 300
+            amqp_ack_republish_time: 1200
             amqp_consumer_timeout: 2.0
             amqp_publish_retry: True
             amqp_publish_retry_max_retries: 60
