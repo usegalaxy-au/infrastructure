@@ -7,7 +7,7 @@
       register: volume_info
     - name: Create a filesystem on volume
       filesystem:
-        fstype: "{{ attached_volume.fstype) }}"
+        fstype: "{{ attached_volume.fstype }}"
         dev: "{{ attached_volume.device }}"
       when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == attached_volume.device
     - name: Mount volume
