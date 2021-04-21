@@ -1,7 +1,7 @@
 hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
 
 attached_volumes:
-  - device: /dev/vdc
+  - device: /dev/vdb
     path: /mnt
     fstype: ext4
 
