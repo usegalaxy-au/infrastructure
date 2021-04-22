@@ -3,6 +3,12 @@
 #TO DO:
 # 
 
+# variables for attaching mounted volume to application server
+attached_volumes:
+  - device: /dev/vdc
+    path: /mnt
+    fstype: ext4
+
 certbot_domains:
 - "{{ hostname }}"
 - "usegalaxy.org.au"
@@ -15,13 +21,7 @@ galaxy_commit_id: release_21.01_cloudstor
 # Use extra tool_conf file and user prefs for cloudstor tool
 use_cloudstor_conf: true
 
-# variables for attaching mounted volume to application server
-galaxyserver_attached_volume_device: /dev/vdc
-galaxyserver_attached_volume_path: /mnt
-galaxyserver_attached_volume_fstype: ext4
-
 # Mounts for various connections:
-
 shared_mounts:
     - path: /mnt/ghost-galaxy-app
       src: "{{ hostvars['pawsey-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
