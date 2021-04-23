@@ -45,3 +45,5 @@
     - galaxyproject.cvmfs
     - dj-wasabi.telegraf
     - pulsar-post-tasks
+    - slurm-sudo
+
