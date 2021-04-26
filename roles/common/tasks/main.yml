@@ -1,10 +1,4 @@
-- name: Create filesystems and mount attached_volumes
-  include_tasks: set_up_volume.yml
-  loop: "{{ attached_volumes }}"
-  loop_control:
-    loop_var: attached_volume
-  when: attached_volumes is defined
-
+---
 - name: Update the apt repos and base OS
   apt:
       upgrade: dist
