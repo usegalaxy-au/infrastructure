@@ -1,5 +1,11 @@
 # Specific settings for galaxy staging application/web server
 
+# variables for attaching mounted volume to application server
+attached_volumes:
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
+
 certbot_domains:
 - "{{ hostname }}"
 
@@ -114,11 +120,6 @@ galaxy_jobconf:
         value: 1
       - type: registered_user_concurrent_jobs
         value: 10
-
-# variables for attaching mounted volume to application server
-galaxyserver_attached_volume_device: /dev/vdb
-galaxyserver_attached_volume_path: /mnt
-galaxyserver_attached_volume_fstype: ext4
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
