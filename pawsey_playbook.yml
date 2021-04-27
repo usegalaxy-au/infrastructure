@@ -45,6 +45,7 @@
     - geerlingguy.pip
     - galaxyproject.galaxy
     - usegalaxy_eu.galaxy_systemd
+    - nginx-upload-module
     - galaxyproject.nginx
     - geerlingguy.nfs
     - galaxyproject.slurm
