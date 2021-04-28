@@ -191,6 +191,8 @@ galaxy_jobconf:
         destination: interactive_local
       - id: interactive_tool_jupyter_notebook
         destination: interactive_local
+      - id: interactive_tool_phinch
+        destination: interactive_local
 
 # variables for attaching mounted volume to application server
 galaxyserver_attached_volume_device: /dev/vdb
