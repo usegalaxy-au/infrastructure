@@ -55,6 +55,7 @@ nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
 nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
 create_nginx_htpasswd: true
 nginx_conf_user: galaxy  # the nginx-with-dynamic-module role uses this (though it is a var for galaxyproject.nginx)
+nginx_upload_limit_rate: 0 # for nginx template: rate in bytes per second.  0 means no limit. (EU has '32k', US has no limit)
 
 # Galaxy
 
