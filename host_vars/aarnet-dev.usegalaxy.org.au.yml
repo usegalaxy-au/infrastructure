@@ -167,6 +167,7 @@ galaxy_jobconf:
           docker_set_user: ''
           require_container: true
           container_monitor_result: callback
+          submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
       - id: interactive_slurm
         runner: slurm
         params:
