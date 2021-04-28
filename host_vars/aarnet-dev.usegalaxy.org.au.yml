@@ -167,6 +167,7 @@ galaxy_jobconf:
           docker_set_user: ''
           require_container: true
           container_monitor_result: callback
+          submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
       - id: interactive_slurm
         runner: slurm
         params:
@@ -190,6 +191,8 @@ galaxy_jobconf:
       - id: interactive_tool_rstudio
         destination: interactive_local
       - id: interactive_tool_jupyter_notebook
+        destination: interactive_local
+      - id: interactive_tool_phinch
         destination: interactive_local
 
 # variables for attaching mounted volume to application server
