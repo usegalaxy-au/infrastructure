@@ -18,6 +18,7 @@ pulsar_rabbit_username: "galaxy_mel3"
 pulsar_rabbit_vhost: "/pulsar/galaxy_mel3"
 
 #Attached volume
-attached_volume_device: /dev/vdb
-attached_volume_fstype: ext4
-attached_volume_path: /mnt
+attached_volumes:
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
