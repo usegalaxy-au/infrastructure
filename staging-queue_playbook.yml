@@ -16,4 +16,4 @@
       - mariadb
       - galaxyproject.repos
       - galaxyproject.slurm
-      - slurm-sudo
+      - slurm-post-tasks

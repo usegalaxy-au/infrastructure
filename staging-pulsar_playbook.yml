@@ -24,3 +24,4 @@
     - galaxyproject.slurm
     - galaxyproject.cvmfs
     - pulsar-post-tasks
+    - slurm-post-tasks

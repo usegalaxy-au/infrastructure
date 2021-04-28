@@ -16,14 +16,4 @@
       - mariadb
       - galaxyproject.repos
       - galaxyproject.slurm
-  post_tasks:
-      - name: Allow all users to run sudo sacct, scontrol or scancel
-        lineinfile:
-          path: /etc/sudoers.d/devs
-          create: true
-          line: "%devs ALL=(ALL) NOPASSWD: {{ item }}"
-          validate: /usr/sbin/visudo -cf %s
-        with_items:
-          - /usr/bin/sacct
-          - /usr/bin/scontrol
-          - /usr/bin/scancel
+      - slurm-post-tasks
