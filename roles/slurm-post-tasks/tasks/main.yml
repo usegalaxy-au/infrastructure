@@ -9,3 +9,8 @@
     - /usr/bin/sacct
     - /usr/bin/scontrol
     - /usr/bin/scancel
+- name: set SACCT_FORMAT for root user
+  lineinfile:
+    path: /etc/environment
+    create: true
+    line: "export SACCT_FORMAT="jobid%8,partition%9,jobname%30,alloccpus,elapsed,totalcpu,END,state,MaxRSS,ReqMem,NodeList"
