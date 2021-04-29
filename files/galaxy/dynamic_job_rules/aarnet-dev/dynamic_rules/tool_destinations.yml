@@ -2,9 +2,13 @@ tools:
   upload1:
     default_destination: slurm_dest
   fasta-stats:
-    default_destination: pulsar_destination
+    default_destination: pulsar_nci_test_small
   bwa_mem:
-    default_destination: pulsar_destination_nci
+    default_destination: pulsar_nci_test_small
+  fastqc:
+    default_destination: pulsar_nci_test_mid
+  fastq_paired_end_interlacer:
+    default_destination: pulsar_nci_test_mid
 default_destination: slurm_dest
 
 verbose: True
