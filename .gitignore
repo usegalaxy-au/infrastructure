@@ -14,6 +14,7 @@ terraform/*/.terraform
 terraform/pulsar-nci-test/.terraform
 terraform/pulsar-mel2/.terraform
 terraform/pulsar-mel3/.terraform
+terraform/high-mem1/.terraform
 
 # from requirements.yml
 roles/galaxyproject.galaxy/
