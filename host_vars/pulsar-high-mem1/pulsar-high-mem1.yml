@@ -1,0 +1,73 @@
+hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
+
+# Keys and shares
+
+create_ssh_key: yes  # Only the first time.
+ssl_country: "AU"
+ssl_state: "Vic"
+ssl_location: "Melbourne"
+ssl_organisation: "Galaxy Australia"
+ssl_operational_unit: "Pulsar High Mem1"
+ssl_email: "help@genome.edu.au"
+
+#host specific pulsar settings
+
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_hm1_pawsey }}"
+pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
+pulsar_rabbit_username: "galaxy_hm1"
+pulsar_rabbit_vhost: "/pulsar/galaxy_hm1"
+
+attached_volume_device: /dev/vdb
+attached_volume_fstype: ext4
+attached_volume_path: /mnt
+
+galaxy_uid: 10010
+galaxy_gid: 10010
+
+use_internal_ips: false
+
+# cvmfs
+cvmfs_cache_base: /mnt/var/lib/cvmfs
+
+# Monitoring
+telegraf_agent_output:
+  - type: influxdb
+    config:
+      - urls = ["{{ grafana_server_url }}"]
+      - database = "pulsar-special"
+      - precision = "s"
+
+auth_key_user: ubuntu
+
+head_nodes: "{{ groups['pulsar-high-mem1'] }}"
+
+# SLURM
+slurm_nodes:
+    - name: pulsar-high-mem1
+      NodeAddr: "{{ hostvars['pulsar-high-mem1']['ansible_ssh_host'] }}"
+      CPUs: 126
+      RealMemory: 4018565
+      State: UNKNOWN
+
+slurm_partitions:
+    - name: main
+      nodes: "pulsar-high-mem1"
+      Default: YES
+      MaxTime: INFINITE
+      State: UP
+
+slurm_config:
+    #SlurmDBd includes
+    AccountingStorageType: accounting_storage/slurmdbd
+    AccountingStorageHost: localhost
+    JobAcctGatherType: jobacct_gather/linux
+    ControlMachine: pulsar-high-mem1
+    SlurmctldPidFile: /run/slurmctld.pid
+    SlurmdPidFile: /run/slurmd.pid
+    # SCHEDULING
+    FastSchedule: 2
+    SchedulerType: sched/backfill
+    SelectType: select/cons_res
+    SelectTypeParameters: CR_CPU,CR_LLN
+
+slurm_munge_key: files/keys/munge.key

@@ -23,5 +23,5 @@
   systemd:
     name: munge
     state: restarted
-- name: Reload exportfs
-  command: exportfs -ra
+#- name: Reload exportfs
+#  command: exportfs -ra
