@@ -149,6 +149,6 @@
     name: "{{ htpass_username }}"
     password: "{{ htpass_password }}"
     owner: root
-    group: www-data
+    group: galaxy
     mode: 0640
   when: create_nginx_htpasswd is defined and create_nginx_htpasswd == true
