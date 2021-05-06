@@ -1,0 +1,68 @@
+- hosts: "{{ update_labels_hostname }}"
+  become: true
+  become_user: galaxy
+  vars:
+    update_labels_directory: /mnt/galaxy/var/jenkins
+    shed_tool_conf_path: /mnt/galaxy/var/shed_tool_conf.xml
+    shed_tool_conf_backups_directory: "{{ update_labels_directory }}/backups"
+    update_labels_venv: "{{ update_labels_directory }}/venv"
+  pre_tasks:
+    - name: Create jenkins directories belonging to galaxy
+      file:
+        path: "{{ item }}"
+        owner: galaxy
+        group: galaxy
+        state: directory
+      with_items:
+        - "{{ update_labels_directory }}"
+        - "{{ shed_tool_conf_backups_directory }}"
+    - name: Create virtualenv for python script
+      pip:
+        virtualenv: "{{ update_labels_venv }}"
+        name:
+          - pyyaml
+          - galaxy-util
+          - pytz
+    - name: Download latest installation log from usegalaxy-au-tools github
+      get_url:
+        url: https://raw.githubusercontent.com/usegalaxy-au/usegalaxy-au-tools/master/automated_tool_installation_log.tsv
+        dest: "{{ update_labels_directory }}"
+    - name: Send scripts and constants to galaxy
+      copy:
+        src: "{{ item }}"
+        dest: "{{ update_labels_directory }}"
+      with_items:
+        - scripts/tool_labels.yml
+        - scripts/update_labels.py
+    - name: Back up shed_tool_conf.xml
+      shell: "cp {{ shed_tool_conf_path }} {{ shed_tool_conf_backups_directory }}/shed_tool_conf.xml_$(date '+%Y.%m.%d.%H.%M.%S')"
+    - name: Copy shed_tool_conf to working directory
+      shell: "cp {{ shed_tool_conf_path }} {{ update_labels_directory }}"
+    - name: Run the script
+      command: "{{ update_labels_venv }}/bin/python update_labels.py --display_new_days {{ display_new_days }} --display_updated_days {{ display_updated_days }}"
+      args:
+        chdir: "{{ update_labels_directory }}"
+    - name: Integrity check - old file and new file can differ by at most one line      
+      shell: echo $(expr $(cat {{ update_labels_directory }}/shed_tool_conf.xml | wc -l) - $(cat {{ shed_tool_conf_path }} | wc -l))
+      register: lines_diff
+    - name: Finally, copy the modified shed_tool_conf.xml to it location
+      shell: "mv {{ update_labels_directory }}/shed_tool_conf.xml {{ shed_tool_conf_path }}"
+      when: lines_diff.stdout in ["0", "1"] # allow at most one line of difference between the files to account for presence/absence of newline
+    - name: Debug statement if integrity check failed
+      debug:
+        msg: "Lines in altered shed_tool_conf.xml differed from the master file by {{ lines_diff.stdout }}.  Not copying file since it may be in use."
+      when: lines_diff.stdout not in ["0", "1"]
+    - name: find backups over a week old
+      find:
+        age: 1w
+        paths:
+          - "{{ shed_tool_conf_backups_directory }}"
+        patterns:
+          - "shed_tool_conf.xml_*"
+      register: old_backups
+    - name: delete old backup files
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ old_backups.files }}"
+    
