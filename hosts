@@ -123,6 +123,9 @@ pulsar-nci-test ansible_ssh_host=130.56.246.138 internal_ip=10.0.2.29
 pulsar-nci-test-w1 ansible_ssh_host=10.0.0.20 internal_ip=10.0.0.20
 pulsar-nci-test-w2 ansible_ssh_host=10.0.1.48 internal_ip=10.0.1.48
 
+[pulsar-high-mem1]
+pulsar-high-mem1 ansible_ssh_host=115.146.84.155
+
 [build-machines]
 nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249
 aarnet-build ansible_ssh_host=138.44.78.47 internal_ip=192.168.0.234

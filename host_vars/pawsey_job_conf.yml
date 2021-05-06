@@ -47,6 +47,17 @@ galaxy_jobconf:
           amqp_url: "pyamqp://galaxy_mel3:{{ vault_rabbitmq_password_galaxy_mel3_pawsey }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel3?ssl=1"
           galaxy_url: "https://{{ hostname }}"
           manager: "_default_"
+      - id: pulsar-high-mem1_runner
+        load: "galaxy.jobs.runners.pulsar:PulsarMQJobRunner"
+        params:
+          amqp_ack_republish_time: 1200
+          amqp_acknowledge: True
+          amqp_consumer_timeout: 2.0
+          amqp_publish_retry: True
+          amqp_publish_retry_max_retries: 60
+          amqp_url: "pyamqp://galaxy_hm1:{{ vault_rabbitmq_password_galaxy_hm1_pawsey }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm1?ssl=1"
+          galaxy_url: "https://{{ hostname }}"
+          manager: "_default_"
     default_destination: gateway
     destinations:
       - id: local
@@ -233,6 +244,29 @@ galaxy_jobconf:
           remote_metadata: false
           rewrite_parameters: true
           submit_native_specification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=62080"
+          transport: curl
+      # Pulsar-high-mem1 destinations
+      - id: pulsar-high-mem1_mid
+        runner: pulsar-high-mem1_runner
+        params:
+          default_file_action: remote_transfer
+          dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
+          submit_native_specification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=1004641"
+          transport: curl
+      - id: pulsar-high-mem1_big
+        runner: pulsar-high-mem1_runner
+        params:
+          default_file_action: remote_transfer
+          dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
+          submit_native_specification: "--nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=4018565"
           transport: curl
     limits:
       #General limits for user submission
