@@ -17,9 +17,10 @@ pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_hm1"
 pulsar_rabbit_vhost: "/pulsar/galaxy_hm1"
 
-attached_volume_device: /dev/vdb
-attached_volume_fstype: ext4
-attached_volume_path: /mnt
+attached_volumes:
+  - device: /dev/mapper/vg1-lvol0
+    path: /mnt
+    fstype: ext4
 
 galaxy_uid: 10010
 galaxy_gid: 10010

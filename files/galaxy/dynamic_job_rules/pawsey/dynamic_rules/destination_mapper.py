@@ -14,7 +14,7 @@ pulsar_user_destinations = {  # test pulsar users whose shed-tool jobs will alwa
     'pulsar_mel2_user@usegalaxy.org.au': 'pulsar-mel_small',
     'pulsar_mel3_user@usegalaxy.org.au': 'pulsar-mel3_small',
     'pulsar_paw_user@usegalaxy.org.au': 'pulsar-paw_small',
-    'phm1@gneome.edu.au': 'pulsar-high-mem1_big',
+    'phm1@genome.edu.au': 'pulsar-high-mem1_big',
 }
 
 pulsar_list = ['shovill', 'spades', 'velvet', 'velvetoptimiser', 'prokka', 'lastz_wrapper_2', 'raxml', 'fastqc', 'abricate', 'snippy', 'bwa', 'bwa_mem', 'hisat2', 'htseq_count']
