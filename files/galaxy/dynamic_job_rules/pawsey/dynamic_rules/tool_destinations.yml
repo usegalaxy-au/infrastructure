@@ -282,6 +282,23 @@ tools:
             destination: slurm_1slot
         default_destination: pulsar-mel3_big
     canu:
+        rules:
+          - rule_type: file_size
+            nice_value: -5
+            lower_bound: 0
+            upper_bound: 200 MB
+            users:
+                - g.price@qfab.org
+                - anna.syme@unimelb.edu.au
+            destination: pulsar-high-mem1_mid
+          - rule_type: file_size
+            nice_value: -5
+            lower_bound: 200 MB
+            upper_bound: Infinity
+            users:
+                - g.price@qfab.org
+                - anna.syme@unimelb.edu.au
+            destination: pulsar-high-mem1_big
         default_destination: pulsar-mel3_big_canu
     poretools_events:
         default_destination: slurm_3slots
