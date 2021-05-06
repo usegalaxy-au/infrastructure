@@ -10,7 +10,7 @@ from galaxy.jobs.dynamic_tool_destination import map_tool_to_destination
 
 TOOL_DESTINATION_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'tool_destinations.yml')
 
-pulsar_user_destinations = {'pulsar_user@usegalaxy.org.au': 'pulsar_destination'}
+user_destinations = {'pulsar_user@usegalaxy.org.au': 'pulsar_destination'}
 
 pulsar_list = ['fasta-stats', 'bwa_mem']
 
@@ -25,9 +25,9 @@ def gateway(job, app, tool, user, user_email):
     user, user_email (see https://docs.galaxyproject.org/en/latest/admin/jobs.html)
     """
 
-    if user_email in pulsar_user_destinations.keys():
+    if user_email in user_destinations.keys():
         if hasattr(tool, 'id') and isinstance(tool.id, str) and tool.id.startswith('toolshed'):  # map shed tools only
-            return pulsar_user_destinations[user_email]
+            return user_destinations[user_email]
     #if user:
     #    user_roles = [role.name for role in user.all_roles() if not role.deleted]
 
