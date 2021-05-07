@@ -280,6 +280,11 @@ tools:
             lower_bound: 0
             upper_bound: 10 KB
             destination: slurm_1slot
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 10 KB
+            upper_bound: 500 KB
+            destination: slurm_3slots
         default_destination: pulsar-mel3_big
     canu:
         rules:
