@@ -39,6 +39,10 @@ postgresql_objects_users:
     password: "{{ galaxy_dev_db_user_password }}"
     db: galaxy
     priv: "ALL"
+  - name: galaxyftp
+    password: "{{ vault_aarnet_dev_db_galaxyftp_password }}"
+    db: galaxy
+    priv: "ALL"
   - name: reader
     password: "{{ vault_aarnet_dev_db_reader_password }}"
     db: galaxy

@@ -1,0 +1,33 @@
+---
+- hosts: aarnet_dev_ftp
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/VAULT
+    - host_vars/aarnet-dev-ftp.usegalaxy.org.au.yml
+    - galaxyproject.nginx
+  # pre_tasks:
+  #   # the volume task here
+  roles:
+    - common
+ 
+ 
+ 
+    # # - hxr.admin-tools
+    # # - influxdata.chrony
+    # # - geerlingguy.repo-epel
+    # # - hxr.monitor-email
+    # # - linuxhq.yum_cron
+    # - galaxyproject.nginx
+    # # - hxr.autofs
+    # # - usegalaxy-eu.dynmotd
+    # # BEGIN custom
+    # # Remap 999:999 to other ids.
+    # # - hxr.remap-user
+    # # Now add custom galaxy user with hardcoded ID. The user info is in group_vars/ftp.yml
+    # # - hxr.replace-galaxy-user
+    # - galaxyproject.proftpd
+    # # END custom
+    # - dj-wasabi.telegraf
+    # #- dev-sec.os-hardening
+    # #- dev-sec.ssh-hardening

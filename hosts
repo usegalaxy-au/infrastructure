@@ -145,6 +145,9 @@ aarnet-dev-queue ansible_ssh_host=192.168.0.250 internal_ip=192.168.0.250
 aarnet-dev-w1 ansible_ssh_host=192.168.0.252 internal_ip=192.168.0.252
 aarnet-dev-w2 ansible_ssh_host=192.168.0.44 internal_ip=192.168.0.44
 
+[aarnet_dev_ftp]
+aarnet-dev-ftp ansible_ssh_host=138.44.78.60 internal_ip=192.168.0.23
+
 [all:vars]
 ansible_host_key_checking=False
 ansible_user=ubuntu

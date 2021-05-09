@@ -1,0 +1,50 @@
+attached_volumes:
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
+
+galaxy_user:
+  name: galaxy
+galaxy_ftp_upload: /mnt/galaxy/ftp
+proftpd_display_connect: |
+  aarnet-dev.usegalaxy.org.au FTP server
+
+  Unauthorized access is prohibited
+proftpd_galaxy_auth: yes
+proftpd_options:
+  - User: galaxy
+  - Group: galaxy
+proftpd_sql_db: "galaxy@{{ hostvars['aarnet-dev-db']['internal_ip'] }}:5432"
+# proftpd_sql_db: "postgres://galaxy:{{ galaxy_db_user_password }}@{{ hostvars['aarnet-dev-db']['internal_ip'] }}:5432/galaxy"
+proftpd_sql_user: galaxyftp
+proftpd_sql_password: "{{ vault_aarnet_dev_db_galaxyftp_password }}"
+
+# sslkeys:
+#   'snakeoil_privatekey.pem': |
+#     -----BEGIN PRIVATE KEY-----
+#     MIIE...
+#     -----END PRIVATE KEY-----
+proftpd_conf_ssl_certificate: snakeoil_cert.pem
+proftpd_conf_ssl_certificate_key: snakeoil_privatekey.pem
+proftpd_ssl_src_dir: files/ssl
+
+certbot_auth_method: --webroot
+certbot_well_known_root: /srv/nginx/_well-known_root
+certbot_share_key_users:
+  - nginx
+  - proftpd
+certbot_post_renewal: |
+  systemctl restart nginx || true
+  systemctl restart proftpd || true
+
+# NGINX
+nginx_enable_default_server: false
+nginx_ssl_servers:
+  - ftp
+nginx_conf_http:
+  client_max_body_size: 1g
+
+# Nginx Letsencrypt bindings
+nginx_ssl_role: usegalaxy-eu.certbot
+nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
+nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
