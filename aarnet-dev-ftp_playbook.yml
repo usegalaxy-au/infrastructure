@@ -5,12 +5,11 @@
     - group_vars/all.yml
     - group_vars/VAULT
     - host_vars/aarnet-dev-ftp.usegalaxy.org.au.yml
-    - galaxyproject.nginx
   # pre_tasks:
   #   # the volume task here
   roles:
     - common
- 
+    - galaxyproject.nginx 
  
  
     # # - hxr.admin-tools
