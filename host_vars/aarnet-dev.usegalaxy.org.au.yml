@@ -70,6 +70,9 @@ host_galaxy_config:  # renamed from __galaxy_config
     nginx_upload_path: '/_upload'
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
     nginx_upload_job_files_path: '/_job_files'
+    # ftp
+    ftp_upload_dir: /mnt/galaxy/ftp # fine for dev since this is the only volume, this location would not work on production
+    ftp_upload_site: 'aarnet-dev-ftp.usegalaxy.org.au'
 
 galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
 
