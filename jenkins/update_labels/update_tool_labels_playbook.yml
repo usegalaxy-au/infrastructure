@@ -32,14 +32,14 @@
         src: "{{ item }}"
         dest: "{{ update_labels_directory }}"
       with_items:
-        - scripts/tool_labels.yml
-        - scripts/update_labels.py
+        - tool_labels.yml
+        - update_labels.py
     - name: Back up shed_tool_conf.xml
       shell: "cp {{ shed_tool_conf_path }} {{ shed_tool_conf_backups_directory }}/shed_tool_conf.xml_$(date '+%Y.%m.%d.%H.%M.%S')"
     - name: Copy shed_tool_conf to working directory
       shell: "cp {{ shed_tool_conf_path }} {{ update_labels_directory }}"
     - name: Run the script
-      command: "{{ update_labels_venv }}/bin/python update_labels.py --display_new_days {{ display_new_days }} --display_updated_days {{ display_updated_days }}"
+      command: "{{ update_labels_venv }}/bin/python update_labels.py"
       args:
         chdir: "{{ update_labels_directory }}"
     - name: Integrity check - old file and new file can differ by at most one line      

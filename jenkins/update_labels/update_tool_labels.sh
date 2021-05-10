@@ -15,7 +15,7 @@ pip install -r $REQUIREMENTS_FILE
 cp $REQUIREMENTS_FILE $CACHED_REQUIREMENTS_FILE
 fi
 
-ansible-playbook -i hosts_catdev update_tool_panel_labels_playbook.yml --extra-vars "ansible_user=jenkins_bot update_labels_hostname=staging_galaxy_server"
+ansible-playbook -i hosts jenkins/update_labels/update_tool_labels_playbook.yml --extra-vars "ansible_user=jenkins_bot update_labels_hostname=staging_galaxy_server"
 
 # leave commented out until after this has been run on staging a couple of times
-# ansible-playbook -i hosts_catdev update_tool_panel_labels_playbook.yml --extra-vars "ansible_user=jenkins_bot update_labels_hostname=pawsey_galaxy_server"
+# ansible-playbook -i hosts jenkins/update_labels/update_tool_labels_playbook.yml --extra-vars "ansible_user=jenkins_bot update_labels_hostname=pawsey_galaxy_server"
