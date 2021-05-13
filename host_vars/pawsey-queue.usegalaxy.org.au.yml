@@ -25,6 +25,9 @@ rabbitmq_users:
   - user: galaxy_hm1
     password: "{{ rabbitmq_password_galaxy_hm1 }}"
     vhost: /pulsar/galaxy_hm1
+  - user: galaxy_hm2
+    password: "{{ rabbitmq_password_galaxy_hm2 }}"
+    vhost: /pulsar/galaxy_hm2
     
 rabbitmq_vhosts:
   - galaxy
@@ -32,6 +35,7 @@ rabbitmq_vhosts:
   - /pulsar/galaxy_mel3
   - /pulsar/galaxy_paw
   - /pulsar/galaxy_hm1
+  - /pulsar/galaxy_hm2
 
 rabbitmq_password_admin: "{{ vault_rabbitmq_password_admin_pawsey }}"
 rabbitmq_password_telegraf: "{{ vault_rabbitmq_password_telegraf_pawsey }}"
@@ -40,6 +44,7 @@ rabbitmq_password_galaxy_mel2: "{{ vault_rabbitmq_password_galaxy_mel2_pawsey }}
 rabbitmq_password_galaxy_mel3: "{{ vault_rabbitmq_password_galaxy_mel3_pawsey }}"
 rabbitmq_password_galaxy_paw: "{{ vault_rabbitmq_password_galaxy_paw_pawsey }}"
 rabbitmq_password_galaxy_hm1: "{{ vault_rabbitmq_password_galaxy_hm1_pawsey }}"
+rabbitmq_password_galaxy_hm2: "{{ vault_rabbitmq_password_galaxy_hm2_pawsey }}"
 
 
 # Host specific Slurm settings
