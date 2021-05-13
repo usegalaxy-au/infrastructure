@@ -132,3 +132,20 @@ custos_client_id: "{{ vault_custos_client_id_pawsey }}"
 custos_client_secret: "{{ vault_custos_client_secret_pawsey }}"
 aaf_client_id: "{{ vault_aaf_client_id_pawsey }}"
 aaf_client_secret: "{{ vault_aaf_client_secret_pawsey }}"
+
+# remote-pulsar-cron variables
+rpc_pulsar_machines:
+  - pulsar_name: pulsar-mel3
+    pulsar_ip_address: "{{ hostvars['pulsar-mel3']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    delete_jwds: false
+    keep_error_days: 5
+    cron_hour: "17"
+    cron_minute: "00"
+  - pulsar_name: pulsar-mel2
+    pulsar_ip_address: "{{ hostvars['pulsar-mel2']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    delete_jwds: false
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "10"
