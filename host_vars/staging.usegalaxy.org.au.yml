@@ -89,10 +89,14 @@ galaxy_jobconf:
         runner: dynamic
         params:
           type: dtd
-      - id: slurm_dest
+      - id: slurm_1slot
         runner: slurm
         params:
-            nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
+          nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=3880"
+      - id: slurm_2slots
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
       - id: pulsar_destination
         runner: pulsar_au_01
         params:
