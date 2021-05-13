@@ -1,0 +1,19 @@
+- hosts: pulsar-high-mem2
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/pulsarservers.yml
+    - group_vars/VAULT
+    - host_vars/pulsar-high-mem2/pulsar-high-mem2.yml
+  roles:
+    - common
+    - insspb.hostname
+    - geerlingguy.pip
+    - galaxyproject.repos
+    - galaxyproject.pulsar
+    - mariadb
+    - galaxyproject.slurm
+    - galaxyproject.cvmfs
+    - dj-wasabi.telegraf
+    - pulsar-post-tasks
+    - slurm-post-tasks
