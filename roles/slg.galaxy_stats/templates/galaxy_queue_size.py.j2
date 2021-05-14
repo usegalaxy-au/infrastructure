@@ -84,7 +84,8 @@ def collect(instance,dests):
             'cluster': row[5],
         }
         if row[4] == 'queued' or row[4] == 'running':
-            dest_counts[row[2]][row[4]] += row[6]
+            if row[2] is not None:  # occasionally jobs will enter 'queued' state without destinations
+                dest_counts[row[2]][row[4]] += row[6]
         if row[4] == 'queued':
             queued += row[6]
         if row[4] == 'running':
