@@ -21,7 +21,7 @@ default: /home/<rpc_user>/remote_pulsar_cron
 *pulsar_name*
 *pulsar_ip_address*
 *ssh_key* (path to ssh key on galaxy that will give the rpc_user access to the remote pulsar)
-*remove_jwds* (boolean, actually delete the remote job working directories identified for deletion.  default: false)
+*delete_jwds* (boolean, actually delete the remote job working directories identified for deletion.  default: false)
 *keep_error_days* (an integer number of days to keep jobs that finished in error state)
 *cron_hour* (for cron job with respect to system time on galaxy)
 *cron_minute* (as above)
