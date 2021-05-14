@@ -3,17 +3,30 @@
   template:
     src: remove_pulsar_jwds_script.sh
     dest: "{{ rpc_home }}/remove_remote_jwds_{{ rpc_pulsar.pulsar_name }}.sh"
-- name: Look for ssh key
-  stat:
-    path: "{{ rpc_pulsar.ssh_key }}"
-  register: register_ssh_key
-- name: If ssh key does not exist or does not have the right perms, do not set up cron
-  debug:
-    msg: "ssh key {{ rpc_pulsar.ssh_key }} does not exist or does not have 400 perms"
-  when: not (register_ssh_key.stat.mode is defined and register_ssh_key.stat.mode == 0400 and register_ssh_key.stat.pw_name == rpc_user)
-- cron:
-    name: "daily_rm_jwds_{{ rpc_pulsar.pulsar_name }}"
-    minute: "{{ rpc_pulsar.cron_minute }}"
-    hour: "{{ rpc_pulsar.cron_hour }}"
-    job: "bash {{ rpc_home }}/remove_remote_jwds_{{ rpc_pulsar.pulsar_name }}.sh"
-  when: register_ssh_key.stat.mode is defined and register_ssh_key.stat.mode == 0400 and register_ssh_key.stat.pw_name == rpc_user
+  vars:
+    - pulsar_name: "{{ rpc_pulsar.pulsar_name }}"
+    - pulsar_ip_address: "{{ rpc_pulsar.pulsar_ip_address }}"
+    - ssh_key: "{{ rpc_pulsar.ssh_key }}"
+    - pulsar_staging_dir: "{{ rpc_pulsar.pulsar_staging_dir|d(rpc_pulsar_staging_dir) }}"
+    - keep_error_days: "{{ rpc_pulsar.keep_error_days|d(rpc_default_keep_error_days) }}"
+    - dry_run: "{{ not rpc_pulsar.delete_jwds|d(false) }}"
+- name: Set up cron jobs
+  block:
+    - name: Look for ssh key
+      stat:
+        path: "{{ rpc_pulsar.ssh_key }}"
+      register: register_ssh_key
+    - name: If ssh key does not exist or does not have the right perms, do not set up cron
+      debug:
+        msg: "ssh key {{ rpc_pulsar.ssh_key }} does not exist or does not have 400 perms"
+      when: not (register_ssh_key.stat.mode is defined and register_ssh_key.stat.mode == 0400 and register_ssh_key.stat.pw_name == rpc_user)
+    - name: Add cron entry
+      cron:
+        cron_file: "remote_pulsar_cron"
+        user: "{{ rpc_user }}"
+        name: "daily_rm_jwds_{{ rpc_pulsar.pulsar_name }}"
+        minute: "{{ rpc_pulsar.cron_minute }}"
+        hour: "{{ rpc_pulsar.cron_hour }}"
+        job: "bash {{ rpc_home }}/remove_remote_jwds_{{ rpc_pulsar.pulsar_name }}.sh"
+      when: register_ssh_key.stat.mode is defined and register_ssh_key.stat.mode == 0400 and register_ssh_key.stat.pw_name == rpc_user
+  when: not rpc_skip_cron_setup

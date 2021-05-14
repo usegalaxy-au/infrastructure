@@ -11,8 +11,7 @@ for a number of days supplied as the `keep_error_days` argument.  It is run from
 prevent remote users from running sql commands.
 """
 
-pulsar_staging_dir = '/mnt/pulsar/files/staging'
-log_of_everything = 'remove_jwds_log'
+log_file = 'remove_jwds_log'
 
 
 def sanitize_subprocess_output_list(command):
@@ -32,9 +31,10 @@ def main():
     parser = argparse.ArgumentParser(description='Write a script to remove job working dirs that can be removed on pulsar')
     parser.add_argument('--pulsar_name', required=False, help='Human understandable name for pulsar, i.e. pulsar-mel5')
     parser.add_argument('--pulsar_ip_address', help='IP address of remote pulsar')
+    parser.add_argument('--pulsar_staging_dir', help='Staging directory on pulsar containing job working directories')
     parser.add_argument('--ssh_key', help='Absolute path to ssh key on local machine')
-    parser.add_argument('-e', '--keep_error_days', type=int, default=None, help='Keep error state job working directories completed within `keep_error_days` days')
-    parser.add_argument('--dry_run', action='store_true', help='Do not the delete script on the remote pulsar')  # flag name copied from gxadmin
+    parser.add_argument('-e', '--keep_error_days', type=int, help='Keep error state job working directories completed within `keep_error_days` days')
+    parser.add_argument('--dry_run', action='store_true', help='Do not the delete script on the remote pulsar')
     args = parser.parse_args()
 
     ssh_key = args.ssh_key
@@ -43,6 +43,7 @@ def main():
     keep_error_days = args.keep_error_days
     pulsar_ip = args.pulsar_ip_address
     pulsar_name = arg.pulsar_name if args.pulsar_name else args.pulsar_ip_address
+    pulsar_staging_dir = args.pulsar_staging_dir
     rm_jwds_script = f'rm_jwds_{pulsar_name}.sh'
 
     job_ids = sanitize_subprocess_output_list(f'ssh -i {ssh_key} ubuntu@{pulsar_ip} \"ls {pulsar_staging_dir}\"')
@@ -80,7 +81,7 @@ def main():
         shell=True,
     ).decode('utf-8')
 
-    with open(log_of_everything, 'a+') as log_handle:
+    with open(log_file, 'a+') as log_handle:
         date_time = datetime.datetime().strftime('%Y%m%d_%H.%M.%S')
         dry_run = ' [dry run]' if args.dry_run else ''
         log_handle.write(f'Running delete jwds script for {pulsar_name} keep_error_days {keep_error_days} {date_time} {dry_run}\n')

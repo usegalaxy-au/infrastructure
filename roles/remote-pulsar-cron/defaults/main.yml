@@ -1,6 +1,9 @@
 rpc_pulsar_machines: []
 rpc_user: ubuntu # user must have permission to read the tables in the galaxy database
 rpc_remote_user: ubuntu # remote user must have sudo priveleges on pulsar machines
-rpc_home: "/home/{{ dt_user }}/remote_pulsar_cron"
+rpc_home: "/home/{{ rpc_user }}/remote_pulsar_cron"
+rpc_skip_cron_setup: false
+rpc_cron_filename: "remote_pulsar_cron"
 
 rpc_pulsar_staging_dir: /mnt/pulsar/files/staging  # this can be overridden in individual entries of rpc_pulsar_machines
+rpc_default_keep_error_days: 14
