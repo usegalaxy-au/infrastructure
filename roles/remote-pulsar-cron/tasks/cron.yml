@@ -5,7 +5,7 @@
     state: directory
 - name: Template python script
   template:
-    src: remove_pulsar_jwds.py
+    src: remove_pulsar_jwds.py.j2
     dest: "{{ rpc_home }}/{{ rpc_pulsar.pulsar_name }}/remove_remote_jwds_{{ rpc_pulsar.pulsar_name }}.py"
   vars:
     - pulsar_name: "{{ rpc_pulsar.pulsar_name }}"
