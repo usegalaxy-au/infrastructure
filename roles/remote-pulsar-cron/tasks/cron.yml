@@ -1,8 +1,12 @@
 ---
-- name: Template bash script
+- name: Create script directory
+  file:
+    path: "{{ rpc_home }}/{{ rpc_pulsar.pulsar_name }}"
+    state: directory
+- name: Template python script
   template:
-    src: remove_pulsar_jwds_script.sh
-    dest: "{{ rpc_home }}/remove_remote_jwds_{{ rpc_pulsar.pulsar_name }}.sh"
+    src: remove_pulsar_jwds.py
+    dest: "{{ rpc_home }}/{{ rpc_pulsar.pulsar_name }}/remove_remote_jwds_{{ rpc_pulsar.pulsar_name }}.py"
   vars:
     - pulsar_name: "{{ rpc_pulsar.pulsar_name }}"
     - pulsar_ip_address: "{{ rpc_pulsar.pulsar_ip_address }}"
@@ -16,17 +20,19 @@
       stat:
         path: "{{ rpc_pulsar.ssh_key }}"
       register: register_ssh_key
+    - name: debug
+      debug:
+        msg: "{{register_ssh_key.stat}}"
     - name: If ssh key does not exist or does not have the right perms, do not set up cron
       debug:
         msg: "ssh key {{ rpc_pulsar.ssh_key }} does not exist or does not have 400 perms"
-      when: not (register_ssh_key.stat.mode is defined and register_ssh_key.stat.mode == 0400 and register_ssh_key.stat.pw_name == rpc_user)
-    - name: Add cron entry
+      when: not (register_ssh_key.stat.mode is defined and register_ssh_key.stat.mode == "0400" and register_ssh_key.stat.pw_name == rpc_user)
+    - name: "Add cron entry to {{ rpc_user }}'s crontab"
       cron:
-        cron_file: "remote_pulsar_cron"
         user: "{{ rpc_user }}"
         name: "daily_rm_jwds_{{ rpc_pulsar.pulsar_name }}"
         minute: "{{ rpc_pulsar.cron_minute }}"
         hour: "{{ rpc_pulsar.cron_hour }}"
-        job: "bash {{ rpc_home }}/remove_remote_jwds_{{ rpc_pulsar.pulsar_name }}.sh"
-      when: register_ssh_key.stat.mode is defined and register_ssh_key.stat.mode == 0400 and register_ssh_key.stat.pw_name == rpc_user
+        job: "python {{ rpc_home }}/{{ rpc_pulsar.pulsar_name }}/remove_remote_jwds_{{ rpc_pulsar.pulsar_name }}.py"
+      when: register_ssh_key.stat.mode is defined and register_ssh_key.stat.mode == "0400" and register_ssh_key.stat.pw_name == rpc_user
   when: not rpc_skip_cron_setup

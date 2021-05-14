@@ -7,16 +7,8 @@
       file:
         path: "{{ rpc_home }}"
         state: directory
-    - name: Copy script to folder
-      copy:
-        src: remove_pulsar_jwds.py
-        dest: "{{ rpc_home }}"
-    - name: Template bash script and set up cron job for each remote pulsar
+    - name: Template python script and set up cron job for each remote pulsar
       include_tasks: cron.yml
       loop: "{{ rpc_pulsar_machines }}"
       loop_control:
         loop_var: rpc_pulsar
-        
-          
-      
-  

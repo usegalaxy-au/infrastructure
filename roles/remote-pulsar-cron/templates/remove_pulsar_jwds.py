@@ -13,6 +13,15 @@ prevent remote users from running sql commands.
 
 log_file = 'remove_jwds_log'
 
+# These variables are templated by ansible
+remote_user = '{{ rpc_remote_user }}'
+pulsar_name = '{{ pulsar_name }}'
+pulsar_ip_address = '{{ pulsar_ip_address }}'
+ssh_key = '{{ ssh_key }}'
+pulsar_staging_dir = '{{ pulsar_staging_dir }}'
+keep_error_days = {{ keep_error_days }}
+dry_run = {% if dry_run %}True{% else %}False{% endif %}
+
 
 def sanitize_subprocess_output_list(command):
     blob = subprocess.check_output(command, shell=True)
@@ -29,24 +38,21 @@ def is_job_id(id):
 
 def main():
     parser = argparse.ArgumentParser(description='Write a script to remove job working dirs that can be removed on pulsar')
-    parser.add_argument('--pulsar_name', required=False, help='Human understandable name for pulsar, i.e. pulsar-mel5')
-    parser.add_argument('--pulsar_ip_address', help='IP address of remote pulsar')
-    parser.add_argument('--pulsar_staging_dir', help='Staging directory on pulsar containing job working directories')
-    parser.add_argument('--ssh_key', help='Absolute path to ssh key on local machine')
-    parser.add_argument('-e', '--keep_error_days', type=int, help='Keep error state job working directories completed within `keep_error_days` days')
+    parser.add_argument(
+        '-e', '--keep_error_days', type=int, default=keep_error_days,
+        help='Keep error state job working directories completed within `keep_error_days` days'
+    )
     parser.add_argument('--dry_run', action='store_true', help='Do not the delete script on the remote pulsar')
+    parser.add_argument('-c', '--check', action='store_true', help='Print details of jwds to screen')
     args = parser.parse_args()
 
-    ssh_key = args.ssh_key
     if not os.path.exists(ssh_key):
         raise Exception(f'SSH key not found: {ssh_key}')
     keep_error_days = args.keep_error_days
-    pulsar_ip = args.pulsar_ip_address
-    pulsar_name = arg.pulsar_name if args.pulsar_name else args.pulsar_ip_address
-    pulsar_staging_dir = args.pulsar_staging_dir
+    dry_run = args.dry_run or dry_run  # opt in only
     rm_jwds_script = f'rm_jwds_{pulsar_name}.sh'
 
-    job_ids = sanitize_subprocess_output_list(f'ssh -i {ssh_key} ubuntu@{pulsar_ip} \"ls {pulsar_staging_dir}\"')
+    job_ids = sanitize_subprocess_output_list(f'ssh -i {ssh_key} {remote_user}@{pulsar_ip} \"ls {pulsar_staging_dir}\"')
     job_ids = [jid for jid in job_ids if is_job_id(jid)] # filter out anything that may not be a job working directory
 
     def get_job_query(state, save_days=None):
@@ -89,11 +95,11 @@ def main():
         log_handle.write('\n')
 
         log_handle.write('Copying script to remote pulsar\n')
-        copy_exit_code = subprocess.call(f'scp -i {ssh_key} {rm_jwds_script} ubuntu@{pulsar_ip}:{pulsar_staging_dir}', shell=True)
+        copy_exit_code = subprocess.call(f'scp -i {ssh_key} {rm_jwds_script} {remote_user}@{pulsar_ip}:{pulsar_staging_dir}', shell=True)
         if not copy_exit_code == 0:
             log_handle.write('Error: Failed to copy {rm_jwds_script}\n\n')
         if not args.dry_run:
-        script_exit_code = subprocess.call(f'ssh -i {ssh_key} ubuntu@{pulsar_ip} \"cd {pulsar_staging_dir}; sudo bash {rm_jwds_script}\"', shell=True)
+        script_exit_code = subprocess.call(f'ssh -i {ssh_key} {remote_user}@{pulsar_ip} \"cd {pulsar_staging_dir}; sudo bash {rm_jwds_script}\"', shell=True)
 
         the_time = datetime.datetime().strftime('%Y%m%d %H:%M:%S')
         log_handle.write('{the_time}: Finished running script with exit code {exit_code}\n\n')
