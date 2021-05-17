@@ -10,12 +10,14 @@ from random import sample
 
 TOOL_DESTINATION_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'tool_destinations.yml')
 
-pulsar_user_destinations = {  # test pulsar users whose shed-tool jobs will always run on pulsars
+user_destinations = {  # test users whose shed-tool jobs should run at specific destinations
     'pulsar_mel2_user@usegalaxy.org.au': 'pulsar-mel_small',
     'pulsar_mel3_user@usegalaxy.org.au': 'pulsar-mel3_small',
     'pulsar_paw_user@usegalaxy.org.au': 'pulsar-paw_small',
     'phm1@genome.edu.au': 'pulsar-high-mem1_big',
     'phm2@genome.edu.au': 'pulsar-high-mem2_big',
+    'jenkins_bot@usegalaxy.org.au': 'slurm_1slot',
+    'testbot@usegalaxy.org': 'slurm_1slot',
 }
 
 pulsar_list = ['shovill', 'spades', 'velvet', 'velvetoptimiser', 'prokka', 'lastz_wrapper_2', 'raxml', 'fastqc', 'abricate', 'snippy', 'bwa', 'bwa_mem', 'hisat2', 'htseq_count']
@@ -30,10 +32,10 @@ def gateway(job, app, tool, user, user_email):
     user, user_email (see https://docs.galaxyproject.org/en/latest/admin/jobs.html)
     """
 
-    # map jobs from pulsar_user_destinations
-    if user_email in pulsar_user_destinations.keys():
+    # map jobs from user_destinations
+    if user_email in user_destinations.keys():
         if hasattr(tool, 'id') and isinstance(tool.id, str) and tool.id.startswith('toolshed'):  # map shed tools only
-            return pulsar_user_destinations[user_email]
+            return user_destinations[user_email]
 
     if user:
         user_roles = [role.name for role in user.all_roles() if not role.deleted]
