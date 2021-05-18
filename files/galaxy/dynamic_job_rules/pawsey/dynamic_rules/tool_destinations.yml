@@ -1336,6 +1336,13 @@ tools:
               lower_bound: 0
               upper_bound: 150 MB
               destination: slurm_3slots
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 60 GB
+              destination: pulsar-high-mem1-mid
+              users:
+                - anna.syme@unimelb.edu.au
         default_destination: slurm_16slots
     limma_voom:
         default_destination: slurm_7slots
