@@ -1,0 +1,14 @@
+---
+- name: "Carry out all tasks as user {{ rpc_user }}"
+  become: true
+  become_user: "{{ rpc_user }}"
+  block:
+    - name: Create directory for deletion scripts
+      file:
+        path: "{{ rpc_home }}"
+        state: directory
+    - name: Template python script and set up cron job for each remote pulsar
+      include_tasks: cron.yml
+      loop: "{{ rpc_pulsar_machines }}"
+      loop_control:
+        loop_var: rpc_pulsar
