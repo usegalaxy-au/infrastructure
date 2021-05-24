@@ -1,6 +1,7 @@
-attached_volume_device: /dev/vdc
-attached_volume_fstype: ext4
-attached_volume_path: /mnt
+attached_volumes:
+  - device: /dev/vdc
+    path: /mnt
+    fstype: ext4
 
 galaxy_nfs_app_dir: /mnt/ghost-galaxy-app
 galaxy_nfs_tools_dir: /mnt/tools-indices

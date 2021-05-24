@@ -17,6 +17,7 @@ pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_paw"
 pulsar_rabbit_vhost: "/pulsar/galaxy_paw"
 
-attached_volume_device: /dev/vdc
-attached_volume_fstype: ext4
-attached_volume_path: /mnt
+attached_volumes:
+  - device: /dev/vdc
+    path: /mnt
+    fstype: ext4

@@ -7,31 +7,14 @@
       - group_vars/dbservers.yml
       - host_vars/aarnet-dev-db.usegalaxy.org.au.yml
   pre_tasks:
+      - name: Attach volume to instance
+        include_role:
+          name: attached-volumes
       - name: Install psycopg2 for python3
         apt:
             name: python3-psycopg2
             state: present
         become: true
-      - name: Attach volume to instance
-      # If this script is being run for the first time, review the value of attached_volume_device in group_vars
-        block: # TODO: This is pretty generic code for attaching a volume to a device and should probably live in another file to be reused
-          - name: Detect attached volume
-            parted:
-              device: "{{ attached_volume_device }}"
-              unit: GiB
-            register: volume_info
-          - name: Create a filesystem on volume
-            filesystem:
-              fstype: "{{ attached_volume_fstype }}"
-              dev: "{{ attached_volume_device }}"
-            when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == attached_volume_device
-          - name: Mount volume
-            mount:
-              path: "{{ attached_volume_path }}"
-              src: "{{ attached_volume_device }}"
-              fstype: "{{ attached_volume_fstype }}"
-              state: mounted
-        when: attached_volume_device is defined
       - name: create data directory
         file:
           path: /data/production
@@ -39,7 +22,6 @@
           group: postgres
           state: directory
           mode: 0700
-        
   roles:
       - common
       - insspb.hostname

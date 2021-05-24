@@ -1,3 +1,8 @@
+attached_volumes:
+  - device: /dev/vdb
+    path: /data
+    fstype: ext4
+
 aarnet_dev_galaxy_server_address: "{{ hostvars['aarnet-dev']['internal_ip'] }}/32"
 
 postgresql_conf:
@@ -70,6 +75,3 @@ postgresql_objects_databases:
 
 galaxy_dev_db_user_password: "{{ vault_aarnet_dev_db_user_password }}"
 
-attached_volume_device: /dev/vdb
-attached_volume_fstype: ext4
-attached_volume_path: /data

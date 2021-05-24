@@ -3,15 +3,16 @@ slurm_roles: ['exec']
 add_hosts_head: yes
 add_hosts_galaxy: yes
 
+attached_volumes:
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
+
 shared_mounts:
     - path: /mnt/galaxy
       src: aarnet-dev:/mnt/galaxy
       fstype: nfs
       state: mounted
-
-attached_volume_device: /dev/vdb
-attached_volume_fstype: ext4
-attached_volume_path: /mnt
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
