@@ -27,6 +27,13 @@
       get_url:
         url: https://raw.githubusercontent.com/usegalaxy-au/usegalaxy-au-tools/master/automated_tool_installation_log.tsv
         dest: "{{ update_labels_directory }}"
+      register: log_from_github
+    - name: Exit early if the log has not changed
+      block:
+        - debug:
+            msg: 'Exiting playbook early as the installation log has not changed, nothing to do here'
+        - meta: end_play
+      when: not log_from_github.changed
     - name: Send scripts and constants to galaxy
       copy:
         src: "{{ item }}"
