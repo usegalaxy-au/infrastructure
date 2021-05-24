@@ -64,8 +64,8 @@ def main():
 
     ok_job_ids = sanitize_subprocess_output_list(get_job_query(state='ok'))
     deleted_job_ids = sanitize_subprocess_output_list(get_job_query(state='deleted'))
-    if args.keep_error_days: # otherwise keep all error jobs
-        error_job_ids = sanitize_subprocess_output_list(get_job_query(state='error', save_days = args.keep_error_days))
+    if keep_error_days: # otherwise keep all error jobs
+        error_job_ids = sanitize_subprocess_output_list(get_job_query(state='error', save_days = keep_error_days))
     else:
         error_job_ids = []
 
@@ -77,7 +77,7 @@ def main():
         for id in deleted_job_ids:
             handle.write(f'rm -rf {id}\n')
         if error_job_ids:
-            handle.write(f'# error jobs more than {args.keep_error_days} old\n')
+            handle.write(f'# error jobs more than {keep_error_days} old\n')
             for id in error_job_ids:
                 handle.write(f'rm -rf {id}\n')
 
@@ -87,9 +87,12 @@ def main():
         shell=True,
     ).decode('utf-8')
 
+    if args.check:
+        print(job_query_result)
+
     with open(log_file, 'a+') as log_handle:
-        date_time = datetime.datetime().strftime('%Y%m%d_%H.%M.%S')
-        dry_run = ' [dry run]' if args.dry_run else ''
+        date_time = datetime.datetime().strftime('%Y-%m-%d_%H:%M:%S')
+        dry_run = ' [dry run]' if dry_run else ''
         log_handle.write(f'Running delete jwds script for {pulsar_name} keep_error_days {keep_error_days} {date_time} {dry_run}\n')
         log_handle.write(job_query_result)
         log_handle.write('\n')
@@ -98,10 +101,10 @@ def main():
         copy_exit_code = subprocess.call(f'scp -i {ssh_key} {rm_jwds_script} {remote_user}@{pulsar_ip}:{pulsar_staging_dir}', shell=True)
         if not copy_exit_code == 0:
             log_handle.write('Error: Failed to copy {rm_jwds_script}\n\n')
-        if not args.dry_run:
+        if not dry_run:
         script_exit_code = subprocess.call(f'ssh -i {ssh_key} {remote_user}@{pulsar_ip} \"cd {pulsar_staging_dir}; sudo bash {rm_jwds_script}\"', shell=True)
 
-        the_time = datetime.datetime().strftime('%Y%m%d %H:%M:%S')
+        the_time = datetime.datetime().strftime('%Y-%m-%d_%H:%M:%S')
         log_handle.write('{the_time}: Finished running script with exit code {exit_code}\n\n')
 
 
