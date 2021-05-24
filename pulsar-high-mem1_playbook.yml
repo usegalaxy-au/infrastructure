@@ -5,6 +5,10 @@
     - group_vars/pulsarservers.yml
     - group_vars/VAULT
     - host_vars/pulsar-high-mem1/pulsar-high-mem1.yml
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
   roles:
     - common
     - insspb.hostname
