@@ -7,4 +7,3 @@ rpc_cron_filename: "remote_pulsar_cron"
 
 rpc_pulsar_staging_dir: /mnt/pulsar/files/staging  # this can be overridden in individual entries of rpc_pulsar_machines
 rpc_default_keep_error_days: 14
-

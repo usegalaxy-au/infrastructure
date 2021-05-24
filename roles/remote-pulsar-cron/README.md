@@ -46,4 +46,3 @@ rpc_pulsar_machines:
     cron_hour: "17"
     cron_minute: "10"
 ```
-
