@@ -141,7 +141,7 @@ rpc_pulsar_machines:
     pulsar_ip_address: "{{ hostvars['pulsar-mel3']['ansible_ssh_host'] }}"
     ssh_key: /home/ubuntu/.ssh/galaxy-australia
     delete_jwds: false  # safety
-    keep_error_days: 5
+    keep_error_days: 7
     cron_hour: "17"
     cron_minute: "00"
   - pulsar_name: pulsar-mel2
