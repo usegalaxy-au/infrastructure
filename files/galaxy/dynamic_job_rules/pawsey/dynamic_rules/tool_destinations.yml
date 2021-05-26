@@ -458,8 +458,8 @@ tools:
               nice_value: 0
               lower_bound: 1 GB
               upper_bound: 10 GB
-              destination: slurm_5slots
-        default_destination: slurm_7slots
+              destination: pulsar-mel3_mid
+        default_destination: pulsar-mel3_mid
     bwa_mem:
         rules:
             - rule_type: file_size
@@ -475,13 +475,8 @@ tools:
             - rule_type: file_size
               nice_value: 0
               lower_bound: 1 GB
-              upper_bound: 2 GB
-              destination: pulsar-mel3_mid
-            - rule_type: file_size
-              nice_value: 0
-              lower_bound: 2 GB
               upper_bound: 10 GB
-              destination: slurm_5slots
+              destination: pulsar-mel3_mid
         default_destination: slurm_7slots
     bowtie2:
         rules:
@@ -494,7 +489,7 @@ tools:
               nice_value: 0
               lower_bound: 100 MB
               upper_bound: 9 GB
-              destination: slurm_5slots
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 9 GB
