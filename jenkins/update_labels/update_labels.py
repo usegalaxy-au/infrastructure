@@ -65,7 +65,6 @@ def main():
     for section in root:
         if section.tag == 'section':
             for tool in list(section):
-            # for tool in section.getchildren():
                 if tool.tag == 'tool':
                     tool_id = tool.find('id').text
                     name = tool.find('repository_name').text

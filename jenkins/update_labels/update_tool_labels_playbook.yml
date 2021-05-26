@@ -23,6 +23,7 @@
           - pyyaml
           - galaxy-util
           - pytz
+          - lxml
     - name: Download latest installation log from usegalaxy-au-tools github
       get_url:
         url: https://raw.githubusercontent.com/usegalaxy-au/usegalaxy-au-tools/master/automated_tool_installation_log.tsv
