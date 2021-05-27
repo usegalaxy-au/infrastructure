@@ -23,7 +23,7 @@
     - name: If ssh key does not exist or does not have the right perms, do not set up cron
       debug:
         msg: "ssh key {{ rpc_pulsar.ssh_key }} does not exist or does not have 400 perms"
-      when: not (register_ssh_key.stat.mode is defined and register_ssh_key.stat.mode == "0400" and register_ssh_key.stat.pw_name == rpc_user)
+      when: not (register_ssh_key.stat.mode is defined and register_ssh_key.stat.mode in ["0400", "0600"] and register_ssh_key.stat.pw_name == rpc_user)
     - name: "Add cron entry to {{ rpc_user }}'s crontab"
       cron:
         user: "{{ rpc_user }}"
@@ -31,5 +31,5 @@
         minute: "{{ rpc_pulsar.cron_minute }}"
         hour: "{{ rpc_pulsar.cron_hour }}"
         job: "python {{ rpc_home }}/{{ rpc_pulsar.pulsar_name }}/remove_jwds_{{ rpc_pulsar.pulsar_name }}.py"
-      when: register_ssh_key.stat.mode is defined and register_ssh_key.stat.mode == "0400" and register_ssh_key.stat.pw_name == rpc_user
+      when: register_ssh_key.stat.mode is defined and register_ssh_key.stat.mode in ["0400", "0600"] and register_ssh_key.stat.pw_name == rpc_user
   when: not rpc_skip_cron_setup
