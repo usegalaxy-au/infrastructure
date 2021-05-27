@@ -46,8 +46,6 @@ nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
 
 # Common RabbitMQ settings
 
-rabbitmq_version: 3.8.9-1
-
 rabbitmq_plugins:
   - rabbitmq_management
 
