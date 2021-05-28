@@ -16,6 +16,7 @@ ssh key(s) belonging to the nominated user with mode 0400
 default: /home/<rpc_user>/remote_pulsar_cron
 **rpc_remote_user** A superuser on remote pulsars
 **rpc_pulsar_staging_dir** The staging directory on pulsar machines where the job working directories are.  This can be set for each machine in rpc_pulsar_servers.
+**rpc_db_connection_string** Connection string for database.  If using the galaxyproject.galaxy role this might be the same as galaxy_config.galaxy.database_connection
 
 **rpc_pulsar_servers** A list of dicts with the following keys
 *pulsar_name*
