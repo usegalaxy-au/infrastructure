@@ -12,6 +12,10 @@
       systemd:
         name: galaxy
         state: restarted
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
   roles:
     - galaxyproject.repos
     - common
@@ -29,6 +33,7 @@
     - galaxyproject.cvmfs
     - usegalaxy_eu.gxadmin
     - pg-post-tasks
+    - remote-pulsar-cron
     - usegalaxy_eu.tiaas2
   post_tasks:
     - name: Clone Galaxy-Owncloud-Integration

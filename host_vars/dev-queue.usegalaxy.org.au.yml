@@ -25,6 +25,8 @@ rabbitmq_vhosts:
   - /pulsar/galaxy_au
   - /pulsar/galaxy_nci_test
 
+rabbitmq_version: 3.8.16-1
+
 rabbitmq_password_admin: "{{ vault_rabbitmq_password_admin_dev }}"
 rabbitmq_password_telegraf: "{{ vault_rabbitmq_password_telegraf_dev }}"
 rabbitmq_password_galaxy: "{{ vault_rabbitmq_password_galaxy_dev }}"

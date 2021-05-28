@@ -4,7 +4,7 @@ resource "openstack_compute_instance_v2" "dev-db" {
   image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
   flavor_name     = "uom.general.2c8g"  # 2 vcpu 8 ram, previously m3.small (2 vcpu 4 ram)
   key_pair        = "galaxy-australia"
-  security_groups = ["SSH", "${openstack_networking_secgroup_v2.galaxy-dev-db.name}"]
+  security_groups = ["SSH", "default"]
   availability_zone = "melbourne-qh2-uom"
 }
 
@@ -14,7 +14,7 @@ resource "openstack_compute_instance_v2" "dev" {
   image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
   flavor_name     = "uom.general.4c16g"  # previously m3.medium (4 vcpu 8 ram)
   key_pair        = "galaxy-australia"
-  security_groups = ["SSH", "Web-Services", "${openstack_networking_secgroup_v2.galaxy-dev.name}", "${openstack_networking_secgroup_v2.galaxy-dev-db.name}"]
+  security_groups = ["SSH", "Web-Services", "default"]
   availability_zone = "melbourne-qh2-uom"
 }
 
@@ -24,7 +24,7 @@ resource "openstack_compute_instance_v2" "dev-queue" {
   image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
   flavor_name     = "uom.general.2c8g"
   key_pair        = "galaxy-australia"
-  security_groups = ["SSH", "Web-Services", "rabbitmq", "${openstack_networking_secgroup_v2.galaxy-dev.name}"]
+  security_groups = ["SSH", "Web-Services", "rabbitmq", "default"]
   availability_zone = "melbourne-qh2-uom"
 }
 
@@ -34,7 +34,7 @@ resource "openstack_compute_instance_v2" "dev-w1" {
   image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
   flavor_name     = "uom.general.4c16g"
   key_pair        = "galaxy-australia"
-  security_groups = ["SSH", "${openstack_networking_secgroup_v2.galaxy-dev.name}"]
+  security_groups = ["SSH", "default"]
   availability_zone = "melbourne-qh2-uom"
 }
 
@@ -68,7 +68,7 @@ resource "openstack_compute_instance_v2" "dev-ftp" {
   image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
   flavor_name     = "uom.general.2c8g"
   key_pair        = "galaxy-australia"
-  security_groups = ["SSH", "Web-Services", "${openstack_networking_secgroup_v2.galaxy-dev.name}"]
+  security_groups = ["SSH", "Web-Services", "default"]
   availability_zone = "melbourne-qh2-uom"
 }
 
