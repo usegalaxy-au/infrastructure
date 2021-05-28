@@ -3,6 +3,7 @@ import datetime
 import os
 import subprocess
 
+
 """
 Script to delete pulsar job working directories from galaxy.  It logs into a pulsar server and gets the names
 of job working directories stored there and runs queries to find which of these can be deleted.  All job working
@@ -19,6 +20,8 @@ ssh_key = '{{ ssh_key }}'
 pulsar_staging_dir = '{{ pulsar_staging_dir }}'
 global_keep_error_days = {{ keep_error_days }}
 global_dry_run = {% if dry_run %}True{% else %}False{% endif %}
+
+connection_string = '{{ rpc_db_connection_string }}'
 
 
 dirname = os.path.dirname(__file__)
@@ -62,7 +65,7 @@ def main():
     job_ids = [jid for jid in job_ids if is_job_id(jid)] # filter out anything that may not be a job working directory
 
     def get_job_query(state, save_days=None):
-        query = f'psql -t -c \"select j.id from job j where j.state = \'{state}\' and j.id in ({", ".join(job_ids)})'
+        query = f'psql -t -d {connection_string} -c \"select j.id from job j where j.state = \'{state}\' and j.id in ({", ".join(job_ids)})'
         if save_days:
             query += f' and j.update_time < current_date - interval \'{save_days}\' day'
         query += '\";'
@@ -76,6 +79,7 @@ def main():
         error_job_ids = []
 
     with open(rm_jwds_script, 'w') as handle:
+        handle.write('#!/bin/bash\n\n')
         handle.write('# ok jobs\n')
         for id in ok_job_ids:
             handle.write(f'rm -rf {id}\n')
@@ -89,7 +93,7 @@ def main():
 
      # keep a record of everything we have deleted and when
     job_query_result = subprocess.check_output(
-        f'psql -c \"select j.id, j.state, j.update_time, j.destination_id from job j where j.id in ({", ".join(ok_job_ids + deleted_job_ids + error_job_ids)});\"',
+        f'psql -d {connection_string} -c \"select j.id, j.state, j.update_time, j.destination_id from job j where j.id in ({", ".join(ok_job_ids + deleted_job_ids + error_job_ids)});\"',
         shell=True,
     ).decode('utf-8')
 
@@ -107,7 +111,7 @@ def main():
             log_handle.write(f'Error: Failed to copy {rm_jwds_script}\n\n')
             return
         if not dry_run:
-            script_exit_code = subprocess.call(f'ssh -i {ssh_key} {remote_user}@{pulsar_ip_address} \"cd {pulsar_staging_dir}; sudo bash {rm_jwds_script}\"', shell=True)
+            script_exit_code = subprocess.call(f'ssh -i {ssh_key} {remote_user}@{pulsar_ip_address} \"builtin cd {pulsar_staging_dir}; sudo /bin/bash {os.path.basename(rm_jwds_script)}\"', shell=True)
             log_handle.write(f'{get_current_time()}: Finished running script with exit code {script_exit_code}\n\n')
 
 
