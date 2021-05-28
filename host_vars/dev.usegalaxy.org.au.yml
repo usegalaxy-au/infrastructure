@@ -164,3 +164,16 @@ custos_client_id: "{{ vault_custos_client_id_dev }}"
 custos_client_secret: "{{ vault_custos_client_secret_dev }}"
 aaf_client_id: "{{ vault_aaf_client_id_dev }}"
 aaf_client_secret: "{{ vault_aaf_client_secret_dev }}"
+
+# remote-pulsar-cron variables
+rpc_skip_cron_setup: false
+rpc_db_connection_string: "postgres://reader:{{ vault_dev_db_reader_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
+
+rpc_pulsar_machines:
+  - pulsar_name: dev-pulsar
+    pulsar_ip_address: "{{ hostvars['dev-pulsar']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "07"
+    cron_minute: "32"
