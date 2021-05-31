@@ -35,6 +35,8 @@
     - pg-post-tasks
     - remote-pulsar-cron
     - usegalaxy_eu.tiaas2
+    - geerlingguy.docker
+    - usegalaxy_eu.gie_proxy
   post_tasks:
     - name: Clone Galaxy-Owncloud-Integration
       git:
@@ -49,4 +51,12 @@
       command: exportfs -ra
       become: yes
       become_user: root
+    - name: set acl for galaxy user on docker.sock
+      acl:
+        path: /var/run/docker.sock
+        entity: "{{ galaxy_user.name }}"
+        etype: user
+        permissions: rw
+        state: present
+
 
