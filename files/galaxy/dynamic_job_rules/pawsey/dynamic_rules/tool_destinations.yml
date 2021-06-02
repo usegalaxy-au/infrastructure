@@ -366,6 +366,14 @@ tools:
               destination: slurm_1slot
         default_destination: slurm_3slots
     circos:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: Infinity
+              destination: local
+              users:
+                  - catherine.bromhead@unimelb.edu.au
         default_destination: slurm_1slot
     fastqc:
         rules:
