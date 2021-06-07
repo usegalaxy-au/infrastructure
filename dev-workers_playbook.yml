@@ -14,8 +14,16 @@
       - galaxyproject.repos
       - galaxyproject.slurm
       - galaxyproject.cvmfs
+      - geerlingguy.docker
   post_tasks:
       - name: restart munge
         systemd:
             name: munge
             state: restarted
+      - name: set acl for galaxy user on docker.sock
+        acl:
+            path: /var/run/docker.sock
+            entity: "{{ galaxy_user.name }}"
+            etype: user
+            permissions: rw
+            state: present
