@@ -67,8 +67,13 @@ slurm_partitions:
       State: UP
     - name: training
       nodes: "pawsey-w7,pawsey-w5,pawsey-w4,pawsey-w8"
-      Default: YES
+      Default: NO
       State: UP
+    - name: max_quant_w8
+      nodes: "pawsey-w8"
+      Default: NO
+      State: UP
+
     
 
 slurm_config:
