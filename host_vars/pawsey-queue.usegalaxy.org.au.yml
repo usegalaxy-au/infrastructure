@@ -37,7 +37,7 @@ rabbitmq_vhosts:
   - /pulsar/galaxy_hm1
   - /pulsar/galaxy_hm2
 
-rabbitmq_version: 3.8.9-1
+rabbitmq_version: 3.8.16-1
 
 rabbitmq_password_admin: "{{ vault_rabbitmq_password_admin_pawsey }}"
 rabbitmq_password_telegraf: "{{ vault_rabbitmq_password_telegraf_pawsey }}"
