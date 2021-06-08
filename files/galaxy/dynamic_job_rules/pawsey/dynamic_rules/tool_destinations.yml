@@ -1344,6 +1344,14 @@ tools:
         default_destination: slurm_7slots
     gffread:
         default_destination: slurm_9slots_1off
+    khmer_abundance_distribution_single:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 1 GB
+              destination: pulsar-mel3_small
+        default_destination: pulsar-mel3_mid
     #
     # Data managers
     #
