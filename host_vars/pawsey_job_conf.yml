@@ -348,7 +348,7 @@ galaxy_jobconf:
         value: 5
       - type: destination_total_concurrent_jobs
         id: slurm_9slots
-        value: 3
+        value: 4
       - type: destination_total_concurrent_jobs
         id: slurm_16slots
         value: 2
