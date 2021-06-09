@@ -1,0 +1,8 @@
+- name: "Add cron job to remove upload_store directory files with mtime +1"
+  cron:
+    name: "daily_upload_store_cleanup"
+    user: "{{ nginx_upload_store_cleanup_cron_user }}"
+    minute: "{{ nginx_upload_store_cleanup_cron_minute }}"
+    hour: "{{ nginx_upload_store_cleanup_cron_hour }}"
+    job: |
+      sudo find {{ nginx_upload_store_dir }} -maxdepth 1 -type f -mtime +1 -exec rm {} \;; sudo find {{ nginx_upload_job_files_store_dir }} -maxdepth 1 -type f -mtime +1 -exec rm {} \;
