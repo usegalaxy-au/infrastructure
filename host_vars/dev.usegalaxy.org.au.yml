@@ -38,6 +38,8 @@ galaxy_commit_id: release_21.01_cloudstor
 # Use cloudstor branch and extra tool_conf file and user prefs for cloudstor tool
 use_cloudstor_conf: true
 
+local_tool_config_file: "{{ galaxy_config_dir }}/local_tool_conf.xml"
+
 galaxy_file_path: "{{ galaxy_root }}/data"
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
