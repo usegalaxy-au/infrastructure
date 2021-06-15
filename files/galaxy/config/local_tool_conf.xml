@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<toolbox monitor="true">
+    <section id="local_tools" name="Local Tools">
+        <tool file="galaxy-local-tools/tools/canu/canu.xml" labels="test"/>
+    </section>
+</toolbox>

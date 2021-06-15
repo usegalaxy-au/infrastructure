@@ -3,6 +3,8 @@ tools:
     default_destination: slurm_dest
   fasta-stats:
     default_destination: pulsar_destination
+  local_canu:
+    default_destination: pulsar_destination
   bwa_mem:
     default_destination: pulsar_destination_nci
 default_destination: slurm_dest
