@@ -7,5 +7,5 @@ def hide_test_tools(context, tool):
     """
     if hasattr(tool, 'labels') and test_tool_label in tool.labels:
         user = context.trans.user
-        return user.email in test_tool_users
+        return user and user.email in test_tool_users
     return True
