@@ -102,3 +102,6 @@ grafana_server_url: http://stats.genome.edu.au:8086
 telegraf_agent_package_state: latest
 telegraf_agent_package_method: repo
 telegraf_agent_hostname: "{{ inventory_hostname }}"
+
+# enable tools with 'test' tag for certain users
+test_tool_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | list + [anna_email] }}"

@@ -1,10 +1,11 @@
-test_tool_users = {{}}
-test_tool_label = '{{}}'
+test_tool_users = ["{{ test_tool_users | join('", "') }}"]
+test_tool_label = "test"
 
 def hide_test_tools(context, tool):
     """
     hide tools with 'test' tag from all but selected_users
     """
-    if hasattr(tool, 'labels') and test_tool_label in tool.labels.split(','):  # is this a list or a string?
-        return False
+    if hasattr(tool, 'labels') and test_tool_label in tool.labels:
+        user = context.trans.user
+        return user.email in test_tool_users
     return True

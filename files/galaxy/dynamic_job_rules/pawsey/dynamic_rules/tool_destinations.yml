@@ -305,6 +305,8 @@ tools:
                 - anna.syme@unimelb.edu.au
             destination: pulsar-high-mem2_big
         default_destination: pulsar-mel3_big_canu
+    local_canu:
+      default_destination: pulsar-high-mem1_big
     poretools_events:
         default_destination: slurm_3slots
     poretools_extract:
