@@ -74,6 +74,16 @@ The message shown to trainee's upon their joining a particular training event
 
 TO DO
 
+Currently the job configuration is as follows:
+
+* Members of training groups have jobs sent to either the Slurm training queue or the training Pulsar server depending on:
+    * If the tool is pulsar capable
+    * Size of the input file(s)
+* Slurm training queue is set to a subset of worker nodes including one exclusive node with all jobs set to 2 cores only.
+* Pulsar queue is set to 2 cores only.
+
+This static configuration will limit the type of work that can be conducted in workshops. Future plans for metasheduler will alleviate this.
+
 ## Procedure
 
 ### 1. Application for training infrastructure
@@ -122,6 +132,8 @@ Once the form is submitted, a ticket will be emailed to the Galaxy Australia hel
  - where `<group_name>` is `training-` followed by the short name used in the training URL.
 
 This command will delete the group/role from Galaxy and remove any user associations with it to allow all users access back into the main queue.
+
+**Note:** This command can only be run by a user that has write access to the database and not by a regular user who by default has read only access. 
 
 ## Other notes:
 
