@@ -148,3 +148,4 @@ Since this setup tracks additional personal information (submitter name & email,
 
 * Customise the html templates to configure for Galaxy Australia's ecosystem
 * Job configuration details
+* Develop some email templates for approval/rejection of applications etc.
