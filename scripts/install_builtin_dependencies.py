@@ -12,13 +12,15 @@ sleep_interval = 10
 
 """
 Install unresolved conda environments on a Galaxy instance.  This can be run at any time but its purpose
-is to set up environments for galaxy built-in tools on a new instance.
+is to set up environments for galaxy built-in tools on a new instance.  By default resolve only builtin
+environments but set --all to include environments for toolshed tools
 """
 
 def main():
     parser = argparse.ArgumentParser(description='Install unresolved conda environments on a Galaxy instance')
     parser.add_argument('-g', '--galaxy_url', help='URL of Galaxy instance')
     parser.add_argument('-a', '--api_key', help='Galaxy admin api key')
+    parser.add_argument('--all', action='store_true', help='Build all unresolved environments including those for shed tools')
     args = parser.parse_args()
     
     galaxy_instance = GalaxyInstance(args.galaxy_url, args.api_key)
@@ -28,10 +30,12 @@ def main():
         return
 
     tool_groups = []
-    toolbox = galaxy_instance.tool_dependencies.summarize_toolbox()    
+    toolbox = galaxy_instance.tool_dependencies.summarize_toolbox()
     for dependency_set in toolbox:
-        if 'NullDependency' in [s['model_class'] for s in dependency_set['status']]:
-            tool_groups.append(dependency_set['tool_ids'])
+        if 'NullDependency' in [s['model_class'] for s in dependency_set['status']]:  # if true, the environment is not resolved
+            builtin_tools_in_list = not all([x.startswith('toolshed') for x in dependency_set['tool_ids']])
+            if args.all or builtin_tools_in_list:
+                tool_groups.append(dependency_set['tool_ids'])
 
     print('%d environments to install\n' % len(tool_groups))
     for counter, tool_group in enumerate(tool_groups):
