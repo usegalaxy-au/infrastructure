@@ -1354,6 +1354,8 @@ tools:
               upper_bound: 1 GB
               destination: pulsar-mel3_small
         default_destination: pulsar-mel3_mid
+    circos:
+      default_destination: pulsar-mel_small
     #
     # Data managers
     #
