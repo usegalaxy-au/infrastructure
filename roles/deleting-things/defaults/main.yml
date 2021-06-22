@@ -1,0 +1,8 @@
+# for real
+dt_user: ubuntu
+dt_home: "/home/{{ dt_user }}/deleting_things"
+dt_bash_script_name: rm_tmp_jwds.sh
+dt_log_file_name: log.txt
+
+dt_jwd_base: '/mnt/tmp/job_working_directory'
+dt_tmp_jwd_keep_error_days: 14
