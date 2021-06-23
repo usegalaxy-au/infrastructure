@@ -21,6 +21,7 @@ user_destinations = {  # test users whose shed-tool jobs should run at specific 
 }
 
 pulsar_list = ['shovill', 'spades', 'velvet', 'velvetoptimiser', 'prokka', 'lastz_wrapper_2', 'raxml', 'fastqc', 'abricate', 'snippy', 'bwa', 'bwa_mem', 'hisat2', 'htseq_count']
+pulsar_training_large = ['unicycler']
 
 def gateway(job, app, tool, user, user_email):
     """
