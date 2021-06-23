@@ -23,6 +23,7 @@ user_destinations = {  # test users whose shed-tool jobs should run at specific 
 pulsar_list = ['shovill', 'spades', 'velvet', 'velvetoptimiser', 'prokka', 'lastz_wrapper_2', 'raxml', 'fastqc', 'abricate', 'snippy', 'bwa', 'bwa_mem', 'hisat2', 'htseq_count']
 pulsar_training_large = ['unicycler']
 
+
 def gateway(job, app, tool, user, user_email):
     """
     Function to specify the destination for a job.  At present this is exactly the same
@@ -54,4 +55,3 @@ def gateway(job, app, tool, user, user_email):
 
     destination = map_tool_to_destination(job, app, tool, user_email, path=TOOL_DESTINATION_PATH)
     return destination
-

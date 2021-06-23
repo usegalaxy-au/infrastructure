@@ -34,6 +34,8 @@
     - galaxyproject.slurm
     - galaxyproject.cvmfs
     - usegalaxy_eu.gxadmin
+    - geerlingguy.docker
+    - usegalaxy_eu.gie_proxy
     - pg-post-tasks
     - remote-pulsar-cron
     - usegalaxy_eu.tiaas2
@@ -79,3 +81,10 @@
         src: /mnt/files
         dest: /mnt/galaxy/files
         state: link
+    - name: add FACL for docker.sock
+      acl:
+        path: /var/run/docker.sock
+        entity: "{{ galaxy_user.name }}"
+        etype: user
+        permissions: rw
+        state: present

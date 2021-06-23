@@ -13,6 +13,18 @@ certbot_domains:
 - "{{ hostname }}"
 - "usegalaxy.org.au"
 - "www.usegalaxy.org.au"
+- "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
+certbot_dns_provider: cloudflare
+certbot_dns_credentials:
+  api_token: "{{ vault_dns_cloudflare_api_token }}"
+dns-cloudflare-propagation-seconds: 60
+
+nginx_ssl_servers:
+  - galaxy
+  - galaxy-gie-proxy
+
+  #gie proxy hostname
+interactive_tools_server_name: "usegalaxy.org.au"
 
 # galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git  # usegalaxy-au fork of galaxy
@@ -68,6 +80,25 @@ nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 
+# ITs tool conf overrides.
+tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_conf|d(false) == true else default_settings['tool_config_files'] }},{{ galaxy_config_dir }}/tool_conf_interactive.xml"
+
+galaxy_config_template_src_dir: templates/galaxy
+galaxy_config_templates:
+  - src: "{{ galaxy_config_template_src_dir }}/static/welcome.html.j2"
+    dest: "{{ galaxy_server_dir }}/static/welcome.html"
+  - src: "{{ galaxy_config_template_src_dir }}/config/job_conf.xml.j2"
+    dest: "{{ galaxy_config_dir}}/job_conf.xml"
+  - src: "{{ galaxy_config_template_src_dir }}/config/reports.yml.j2"
+    dest: "{{ galaxy_config_dir }}/reports.yml"
+  - src: "{{ galaxy_config_template_src_dir }}/config/oidc_backends_config.xml.j2"
+    dest: "{{ galaxy_config_dir}}/oidc_backends_config.xml"
+  - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
+    dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
+  - src: templates/galaxy/config/tool_conf_interactive.xml.j2
+    dest: "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
+
+
 host_galaxy_config:  # renamed from __galaxy_config
   uwsgi:
     mule:
@@ -86,6 +117,7 @@ host_galaxy_config:  # renamed from __galaxy_config
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     smtp_server: localhost
     ga_code: "{{ vault_pawsey_ga_code }}"
+    interactivetools_enable: true
     galaxy_infrastructure_url: 'https://usegalaxy.org.au'
     enable_oidc: false
     # nginx upload module
