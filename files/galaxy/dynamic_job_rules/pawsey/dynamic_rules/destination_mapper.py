@@ -21,6 +21,7 @@ user_destinations = {  # test users whose shed-tool jobs should run at specific 
 }
 
 pulsar_list = ['shovill', 'spades', 'velvet', 'velvetoptimiser', 'prokka', 'lastz_wrapper_2', 'raxml', 'fastqc', 'abricate', 'snippy', 'bwa', 'bwa_mem', 'hisat2', 'htseq_count']
+pulsar_training_large = ['unicycler']
 
 def gateway(job, app, tool, user, user_email):
     """
@@ -46,6 +47,8 @@ def gateway(job, app, tool, user, user_email):
             # Or give them extra resources
             if hasattr(tool, 'id') and isinstance(tool.id, str) and tool.id.startswith('toolshed') and tool.id.split('/')[-2] in pulsar_list:
                 return app.job_config.get_destination('pulsar-mel_small')
+            elif hasattr(tool, 'id') and isinstance(tool.id, str) and tool.id.startswith('toolshed') and tool.id.split('/')[-2] in pulsar_training_large:
+                return app.job_config.get_destination('pulsar-mel3_mid')
             else:
                 return app.job_config.get_destination('slurm_training')
 
