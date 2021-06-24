@@ -5,19 +5,19 @@
     state: directory
     owner: "{{ dt_user }}"
     group: "{{ dt_user }}"
-- name: "All files belong to {{ dt_user }}"
-  file:
-    path: "{{ dt_home }}/{{ item }}"
-    state: touch
-    owner: "{{ dt_user }}"
-    group: "{{ dt_user }}"
+- name: "Create script and log files belonging to dt_user if they do not exist"
+  become: true
+  become_user: "{{ dt_user }}"
+  command: "touch {{ dt_home }}/{{ item }}"
+  args:
+    creates: "{{ dt_home }}/{{ item }}"
   with_items:
     - "{{ dt_bash_script_name }}"
     - "{{ dt_log_file_name }}"
 - name: Template the python script
   template:
     src: delete_tmp_jwds.py
-    dest: "{{ dt_home }}/delete_tmp_jwds.py"  # TODO: this should be a .j2 but during development that would just be a pain
+    dest: "{{ dt_home }}/remove_jwds.py"  # TODO: this should be a .j2 but during development that would just be a pain
     owner: "{{ dt_user }}"
     group: "{{ dt_user }}"
 # - name: set up a cron job
