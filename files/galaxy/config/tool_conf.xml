@@ -216,6 +216,15 @@
     </section>
     <section id="machine_learning" name="Machine Learning">
     </section>
+    <label id="miscellaneous_tools" text="MISCELLANEOUS TOOLS"/>
     <section id="imaging" name="Imaging">
+    </section>
+    <section id="climate_analysis" name="Climate Analysis">
+    </section>
+    <section id="species_abundance" name="Species abundance">
+    </section>
+    <section id="hca_single_cell" name="HCA Single-cell">
+    </section>
+    <section id="other_tools" name="Other Tools">
     </section>
 </toolbox>
