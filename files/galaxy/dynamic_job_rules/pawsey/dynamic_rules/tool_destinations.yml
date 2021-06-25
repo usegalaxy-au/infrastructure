@@ -1337,7 +1337,7 @@ tools:
             - rule_type: file_size
               nice_value: -5
               lower_bound: 0
-              upper_bound: 60 GB
+              upper_bound: Infinity
               destination: pulsar-high-mem1_mid
               users:
                 - anna.syme@unimelb.edu.au
