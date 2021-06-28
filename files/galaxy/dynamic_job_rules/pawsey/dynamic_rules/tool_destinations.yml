@@ -262,8 +262,8 @@ tools:
           - rule_type: file_size
             nice_value: 0
             lower_bound: 0
-            upper_bound: 100 MB
-            destination: slurm_3slots
+            upper_bound: 1 GB
+            destination: slurm_5slots
         default_destination: slurm_max_quant
     maxquant_mqpar:
         default_destination: slurm_max_quant
@@ -367,8 +367,6 @@ tools:
               upper_bound: 50 MB
               destination: slurm_1slot
         default_destination: slurm_3slots
-    circos:
-        default_destination: slurm_1slot
     fastqc:
         rules:
           - rule_type: file_size
