@@ -367,8 +367,6 @@ tools:
               upper_bound: 50 MB
               destination: slurm_1slot
         default_destination: slurm_3slots
-    circos:
-        default_destination: slurm_1slot
     fastqc:
         rules:
           - rule_type: file_size
