@@ -1353,7 +1353,15 @@ tools:
               destination: pulsar-mel3_small
         default_destination: pulsar-mel3_mid
     circos:
-      default_destination: pulsar-mel_small
+        default_destination: pulsar-mel_small
+    hifiasm:
+        rules:
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 0
+            upper_bound: 200 MB
+            destination: pulsar-mel3_small
+        default_destination: pulsar-mel3_big
     #
     # Data managers
     #
