@@ -18,6 +18,9 @@ nginx_ssl_servers:
   - galaxy
   - galaxy-gie-proxy
 
+#gie proxy hostname
+interactive_tools_server_name: "{{ hostname }}"
+
 galaxy_db_user_password: "{{ vault_dev_db_user_password }}"
 
 # ansible-galaxy

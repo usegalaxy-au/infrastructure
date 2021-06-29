@@ -2,7 +2,7 @@ server {
     # Listen on port 443
     listen       *:443 ssl;
     # Match all requests for the interactive tools subdomain
-    server_name  *.interactivetool.{{ hostname }};
+    server_name  *.interactivetool.{{ interactive_tools_server_name }};
 
     # Our log files will go here.
     access_log  /var/log/nginx/galaxy-gie-proxy-access.log;

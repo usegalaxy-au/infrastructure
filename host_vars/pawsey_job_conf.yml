@@ -69,6 +69,10 @@ galaxy_jobconf:
           amqp_url: "pyamqp://galaxy_hm2:{{ vault_rabbitmq_password_galaxy_hm2_pawsey }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm2?ssl=1"
           galaxy_url: "https://{{ hostname }}"
           manager: "_default_"
+      - id: pulsar_embedded
+        load: "galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner"
+        params:
+          pulsar_config: "{{ galaxy_config_dir }}/pulsar_app.yml"
     default_destination: gateway
     destinations:
       - id: local
@@ -136,6 +140,18 @@ galaxy_jobconf:
         runner: slurm
         params:
           nativeSpecification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62080 --partition=max_quant_w8"
+      - id: interactive_pulsar
+        runner: pulsar_embedded
+        params:
+          docker_enabled: true
+          docker_volumes: $defaults
+          docker_sudo: false
+          docker_net: bridge
+          docker_auto_rm: true
+          docker_set_user: ''
+          require_container: true
+          container_monitor_result: callback
+          submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=interactive_tools"
       # Pulsar mel destinations
       - id: pulsar-mel_small
         runner: pulsar_mel2_runner
@@ -402,3 +418,12 @@ galaxy_jobconf:
       - type: destination_total_concurrent_jobs
         id: pulsar-mel3_big_canu
         value: 2
+    tools:
+      - id: interactive_tool_ethercalc
+        destination: interactive_pulsar
+      - id: interactive_tool_rstudio
+        destination: interactive_pulsar
+      - id: interactive_tool_jupyter_notebook
+        destination: interactive_pulsar
+      - id: interactive_tool_phinch
+        destination: interactive_pulsar

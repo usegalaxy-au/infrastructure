@@ -73,7 +73,10 @@ slurm_partitions:
       nodes: "pawsey-w8"
       Default: NO
       State: UP
-
+    - name: interactive_tools
+      nodes: "pawsey-w4,pawsey-w5"
+      Default: NO
+      State: UP
     
 
 slurm_config:

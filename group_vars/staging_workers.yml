@@ -9,3 +9,7 @@ shared_mounts:
       fstype: nfs
       state: mounted
 
+# Interactive Tools
+docker_install_compose: false
+docker_users:
+  - "{{ galaxy_user.name }}"
