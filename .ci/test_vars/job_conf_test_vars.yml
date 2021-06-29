@@ -5,3 +5,4 @@ vault_rabbitmq_password_galaxy_hm1_pawsey: testZZ
 vault_rabbitmq_password_galaxy_hm2_pawsey: test
 hostname: test
 galaxy_handler_count: 42
+galaxy_config_dir: a/b/c
