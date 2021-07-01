@@ -1349,7 +1349,7 @@ tools:
             - rule_type: file_size
               nice_value: 0
               lower_bound: 0
-              upper_bound: 1 GB
+              upper_bound: 100 MB
               destination: pulsar-mel3_small
         default_destination: pulsar-mel3_mid
     circos:
