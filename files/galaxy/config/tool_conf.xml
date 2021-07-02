@@ -2,7 +2,7 @@
 <toolbox monitor="true">
     <label id="file_and_meta_tools" text="FILE AND META TOOLS"/>
     <section id="getext" name="Get Data">
-        <tool file="data_source/upload.xml"/>
+        <tool file="data_source/upload.xml" hidden="True"/>
         <tool file="data_source/ucsc_tablebrowser.xml"/>
         <!-- <tool file="data_source/ucsc_tablebrowser_test.xml" /> -->
         <tool file="data_source/ucsc_tablebrowser_archaea.xml"/>
