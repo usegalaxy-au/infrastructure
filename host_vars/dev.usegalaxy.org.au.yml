@@ -206,6 +206,34 @@ galaxy_jobconf:
       - type: registered_user_concurrent_jobs
         value: 10
 
+# postgresql-objects-users
+postgresql_objects_users:
+  - name: reader
+    password: "{{ vault_dev_db_reader_password }}"
+    db: galaxy
+  - name: tiaas
+    password: "{{ tiaas_galaxy_db_password }}"
+postgresql_objects_privileges:
+  - database: galaxy
+    roles: reader
+    objs: ALL_IN_SCHEMA
+    privs: SELECT
+  - database: galaxy
+    roles: tiaas
+    objs: galaxy_user,galaxy_session,job,history,workflow,workflow_invocation
+    type: table
+    privs: SELECT
+  - database: galaxy
+    roles: tiaas
+    objs: user_group_association,galaxy_group,role,group_role_association
+    type: table
+    privs: SELECT,INSERT
+  - database: galaxy
+    roles: tiaas
+    objs: role_id_seq,galaxy_group_id_seq,group_role_association_id_seq,user_group_association_id_seq
+    type: sequence
+    privs: USAGE,SELECT
+
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 

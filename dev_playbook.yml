@@ -20,11 +20,11 @@
     - galaxyproject.repos
     - common
     - galaxyproject.postgresql
+    - geerlingguy.pip
+    - galaxyproject.galaxy
     - role: natefoo.postgresql_objects
       become: true
       become_user: postgres
-    - geerlingguy.pip
-    - galaxyproject.galaxy
     - usegalaxy_eu.galaxy_systemd
     - nginx-upload-module
     - galaxyproject.nginx
