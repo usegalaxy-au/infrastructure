@@ -1,0 +1,21 @@
+- hosts: pawsey_galaxy_server, pawsey_slurm_head, pawsey_workers
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/pawsey.yml
+      - group_vars/VAULT
+      - group_vars/galaxyservers.yml
+      - group_vars/pawsey_slurm.yml
+      - host_vars/pawsey.usegalaxy.org.au.yml
+      - host_vars/pawsey_job_conf.yml
+  handlers:
+    - name: Restart Slurmd
+      systemd:
+        name: galaxy
+        state: restarted
+    - name: Restart Slurmctld
+      systemd:
+        name: galaxy
+        state: restarted
+  roles:
+    - galaxyproject.slurm
