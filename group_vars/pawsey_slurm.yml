@@ -77,6 +77,7 @@ slurm_partitions:
       nodes: "pawsey-w4,pawsey-w5"
       Default: NO
       State: UP
+      MaxTime: '10:00:00'
     
 
 slurm_config:
