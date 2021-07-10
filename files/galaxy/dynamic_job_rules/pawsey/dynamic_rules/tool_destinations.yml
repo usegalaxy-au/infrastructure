@@ -1017,7 +1017,13 @@ tools:
               destination: pulsar-mel3_big
         default_destination: slurm_16slots
     megahit:
-        default_destination: slurm_9slots
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 5 GB
+              destination: pulsar-mel3_mid
+        default_destination: pulsar-mel3_big
     rna_star:
         default_destination: slurm_9slots
     rna_starsolo:
