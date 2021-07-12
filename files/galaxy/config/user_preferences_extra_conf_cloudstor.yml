@@ -26,4 +26,10 @@ preferences:
               label: App Password
               type: password
               required: False
-
+    dropbox:
+        description: Your DropBox Account
+        inputs:
+            - name: access_token
+              label: Dropbox access token (See https://dropbox.tech/developers/generate-an-access-token-for-your-own-account)
+              type: text
+              required: False
