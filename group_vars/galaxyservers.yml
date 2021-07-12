@@ -195,6 +195,7 @@ group_galaxy_config:
     enable_old_display_applications: true
 
     tool_filters: ga_filters:hide_test_tools
+    file_sources_config_file: "{{ galaxy_config_dir }}/file_sources_conf.yml"
     # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
 
     # data_manager_config_file: /mnt/galaxy-app/config/data_manager_conf.xml.sample  # should we be templating these?
@@ -258,6 +259,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/build_sites.yml"
   - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
     dest: "{{ galaxy_config_dir}}/oidc_config.xml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/file_sources_conf.yml"
+    dest: "{{ galaxy_config_dir}}/file_sources_conf.yml"
 
 # galaxy_config is the combination of group_galaxy_config and host_galaxy_config.  For any variable
 # defined in both group_galaxy_config and host_galaxy_config the value from host_galaxy_config will
