@@ -1,0 +1,87 @@
+aarnet_galaxy_server_address: "{{ hostvars['aarnet']['internal_ip'] }}/32"
+
+attached_volumes:
+  - device: /dev/vdb
+    path: /data
+    fstype: ext4
+
+postgresql_conf:
+  # Postgresql settings from: https://pgtune.leopard.in.ua/#/ - recommended by @natefoo.
+  # Inout settings:
+  #   DB Version: 12
+  #   OS Type: linux
+  #   DB Type: web
+  #   Total Memory (RAM): 32 GB
+  #   CPUs num: 8
+  #   Connections num: 500
+  #   Data Storage: hdd
+  - max_connections: 500       # Set to be the same as main
+  - listen_addresses: "'*'"   # Allow remote connections
+  - data_directory: "'/data/production'"
+  - shared_buffers: 8GB
+  - effective_cache_size: 24GB
+  - maintenance_work_mem : 2GB
+  - checkpoint_completion_target: 0.7
+  - wal_buffers: 16MB
+  - default_statistics_target: 100
+  - random_page_cost: 4
+  - effective_io_concurrency: 2
+  - work_mem: 4194kB
+  - min_wal_size: 1GB
+  - max_wal_size: 4GB
+  - max_worker_processes: 8
+  - max_parallel_workers_per_gather: 4
+  - max_parallel_workers: 8
+  - max_parallel_maintenance_workers: 4
+
+postgresql_pgdata: "/data/production"
+
+
+postgresql_pg_hba_conf:
+  - host all all "{{ aarnet_galaxy_server_address }}" md5 #The allowed connection to the database for the dev galaxy server.
+  - host all all "{{ hostvars['aarnet']['ansible_ssh_host'] }}/32" md5
+  - host all all "{{ hostvars['aarnet-backup']['internal_ip'] }}/32" md5 #The allowed connection to the database from the backup server.
+
+postgresql_objects_users:
+  - name: galaxy
+    password: "{{ galaxy_aarnet_db_user_password}}"
+    db: galaxy
+    priv: "ALL"
+  - name: galaxyftp
+    password: "{{ vault_aarnet_db_galaxyftp_password }}"
+    db: galaxy
+    priv: "ALL"
+  - name: reader
+    password: "{{ vault_aarnet_db_reader_password }}"
+    db: galaxy
+  - name: tiaas
+    password: "{{ tiaas_galaxy_db_password }}"
+    db: galaxy
+#
+# ************ Can't be run until after Galaxy is setup and installed *******************
+#
+# postgresql_objects_privileges:
+#   - database: galaxy
+#     roles: reader
+#     objs: ALL_IN_SCHEMA
+#     privs: SELECT
+#   - database: galaxy
+#     roles: tiaas
+#     objs: galaxy_user,galaxy_session,job,history,workflow,workflow_invocation
+#     type: table
+#     privs: SELECT
+#   - database: galaxy
+#     roles: tiaas
+#     objs: user_group_association,galaxy_group,role,group_role_association
+#     type: table
+#     privs: SELECT,INSERT
+#   - database: galaxy
+#     roles: tiaas
+#     objs: role_id_seq,galaxy_group_id_seq,group_role_association_id_seq,user_group_association_id_seq
+#     type: sequence
+#     privs: USAGE,SELECT
+postgresql_objects_databases:
+  - name: galaxy
+    owner: galaxy
+
+galaxy_aarnet_db_user_password: "{{ vault_aarnet_db_user_password }}"

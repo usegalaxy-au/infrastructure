@@ -8,5 +8,5 @@ telegraf_agent_output:
   - type: influxdb
     config:
       - urls = ["{{ grafana_server_url }}"]
-      - database = "aarnet-dev"
+      - database = "aarnet"
       - precision = "s"

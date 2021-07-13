@@ -1,0 +1,14 @@
+attached_volumes:
+  - device: /dev/vde
+    path: /mnt/tools-indices
+    fstype: ext4
+  - device: /dev/vdc
+    path: /mnt/ghost-galaxy-app
+    fstype: ext4
+
+galaxy_nfs_app_dir: /mnt/ghost-galaxy-app
+galaxy_nfs_tools_dir: /mnt/tools-indices
+
+nfs_exports:
+  - "{{ galaxy_nfs_app_dir }} 192.168.199.0/24(rw,async,no_root_squash,no_subtree_check)"
+  - "{{ galaxy_nfs_tools_dir }} 192.168.199.0/24(rw,async,no_root_squash,no_subtree_check)"

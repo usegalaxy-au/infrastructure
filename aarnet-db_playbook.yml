@@ -1,11 +1,11 @@
-- hosts: aarnet_dev_db_server
+- hosts: aarnet_db_server
   become: true
   vars_files:
       - group_vars/all.yml
-      - group_vars/aarnet-dev.yml
+      - group_vars/aarnet.yml
       - group_vars/VAULT
       - group_vars/dbservers.yml
-      - host_vars/aarnet-dev-db.usegalaxy.org.au.yml
+      - host_vars/aarnet-db.usegalaxy.org.au.yml
   pre_tasks:
       - name: Attach volume to instance
         include_role:
