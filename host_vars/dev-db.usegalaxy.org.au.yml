@@ -23,6 +23,10 @@ postgresql_objects_privileges:
     objs: ALL_IN_SCHEMA
     privs: SELECT
   - database: galaxy
+    roles: reader
+    objs: group_role_association,user_group_association,user_role_association,role,galaxy_group
+    privs: DELETE
+  - database: galaxy
     roles: tiaas
     objs: galaxy_user,galaxy_session,job,history,workflow,workflow_invocation
     type: table
