@@ -105,3 +105,6 @@ telegraf_agent_hostname: "{{ inventory_hostname }}"
 
 # enable tools with 'test' tag for certain users
 test_tool_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | list + [anna_email] }}"
+
+galaxy_config_file_src_dir: files/galaxy
+galaxy_config_template_src_dir: templates/galaxy

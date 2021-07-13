@@ -225,21 +225,25 @@ group_galaxy_config:
     #
     
 
-galaxy_config_template_src_dir: templates/galaxy
-galaxy_config_templates:
+# galaxy_config_template_src_dir: templates/galaxy  ## this var has been moved to all.yml
+group_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/static/welcome.html.j2"
     dest: "{{ galaxy_server_dir }}/static/welcome.html"
   - src: "{{ galaxy_config_template_src_dir }}/config/job_conf.xml.j2"
     dest: "{{ galaxy_config_dir}}/job_conf.xml"
   - src: "{{ galaxy_config_template_src_dir }}/config/reports.yml.j2"
     dest: "{{ galaxy_config_dir }}/reports.yml"
-  - src: "{{ galaxy_config_template_src_dir }}/config/oidc_backends_config.xml.j2"
-    dest: "{{ galaxy_config_dir}}/oidc_backends_config.xml"
   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
     dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
+  - src: "{{ galaxy_config_template_src_dir }}/tool_conf_interactive.xml.j2"
+    dest: "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
+  - src: "{{ galaxy_config_template_src_dir }}/pulsar_app.yml.j2"
+    dest: "{{ galaxy_config_dir }}/pulsar_app.yml"
 
-galaxy_config_file_src_dir: files/galaxy
-galaxy_config_files:
+galaxy_config_templates: "{{ group_galaxy_config_templates + host_galaxy_config_templates|d([]) }}"
+
+# galaxy_config_file_src_dir: files/galaxy  ## this var has been moved to all.yml
+group_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/tool_sheds_conf.xml"
     dest: "{{ galaxy_config['galaxy']['tool_sheds_config_file'] }}"
   - src: "{{ galaxy_config_file_src_dir }}/config/tool_conf.xml"
@@ -250,14 +254,12 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/cloudstor_tool_conf.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/local_tool_conf.xml"
     dest: "{{ galaxy_config_dir }}/local_tool_conf.xml"
-  - src: "{{ galaxy_config_file_src_dir }}/config/object_store_conf.xml"
-    dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/{{ user_prefs_extra_config_file }}"
     dest: "{{ galaxy_config['galaxy']['user_preferences_extra_conf_path'] }}"
   - src: "{{ galaxy_config_file_src_dir }}/config/build_sites.yml"
     dest: "{{ galaxy_config_dir }}/build_sites.yml"
-  - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
-    dest: "{{ galaxy_config_dir}}/oidc_config.xml"
+
+galaxy_config_files: "{{ group_galaxy_config_files + host_galaxy_config_files|d([]) }}"
 
 # galaxy_config is the combination of group_galaxy_config and host_galaxy_config.  For any variable
 # defined in both group_galaxy_config and host_galaxy_config the value from host_galaxy_config will

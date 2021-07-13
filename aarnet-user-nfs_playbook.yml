@@ -14,6 +14,10 @@
         file:
           path: "{{ galaxy_user_data_dir }}"
           state: directory
+      - name: Create galaxy_test_user_data_dir directory
+        file:
+          path: "{{ galaxy_test_user_data_dir }}"
+          state: directory
   roles:
       - common
       - insspb.hostname
@@ -24,6 +28,12 @@
       - name: Chown shared dirs to Galaxy user
         file:
           path: "{{ galaxy_user_data_dir }}"
+          owner: galaxy
+          group: galaxy
+          recurse: yes
+      - name: Chown shared dirs to Galaxy user
+        file:
+          path: "{{ galaxy_test_user_data_dir }}"
           owner: galaxy
           group: galaxy
           recurse: yes

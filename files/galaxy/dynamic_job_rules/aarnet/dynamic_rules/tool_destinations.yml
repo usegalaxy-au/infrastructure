@@ -1,0 +1,8 @@
+
+tools:
+    upload1:
+        default_destination: slurm_1slot_upload
+
+default_destination: slurm_1slot
+
+verbose: True
