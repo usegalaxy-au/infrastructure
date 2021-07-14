@@ -1368,6 +1368,71 @@ tools:
             upper_bound: 200 MB
             destination: pulsar-mel3_small
         default_destination: pulsar-mel3_big
+    trycycler_cluster:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 200 MB
+              destination: slurm_1slot
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 200 MB
+              upper_bound: 3 GB
+              destination: slurm_5slots
+        default_destination: slurm_9slots
+    trycycler_consensus:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 200 MB
+              destination: slurm_1slot
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 200 MB
+              upper_bound: 2 GB
+              destination: pulsar-mel3_mid
+        default_destination: pulsar-mel3_big
+    trycycler_partition:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 200 MB
+              destination: slurm_1slot
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 200 MB
+              upper_bound: 3 GB
+              destination: slurm_5slots
+        default_destination: slurm_9slots
+    trycycler_reconcile_msa:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 200 MB
+              destination: slurm_1slot
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 200 MB
+              upper_bound: 3 GB
+              destination: slurm_5slots
+        default_destination: slurm_9slots
+    trycycler_subsample:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 200 MB
+              destination: slurm_1slot
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 200 MB
+              upper_bound: 3 GB
+              destination: slurm_5slots
+        default_destination: slurm_9slots
     #
     # Data managers
     #
