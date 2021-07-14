@@ -11,9 +11,9 @@ attached_volumes:
 
 certbot_domains:
 - "{{ hostname }}"
-- "usegalaxy.org.au"
-- "www.usegalaxy.org.au"
-- "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
+# - "usegalaxy.org.au"
+# - "www.usegalaxy.org.au"
+- "*.interactivetoolentrypoint.interactivetool.aarnet.usegalaxy.org.au"  # we can only use aarnet.usegalaxy, not usegalaxy at this point
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_api_token }}"
