@@ -22,6 +22,9 @@ pawsey ansible_ssh_host=146.118.70.205 internal_ip=192.168.0.94
 [aarnet_galaxy_server]
 aarnet ansible_ssh_host=138.44.80.53 internal_ip=192.168.199.203
 
+[aarnet_slurm_head]
+aarnet-queue ansible_ssh_host=138.44.80.85 internal_ip=192.168.199.89
+
 [dev_ftp_server]
 dev-ftp	ansible_ssh_host=45.113.235.70
 

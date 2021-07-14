@@ -1,0 +1,47 @@
+slurm_roles: ['exec']
+
+add_hosts_head: yes
+add_hosts_galaxy: yes
+
+attached_volumes:
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
+
+shared_mounts:
+    - path: /mnt/galaxy
+      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/tools-indices
+      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/tools-indices"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/user-data-0  ## ** TEMPORARY FILE PATH FOR NEW AARNET
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/user-data-0"
+      fstype: nfs
+      state: mounted
+    # - path: /mnt/user-data
+    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
+    #   fstype: nfs
+    #   state: mounted
+    - path: /mnt/tmp
+      src: "{{ hostvars['aarnet-job-nfs']['internal_ip'] }}:/mnt/tmp"
+      fstype: nfs
+      state: mounted
+    # - path: /mnt/files
+    #   src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
+    #   fstype: nfs
+    #   state: mounted
+    # - path: /mnt/files2
+    #   src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
+    #   fstype: nfs
+    #   state: mounted
+
+# cvmfs
+cvmfs_cache_base: /mnt/var/lib/cvmfs
+
+# Interactive Tools
+docker_install_compose: false
+docker_users:
+  - "{{ galaxy_user.name }}"
