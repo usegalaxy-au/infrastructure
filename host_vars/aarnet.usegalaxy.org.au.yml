@@ -55,14 +55,14 @@ shared_mounts:
       src: "{{ hostvars['aarnet-job-nfs']['internal_ip'] }}:/mnt/tmp"
       fstype: nfs
       state: mounted
-    - path: /mnt/files
-      src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/files2
-      src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
-      fstype: nfs
-      state: mounted
+    # - path: /mnt/files
+    #   src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
+    #   fstype: nfs
+    #   state: mounted
+    # - path: /mnt/files2
+    #   src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
+    #   fstype: nfs
+    #   state: mounted
 
 galaxy_db_user_password: "{{ vault_aarnet_db_user_password }}"  # ** check that this is set
 
