@@ -86,7 +86,7 @@
   copy:
     src: files/monthly_stats_collector.py
     dest: "{{ stats_dir }}/monthly_stats_collector.py"
-  owner: ubuntu
-  group: ubuntu
-  mode: 0766
+    owner: ubuntu
+    group: ubuntu
+    mode: 0766
   
