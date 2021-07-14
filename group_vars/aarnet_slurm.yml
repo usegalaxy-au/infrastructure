@@ -50,12 +50,12 @@ slurm_nodes:
       RealMemory: 62815
       State: UNKNOWN
     - name: aarnet-queue
-      NodeAddr: "{{ hostvars['aarnet-queue']['ansible_ssh_host'] }}"
+      NodeAddr: "{{ hostvars['aarnet-queue']['internal_ip'] }}"
       CPUs: 4
       RealMemory: 15638
       State: UNKNOWN
     - name: aarnet
-      NodeAddr: "{{ hostvars['aarnet']['ansible_ssh_host'] }}"
+      NodeAddr: "{{ hostvars['aarnet']['internal_ip'] }}"
       CPUs: 16
       RealMemory: 62815
       State: UNKNOWN
