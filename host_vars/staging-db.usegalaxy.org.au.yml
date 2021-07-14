@@ -20,6 +20,10 @@ postgresql_objects_privileges:
     roles: reader
     objs: ALL_IN_SCHEMA
     privs: SELECT
+  - database: galaxy
+    roles: reader
+    objs: group_role_association,user_group_association,user_role_association,role,galaxy_group
+    privs: DELETE
 postgresql_objects_databases:
   - name: galaxy
     owner: galaxy
