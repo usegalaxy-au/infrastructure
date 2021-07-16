@@ -15,13 +15,11 @@
             name: python3-psycopg2
             state: present
         become: true
-      - name: create data directory
+      - name: give /data 777 so postgres can create data_directory
         file:
-          path: /data/production
-          owner: postgres
-          group: postgres
+          path: /data
           state: directory
-          mode: 0700
+          mode: 0777
   roles:
       - common
       - insspb.hostname
