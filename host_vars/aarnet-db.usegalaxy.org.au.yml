@@ -57,33 +57,33 @@ postgresql_objects_users:
   - name: tiaas
     password: "{{ vault_aarnet_db_tiaas_password }}"
     db: galaxy
-#
-# ************ Can't be run until after Galaxy is setup and installed *******************
-#
-# postgresql_objects_privileges:
-#   - database: galaxy
-#     roles: reader
-#     objs: ALL_IN_SCHEMA
-#     privs: SELECT
-#   - database: galaxy
-#     roles: reader
-#     objs: group_role_association,user_group_association,user_role_association,role,galaxy_group
-#     privs: DELETE
-#   - database: galaxy
-#     roles: tiaas
-#     objs: galaxy_user,galaxy_session,job,history,workflow,workflow_invocation
-#     type: table
-#     privs: SELECT
-#   - database: galaxy
-#     roles: tiaas
-#     objs: user_group_association,galaxy_group,role,group_role_association
-#     type: table
-#     privs: SELECT,INSERT
-#   - database: galaxy
-#     roles: tiaas
-#     objs: role_id_seq,galaxy_group_id_seq,group_role_association_id_seq,user_group_association_id_seq
-#     type: sequence
-#     privs: USAGE,SELECT
+
+# *********** Can't be run until after Galaxy is setup and installed *******************
+postgresql_objects_privileges:
+  - database: galaxy
+    roles: reader
+    objs: ALL_IN_SCHEMA
+    privs: SELECT
+  - database: galaxy
+    roles: reader
+    objs: group_role_association,user_group_association,user_role_association,role,galaxy_group
+    privs: DELETE
+  - database: galaxy
+    roles: tiaas
+    objs: galaxy_user,galaxy_session,job,history,workflow,workflow_invocation
+    type: table
+    privs: SELECT
+  - database: galaxy
+    roles: tiaas
+    objs: user_group_association,galaxy_group,role,group_role_association
+    type: table
+    privs: SELECT,INSERT
+  - database: galaxy
+    roles: tiaas
+    objs: role_id_seq,galaxy_group_id_seq,group_role_association_id_seq,user_group_association_id_seq
+    type: sequence
+    privs: USAGE,SELECT
+# ***********
 postgresql_objects_databases:
   - name: galaxy
     owner: galaxy
