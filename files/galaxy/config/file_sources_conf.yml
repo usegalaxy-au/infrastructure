@@ -1,9 +1,3 @@
-- type: dropbox
-  id: dropbox
-  label: Dropbox files (configure access in User->Preferences->Manage Information)
-  doc: Your Dropbox files. Configure your access token via User -> Preferences -> Manage Information
-  accessToken: ${user.preferences['dropbox|access_token']}
-
 - type: webdav
   id: cloudstor
   label: CloudStor
@@ -12,6 +6,12 @@
   root: "/plus/remote.php/webdav"
   login: ${user.preferences['owncloud_account|username']}
   password: ${user.preferences['owncloud_account|password']}
+
+- type: dropbox
+  id: dropbox
+  label: Dropbox
+  doc: Your Dropbox files. Configure your access token via User -> Preferences -> Manage Information
+  accessToken: ${user.preferences['dropbox|access_token']}
 
 - type: s3fs
   label: Genome Ark
