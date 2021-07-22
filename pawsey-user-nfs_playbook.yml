@@ -7,6 +7,10 @@
       - group_vars/nfs_servers.yml
       - host_vars/pawsey-user-nfs.usegalaxy.org.au.yml
   pre_tasks:
+      - name: Create galaxy_user_data_2_dir directory
+        file:
+          path: "{{ galaxy_user_data_2_dir }}"
+          state: directory
       - name: Attach volume to instance
         include_role:
           name: attached-volumes
