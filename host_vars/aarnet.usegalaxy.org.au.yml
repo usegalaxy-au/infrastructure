@@ -103,7 +103,7 @@ host_galaxy_config:  # renamed from __galaxy_config
       - lib/galaxy/main.py
     farm: job-handlers:1,2,3,4,5
   galaxy:
-    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},{{ bpa_email }}" # everyone is an admin on aarnet
+    admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
     brand: "Australia"
     database_connection: "postgres://galaxy:{{ vault_aarnet_db_user_password }}@{{ hostvars['aarnet-db']['internal_ip'] }}:5432/galaxy"
     id_secret: "{{ vault_aarnet_id_secret }}"
@@ -126,8 +126,10 @@ host_galaxy_config:  # renamed from __galaxy_config
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 
 # vars for setting up .pgpass
-galaxy_db_password: "{{ vault_aarnet_db_user_password }}"
-reader_db_password: "{{ vault_aarnet_db_reader_password }}"
+pg_db_password:
+  galaxy: "{{ vault_aarnet_db_user_password }}"
+  reader: "{{ vault_aarnet_db_reader_password }}"
+  tiaasadmin: "{{ vault_aarnet_db_tiaasadmin_password }}"
 db_address: "{{ hostvars['aarnet-db']['internal_ip'] }}"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 

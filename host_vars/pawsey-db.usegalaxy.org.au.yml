@@ -54,16 +54,19 @@ postgresql_objects_users:
   - name: reader
     password: "{{ vault_pawsey_db_reader_password }}"
     db: galaxy
+  - name: tiaasadmin
+    password: "{{ vault_pawsey_db_tiaasadmin_password }}"
+    db: galaxy
   - name: tiaas
     password: "{{ tiaas_galaxy_db_password }}"
     db: galaxy
 postgresql_objects_privileges:
   - database: galaxy
-    roles: reader
+    roles: reader,tiaasadmin
     objs: ALL_IN_SCHEMA
     privs: SELECT
   - database: galaxy
-    roles: reader
+    roles: tiaasadmin
     objs: group_role_association,user_group_association,user_role_association,role,galaxy_group
     privs: DELETE
   - database: galaxy

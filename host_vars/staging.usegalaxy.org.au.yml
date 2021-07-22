@@ -65,7 +65,7 @@ galaxy_handler_count: 2   ############# europe uses 5, this could be host specif
 
 host_galaxy_config:  # renamed from __galaxy_config
   galaxy:
-    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on staging: # TODO: update this
+    admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }}"
     brand: "Australia Staging"
     database_connection: "postgres://galaxy:{{ vault_staging_db_user_password }}@staging-db.usegalaxy.org.au:5432/galaxy"
     id_secret: "{{ vault_staging_id_secret }}"
@@ -174,8 +174,10 @@ galaxy_jobconf:
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 
 # vars for setting up .pgpass
-galaxy_db_password: "{{ vault_staging_db_user_password }}"
-reader_db_password: "{{ vault_staging_db_reader_password }}"
+pg_db_password:
+  galaxy: "{{ vault_staging_db_user_password }}"
+  reader: "{{ vault_staging_db_reader_password }}"
+  tiaasadmin: "{{ vault_staging_db_tiaasadmin_password }}"
 db_address: "staging-db.usegalaxy.org.au"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 

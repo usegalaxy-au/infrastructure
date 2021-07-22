@@ -1,13 +1,26 @@
 ---
+  - name: Set pg_db_role
+    set_fact:
+      db_role: "{{ 'galaxy' if machine_user.name == 'ubuntu' else ('reader' if not 'tiaas_admin' in machine_user.roles|d([]) else 'tiaasadmin') }}"
+  - name: Set pg_db_password
+    set_fact:
+      db_password: "{{ pg_db_password[db_role] }}"
+  - name: Create .pgpass files for users
+    copy:
+      dest: "/home/{{ machine_user.name }}/.pgpass"
+      content: "{{ db_address }}:5432:*:{{ db_role }}:{{ db_password }}"
+      mode: "600"
+      group: "{{ machine_user.name }}"
+      owner: "{{ machine_user.name }}"
   - name: Add env vars for gxadmin to machine_users .bashrc files
     lineinfile:
-      path: "/home/{{ username }}/.bashrc"
+      path: "/home/{{ machine_user.name }}/.bashrc"
       line: "export {{ obj.var }}='{{ obj.val }}'"
     loop:
       - var: PGHOST
         val: "{{ db_address }}"
       - var: PGUSER
-        val: "{{ 'reader' if not username == 'ubuntu' else 'galaxy' }}"
+        val: "{{ db_role }}"
       - var: PGDATABASE
         val: "galaxy"
       - var: PGPORT
