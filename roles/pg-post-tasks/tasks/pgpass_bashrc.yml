@@ -15,6 +15,7 @@
   - name: Add env vars for gxadmin to machine_users .bashrc files
     lineinfile:
       path: "/home/{{ machine_user.name }}/.bashrc"
+      regexp: "^export {{ obj.var }}="
       line: "export {{ obj.var }}='{{ obj.val }}'"
     loop:
       - var: PGHOST
