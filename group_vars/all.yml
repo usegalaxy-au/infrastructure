@@ -4,41 +4,73 @@ hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
 #List of users to install and setup /homes for
 machine_users:
     - name: simon
-      role: sudo
+      roles:
+        - sudo
+        - galaxy_admin
       key: files/keys/simon.pub
       email: "{{ simon_email }}"
     - name: nick
-      role: sudo
+      roles:
+        - sudo
+        - galaxy_admin
       key: files/keys/nick.pub
       email: "{{ nick_email }}"
     - name: cat
-      role: sudo
+      roles:
+        - sudo
+        - galaxy_admin
       key: files/keys/catherine.pub
       email: "{{ cat_email }}"
-    - name: thom
-      role: sudo
-      key: files/keys/thom.pub
-      email: "{{ thom_email }}"
     - name: igor
-      role: user
+      roles:
+        - tiaas_admin
+        - galaxy_admin
       key: files/keys/igor.pub
       email: "{{ igor_email }}"
     - name: mike
-      role: user
+      roles:
+        - galaxy_admin
       key: files/keys/mike.pub
       email: "{{ mike_email }}"
     - name: gareth
-      role: user
+      roles:
+        - galaxy_admin
       key: files/keys/gareth.pub
       email: "{{ gareth_email }}"
     - name: jenkins_bot
-      role: sudo
+      roles:
+        - sudo
+        - galaxy_admin
       key: files/keys/jenkins_bot.pub
       email: "{{ jenkins_bot_email }}" # this is not a real email address and will cause issues if validation is required
     - name: nuwan
-      role: sudo
+      roles:
+        - sudo
+        - galaxy_admin
       key: files/keys/nuwan.pub
+      galaxy_admin: true
       email: "{{ nuwan_email }}"
+    - name: justin
+      roles:
+        - sudo
+        - galaxy_admin
+      key: files/keys/justin.pub
+      email: "{{ justin_email }}"
+    - name: grace
+      roles:
+        - user
+      key: files/keys/grace.pub
+      email: "{{ grace_email }}"
+    - name: cameron
+      roles:
+        - user
+      key: files/keys/cameron.pub
+      email: "{{ cameron_email }}"
+    # - name: anna
+    #   roles:
+    #     - tiaas_admin
+    #   key: files/keys/anna.pub
+    #   email: "{{ anna_email }}"
 
 galaxy_user:
   name: galaxy

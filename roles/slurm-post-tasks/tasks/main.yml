@@ -1,5 +1,5 @@
 ---
-- name: Allow all users to run sudo sacct, scontrol or scancel
+- name: Allow all users to run sudo sacct
   lineinfile:
     path: /etc/sudoers.d/devs
     create: true
@@ -7,6 +7,14 @@
     validate: /usr/sbin/visudo -cf %s
   with_items:
     - /usr/bin/sacct
+- name: Remove some sudo rules for devs
+  lineinfile:
+    path: /etc/sudoers.d/devs
+    create: true
+    line: "%devs ALL=(ALL) NOPASSWD: {{ item }}"
+    validate: /usr/sbin/visudo -cf %s
+    state: absent
+  with_items:
     - /usr/bin/scontrol
     - /usr/bin/scancel
 - name: set SACCT_FORMAT for root user

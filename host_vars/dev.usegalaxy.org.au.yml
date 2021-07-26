@@ -204,8 +204,10 @@ galaxy_jobconf:
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 
 # vars for setting up .pgpass
-galaxy_db_password: "{{ vault_dev_db_user_password }}"
-reader_db_password: "{{ vault_dev_db_reader_password }}"
+pg_db_password:
+  galaxy: "{{ vault_dev_db_user_password }}"
+  reader: "{{ vault_dev_db_reader_password }}"
+  tiaasadmin: "{{ vault_dev_db_tiaasadmin_password }}"
 db_address: "dev-db.usegalaxy.org.au"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 
