@@ -19,6 +19,7 @@
       - insspb.hostname
       - geerlingguy.pip
       - geerlingguy.nfs
+      - dj-wasabi.telegraf
   post_tasks:
       - name: Chown shared dirs to Galaxy user
         file:

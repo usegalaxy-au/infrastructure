@@ -33,6 +33,7 @@
     - geerlingguy.nfs
     - galaxyproject.slurm
     - galaxyproject.cvmfs
+    - dj-wasabi.telegraf
     - usegalaxy_eu.gxadmin
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
