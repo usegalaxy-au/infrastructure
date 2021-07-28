@@ -160,9 +160,23 @@ pulsar-high-mem1 ansible_ssh_host=115.146.84.155
 [pulsar-high-mem2]
 pulsar-high-mem2 ansible_ssh_host=115.146.85.94
 
+[pulsar-qld-head]
+pulsar-qld ansible_ssh_host=203.101.229.179
+
+[pulsar-qld-workers]
+pulsar-qld-w1 ansible_ssh_host=203.101.225.225
+pulsar-qld-w2 ansible_ssh_host=203.101.227.176
+pulsar-qld-w3 ansible_ssh_host=203.101.227.21
+pulsar-qld-w4 ansible_ssh_host=203.101.230.2
+
 [build-machines]
 nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249
 aarnet-backup ansible_ssh_host=138.44.80.55 internal_ip=192.168.199.190
+
+##### DR environment at Qriscloud
+[qld_dr]
+DR-galaxy ansible_ssh_host=203.101.226.61
+DR-galaxy-aust-db ansible_ssh_host=203.101.227.174
 
 [all:vars]
 ansible_host_key_checking=False
