@@ -13,6 +13,6 @@ tools:
     ivar_consensus:
         default_destination: pulsar-paw_big
 
-default_destination: slurm_1slot
+default_destination: slurm_2slots
 
 verbose: True
