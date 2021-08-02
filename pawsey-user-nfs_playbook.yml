@@ -27,10 +27,13 @@
   post_tasks:
       - name: Chown shared dirs to Galaxy user
         file:
-          path: "{{ galaxy_user_data_dir }}"
+          path: "{{ item }}"
           owner: galaxy
           group: galaxy
           recurse: yes
+        with_items:
+          - "{{ galaxy_user_data_dir }}"
+          - "{{ galaxy_user_data_2_dir }}"
       - name: Reload exportfs
         command: exportfs -ra
         become: yes
