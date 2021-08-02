@@ -323,7 +323,7 @@ galaxy_jobconf:
       #     rewrite_parameters: true
       #     submit_native_specification: "--nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=2009282"
       #     transport: curl
-    # limits:
+    limits:
     #   #General limits for user submission
     #   - type: anonymous_user_concurrent_jobs
     #     value: 1
@@ -336,9 +336,9 @@ galaxy_jobconf:
     #   - type: destination_user_concurrent_jobs
     #     id: slurm_1slot_upload
     #     value: 4
-    #   - type: destination_user_concurrent_jobs
-    #     id: slurm_2slots
-    #     value: 10
+      - type: destination_user_concurrent_jobs
+        id: slurm_2slots
+        value: 30
     #   - type: destination_user_concurrent_jobs
     #     id: slurm_3slots
     #     value: 10
@@ -419,6 +419,16 @@ galaxy_jobconf:
     #   - type: destination_total_concurrent_jobs
     #     id: pulsar-mel3_big_canu
     #     value: 2
+      # pulsar-paw limits
+      - type: destination_user_concurrent_jobs
+        id: pulsar-paw_small
+        value: 16
+      - type: destination_user_concurrent_jobs
+        id: pulsar-paw_mid
+        value: 6
+      - type: destination_user_concurrent_jobs
+        id: pulsar-paw_big
+        value: 4
     tools:
       - id: interactive_tool_ethercalc
         destination: interactive_pulsar
