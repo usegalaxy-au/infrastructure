@@ -867,13 +867,11 @@ tools:
         default_destination: slurm_5slots
     ncbi_blastn_wrapper:
         rules:
-            - rule_type: file_size
-              nice_value: 0
+            - rule_type: arguments
+              nice_value: -19
               destination: pulsar-mel3_mid
-              lower_bound: 0
-              upper_bound: 1 GB
-              users:
-                  - i.makunin@uq.edu.au
+              arguments:
+                db_opts_selector: "db"
         default_destination: slurm_5slots
     ncbi_blastp_wrapper:
         rules:
