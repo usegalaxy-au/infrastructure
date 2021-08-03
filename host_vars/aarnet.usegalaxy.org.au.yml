@@ -24,7 +24,7 @@ nginx_ssl_servers:
   - galaxy-gie-proxy
 
   #gie proxy hostname
-interactive_tools_server_name: "usegalaxy.org.au"
+interactive_tools_server_name: "aarnet.usegalaxy.org.au"
 
 # galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git  # usegalaxy-au fork of galaxy
