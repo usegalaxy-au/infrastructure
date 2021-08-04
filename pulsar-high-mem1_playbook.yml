@@ -1,4 +1,4 @@
-- hosts: pulsar-high-mem1
+- hosts: pulsar_high_mem1
   become: true
   vars_files:
     - group_vars/all.yml
