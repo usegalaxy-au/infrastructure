@@ -919,7 +919,14 @@ tools:
               lower_bound: 500 MB
               upper_bound: 5 GB
               destination: pulsar-mel_big
-        default_destination: pulsar-mel3_mid
+            - rule_type: file_size
+              nice_value: -5
+              lower_bound: 0
+              upper_bound: Infinity
+              destination: pulsar-high-mem1_mid
+              users:
+                - anna.syme@unimelb.edu.au
+        default_destination: pulsar-mel3_big
     kallisto_quant:
         rules:
             - rule_type: file_size
