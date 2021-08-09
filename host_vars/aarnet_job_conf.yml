@@ -1,0 +1,440 @@
+#Galaxy Job Conf
+
+galaxy_jobconf:
+    plugin_workers: 4
+    handlers:
+        count: "{{ galaxy_handler_count }}"
+    plugins:
+      - id: local
+        load: "galaxy.jobs.runners.local:LocalJobRunner"
+        workers: 4
+      - id: dynamic
+        params:
+          rules_module: dynamic_rules
+      - id: slurm
+        load: "galaxy.jobs.runners.slurm:SlurmJobRunner"
+      - id: pulsar_rest
+        load: "galaxy.jobs.runners.pulsar:PulsarRESTJobRunner"
+      # - id: pulsar_mel2_runner
+      #   load: "galaxy.jobs.runners.pulsar:PulsarMQJobRunner"
+      #   params:
+      #     amqp_ack_republish_time: 1200
+      #     amqp_acknowledge: True
+      #     amqp_consumer_timeout: 2.0
+      #     amqp_publish_retry: True
+      #     amqp_publish_retry_max_retries: 60
+      #     amqp_url: "pyamqp://galaxy_mel2:{{ vault_rabbitmq_password_galaxy_mel2_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel2?ssl=1"
+      #     galaxy_url: "https://{{ hostname }}"
+      #     manager: "_default_"
+      - id: pulsar-paw_runner
+        load: "galaxy.jobs.runners.pulsar:PulsarMQJobRunner"
+        params:
+          amqp_ack_republish_time: 1200
+          amqp_acknowledge: True
+          amqp_consumer_timeout: 2.0
+          amqp_publish_retry: True
+          amqp_publish_retry_max_retries: 60
+          amqp_url: "pyamqp://galaxy_paw:{{ vault_rabbitmq_password_galaxy_paw_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_paw?ssl=1"
+          galaxy_url: "https://{{ hostname }}"
+          manager: "_default_"
+      # - id: pulsar-mel3_runner
+      #   load: "galaxy.jobs.runners.pulsar:PulsarMQJobRunner"
+      #   params:
+      #     amqp_ack_republish_time: 1200
+      #     amqp_acknowledge: True
+      #     amqp_consumer_timeout: 2.0
+      #     amqp_publish_retry: True
+      #     amqp_publish_retry_max_retries: 60
+      #     amqp_url: "pyamqp://galaxy_mel3:{{ vault_rabbitmq_password_galaxy_mel3_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel3?ssl=1"
+      #     galaxy_url: "https://{{ hostname }}"
+      #     manager: "_default_"
+      # - id: pulsar-high-mem1_runner
+      #   load: "galaxy.jobs.runners.pulsar:PulsarMQJobRunner"
+      #   params:
+      #     amqp_ack_republish_time: 1200
+      #     amqp_acknowledge: True
+      #     amqp_consumer_timeout: 2.0
+      #     amqp_publish_retry: True
+      #     amqp_publish_retry_max_retries: 60
+      #     amqp_url: "pyamqp://galaxy_hm1:{{ vault_rabbitmq_password_galaxy_hm1_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm1?ssl=1"
+      #     galaxy_url: "https://{{ hostname }}"
+      #     manager: "_default_"
+      # - id: pulsar-high-mem2_runner
+      #   load: "galaxy.jobs.runners.pulsar:PulsarMQJobRunner"
+      #   params:
+      #     amqp_ack_republish_time: 1200
+      #     amqp_acknowledge: True
+      #     amqp_consumer_timeout: 2.0
+      #     amqp_publish_retry: True
+      #     amqp_publish_retry_max_retries: 60
+      #     amqp_url: "pyamqp://galaxy_hm2:{{ vault_rabbitmq_password_galaxy_hm2_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm2?ssl=1"
+      #     galaxy_url: "https://{{ hostname }}"
+      #     manager: "_default_"
+      - id: pulsar_embedded
+        load: "galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner"
+        params:
+          pulsar_config: "{{ galaxy_config_dir }}/pulsar_app.yml"
+    default_destination: gateway
+    destinations:
+      - id: local
+        runner: local
+      # Dynamic setups - start with Gateway then --> dynamic_dtd
+      - id: gateway
+        runner: dynamic
+        params:
+            type: python
+            function: gateway
+      - id: dynamic_dtd
+        runner: dynamic
+        params:
+          type: dtd
+      - id: slurm_dest
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=main"
+      # Slurm destinations
+      - id: slurm_1slot_upload
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=40216 --partition=main"
+      - id: slurm_1slot
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=3880 --partition=main"
+      - id: slurm_2slots
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=main"
+      - id: slurm_3slots
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=3 --ntasks-per-node=3 --mem=11640 --partition=main"
+      - id: slurm_5slots
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=5 --ntasks-per-node=5 --mem=19400 --partition=main"
+      - id: slurm_7slots
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=7 --ntasks-per-node=7 --mem=27160 --partition=main"
+      - id: slurm_9slots
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=9 --ntasks-per-node=9 --mem=34920 --partition=main"
+      - id: slurm_16slots
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62080 --partition=main"
+      - id: slurm_32slots
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=124160 --partition=main"
+      - id: slurm_9slots_1off
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=9 --ntasks-per-node=9 --mem=34920 --partition=main"
+      - id: slurm_training
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=training"
+      - id: slurm_max_quant
+        runner: slurm
+        params:
+          nativeSpecification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62080 --partition=max_quant_w8"
+      - id: interactive_pulsar
+        runner: pulsar_embedded
+        params:
+          docker_enabled: true
+          docker_volumes: $defaults
+          docker_sudo: false
+          docker_net: bridge
+          docker_auto_rm: true
+          docker_set_user: ''
+          require_container: true
+          container_monitor_result: callback
+          submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=interactive_tools"
+      # # Pulsar mel destinations
+      # - id: pulsar-mel_small
+      #   runner: pulsar_mel2_runner
+      #   params:
+      #     default_file_action: remote_transfer
+      #     dependency_resolution: remote
+      #     jobs_directory: /mnt/pulsar/files/staging
+      #     persistence_directory: /mnt/pulsar/files/persisted_data
+      #     remote_metadata: false
+      #     rewrite_parameters: true
+      #     submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+      #     transport: curl
+      # - id: pulsar-mel_mid
+      #   runner: pulsar_mel2_runner
+      #   params:
+      #     default_file_action: remote_transfer
+      #     dependency_resolution: remote
+      #     jobs_directory: /mnt/pulsar/files/staging
+      #     persistence_directory: /mnt/pulsar/files/persisted_data
+      #     remote_metadata: false
+      #     rewrite_parameters: true
+      #     submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4"
+      #     transport: curl
+      # - id: pulsar-mel_big
+      #   runner: pulsar_mel2_runner
+      #   params:
+      #     default_file_action: remote_transfer
+      #     dependency_resolution: remote
+      #     jobs_directory: /mnt/pulsar/files/staging
+      #     persistence_directory: /mnt/pulsar/files/persisted_data
+      #     remote_metadata: false
+      #     rewrite_parameters: true
+      #     submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8"
+      #     transport: curl
+      # # Pulsar paw destinations
+      - id: pulsar-paw_small
+        runner: pulsar-paw_runner
+        params:
+          default_file_action: remote_transfer
+          dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
+          submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+          transport: curl
+      - id: pulsar-paw_mid
+        runner: pulsar-paw_runner
+        params:
+          default_file_action: remote_transfer
+          dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
+          submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4"
+          transport: curl
+      - id: pulsar-paw_big
+        runner: pulsar-paw_runner
+        params:
+          default_file_action: remote_transfer
+          dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
+          submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8"
+          transport: curl
+      # # Pulsar mel3 destinations
+      # - id: pulsar-mel3_small
+      #   runner: pulsar-mel3_runner
+      #   params:
+      #     default_file_action: remote_transfer
+      #     dependency_resolution: remote
+      #     jobs_directory: /mnt/pulsar/files/staging
+      #     persistence_directory: /mnt/pulsar/files/persisted_data
+      #     remote_metadata: false
+      #     rewrite_parameters: true
+      #     submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
+      #     transport: curl
+      # - id: pulsar-mel3_mid
+      #   runner: pulsar-mel3_runner
+      #   params:
+      #     default_file_action: remote_transfer
+      #     dependency_resolution: remote
+      #     jobs_directory: /mnt/pulsar/files/staging
+      #     persistence_directory: /mnt/pulsar/files/persisted_data
+      #     remote_metadata: false
+      #     rewrite_parameters: true
+      #     submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=31040"
+      #     transport: curl
+      # - id: pulsar-mel3_big
+      #   runner: pulsar-mel3_runner
+      #   params:
+      #     default_file_action: remote_transfer
+      #     dependency_resolution: remote
+      #     jobs_directory: /mnt/pulsar/files/staging
+      #     persistence_directory: /mnt/pulsar/files/persisted_data
+      #     remote_metadata: false
+      #     rewrite_parameters: true
+      #     submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62080"
+      #     transport: curl
+      # - id: pulsar-mel3_big_trinity
+      #   runner: pulsar-mel3_runner
+      #   params:
+      #     default_file_action: remote_transfer
+      #     dependency_resolution: remote
+      #     jobs_directory: /mnt/pulsar/files/staging
+      #     persistence_directory: /mnt/pulsar/files/persisted_data
+      #     remote_metadata: false
+      #     rewrite_parameters: true
+      #     submit_native_specification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=62080"
+      #     transport: curl
+      # - id: pulsar-mel3_big_canu
+      #   runner: pulsar-mel3_runner
+      #   params:
+      #     default_file_action: remote_transfer
+      #     dependency_resolution: remote
+      #     jobs_directory: /mnt/pulsar/files/staging
+      #     persistence_directory: /mnt/pulsar/files/persisted_data
+      #     remote_metadata: false
+      #     rewrite_parameters: true
+      #     submit_native_specification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=62080"
+      #     transport: curl
+      # # Pulsar-high-mem1 destinations
+      # - id: pulsar-high-mem1_mid
+      #   runner: pulsar-high-mem1_runner
+      #   params:
+      #     default_file_action: remote_transfer
+      #     dependency_resolution: remote
+      #     jobs_directory: /mnt/pulsar/files/staging
+      #     persistence_directory: /mnt/pulsar/files/persisted_data
+      #     remote_metadata: false
+      #     rewrite_parameters: true
+      #     submit_native_specification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=1004641"
+      #     transport: curl
+      # - id: pulsar-high-mem1_big
+      #   runner: pulsar-high-mem1_runner
+      #   params:
+      #     default_file_action: remote_transfer
+      #     dependency_resolution: remote
+      #     jobs_directory: /mnt/pulsar/files/staging
+      #     persistence_directory: /mnt/pulsar/files/persisted_data
+      #     remote_metadata: false
+      #     rewrite_parameters: true
+      #     submit_native_specification: "--nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=4018565"
+      #     transport: curl
+      # # Pulsar-high-mem2 destinations
+      # - id: pulsar-high-mem2_mid
+      #   runner: pulsar-high-mem2_runner
+      #   params:
+      #     default_file_action: remote_transfer
+      #     dependency_resolution: remote
+      #     jobs_directory: /mnt/pulsar/files/staging
+      #     persistence_directory: /mnt/pulsar/files/persisted_data
+      #     remote_metadata: false
+      #     rewrite_parameters: true
+      #     submit_native_specification: "--nodes=1 --ntasks=64 --ntasks-per-node=64 --mem=1004641"
+      #     transport: curl
+      # - id: pulsar-high-mem2_big
+      #   runner: pulsar-high-mem2_runner
+      #   params:
+      #     default_file_action: remote_transfer
+      #     dependency_resolution: remote
+      #     jobs_directory: /mnt/pulsar/files/staging
+      #     persistence_directory: /mnt/pulsar/files/persisted_data
+      #     remote_metadata: false
+      #     rewrite_parameters: true
+      #     submit_native_specification: "--nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=2009282"
+      #     transport: curl
+    limits:
+    #   #General limits for user submission
+    #   - type: anonymous_user_concurrent_jobs
+    #     value: 1
+    #   - type: registered_user_concurrent_jobs
+    #     value: 10
+    #   #Limits for local slurm cluster
+    #   - type: destination_total_concurrent_jobs
+    #     id: slurm_1slot_upload
+    #     value: 10
+    #   - type: destination_user_concurrent_jobs
+    #     id: slurm_1slot_upload
+    #     value: 4
+      - type: destination_user_concurrent_jobs
+        id: slurm_2slots
+        value: 30
+    #   - type: destination_user_concurrent_jobs
+    #     id: slurm_3slots
+    #     value: 10
+    #   - type: destination_user_concurrent_jobs
+    #     id: slurm_5slots
+    #     value: 5
+    #   - type: destination_user_concurrent_jobs
+    #     id: slurm_7slots
+    #     value: 3
+    #   - type: destination_user_concurrent_jobs
+    #     id: slurm_9slots
+    #     value: 2
+    #   - type: destination_user_concurrent_jobs
+    #     id: slurm_16slots
+    #     value: 2
+    #   - type: destination_user_concurrent_jobs
+    #     id: slurm_32slots
+    #     value: 1
+    #   - type: destination_total_concurrent_jobs
+    #     id: slurm_9slots_1off
+    #     value: 1
+    #   - type: destination_total_concurrent_jobs
+    #     id: slurm_7slots
+    #     value: 5
+    #   - type: destination_total_concurrent_jobs
+    #     id: slurm_9slots
+    #     value: 4
+    #   - type: destination_total_concurrent_jobs
+    #     id: slurm_16slots
+    #     value: 2
+    #   #Pulsar Mel limits
+    #   - type: destination_user_concurrent_jobs
+    #     id: pulsar-mel_small
+    #     value: 8
+    #   - type: destination_user_concurrent_jobs
+    #     id: pulsar-mel_mid
+    #     value: 4
+    #   - type: destination_user_concurrent_jobs
+    #     id: pulsar-mel_big
+    #     value: 2
+    #   - type: destination_total_concurrent_jobs
+    #     id: pulsar-mel_small
+    #     value: 30
+    #   - type: destination_total_concurrent_jobs
+    #     id: pulsar-mel_mid
+    #     value: 20
+    #   - type: destination_total_concurrent_jobs
+    #     id: pulsar-mel_big
+    #     value: 4
+    #   # Pulsar Mel3 limits
+    #   - type: destination_user_concurrent_jobs
+    #     id: pulsar-mel3_small
+    #     value: 16
+    #   - type: destination_user_concurrent_jobs
+    #     id: pulsar-mel3_mid
+    #     value: 4
+    #   - type: destination_user_concurrent_jobs
+    #     id: pulsar-mel3_big
+    #     value: 2
+    #   - type: destination_user_concurrent_jobs
+    #     id: pulsar-mel3_big_trinity
+    #     value: 2
+    #   - type: destination_user_concurrent_jobs
+    #     id: pulsar-mel3_big_canu
+    #     value: 1
+    #   - type: destination_total_concurrent_jobs
+    #     id: pulsar-mel3_small
+    #     value: 16
+    #   - type: destination_total_concurrent_jobs
+    #     id: pulsar-mel3_mid
+    #     value: 8
+    #   - type: destination_total_concurrent_jobs
+    #     id: pulsar-mel3_big
+    #     value: 4
+    #   - type: destination_total_concurrent_jobs
+    #     id: pulsar-mel3_big_trinity
+    #     value: 2
+    #   - type: destination_total_concurrent_jobs
+    #     id: pulsar-mel3_big_canu
+    #     value: 2
+      # pulsar-paw limits
+      - type: destination_user_concurrent_jobs
+        id: pulsar-paw_small
+        value: 16
+      - type: destination_user_concurrent_jobs
+        id: pulsar-paw_mid
+        value: 6
+      - type: destination_user_concurrent_jobs
+        id: pulsar-paw_big
+        value: 4
+    tools:
+      - id: interactive_tool_ethercalc
+        destination: interactive_pulsar
+      - id: interactive_tool_rstudio
+        destination: interactive_pulsar
+      - id: interactive_tool_jupyter_notebook
+        destination: interactive_pulsar
+      - id: interactive_tool_phinch
+        destination: interactive_pulsar
