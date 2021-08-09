@@ -5,11 +5,12 @@ import subprocess
 
 
 """
-Script to delete pulsar job working directories from galaxy.  It logs into a pulsar server and gets the names
-of job working directories stored there and runs queries to find which of these can be deleted.  All job working
-directories for jobs in 'ok' and 'deleted' states can go.  Job working directories in state 'error' can be kept
-for a number of days supplied as the `keep_error_days` argument.  It is run from galaxy because of rules that
-prevent remote users from running sql commands.
+Script to delete pulsar job working directories from galaxy. It logs into a pulsar server and gets the names
+of job working directories stored there and runs queries to find which of these can be deleted. All job working
+directories for jobs in 'ok' and 'deleted' states can go. Job working directories in state 'error' can be kept
+for a number of days supplied as the `keep_error_days` argument. The --keep_error_days or -e argument must be an
+int. It defaults to global_keep_error_days and can be set to -1 to skip deletion of errored job working
+directories.
 """
 
 # These variables are templated by ansible
@@ -73,8 +74,8 @@ def main():
 
     ok_job_ids = sanitize_subprocess_output_list(get_job_query(state='ok'))
     deleted_job_ids = sanitize_subprocess_output_list(get_job_query(state='deleted'))
-    if keep_error_days: # otherwise keep all error jobs
-        error_job_ids = sanitize_subprocess_output_list(get_job_query(state='error', save_days = keep_error_days))
+    if keep_error_days >= 0: # otherwise keep all error jobs
+        error_job_ids = sanitize_subprocess_output_list(get_job_query(state='error', save_days=keep_error_days))
     else:
         error_job_ids = []
 
