@@ -31,7 +31,7 @@
     - geerlingguy.nfs
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - usegalaxy_eu.gxadmin
+    - galaxyproject.gxadmin
     - pg-post-tasks
     - remote-pulsar-cron
     - usegalaxy_eu.tiaas2
