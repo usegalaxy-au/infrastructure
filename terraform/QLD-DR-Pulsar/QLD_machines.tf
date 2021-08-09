@@ -69,14 +69,14 @@ resource "openstack_compute_instance_v2" "QLD-misc-nfs" {
   availability_zone = local.avail_zone
 }
 
-#Exports
-resource "openstack_compute_instance_v2" "galaxy-aust-exports" {
-  name = "galaxy-aust-exports"
-  image_name = "NeCTAR Ubuntu 18.04 LTS (Bionic) amd64 [v29]"
-  flavor_name = "m3.large"
-  key_pair = "GenomicsVL 2019"
-  security_groups = ["default", "SSH only", "remote_nfs", "SLURM cluster"]
-  availability_zone = local.avail_zone
+#Exports --- ##Commented out for now until we add it manually to the state file.
+#resource "openstack_compute_instance_v2" "galaxy-aust-exports" {
+  # name = "galaxy-aust-exports"
+  # image_name = "NeCTAR Ubuntu 18.04 LTS (Bionic) amd64 [v29]"
+  # flavor_name = "m3.large"
+  # key_pair = "GenomicsVL 2019"
+  # security_groups = ["default", "SSH only", "remote_nfs", "SLURM cluster"]
+  # availability_zone = local.avail_zone
 }
 
 #Database server
@@ -140,14 +140,36 @@ resource "openstack_blockstorage_volume_v2" "QLD-db-volume" {
 # Attachments
 ######################################################################################
 
-# Attachment between application/web server and volume
+# Attachment between worker nodes and worker temp volumes
 resource "openstack_compute_volume_attach_v2" "attach-dev-volume-to-dev" {
   for_each = { for idx in local.attachments: idx.instance => idx }
   instance_id = openstack_compute_instance_v2.worker-nodes[each.value.instance].id
   volume_id   = openstack_blockstorage_volume_v2.worker_tmp_disk[each.value.volume].id
 }
 
+# Attachment between Head node and head node volume
+resource "openstack_compute_volume_attach_v2" "attach-QLD-pulsar-DR-volume-to-pulsar-DR" {
+  instance_id = openstack_compute_instance_v2.QLD-head.id
+  volume_id = openstack_blockstorage_volume_v2.QLD-pulsar-DR-volume.id
+}
 
+# Attachment between job nfs and job nfs volume
+resource "openstack_compute_volume_attach_v2" "attach-QLD-job-nfs-volume-to-job-nfs" {
+  instance_id = openstack_compute_instance_v2.QLD-job-nfs.id
+  volume_id = openstack_blockstorage_volume_v2.QLD-job-nfs-volume.id
+}
+
+# Attachment between misc nfs and misc nfs volume
+resource "openstack_compute_volume_attach_v2" "attach-QLD-misc-nfs-volume-to-misc-nfs" {
+  instance_id = openstack_compute_instance_v2.QLD-misc-nfs.id
+  volume_id = openstack_blockstorage_volume_v2.QLD-misc-nfs-volume.id
+}
+
+# Attachment between misc nfs and misc nfs volume
+resource "openstack_compute_volume_attach_v2" "attach-QLD-db-volume-to-QLD-db" {
+  instance_id = openstack_compute_instance_v2.QLD-db.id
+  volume_id = openstack_blockstorage_volume_v2.QLD-db-volume.id
+}
 
 ######################################################################################
 # Outputs
