@@ -141,7 +141,7 @@ resource "openstack_blockstorage_volume_v2" "QLD-db-volume" {
 ######################################################################################
 
 # Attachment between worker nodes and worker temp volumes
-resource "openstack_compute_volume_attach_v2" "attach-dev-volume-to-dev" {
+resource "openstack_compute_volume_attach_v2" "attach-worker-volume-to-worker" {
   for_each = { for idx in local.attachments: idx.instance => idx }
   instance_id = openstack_compute_instance_v2.worker-nodes[each.value.instance].id
   volume_id   = openstack_blockstorage_volume_v2.worker_tmp_disk[each.value.volume].id
@@ -182,6 +182,32 @@ output "worker_ip_addresses" {
   }
 }
 
+output "worker volume devices" {
+  value = {
+    for instance in openstack_compute_instance_v2.worker_nodes:
+    instance.id => openstack_compute_volume_attach_v2.attach-worker-volume-to-worker[each.value.instance_id].device
+  }
+}
+
+output "head ip"{
+  value = openstack_compute_instance_v2.QLD-head.access_ip_v4
+}
+
+output "Queue ip"{
+  value = openstack_compute_instance_v2.QLD-queue.access_ip_v4
+}
+
+output "job nfs ip"{
+  value = openstack_compute_instance_v2.QLD-job-nfs.access_ip_v4
+}
+
+output "misc nfs ip"{
+  value = openstack_compute_instance_v2.QLD-misc-nfs.access_ip_v4
+}
+
+output "db ip"{
+  value = openstack_compute_instance_v2.QLD-db.access_ip_v4
+}
 # output "volume_attachment" {
 #   value = {
 #     for volume in openstack_blockstorage_volume_v2.test-volume:
