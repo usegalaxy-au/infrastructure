@@ -867,13 +867,11 @@ tools:
         default_destination: slurm_5slots
     ncbi_blastn_wrapper:
         rules:
-            - rule_type: file_size
-              nice_value: 0
+            - rule_type: arguments
+              nice_value: -19
               destination: pulsar-mel3_mid
-              lower_bound: 0
-              upper_bound: 1 GB
-              users:
-                  - i.makunin@uq.edu.au
+              arguments:
+                db_opts_selector: "db"
         default_destination: slurm_5slots
     ncbi_blastp_wrapper:
         rules:
@@ -921,7 +919,14 @@ tools:
               lower_bound: 500 MB
               upper_bound: 5 GB
               destination: pulsar-mel_big
-        default_destination: pulsar-mel3_mid
+            - rule_type: file_size
+              nice_value: -5
+              lower_bound: 0
+              upper_bound: Infinity
+              destination: pulsar-high-mem1_mid
+              users:
+                - anna.syme@unimelb.edu.au
+        default_destination: pulsar-mel3_big
     kallisto_quant:
         rules:
             - rule_type: file_size
@@ -1362,6 +1367,13 @@ tools:
               lower_bound: 0
               upper_bound: 100 MB
               destination: pulsar-mel3_small
+            - rule_type: file_size
+              nice_value: -5
+              lower_bound: 0
+              upper_bound: Infinity
+              destination: pulsar-high-mem1_big
+              users:
+                - anna.syme@unimelb.edu.au
         default_destination: pulsar-mel3_big
     circos:
         default_destination: pulsar-mel_small
@@ -1454,6 +1466,44 @@ tools:
               upper_bound: 1 MB
               destination: slurm_1slot
         default_destination: slurm_5slots
+    racon:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 50 MB
+              destination: slurm_1slot
+            - rule_type: file_size
+              nice_value: -5
+              lower_bound: 0
+              upper_bound: Infinity
+              destination: pulsar-high-mem1_mid
+              users:
+                - anna.syme@unimelb.edu.au
+        default_destination: pulsar-mel3_mid
+    medaka_consensus_pipeline:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 500 MB
+              destination: slurm_1slot
+            - rule_type: file_size
+              nice_value: -5
+              lower_bound: 0
+              upper_bound: Infinity
+              destination: pulsar-high-mem1_mid
+              users:
+                - anna.syme@unimelb.edu.au
+        default_destination: pulsar-mel3_mid
+    medaka_variant:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 500 MB
+              destination: slurm_1slot
+        default_destination: pulsar-mel3_mid
     #
     # Data managers
     #
