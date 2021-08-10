@@ -77,7 +77,7 @@ resource "openstack_compute_instance_v2" "QLD-misc-nfs" {
   # key_pair = "GenomicsVL 2019"
   # security_groups = ["default", "SSH only", "remote_nfs", "SLURM cluster"]
   # availability_zone = local.avail_zone
-}
+#}
 
 #Database server
 resource "openstack_compute_instance_v2" "QLD-db" {
@@ -182,31 +182,47 @@ output "worker_ip_addresses" {
   }
 }
 
-output "worker volume devices" {
+output "worker_volume_devices" {
   value = {
     for instance in openstack_compute_instance_v2.worker_nodes:
     instance.id => openstack_compute_volume_attach_v2.attach-worker-volume-to-worker[each.value.instance_id].device
   }
 }
 
-output "head ip"{
+output "head_ip"{
   value = openstack_compute_instance_v2.QLD-head.access_ip_v4
 }
 
-output "Queue ip"{
+output "head_volume_attachment_device" {
+  value = openstack_compute_volume_attach_v2.attach-QLD-pulsar-DR-volume-to-pulsar-DR.device
+}
+
+output "Queue_ip"{
   value = openstack_compute_instance_v2.QLD-queue.access_ip_v4
 }
 
-output "job nfs ip"{
+output "job_nfs_ip"{
   value = openstack_compute_instance_v2.QLD-job-nfs.access_ip_v4
 }
 
-output "misc nfs ip"{
+output "job_nfs_volume_device" {
+  value = openstack_compute_volume_attach_v2.attach-QLD-job-nfs-volume-to-job-nfs.device
+}
+
+output "misc_nfs_ip"{
   value = openstack_compute_instance_v2.QLD-misc-nfs.access_ip_v4
 }
 
-output "db ip"{
+output "misc_nfs_volume_device" {
+  value = openstack_compute_volume_attach_v2.attach-QLD-misc-nfs-volume-to-misc-nfs.device
+}
+
+output "db_ip"{
   value = openstack_compute_instance_v2.QLD-db.access_ip_v4
+}
+
+output "db_volume_device" {
+  value = openstack_compute_volume_attach_v2.attach-QLD-db-volume-to-QLD-db.device
 }
 # output "volume_attachment" {
 #   value = {
