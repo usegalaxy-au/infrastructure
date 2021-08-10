@@ -6,8 +6,8 @@ locals {
   image_name = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
 
   #Loops for worker nodes
-  instances = toset(formatlist("%d", range(local.count)))
-  volumes = toset(flatten([ for instance in local.instances : "i${instance}-volume" ]))
+  instances = toset(formatlist("%d", range(local.worker_count)))
+  volumes = toset(flatten([ for instance in local.instances : "QLD-w${instance}-volume" ]))
   attachments = toset(flatten([ for instance in local.instances : {
       instance = instance
       volume = "QLD-w${instance}-volume"
@@ -104,7 +104,7 @@ resource "openstack_blockstorage_volume_v2" "worker_tmp_disk" {
 }
 
 #Head node volume
-resource "openstack_compute_instance_v2" "QLD-pulsar-DR-volume" {
+resource "openstack_blockstorage_volume_v2" "QLD-pulsar-DR-volume" {
   availability_zone = local.avail_zone
   name = "QLD-pulsar-DR-volume"
   description = "Head node disk for server apps"
@@ -112,15 +112,15 @@ resource "openstack_compute_instance_v2" "QLD-pulsar-DR-volume" {
 }
 
 #Job nfs volume
-resource "openstack_compute_instance_v2" "QLD-job-nfs-volume" {
+resource "openstack_blockstorage_volume_v2" "QLD-job-nfs-volume" {
   availability_zone = local.avail_zone
   name = "QLD-job-nfs-volume"
   description = "Job nfs volume for job tmps"
-  size = 20000
+  size = 15000
 }
 
 #Misc nfs volume
-resource "openstack_compute_instance_v2" "QLD-misc-nfs-volume" {
+resource "openstack_blockstorage_volume_v2" "QLD-misc-nfs-volume" {
   availability_zone = local.avail_zone
   name = "QLD-misc-nfs-volume"
   description = "Job nfs volume for job tmps"
@@ -145,6 +145,7 @@ resource "openstack_compute_volume_attach_v2" "attach-worker-volume-to-worker" {
   for_each = { for idx in local.attachments: idx.instance => idx }
   instance_id = openstack_compute_instance_v2.worker-nodes[each.value.instance].id
   volume_id   = openstack_blockstorage_volume_v2.worker_tmp_disk[each.value.volume].id
+  #volume_id   = openstack_blockstorage_volume_v2.worker_tmp_disk[QLD-w{each.value.volume}-volume].id
 }
 
 # Attachment between Head node and head node volume
@@ -182,12 +183,12 @@ output "worker_ip_addresses" {
   }
 }
 
-output "worker_volume_devices" {
-  value = {
-    for instance in openstack_compute_instance_v2.worker_nodes:
-    instance.id => openstack_compute_volume_attach_v2.attach-worker-volume-to-worker[each.value.instance_id].device
-  }
-}
+# output "worker_volume_devices" {
+#   value = {
+#     for instance in openstack_compute_instance_v2.worker_nodes:
+#     instance.id => openstack_compute_volume_attach_v2.attach-worker-volume-to-worker[each.value.instance_id].device
+#   }
+# }
 
 output "head_ip"{
   value = openstack_compute_instance_v2.QLD-head.access_ip_v4
