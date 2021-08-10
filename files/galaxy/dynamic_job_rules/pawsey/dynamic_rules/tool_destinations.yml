@@ -1512,6 +1512,14 @@ tools:
               upper_bound: 100 MB
               destination: pulsar-mel_small
         default_destination: pulsar-mel_mid
+    humann:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 10 MB
+              destination: slurm_1slot
+        default_destination: slurm_7slots
     #
     # Data managers
     #
@@ -1525,6 +1533,8 @@ tools:
         default_destination: slurm_16slots
     twobit_builder_data_manager:    
         default_destination: slurm_16slots
+    data_manager_humann_database_downloader:
+        default_destination: slurm_5slots
 
 default_destination: slurm_1slot
 
