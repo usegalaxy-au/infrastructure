@@ -14,6 +14,7 @@ shared_mounts:
     - path: /mnt/files
       src: pulsar-mel3:/mnt/files
       fstype: nfs
+      state: mounted
 
 
 # cvmfs
