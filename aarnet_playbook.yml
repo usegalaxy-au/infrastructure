@@ -34,7 +34,7 @@
     - galaxyproject.slurm
     - galaxyproject.cvmfs
     - dj-wasabi.telegraf
-    - usegalaxy_eu.gxadmin
+    - galaxyproject.gxadmin
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
     - pg-post-tasks

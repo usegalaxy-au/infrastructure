@@ -1,7 +1,7 @@
 - name: galaxyproject.galaxy
-  version: 0.9.11
+  version: 0.9.16
 - name: galaxyproject.nginx
-  version: 0.6.4
+  version: 0.7.0
 - name: galaxyproject.postgresql
   version: 1.0.3
 - name: natefoo.postgresql_objects
@@ -24,11 +24,11 @@
 #- src: galaxyproject.repos - Waiting for a new release with Ubuntu >= 18.04
 #  version: 0.0.1
 - src: galaxyproject.pulsar
-  version: 1.0.6
+  version: 1.0.8
 - src: dj-wasabi.telegraf
   version: 0.13.0
-- src: usegalaxy_eu.gxadmin
-  version: 0.0.5
+- src: galaxyproject.gxadmin
+  version: 0.0.8
 - src: usegalaxy_eu.tiaas2
   version: 0.0.1
 - src: geerlingguy.docker
