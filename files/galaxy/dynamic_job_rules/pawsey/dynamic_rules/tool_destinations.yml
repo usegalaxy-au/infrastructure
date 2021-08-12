@@ -137,8 +137,7 @@ tools:
               nice_value: 0
               lower_bound: 30 GB
               upper_bound: Infinity
-              destination: fail
-              fail_message: Too much data, we cannot support such large Trinity assemblies with our backend. Please use another server for your job.
+              destination: pulsar-high-mem1_mid
         default_destination: slurm_32slots
     trinity_align_and_estimate_abundance:
         default_destination: pulsar-mel_big
@@ -308,13 +307,7 @@ tools:
                 - g.price@qfab.org
                 - anna.syme@unimelb.edu.au
             destination: pulsar-high-mem2_big
-          - rule_type: file_size
-            nice_value: 0
-            lower_bound: 0
-            upper_bound: Infinity
-            destination: fail
-            fail_message: This job cannot run at this time, please check again tomorrow
-        default_destination: slurm_32slots
+        default_destination: pulsar-high-mem1_mid
     local_canu:
       default_destination: pulsar-high-mem1_big
     poretools_events:
