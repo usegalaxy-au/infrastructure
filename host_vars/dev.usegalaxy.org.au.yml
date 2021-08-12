@@ -222,6 +222,11 @@ tiaas_info:
   owner_site: "https://dev.usegalaxy.org.au"
   domain: "dev.usegalaxy.org.au"
 
+  # Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
+tiaas_disassociate_training_roles:
+  hour: 9      # optional, defaults to 0
+  minute: 0    # optional, defaults to 0
+
 # Custos/AAF specific settings
 custos_client_id: "{{ vault_custos_client_id_dev }}"
 custos_client_secret: "{{ vault_custos_client_secret_dev }}"
