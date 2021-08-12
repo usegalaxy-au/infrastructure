@@ -154,6 +154,11 @@ tiaas_other_config: |
     TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
     TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"
 
+  # Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
+tiaas_disassociate_training_roles:
+  hour: 9      # optional, defaults to 0
+  minute: 0    # optional, defaults to 0
+
 # # Custos/AAF specific settings
 # custos_client_id: "{{ vault_custos_client_id_prod }}"
 # custos_client_secret: "{{ vault_custos_client_secret_prod }}"

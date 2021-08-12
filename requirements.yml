@@ -30,7 +30,7 @@
 - src: galaxyproject.gxadmin
   version: 0.0.8
 - src: usegalaxy_eu.tiaas2
-  version: 0.0.1
+  version: 0.0.8
 - src: geerlingguy.docker
   version: 2.6.0
 - src: usegalaxy_eu.gie_proxy

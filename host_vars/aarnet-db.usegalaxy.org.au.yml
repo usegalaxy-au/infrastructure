@@ -73,7 +73,7 @@ postgresql_objects_privileges:
     privs: DELETE
   - database: galaxy
     roles: tiaas
-    objs: galaxy_user,galaxy_session,job,history,workflow,workflow_invocation
+    objs: galaxy_user,galaxy_session,job
     type: table
     privs: SELECT
   - database: galaxy
@@ -86,6 +86,11 @@ postgresql_objects_privileges:
     objs: role_id_seq,galaxy_group_id_seq,group_role_association_id_seq,user_group_association_id_seq
     type: sequence
     privs: USAGE,SELECT
+  - database: galaxy
+    roles: tiaas
+    objs: group_role_association
+    type: table
+    privs: DELETE
 # ***********
 postgresql_objects_databases:
   - name: galaxy
