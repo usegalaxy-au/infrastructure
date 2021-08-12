@@ -42,8 +42,7 @@ tools:
             nice_value: 0
             lower_bound: 2 GB
             upper_bound: 20 GB
-            destination: fail
-            fail_message: This job cannot run at this time, please check again tomorrow
+            destination: pulsar-mel3_big
           - rule_type: file_size
             nice_value: 0
             lower_bound: 20 GB
@@ -62,19 +61,17 @@ tools:
             nice_value: 0
             lower_bound: 50 MB
             upper_bound: 1 GB
-            destination: pulsar-mel_big
+            destination: pulsar-mel3_mid
           - rule_type: file_size
             nice_value: 0
             lower_bound: 1 GB
             upper_bound: 20 GB
-            destination: fail
-            fail_message: This job cannot run at this time, please check again tomorrow
+            destination: pulsar-mel3_big
           - rule_type: file_size
             nice_value: 0
             lower_bound: 20 GB
             upper_bound: 60 GB
-            destination: fail
-            fail_message: This job cannot run at this time, please check again tomorrow
+            destination: pulsar-mel3_big
           - rule_type: file_size
             nice_value: 0
             lower_bound: 60 GB
@@ -125,14 +122,13 @@ tools:
             - rule_type: file_size
               nice_value: 0
               lower_bound: 0
-              upper_bound: 500 MB
-              destination: pulsar-mel_big
+              upper_bound: 100 MB
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
-              lower_bound: 500 MB
+              lower_bound: 100 MB
               upper_bound: 30 GB
-              destination: fail
-              fail_message: This job cannot run at this time, please check again tomorrow
+              destination: pulsar-mel3_big_trinity
             - rule_type: file_size
               nice_value: 0
               lower_bound: 30 GB
@@ -141,7 +137,7 @@ tools:
               fail_message: Too much data, we cannot support such large Trinity assemblies with our backend. Please use another server for your job.
         default_destination: slurm_32slots
     trinity_align_and_estimate_abundance:
-        default_destination: pulsar-mel_big
+        default_destination: pulsar-mel3_big_trinity
     ggplot2_point:
         rules:
             - rule_type: file_size
@@ -227,7 +223,7 @@ tools:
             nice_value: 0
             lower_bound: 10 MB
             upper_bound: 30 MB
-            destination: pulsar-mel_big
+            destination: pulsar-mel3_mid
           - rule_type: file_size
             nice_value: 0
             lower_bound: 30 MB
@@ -245,17 +241,17 @@ tools:
             nice_value: 0
             lower_bound: 0
             upper_bound: 1 MB
-            destination: pulsar-mel_small
+            destination: pulsar-mel3_small
           - rule_type: file_size
             nice_value: 0
             lower_bound: 1 MB
             upper_bound: 1 GB
-            destination: pulsar-mel_big
+            destination: pulsar-mel3_mid
           - rule_type: file_size
             nice_value: 0
             lower_bound: 1 GB
             upper_bound: 20 GB
-            destination: slurm_9slots
+            destination: pulsar-mel3_big
         default_destination: slurm_5slots
     hyphy_gard:
         default_destination: slurm_32slots
@@ -289,7 +285,7 @@ tools:
             lower_bound: 10 KB
             upper_bound: 500 KB
             destination: slurm_3slots
-        default_destination: slurm_9slots
+        default_destination: pulsar-mel3_big
     canu:
         rules:
           - rule_type: file_size
@@ -308,13 +304,7 @@ tools:
                 - g.price@qfab.org
                 - anna.syme@unimelb.edu.au
             destination: pulsar-high-mem2_big
-          - rule_type: file_size
-            nice_value: 0
-            lower_bound: 0
-            upper_bound: Infinity
-            destination: fail
-            fail_message: This job cannot run at this time, please check again tomorrow
-        default_destination: slurm_32slots
+        default_destination: pulsar-mel3_big_canu
     local_canu:
       default_destination: pulsar-high-mem1_big
     poretools_events:
@@ -398,7 +388,7 @@ tools:
             nice_value: 0
             lower_bound: 7 GB
             upper_bound: Infinity
-            destination: pulsar-mel_big
+            destination: pulsar-mel3_mid
         default_destination: slurm_3slots
     iuc_pear:
         rules:
@@ -468,8 +458,8 @@ tools:
               nice_value: 0
               lower_bound: 1 GB
               upper_bound: 10 GB
-              destination: pulsar-mel_big
-        default_destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
+        default_destination: pulsar-mel3_mid
     bwa_mem:
         rules:
             - rule_type: file_size
@@ -486,7 +476,7 @@ tools:
               nice_value: 0
               lower_bound: 1 GB
               upper_bound: 10 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
         default_destination: slurm_7slots
     bowtie2:
         rules:
@@ -499,12 +489,12 @@ tools:
               nice_value: 0
               lower_bound: 100 MB
               upper_bound: 9 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 9 GB
               upper_bound: Infinity
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
         default_destination: slurm_5slots
     hisat2:
         rules:
@@ -517,12 +507,12 @@ tools:
               nice_value: 0
               lower_bound: 500 MB
               upper_bound: 3 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 3 GB
               upper_bound: 20 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 20 GB
@@ -540,7 +530,7 @@ tools:
               nice_value: 0
               lower_bound: 500 MB
               upper_bound: 20 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 20 GB
@@ -652,7 +642,7 @@ tools:
               nice_value: 0
               lower_bound: 100 MB
               upper_bound: 20 GB
-              destination: pulsar-mel_small
+              destination: pulsar-mel3_small
         default_destination: slurm_2slots
     iqtree:
         rules:
@@ -709,7 +699,7 @@ tools:
               nice_value: 0
               lower_bound: 500 MB
               upper_bound: 10 GB
-              destination: pulsar-mel_small
+              destination: pulsar-mel3_small
         default_destination: slurm_2slots
     cuffmerge:
         rules:
@@ -768,7 +758,7 @@ tools:
               nice_value: 0
               lower_bound: 1 GB
               upper_bound: 20 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
         default_destination: slurm_5slots
     fastq_paired_end_deinterlacer:
         rules:
@@ -781,7 +771,7 @@ tools:
               nice_value: 0
               lower_bound: 1 GB
               upper_bound: 20 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
         default_destination: slurm_5slots
     deeptools_compute_matrix:
         default_destination: slurm_9slots
@@ -879,7 +869,7 @@ tools:
         rules:
             - rule_type: arguments
               nice_value: -19
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
               arguments:
                 db_opts_selector: "db"
         default_destination: slurm_5slots
@@ -887,7 +877,7 @@ tools:
         rules:
             - rule_type: file_size
               nice_value: 0
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
               lower_bound: 0
               upper_bound: 1 GB
               users:
@@ -936,7 +926,7 @@ tools:
               destination: pulsar-high-mem1_mid
               users:
                 - anna.syme@unimelb.edu.au
-        default_destination: pulsar-mel_big
+        default_destination: pulsar-mel3_big
     kallisto_quant:
         rules:
             - rule_type: file_size
@@ -972,13 +962,12 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 500 KB
-              destination: pulsar-mel_small
+              destination: pulsar-mel3_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 500 KB
               upper_bound: 500 MB
-              destination: fail
-              fail_message: This job cannot run at this time, please check again tomorrow
+              destination: pulsar-mel3_big
             - rule_type: file_size
               nice_value: 0
               lower_bound: 500 MB
@@ -1026,14 +1015,13 @@ tools:
             - rule_type: file_size
               nice_value: 0
               lower_bound: 200 MB
-              upper_bound: 5 GB
-              destination: pulsar-mel_big
+              upper_bound: 2 GB
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
-              lower_bound: 5 GB
+              lower_bound: 2 GB
               upper_bound: 60 GB
-              destination: fail
-              fail_message: This job cannot run at this time, please check again tomorrow
+              destination: pulsar-mel3_big
         default_destination: slurm_16slots
     megahit:
         rules:
@@ -1041,8 +1029,8 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 5 GB
-              destination: pulsar-mel_big
-        default_destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
+        default_destination: pulsar-mel3_big
     rna_star:
         default_destination: slurm_9slots
     rna_starsolo:
@@ -1052,13 +1040,13 @@ tools:
     roary:
         default_destination: slurm_7slots
     rseqc_RPKM_saturation:
-        default_destination: pulsar-mel_big
+        default_destination: pulsar-mel3_mid
     rseqc_geneBody_coverage:
-        default_destination: pulsar-mel_small
+        default_destination: pulsar-mel3_small
     rseqc_geneBody_coverage2:
-        default_destination: pulsar-mel_small
+        default_destination: pulsar-mel3_small
     rseqc_read_distribution:
-        default_destination: pulsar-mel_small
+        default_destination: pulsar-mel3_small
     cutadapt:
         default_destination: slurm_5slots
     ncbi_blastx_wrapper:
@@ -1378,7 +1366,7 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 100 MB
-              destination: pulsar-mel_small
+              destination: pulsar-mel3_small
             - rule_type: file_size
               nice_value: -5
               lower_bound: 0
@@ -1386,7 +1374,7 @@ tools:
               destination: pulsar-high-mem1_big
               users:
                 - anna.syme@unimelb.edu.au
-        default_destination: pulsar-mel_big
+        default_destination: pulsar-mel3_big
     circos:
         default_destination: pulsar-mel_small
     hifiasm:
@@ -1395,8 +1383,8 @@ tools:
             nice_value: 0
             lower_bound: 0
             upper_bound: 200 MB
-            destination: pulsar-mel_small
-        default_destination: pulsar-mel_big
+            destination: pulsar-mel3_small
+        default_destination: pulsar-mel3_big
     trycycler_cluster:
         rules:
             - rule_type: file_size
@@ -1421,8 +1409,8 @@ tools:
               nice_value: 0
               lower_bound: 200 MB
               upper_bound: 2 GB
-              destination: pulsar-mel_big
-        default_destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
+        default_destination: pulsar-mel3_big
     trycycler_partition:
         rules:
             - rule_type: file_size
@@ -1468,8 +1456,8 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 1 MB
-              destination: pulsar-mel_small
-        default_destination: pulsar-mel_big
+              destination: pulsar-mel3_small
+        default_destination: pulsar-mel3_big
     merqury:
         rules:
             - rule_type: file_size
@@ -1492,7 +1480,7 @@ tools:
               destination: pulsar-high-mem1_mid
               users:
                 - anna.syme@unimelb.edu.au
-        default_destination: pulsar-mel_big
+        default_destination: pulsar-mel3_mid
     medaka_consensus_pipeline:
         rules:
             - rule_type: file_size
@@ -1507,7 +1495,7 @@ tools:
               destination: pulsar-high-mem1_mid
               users:
                 - anna.syme@unimelb.edu.au
-        default_destination: pulsar-mel_big
+        default_destination: pulsar-mel3_mid
     medaka_variant:
         rules:
             - rule_type: file_size
@@ -1515,7 +1503,7 @@ tools:
               lower_bound: 0
               upper_bound: 500 MB
               destination: slurm_1slot
-        default_destination: pulsar-mel_big
+        default_destination: pulsar-mel3_mid
     jellyfish:
         rules:
             - rule_type: file_size
