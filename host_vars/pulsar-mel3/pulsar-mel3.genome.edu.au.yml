@@ -2,6 +2,13 @@ hostname: "{{ ansible_hostname }}.genome.edu.au"
 
 # Keys and shares
 
+#NFS shares
+
+nfs_exports:
+    - "/mnt/galaxy  *(rw,async,no_root_squash,no_subtree_check)"
+    - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
+    - "/mnt/files   *(rw,async,no_root_squash,no_subtree_check)"
+
 create_ssh_key: yes  # Only the first time.
 ssl_country: "AU"
 ssl_state: "Vic"
@@ -21,4 +28,7 @@ pulsar_rabbit_vhost: "/pulsar/galaxy_mel3"
 attached_volumes:
   - device: /dev/vdb
     path: /mnt
+    fstype: ext4
+  - device: /dev/vdc
+    path: /mnt/files
     fstype: ext4

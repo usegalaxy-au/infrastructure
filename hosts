@@ -115,20 +115,20 @@ pawsey-w8 ansible_ssh_host=146.118.65.97 internal_ip=192.168.0.100
 
 # Pulsar servers
 
-[pulsar-paw-head]
+[pulsar_paw_head]
 pulsar-paw ansible_ssh_host=146.118.68.128 internal_ip=192.168.0.64
 
-[pulsar-paw-workers]
+[pulsar_paw_workers]
 pulsar-paw-w1 ansible_ssh_host=146.118.68.43 internal_ip=192.168.0.134
 pulsar-paw-w2 ansible_ssh_host=146.118.67.217 internal_ip=192.168.0.180
 pulsar-paw-w3 ansible_ssh_host=146.118.70.37 internal_ip=192.168.0.138
 pulsar-paw-w4 ansible_ssh_host=146.118.69.218 internal_ip=192.168.0.176
 pulsar-paw-w5 ansible_ssh_host=146.118.70.1 internal_ip=192.168.0.157
 
-[pulsar-mel2-head]
+[pulsar_mel2_head]
 pulsar-mel2 ansible_ssh_host=115.146.85.55
 
-[pulsar-mel2-workers]
+[pulsar_mel2_workers]
 pulsar-mel2-w1 ansible_ssh_host=115.146.86.24
 pulsar-mel2-w2 ansible_ssh_host=115.146.86.70
 pulsar-mel2-w3 ansible_ssh_host=115.146.87.226
@@ -137,39 +137,39 @@ pulsar-mel2-w5 ansible_ssh_host=115.146.85.102
 pulsar-mel2-w6 ansible_ssh_host=115.146.84.131
 pulsar-mel2-w7 ansible_ssh_host=115.146.86.132
 
-[pulsar-mel3-head]
+[pulsar_mel3_head]
 pulsar-mel3 ansible_ssh_host=115.146.85.19
 
-[pulsar-mel3-workers]
+[pulsar_mel3_workers]
 pulsar-mel3-w1 ansible_ssh_host=115.146.84.200
 pulsar-mel3-w2 ansible_ssh_host=115.146.84.238
 pulsar-mel3-w3 ansible_ssh_host=115.146.87.129
 pulsar-mel3-w4 ansible_ssh_host=115.146.86.181
 pulsar-mel3-w5 ansible_ssh_host=115.146.86.108
 
-[pulsar-nci-test-head]
+[pulsar_nci_test_head]
 pulsar-nci-test ansible_ssh_host=130.56.246.138 internal_ip=10.0.2.29
 
-[pulsar-nci-test-workers]
+[pulsar_nci_test_workers]
 pulsar-nci-test-w1 ansible_ssh_host=10.0.0.20 internal_ip=10.0.0.20
 pulsar-nci-test-w2 ansible_ssh_host=10.0.1.48 internal_ip=10.0.1.48
 
-[pulsar-high-mem1]
+[pulsar_high_mem1]
 pulsar-high-mem1 ansible_ssh_host=115.146.84.155
 
-[pulsar-high-mem2]
+[pulsar_high_mem2]
 pulsar-high-mem2 ansible_ssh_host=115.146.85.94
 
-[pulsar-qld-head]
+[pulsar_qld_head]
 pulsar-qld ansible_ssh_host=203.101.229.179
 
-[pulsar-qld-workers]
+[pulsar_qld_workers]
 pulsar-qld-w1 ansible_ssh_host=203.101.225.225
 pulsar-qld-w2 ansible_ssh_host=203.101.227.176
 pulsar-qld-w3 ansible_ssh_host=203.101.227.21
 pulsar-qld-w4 ansible_ssh_host=203.101.230.2
 
-[build-machines]
+[build_machines]
 nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249
 aarnet-backup ansible_ssh_host=138.44.80.55 internal_ip=192.168.199.190
 

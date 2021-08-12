@@ -33,7 +33,7 @@ roles/usegalaxy_eu.galaxy_systemd/
 roles/insspb.hostname
 roles/galaxyproject.pulsar
 roles/dj-wasabi.telegraf
-roles/usegalaxy_eu.gxadmin
+roles/galaxyproject.gxadmin
 roles/usegalaxy_eu.tiaas2
 roles/usegalaxy_eu.gie_proxy
 roles/geerlingguy.docker
