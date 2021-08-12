@@ -1,5 +1,5 @@
 - name: Pulsar PAW worker node install
-  hosts: pulsar-paw-workers
+  hosts: pulsar_paw_workers
   become: yes
   vars_files:
     - group_vars/all.yml

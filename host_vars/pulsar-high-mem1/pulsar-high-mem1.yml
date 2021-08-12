@@ -40,7 +40,7 @@ telegraf_agent_output:
 
 auth_key_user: ubuntu
 
-head_nodes: "{{ groups['pulsar-high-mem1'] }}"
+head_nodes: "{{ groups['pulsar_high_mem1'] }}"
 
 # SLURM
 slurm_nodes:
