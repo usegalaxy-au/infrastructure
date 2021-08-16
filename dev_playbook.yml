@@ -6,7 +6,6 @@
       - group_vars/VAULT
       - group_vars/galaxyservers.yml
       - group_vars/dev_slurm.yml
-      - group_vars/job_metrics.yml
       - host_vars/dev.usegalaxy.org.au.yml
   handlers:
     - name: Restart Galaxy
