@@ -258,7 +258,7 @@ tools:
           - rule_type: file_size
             nice_value: 0
             lower_bound: 0
-            upper_bound: 5 MB
+            upper_bound: 5 KB
             destination: slurm_2slots
         default_destination: pulsar-mel3_big
     hyphy_absrel:
