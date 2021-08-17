@@ -254,7 +254,13 @@ tools:
             destination: pulsar-mel3_big
         default_destination: slurm_5slots
     hyphy_gard:
-        default_destination: slurm_32slots
+        rules:
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 0
+            upper_bound: 5 MB
+            destination: slurm_2slots
+        default_destination: pulsar-mel3_big
     hyphy_absrel:
         default_destination: slurm_16slots
     maxquant:
