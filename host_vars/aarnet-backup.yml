@@ -1,7 +1,7 @@
 
 # volume stuff
 attached_volumes:
-  - device: /dev/vdc
+  - device: /dev/vdb
     path: /mnt
     fstype: ext4
 
@@ -26,8 +26,8 @@ psql_db: 'galaxy'
 
 #Database connection vars
 db_user: galaxy
-db_password: "{{ vault_pawsey_db_user_password }}"
-db_server: 192.168.0.102
+db_password: "{{ vault_aarnet_db_user_password }}"
+db_server: 192.168.199.56
 db_port: 5432
 
 # Retention time variables

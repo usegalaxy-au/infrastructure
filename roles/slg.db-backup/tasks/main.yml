@@ -50,8 +50,9 @@
 
 - name: Create cron job for backup
   cron:
+    name: Run database backup
     hour: "{{ backup_run_hour}}"
-    min: "{{ backup_run_minute }}"
+    minute: "{{ backup_run_minute }}"
     job: "{{ script_path }}/galaxy-backup-db.sh"
     user: ubuntu
     state: present
