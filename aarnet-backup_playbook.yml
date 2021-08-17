@@ -1,0 +1,17 @@
+- hosts: aarnet-backup
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/aarnet.yml
+      - group_vars/VAULT
+      - host_vars/aarnet-backup.yml
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+  roles:
+    - galaxyproject.repos
+    - common
+    - geerlingguy.pip
+    - slg.db-backup
+    - dj-wasabi.telegraf
