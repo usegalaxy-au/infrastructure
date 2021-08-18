@@ -1096,6 +1096,8 @@ tools:
     ivar_consensus:
         default_destination: slurm_9slots
         #default_destination: pulsar-paw_big
+    phyml:
+        default_destination: pulsar-high-mem2_big
     #
     # Mothur tools
     #
