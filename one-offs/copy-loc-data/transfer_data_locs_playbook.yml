@@ -1,0 +1,71 @@
+# - hosts: localhost
+#   vars_files:
+#     - vars.yml
+#   pre_tasks:
+#     - name: Create virtualenv for python script
+#       pip:
+#         virtualenv: "/tmp/venv"
+#         name:
+#           - pyyaml
+#           - bioblend
+#     - name: Run python script
+#       command:
+#         cmd: "/tmp/venv/bin/python get_revision_info.py -g {{ origin_galaxy_url }} -a {{ origin_api_key }} -v revision_info.yml"
+
+- hosts: "{{ origin_host }}"
+  become: "{{ become_super }}"
+  vars_files:
+    - vars.yml
+  pre_tasks:
+    - name: set empty dictionary
+      set_fact:
+        loc_lines_dict: {}
+    # - name: set pattern to find in files
+    #   set_fact:
+    #     pattern: ".*{{ origin_custom_indices_path }}.*'"
+    # - name: debug
+    #   debug:
+    #     msg: "{{ pattern }}"
+    - name: Find all tool data files containing origin_custom_indices_path
+      find:
+        recurse: true
+        # contains: "{{ origin_custom_indices_path }}"
+        path: "{{ origin_tool_data_path }}"
+        file_type: file
+        use_regex: yes
+        contains: '.*{{ origin_custom_indices_path }}.*'
+        hidden: true
+      register: files_in_tool_data_dir
+    - name: Get info from loc files
+      include_tasks: gather_loc_lines.yml
+      loop: "{{ files_in_tool_data_dir.files }}"
+      loop_control:
+        loop_var: loc_file
+    # - name: debug
+    #   debug:
+    #     msg: "{{ loc_lines_dict }}"
+
+
+- hosts: "{{ dest_host }}"
+  become: "{{ become_super }}"
+  vars_files:
+    - vars.yml
+    - revision_info.yml
+  pre_tasks:
+    - name: Carry dict fact from previous play
+      set_fact:
+        loc_lines_dict: "{{ hostvars[origin_host]['loc_lines_dict'] }}"
+    - name: debug
+      debug:
+        msg: "{{ loc_lines_dict }}"
+    - name: set empty dictionary
+      set_fact:
+        unplaced_loc_lines: "{{ mydict | default({})}}"
+    - name: Ensure dest loc files contain lines from dict
+      include_tasks: distribute_loc_lines.yml
+      loop: "{{ loc_lines_dict | list }}"
+      loop_control:
+        loop_var: loc_filename
+    - name: debug
+      debug:
+        msg: "{{ unplaced_loc_lines }}"
