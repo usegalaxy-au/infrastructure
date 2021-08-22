@@ -10,10 +10,6 @@
   stat:
     path: "{{ dest_filename | dirname }}"
   register: dest_dir_stat
-# - name: Stat destination file
-#   stat:
-#     path: "{{ dest_filename }}"
-#   register: dest_file_stat
 - name: line in file
   lineinfile:
     path: "{{ dest_filename }}"
@@ -25,6 +21,3 @@
   set_fact:
     unplaced_loc_lines: "{{ unplaced_loc_lines | default({}) | combine ({ dest_filename : loc_lines_dict[loc_filename] }) }}"
   when: not dest_dir_stat.stat.exists
-# - name: debug
-#   debug:
-#     msg: "dir exists: {{ dest_dir_stat.stat.exists }}, file exists: {{ dest_file_stat.stat.exists }}, lines to copy: {{ loc_lines_dict[loc_filename] }}"
