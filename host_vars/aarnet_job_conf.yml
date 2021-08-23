@@ -326,9 +326,9 @@ galaxy_jobconf:
     limits:
       #General limits for user submission
       - type: anonymous_user_concurrent_jobs
-        value: 1
+        value: 0
       - type: registered_user_concurrent_jobs
-        value: 10
+        value: 0
       #Limits for local slurm cluster
       - type: destination_total_concurrent_jobs
         id: slurm_1slot_upload
