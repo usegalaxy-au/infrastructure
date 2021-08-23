@@ -181,7 +181,7 @@ group_galaxy_config:
     library_import_dir: "{{ galaxy_tmp_dir }}/library_import_dir"
     cluster_files_directory: "{{ galaxy_tmp_dir }}/pbs"
 
-    sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
+    sanitize_allowlist_file: "{{ galaxy_mutable_config_dir }}/sanitize_allowlist.txt"
 
     nginx_x_accel_redirect_base: /_x_accel_redirect
 
