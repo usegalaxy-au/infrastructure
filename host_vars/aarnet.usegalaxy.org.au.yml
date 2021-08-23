@@ -44,7 +44,11 @@ shared_mounts:
       fstype: nfs
       state: mounted
     - path: /mnt/user-data
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/perth/user-data"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/user-data-2
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/perth/user-data-2"
       fstype: nfs
       state: mounted
     - path: /mnt/tmp
