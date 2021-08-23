@@ -1,8 +1,8 @@
-vault_rabbitmq_password_galaxy_mel2_pawsey: test
-vault_rabbitmq_password_galaxy_paw_pawsey: test
-vault_rabbitmq_password_galaxy_mel3_pawsey: test
-vault_rabbitmq_password_galaxy_hm1_pawsey: testZZ
-vault_rabbitmq_password_galaxy_hm2_pawsey: test
+vault_rabbitmq_password_galaxy_mel2_prod: test
+vault_rabbitmq_password_galaxy_paw_prod: test
+vault_rabbitmq_password_galaxy_mel3_prod: test
+vault_rabbitmq_password_galaxy_hm1_prod: testZZ
+vault_rabbitmq_password_galaxy_hm2_prod: test
 hostname: test
 galaxy_handler_count: 42
 galaxy_config_dir: a/b/c
