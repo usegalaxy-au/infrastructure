@@ -8,7 +8,7 @@
             <files_dir path="/mnt/user-data" />
         </backend>
         <backend id="GPFS" type="disk" order="2">
-            <files_dir path="/mnt/files" />
+            <files_dir path="/mnt/galaxy/files" />
         </backend>
         <backend id="NFS" type="disk" order="3">
             <files_dir path="/mnt/files2" />

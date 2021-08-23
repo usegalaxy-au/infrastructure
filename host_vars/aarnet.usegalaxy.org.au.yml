@@ -43,14 +43,10 @@ shared_mounts:
       src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/tools-indices"
       fstype: nfs
       state: mounted
-    - path: /mnt/user-data-0  # TEMPORARY LOCATION FOR USER DATA FOR AARNET TESTING.  TODO: Fix this before going live
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/user-data-0"
+    - path: /mnt/user-data
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
       fstype: nfs
       state: mounted
-    # - path: /mnt/user-data
-    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
-    #   fstype: nfs
-    #   state: mounted
     - path: /mnt/tmp
       src: "{{ hostvars['aarnet-job-nfs']['internal_ip'] }}:/mnt/tmp"
       fstype: nfs
@@ -79,7 +75,7 @@ galaxy_tmp_dir: /mnt/tmp
 
 galaxy_handler_count: 5
 
-galaxy_file_path: /mnt/user-data-0  # TEMPORARY LOCATION FOR USER DATA FOR AARNET TESTING.  TODO: Fix this before going live
+galaxy_file_path: /mnt/user-data
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
@@ -88,10 +84,8 @@ nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_conf|d(false) == true else default_settings['tool_config_files'] }},{{ galaxy_config_dir }}/tool_conf_interactive.xml"
 
 host_galaxy_config_files:
-  # - src: "{{ galaxy_config_file_src_dir }}/config/object_store_conf.xml"
-  #   dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
-  - src: "{{ galaxy_config_file_src_dir }}/config/aarnet_test_object_store_conf.xml"  # TEMPORARY OBJECT STORE CONF FOR AARNET TESTING. TODO: Switch to object_store_conf.xml before going live
-    dest: "{{ galaxy_config_dir }}/aarnet_test_object_store_conf.xml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/object_store_conf.xml"
+    dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/file_sources_conf.yml"
     dest: "{{ galaxy_config_dir}}/file_sources_conf.yml"
 
