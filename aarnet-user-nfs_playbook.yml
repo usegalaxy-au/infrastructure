@@ -9,15 +9,11 @@
   pre_tasks:
       - name: Create galaxy_aarnet_user_data_dir directory
         file:
-          path: "{{ galaxy_aarnet_user_data_dir }}"
+          path: /mnt/aarnet/user-data-3
           state: directory
       - name: Create galaxy_perth_user_data_dir directory
         file:
-          path: "{{ galaxy_perth_user_data_dir }}"
-          state: directory
-      - name: Create galaxy_perth_user_data-2_dir directory
-        file:
-          path: "{{ galaxy_perth_user_data-2_dir }}"
+          path: /mnt/perth
           state: directory
       - name: Attach volumes to instance
         include_role:

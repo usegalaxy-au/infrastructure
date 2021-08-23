@@ -2,11 +2,9 @@ attached_volumes:
   - device: /dev/vdb
     path: /mnt/perth
     fstype: ext4
-  - device: /dev/vdc
-    path: /user-data-0
-    fstype: ext4
   - device: /dev/vdd
     path: /mnt/aarnet/user-data-3
+    fstype: ext4
 
 galaxy_perth_user_data_dir: /mnt/perth/user-data
 galaxy_perth_user_data-2_dir: /mnt/perth/user-data-2
