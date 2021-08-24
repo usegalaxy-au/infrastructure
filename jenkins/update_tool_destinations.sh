@@ -1,5 +1,5 @@
 # check whether the tool destinations file has changed
-TOOL_DEST_FILE_PATH="files/galaxy/dynamic_job_rules/pawsey/dynamic_rules/tool_destinations.yml"
+TOOL_DEST_FILE_PATH="files/galaxy/dynamic_job_rules/aarnet/dynamic_rules/tool_destinations.yml"
 TOOL_DEST_UPDATED=$(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep $TOOL_DEST_FILE_PATH)
 
 if [ ! "$TOOL_DEST_UPDATED" ]; then
