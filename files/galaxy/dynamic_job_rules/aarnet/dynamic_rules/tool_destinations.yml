@@ -312,7 +312,14 @@ tools:
             destination: pulsar-high-mem2_big
         default_destination: pulsar-mel3_big_canu
     local_canu:
-      default_destination: pulsar-high-mem1_big
+        rules:
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 0
+            upper_bound: Infinity
+            destination: fail
+            fail_message: 'Destination pulsr-high-mem1_big is unavailable'
+        default_destination: pulsar-high-mem1_big
     poretools_events:
         default_destination: slurm_3slots
     poretools_extract:
@@ -925,13 +932,13 @@ tools:
               lower_bound: 500 MB
               upper_bound: 5 GB
               destination: pulsar-mel_big
-            - rule_type: file_size
-              nice_value: -5
-              lower_bound: 0
-              upper_bound: Infinity
-              destination: pulsar-high-mem1_mid
-              users:
-                - anna.syme@unimelb.edu.au
+            # - rule_type: file_size
+            #   nice_value: -5
+            #   lower_bound: 0
+            #   upper_bound: Infinity
+            #   destination: pulsar-high-mem1_mid
+            #   users:
+            #     - anna.syme@unimelb.edu.au
         default_destination: pulsar-mel3_big
     kallisto_quant:
         rules:
@@ -1362,13 +1369,13 @@ tools:
               lower_bound: 0
               upper_bound: 150 MB
               destination: slurm_3slots
-            - rule_type: file_size
-              nice_value: -5
-              lower_bound: 0
-              upper_bound: Infinity
-              destination: pulsar-high-mem1_mid
-              users:
-                - anna.syme@unimelb.edu.au
+            # - rule_type: file_size
+            #   nice_value: -5
+            #   lower_bound: 0
+            #   upper_bound: Infinity
+            #   destination: pulsar-high-mem1_mid
+            #   users:
+            #     - anna.syme@unimelb.edu.au
         default_destination: slurm_16slots
     limma_voom:
         default_destination: slurm_7slots
@@ -1381,13 +1388,13 @@ tools:
               lower_bound: 0
               upper_bound: 100 MB
               destination: pulsar-mel3_small
-            - rule_type: file_size
-              nice_value: -5
-              lower_bound: 0
-              upper_bound: Infinity
-              destination: pulsar-high-mem1_big
-              users:
-                - anna.syme@unimelb.edu.au
+            # - rule_type: file_size
+            #   nice_value: -5
+            #   lower_bound: 0
+            #   upper_bound: Infinity
+            #   destination: pulsar-high-mem1_big
+            #   users:
+            #     - anna.syme@unimelb.edu.au
         default_destination: pulsar-mel3_big
     circos:
         default_destination: pulsar-mel_small
@@ -1487,13 +1494,13 @@ tools:
               lower_bound: 0
               upper_bound: 50 MB
               destination: slurm_1slot
-            - rule_type: file_size
-              nice_value: -5
-              lower_bound: 0
-              upper_bound: Infinity
-              destination: pulsar-high-mem1_mid
-              users:
-                - anna.syme@unimelb.edu.au
+            # - rule_type: file_size
+            #   nice_value: -5
+            #   lower_bound: 0
+            #   upper_bound: Infinity
+            #   destination: pulsar-high-mem1_mid
+            #   users:
+            #     - anna.syme@unimelb.edu.au
         default_destination: pulsar-mel3_mid
     medaka_consensus_pipeline:
         rules:
@@ -1502,13 +1509,13 @@ tools:
               lower_bound: 0
               upper_bound: 500 MB
               destination: slurm_1slot
-            - rule_type: file_size
-              nice_value: -5
-              lower_bound: 0
-              upper_bound: Infinity
-              destination: pulsar-high-mem1_mid
-              users:
-                - anna.syme@unimelb.edu.au
+            # - rule_type: file_size
+            #   nice_value: -5
+            #   lower_bound: 0
+            #   upper_bound: Infinity
+            #   destination: pulsar-high-mem1_mid
+            #   users:
+            #     - anna.syme@unimelb.edu.au
         default_destination: pulsar-mel3_mid
     medaka_variant:
         rules:
