@@ -38,8 +38,8 @@
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
     - pg-post-tasks
-    # - remote-pulsar-cron
-    # - slg.galaxy_stats
+    - remote-pulsar-cron
+    - slg.galaxy_stats
     - usegalaxy_eu.tiaas2
   post_tasks:
     - name: Clone Galaxy-Owncloud-Integration
