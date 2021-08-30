@@ -18,9 +18,9 @@ pulsar_rabbit_username: "galaxy_hm1"
 pulsar_rabbit_vhost: "/pulsar/galaxy_hm1"
 
 attached_volumes:
-  - device: /dev/mapper/vg1-lvol0
+  - device: /dev/mapper/vg_nvme_striped-lv_nvme_striped
     path: /mnt
-    fstype: ext4
+    fstype: xfs
 
 galaxy_uid: 10010
 galaxy_gid: 10010
