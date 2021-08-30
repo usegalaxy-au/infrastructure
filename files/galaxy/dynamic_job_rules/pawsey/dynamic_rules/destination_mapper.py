@@ -12,7 +12,7 @@ TOOL_DESTINATION_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__))
 
 user_destinations = {  # test users whose shed-tool jobs should run at specific destinations
     'pulsar_mel2_user@usegalaxy.org.au': 'pulsar-mel_small',
-    'pulsar_mel3_user@usegalaxy.org.au': 'pulsar-mel3_small',
+    # 'pulsar_mel3_user@usegalaxy.org.au': 'pulsar-mel3_small',
     'pulsar_paw_user@usegalaxy.org.au': 'pulsar-paw_small',
     'phm1@genome.edu.au': 'pulsar-high-mem1_big',
     'phm2@genome.edu.au': 'pulsar-high-mem2_big',
@@ -20,8 +20,12 @@ user_destinations = {  # test users whose shed-tool jobs should run at specific 
     'testbot@usegalaxy.org': 'slurm_1slot',
 }
 
-pulsar_list = ['shovill', 'spades', 'velvet', 'velvetoptimiser', 'prokka', 'lastz_wrapper_2', 'raxml', 'fastqc', 'abricate', 'snippy', 'bwa', 'bwa_mem', 'hisat2', 'htseq_count']
-pulsar_training_large = ['unicycler']
+pulsar_list = [
+    'shovill', 'spades', 'velvet', 'velvetoptimiser', 'prokka', 'lastz_wrapper_2', 'raxml', 'fastqc',
+    'abricate', 'snippy', 'bwa', 'bwa_mem', 'hisat2', 'htseq_count',
+    'unicycler',
+]
+# pulsar_training_large = ['unicycler']
 
 
 def gateway(job, app, tool, user, user_email):
@@ -48,8 +52,8 @@ def gateway(job, app, tool, user, user_email):
             # Or give them extra resources
             if hasattr(tool, 'id') and isinstance(tool.id, str) and tool.id.startswith('toolshed') and tool.id.split('/')[-2] in pulsar_list:
                 return app.job_config.get_destination('pulsar-mel_small')
-            elif hasattr(tool, 'id') and isinstance(tool.id, str) and tool.id.startswith('toolshed') and tool.id.split('/')[-2] in pulsar_training_large:
-                return app.job_config.get_destination('pulsar-mel3_mid')
+            # elif hasattr(tool, 'id') and isinstance(tool.id, str) and tool.id.startswith('toolshed') and tool.id.split('/')[-2] in pulsar_training_large:
+            #     return app.job_config.get_destination('pulsar-mel3_mid')
             else:
                 return app.job_config.get_destination('slurm_training')
 
