@@ -118,7 +118,6 @@ host_galaxy_config:  # renamed from __galaxy_config
     nginx_upload_path: '/_upload'
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
     nginx_upload_job_files_path: '/_job_files'
-    sanitize_allowlist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt" # backwards compatibility
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
