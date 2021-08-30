@@ -1,5 +1,5 @@
 # check whether the tool destinations file has changed
-TOOL_DEST_FILE_PATH="files/galaxy/dynamic_job_rules/aarnet/dynamic_rules/tool_destinations.yml"
+TOOL_DEST_FILE_PATH="files/galaxy/dynamic_job_rules/pawsey/dynamic_rules/tool_destinations.yml"
 TOOL_DEST_UPDATED=$(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep $TOOL_DEST_FILE_PATH)
 
 if [ ! "$TOOL_DEST_UPDATED" ]; then
@@ -28,4 +28,4 @@ fi
 echo -e "\nUpdating tool destinations file on Galaxy\n"
 
 echo "helloworld" > .vault_pass.txt  # ansible needs .vault_pass.txt to exist
-ansible-playbook -i hosts aarnet_update_job_conf_playbook.yml --extra-vars "ansible_user=jenkins_bot" --vault-password-file "$VAULT_PASS"
+ansible-playbook -i hosts pawsey_update_job_conf_playbook.yml --extra-vars "ansible_user=jenkins_bot" --vault-password-file "$VAULT_PASS"
