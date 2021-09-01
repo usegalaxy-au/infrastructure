@@ -379,6 +379,13 @@ tools:
               lower_bound: 0
               upper_bound: 50 MB
               destination: slurm_1slot
+            - rule_type: file_size
+              nice_value: -5
+              lower_bound: 0
+              upper_bound: Infinity
+              destination: pulsar-high-mem1_mid
+              users:
+                - anna.syme@unimelb.edu.au
         default_destination: slurm_3slots
     fastqc:
         rules:
@@ -1529,6 +1536,21 @@ tools:
               upper_bound: 10 MB
               destination: slurm_1slot
         default_destination: slurm_7slots
+    seqtk_seq:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 10 GB
+              destination: slurm_1slot
+            - rule_type: file_size
+              nice_value: -5
+              lower_bound: 0
+              upper_bound: Infinity
+              destination: pulsar-high-mem1_mid
+              users:
+                - anna.syme@unimelb.edu.au
+        default_destination: pulsar-mel_mid
     #
     # Data managers
     #
