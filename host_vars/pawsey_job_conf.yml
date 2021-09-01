@@ -427,3 +427,5 @@ galaxy_jobconf:
         destination: interactive_pulsar
       - id: interactive_tool_phinch
         destination: interactive_pulsar
+      - id: interactivetool_cellxgene
+        destination: interactive_pulsar
