@@ -309,7 +309,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=64 --ntasks-per-node=64 --mem=1004641"
+          submit_native_specification: "--nodes=1 --ntasks=63 --ntasks-per-node=63 --mem=1004641"
           transport: curl
       - id: pulsar-high-mem2_big
         runner: pulsar-high-mem2_runner
