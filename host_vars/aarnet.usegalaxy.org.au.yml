@@ -94,8 +94,6 @@ tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_
 host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/object_store_conf.xml"
     dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
-  - src: "{{ galaxy_config_file_src_dir }}/config/file_sources_conf.yml"
-    dest: "{{ galaxy_config_dir}}/file_sources_conf.yml"
 
 host_galaxy_config:  # renamed from __galaxy_config
   uwsgi:
@@ -124,7 +122,6 @@ host_galaxy_config:  # renamed from __galaxy_config
     nginx_upload_path: '/_upload'
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
     nginx_upload_job_files_path: '/_job_files'
-    file_sources_config_file: "{{ galaxy_config_dir }}/file_sources_conf.yml"
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
