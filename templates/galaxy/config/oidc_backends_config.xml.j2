@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <OIDC>
-    <provider name="Custos">
-        <url>https://custos.scigap.org/apiserver/identity-management/v1.0.0/</url>
-        <client_id>{{ custos_client_id }}</client_id>
-        <client_secret>{{ custos_client_secret }}</client_secret>
-        <redirect_uri>{{ host_galaxy_config['galaxy']['galaxy_infrastructure_url'] }}/authnz/custos/callback</redirect_uri>
-    </provider>
     <provider name="Keycloak">
         <url>https://central.test.aaf.edu.au/</url>
         <client_id>{{ aaf_client_id }}</client_id>
         <client_secret>{{ aaf_client_secret }}</client_secret>
         <redirect_uri>{{ host_galaxy_config['galaxy']['galaxy_infrastructure_url'] }}/authnz/keycloak/callback</redirect_uri>
         <well_known_oidc_config_uri>https://central.test.aaf.edu.au/.well-known/openid-configuration</well_known_oidc_config_uri>
-        <icon>https://rapid.aaf.edu.au/aaf_service_223x54.png</icon>
+        <icon>{{ galaxy_config_dir }}/AAF_BTN_Sign_in_med_gradient_orange_FIN2020.png</icon>
+    </provider>
+    <provider name="Custos">
+        <url>https://custos.scigap.org/apiserver/identity-management/v1.0.0/</url>
+        <client_id>{{ custos_client_id }}</client_id>
+        <client_secret>{{ custos_client_secret }}</client_secret>
+        <redirect_uri>{{ host_galaxy_config['galaxy']['galaxy_infrastructure_url'] }}/authnz/custos/callback</redirect_uri>
     </provider>
 </OIDC>
