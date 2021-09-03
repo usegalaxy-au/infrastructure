@@ -44,7 +44,7 @@ slurm_nodes:
 
 slurm_partitions:
     - name: main
-      nodes: "pulsar-mel3-w1,pulsar-mel3-w2,pulsar-mel3-w3,pulsar-mel3-w4,,pulsar-mel3-w6"
+      nodes: "pulsar-mel3-w1,pulsar-mel3-w2,pulsar-mel3-w3,pulsar-mel3-w4,pulsar-mel3-w5,pulsar-mel3-w6"
       Default: YES
       MaxTime: INFINITE
       State: UP
