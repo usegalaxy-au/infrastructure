@@ -31,6 +31,7 @@
     mode: 0755
     owner: ubuntu
     group: ubuntu
+  when: add_daily_stats
 
 - name: copy daily_stats
   template:
@@ -39,6 +40,7 @@
     mode: 0755
     owner: ubuntu
     group: ubuntu
+  when: add_daily_stats
 
 - name: Create secret.yml
   template:
@@ -72,6 +74,7 @@
     job: "bash {{ stats_dir }}/daily_stats.sh"
   become: yes
   become_user: ubuntu
+  when: add_daily_stats
 
 - name: Create cron job for current stats
   cron:
@@ -81,6 +84,7 @@
     job: "bash {{ stats_dir }}/current_stats.sh"
   become: yes
   become_user: ubuntu
+  when: add_daily_stats
 
 - name: Copy monthly_stats_collector.py
   copy:
@@ -89,4 +93,5 @@
     owner: ubuntu
     group: ubuntu
     mode: 0766
+  when: add_daily_stats
   

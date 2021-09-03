@@ -136,7 +136,7 @@ gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 # vars for stats_collection
 stats_dir: /home/ubuntu/stats_collection/
 db_server: "{{ hostvars['aarnet-db']['internal_ip'] }}"
-influx_url: "http://stats.genome.edu.au:8086"
+influx_url: "stats.genome.edu.au"
 db_password: "{{ galaxy_db_user_password }}"
 influx_salt: "{{ prod_queue_size_salt }}"
 

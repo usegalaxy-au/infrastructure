@@ -19,5 +19,5 @@
     - galaxyproject.slurm
     - galaxyproject.cvmfs
     - dj-wasabi.telegraf
-    - pulsar-post-tasks
+    #- pulsar-post-tasks
     - slurm-post-tasks
