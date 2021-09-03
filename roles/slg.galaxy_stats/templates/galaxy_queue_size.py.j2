@@ -109,7 +109,7 @@ def get_sinfo():
     sout = subprocess.check_output(['sinfo']).split('\n')
     #eprint(sout)
     for line in sout:
-        if line.startswith('g'):
+        if line.startswith('{{ sinfo_line_startswith }}'):
             capts = re.search(r"(\w+-\w+-\w+)\s+(\d+)/\d+/\d+/(\d+)\s+(\w+)",line)
             node = str(capts.groups()[0])
             node_alloc = float(capts.groups()[1])

@@ -25,6 +25,10 @@ virtualenv_dir: "{{ stats_dir }}/venv"
 
 #sinfo format string
 sinfo_format: "%16n %.10C %.6t"
+sinfo_line_startswith: p
 
 #db connection string
 connection_string: "postgres://{{ db_user }}:{{ db_password }}@{{ db_server }}:{{ db_port }}/{{ database }}"
+
+#Add daily stats - set this to true when you want to install the cron job for the daily user stats. This is generally only run on the Galaxy server itself.
+add_daily_stats: false
