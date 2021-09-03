@@ -146,6 +146,7 @@ pulsar-mel3-w2 ansible_ssh_host=115.146.84.238
 pulsar-mel3-w3 ansible_ssh_host=115.146.87.129
 pulsar-mel3-w4 ansible_ssh_host=115.146.86.181
 pulsar-mel3-w5 ansible_ssh_host=115.146.86.108
+pulsar-mel3-w6 ansible_ssh_host=115.146.86.64
 
 [pulsar_nci_test_head]
 pulsar-nci-test ansible_ssh_host=130.56.246.138 internal_ip=10.0.2.29
