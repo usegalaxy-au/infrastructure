@@ -1400,7 +1400,7 @@ tools:
             lower_bound: 0
             upper_bound: 200 MB
             destination: pulsar-mel3_small
-        default_destination: pulsar-mel3_big
+        default_destination: pulsar-high-mem2_mid
     trycycler_cluster:
         rules:
             - rule_type: file_size
