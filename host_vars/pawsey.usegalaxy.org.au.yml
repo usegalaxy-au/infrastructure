@@ -83,6 +83,7 @@ galaxy_file_path: /mnt/user-data-2
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
+nginx_upload_store_set_cleanup_cron_job: true
 
 # ITs tool conf overrides.
 tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_conf|d(false) == true else default_settings['tool_config_files'] }},{{ galaxy_config_dir }}/tool_conf_interactive.xml"
