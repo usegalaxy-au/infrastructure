@@ -14,8 +14,8 @@ user_destinations = {  # test users whose shed-tool jobs should run at specific 
     'pulsar_mel2_user@usegalaxy.org.au': 'pulsar-mel_small',
     'pulsar_mel3_user@usegalaxy.org.au': 'pulsar-mel3_small',
     'pulsar_paw_user@usegalaxy.org.au': 'pulsar-paw_small',
-    'phm1@genome.edu.au': 'pulsar-high-mem1_big',
-    'phm2@genome.edu.au': 'pulsar-high-mem2_big',
+    'phm1@genome.edu.au': 'pulsar-high-mem1_mid',
+    'phm2@genome.edu.au': 'pulsar-high-mem2_mid',
     'jenkins_bot@usegalaxy.org.au': 'slurm_1slot',
     'testbot@usegalaxy.org': 'slurm_1slot',
 }
