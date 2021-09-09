@@ -1551,6 +1551,60 @@ tools:
               users:
                 - anna.syme@unimelb.edu.au
         default_destination: pulsar-mel_mid
+    abyss:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 2 MB
+              destination: pulsar-mel2_small
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 2 MB
+              upper_bound: 5 GB
+              destination: pulsar-mel3_big
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 5 GB
+              upper_bound: Infinity
+              destination: pulsar-high-mem1_big
+        default_destination: pulsar-mel3_big
+    shasta:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 2 MB
+              destination: pulsar-mel2_small
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 2 MB
+              upper_bound: 5 GB
+              destination: pulsar-mel3_big
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 5 GB
+              upper_bound: Infinity
+              destination: pulsar-high-mem2_big
+        default_destination: pulsar-mel3_big
+    raven:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 2 MB
+              destination: pulsar-mel2_small
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 2 MB
+              upper_bound: 5 GB
+              destination: pulsar-mel3_big
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 5 GB
+              upper_bound: Infinity
+              destination: pulsar-high-mem2_big
+        default_destination: pulsar-mel3_big
     #
     # Data managers
     #
