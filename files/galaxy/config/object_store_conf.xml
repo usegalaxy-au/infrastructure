@@ -1,14 +1,11 @@
 <?xml version="1.0"?>
 <object_store type="hierarchical">
     <backends>
-        <backend id="perthNFS2" type="disk" order="0">
-            <files_dir path="/mnt/user-data-2" />
-        </backend>
-        <backend id="parthNFS1" type="disk" order="1">
-            <files_dir path="/mnt/user-data-3" />
-        </backend>
-        <backend id="aarnetNFS1" type="disk" order="2">
+        <backend id="perthNFS1" type="disk" order="0">
             <files_dir path="/mnt/user-data" />
+        </backend>
+        <backend id="perthNFS2" type="disk" order="1">
+            <files_dir path="/mnt/user-data-2" />
         </backend>
         <backend id="GPFS" type="disk" order="3">
             <files_dir path="/mnt/galaxy/files" />
