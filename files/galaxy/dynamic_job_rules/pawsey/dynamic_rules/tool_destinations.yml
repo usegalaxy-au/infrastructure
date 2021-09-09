@@ -1557,7 +1557,7 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 2 MB
-              destination: pulsar-mel2_small
+              destination: pulsar-mel_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 2 MB
@@ -1575,7 +1575,7 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 2 MB
-              destination: pulsar-mel2_small
+              destination: pulsar-mel_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 2 MB
@@ -1593,7 +1593,7 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 2 MB
-              destination: pulsar-mel2_small
+              destination: pulsar-mel_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 2 MB
