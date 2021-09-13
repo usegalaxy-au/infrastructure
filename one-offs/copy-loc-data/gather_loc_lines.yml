@@ -1,0 +1,11 @@
+- name: Slurp loc file
+  slurp:
+    path: "{{ loc_file.path }}"
+  register: loc_contents
+- name: find all custom-indices lines in loc file
+  set_fact:
+    loc_lines: "{{ loc_contents.content | b64decode | regex_findall('.*' + origin_custom_indices_path + '.*') }}"
+- name: set to dict
+  set_fact:
+    loc_lines_dict: "{{ loc_lines_dict | default({}) | combine ({ loc_file.path : loc_lines }) }}"
+  
