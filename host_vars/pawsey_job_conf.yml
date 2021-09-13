@@ -408,7 +408,7 @@ galaxy_jobconf:
         value: 16
       - type: destination_total_concurrent_jobs
         id: pulsar-mel3_mid
-        value: 8
+        value: 12
       - type: destination_total_concurrent_jobs
         id: pulsar-mel3_big
         value: 4
