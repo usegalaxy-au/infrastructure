@@ -40,3 +40,6 @@
 - name: Build and install upload module
   import_tasks: build_module.yml
 
+- name: Set up cron job to remove files from upload store with mtime 1
+  import_tasks: cron_delete_files.yml
+  when: nginx_upload_store_set_cleanup_cron_job
