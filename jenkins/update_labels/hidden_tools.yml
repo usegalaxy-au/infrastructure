@@ -1,0 +1,11 @@
+hidden_tool_ids:
+- toolshed.g2.bx.psu.edu/repos/simon-gladman/fasta_stats/fasta-stats/1.0.0
+- toolshed.g2.bx.psu.edu/repos/rchikhi/kmergenie/kmergenie/1.6715
+- toolshed.g2.bx.psu.edu/repos/bgruening/rdock_rbcavity/rdock_rbcavity/*
+- toolshed.g2.bx.psu.edu/repos/bgruening/rdock_rbdock/rdock_rbdock/*
+- toolshed.g2.bx.psu.edu/repos/brad-chapman/bam_to_fastq/bam_to_fastq/0.0.1
+- toolshed.g2.bx.psu.edu/repos/peterjc/mummer/mummerplot_wrapper/0.0.7
+- toolshed.g2.bx.psu.edu/repos/devteam/sam_merge/sam_merge2/1.2.0
+- toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_databases/4.3r.1
+- toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_download/4.3r.1
+- toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/4.3r.1

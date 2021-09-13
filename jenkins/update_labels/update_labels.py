@@ -19,6 +19,7 @@ aest = timezone('Australia/Queensland')
 
 log_file = 'automated_tool_installation_log.tsv'
 tool_labels_file = 'tool_labels.yml'
+hidden_tools_file = 'hidden_tools.yml'
 shed_tool_conf_file = 'shed_tool_conf.xml'
 new_label = 'new'
 updated_label = 'updated'
@@ -52,6 +53,12 @@ def main():
 
     with open(tool_labels_file) as handle:
         tool_labels_constant = yaml.safe_load(handle)
+
+    if os.path.exists(hidden_tools_file):
+        with open(hidden_tools_file) as handle:
+            hidden_tool_ids = yaml.safe_load(handle).get('hidden_tool_ids', [])
+    else:
+        hidden_tool_ids = []
     
     tool_labels_dynamic = {
         new_label: load_log(filter=filter_new),
@@ -86,6 +93,13 @@ def main():
                             if row['Name'] == name and row['Owner'] == owner and row['Installed Revision'] == revision:
                                 labels_for_tool.append(label)
                                 break
+                    tool.attrib.pop('hidden', None)
+                    for id in hidden_tool_ids:
+                        if tool_id == id or (
+                            id.endswith('*') and get_deversioned_id(id) == get_deversioned_id(tool_id)
+                        ):
+                            tool.set('hidden', 'True')
+                            break
                     if labels_for_tool:
                         tool.set('labels', ','.join(labels_for_tool))
 
