@@ -29,12 +29,6 @@
         url: https://raw.githubusercontent.com/usegalaxy-au/usegalaxy-au-tools/master/automated_tool_installation_log.tsv
         dest: "{{ update_labels_directory }}"
       register: log_from_github
-    - name: Exit early if the log has not changed
-      block:
-        - debug:
-            msg: 'Exiting playbook early as the installation log has not changed, nothing to do here'
-        - meta: end_play
-      when: not log_from_github.changed
     - name: Send scripts and constants to galaxy
       copy:
         src: "{{ item }}"
@@ -43,6 +37,13 @@
         - tool_labels.yml
         - update_labels.py
         - hidden_tools.yml
+      register: copied_files
+    - name: Exit early if nothing has changed
+      block:
+        - debug:
+            msg: 'Exiting playbook early as the installation log has not changed, nothing to do here'
+        - meta: end_play
+      when: not log_from_github.changed and not copied_files.changed
     - name: Back up shed_tool_conf.xml
       shell: "cp {{ shed_tool_conf_path }} {{ shed_tool_conf_backups_directory }}/shed_tool_conf.xml_$(date '+%Y.%m.%d.%H.%M.%S')"
     - name: Copy shed_tool_conf to working directory
