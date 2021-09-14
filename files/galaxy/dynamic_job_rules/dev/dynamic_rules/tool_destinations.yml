@@ -6,7 +6,9 @@ tools:
   local_canu:
     default_destination: pulsar_destination
   bwa_mem:
-    default_destination: pulsar_destination
+    default_destination: pulsar-nci-test_small
+  hifiasm:
+    default_destination: pulsar-nci-test_big
 default_destination: slurm_dest
 
 verbose: True
