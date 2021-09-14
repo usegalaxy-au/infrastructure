@@ -1,0 +1,25 @@
+hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
+
+attached_volumes:
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
+
+# Keys and shares
+
+create_ssh_key: yes  # Only the first time.
+ssl_country: "AU"
+ssl_state: "ACT"
+ssl_location: "Canberra"
+ssl_organisation: "Galaxy Australia"
+ssl_operational_unit: "Pulsar NCI Training"
+ssl_email: "help@genome.edu.au"
+
+add_hosts_workers: yes
+
+#host specific pulsar settings
+
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_nci_training_prod }}"
+pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
+pulsar_rabbit_username: "galaxy_nci_training"
+pulsar_rabbit_vhost: "/pulsar/galaxy_nci_training"

@@ -1,0 +1,27 @@
+- name: Pulsar NCI Training Head Node
+  hosts: pulsar_nci_training_head
+  become: true
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/pulsar-nci-training/pulsar-nci-training.yml
+    - group_vars/pulsarservers.yml
+    - group_vars/pulsar-nci-training/pulsar-nci-training_slurm.yml
+    - group_vars/VAULT
+    - host_vars/pulsar-nci-training/pulsar-nci-training.usegalaxy.org.au.yml
+  roles:
+    - common
+    - insspb.hostname
+    - geerlingguy.pip
+    - galaxyproject.repos
+    - galaxyproject.pulsar
+    - geerlingguy.nfs
+    - mariadb
+    - galaxyproject.slurm
+    - galaxyproject.cvmfs
+    - dj-wasabi.telegraf
+    - pulsar-post-tasks
+    - slurm-post-tasks

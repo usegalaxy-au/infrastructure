@@ -1,0 +1,24 @@
+slurm_roles: ['exec']
+
+add_hosts_head: yes
+use_internal_ips: true
+
+shared_mounts:
+    - path: /mnt/galaxy
+      src: pulsar-nci-training:/mnt/galaxy
+      fstype: nfs
+      state: mounted
+    - path: /mnt/pulsar
+      src: pulsar-nci-training:/mnt/pulsar
+      fstype: nfs
+      state: mounted
+
+
+# cvmfs
+cvmfs_cache_base: /mnt/var/lib/cvmfs
+
+#Attached volume
+attached_volumes:
+  - device: /dev/vdc
+    path: /mnt/tmpdisk
+    fstype: ext4
