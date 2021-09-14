@@ -171,7 +171,7 @@ pulsar-qld-w3 ansible_ssh_host=203.101.227.21
 pulsar-qld-w4 ansible_ssh_host=203.101.230.2
 
 [pulsar_nci_training_head]
-pulsar-nci-training anisble_ssh_host=130.56.246.233 internal_ip=10.0.1.46
+pulsar-nci-training ansible_ssh_host=130.56.246.233 internal_ip=10.0.1.46
 
 [pulsar_nci_training_workers]
 pulsar-nci-training-w0 ansible_ssh_host=10.0.3.175 internal_ip=10.0.3.175
