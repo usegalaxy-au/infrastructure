@@ -3,9 +3,9 @@
   become: yes
   vars_files:
     - group_vars/all.yml
-    - group_vars/pulsar-nci-training/pulsar-nci-training.yml
-    - group_vars/pulsar-nci-training/pulsar-nci-training_workers.yml
-    - group_vars/pulsar-nci-training/pulsar-nci-training_slurm.yml
+    - group_vars/pulsar_nci_training/pulsar-nci-training.yml
+    - group_vars/pulsar_nci_training/pulsar-nci-training_workers.yml
+    - group_vars/pulsar_nci_training/pulsar-nci-training_slurm.yml
     - group_vars/VAULT
   pre_tasks:
     - name: Create worker extra disk mount point on /mnt
