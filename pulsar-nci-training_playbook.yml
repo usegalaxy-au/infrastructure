@@ -7,9 +7,9 @@
         name: attached-volumes
   vars_files:
     - group_vars/all.yml
-    - group_vars/pulsar-nci-training/pulsar-nci-training.yml
+    - group_vars/pulsar_nci_training/pulsar-nci-training.yml
     - group_vars/pulsarservers.yml
-    - group_vars/pulsar-nci-training/pulsar-nci-training_slurm.yml
+    - group_vars/pulsar_nci_training/pulsar-nci-training_slurm.yml
     - group_vars/VAULT
     - host_vars/pulsar-nci-training/pulsar-nci-training.usegalaxy.org.au.yml
   roles:
