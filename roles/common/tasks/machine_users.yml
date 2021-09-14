@@ -20,7 +20,7 @@
       block: |
         {{ bashrc_env }}
       marker: "# {mark} MANAGED BY ANSIBLE - DO NOT MODIFY"
-    with_items: "{{ machine_users }}"
+    with_items: "{{ machine_users + [{'name': 'ubuntu'}] }}"
     when: bashrc_env is defined
   - name: Add SSH keys for users
     authorized_key:
