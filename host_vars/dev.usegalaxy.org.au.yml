@@ -160,7 +160,7 @@ galaxy_jobconf:
               dependency_resolution: remote
               rewrite_parameters: "true"
               persistence_directory: /mnt/pulsar/files/persisted_data
-              submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+              submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=6168"
       - id: pulsar-nci-test_mid
         runner: pulsar_nci_test_runner
         params:
@@ -171,7 +171,7 @@ galaxy_jobconf:
               dependency_resolution: remote
               rewrite_parameters: "true"
               persistence_directory: /mnt/pulsar/files/persisted_data
-              submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8"
+              submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=24675"
       - id: pulsar-nci-test_big
         runner: pulsar_nci_test_runner
         params:
@@ -182,7 +182,7 @@ galaxy_jobconf:
               dependency_resolution: remote
               rewrite_parameters: "true"
               persistence_directory: /mnt/pulsar/files/persisted_data
-              submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16"
+              submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
       - id: interactive_local
         runner: local
         params:
