@@ -78,7 +78,7 @@ pawsey-w1 ansible_ssh_host=146.118.70.191 internal_ip=192.168.0.101
 pawsey-w2 ansible_ssh_host=146.118.67.128 internal_ip=192.168.0.191
 pawsey-w3 ansible_ssh_host=146.118.66.35 internal_ip=192.168.0.103
 pawsey-w4 ansible_ssh_host=146.118.69.246 internal_ip=192.168.0.109
-pawsey-w5 ansible_ssh_host=146.118.67.237 internal_ip=192.168.0.83
+pawsey-w5 ansible_ssh_host=146.118.64.228 internal_ip=192.168.0.127
 pawsey-w6 ansible_ssh_host=146.118.68.97 internal_ip=192.168.0.152
 pawsey-w7 ansible_ssh_host=146.118.68.32 internal_ip=192.168.0.77
 pawsey-w8 ansible_ssh_host=146.118.65.97 internal_ip=192.168.0.100
@@ -108,7 +108,7 @@ pawsey-w1 ansible_ssh_host=146.118.70.191 internal_ip=192.168.0.101
 pawsey-w2 ansible_ssh_host=146.118.67.128 internal_ip=192.168.0.191
 pawsey-w3 ansible_ssh_host=146.118.66.35 internal_ip=192.168.0.103
 pawsey-w4 ansible_ssh_host=146.118.69.246 internal_ip=192.168.0.109
-pawsey-w5 ansible_ssh_host=146.118.67.237 internal_ip=192.168.0.83
+pawsey-w5 ansible_ssh_host=146.118.64.228 internal_ip=192.168.0.127
 pawsey-w6 ansible_ssh_host=146.118.68.97 internal_ip=192.168.0.152
 pawsey-w7 ansible_ssh_host=146.118.68.32 internal_ip=192.168.0.77
 pawsey-w8 ansible_ssh_host=146.118.65.97 internal_ip=192.168.0.100
