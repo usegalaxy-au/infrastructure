@@ -18,6 +18,7 @@ user_destinations = {  # test users whose shed-tool jobs should run at specific 
     'phm2@genome.edu.au': 'pulsar-high-mem2_mid',
     'jenkins_bot@usegalaxy.org.au': 'slurm_1slot',
     'testbot@usegalaxy.org': 'slurm_1slot',
+    'pncitrain@genome.edu.au': 'pulsar-nci-training_small',
 }
 
 pulsar_list = ['shovill', 'spades', 'velvet', 'velvetoptimiser', 'prokka', 'lastz_wrapper_2', 'raxml', 'fastqc', 'abricate', 'snippy', 'bwa', 'bwa_mem', 'hisat2', 'htseq_count']
