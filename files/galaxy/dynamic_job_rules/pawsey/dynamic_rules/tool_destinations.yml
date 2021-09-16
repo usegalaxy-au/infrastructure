@@ -50,12 +50,12 @@ tools:
             nice_value: 0
             lower_bound: 0
             upper_bound: 15 MB
-            destination: slurm_1slot
+            destination: pulsar-mel_small
           - rule_type: file_size
             nice_value: 0
             lower_bound: 15 MB
             upper_bound: 2 GB
-            destination: slurm_2slots
+            destination: pulsar-mel_mid
           - rule_type: file_size
             nice_value: 0
             lower_bound: 2 GB
@@ -103,12 +103,12 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 15 MB
-              destination: slurm_1slot
+              destination: pulsar-mel_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 15 MB
               upper_bound: 1 GB
-              destination: slurm_5slots
+              destination: pulsar-mel_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 1 GB
@@ -122,12 +122,12 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 15 MB
-              destination: slurm_1slot
+              destination: pulsar-mel_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 15 MB
               upper_bound: 1 GB
-              destination: slurm_3slots
+              destination: pulsar-mel_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 1 GB
