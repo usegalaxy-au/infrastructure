@@ -48,9 +48,9 @@ def gateway(job, app, tool, user, user_email):
             # Then they are a training user, we will send their jobs to pulsar,
             # Or give them extra resources
             if hasattr(tool, 'id') and isinstance(tool.id, str) and tool.id.startswith('toolshed') and tool.id.split('/')[-2] in pulsar_list:
-                return app.job_config.get_destination('pulsar-mel_small')
+                return app.job_config.get_destination('pulsar-nci-training_small')
             elif hasattr(tool, 'id') and isinstance(tool.id, str) and tool.id.startswith('toolshed') and tool.id.split('/')[-2] in pulsar_training_large:
-                return app.job_config.get_destination('pulsar-mel3_mid')
+                return app.job_config.get_destination('pulsar-nci-training_mid')
             else:
                 return app.job_config.get_destination('slurm_training')
 
