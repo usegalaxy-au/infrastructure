@@ -21,8 +21,8 @@ user_destinations = {  # test users whose shed-tool jobs should run at specific 
     'pncitrain@genome.edu.au': 'pulsar-nci-training_small',
 }
 
-pulsar_list = ['shovill', 'spades', 'velvet', 'velvetoptimiser', 'prokka', 'lastz_wrapper_2', 'raxml', 'fastqc', 'abricate', 'snippy', 'bwa', 'bwa_mem', 'hisat2', 'htseq_count']
-pulsar_training_large = ['unicycler']
+pulsar_list = ['spades', 'velvet', 'velvetoptimiser', 'prokka', 'lastz_wrapper_2', 'raxml', 'fastqc', 'abricate', 'snippy', 'bwa', 'bwa_mem', 'hisat2', 'htseq_count','bowtie2','lofreq_filter','lofreq_viterbi','fastq_groomer','samtools_rmdup','fastq_paired_end_interlacer','fastq_paired_end_deinterlacer','minimpa2','rbc_mafft','megahit','rseqc_RPKM_saturation','rseqc_geneBody_coverage','rseqc_geneBody_coverage2','rseqc_read_distribution','ivar_trim','ivar_variants','ivar_consensus','khmer_abundance_distribution_single','circos','meryl','racon','medaka_consensus_pipeline','medaka_variant','jellyfish','seqtk_seq']
+pulsar_training_large = ['unicycler', 'trinity', 'maxquant', 'maxquant_mqpar', 'phyml','mothur_cluster_split','flye','hifiasm','trycycler_consensus','abyss','shasta','raven']
 
 
 def gateway(job, app, tool, user, user_email):
