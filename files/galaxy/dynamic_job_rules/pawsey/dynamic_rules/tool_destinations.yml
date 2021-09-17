@@ -13,6 +13,7 @@ tools:
             nice_value: 0
             lower_bound: 10 MB
             upper_bound: Infinity
+            destination: slurm_5slots
         default_destination: slurm_5slots
     scanpy_remove_confounders:
         rules:
