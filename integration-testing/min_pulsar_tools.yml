@@ -1,0 +1,97 @@
+tools:
+  - name: spades
+    owner: nml
+  - name: velvetoptimiser
+    owner: simon-gladman
+  - name: prokka
+    owner: crs4
+  - name: lastz_wrapper_2
+    owner: devteam
+  - name: raxml
+    owner: iuc
+  - name: fastqc
+    owner: devteam
+  - name: abricate
+    owner: iuc
+  - name: snippy
+    owner: iuc
+  - name: bwa
+    owner: devteam
+  - name: bwa_mem
+    owner: devteam
+  - name: hisat2
+    owner: iuc
+  - name: htseq_count
+    owner: lparsons
+  - name: bowtie2
+    owner: devteam
+  - name: lofreq_filter
+    owner: iuc
+  - name: lofreq_viterbi
+    owner: iuc
+  - name: fastq_groomer
+    owner: devteam
+  - name: samtools_rmdup
+    owner: devteam
+  - name: fastq_paired_end_interlacer
+    owner: devteam
+  - name: fastq_paired_end_deinterlacer
+    owner: devteam
+  - name: minimap2
+    owner: iuc
+  - name: rbc_mafft
+    owner: rnateam
+  - name: megahit
+    owner: iuc
+  - name: rseqc_RPKM_saturation
+    owner: nilesh
+  - name: rseqc_geneBody_coverage2
+    owner: nilesh
+  - name: rseqc_read_distribution
+    owner: nilesh
+  - name: ivar_trim
+    owner: iuc
+  - name: ivar_variants
+    owner: iuc
+  - name: ivar_consensus
+    owner: iuc
+  - name: khmer_abundance_distribution_single
+    owner: iuc
+  - name: circos
+    owner: iuc
+  - name: meryl
+    owner: iuc
+  - name: racon
+    owner: bgruening
+  - name: medaka_consensus_pipeline
+    owner: iuc
+  - name: medaka_variant
+    owner: iuc
+  - name: jellyfish
+    owner: iuc
+  - name: seqtk_seq
+    owner: iuc
+  - name: unicycler
+    owner: iuc
+  - name: trinity
+    owner: iuc
+  - name: maxquant_mqpar
+    owner: galaxyp
+  - name: maxquant
+    owner: galaxyp
+  - name: phyml
+    owner: iuc
+  - name: mothur_cluster_split
+    owner: iuc
+  - name: flye
+    owner: bgruening
+  - name: hifiasm
+    owner: bgruening
+  - name: trycycler_consensus
+    owner: iuc
+  - name: abyss
+    owner: iuc
+  - name: shasta
+    owner: iuc
+  - name: raven
+    owner: iuc
