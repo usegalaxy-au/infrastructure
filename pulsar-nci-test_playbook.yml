@@ -20,3 +20,5 @@
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks
+    - slg.galaxy_stats
+    

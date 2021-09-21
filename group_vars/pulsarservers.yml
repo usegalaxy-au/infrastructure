@@ -99,3 +99,8 @@ pulsar_yaml_config:
 
 # for pulsar-post-tasks
 galaxy_dir: /mnt/galaxy
+
+#Stats collection
+sinfo_line_startswith: "p"
+add_utilisation_info: true
+stats_dir: /home/ubuntu/stats_collection

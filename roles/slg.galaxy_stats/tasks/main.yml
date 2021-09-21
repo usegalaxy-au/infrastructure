@@ -1,3 +1,5 @@
+
+#Common stuff
 - name: Create stats dir
   file:
     path: "{{ stats_dir }}"
@@ -16,13 +18,15 @@
     virtualenv: "{{ virtualenv_dir }}"
     requirements: "{{ stats_dir }}/requirements.txt"
 
-- name: copy galaxy_queue_size.py
+# sinfo info :)
+- name: copy get_queue_size.py
   template:
-    src: templates/galaxy_queue_size.py.j2
-    dest: "{{ stats_dir}}/galaxy_queue_size.py"
+    src: templates/get_queue_size.py.j2
+    dest: "{{ stats_dir}}/get_queue_size.py"
     mode: 0755
     owner: ubuntu
     group: ubuntu
+  when: add_utilisation_info or add_queue_info
 
 - name: copy current_stats
   template:
@@ -60,11 +64,12 @@
 
 - name: Create cron job for galaxy_queue_size.py
   cron:
-    name: "galaxy_queue_size"
+    name: "get_queue_size"
     minute: "*"
-    job: "{{ virtualenv_dir }}/bin/python {{ stats_dir }}/galaxy_queue_size.py main {{ galaxy_config_dir }}/job_conf.xml"
+    job: "{{ virtualenv_dir }}/bin/python {{ stats_dir }}/get_queue_size.py main {{ galaxy_config_dir }}/job_conf.xml"
   become: yes
   become_user: ubuntu
+  when: add_utilisation_info or add_queue_info
 
 - name: Create cron job for daily stats
   cron:
@@ -93,5 +98,5 @@
     owner: ubuntu
     group: ubuntu
     mode: 0766
-  when: add_daily_stats
+  when: add_monthly_stats
   
