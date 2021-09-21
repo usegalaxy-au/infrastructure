@@ -36,4 +36,4 @@ galaxy_log_dir: /var/log/galaxy
 #sinfo format string
 sinfo_format: "%16n %.10C %.6t"
 sinfo_line_startswith: "p"
-sinfo_hostname: ""
+sinfo_hostname: "{{ ansible_hostname }}"

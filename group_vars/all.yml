@@ -129,7 +129,8 @@ bashrc_env: |
   export SACCT_FORMAT="jobid%8,partition%9,jobname%30,alloccpus,elapsed,totalcpu,END,state,MaxRSS,ReqMem,NodeList"
 
 # Monitoring
-grafana_server_url: http://stats.genome.edu.au:8086
+influx_url: stats.genome.edu.au
+grafana_server_url: "http://{{ influx_url }}:8086"
 
 telegraf_agent_package_state: latest
 telegraf_agent_package_method: repo
@@ -150,3 +151,5 @@ galaxy_job_metrics_plugins:
     variables: 'HOSTNAME,SLURM_CPUS_ON_NODE,SLURM_JOB_ID'
 
 pulsar_job_metrics_plugins: "{{ galaxy_job_metrics_plugins }}"
+
+
