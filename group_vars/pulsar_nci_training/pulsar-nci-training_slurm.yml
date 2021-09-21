@@ -52,6 +52,26 @@ slurm_nodes:
       CPUs: 16
       RealMemory: 49350
       State: UNKNOWN
+    - name: pulsar-nci-training-w8
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w8']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-training-w9
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w9']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-training-w10
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w10']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-training-w11
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w11']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
 
 slurm_partitions:
     - name: main
