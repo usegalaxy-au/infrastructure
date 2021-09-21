@@ -182,6 +182,10 @@ pulsar-nci-training-w4 ansible_ssh_host=10.0.2.83 internal_ip=10.0.2.83
 pulsar-nci-training-w5 ansible_ssh_host=10.0.1.39 internal_ip=10.0.1.39
 pulsar-nci-training-w6 ansible_ssh_host=10.0.3.57 internal_ip=10.0.3.57
 pulsar-nci-training-w7 ansible_ssh_host=10.0.3.41 internal_ip=10.0.3.41
+pulsar-nci-training-w8 ansible_ssh_host=10.0.0.229 internal_ip=10.0.0.229
+pulsar-nci-training-w9 ansible_ssh_host=10.0.0.104 internal_ip=10.0.0.104
+pulsar-nci-training-w10 ansible_ssh_host=10.0.3.216 internal_ip=10.0.3.216
+pulsar-nci-training-w11 ansible_ssh_host=10.0.1.214 internal_ip=10.0.1.214
 
 [build_machines]
 nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249

@@ -16,7 +16,7 @@
 ######################################################################################
 
 locals {
-  worker_count      = 8
+  worker_count      = 12
   tmp_disk_size     = 200
   avail_zone        = "CloudV3"
   key_pair          = "gvl_2019"
