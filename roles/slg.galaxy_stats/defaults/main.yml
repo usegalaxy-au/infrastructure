@@ -1,12 +1,30 @@
-# Stats scripts directory
+#Directory to copy the scripts to
 stats_dir: ~/stats_collection
 
-# DB Settings
+#Script settings
+add_daily_stats: false
+add_monthly_stats: false
+add_utilisation_info: true
+add_queue_info: false
+
+#Virtualenv
+virtualenv_dir: "{{ stats_dir }}/stats_venv"
+
+# Influx settings
+influx_url: "localhost"
+influx_db_utilisation: "utilisation-db"
+influx_db_queue: "queue-db"
+influx_db_stats: "stats-db"
+
+#Galaxy Database settings
 db_server: localhost
 database: galaxy
 db_user: galaxy
 db_port: 5432
 db_password: ""
+
+#db connection string
+connection_string: "postgres://{{ db_user }}:{{ db_password }}@{{ db_server }}:{{ db_port }}/{{ database }}"
 
 # Galaxy settings
 galaxy_root: /mnt/galaxy/galaxy-app/
@@ -15,20 +33,7 @@ galaxy_config_file: "{{galaxy_config_dir}}/galaxy.yml"
 galaxy_mutable_config_dir: /mnt/galaxy/var/
 galaxy_log_dir: /var/log/galaxy
 
-#Influx settings
-influx_url: "localhost"
-influx_db: GA_server
-influx_db_queue: galaxy_aust
-
-#Virtualenv
-virtualenv_dir: "{{ stats_dir }}/venv"
-
 #sinfo format string
 sinfo_format: "%16n %.10C %.6t"
-sinfo_line_startswith: p
-
-#db connection string
-connection_string: "postgres://{{ db_user }}:{{ db_password }}@{{ db_server }}:{{ db_port }}/{{ database }}"
-
-#Add daily stats - set this to true when you want to install the cron job for the daily user stats. This is generally only run on the Galaxy server itself.
-add_daily_stats: false
+sinfo_line_startswith: "p"
+sinfo_hostname: ""
