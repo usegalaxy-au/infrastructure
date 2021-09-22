@@ -301,7 +301,7 @@ tools:
             nice_value: 0
             lower_bound: 1 MB
             upper_bound: 10 MB
-            destination: pulsar-mel_big
+            destination: pulsar-mel3_mid
           - rule_type: file_size
             nice_value: 0
             lower_bound: 10 MB
@@ -486,7 +486,7 @@ tools:
             nice_value: 0
             lower_bound: 2 GB
             upper_bound: 7 GB
-            destination: pulsar-mel_big
+            destination: pulsar-mel3_mid
           - rule_type: file_size
             nice_value: 0
             lower_bound: 7 GB
@@ -592,7 +592,7 @@ tools:
               nice_value: 0
               lower_bound: 100 MB
               upper_bound: 5 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 5 GB
@@ -610,7 +610,7 @@ tools:
               nice_value: 0
               lower_bound: 500 MB
               upper_bound: 5 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 5 GB
@@ -705,7 +705,7 @@ tools:
               nice_value: 0
               lower_bound: 200 MB
               upper_bound: 10 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
         default_destination: slurm_9slots
     deseq2:
         default_destination: slurm_3slots
@@ -1019,7 +1019,7 @@ tools:
               nice_value: 0
               lower_bound: 500 MB
               upper_bound: 5 GB
-              destination: pulsar-mel_big
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: -5
               lower_bound: 0
