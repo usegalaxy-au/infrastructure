@@ -251,9 +251,8 @@ tiaas_disassociate_training_roles:
   hour: 9      # optional, defaults to 0
   minute: 0    # optional, defaults to 0
 
-# Custos/AAF specific settings
-custos_client_id: "{{ vault_custos_client_id_dev }}"
-custos_client_secret: "{{ vault_custos_client_secret_dev }}"
+# AAF specific settings
+aaf_issuer_url: "{{ vault_aaf_issuer_url_dev }}"
 aaf_client_id: "{{ vault_aaf_client_id_dev }}"
 aaf_client_secret: "{{ vault_aaf_client_secret_dev }}"
 
