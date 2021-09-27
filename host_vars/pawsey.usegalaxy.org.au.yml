@@ -51,6 +51,10 @@ shared_mounts:
       src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-2"
       fstype: nfs
       state: mounted
+    - path: /mnt/user-data-3
+      src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-3"
+      fstype: nfs
+      state: mounted
     - path: /mnt/tmp
       src: "{{ hostvars['pawsey-job-nfs']['internal_ip'] }}:/mnt/tmp"
       fstype: nfs
@@ -79,7 +83,7 @@ galaxy_tmp_dir: /mnt/tmp
 
 galaxy_handler_count: 5   ############# europe uses 5, this could be host specific
 
-galaxy_file_path: /mnt/user-data
+galaxy_file_path: /mnt/user-data-3
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
