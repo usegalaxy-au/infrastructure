@@ -8,6 +8,8 @@
       file:
         path: "/home/{{ item }}/.config"
         state: directory
+        group: "{{ item }}"
+        owner: "{{ item }}"
       with_items: "{{ (machine_users | map(attribute='name') | list) + ['ubuntu'] }}"
     - name: Ensure that all users + ubuntu have a copy of gxadmin-local.sh
       copy: 
