@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cd {{ galaxy_server_dir }}
+
+. {{ galaxy_venv_dir }}/bin/activate
+
+python ./scripts/cleanup_datasets/pgcleanup.py -o 10 -c {{ galaxy_config_dir }}/galaxy.yml delete_userless_histories
+python ./scripts/cleanup_datasets/pgcleanup.py -o 10 -c {{ galaxy_config_dir }}/galaxy.yml delete_exported_histories
+python ./scripts/cleanup_datasets/pgcleanup.py -o 10 -c {{ galaxy_config_dir }}/galaxy.yml purge_deleted_histories
+python ./scripts/cleanup_datasets/pgcleanup.py -o 10 -c {{ galaxy_config_dir }}/galaxy.yml purge_deleted_hdas
+python ./scripts/cleanup_datasets/pgcleanup.py -o 10 -c {{ galaxy_config_dir }}/galaxy.yml purge_historyless_hdas
+python ./scripts/cleanup_datasets/pgcleanup.py -o 10 -c {{ galaxy_config_dir }}/galaxy.yml purge_hdas_of_purged_histories
+python ./scripts/cleanup_datasets/pgcleanup.py -o 10 -c {{ galaxy_config_dir }}/galaxy.yml delete_datasets
+python ./scripts/cleanup_datasets/pgcleanup.py -o 10 -c {{ galaxy_config_dir }}/galaxy.yml purge_datasets

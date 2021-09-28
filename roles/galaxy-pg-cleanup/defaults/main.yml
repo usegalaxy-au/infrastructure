@@ -1,0 +1,2 @@
+galaxy_pg_cleanup_cron_weekday: "1,4"
+galaxy_pg_cleanup_cron_hour: "20"
