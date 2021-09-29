@@ -131,6 +131,7 @@ bashrc_env: |
 # Monitoring
 influx_url: stats.genome.edu.au
 grafana_server_url: "http://{{ influx_url }}:8086"
+influx_salt: "{{ prod_queue_size_salt }}"
 
 telegraf_agent_package_state: latest
 telegraf_agent_package_method: repo
