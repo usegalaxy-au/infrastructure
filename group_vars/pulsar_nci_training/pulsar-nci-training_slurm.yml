@@ -75,7 +75,7 @@ slurm_nodes:
 
 slurm_partitions:
     - name: main
-      nodes: "pulsar-nci-training-w0,pulsar-nci-training-w1,pulsar-nci-training-w2,pulsar-nci-training-w3,pulsar-nci-training-w4,pulsar-nci-training-w5,pulsar-nci-training-w6,pulsar-nci-training-w7"
+      nodes: "pulsar-nci-training-w[0-11]"
       Default: YES
       MaxTime: INFINITE
       State: UP
