@@ -13,7 +13,7 @@ export GALAXY_CONFIG_DIR="{{ galaxy_config_dir }}"
 export GALAXY_MUTABLE_CONFIG_DIR="{{ galaxy_mutable_config_dir }}"
 export GALAXY_LOG_DIR="{{ galaxy_log_dir }}"
 export INFLUX_URL="{{ influx_url }}:8086"
-export INFLUX_DB="{{ influx_db }}"
+export INFLUX_DB="{{ influx_db_stats }}"
 
 if [ -f upto_slurp.txt ]; then
     rm upto_slurp.txt

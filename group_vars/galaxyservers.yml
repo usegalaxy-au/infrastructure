@@ -237,6 +237,8 @@ group_galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
   - src: "{{ galaxy_config_template_src_dir }}/config/pulsar_app.yml.j2"
     dest: "{{ galaxy_config_dir }}/pulsar_app.yml"
+  - src: "{{ galaxy_config_template_src_dir }}/config/oidc_backends_config.xml.j2"
+    dest: "{{ galaxy_config_dir}}/oidc_backends_config.xml"
 
 galaxy_config_templates: "{{ group_galaxy_config_templates + host_galaxy_config_templates|d([]) }}"
 
@@ -260,6 +262,8 @@ group_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/AAF_BTN_Sign_in_med_gradient_orange_FIN2020.png"
   - src: "{{ galaxy_config_file_src_dir }}/config/file_sources_conf.yml"
     dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
+    dest: "{{ galaxy_config_dir}}/oidc_config.xml"
 
 galaxy_config_files: "{{ group_galaxy_config_files + host_galaxy_config_files|d([]) }}"
 

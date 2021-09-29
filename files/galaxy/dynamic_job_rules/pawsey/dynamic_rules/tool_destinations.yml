@@ -2,6 +2,89 @@
 tools:
     upload1:
         default_destination: slurm_1slot_upload
+    mimodd_align:
+        rules:
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 0
+            upper_bound: 10 MB
+            destination: slurm_1slot
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 10 MB
+            upper_bound: Infinity
+            destination: slurm_5slots
+        default_destination: slurm_1slot
+    scanpy_cluster_reduce_dimension:
+        rules:
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 0
+            upper_bound: 500 MB
+            destination: slurm_1slot
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 500 MB
+            upper_bound: Infinity
+            destination: slurm_5slots
+        default_destination: slurm_5slots
+    scanpy_inspect:
+        rules:
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 0
+            upper_bound: 500 MB
+            destination: slurm_1slot
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 500 MB
+            upper_bound: Infinity
+            destination: slurm_5slots
+        default_destination: slurm_5slots
+    scanpy_filter:
+        rules:
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 0
+            upper_bound: 500 MB
+            destination: slurm_1slot
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 500 MB
+            upper_bound: Infinity
+            destination: slurm_3slots
+        default_destination: slurm_3slots
+    scanpy_normalize:
+        rules:
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 0
+            upper_bound: 1 GB
+            destination: slurm_1slot
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 1 GB
+            upper_bound: Infinity
+            destination: slurm_2slots
+        default_destination: slurm_2slots
+    scanpy_remove_confounders:
+        rules:
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 0
+            upper_bound: 50 MB
+            destination: slurm_1slot
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 50 MB
+            upper_bound: 500 MB
+            destination: slurm_5slots
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 500 MB
+            upper_bound: Infinity
+            destination: slurm_9slots
+        default_destination: slurm_5slots
     shovill:
         rules:
           - rule_type: file_size
@@ -32,12 +115,12 @@ tools:
             nice_value: 0
             lower_bound: 0
             upper_bound: 15 MB
-            destination: slurm_1slot
+            destination: pulsar-mel_small
           - rule_type: file_size
             nice_value: 0
             lower_bound: 15 MB
             upper_bound: 2 GB
-            destination: slurm_2slots
+            destination: pulsar-mel_mid
           - rule_type: file_size
             nice_value: 0
             lower_bound: 2 GB
@@ -85,12 +168,12 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 15 MB
-              destination: slurm_1slot
+              destination: pulsar-mel_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 15 MB
               upper_bound: 1 GB
-              destination: slurm_5slots
+              destination: pulsar-mel_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 1 GB
@@ -104,12 +187,12 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 15 MB
-              destination: slurm_1slot
+              destination: pulsar-mel_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 15 MB
               upper_bound: 1 GB
-              destination: slurm_3slots
+              destination: pulsar-mel_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 1 GB
@@ -1254,7 +1337,13 @@ tools:
               destination: slurm_5slots
         default_destination: slurm_7slots
     mothur_cluster_split:
-        default_destination: slurm_16slots
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 150 KB
+              destination: slurm_1slot
+        default_destination: pulsar-high-mem2_mid
     mothur_make_shared:
         rules:
             - rule_type: file_size
@@ -1551,6 +1640,60 @@ tools:
               users:
                 - anna.syme@unimelb.edu.au
         default_destination: pulsar-mel_mid
+    abyss:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 2 MB
+              destination: pulsar-mel_small
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 2 MB
+              upper_bound: 5 GB
+              destination: pulsar-mel3_big
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 5 GB
+              upper_bound: Infinity
+              destination: pulsar-high-mem1_big
+        default_destination: pulsar-mel3_big
+    shasta:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 2 MB
+              destination: pulsar-mel_small
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 2 MB
+              upper_bound: 5 GB
+              destination: pulsar-mel3_big
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 5 GB
+              upper_bound: Infinity
+              destination: pulsar-high-mem2_big
+        default_destination: pulsar-mel3_big
+    raven:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 2 MB
+              destination: pulsar-mel_small
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 2 MB
+              upper_bound: 5 GB
+              destination: pulsar-mel3_big
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 5 GB
+              upper_bound: Infinity
+              destination: pulsar-high-mem2_big
+        default_destination: pulsar-mel3_big
     #
     # Data managers
     #

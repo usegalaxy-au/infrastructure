@@ -118,7 +118,7 @@ galaxy_jobconf:
             galaxy_url: "https://dev.usegalaxy.org.au"
             manager: _default_
             amqp_acknowledge: True
-            amqp_ack_republish_time: 300
+            amqp_ack_republish_time: 1200
             amqp_consumer_timeout: 2.0
             amqp_publish_retry: True
             amqp_publish_retry_max_retries: 60
@@ -135,7 +135,11 @@ galaxy_jobconf:
         runner: dynamic
         params:
           type: dtd
-      - id: slurm_dest
+      - id: slurm_1slot
+        runner: slurm
+        params:
+            nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=3880"
+      - id: slurm_2slots
         runner: slurm
         params:
             nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
@@ -150,7 +154,7 @@ galaxy_jobconf:
               rewrite_parameters: "true"
               persistence_directory: /mnt/pulsar/files/persisted_data
               submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
-      - id: pulsar_destination_nci
+      - id: pulsar-nci-test_small
         runner: pulsar_nci_test_runner
         params:
               jobs_directory: /mnt/pulsar/files/staging
@@ -160,7 +164,29 @@ galaxy_jobconf:
               dependency_resolution: remote
               rewrite_parameters: "true"
               persistence_directory: /mnt/pulsar/files/persisted_data
-              submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+              submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=6168"
+      - id: pulsar-nci-test_mid
+        runner: pulsar_nci_test_runner
+        params:
+              jobs_directory: /mnt/pulsar/files/staging
+              transport: curl
+              remote_metadata: "false"
+              default_file_action: remote_transfer
+              dependency_resolution: remote
+              rewrite_parameters: "true"
+              persistence_directory: /mnt/pulsar/files/persisted_data
+              submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=24675"
+      - id: pulsar-nci-test_big
+        runner: pulsar_nci_test_runner
+        params:
+              jobs_directory: /mnt/pulsar/files/staging
+              transport: curl
+              remote_metadata: "false"
+              default_file_action: remote_transfer
+              dependency_resolution: remote
+              rewrite_parameters: "true"
+              persistence_directory: /mnt/pulsar/files/persisted_data
+              submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
       - id: interactive_local
         runner: local
         params:
@@ -225,9 +251,8 @@ tiaas_disassociate_training_roles:
   hour: 9      # optional, defaults to 0
   minute: 0    # optional, defaults to 0
 
-# Custos/AAF specific settings
-custos_client_id: "{{ vault_custos_client_id_dev }}"
-custos_client_secret: "{{ vault_custos_client_secret_dev }}"
+# AAF specific settings
+aaf_issuer_url: "{{ vault_aaf_issuer_url_dev }}"
 aaf_client_id: "{{ vault_aaf_client_id_dev }}"
 aaf_client_secret: "{{ vault_aaf_client_secret_dev }}"
 

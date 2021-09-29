@@ -1,0 +1,14 @@
+- name: Template run_cleanup.sh script   
+  template:
+    src: run_cleanup.sh.j2
+    dest: /home/galaxy/run_cleanup.sh
+    mode: "744"
+    owner: galaxy
+    group: galaxy
+- name: Add cron job for galaxy
+  cron:
+    name: "galaxy_pg_cleanup"    
+    user: galaxy
+    weekday: "{{ galaxy_pg_cleanup_cron_weekday }}"
+    hour: "{{ galaxy_pg_cleanup_cron_hour }}"
+    job: bash /home/galaxy/run_cleanup.sh 2>> /home/galaxy/pgcleanup.log

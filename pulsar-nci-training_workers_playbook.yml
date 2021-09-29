@@ -1,0 +1,57 @@
+- name: Pulsar NCI training worker node install
+  hosts: pulsar_nci_training_workers
+  become: yes
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/pulsar_nci_training/pulsar-nci-training.yml
+    - group_vars/pulsar_nci_training/pulsar-nci-training_workers.yml
+    - group_vars/pulsar_nci_training/pulsar-nci-training_slurm.yml
+    - group_vars/VAULT
+  pre_tasks:
+    - name: Create worker extra disk mount point on /mnt
+      file:
+          path: /mnt/tmpdisk
+          state: directory
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+  roles:
+      - common
+      - insspb.hostname
+      - galaxyproject.slurm
+      - mounts
+      - galaxyproject.repos
+      - galaxyproject.cvmfs
+      - dj-wasabi.telegraf
+  post_tasks:
+      - name: Restart munge service
+        service:
+            name: munge
+            state: restarted
+      - name: Move /tmp to vdb
+        block:
+          - name: Create worker tmpdir on /mnt
+            file:
+                path: /mnt/tmpdisk
+                state: directory
+                owner: root
+                group: root
+                mode: '1777'
+          - name: stat links
+            stat:
+                path: /tmp
+            register: links
+          - name: remove old tmp
+            file:
+                path: /tmp
+                state: absent
+            when: links.stat.islnk is defined and not links.stat.islnk
+          - name: Link /tmp to /mnt/tmpdisk
+            file:
+                src: /mnt/tmpdisk
+                dest: /tmp
+                state: link
+            become: yes
+            become_user: root
+            when: links.stat.islnk is defined and not links.stat.islnk
+        when: attached_volumes is defined

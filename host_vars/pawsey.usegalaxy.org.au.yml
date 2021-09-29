@@ -51,6 +51,10 @@ shared_mounts:
       src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-2"
       fstype: nfs
       state: mounted
+    - path: /mnt/user-data-3
+      src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-3"
+      fstype: nfs
+      state: mounted
     - path: /mnt/tmp
       src: "{{ hostvars['pawsey-job-nfs']['internal_ip'] }}:/mnt/tmp"
       fstype: nfs
@@ -79,10 +83,11 @@ galaxy_tmp_dir: /mnt/tmp
 
 galaxy_handler_count: 5   ############# europe uses 5, this could be host specific
 
-galaxy_file_path: /mnt/user-data-2
+galaxy_file_path: /mnt/user-data-3
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
+nginx_upload_store_set_cleanup_cron_job: true
 
 # ITs tool conf overrides.
 tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_conf|d(false) == true else default_settings['tool_config_files'] }},{{ galaxy_config_dir }}/tool_conf_interactive.xml"
@@ -112,7 +117,9 @@ host_galaxy_config:  # renamed from __galaxy_config
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
     galaxy_infrastructure_url: 'https://usegalaxy.org.au'
-    enable_oidc: false
+    enable_oidc: true
+    oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
+    oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
     # nginx upload module
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
     nginx_upload_path: '/_upload'
@@ -136,7 +143,11 @@ db_server: "{{ hostvars['pawsey-db']['internal_ip'] }}"
 influx_url: "stats.genome.edu.au"
 db_password: "{{ galaxy_db_user_password }}"
 influx_salt: "{{ prod_queue_size_salt }}"
+influx_db_stats: "GA_server"
 add_daily_stats: true
+add_montly_stats: true
+add_queue_info: true
+add_utilisation_info: true
 
 #Vars for TIaaS
 tiaas_galaxy_db_host: "pawsey-db.usegalaxy.org.au"
@@ -160,11 +171,10 @@ tiaas_disassociate_training_roles:
   hour: 9      # optional, defaults to 0
   minute: 0    # optional, defaults to 0
 
-# # Custos/AAF specific settings
-# custos_client_id: "{{ vault_custos_client_id_prod }}"
-# custos_client_secret: "{{ vault_custos_client_secret_prod }}"
-# aaf_client_id: "{{ vault_aaf_client_id_prod }}"
-# aaf_client_secret: "{{ vault_aaf_client_secret_prod }}"
+## AAF specific settings
+aaf_issuer_url: "{{ vault_aaf_issuer_url_prod }}"
+aaf_client_id: "{{ vault_aaf_client_id_prod }}"
+aaf_client_secret: "{{ vault_aaf_client_secret_prod }}"
 
 # remote-pulsar-cron variables
 rpc_skip_cron_setup: false
@@ -183,5 +193,26 @@ rpc_pulsar_machines:
     ssh_key: /home/ubuntu/.ssh/galaxy-australia
     delete_jwds: true
     keep_error_days: 7
-    cron_hour: "17"
+    cron_hour: "5,11,17,23"
     cron_minute: "10"
+  - pulsar_name: pulsar-paw
+    pulsar_ip_address: "{{ hostvars['pulsar-paw']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/gvl_2019
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "20"
+  - pulsar_name: pulsar-high-mem1
+    pulsar_ip_address: "{{ hostvars['pulsar-high-mem1']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "30"
+  - pulsar_name: pulsar-high-mem2
+    pulsar_ip_address: "{{ hostvars['pulsar-high-mem2']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "40"

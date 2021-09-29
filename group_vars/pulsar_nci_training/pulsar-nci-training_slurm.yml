@@ -1,0 +1,97 @@
+
+auth_key_user: ubuntu
+
+head_nodes: "{{ groups['pulsar_nci_training_head'] }}"
+worker_nodes: "{{ groups['pulsar_nci_training_workers'] }}"
+use_internal_ips: true
+
+# SLURM
+slurm_nodes:
+    - name: pulsar-nci-training
+      NodeAddr: "{{ hostvars['pulsar-nci-training']['internal_ip'] }}"
+      CPUs: 8
+      RealMemory: 16380
+      State: UNKNOWN
+    - name: pulsar-nci-training-w0
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w0']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-training-w1
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w1']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-training-w2
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w2']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-training-w3
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w3']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-training-w4
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w4']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-training-w5
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w5']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-training-w6
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w6']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-training-w7
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w7']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-training-w8
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w8']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-training-w9
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w9']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-training-w10
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w10']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+    - name: pulsar-nci-training-w11
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w11']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 49350
+      State: UNKNOWN
+
+slurm_partitions:
+    - name: main
+      nodes: "pulsar-nci-training-w[0-11]"
+      Default: YES
+      MaxTime: INFINITE
+      State: UP
+
+slurm_config:
+    #SlurmDBd includes
+    AccountingStorageType: accounting_storage/slurmdbd
+    AccountingStorageHost: localhost
+    JobAcctGatherType: jobacct_gather/linux
+    ControlMachine: pulsar-nci-training
+    SlurmctldPidFile: /run/slurmctld.pid
+    SlurmdPidFile: /run/slurmd.pid
+    # SCHEDULING
+    FastSchedule: 2
+    SchedulerType: sched/backfill
+    SelectType: select/cons_res
+    SelectTypeParameters: CR_CPU_Memory,CR_LLN
+
+slurm_munge_key: files/keys/munge.key

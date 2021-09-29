@@ -1,0 +1,23 @@
+- name: Set facts about repository
+  set_fact:
+    installed_changeset_revision: "{{ loc_filename.split('/')[-2] }}"
+    repo_name: "{{ loc_filename.split('/')[-3] }}"
+    repo_owner: "{{ loc_filename.split('/')[-4] }}"
+- name: Set destination filename
+  set_fact:
+    dest_filename: "{{ loc_filename | replace(origin_tool_data_path, dest_tool_data_path) | replace(installed_changeset_revision, revision_info[repo_owner][repo_name][installed_changeset_revision]) }}"
+- name: Stat destination dir
+  stat:
+    path: "{{ dest_filename | dirname }}"
+  register: dest_dir_stat
+- name: line in file
+  lineinfile:
+    path: "{{ dest_filename }}"
+    line: "{{ item | replace(origin_custom_indices_path, dest_custom_indices_path) }}"
+    create: true
+  with_items: "{{ loc_lines_dict[loc_filename] }}"
+  when: dest_dir_stat.stat.exists
+- name: set to dict
+  set_fact:
+    unplaced_loc_lines: "{{ unplaced_loc_lines | default({}) | combine ({ dest_filename : loc_lines_dict[loc_filename] }) }}"
+  when: not dest_dir_stat.stat.exists

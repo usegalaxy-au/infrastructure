@@ -69,6 +69,17 @@ galaxy_jobconf:
           amqp_url: "pyamqp://galaxy_hm2:{{ vault_rabbitmq_password_galaxy_hm2_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm2?ssl=1"
           galaxy_url: "https://{{ hostname }}"
           manager: "_default_"
+      - id: pulsar-nci-training_runner
+        load: "galaxy.jobs.runners.pulsar:PulsarMQJobRunner"
+        params:
+          amqp_ack_republish_time: 1200
+          amqp_acknowledge: True
+          amqp_consumer_timeout: 2.0
+          amqp_publish_retry: True
+          amqp_publish_retry_max_retries: 60
+          amqp_url: "pyamqp://galaxy_nci_training:{{ vault_rabbitmq_password_galaxy_nci_training_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_nci_training?ssl=1"
+          galaxy_url: "https://{{ hostname }}"
+          manager: "_default_"
       - id: pulsar_embedded
         load: "galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner"
         params:
@@ -322,6 +333,39 @@ galaxy_jobconf:
           rewrite_parameters: true
           submit_native_specification: "--nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=2009282"
           transport: curl
+      - id: pulsar-nci-training_small
+        runner: pulsar-nci-training_runner
+        params:
+          default_file_action: remote_transfer
+          dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
+          submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4 --mem=12337"
+          transport: curl
+      - id: pulsar-nci-training_mid
+        runner: pulsar-nci-training_runner
+        params:
+          default_file_action: remote_transfer
+          dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
+          submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=24675"
+          transport: curl
+      - id: pulsar-nci-training_big
+        runner: pulsar-nci-training_runner
+        params:
+          default_file_action: remote_transfer
+          dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
+          submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
+          transport: curl
     limits:
       #General limits for user submission
       - type: anonymous_user_concurrent_jobs
@@ -408,7 +452,7 @@ galaxy_jobconf:
         value: 16
       - type: destination_total_concurrent_jobs
         id: pulsar-mel3_mid
-        value: 8
+        value: 12
       - type: destination_total_concurrent_jobs
         id: pulsar-mel3_big
         value: 4
@@ -418,6 +462,45 @@ galaxy_jobconf:
       - type: destination_total_concurrent_jobs
         id: pulsar-mel3_big_canu
         value: 2
+      #Pulsar nci-training limits
+      - type: destination_total_concurrent_jobs
+        id: pulsar-nci-training_small
+        value: 24
+      - type: destination_total_concurrent_jobs
+        id: pulsar-nci-training_mid
+        value: 12
+      - type: destination_total_concurrent_jobs
+        id: pulsar-nci-training_big
+        value: 6
+      - type: destination_user_concurrent_jobs
+        id: pulsar-nci-training_small
+        value: 4
+      - type: destination_user_concurrent_jobs
+        id: pulsar-nci-training_mid
+        value: 2
+      - type: destination_user_concurrent_jobs
+        id: pulsar-nci-training_big
+        value: 1
+      #Pulsar High Mem 1 limits
+      - type: destination_total_concurrent_jobs
+        id: pulsar-high-mem1_big
+        value: 1
+      - type: destination_total_concurrent_jobs
+        id: pulsar-high-mem1_mid
+        value: 2
+      - type: destination_user_concurrent_jobs
+        id: pulsar-high-mem1_mid
+        value: 1
+      #Pulsar High Mem 2 limits
+      - type: destination_total_concurrent_jobs
+        id: pulsar-high-mem2_big
+        value: 1
+      - type: destination_total_concurrent_jobs
+        id: pulsar-high-mem2_mid
+        value: 2
+      - type: destination_user_concurrent_jobs
+        id: pulsar-high-mem2_mid
+        value: 1
     tools:
       - id: interactive_tool_ethercalc
         destination: interactive_pulsar

@@ -11,8 +11,8 @@ attached_volumes:
 
 certbot_domains:
 - "{{ hostname }}"
-- "usegalaxy.org.au"
-- "www.usegalaxy.org.au"
+# - "usegalaxy.org.au"
+# - "www.usegalaxy.org.au"
 - "*.interactivetoolentrypoint.interactivetool.aarnet.usegalaxy.org.au"  # we can only use aarnet.usegalaxy, not usegalaxy at this point
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
@@ -116,7 +116,9 @@ host_galaxy_config:  # renamed from __galaxy_config
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
     galaxy_infrastructure_url: 'https://aarnet.usegalaxy.org.au'
-    enable_oidc: false
+    enable_oidc: true
+    oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
+    oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
     # nginx upload module
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
     nginx_upload_path: '/_upload'
@@ -142,6 +144,9 @@ db_password: "{{ galaxy_db_user_password }}"
 influx_salt: "{{ prod_queue_size_salt }}"
 sinfo_line_startswith: a
 add_daily_stats: false #change this when aarnet is usegalaxy.org.au
+add_monthly_stats: true
+add_utilisation_info: true
+add_queue_info: false #Change this when aarnet is usegalaxy.org.au
 
 #Vars for TIaaS
 tiaas_galaxy_db_host: "aarnet-db.usegalaxy.org.au"
@@ -165,11 +170,10 @@ tiaas_disassociate_training_roles:
   hour: 9      # optional, defaults to 0
   minute: 0    # optional, defaults to 0
 
-# # Custos/AAF specific settings
-# custos_client_id: "{{ vault_custos_client_id_prod }}"
-# custos_client_secret: "{{ vault_custos_client_secret_prod }}"
-# aaf_client_id: "{{ vault_aaf_client_id_prod }}"
-# aaf_client_secret: "{{ vault_aaf_client_secret_prod }}"
+# AAF specific settings
+aaf_issuer_url: "{{ vault_aaf_issuer_url_prod }}"
+aaf_client_id: "{{ vault_aaf_client_id_prod }}"
+aaf_client_secret: "{{ vault_aaf_client_secret_prod }}"
 
 # remote-pulsar-cron variables
 rpc_skip_cron_setup: false

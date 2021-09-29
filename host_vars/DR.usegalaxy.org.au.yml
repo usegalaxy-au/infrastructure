@@ -115,7 +115,9 @@ host_galaxy_config:  # renamed from __galaxy_config
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
     galaxy_infrastructure_url: 'https://usegalaxy.org.au'
-    enable_oidc: false
+    enable_oidc: true
+    oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
+    oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
     # nginx upload module
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
     nginx_upload_path: '/_upload'
@@ -157,11 +159,10 @@ tiaas_other_config: |
     TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
     TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"
 
-# # Custos/AAF specific settings
-# custos_client_id: "{{ vault_custos_client_id_prod }}"
-# custos_client_secret: "{{ vault_custos_client_secret_prod }}"
-# aaf_client_id: "{{ vault_aaf_client_id_prod }}"
-# aaf_client_secret: "{{ vault_aaf_client_secret_prod }}"
+## AAF specific settings
+aaf_issuer_url: "{{ vault_aaf_issuer_url_prod }}"
+aaf_client_id: "{{ vault_aaf_client_id_prod }}"
+aaf_client_secret: "{{ vault_aaf_client_secret_prod }}"
 
 # remote-pulsar-cron variables
 rpc_skip_cron_setup: false

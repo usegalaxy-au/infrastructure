@@ -124,12 +124,14 @@ galaxy_cvmfs_server_urls:
 
 #sinfo and squeue configs
 bashrc_env: |
-  export SINFO_FORMAT="%16n %.12C %.6t"
+  export SINFO_FORMAT="%24n %.12C %.6t"
   export SQUEUE_FORMAT="%8i %9P %.35j %.9T %8r %19S %.10M %.6m %.3C %.3N %.55Z"
   export SACCT_FORMAT="jobid%8,partition%9,jobname%30,alloccpus,elapsed,totalcpu,END,state,MaxRSS,ReqMem,NodeList"
 
 # Monitoring
-grafana_server_url: http://stats.genome.edu.au:8086
+influx_url: stats.genome.edu.au
+grafana_server_url: "http://{{ influx_url }}:8086"
+influx_salt: "{{ prod_queue_size_salt }}"
 
 telegraf_agent_package_state: latest
 telegraf_agent_package_method: repo
@@ -150,3 +152,5 @@ galaxy_job_metrics_plugins:
     variables: 'HOSTNAME,SLURM_CPUS_ON_NODE,SLURM_JOB_ID'
 
 pulsar_job_metrics_plugins: "{{ galaxy_job_metrics_plugins }}"
+
+
