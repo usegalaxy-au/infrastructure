@@ -4,3 +4,7 @@ machine_users: []
 create_nginx_htpasswd: false
 htpass_password: "donotusethispassword"
 htpass_username: "ubuntu"
+
+internal_ssh_keys: {}
+
+extra_keys: []

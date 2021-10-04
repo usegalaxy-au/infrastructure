@@ -7,6 +7,7 @@
       - group_vars/galaxyservers.yml
       - group_vars/dev_slurm.yml
       - host_vars/dev.usegalaxy.org.au.yml
+      - secret_group_vars/ubuntu_maintenance_key
   handlers:
     - name: Restart Galaxy
       systemd:
