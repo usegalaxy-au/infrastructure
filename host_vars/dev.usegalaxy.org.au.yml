@@ -153,7 +153,7 @@ galaxy_jobconf:
               dependency_resolution: remote
               rewrite_parameters: "true"
               persistence_directory: /mnt/pulsar/files/persisted_data
-              submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+              submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7495"
       - id: pulsar-nci-test_small
         runner: pulsar_nci_test_runner
         params:
