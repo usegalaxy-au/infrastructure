@@ -15,17 +15,17 @@ galaxy_jobconf:
         load: "galaxy.jobs.runners.slurm:SlurmJobRunner"
       - id: pulsar_rest
         load: "galaxy.jobs.runners.pulsar:PulsarRESTJobRunner"
-      - id: pulsar_nci_test_runner
-        load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-        params:
-            amqp_url: "pyamqp://galaxy_nci_test:{{ vault_rabbitmq_password_galaxy_nci_test }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_nci_test?ssl=1"
-            galaxy_url: "https://aarnet.usegalaxy.org.au"
-            manager: _default_
-            amqp_acknowledge: True
-            amqp_ack_republish_time: 1200
-            amqp_consumer_timeout: 2.0
-            amqp_publish_retry: True
-            amqp_publish_retry_max_retries: 60
+      # - id: pulsar_nci_test_runner
+      #   load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+      #   params:
+      #       amqp_url: "pyamqp://galaxy_nci_test:{{ vault_rabbitmq_password_galaxy_nci_test }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_nci_test?ssl=1"
+      #       galaxy_url: "https://aarnet.usegalaxy.org.au"
+      #       manager: _default_
+      #       amqp_acknowledge: True
+      #       amqp_ack_republish_time: 1200
+      #       amqp_consumer_timeout: 2.0
+      #       amqp_publish_retry: True
+      #       amqp_publish_retry_max_retries: 60
       # - id: pulsar_mel2_runner
       #   load: "galaxy.jobs.runners.pulsar:PulsarMQJobRunner"
       #   params:
@@ -164,39 +164,39 @@ galaxy_jobconf:
           require_container: true
           container_monitor_result: callback
           submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=interactive_tools"
-      - id: pulsar-nci-test_small
-        runner: pulsar_nci_test_runner
-        params:
-              jobs_directory: /mnt/pulsar/files/staging
-              transport: curl
-              remote_metadata: "false"
-              default_file_action: remote_transfer
-              dependency_resolution: remote
-              rewrite_parameters: "true"
-              persistence_directory: /mnt/pulsar/files/persisted_data
-              submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
-      - id: pulsar-nci-test_mid
-        runner: pulsar_nci_test_runner
-        params:
-              jobs_directory: /mnt/pulsar/files/staging
-              transport: curl
-              remote_metadata: "false"
-              default_file_action: remote_transfer
-              dependency_resolution: remote
-              rewrite_parameters: "true"
-              persistence_directory: /mnt/pulsar/files/persisted_data
-              submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8"
-      - id: pulsar-nci-test_big
-        runner: pulsar_nci_test_runner
-        params:
-              jobs_directory: /mnt/pulsar/files/staging
-              transport: curl
-              remote_metadata: "false"
-              default_file_action: remote_transfer
-              dependency_resolution: remote
-              rewrite_parameters: "true"
-              persistence_directory: /mnt/pulsar/files/persisted_data
-              submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16"
+      # - id: pulsar-nci-test_small
+      #   runner: pulsar_nci_test_runner
+      #   params:
+      #         jobs_directory: /mnt/pulsar/files/staging
+      #         transport: curl
+      #         remote_metadata: "false"
+      #         default_file_action: remote_transfer
+      #         dependency_resolution: remote
+      #         rewrite_parameters: "true"
+      #         persistence_directory: /mnt/pulsar/files/persisted_data
+      #         submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+      # - id: pulsar-nci-test_mid
+      #   runner: pulsar_nci_test_runner
+      #   params:
+      #         jobs_directory: /mnt/pulsar/files/staging
+      #         transport: curl
+      #         remote_metadata: "false"
+      #         default_file_action: remote_transfer
+      #         dependency_resolution: remote
+      #         rewrite_parameters: "true"
+      #         persistence_directory: /mnt/pulsar/files/persisted_data
+      #         submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8"
+      # - id: pulsar-nci-test_big
+      #   runner: pulsar_nci_test_runner
+      #   params:
+      #         jobs_directory: /mnt/pulsar/files/staging
+      #         transport: curl
+      #         remote_metadata: "false"
+      #         default_file_action: remote_transfer
+      #         dependency_resolution: remote
+      #         rewrite_parameters: "true"
+      #         persistence_directory: /mnt/pulsar/files/persisted_data
+      #         submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16"
       # Pulsar mel destinations
       # - id: pulsar-mel_small
       #   runner: pulsar_mel2_runner
