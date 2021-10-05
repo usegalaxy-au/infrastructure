@@ -1,0 +1,122 @@
+runners:
+  dynamic:
+    rules_module: dynamic_rules
+  local:
+    load: galaxy.jobs.runners.local:LocalJobRunner
+    workers: 4
+  slurm:
+    load: galaxy.jobs.runners.slurm:SlurmJobRunner
+  pulsar_embedded:
+    load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
+    pulsar_config: "{{ galaxy_config_dir }}/pulsar_app.yml"
+  pulsar_au_01:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_url: "pyamqp://galaxy_au:{{ vault_rabbitmq_password_galaxy_au_dev }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_au?ssl=1"
+    galaxy_url: https://dev.usegalaxy.org.au
+    manager: _default_
+    amqp_acknowledge: true
+    amqp_ack_republish_time: 300
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+  pulsar_nci_test_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_url: "pyamqp://galaxy_nci_test:{{ vault_rabbitmq_password_galaxy_nci_test }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_nci_test?ssl=1"
+    galaxy_url: https://dev.usegalaxy.org.au
+    manager: _default_
+    amqp_acknowledge: true
+    amqp_ack_republish_time: 1200
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+execution:
+  default: gateway
+  environments:
+    local:
+      runner: local
+    gateway:
+      runner: dynamic
+      type: python
+      function: gateway
+    dynamic_dtd:
+      runner: dynamic
+      type: dtd
+    slurm_1slot:
+      runner: slurm
+      nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=3880"
+    slurm_2slots:
+      runner: slurm
+      nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
+    pulsar_destination:
+      runner: pulsar_au_01
+      jobs_directory: /mnt/pulsar/files/staging
+      transport: curl
+      remote_metadata: 'false'
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: 'true'
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7495"
+    pulsar-nci-test_small:
+      runner: pulsar_nci_test_runner
+      jobs_directory: /mnt/pulsar/files/staging
+      transport: curl
+      remote_metadata: 'false'
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: 'true'
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=6168"
+    pulsar-nci-test_mid:
+      runner: pulsar_nci_test_runner
+      jobs_directory: /mnt/pulsar/files/staging
+      transport: curl
+      remote_metadata: 'false'
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: 'true'
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=24675"
+    pulsar-nci-test_big:
+      runner: pulsar_nci_test_runner
+      jobs_directory: /mnt/pulsar/files/staging
+      transport: curl
+      remote_metadata: 'false'
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: 'true'
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
+    interactive_local:
+      runner: local
+      docker_enabled: true
+      docker_volumes: $defaults
+      docker_sudo: false
+      docker_net: bridge
+      docker_auto_rm: true
+      docker_set_user: ''
+      docker_require_container: true
+    interactive_pulsar:
+      runner: pulsar_embedded
+      docker_enabled: true
+      docker_volumes: $defaults
+      docker_sudo: false
+      docker_net: bridge
+      docker_auto_rm: true
+      docker_set_user: ''
+      docker_require_container: true
+      container_monitor_result: callback
+tools:
+- id: interactive_tool_ethercalc
+  environment: interactive_local
+- id: interactive_tool_rstudio
+  environment: interactive_local
+- id: interactive_tool_jupyter_notebook
+  environment: interactive_pulsar
+- id: interactive_tool_phinch
+  environment: interactive_local
+limits:
+- type: anonymous_user_concurrent_jobs
+  value: 1
+- type: registered_user_concurrent_jobs
+  value: 10
