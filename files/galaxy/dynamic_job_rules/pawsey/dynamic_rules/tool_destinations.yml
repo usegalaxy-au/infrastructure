@@ -646,17 +646,17 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 200 MB
-              destination: slurm_2slots
+              destination: pulsar-mel_small
             - rule_type: file_size
               nice_value: 0
               lower_bound: 200 MB
               upper_bound: 4 GB
-              destination: slurm_5slots
+              destination: pulsar-mel_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 4 GB
               upper_bound: 20 GB
-              destination: slurm_9slots
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: 0
               lower_bound: 20 GB
@@ -1694,6 +1694,15 @@ tools:
               upper_bound: Infinity
               destination: pulsar-high-mem2_big
         default_destination: pulsar-mel3_big
+    gmx_sim:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 10 MB
+              destination: pulsar-mel3_small
+        default_destination: pulsar-mel3_mid
+
     #
     # Data managers
     #
