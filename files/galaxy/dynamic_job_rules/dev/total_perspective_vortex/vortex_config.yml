@@ -43,21 +43,12 @@ tools:
   upload1:
     cores: 2
   '.*iuc/fasta_stats/fasta-stats.*':
-    scheduling:
-      preferred:
-        - pulsar
     inherits: pulsar_preferred
     cores: 2
   '.*bwa_mem.*':
-    scheduling:
-      preferred:
-        - pulsar
     inherits: pulsar_preferred
     cores: 2
   '.*hifiasm.*':
-    scheduling:
-      preferred:
-        - pulsar
     inherits: pulsar_preferred
     cores: 2
     rules:
