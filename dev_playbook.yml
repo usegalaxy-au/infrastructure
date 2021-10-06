@@ -17,6 +17,10 @@
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
+    - name: Install Total Perspective Vortex
+      pip:  # on the first run, this will create the galaxy venv before the galaxy role is run
+        name: git+https://github.com/usegalaxy-au/total-perspective-vortex
+        virtualenv: "{{ galaxy_venv_dir }}"
   roles:
     - galaxyproject.repos
     - common
