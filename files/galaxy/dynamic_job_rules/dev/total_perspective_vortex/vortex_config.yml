@@ -1,6 +1,7 @@
 global:
   default_inherits: default
 
+
 tools:
   default:
     cores: 1
@@ -13,10 +14,11 @@ tools:
       tolerated:
         - general
       rejected:
-        - pulsar
         - offline
     rules: []
-    # rank: |
+    rank: |
+      final_destinations = helpers.weighted_random_sampling(candidate_destinations)
+      final_destinations
     #   import requests
     #   params = {
     #     'pretty': 'true',
@@ -34,32 +36,49 @@ tools:
     #     log.exception("An error occurred while querying influxdb. Using a weighted random candidate destination")
     #     final_destinations = helpers.weighted_random_sampling(candidate_destinations)
     #   final_destinations
-  upload1:
-    cores: 2
-  '.*iuc/fasta_stats/fasta-stats.*':
-    cores: 2
-    params:
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem=500"
-    scheduling:
-      tolerated:
-        - pulsar
-  '.*bwa_mem.*':
-    cores: 2
-    scheduling:
-      tolerated:
-        - pulsar
-  '.*hifiasm.*':
-    cores: 2
+  pulsar_preferred:
     scheduling:
       preferred:
         - pulsar
+  upload1:
+    cores: 2
+  '.*iuc/fasta_stats/fasta-stats.*':
+    scheduling:
+      preferred:
+        - pulsar
+    inherits: pulsar_preferred
+    cores: 2
+  '.*bwa_mem.*':
+    scheduling:
+      preferred:
+        - pulsar
+    inherits: pulsar_preferred
+    cores: 2
+  '.*hifiasm.*':
+    scheduling:
+      preferred:
+        - pulsar
+    inherits: pulsar_preferred
+    cores: 2
     rules:
       - match: input_size >= 0.2
         cores: 16
-
 users:
   default:
     rules:
+      # - match: |
+      #     from galaxy.jobs.rule_helper import RuleHelper  # this does not work and is probably taken care of by galaxy anyway
+
+      #     retval = False
+      #     if user:
+      #       rule_helper = RuleHelper(app)
+      #       job_limit = 10
+      #       # job_limit = app.job_config.limits.registered_user_concurrent_jobs
+      #       user_job_count = rule_helper.job_count(for_user_email=user.email)
+      #       if user_job_count >= job_limit:
+      #         retval = True
+      #     retval
+      #   fail: "User {user.id} has too many running jobs to schedule another"
       - match: |
           from galaxy.jobs.rule_helper import RuleHelper
           from vortex.core.resources import TagType
@@ -78,6 +97,15 @@ users:
             retval = False
           retval
         fail: "You cannot have more than 4 high-mem jobs running concurrently"
+  pulsar_user@usegalaxy.org.au:
+    scheduling:
+      required:
+        - dev-pulsar
+  pulsar_nci_test_user@usegalaxy.org.au:
+    scheduling:
+      required:
+        - pulsar-nci-test
+
 destinations:
   slurm:
     cores: 4
@@ -92,13 +120,15 @@ destinations:
     scheduling:
       tolerated:
         - general
+        - dev-pulsar
       required:
         - pulsar
   pulsar-nci-test:
-    cores: 32
-    mem: 96.38
+    cores: 16
+    mem: 48.19
     scheduling:
       tolerated:
         - general
+        - pulsar-nci-test
       required:
         - pulsar
