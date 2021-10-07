@@ -36,7 +36,7 @@ galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
 
 # galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git  # usegalaxy-au fork of galaxy
-galaxy_commit_id: release_21.01_cloudstor
+galaxy_commit_id: release_21.05_cloudstor
 
 # Use cloudstor branch and extra tool_conf file and user prefs for cloudstor tool
 use_cloudstor_conf: true
@@ -49,24 +49,17 @@ nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 # ITs tool conf overrides.
 tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_conf|d(false) == true else default_settings['tool_config_files'] }},{{ galaxy_config_dir }}/tool_conf_interactive.xml"
 
-# Overrride the templates list from galaxy.yml
-galaxy_config_templates:
-  - src: "{{ galaxy_config_template_src_dir }}/static/welcome.html.j2"
-    dest: "{{ galaxy_server_dir }}/static/welcome.html"
-  - src: "{{ galaxy_config_template_src_dir }}/config/job_conf.xml.j2"
-    dest: "{{ galaxy_config_dir}}/job_conf.xml"
-  - src: "{{ galaxy_config_template_src_dir }}/config/reports.yml.j2"
-    dest: "{{ galaxy_config_dir }}/reports.yml"
+host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/oidc_backends_config.xml.j2"
     dest: "{{ galaxy_config_dir}}/oidc_backends_config.xml"
-  - src: templates/galaxy/config/tool_conf_interactive.xml.j2
-    dest: "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
-  - src: templates/galaxy/config/pulsar_app.yml.j2
-    dest: "{{ galaxy_config_dir }}/pulsar_app.yml"
-  - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
-    dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
-  - src: "{{ galaxy_config_file_src_dir }}/config/file_sources_conf.yml"
-    dest: "{{ galaxy_config_dir}}/file_sources_conf.yml"
+  - src: "{{ galaxy_config_template_src_dir }}/config/dev_job_conf.yml.j2"
+    dest: "{{ galaxy_config_dir}}/job_conf.yml"
+
+host_galaxy_config_files:
+  - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
+    dest: "{{ galaxy_config_dir}}/oidc_config.xml"
+  - src: files/galaxy/dynamic_job_rules/dev/total_perspective_vortex/vortex_config.yml
+    dest: "{{ galaxy_config_dir}}/vortex_rules_local.yml"
 
 host_galaxy_config:  # renamed from __galaxy_config
   galaxy:
@@ -85,7 +78,8 @@ host_galaxy_config:  # renamed from __galaxy_config
     nginx_upload_job_files_path: '/_job_files'
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
-    file_sources_config_file: "{{ galaxy_config_dir }}/file_sources_conf.yml"
+    cleanup_job: never
+    job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
 
 galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
 
@@ -129,7 +123,7 @@ galaxy_jobconf:
             galaxy_url: "https://dev.usegalaxy.org.au"
             manager: _default_
             amqp_acknowledge: True
-            amqp_ack_republish_time: 300
+            amqp_ack_republish_time: 1200
             amqp_consumer_timeout: 2.0
             amqp_publish_retry: True
             amqp_publish_retry_max_retries: 60
@@ -146,7 +140,11 @@ galaxy_jobconf:
         runner: dynamic
         params:
           type: dtd
-      - id: slurm_dest
+      - id: slurm_1slot
+        runner: slurm
+        params:
+            nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=3880"
+      - id: slurm_2slots
         runner: slurm
         params:
             nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
@@ -160,8 +158,8 @@ galaxy_jobconf:
               dependency_resolution: remote
               rewrite_parameters: "true"
               persistence_directory: /mnt/pulsar/files/persisted_data
-              submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
-      - id: pulsar_destination_nci
+              submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7495"
+      - id: pulsar-nci-test_small
         runner: pulsar_nci_test_runner
         params:
               jobs_directory: /mnt/pulsar/files/staging
@@ -171,7 +169,29 @@ galaxy_jobconf:
               dependency_resolution: remote
               rewrite_parameters: "true"
               persistence_directory: /mnt/pulsar/files/persisted_data
-              submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+              submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=6168"
+      - id: pulsar-nci-test_mid
+        runner: pulsar_nci_test_runner
+        params:
+              jobs_directory: /mnt/pulsar/files/staging
+              transport: curl
+              remote_metadata: "false"
+              default_file_action: remote_transfer
+              dependency_resolution: remote
+              rewrite_parameters: "true"
+              persistence_directory: /mnt/pulsar/files/persisted_data
+              submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=24675"
+      - id: pulsar-nci-test_big
+        runner: pulsar_nci_test_runner
+        params:
+              jobs_directory: /mnt/pulsar/files/staging
+              transport: curl
+              remote_metadata: "false"
+              default_file_action: remote_transfer
+              dependency_resolution: remote
+              rewrite_parameters: "true"
+              persistence_directory: /mnt/pulsar/files/persisted_data
+              submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
       - id: interactive_local
         runner: local
         params:
@@ -213,8 +233,10 @@ galaxy_jobconf:
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 
 # vars for setting up .pgpass
-galaxy_db_password: "{{ vault_dev_db_user_password }}"
-reader_db_password: "{{ vault_dev_db_reader_password }}"
+pg_db_password:
+  galaxy: "{{ vault_dev_db_user_password }}"
+  reader: "{{ vault_dev_db_reader_password }}"
+  tiaasadmin: "{{ vault_dev_db_tiaasadmin_password }}"
 db_address: "dev-db.usegalaxy.org.au"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 
@@ -229,9 +251,13 @@ tiaas_info:
   owner_site: "https://dev.usegalaxy.org.au"
   domain: "dev.usegalaxy.org.au"
 
-# Custos/AAF specific settings
-custos_client_id: "{{ vault_custos_client_id_dev }}"
-custos_client_secret: "{{ vault_custos_client_secret_dev }}"
+  # Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
+tiaas_disassociate_training_roles:
+  hour: 9      # optional, defaults to 0
+  minute: 0    # optional, defaults to 0
+
+# AAF specific settings
+aaf_issuer_url: "{{ vault_aaf_issuer_url_dev }}"
 aaf_client_id: "{{ vault_aaf_client_id_dev }}"
 aaf_client_secret: "{{ vault_aaf_client_secret_dev }}"
 
@@ -242,8 +268,12 @@ rpc_db_connection_string: "postgres://reader:{{ vault_dev_db_reader_password }}@
 rpc_pulsar_machines:
   - pulsar_name: dev-pulsar
     pulsar_ip_address: "{{ hostvars['dev-pulsar']['ansible_ssh_host'] }}"
-    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
     delete_jwds: true
     keep_error_days: 7
     cron_hour: "07"
     cron_minute: "32"
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: private

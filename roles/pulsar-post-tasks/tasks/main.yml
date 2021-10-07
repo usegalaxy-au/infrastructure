@@ -9,7 +9,6 @@
       owner: ubuntu
       group: ubuntu
       state: directory
-      recurse: yes
       mode: 0755
 - name: own the galaxy_dir dirs as ubuntu
   file:
@@ -17,7 +16,6 @@
       owner: ubuntu
       group: ubuntu
       state: directory
-      recurse: yes
       mode: 0750
 - name: restart munge
   systemd:

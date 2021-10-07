@@ -33,12 +33,14 @@
     - geerlingguy.nfs
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - usegalaxy_eu.gxadmin
+    - galaxyproject.gxadmin
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
     - pg-post-tasks
     - remote-pulsar-cron
+    - galaxy-pg-cleanup
     - usegalaxy_eu.tiaas2
+    - slg.galaxy_stats
   post_tasks:
     - name: Clone Galaxy-Owncloud-Integration
       git:

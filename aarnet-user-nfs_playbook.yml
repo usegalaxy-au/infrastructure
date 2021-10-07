@@ -7,13 +7,17 @@
       - group_vars/nfs_servers.yml
       - host_vars/aarnet-user-nfs.usegalaxy.org.au.yml
   pre_tasks:
-      - name: Attach volume to instance
+      - name: Create galaxy_aarnet_user_data_dir directory
+        file:
+          path: /mnt/aarnet/user-data-3
+          state: directory
+      - name: Create galaxy_perth_user_data_dir directory
+        file:
+          path: /mnt/perth
+          state: directory
+      - name: Attach volumes to instance
         include_role:
           name: attached-volumes
-      - name: Create galaxy_user_data_dir directory
-        file:
-          path: "{{ galaxy_user_data_dir }}"
-          state: directory
   roles:
       - common
       - insspb.hostname
@@ -23,7 +27,7 @@
   post_tasks:
       - name: Chown shared dirs to Galaxy user
         file:
-          path: "{{ galaxy_user_data_dir }}"
+          path: "{{ galaxy_aarnet_user_data_dir }}"
           owner: galaxy
           group: galaxy
           recurse: yes

@@ -29,3 +29,12 @@
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks
+    - slg.galaxy_stats
+  post_tasks:
+    - name: Make sure link from /mnt/pulsar/files to /mnt/files exists
+      file:
+        src: /mnt/files
+        dest: /mnt/pulsar/files
+        state: link
+        owner: ubuntu
+        group: ubuntu

@@ -12,7 +12,7 @@ ssl_email: "help@genome.edu.au"
 
 #host specific pulsar settings
 
-rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_paw_pawsey }}"
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_paw_prod }}"
 pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_paw"
 pulsar_rabbit_vhost: "/pulsar/galaxy_paw"

@@ -20,7 +20,7 @@
       block: |
         {{ bashrc_env }}
       marker: "# {mark} MANAGED BY ANSIBLE - DO NOT MODIFY"
-    with_items: "{{ machine_users }}"
+    with_items: "{{ machine_users + [{'name': 'ubuntu'}] }}"
     when: bashrc_env is defined
   - name: Add SSH keys for users
     authorized_key:
@@ -33,4 +33,4 @@
       dest: "/etc/sudoers.d/{{ item.name }}"
       content: "{{ item.name }}  ALL=(ALL)  NOPASSWD: ALL"
       validate: /usr/sbin/visudo -cf %s
-    with_items: "{{ machine_users | selectattr('role', 'equalto', 'sudo') | list }}"
+    with_items: "{{ machine_users | selectattr('roles', 'contains', 'sudo') | list }}"

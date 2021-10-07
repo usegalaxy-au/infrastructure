@@ -42,6 +42,7 @@
       with_items:
         - tool_labels.yml
         - update_labels.py
+        - hidden_tools.yml
     - name: Back up shed_tool_conf.xml
       shell: "cp {{ shed_tool_conf_path }} {{ shed_tool_conf_backups_directory }}/shed_tool_conf.xml_$(date '+%Y.%m.%d.%H.%M.%S')"
     - name: Copy shed_tool_conf to working directory

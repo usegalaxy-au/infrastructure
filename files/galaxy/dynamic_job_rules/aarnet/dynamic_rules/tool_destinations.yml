@@ -1,0 +1,16 @@
+
+tools:
+    upload1:
+        default_destination: slurm_1slot_upload
+    # fastqc:
+    #     rules:
+    #       - rule_type: file_size
+    #         nice_value: 0
+    #         lower_bound: 0
+    #         upper_bound: 1 MB
+    #         destination: pulsar-nci-test_small
+    #     default_destination: pulsar-nci-test_mid
+
+default_destination: slurm_2slots
+
+verbose: True

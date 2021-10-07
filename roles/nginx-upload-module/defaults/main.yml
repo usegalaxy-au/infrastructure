@@ -5,3 +5,10 @@ nginx_module_source_url: https://github.com/fdintino/nginx-upload-module/archive
 # default variables shared with galaxyproject.nginx role
 nginx_flavor: full
 nginx_conf_dir: /etc/nginx
+
+# settings for daily cron job to remove old files with mtime +1
+nginx_upload_store_set_cleanup_cron_job: false
+nginx_upload_store_cleanup_cron_user: ubuntu
+nginx_upload_store_cleanup_cron_hour: "14"
+nginx_upload_store_cleanup_cron_minute: "00"
+

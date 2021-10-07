@@ -12,15 +12,15 @@ ssl_email: "help@genome.edu.au"
 
 #host specific pulsar settings
 
-rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_hm1_pawsey }}"
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_hm1_prod }}"
 pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_hm1"
 pulsar_rabbit_vhost: "/pulsar/galaxy_hm1"
 
 attached_volumes:
-  - device: /dev/mapper/vg1-lvol0
+  - device: /dev/mapper/vg_nvme_striped-lv_nvme_striped
     path: /mnt
-    fstype: ext4
+    fstype: xfs
 
 galaxy_uid: 10010
 galaxy_gid: 10010
@@ -40,7 +40,7 @@ telegraf_agent_output:
 
 auth_key_user: ubuntu
 
-head_nodes: "{{ groups['pulsar-high-mem1'] }}"
+head_nodes: "{{ groups['pulsar_high_mem1'] }}"
 
 # SLURM
 slurm_nodes:

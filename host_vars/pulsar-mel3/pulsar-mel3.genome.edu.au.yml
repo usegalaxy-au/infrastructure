@@ -2,6 +2,13 @@ hostname: "{{ ansible_hostname }}.genome.edu.au"
 
 # Keys and shares
 
+#NFS shares
+
+nfs_exports:
+    - "/mnt/galaxy  *(rw,async,no_root_squash,no_subtree_check)"
+    - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
+    - "/mnt/files   *(rw,async,no_root_squash,no_subtree_check)"
+
 create_ssh_key: yes  # Only the first time.
 ssl_country: "AU"
 ssl_state: "Vic"
@@ -12,7 +19,7 @@ ssl_email: "help@genome.edu.au"
 
 #host specific pulsar settings
 
-rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_mel3_pawsey }}"
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_mel3_prod }}"
 pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_mel3"
 pulsar_rabbit_vhost: "/pulsar/galaxy_mel3"
@@ -21,4 +28,7 @@ pulsar_rabbit_vhost: "/pulsar/galaxy_mel3"
 attached_volumes:
   - device: /dev/vdb
     path: /mnt
+    fstype: ext4
+  - device: /dev/vdc
+    path: /mnt/files
     fstype: ext4

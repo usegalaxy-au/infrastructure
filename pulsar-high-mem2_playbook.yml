@@ -1,4 +1,4 @@
-- hosts: pulsar-high-mem2
+- hosts: pulsar_high_mem2
   become: true
   vars_files:
     - group_vars/all.yml
@@ -21,3 +21,4 @@
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks
+    - slg.galaxy_stats

@@ -13,9 +13,9 @@ postgresql_conf:
   #   DB Type: web
   #   Total Memory (RAM): 32 GB
   #   CPUs num: 8
-  #   Connections num: 500
-  #   Data Storage: hdd
-  - max_connections: 500       # Set to be the same as main
+  #   Connections num: 100
+  #   Data Storage: san
+  - max_connections: 100       # Set to be the same as main
   - listen_addresses: "'*'"   # Allow remote connections
   - data_directory: "'/data/production'"
   - shared_buffers: 8GB
@@ -24,9 +24,9 @@ postgresql_conf:
   - checkpoint_completion_target: 0.7
   - wal_buffers: 16MB
   - default_statistics_target: 100
-  - random_page_cost: 4
-  - effective_io_concurrency: 2
-  - work_mem: 4194kB
+  - random_page_cost: 1.1
+  - effective_io_concurrency: 300
+  - work_mem: 5242kB
   - min_wal_size: 1GB
   - max_wal_size: 4GB
   - max_worker_processes: 8
@@ -54,21 +54,24 @@ postgresql_objects_users:
   - name: reader
     password: "{{ vault_pawsey_db_reader_password }}"
     db: galaxy
+  - name: tiaasadmin
+    password: "{{ vault_pawsey_db_tiaasadmin_password }}"
+    db: galaxy
   - name: tiaas
     password: "{{ tiaas_galaxy_db_password }}"
     db: galaxy
 postgresql_objects_privileges:
   - database: galaxy
-    roles: reader
+    roles: reader,tiaasadmin
     objs: ALL_IN_SCHEMA
     privs: SELECT
   - database: galaxy
-    roles: reader
+    roles: tiaasadmin
     objs: group_role_association,user_group_association,user_role_association,role,galaxy_group
     privs: DELETE
   - database: galaxy
     roles: tiaas
-    objs: galaxy_user,galaxy_session,job,history,workflow,workflow_invocation
+    objs: galaxy_user,galaxy_session,job
     type: table
     privs: SELECT
   - database: galaxy
@@ -81,6 +84,11 @@ postgresql_objects_privileges:
     objs: role_id_seq,galaxy_group_id_seq,group_role_association_id_seq,user_group_association_id_seq
     type: sequence
     privs: USAGE,SELECT
+  - database: galaxy
+    roles: tiaas
+    objs: group_role_association
+    type: table
+    privs: DELETE
 postgresql_objects_databases:
   - name: galaxy
     owner: galaxy

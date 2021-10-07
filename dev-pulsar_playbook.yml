@@ -7,6 +7,7 @@
     - group_vars/dev_pulsar_slurm.yml
     - group_vars/VAULT
     - host_vars/dev-pulsar.usegalaxy.org.au.yml
+    - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
     - name: apt update
       apt:

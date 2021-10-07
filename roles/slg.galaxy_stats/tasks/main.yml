@@ -1,3 +1,5 @@
+
+#Common stuff
 - name: Create stats dir
   file:
     path: "{{ stats_dir }}"
@@ -16,13 +18,15 @@
     virtualenv: "{{ virtualenv_dir }}"
     requirements: "{{ stats_dir }}/requirements.txt"
 
-- name: copy galaxy_queue_size.py
+# sinfo info :)
+- name: copy get_queue_size.py
   template:
-    src: templates/galaxy_queue_size.py.j2
-    dest: "{{ stats_dir}}/galaxy_queue_size.py"
+    src: templates/get_queue_size.py.j2
+    dest: "{{ stats_dir}}/get_queue_size.py"
     mode: 0755
     owner: ubuntu
     group: ubuntu
+  when: add_utilisation_info or add_queue_info
 
 - name: copy current_stats
   template:
@@ -31,6 +35,7 @@
     mode: 0755
     owner: ubuntu
     group: ubuntu
+  when: add_daily_stats
 
 - name: copy daily_stats
   template:
@@ -39,6 +44,7 @@
     mode: 0755
     owner: ubuntu
     group: ubuntu
+  when: add_daily_stats
 
 - name: Create secret.yml
   template:
@@ -58,11 +64,12 @@
 
 - name: Create cron job for galaxy_queue_size.py
   cron:
-    name: "galaxy_queue_size"
+    name: "get_queue_size"
     minute: "*"
-    job: "{{ virtualenv_dir }}/bin/python {{ stats_dir }}/galaxy_queue_size.py main {{ galaxy_config_dir }}/job_conf.xml"
+    job: "{{ virtualenv_dir }}/bin/python {{ stats_dir }}/get_queue_size.py main {{ galaxy_config_dir }}/job_conf.xml"
   become: yes
   become_user: ubuntu
+  when: add_utilisation_info or add_queue_info
 
 - name: Create cron job for daily stats
   cron:
@@ -72,6 +79,7 @@
     job: "bash {{ stats_dir }}/daily_stats.sh"
   become: yes
   become_user: ubuntu
+  when: add_daily_stats
 
 - name: Create cron job for current stats
   cron:
@@ -81,12 +89,14 @@
     job: "bash {{ stats_dir }}/current_stats.sh"
   become: yes
   become_user: ubuntu
+  when: add_daily_stats
 
 - name: Copy monthly_stats_collector.py
   copy:
     src: files/monthly_stats_collector.py
     dest: "{{ stats_dir }}/monthly_stats_collector.py"
-  owner: ubuntu
-  group: ubuntu
-  mode: 0766
+    owner: ubuntu
+    group: ubuntu
+    mode: 0766
+  when: add_monthly_stats
   

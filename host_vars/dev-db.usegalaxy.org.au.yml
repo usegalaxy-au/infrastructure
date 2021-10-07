@@ -15,20 +15,24 @@ postgresql_objects_users:
   - name: reader
     password: "{{ vault_dev_db_reader_password }}"
     db: galaxy
+  - name: tiaasadmin
+    password: "{{ vault_dev_db_tiaasadmin_password }}"
+    db: galaxy
   - name: tiaas
     password: "{{ tiaas_galaxy_db_password }}"
+    db: galaxy
 postgresql_objects_privileges:
   - database: galaxy
-    roles: reader
+    roles: reader,tiaasadmin
     objs: ALL_IN_SCHEMA
     privs: SELECT
   - database: galaxy
-    roles: reader
+    roles: tiaasadmin
     objs: group_role_association,user_group_association,user_role_association,role,galaxy_group
     privs: DELETE
   - database: galaxy
     roles: tiaas
-    objs: galaxy_user,galaxy_session,job,history,workflow,workflow_invocation
+    objs: galaxy_user,galaxy_session,job
     type: table
     privs: SELECT
   - database: galaxy
@@ -41,6 +45,11 @@ postgresql_objects_privileges:
     objs: role_id_seq,galaxy_group_id_seq,group_role_association_id_seq,user_group_association_id_seq
     type: sequence
     privs: USAGE,SELECT
+  - database: galaxy
+    roles: tiaas
+    objs: group_role_association
+    type: table
+    privs: DELETE
 postgresql_objects_databases:
   - name: galaxy
     owner: galaxy

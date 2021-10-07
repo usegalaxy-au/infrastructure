@@ -28,7 +28,7 @@ interactive_tools_server_name: "usegalaxy.org.au"
 
 # galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git  # usegalaxy-au fork of galaxy
-galaxy_commit_id: release_21.01_cloudstor
+galaxy_commit_id: release_21.05_cloudstor
 
 # Use extra tool_conf file and user prefs for cloudstor tool
 use_cloudstor_conf: true
@@ -45,6 +45,14 @@ shared_mounts:
       state: mounted
     - path: /mnt/user-data
       src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/mnt/user-data"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/user-data-2
+      src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-2"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/user-data-3
+      src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-3"
       fstype: nfs
       state: mounted
     - path: /mnt/tmp
@@ -75,30 +83,18 @@ galaxy_tmp_dir: /mnt/tmp
 
 galaxy_handler_count: 5   ############# europe uses 5, this could be host specific
 
-galaxy_file_path: /mnt/user-data
+galaxy_file_path: /mnt/user-data-3
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
+nginx_upload_store_set_cleanup_cron_job: true
 
 # ITs tool conf overrides.
 tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_conf|d(false) == true else default_settings['tool_config_files'] }},{{ galaxy_config_dir }}/tool_conf_interactive.xml"
 
-galaxy_config_template_src_dir: templates/galaxy
-galaxy_config_templates:
-  - src: "{{ galaxy_config_template_src_dir }}/static/welcome.html.j2"
-    dest: "{{ galaxy_server_dir }}/static/welcome.html"
-  - src: "{{ galaxy_config_template_src_dir }}/config/job_conf.xml.j2"
-    dest: "{{ galaxy_config_dir}}/job_conf.xml"
-  - src: "{{ galaxy_config_template_src_dir }}/config/reports.yml.j2"
-    dest: "{{ galaxy_config_dir }}/reports.yml"
-  - src: "{{ galaxy_config_template_src_dir }}/config/oidc_backends_config.xml.j2"
-    dest: "{{ galaxy_config_dir}}/oidc_backends_config.xml"
-  - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
-    dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
-  - src: templates/galaxy/config/tool_conf_interactive.xml.j2
-    dest: "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
-  - src: templates/galaxy/config/pulsar_app.yml.j2
-    dest: "{{ galaxy_config_dir }}/pulsar_app.yml"
+host_galaxy_config_files:
+  - src: "{{ galaxy_config_file_src_dir }}/config/object_store_conf.xml"
+    dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
 
 host_galaxy_config:  # renamed from __galaxy_config
   uwsgi:
@@ -110,18 +106,20 @@ host_galaxy_config:  # renamed from __galaxy_config
       - lib/galaxy/main.py
     farm: job-handlers:1,2,3,4,5
   galaxy:
-    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},{{ bpa_email }}" # everyone is an admin on pawsey
+    admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
     brand: "Australia"
     database_connection: "postgres://galaxy:{{ vault_pawsey_db_user_password }}@{{ hostvars['pawsey-db']['internal_ip'] }}:5432/galaxy"
     id_secret: "{{ vault_pawsey_id_secret }}"
     file_path: "{{ galaxy_file_path }}"
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     smtp_server: localhost
-    ga_code: "{{ vault_pawsey_ga_code }}"
+    ga_code: "{{ vault_prod_ga_code }}"
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
     galaxy_infrastructure_url: 'https://usegalaxy.org.au'
-    enable_oidc: false
+    enable_oidc: true
+    oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
+    oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
     # nginx upload module
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
     nginx_upload_path: '/_upload'
@@ -132,17 +130,24 @@ host_galaxy_config:  # renamed from __galaxy_config
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 
 # vars for setting up .pgpass
-galaxy_db_password: "{{ vault_pawsey_db_user_password }}"
-reader_db_password: "{{ vault_pawsey_db_reader_password }}"
+pg_db_password:
+  galaxy: "{{ vault_pawsey_db_user_password }}"
+  reader: "{{ vault_pawsey_db_reader_password }}"
+  tiaasadmin: "{{ vault_pawsey_db_tiaasadmin_password }}"
 db_address: "{{ hostvars['pawsey-db']['internal_ip'] }}"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 
 # vars for stats_collection
 stats_dir: /home/ubuntu/stats_collection/
 db_server: "{{ hostvars['pawsey-db']['internal_ip'] }}"
-influx_url: "http://stats.genome.edu.au:8086"
-db_password: "{{ galaxy_user_db_password }}"
-influx_salt: "{{ pawsey_queue_size_salt }}"
+influx_url: "stats.genome.edu.au"
+db_password: "{{ galaxy_db_user_password }}"
+influx_salt: "{{ prod_queue_size_salt }}"
+influx_db_stats: "GA_server"
+add_daily_stats: true
+add_montly_stats: true
+add_queue_info: true
+add_utilisation_info: true
 
 #Vars for TIaaS
 tiaas_galaxy_db_host: "pawsey-db.usegalaxy.org.au"
@@ -161,11 +166,15 @@ tiaas_other_config: |
     TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
     TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"
 
-# Custos/AAF specific settings
-custos_client_id: "{{ vault_custos_client_id_pawsey }}"
-custos_client_secret: "{{ vault_custos_client_secret_pawsey }}"
-aaf_client_id: "{{ vault_aaf_client_id_pawsey }}"
-aaf_client_secret: "{{ vault_aaf_client_secret_pawsey }}"
+  # Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
+tiaas_disassociate_training_roles:
+  hour: 9      # optional, defaults to 0
+  minute: 0    # optional, defaults to 0
+
+## AAF specific settings
+aaf_issuer_url: "{{ vault_aaf_issuer_url_prod }}"
+aaf_client_id: "{{ vault_aaf_client_id_prod }}"
+aaf_client_secret: "{{ vault_aaf_client_secret_prod }}"
 
 # remote-pulsar-cron variables
 rpc_skip_cron_setup: false
@@ -184,5 +193,26 @@ rpc_pulsar_machines:
     ssh_key: /home/ubuntu/.ssh/galaxy-australia
     delete_jwds: true
     keep_error_days: 7
-    cron_hour: "17"
+    cron_hour: "5,11,17,23"
     cron_minute: "10"
+  - pulsar_name: pulsar-paw
+    pulsar_ip_address: "{{ hostvars['pulsar-paw']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/gvl_2019
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "20"
+  - pulsar_name: pulsar-high-mem1
+    pulsar_ip_address: "{{ hostvars['pulsar-high-mem1']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "30"
+  - pulsar_name: pulsar-high-mem2
+    pulsar_ip_address: "{{ hostvars['pulsar-high-mem2']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "40"

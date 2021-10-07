@@ -9,10 +9,38 @@ preferences:
           checked: false
           value: false
           help: If you select yes, you will be able to select for each tool and workflow run if you would like to use this feature.
+    owncloud_account:
+        description: OwnCloud/CloudStor Credentials
+        inputs:
+            - name: server_url
+              label: Server URL
+              type: select
+              required: False
+              options:
+                  - ["https://cloudstor.aarnet.edu.au/plus/remote.php/webdav", "https://cloudstor.aarnet.edu.au/plus/remote.php/webdav"]
+            - name: username
+              label: Username
+              type: text
+              required: False
+            - name: password
+              label: App Password
+              type: password
+              required: False
     dropbox:
         description: Your DropBox Account
         inputs:
             - name: access_token
               label: Dropbox access token (See https://dropbox.tech/developers/generate-an-access-token-for-your-own-account)
               type: text
+              required: False
+    ena_webin_account:
+        description: Your ENA Webin account details
+        inputs:
+            - name: webin_id
+              label: ENA Webin ID
+              type: text
+              required: False
+            - name: password
+              label: Password
+              type:  password
               required: False

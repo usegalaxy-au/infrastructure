@@ -48,3 +48,13 @@
       - postgresql-client
       - pigz
 
+- name: Create cron job for backup
+  cron:
+    name: Run database backup
+    hour: "{{ backup_run_hour}}"
+    minute: "{{ backup_run_minute }}"
+    job: "{{ script_path }}/galaxy-backup-db.sh"
+    user: ubuntu
+    state: present
+  when: set_backup_cron
+

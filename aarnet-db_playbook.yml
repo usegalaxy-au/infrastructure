@@ -15,19 +15,52 @@
             name: python3-psycopg2
             state: present
         become: true
-      - name: create data directory
-        file:
-          path: /data/production
-          owner: postgres
-          group: postgres
-          state: directory
-          mode: 0700
   roles:
       - common
       - insspb.hostname
       - geerlingguy.pip
       - galaxyproject.postgresql
-      - role: natefoo.postgresql_objects
-        become: true
-        become_user: postgres
       - dj-wasabi.telegraf
+  post_tasks:
+    - name: stat data directory
+      stat:
+        path: "{{ postgresql_pgdata }}"
+      register: data_dir
+    - name: move the data directory
+      block:
+        - name: get postgresql version string
+          shell: pg_config --version
+          register: version_string
+        - name: set postgresql_version_major
+          set_fact:
+            postgresql_version_major: "{{ version_string | regex_findall('PostgreSQL ([0-9]+).') | first }}"
+        - name: stop postgres
+          service:
+            name: postgresql
+            state: stopped
+        - name: create data directory
+          file:
+            path: "{{ postgresql_pgdata }}"
+            state: directory
+            mode: 0700
+            owner: postgres    
+            group: postgres
+        - name: Run initdB
+          command:
+            cmd: "/usr/lib/postgresql/{{ postgresql_version_major }}/bin/initdb -D {{ postgresql_pgdata }}"
+          become: true
+          become_user: postgres
+        - name: Start postgresql with -D data_directory
+          command:
+            cmd: "/usr/lib/postgresql/{{ postgresql_version_major }}/bin/pg_ctl -D {{ postgresql_pgdata }} start"
+          become: true
+          become_user: postgres
+        - name: override postgresql_objects_privileges since there are not any tables yet
+          set_fact:
+            postgresql_objects_privileges: []
+      when: not data_dir.stat.exists
+    - name: run postgresql objects role
+      import_role:
+        name: natefoo.postgresql_objects
+      become: true
+      become_user: postgres

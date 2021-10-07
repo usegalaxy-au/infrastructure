@@ -1,0 +1,185 @@
+# Specific settings for galaxy dev application/web server
+
+#TO DO:
+# 
+
+# variables for attaching mounted volume to application server
+attached_volumes:
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
+
+certbot_domains:
+- "{{ hostname }}"
+# - "usegalaxy.org.au"
+# - "www.usegalaxy.org.au"
+- "*.interactivetoolentrypoint.interactivetool.aarnet.usegalaxy.org.au"  # we can only use aarnet.usegalaxy, not usegalaxy at this point
+certbot_dns_provider: cloudflare
+certbot_dns_credentials:
+  api_token: "{{ vault_dns_cloudflare_api_token }}"
+dns-cloudflare-propagation-seconds: 60
+
+nginx_ssl_servers:
+  - galaxy
+  - galaxy-gie-proxy
+
+  #gie proxy hostname
+interactive_tools_server_name: "usegalaxy.org.au"
+
+# galaxy_repo: https://github.com/galaxyproject/galaxy.git
+galaxy_repo: https://github.com/usegalaxy-au/galaxy.git  # usegalaxy-au fork of galaxy
+galaxy_commit_id: release_21.05_cloudstor
+
+# Use extra tool_conf file and user prefs for cloudstor tool
+use_cloudstor_conf: true
+
+# Mounts for various connections:
+shared_mounts:
+    - path: /mnt/ghost-galaxy-app
+      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/tools-indices
+      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/tools-indices"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/user-data-0  # TEMPORARY LOCATION FOR USER DATA FOR AARNET TESTING.  TODO: Fix this before going live
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/user-data-0"
+      fstype: nfs
+      state: mounted
+    # - path: /mnt/user-data
+    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
+    #   fstype: nfs
+    #   state: mounted
+    - path: /mnt/tmp
+      src: "{{ hostvars['aarnet-job-nfs']['internal_ip'] }}:/mnt/tmp"
+      fstype: nfs
+      state: mounted
+    # - path: /mnt/files
+    #   src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
+    #   fstype: nfs
+    #   state: mounted
+    # - path: /mnt/files2
+    #   src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
+    #   fstype: nfs
+    #   state: mounted
+
+galaxy_db_user_password: "{{ vault_aarnet_db_user_password }}"  # ** check that this is set
+
+# ansible-galaxy
+galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/aarnet  # ** create these files
+galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
+galaxy_dynamic_job_rules:
+  - dynamic_rules/destination_mapper.py
+  - dynamic_rules/tool_destinations.yml
+  - readme.txt
+
+galaxy_tools_indices_dir: /mnt/tools-indices     
+galaxy_tmp_dir: /mnt/tmp
+
+galaxy_handler_count: 5
+
+galaxy_file_path: /mnt/user-data-0  # TEMPORARY LOCATION FOR USER DATA FOR AARNET TESTING.  TODO: Fix this before going live
+nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
+nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
+nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
+
+# ITs tool conf overrides.  TODO: simplify this
+tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_conf|d(false) == true else default_settings['tool_config_files'] }},{{ galaxy_config_dir }}/tool_conf_interactive.xml"
+
+host_galaxy_config_files:
+  # - src: "{{ galaxy_config_file_src_dir }}/config/object_store_conf.xml"
+  #   dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/aarnet_test_object_store_conf.xml"  # TEMPORARY OBJECT STORE CONF FOR AARNET TESTING. TODO: Switch to object_store_conf.xml before going live
+    dest: "{{ galaxy_config_dir }}/aarnet_test_object_store_conf.xml"
+
+host_galaxy_config:  # renamed from __galaxy_config
+  uwsgi:
+    mule:
+      - lib/galaxy/main.py
+      - lib/galaxy/main.py
+      - lib/galaxy/main.py
+      - lib/galaxy/main.py
+      - lib/galaxy/main.py
+    farm: job-handlers:1,2,3,4,5
+  galaxy:
+    admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
+    brand: "Australia"
+    database_connection: "postgres://galaxy:{{ vault_aarnet_db_user_password }}@{{ hostvars['aarnet-db']['internal_ip'] }}:5432/galaxy"
+    id_secret: "{{ vault_aarnet_id_secret }}"
+    file_path: "{{ galaxy_file_path }}"
+    object_store_config_file: "{{ galaxy_config_dir }}/aarnet_test_object_store_conf.xml"  # TEMPORARY OBJECT STORE CONF FOR AARNET TESTING. TODO: Switch to object_store_conf.xml before going live
+    # object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
+    smtp_server: localhost
+    # ga_code: "{{ vault_prod_ga_code }}"  ## swich off ga_code while testing.  TODO: uncomment this when we go live
+    interactivetools_enable: true
+    interactivetools_map: "{{ gie_proxy_sessions_path }}"
+    galaxy_infrastructure_url: 'https://usegalaxy.org.au'
+    enable_oidc: true
+    oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
+    oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
+    # nginx upload module
+    nginx_upload_store: "{{ nginx_upload_store_dir }}"
+    nginx_upload_path: '/_upload'
+    nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
+    nginx_upload_job_files_path: '/_job_files'
+
+# cvmfs
+cvmfs_cache_base: /mnt/var/lib/cvmfs
+
+# vars for setting up .pgpass
+pg_db_password:
+  galaxy: "{{ vault_aarnet_db_user_password }}"
+  reader: "{{ vault_aarnet_db_reader_password }}"
+  tiaasadmin: "{{ vault_aarnet_db_tiaasadmin_password }}"
+db_address: "{{ hostvars['aarnet-db']['internal_ip'] }}"
+gxadmin_ubuntu_config_dir: /home/ubuntu/.config
+
+# vars for stats_collection
+stats_dir: /home/ubuntu/stats_collection/
+db_server: "{{ hostvars['aarnet-db']['internal_ip'] }}"
+influx_url: "stats.genome.edu.au"
+db_password: "{{ galaxy_db_user_password }}"
+influx_salt: "{{ prod_queue_size_salt }}"
+
+#Vars for TIaaS
+tiaas_galaxy_db_host: "aarnet-db.usegalaxy.org.au"
+tiaas_galaxy_db_port: "5432"
+tiaas_galaxy_db_user: "tiaas"
+tiaas_galaxy_db_pass: "{{ vault_aarnet_db_tiaas_password }}"
+tiaas_info:
+  owner: "Galaxy Australia"
+  owner_email: help@genome.edu.au
+  owner_site: "https://usegalaxy.org.au"
+  domain: "usegalaxy.org.au"
+tiaas_other_config: |
+    EMAIL_HOST="localhost"
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_TIMEOUT = 60
+    TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
+    TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"
+
+## AAF specific settings
+aaf_issuer_url: "{{ vault_aaf_issuer_url_prod }}"
+aaf_client_id: "{{ vault_aaf_client_id_prod }}"
+aaf_client_secret: "{{ vault_aaf_client_secret_prod }}"
+
+# remote-pulsar-cron variables
+rpc_skip_cron_setup: false
+rpc_db_connection_string: "postgres://reader:{{ vault_aarnet_db_reader_password }}@aarnet-db.usegalaxy.org.au:5432/galaxy"
+
+rpc_pulsar_machines:
+  - pulsar_name: pulsar-mel3
+    pulsar_ip_address: "{{ hostvars['pulsar-mel3']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "00"
+  - pulsar_name: pulsar-mel2
+    pulsar_ip_address: "{{ hostvars['pulsar-mel2']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "10"

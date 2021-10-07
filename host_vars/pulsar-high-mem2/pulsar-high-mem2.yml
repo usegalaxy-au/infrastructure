@@ -12,7 +12,7 @@ ssl_email: "help@genome.edu.au"
 
 #host specific pulsar settings
 
-rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_hm2_pawsey }}"
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_hm2_prod }}"
 pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_hm2"
 pulsar_rabbit_vhost: "/pulsar/galaxy_hm2"
@@ -40,7 +40,7 @@ telegraf_agent_output:
 
 auth_key_user: ubuntu
 
-head_nodes: "{{ groups['pulsar-high-mem2'] }}"
+head_nodes: "{{ groups['pulsar_high_mem2'] }}"
 
 # SLURM
 slurm_nodes:

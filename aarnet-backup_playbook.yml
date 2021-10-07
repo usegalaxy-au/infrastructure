@@ -1,0 +1,34 @@
+- hosts: aarnet-backup
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/aarnet.yml
+      - group_vars/VAULT
+      - host_vars/aarnet-backup.yml
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+  roles:
+    - galaxyproject.repos
+    - common
+    - geerlingguy.pip
+    - slg.db-backup
+    - dj-wasabi.telegraf
+  post_tasks:
+    - name: Ensure ansible 2.10 or above is installed globally
+      pip:
+        name: ansible>=2.10
+    - name: Clone infrastructure repo
+      git:
+        repo: https://github.com/usegalaxy-au/infrastructure
+        dest: /home/ubuntu/infrastructure
+        update: yes
+      become: yes
+      become_user: ubuntu
+    - name: Update ansible roles
+      command:
+        cmd: ansible-galaxy install -p roles -r requirements.yml
+        chdir: /home/ubuntu/infrastructure
+      become: yes
+      become_user: ubuntu

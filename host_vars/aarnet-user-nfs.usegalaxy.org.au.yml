@@ -1,9 +1,16 @@
 attached_volumes:
   - device: /dev/vdb
-    path: /mnt
+    path: /mnt/perth
+    fstype: ext4
+  - device: /dev/vdd
+    path: /mnt/aarnet/user-data-3
     fstype: ext4
 
-galaxy_user_data_dir: /mnt/user-data
+galaxy_perth_user_data_dir: /mnt/perth/user-data
+galaxy_perth_user_data_2_dir: /mnt/perth/user-data-2
+galaxy_aarnet_user_data_dir: /mnt/aarnet/user-data-3
 
 nfs_exports:
-  - "{{ galaxy_user_data_dir }} 192.168.199.0/24(rw,async,no_root_squash,no_subtree_check)"
+  - "{{ galaxy_perth_user_data_dir }} 192.168.199.0/24(rw,async,no_root_squash,no_subtree_check)"
+  - "{{ galaxy_perth_user_data_2_dir }} 192.168.199.0/24(rw,async,no_root_squash,no_subtree_check)"
+  - "{{ galaxy_aarnet_user_data_dir }} 192.168.199.0/24(rw,async,no_root_squash,no_subtree_check)"

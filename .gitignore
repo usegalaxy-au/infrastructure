@@ -12,6 +12,7 @@ terraform/one-offs/*/.terraform
 terraform/one-offs/*/terraform*
 terraform/*/.terraform
 terraform/pulsar-nci-test/.terraform
+terraform/pulsar-nci-training/.terraform
 terraform/pulsar-mel2/.terraform
 terraform/pulsar-mel3/.terraform
 terraform/high-mem1/.terraform
@@ -29,11 +30,12 @@ roles/natefoo.postgresql_objects/
 roles/uchida.miniconda/
 roles/usegalaxy_eu.certbot/
 roles/usegalaxy_eu.galaxy_systemd/
+roles/usegalaxy_eu.gxadmin
 # roles/jasonroyle.rabbitmq # Commented out as we have made modifications to this role to update it for py3.
 roles/insspb.hostname
 roles/galaxyproject.pulsar
 roles/dj-wasabi.telegraf
-roles/usegalaxy_eu.gxadmin
+roles/galaxyproject.gxadmin
 roles/usegalaxy_eu.tiaas2
 roles/usegalaxy_eu.gie_proxy
 roles/geerlingguy.docker

@@ -1,8 +1,8 @@
 
 auth_key_user: ubuntu
 
-head_nodes: "{{ groups['pulsar-nci-test-head'] }}"
-worker_nodes: "{{ groups['pulsar-nci-test-workers'] }}"
+head_nodes: "{{ groups['pulsar_nci_test_head'] }}"
+worker_nodes: "{{ groups['pulsar_nci_test_workers'] }}"
 use_internal_ips: true
 
 # SLURM

@@ -111,7 +111,7 @@ def collect(queries, args):
         print()
 
 
-#Main
+# Main
 def main():
 
     VERSION = 0.1
@@ -197,4 +197,5 @@ def main():
         collect(query_list, args)
 
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()

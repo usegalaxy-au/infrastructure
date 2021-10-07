@@ -1,0 +1,31 @@
+- hosts: DR-galaxy-aust-db
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/qld-dr.yml
+      - group_vars/VAULT
+      - host_vars/qld-dr-db.usegalaxy.org.au.yml  
+  pre_tasks:
+      - name: Attach volume to instance
+        include_role:
+          name: attached-volumes
+      - name: Install psycopg2 for python3
+        apt:
+            name: python3-psycopg2
+            state: present
+        become: true
+      - name: create data directory
+        file:
+          path: /data/production
+          owner: postgres
+          group: postgres
+          state: directory
+          mode: 0700
+  roles:
+      - common
+      - insspb.hostname
+      - geerlingguy.pip
+      - galaxyproject.postgresql
+      - role: natefoo.postgresql_objects
+        become: true
+        become_user: postgres

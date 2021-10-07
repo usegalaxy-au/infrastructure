@@ -1,4 +1,4 @@
-- hosts: pulsar-high-mem1
+- hosts: pulsar_high_mem1
   become: true
   vars_files:
     - group_vars/all.yml
@@ -19,5 +19,6 @@
     - galaxyproject.slurm
     - galaxyproject.cvmfs
     - dj-wasabi.telegraf
-    - pulsar-post-tasks
+    #- pulsar-post-tasks
     - slurm-post-tasks
+    - slg.galaxy_stats
