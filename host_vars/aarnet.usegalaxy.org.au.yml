@@ -43,14 +43,14 @@ shared_mounts:
       src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/tools-indices"
       fstype: nfs
       state: mounted
-    # - path: /mnt/user-data
-    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/perth/user-data"
-    #   fstype: nfs
-    #   state: mounted
-    # - path: /mnt/user-data-2
-    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/perth/user-data-2"
-    #   fstype: nfs
-    #   state: mounted
+    - path: /mnt/user-data
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/perth/user-data"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/user-data-2
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/perth/user-data-2"
+      fstype: nfs
+      state: mounted
     - path: /mnt/user-data-3
       src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/aarnet/user-data-3"
       fstype: nfs
