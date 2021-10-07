@@ -1,0 +1,28 @@
+
+- name: find key definition
+  set_fact:
+    internal_ssh_key: "{{ internal_ssh_keys[extra_key.id] }}"
+
+- name: Add public ssh key
+  block:
+    - name: Add extra ssh public keys
+      authorized_key:
+        user: "{{ extra_key.user|d(internal_ssh_key.user) }}"
+        key: "{{ lookup('file', internal_ssh_key.public_key_src) }}"
+        key_options: "from=\"{{ extra_key.from }}\""
+        comment: "{{ extra_key.id }}"
+      when: extra_key.from is defined
+    - name: Message when extra_key.from is not defined
+      debug:
+        msg: "Cannot add public key {{ extra_key.id }} because item.from is not defined"
+      when: extra_key.from is not defined
+  when: extra_key.type == 'public'
+
+- name: Add private ssh key
+  copy:
+      content: "{{ internal_ssh_key.private_key_content }}"
+      dest: "/home/{{ extra_key.user|d(internal_ssh_key.user) }}/.ssh/{{ extra_key.id }}"
+      mode: "600"
+      owner: "{{ extra_key.user|d(internal_ssh_key.user) }}"
+      group: "{{ extra_key.user|d(internal_ssh_key.user) }}"
+  when: extra_key.type == 'private'

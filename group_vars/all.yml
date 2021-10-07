@@ -153,4 +153,9 @@ galaxy_job_metrics_plugins:
 
 pulsar_job_metrics_plugins: "{{ galaxy_job_metrics_plugins }}"
 
+internal_ssh_keys:
+  ubuntu_maintenance_key:
+    private_key_content: "{{ vault_ubuntu_maintenance_key }}"
+    public_key_src: files/keys/ubuntu_maintenance_key.pub
+    user: ubuntu
 

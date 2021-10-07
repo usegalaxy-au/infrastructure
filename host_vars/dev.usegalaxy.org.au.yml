@@ -52,10 +52,14 @@ tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/oidc_backends_config.xml.j2"
     dest: "{{ galaxy_config_dir}}/oidc_backends_config.xml"
+  - src: "{{ galaxy_config_template_src_dir }}/config/dev_job_conf.yml.j2"
+    dest: "{{ galaxy_config_dir}}/job_conf.yml"
 
 host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
     dest: "{{ galaxy_config_dir}}/oidc_config.xml"
+  - src: files/galaxy/dynamic_job_rules/dev/total_perspective_vortex/vortex_config.yml
+    dest: "{{ galaxy_config_dir}}/vortex_rules_local.yml"
 
 host_galaxy_config:  # renamed from __galaxy_config
   galaxy:
@@ -75,6 +79,7 @@ host_galaxy_config:  # renamed from __galaxy_config
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
     cleanup_job: never
+    job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
 
 galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
 
@@ -153,7 +158,7 @@ galaxy_jobconf:
               dependency_resolution: remote
               rewrite_parameters: "true"
               persistence_directory: /mnt/pulsar/files/persisted_data
-              submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+              submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7495"
       - id: pulsar-nci-test_small
         runner: pulsar_nci_test_runner
         params:
@@ -263,8 +268,12 @@ rpc_db_connection_string: "postgres://reader:{{ vault_dev_db_reader_password }}@
 rpc_pulsar_machines:
   - pulsar_name: dev-pulsar
     pulsar_ip_address: "{{ hostvars['dev-pulsar']['ansible_ssh_host'] }}"
-    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
     delete_jwds: true
     keep_error_days: 7
     cron_hour: "07"
     cron_minute: "32"
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: private

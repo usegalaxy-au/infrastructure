@@ -130,6 +130,12 @@
 - name: Add machine users
   import_tasks: machine_users.yml
 
+- name: Add extra ssh keys
+  include_tasks: extra_keys.yml
+  loop: "{{ extra_keys }}"
+  loop_control:
+    loop_var: extra_key
+
 - name: Make sure cloud configured hostname control is not present
   file:
     path: /etc/cloud/cloud.cfg.d/07_hostnamefix.cfg

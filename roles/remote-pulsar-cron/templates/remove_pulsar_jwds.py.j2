@@ -69,7 +69,7 @@ def main():
     dry_run = args.dry_run or global_dry_run  # opt in only
     rm_jwds_script = os.path.join(dirname, f'rm_jwds_{pulsar_name}.sh')
 
-    job_ids = sanitize_subprocess_output_list(f'ssh -i {ssh_key} {remote_user}@{pulsar_ip_address} \"ls {pulsar_staging_dir}\"')
+    job_ids = sanitize_subprocess_output_list(f'ssh -i {ssh_key} -o StrictHostKeyChecking=no {remote_user}@{pulsar_ip_address} \"ls {pulsar_staging_dir}\"')
     job_ids = [jid for jid in job_ids if is_job_id(jid)] # filter out anything that may not be a job working directory
 
     if not job_ids:
@@ -122,12 +122,12 @@ def main():
         log_handle.write(job_query_result)
 
         log_handle.write('Copying script to remote pulsar\n')
-        copy_exit_code = subprocess.call(f'scp -i {ssh_key} {rm_jwds_script} {remote_user}@{pulsar_ip_address}:{pulsar_staging_dir}', shell=True)
+        copy_exit_code = subprocess.call(f'scp -i {ssh_key} -o StrictHostKeyChecking=no {rm_jwds_script} {remote_user}@{pulsar_ip_address}:{pulsar_staging_dir}', shell=True)
         if not copy_exit_code == 0:
             log_handle.write(f'Error: Failed to copy {rm_jwds_script}\n\n')
             return
         if not dry_run:
-            script_exit_code = subprocess.call(f'ssh -i {ssh_key} {remote_user}@{pulsar_ip_address} \"builtin cd {pulsar_staging_dir}; sudo /bin/bash {os.path.basename(rm_jwds_script)}\"', shell=True)
+            script_exit_code = subprocess.call(f'ssh -i {ssh_key} -o StrictHostKeyChecking=no {remote_user}@{pulsar_ip_address} \"builtin cd {pulsar_staging_dir}; sudo /bin/bash {os.path.basename(rm_jwds_script)}\"', shell=True)
             log_handle.write(f'{get_current_time()}: Finished running script with exit code {script_exit_code}\n\n')
 
 

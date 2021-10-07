@@ -14,3 +14,8 @@ rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_au_dev }}"
 pulsar_queue_url: "dev-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_au"
 pulsar_rabbit_vhost: "/pulsar/galaxy_au"
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: public
+    from: "{{ hostvars['dev']['ansible_ssh_host'] }}"
