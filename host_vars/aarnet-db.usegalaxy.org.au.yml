@@ -15,7 +15,7 @@ postgresql_conf:
   #   CPUs num: 8
   #   Connections num: 500
   #   Data Storage: hdd
-  - max_connections: 500       # Set to be the same as main
+  - max_connections: 100       # Set to be the same as main
   - listen_addresses: "'*'"   # Allow remote connections
   - data_directory: "'/data/production'"
   - shared_buffers: 8GB
@@ -24,15 +24,22 @@ postgresql_conf:
   - checkpoint_completion_target: 0.7
   - wal_buffers: 16MB
   - default_statistics_target: 100
-  - random_page_cost: 4
-  - effective_io_concurrency: 2
-  - work_mem: 4194kB
+  - random_page_cost: 1.1
+  - effective_io_concurrency: 300
+  - work_mem: 5242kB
   - min_wal_size: 1GB
   - max_wal_size: 4GB
   - max_worker_processes: 8
   - max_parallel_workers_per_gather: 4
   - max_parallel_workers: 8
   - max_parallel_maintenance_workers: 4
+  # Following is for Replication database access and setup
+  - WAL_LEVEL: ARCHIVE
+  - Archive_mode: on
+  - max wal_senders: 5
+  - wal_keep_segments: 100
+
+
 
 postgresql_pgdata: "/data/production"
 
@@ -41,6 +48,7 @@ postgresql_pg_hba_conf:
   - host all all "{{ aarnet_galaxy_server_address }}" md5 #The allowed connection to the database for the dev galaxy server.
   - host all all "{{ hostvars['aarnet']['ansible_ssh_host'] }}/32" md5
   - host all all "{{ hostvars['aarnet-backup']['internal_ip'] }}/32" md5 #The allowed connection to the database from the backup server.
+  - host 	replication	postgres	"{{ hostvars['QLD-DR-db'][‘ansible_ssh_host'] }}/32" trust #connection from replication database
 
 postgresql_objects_users:
   - name: galaxy
