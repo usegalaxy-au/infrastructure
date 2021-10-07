@@ -2,7 +2,7 @@ attached_volumes:
   - device: /dev/vdb
     path: /mnt/perth
     fstype: ext4
-  - device: /dev/vdd
+  - device: /dev/vdc  
     path: /mnt/aarnet/user-data-3
     fstype: ext4
 
