@@ -36,7 +36,7 @@ postgresql_conf:
   # Following is for Replication database access and setup
   - WAL_LEVEL: ARCHIVE
   - Archive_mode: on
-  - max wal_senders: 5
+  - max_wal_senders: 5
   - wal_keep_segments: 100
 
 
