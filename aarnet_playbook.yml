@@ -27,6 +27,9 @@
       become_user: postgres
     - geerlingguy.pip
     - galaxyproject.galaxy
+    - role: galaxyproject.miniconda
+      become: true
+      become_user: galaxy
     - usegalaxy_eu.galaxy_systemd
     - nginx-upload-module
     - galaxyproject.nginx

@@ -23,6 +23,13 @@ interactive_tools_server_name: "{{ hostname }}"
 
 galaxy_db_user_password: "{{ vault_dev_db_user_password }}"
 
+# miniconda
+miniconda_version: '4.10.3'
+miniconda_channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
 # ansible-galaxy
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/dev
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
