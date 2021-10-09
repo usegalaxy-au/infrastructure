@@ -5,15 +5,15 @@ global:
 tools:
   default:
     cores: 1
-    mem: cores * 3 # note, some clusters will tolerate more than this
+    mem: cores * 3 # note, some clusters will accept more than this
     env: {}
     params:
       nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024}"
     scheduling:
-      preferred:
-      tolerated:
+      prefer:
+      accept:
         - general
-      rejected:
+      reject:
         - offline
     rules: []
     rank: |
@@ -38,7 +38,7 @@ tools:
     #   final_destinations
   pulsar_preferred:
     scheduling:
-      preferred:
+      prefer:
         - pulsar
   upload1:
     cores: 2
@@ -78,7 +78,7 @@ users:
             # Find all destinations that support highmem
             destinations = [d.id for d in mapper.destinations.values()
                             if any(d.tags.filter(tag_value='highmem',
-                                   tag_type=[TagType.REQUIRED, TagType.PREFERRED, TagType.TOLERATED]))]
+                                   tag_type=[TagType.REQUIRE, TagType.PREFER, TagType.ACCEPT]))]
             count = rule_helper.job_count(for_user_email=user.email, for_destinations=destinations)
             if count > 4:
               retval = True
@@ -90,11 +90,11 @@ users:
         fail: "You cannot have more than 4 high-mem jobs running concurrently"
   pulsar_user@usegalaxy.org.au:
     scheduling:
-      required:
+      require:
         - dev-pulsar
   pulsar_nci_test_user@usegalaxy.org.au:
     scheduling:
-      required:
+      require:
         - pulsar-nci-test
 
 destinations:
@@ -102,24 +102,24 @@ destinations:
     cores: 4
     mem: 15.5
     scheduling:
-      tolerated:
+      accept:
         - pulsar
         - general
   pulsar_destination:
     cores: 4
     mem: 7.77
     scheduling:
-      tolerated:
+      accept:
         - general
         - dev-pulsar
-      required:
+      require:
         - pulsar
   pulsar-nci-test:
     cores: 16
     mem: 48.19
     scheduling:
-      tolerated:
+      accept:
         - general
         - pulsar-nci-test
-      required:
+      require:
         - pulsar
