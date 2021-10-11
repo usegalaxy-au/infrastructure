@@ -11,6 +11,10 @@ shared_mounts:
       src: pulsar-mel2:/mnt/pulsar
       fstype: nfs
       state: mounted
+    - path: /mnt/galaxy
+      src: pulsar-mel2:/mnt/galaxy
+      fstype: nfs
+      state: absent
 
 
 # cvmfs

@@ -11,4 +11,8 @@ shared_mounts:
       src: pulsar-paw:/mnt/pulsar
       fstype: nfs
       state: mounted
+    - path: /mnt/galaxy
+      src: pulsar-paw:/mnt/galaxy
+      fstype: nfs
+      state: absent
 
