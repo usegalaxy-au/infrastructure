@@ -13,7 +13,7 @@ else
     . venv/bin/activate
 fi
 
-shed-tools test -t tools/all_tools.yml -g $galaxy_server -a $api_key --parallel_tests 6
+shed-tools test -t tools/all_tools.yml -g $galaxy_server -a $api_key --parallel_tests 15
 
 planemo test_reports
 

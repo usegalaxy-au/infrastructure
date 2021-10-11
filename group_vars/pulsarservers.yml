@@ -37,7 +37,7 @@ slurmdbd_config:
 #NFS shares
 
 nfs_exports:
-    - "/mnt/galaxy  *(rw,async,no_root_squash,no_subtree_check)"
+    - "/mnt/tools-indices  *(rw,async,no_root_squash,no_subtree_check)"
     - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
 
 # Pulsar
