@@ -40,7 +40,7 @@
     - remote-pulsar-cron
     - galaxy-pg-cleanup
     - usegalaxy_eu.tiaas2
-    - slg.galaxy_stats
+    # - slg.galaxy_stats
   post_tasks:
     - name: Clone Galaxy-Owncloud-Integration
       git:
