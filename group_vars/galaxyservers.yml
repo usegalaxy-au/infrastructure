@@ -57,6 +57,10 @@ create_nginx_htpasswd: true
 nginx_conf_user: galaxy  # the nginx-with-dynamic-module role uses this (though it is a var for galaxyproject.nginx)
 nginx_upload_limit_rate: 0 # for nginx template: rate in bytes per second.  0 means no limit. (EU has '32k', US has no limit)
 
+# miniconda
+miniconda_prefix: "{{ galaxy_conda_prefix }}"
+miniconda_version: "{{ global_miniconda_version|d(host_miniconda_version) }}"
+
 # Galaxy
 
 # Variables that will differ based on the value of use_cloudstor_conf
@@ -86,7 +90,6 @@ galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
 galaxy_mutable_data_dir: "{{ galaxy_root }}"
 galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_conda_prefix: "{{ galaxy_tools_indices_dir }}/tool_dependencies/_conda"
-miniconda_prefix: "{{ galaxy_conda_prefix }}"
 
 
 #########################################

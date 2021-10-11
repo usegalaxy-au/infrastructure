@@ -70,13 +70,6 @@ shared_mounts:
 
 galaxy_db_user_password: "{{ vault_aarnet_db_user_password }}"  # ** check that this is set
 
-# miniconda
-miniconda_version: '4.10.3'
-miniconda_channels:
-  - conda-forge
-  - bioconda
-  - defaults
-
 # ansible-galaxy
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/aarnet  # ** create these files
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
