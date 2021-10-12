@@ -3,16 +3,16 @@
   package:
     name: slurm-drmaa1
     state: present
-- name: own the pulsar_root dirs as ubuntu
+- name: own the pulsar_root dir as ubuntu
   file:
       path: "{{ pulsar_root }}"
       owner: ubuntu
       group: ubuntu
       state: directory
       mode: 0755
-- name: own the galaxy_dir dirs as ubuntu
+- name: own the pulsar_tools_indices_dir as ubuntu
   file:
-      path: "{{ galaxy_dir }}"
+      path: "{{ pulsar_tools_indices_dir }}"
       owner: ubuntu
       group: ubuntu
       state: directory
@@ -21,5 +21,3 @@
   systemd:
     name: munge
     state: restarted
-- name: Reload exportfs
-  command: exportfs -ra

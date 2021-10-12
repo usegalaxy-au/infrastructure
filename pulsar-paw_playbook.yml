@@ -30,3 +30,6 @@
     - pulsar-post-tasks
     - slurm-post-tasks
     - slg.galaxy_stats
+  post_tasks:
+    - name: Reload exportfs
+      command: exportfs -ra

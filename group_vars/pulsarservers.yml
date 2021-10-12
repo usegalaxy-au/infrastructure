@@ -98,7 +98,7 @@ pulsar_yaml_config:
   amqp_publish_retry_interval_max: 60
 
 # for pulsar-post-tasks
-galaxy_dir: /mnt/galaxy
+pulsar_tools_indices_dir: /mnt/tools-indices
 
 #Stats collection
 sinfo_line_startswith: "p"
