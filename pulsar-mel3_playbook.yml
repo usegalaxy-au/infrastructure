@@ -38,3 +38,5 @@
         state: link
         owner: ubuntu
         group: ubuntu
+    - name: Reload exportfs
+      command: exportfs -ra
