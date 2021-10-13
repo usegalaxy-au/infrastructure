@@ -461,7 +461,12 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 50 MB
-              destination: slurm_1slot
+              destination: pulsar-mel_small
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 50 MB
+              upper_bound: 100 MB
+              destination: pulsar-mel_mid
             - rule_type: file_size
               nice_value: -5
               lower_bound: 0
@@ -469,7 +474,7 @@ tools:
               destination: pulsar-high-mem1_mid
               users:
                 - anna.syme@unimelb.edu.au
-        default_destination: slurm_3slots
+        default_destination: pulsar-mel3_mid
     fastqc:
         rules:
           - rule_type: file_size
