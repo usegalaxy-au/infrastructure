@@ -706,7 +706,7 @@ tools:
               lower_bound: 200 MB
               upper_bound: 10 GB
               destination: pulsar-mel_big
-        default_destination: slurm_9slots
+        default_destination: pulsar-mel3_mid
     deseq2:
         default_destination: slurm_3slots
     circos_bundlelinks:
@@ -1133,7 +1133,7 @@ tools:
               destination: pulsar-mel3_mid
         default_destination: pulsar-mel3_big
     rna_star:
-        default_destination: slurm_9slots
+        default_destination: pulsar-mel3_mid
     rna_starsolo:
         default_destination: slurm_9slots
     rna_star_index_builder_data_manager:
@@ -1452,7 +1452,12 @@ tools:
               nice_value: 0
               lower_bound: 0
               upper_bound: 150 MB
-              destination: slurm_3slots
+              destination: pulsar-mel3_small
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 150 MB
+              upper_bound: 1 GB
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: -5
               lower_bound: 0
@@ -1460,7 +1465,7 @@ tools:
               destination: pulsar-high-mem1_mid
               users:
                 - anna.syme@unimelb.edu.au
-        default_destination: slurm_16slots
+        default_destination: pulsar-mel3_big
     limma_voom:
         default_destination: slurm_7slots
     gffread:
