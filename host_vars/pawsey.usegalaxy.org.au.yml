@@ -125,6 +125,7 @@ host_galaxy_config:  # renamed from __galaxy_config
     nginx_upload_path: '/_upload'
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
     nginx_upload_job_files_path: '/_job_files'
+    slow_query_log_threshold: 0.0001
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
