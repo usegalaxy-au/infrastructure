@@ -53,5 +53,6 @@ def gateway(job, app, tool, user, user_email):
             else:
                 return app.job_config.get_destination('slurm_training')
 
+         
     destination = map_tool_to_destination(job, app, tool, user_email, path=TOOL_DESTINATION_PATH)
     return destination
