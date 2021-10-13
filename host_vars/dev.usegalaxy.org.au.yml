@@ -87,7 +87,7 @@ galaxy_handler_count: 2   ############# europe uses 5, this could be host specif
 nfs_exports:
     - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
 
-#Galaxy Job Conf
+#Galaxy Job Conf  # this is no longer used but should stay as an example while job confs are updated to yaml
 galaxy_jobconf:
     plugin_workers: 4
     handlers:
