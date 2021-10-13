@@ -548,48 +548,48 @@ local_query-all-jobs() {  ##? <limit> number of jobs to return (optional)
 }
 
 local_query-1slot-jobs-by-walltime() { ##? <runtime_seconds> minimum runtime in seconds,  # optional <limit>
-    walltime_seconds="$1"
+	walltime_seconds="$1"
 	[ ! "$2" ] && limit="50" || limit="$2"
 
 	handle_help "$@" <<-EOF
 
-    Produces a table of completed jobs with running time *greater than* the input argument in seconds that have
-    run on the slurm_1slot destination.  There is an optional second argument of the number of rows to return
-    (default 50).
+	Produces a table of completed jobs with running time *greater than* the input argument in seconds that have
+	run on the slurm_1slot destination.  There is an optional second argument of the number of rows to return
+	(default 50).
 
-    For example, the last 4 jobs that ran on slurm_1slot for more than half an hour (1800 seconds)
+	For example, the last 4 jobs that ran on slurm_1slot for more than half an hour (1800 seconds)
 
-    gxadmin local query-1slot-jobs-by-walltime 1800 10
-     job_id  |        update_time         |                                                   tool_id                                                    | runtime  | sum_input_size
-    ---------+----------------------------+--------------------------------------------------------------------------------------------------------------+----------+----------------
-     7535177 | 2021-09-14 06:48:04.311428 | toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/1.2.0.1+galaxy0 | 00:38:25 | 603 MB
-     7534756 | 2021-09-14 04:17:04.111619 | toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/scanpy_remove_confounders/1.7.1+galaxy0           | 00:56:32 | 4659 MB
-     7534276 | 2021-09-14 03:17:39.812616 | toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/scanpy_remove_confounders/1.7.1+galaxy0           | 01:14:35 | 4659 MB
-     7534370 | 2021-09-14 03:14:51.898115 | toolshed.g2.bx.psu.edu/repos/iuc/fastqe/fastqe/0.2.6+galaxy0                                                 | 01:19:38 | 9799 MB
+	$ gxadmin local query-1slot-jobs-by-walltime 1800 10
+	 job_id  |        update_time         |                                                   tool_id                                                    | runtime  | sum_input_size
+	---------+----------------------------+--------------------------------------------------------------------------------------------------------------+----------+----------------
+	 7535177 | 2021-09-14 06:48:04.311428 | toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/1.2.0.1+galaxy0 | 00:38:25 | 603 MB
+	 7534756 | 2021-09-14 04:17:04.111619 | toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/scanpy_remove_confounders/1.7.1+galaxy0           | 00:56:32 | 4659 MB
+	 7534276 | 2021-09-14 03:17:39.812616 | toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/scanpy_remove_confounders/1.7.1+galaxy0           | 01:14:35 | 4659 MB
+	 7534370 | 2021-09-14 03:14:51.898115 | toolshed.g2.bx.psu.edu/repos/iuc/fastqe/fastqe/0.2.6+galaxy0                                                 | 01:19:38 | 9799 MB
 
 	EOF
 
 	read -r -d '' QUERY <<-EOF
-        SELECT
-            jmn.job_id as job_id,
-            j.update_time as update_time,
-            j.tool_id as tool_id,
-            TO_CHAR((jmn.metric_value || ' second')::interval, 'HH24:MI:SS') as runtime,
-            (
-                SELECT
-                pg_size_pretty(SUM(d.total_size))
-                FROM dataset d, history_dataset_association hda, job_to_input_dataset jtid
-                WHERE hda.dataset_id = d.id
-                AND jtid.job_id = j.id
-                AND hda.id = jtid.dataset_id
-            ) as sum_input_size
-            FROM job_metric_numeric jmn, job j
-            WHERE jmn.job_id = j.id
-            AND j.destination_id = 'slurm_1slot'
-            AND jmn.metric_name = 'runtime_seconds'
-            AND jmn.metric_value > $walltime_seconds
-            ORDER BY j.update_time desc
-            LIMIT $limit
+		SELECT
+			jmn.job_id as job_id,
+			j.update_time as update_time,
+			j.tool_id as tool_id,
+			TO_CHAR((jmn.metric_value || ' second')::interval, 'HH24:MI:SS') as runtime,
+			(
+				SELECT
+				pg_size_pretty(SUM(d.total_size))
+				FROM dataset d, history_dataset_association hda, job_to_input_dataset jtid
+				WHERE hda.dataset_id = d.id
+				AND jtid.job_id = j.id
+				AND hda.id = jtid.dataset_id
+			) as sum_input_size
+			FROM job_metric_numeric jmn, job j
+			WHERE jmn.job_id = j.id
+			AND j.destination_id = 'slurm_1slot'
+			AND jmn.metric_name = 'runtime_seconds'
+			AND jmn.metric_value > $walltime_seconds
+			ORDER BY j.update_time desc
+			LIMIT $limit
 	EOF
 }
 
@@ -598,18 +598,19 @@ local_query-walltime-size-by-tool() { ##? <tool> input tool substr,  # optional 
 	[ ! "$2" ] && limit="50" || limit="$2"
 	handle_help "$@" <<-EOF
 
-    Produces a table with input size and running times for a given tool, provided as the first argument.
-    The argument is a substring of the tool_id e.g. trinity, trinity/2.9.1+galaxy1, Count1.  The second
-    argument is the number of rows to return (optional, default: 50).
+	Produces a table with input size and running times for a given tool, provided as the first argument.
+	The argument is a substring of the tool_id e.g. trinity, trinity/2.9.1+galaxy1, Count1.  The second
+	argument is the number of rows to return (optional, default: 50).
 
-    gxadmin local query-walltime-size-by-tool busco 5
-     job_id  |          created           |          updated           |   username    |  state  |                          tool_id                           | runtime  | sum_input_size | destination
-    ---------+----------------------------+----------------------------+---------------+---------+------------------------------------------------------------+----------+----------------+--------------
-     7535204 | 2021-09-14 06:13:44.820678 | 2021-09-14 07:27:47.494749 | julia         | ok      | toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.0.0+galaxy0 | 01:13:59 | 148 MB         | slurm_3slots
-     7533738 | 2021-09-13 14:10:02.462621 | 2021-09-13 18:06:15.366452 | paul          | ok      | toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.2.2+galaxy0 | 03:56:10 | 31 MB          | slurm_1slot
-     7533781 | 2021-09-13 14:53:51.879839 | 2021-09-13 14:54:24.656188 | kevin         | ok      | toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.2.2+galaxy0 | 00:00:31 | 2244 kB        | slurm_1slot
-     7533323 | 2021-09-13 08:15:12.673086 | 2021-09-13 12:10:33.847549 | paul          | ok      | toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.2.2+galaxy0 | 03:55:18 | 31 MB          | slurm_1slot
-     7533213 | 2021-09-13 05:59:59.559287 | 2021-09-13 07:21:51.458181 | paul          | deleted | toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.2.2+galaxy0 |          | 3970 MB        | slurm_3slots
+	$ gxadmin local query-walltime-size-by-tool busco 5
+	 job_id  |          created           |          updated           |   username    |  state  |                          tool_id                           | runtime  | sum_input_size | destination
+	---------+----------------------------+----------------------------+---------------+---------+------------------------------------------------------------+----------+----------------+--------------
+	 7535204 | 2021-09-14 06:13:44.820678 | 2021-09-14 07:27:47.494749 | julia         | ok      | toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.0.0+galaxy0 | 01:13:59 | 148 MB         | slurm_3slots
+	 7533738 | 2021-09-13 14:10:02.462621 | 2021-09-13 18:06:15.366452 | paul          | ok      | toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.2.2+galaxy0 | 03:56:10 | 31 MB          | slurm_1slot
+	 7533781 | 2021-09-13 14:53:51.879839 | 2021-09-13 14:54:24.656188 | kevin         | ok      | toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.2.2+galaxy0 | 00:00:31 | 2244 kB        | slurm_1slot
+	 7533323 | 2021-09-13 08:15:12.673086 | 2021-09-13 12:10:33.847549 | paul          | ok      | toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.2.2+galaxy0 | 03:55:18 | 31 MB          | slurm_1slot
+	 7533213 | 2021-09-13 05:59:59.559287 | 2021-09-13 07:21:51.458181 | paul          | deleted | toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.2.2+galaxy0 |          | 3970 MB        | slurm_3slots
+
 	EOF
 
 	read -r -d '' QUERY <<-EOF
@@ -620,12 +621,12 @@ local_query-walltime-size-by-tool() { ##? <tool> input tool substr,  # optional 
 				u.username,
 				j.state as state,
 				j.tool_id as tool_id,
-                (SELECT 
-                    TO_CHAR((jmn.metric_value || ' second')::interval, 'HH24:MI:SS')
-                    FROM job_metric_numeric jmn
-                    WHERE jmn.metric_name = 'runtime_seconds'
-                    AND jmn.job_id = j.id
-                ) as runtime,
+				(SELECT 
+					TO_CHAR((jmn.metric_value || ' second')::interval, 'HH24:MI:SS')
+					FROM job_metric_numeric jmn
+					WHERE jmn.metric_name = 'runtime_seconds'
+					AND jmn.job_id = j.id
+				) as runtime,
 				(
 					SELECT
 					pg_size_pretty(SUM(d.total_size))
@@ -640,5 +641,39 @@ local_query-walltime-size-by-tool() { ##? <tool> input tool substr,  # optional 
 			AND position('$tool_substr' in j.tool_id)>0
 			ORDER BY j.update_time desc
 			LIMIT $limit
+	EOF
+}
+local_query-jobs-running-at-datetime() { ##? <datetime> datetime string
+	datetime="$1"
+	handle_help "$@" <<-EOF
+
+	Find all jobs in queued, running or ok state that were created before and updated after a given datetime.  This was written with the aim of finding
+	non-deleted jobs that may have two sets of data files due to the hierarchical object store path having changed while they were queued or running.
+
+	$ gxadmin local query-jobs-running-at-datetime "2021-09-28 14:00"
+	 job_id  |          created           |          updated           | user_id | state |                                   tool_id                                   | destination_id
+	---------+----------------------------+----------------------------+---------+-------+-----------------------------------------------------------------------------+-----------------
+	 7396484 | 2021-09-28 13:59:25.91883  | 2021-09-28 15:09:09.148783 |   24601 | ok    | toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/2.1.1                  | pulsar-mel3_mid
+	 7396483 | 2021-09-28 13:58:59.578761 | 2021-09-28 15:06:50.605129 |   24601 | ok    | toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/2.1.1                  | slurm_1slot
+	 7396455 | 2021-09-28 13:27:11.979348 | 2021-09-28 14:01:13.616717 |    2468 | ok    | toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.73+galaxy0             | pulsar-mel3_mid
+	 7396432 | 2021-09-28 12:59:47.650807 | 2021-09-28 14:49:57.488824 |    2468 | ok    | toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.6        | slurm_3slots
+	 7396349 | 2021-09-28 12:35:23.974676 | 2021-09-28 14:32:15.411004 |   21583 | ok    | toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.8.0                | pulsar-mel3_mid
+
+	EOF
+
+	read -r -d '' QUERY <<-EOF
+			SELECT
+				j.id as job_id,
+				j.create_time as created,
+				j.update_time as updated,
+				j.user_id as user_id,
+				j.state as state,
+				j.tool_id as tool_id,
+				j.destination_id as destination_id
+			FROM job j
+			WHERE j.create_time < '$datetime'
+			AND j.update_time > '$datetime'
+			AND j.state in ('queued', 'running', 'ok', 'error')
+			ORDER BY j.create_time desc
 	EOF
 }

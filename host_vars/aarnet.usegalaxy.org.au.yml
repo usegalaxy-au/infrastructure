@@ -83,7 +83,7 @@ galaxy_tmp_dir: /mnt/tmp
 
 galaxy_handler_count: 5
 
-galaxy_file_path: /mnt/user-data-2
+galaxy_file_path: /mnt/user-data-3/test
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
@@ -92,7 +92,7 @@ nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_conf|d(false) == true else default_settings['tool_config_files'] }},{{ galaxy_config_dir }}/tool_conf_interactive.xml"
 
 host_galaxy_config_files:
-  - src: "{{ galaxy_config_file_src_dir }}/config/object_store_conf.xml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/aarnet_object_store_conf.xml"
     dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
 
 host_galaxy_config:  # renamed from __galaxy_config

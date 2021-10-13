@@ -30,8 +30,11 @@
 - src: galaxyproject.gxadmin
   version: 0.0.8
 - src: usegalaxy_eu.tiaas2
-  version: 0.0.8
+  version: 0.0.9
 - src: geerlingguy.docker
   version: 2.6.0
 - src: usegalaxy_eu.gie_proxy
   version: 0.0.2
+- name: galaxyproject.miniconda
+  src: https://github.com/galaxyproject/ansible-miniconda.git
+  version: 87840bfc324639ccf4a50a2ac4990ebebe12d574  # 0.2.0 + 1 commit

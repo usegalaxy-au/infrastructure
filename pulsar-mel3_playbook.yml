@@ -29,7 +29,7 @@
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks
-    - slg.galaxy_stats
+    # - slg.galaxy_stats
   post_tasks:
     - name: Make sure link from /mnt/pulsar/files to /mnt/files exists
       file:
@@ -38,3 +38,5 @@
         state: link
         owner: ubuntu
         group: ubuntu
+    - name: Reload exportfs
+      command: exportfs -ra

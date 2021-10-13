@@ -128,6 +128,13 @@ bashrc_env: |
   export SQUEUE_FORMAT="%8i %9P %.35j %.9T %8r %19S %.10M %.6m %.3C %.3N %.55Z"
   export SACCT_FORMAT="jobid%8,partition%9,jobname%30,alloccpus,elapsed,totalcpu,END,state,MaxRSS,ReqMem,NodeList"
 
+# miniconda
+global_miniconda_version: '4.10.3'
+miniconda_channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
 # Monitoring
 influx_url: stats.genome.edu.au
 grafana_server_url: "http://{{ influx_url }}:8086"
@@ -153,4 +160,8 @@ galaxy_job_metrics_plugins:
 
 pulsar_job_metrics_plugins: "{{ galaxy_job_metrics_plugins }}"
 
-
+internal_ssh_keys:
+  ubuntu_maintenance_key:
+    private_key_content: "{{ vault_ubuntu_maintenance_key }}"
+    public_key_src: files/keys/ubuntu_maintenance_key.pub
+    user: ubuntu

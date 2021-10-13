@@ -29,6 +29,9 @@ rabbitmq_users:
   - user: galaxy_nci_test
     password: "{{ rabbitmq_password_galaxy_nci_test }}"
     vhost: /pulsar/galaxy_nci_test
+  - user: galaxy_nci_training
+    password: "{{ rabbitmq_password_galaxy_nci_training }}"
+    vhost: /pulsar/galaxy_nci_training
     
 rabbitmq_vhosts:
   - galaxy
@@ -38,6 +41,7 @@ rabbitmq_vhosts:
   - /pulsar/galaxy_hm1
   - /pulsar/galaxy_hm2
   - /pulsar/galaxy_nci_test
+  - /pulsar/galaxy_nci_training
 
 rabbitmq_version: 3.8.16-1
 
@@ -50,6 +54,7 @@ rabbitmq_password_galaxy_paw: "{{ vault_rabbitmq_password_galaxy_paw_prod }}"
 rabbitmq_password_galaxy_hm1: "{{ vault_rabbitmq_password_galaxy_hm1_prod }}"
 rabbitmq_password_galaxy_hm2: "{{ vault_rabbitmq_password_galaxy_hm2_prod }}"
 rabbitmq_password_galaxy_nci_test: "{{ vault_rabbitmq_password_galaxy_nci_test }}"
+rabbitmq_password_galaxy_nci_training: "{{ vault_rabbitmq_password_galaxy_nci_training_prod }}"
 
 # Host specific Slurm settings
 slurm_roles: ['controller', 'dbd']

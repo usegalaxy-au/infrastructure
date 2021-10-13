@@ -3,8 +3,8 @@ slurm_roles: ['exec']
 add_hosts_head: yes
 
 shared_mounts:
-    - path: /mnt/galaxy
-      src: pulsar-mel3:/mnt/galaxy
+    - path: /mnt/tools-indices
+      src: pulsar-mel3:/mnt/tools-indices
       fstype: nfs
       state: mounted
     - path: /mnt/pulsar
@@ -15,6 +15,10 @@ shared_mounts:
       src: pulsar-mel3:/mnt/files
       fstype: nfs
       state: mounted
+    - path: /mnt/galaxy
+      src: pulsar-mel3:/mnt/galaxy
+      fstype: nfs
+      state: absent
 
 
 # cvmfs
