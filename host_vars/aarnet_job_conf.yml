@@ -4,6 +4,8 @@ galaxy_jobconf:
     plugin_workers: 4
     handlers:
         count: "{{ galaxy_handler_count }}"
+        max_grab: 8
+        ready_window_size: 20
     plugins:
       - id: local
         load: "galaxy.jobs.runners.local:LocalJobRunner"
@@ -473,6 +475,17 @@ galaxy_jobconf:
     #   - type: destination_user_concurrent_jobs
     #     id: pulsar-paw_big
     #     value: 4
+    limits:
+      #Pulsar-paw limits
+      - type: destination_total_concurrent_jobs
+        id: pulsar-paw_big
+        value: 5
+      - type: destination_total_concurrent_jobs
+        id: pulsar-paw_mid
+        value: 10
+      - type: destination_total_concurrent_jobs
+        id: pulsar-paw_small
+        value: 20
     tools:
       - id: interactive_tool_ethercalc
         destination: interactive_pulsar
