@@ -1,0 +1,24 @@
+- hosts: pulsar_qld_himems
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/pulsarservers.yml
+    - group_vars/VAULT
+      #    - host_vars/pulsar-high-mem2/pulsar-high-mem2.yml
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+  roles:
+    - common
+    - insspb.hostname
+    - geerlingguy.pip
+    - galaxyproject.repos
+    - galaxyproject.pulsar
+    - mariadb
+    - galaxyproject.slurm
+    - galaxyproject.cvmfs
+    - dj-wasabi.telegraf
+    - pulsar-post-tasks
+    - slurm-post-tasks
+    # - slg.galaxy_stats
