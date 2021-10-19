@@ -161,6 +161,12 @@ pulsar-high-mem1 ansible_ssh_host=115.146.84.155
 [pulsar_high_mem2]
 pulsar-high-mem2 ansible_ssh_host=115.146.85.94
 
+[pulsar_qld_himems]
+QLD-pulsar-himem-0 ansible_ssh_host=203.101.225.122
+QLD-pulsar-himem-1 ansible_ssh_host=203.101.231.143
+QLD-pulsar-himem-2 ansible_ssh_host=203.101.231.176
+
+
 [pulsar_qld_head]
 pulsar-qld ansible_ssh_host=203.101.229.179
 
