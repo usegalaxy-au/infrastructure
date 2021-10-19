@@ -1,6 +1,6 @@
 terraform {
   backend "swift" {
-    container         = "terraform-state-high-mem1"
-    archive_container = "terraform-state-high-mem1-archive"
+    container         = "terraform-state-qld-himem"
+    archive_container = "terraform-state-qld-himem-archive"
   }
 }
