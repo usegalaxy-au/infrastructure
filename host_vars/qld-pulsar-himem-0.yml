@@ -52,7 +52,7 @@ slurm_nodes:
 
 slurm_partitions:
     - name: main
-      nodes: "pulsar-qld-himem-0"
+      nodes: "qld-pulsar-himem-0"
       Default: YES
       MaxTime: INFINITE
       State: UP
@@ -62,7 +62,7 @@ slurm_config:
     AccountingStorageType: accounting_storage/slurmdbd
     AccountingStorageHost: localhost
     JobAcctGatherType: jobacct_gather/linux
-    ControlMachine: pulsar-qld-himem-0
+    ControlMachine: qld-pulsar-himem-0
     SlurmctldPidFile: /run/slurmctld.pid
     SlurmdPidFile: /run/slurmd.pid
     # SCHEDULING
