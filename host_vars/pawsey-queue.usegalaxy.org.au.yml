@@ -31,6 +31,15 @@ rabbitmq_users:
   - user: galaxy_nci_training
     password: "{{ rabbitmq_password_galaxy_nci_training }}"
     vhost: /pulsar/galaxy_nci_training
+  - user: galaxy_qld_hm0
+    password: "{{ rabbitmq_password_galaxy_qld_hm0_training }}"
+    vhost: /pulsar/galaxy_qld_hm0
+  - user: galaxy_qld_hm1
+    password: "{{ rabbitmq_password_galaxy_qld_hm1_training }}"
+    vhost: /pulsar/galaxy_qld_hm1
+  - user: galaxy_qld_hm2
+    password: "{{ rabbitmq_password_galaxy_qld_hm2_training }}"
+    vhost: /pulsar/galaxy_qld_hm2
     
 rabbitmq_vhosts:
   - galaxy
@@ -40,6 +49,9 @@ rabbitmq_vhosts:
   - /pulsar/galaxy_hm1
   - /pulsar/galaxy_hm2
   - /pulsar/galaxy_nci_training
+  - /pulsar/galaxy_qld_hm0
+  - /pulsar/galaxy_qld_hm1
+  - /pulsar/galaxy_qld_hm2
 
 rabbitmq_version: 3.8.16-1
 
