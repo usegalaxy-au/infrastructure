@@ -82,7 +82,7 @@ galaxy_jobconf:
           amqp_url: "pyamqp://galaxy_qld_hm0:{{ vault_rabbitmq_password_galaxy_qld_hm0_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm0?ssl=1"
           galaxy_url: "https://{{ hostname }}"
           manager: "_default_"
-      - id: pulsar-high-mem2_runner
+      - id: pulsar-qld-high-mem1_runner
         load: "galaxy.jobs.runners.pulsar:PulsarMQJobRunner"
         params:
           amqp_ack_republish_time: 1200
@@ -93,7 +93,7 @@ galaxy_jobconf:
           amqp_url: "pyamqp://galaxy_qld_hm1:{{ vault_rabbitmq_password_galaxy_qld_hm1_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm1?ssl=1"
           galaxy_url: "https://{{ hostname }}"
           manager: "_default_"
-      - id: pulsar-high-mem2_runner
+      - id: pulsar-qld-high-mem2_runner
         load: "galaxy.jobs.runners.pulsar:PulsarMQJobRunner"
         params:
           amqp_ack_republish_time: 1200
