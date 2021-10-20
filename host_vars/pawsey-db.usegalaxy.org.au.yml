@@ -34,9 +34,9 @@ postgresql_conf:
   - max_parallel_workers: 8
   - max_parallel_maintenance_workers: 4
   - temp_buffers: 64MB
-  - log_filename: "'postgresql-%Y-%m-%d.log'"
-  - log_statement: all
-  - logging_collector: on  # altering this requires a restart
+  # - log_filename: "'postgresql-%Y-%m-%d.log'"
+  # - log_statement: all
+  # - logging_collector: on  # altering this requires a restart
 
 postgresql_pgdata: "/data/production"
 
