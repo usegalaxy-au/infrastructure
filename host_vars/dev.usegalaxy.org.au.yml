@@ -80,6 +80,9 @@ host_galaxy_config:  # renamed from __galaxy_config
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
     cleanup_job: never
     job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
+    enable_mulled_containers: true
+    enable_beta_containers_interface: true
+    watch_job_rules: true
 
 galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
 
