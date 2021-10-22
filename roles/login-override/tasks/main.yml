@@ -6,3 +6,11 @@
   - name: Override Galaxy Login.vue if target unchanged
     include: login_override.yml
     when: galaxy_login_checksum.stdout == "{{ galaxy_login_checksum_expected }}"
+
+  - name: Fail task if target changed
+    fail:
+      msg: |
+        Login.vue has changed in Galaxy core. Please check that patch source
+        file is still compatible and update the galaxy_login_checksum_expected
+        variable.
+    when: galaxy_login_checksum.stdout != "{{ galaxy_login_checksum_expected }}"

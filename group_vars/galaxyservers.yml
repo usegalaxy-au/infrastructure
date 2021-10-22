@@ -1,6 +1,3 @@
-# Login override
-galaxy_login_checksum_expected: 4ec5fb5a6f66fdd8dce0166aafceb0af
-
 group_packages:
   - make
   - python3-psycopg2
