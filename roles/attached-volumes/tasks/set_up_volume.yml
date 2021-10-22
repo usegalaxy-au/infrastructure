@@ -19,7 +19,7 @@
     - name: Create a filesystem on volume with partition
       filesystem:
         fstype: "{{ attached_volume.fstype }}"
-        dev: "{{ attached_volume.device }}{{ partition }}"
+        dev: "{{ attached_volume.device }}{{ attached_volume.partition }}"
       when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == attached_volume.device and attached_volume.partition is defined
     - name: Mount volume
       mount:
