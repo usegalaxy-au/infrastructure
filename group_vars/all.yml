@@ -63,7 +63,7 @@ machine_users:
       email: "{{ grace_email }}"
     - name: cameron
       roles:
-        - user
+        - sudo
       key: files/keys/cameron.pub
       email: "{{ cameron_email }}"
     # - name: anna
