@@ -1,0 +1,8 @@
+---
+  - name: Get checksum for Galaxy Client Login.vue
+    shell: "md5sum {{ galaxy_root }}/client/src/components/login/Login.vue | awk '{print $1;}'"
+    register: galaxy_login_checksum
+
+  - name: Override Galaxy Login.vue if target unchanged
+    include: login_override.yml
+    when: galaxy_login_checksum.stdout == "{{ galaxy_login_checksum_expected }}"

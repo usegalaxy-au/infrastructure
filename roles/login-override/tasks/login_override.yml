@@ -1,0 +1,8 @@
+---
+  - name: Overwrite Galaxy core Login.vue
+    copy:
+      src: {{ galaxy_config_file_src_dir }}/client/Login.vue
+      dest: {{ galaxy_root }}/client/src/components/login/Login.vue
+
+  - name: Rebuild client
+    shell: "cd /srv/galaxy/server; make client-production"  # sourcemaps?
