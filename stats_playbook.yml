@@ -15,4 +15,5 @@
     - insspb.hostname
     - galaxyproject.nginx
     - usegalaxy_eu.influxdb
+    - slg.influxdb_objects
   

@@ -65,3 +65,45 @@ influxdb_graphite_enabled: "false"
 influxdb_collectd_enabled: "false"
 influxdb_tsb_enabled: "false"
 influxdb_udp_enabled: "false"
+
+#Influx Users
+influxdb:
+  admin:
+    username: admin
+    password: "{{ vault_influx_admin_password }}"
+  node:
+    username: node
+    password: "{{ vault_influx_node_password }}"
+  grafana:
+    username: grafana
+    pasword: "{{ vault_influx_grafana_password }}"
+
+#Influx DB objects
+influxdb_databases:
+  # Clusters
+  - pulsar-mel2
+  - pulsar-mel3
+  - pulsar-paw
+  - pulsar-nci-training
+  - aarnet
+  - pawsey
+  - qld-dr
+  # Others
+  - pulsar-special
+  - ancillary
+  - GA_server
+  - queues
+
+retention_policy_dbs:
+  # Clusters
+  - pulsar-mel2
+  - pulsar-mel3
+  - pulsar-paw
+  - pulsar-nci-training
+  - aarnet
+  - pawsey
+  - qld-dr
+  # Others
+  - pulsar-special
+  - ancillary
+  - queues
