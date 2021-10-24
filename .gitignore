@@ -28,6 +28,7 @@ roles/geerlingguy.pip/
 roles/geerlingguy.nfs/
 roles/natefoo.postgresql_objects/
 roles/uchida.miniconda/
+roles/galaxyproject.miniconda
 roles/usegalaxy_eu.certbot/
 roles/usegalaxy_eu.galaxy_systemd/
 roles/usegalaxy_eu.gxadmin
