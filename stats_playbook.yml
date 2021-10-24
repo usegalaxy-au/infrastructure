@@ -12,4 +12,7 @@
         name: attached-volumes
   roles:
     - common
+    - insspb.hostname
+    - galaxyproject.nginx
+    - usegalaxy_eu.influxdb
   
