@@ -3,6 +3,13 @@
   vars_files:
     - group_vars/VAULT
   pre_tasks:
+    - name: install xfsprogs
+      package:
+        name: xfsprogs
+        state: latest
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
+  roles:
+    - common
+  
