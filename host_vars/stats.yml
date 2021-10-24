@@ -3,3 +3,6 @@ attached_volumes:
     partition: 1
     path: /mnt
     fstype: xfs
+
+#Influxdb config
+influxdb_base_data_dir: /mnt/influx_data
