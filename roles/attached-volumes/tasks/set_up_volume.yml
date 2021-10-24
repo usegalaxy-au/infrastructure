@@ -5,26 +5,34 @@
         device: "{{ attached_volume.device }}"
         unit: GiB
       register: volume_info
-    - name: create a partition on volume
-      parted:
-        device: "{{ attached_volume.device }}"
-        number: "{{ attached_volume.partition }}"
-        state: present
+    - block:
+      - name: create a partition on volume
+        parted:
+          device: "{{ attached_volume.device }}"
+          number: "{{ attached_volume.partition }}"
+          state: present
+      - name: Create a filesystem on volume with partition
+        filesystem:
+          fstype: "{{ attached_volume.fstype }}"
+          dev: "{{ attached_volume.device }}{{ attached_volume.partition }}"
+      - name: Mount volume
+        mount:
+          path: "{{ attached_volume.path }}"
+          src: "{{ attached_volume.device }}{{ attached_volume.partition }}"
+          fstype: "{{ attached_volume.fstype }}"
+          state: mounted
       when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == attached_volume.device and attached_volume.partition is defined
-    - name: Create a filesystem on volume without partition
-      filesystem:
-        fstype: "{{ attached_volume.fstype }}"
-        dev: "{{ attached_volume.device }}"
+    - block:
+      - name: Create a filesystem on volume without partition
+        filesystem:
+          fstype: "{{ attached_volume.fstype }}"
+          dev: "{{ attached_volume.device }}"
+      - name: Mount volume
+        mount:
+          path: "{{ attached_volume.path }}"
+          src: "{{ attached_volume.device }}"
+          fstype: "{{ attached_volume.fstype }}"
+          state: mounted
       when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == attached_volume.device and attached_volume.partition is not defined
-    - name: Create a filesystem on volume with partition
-      filesystem:
-        fstype: "{{ attached_volume.fstype }}"
-        dev: "{{ attached_volume.device }}{{ attached_volume.partition }}"
-      when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == attached_volume.device and attached_volume.partition is defined
-    - name: Mount volume
-      mount:
-        path: "{{ attached_volume.path }}"
-        src: "{{ attached_volume.device }}"
-        fstype: "{{ attached_volume.fstype }}"
-        state: mounted
+    
   when: attached_volume.device is defined and attached_volume.fstype is defined and attached_volume.path is defined
