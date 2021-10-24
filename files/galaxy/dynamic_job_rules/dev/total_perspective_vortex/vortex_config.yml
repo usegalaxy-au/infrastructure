@@ -41,13 +41,21 @@ tools:
         - pulsar
   upload1:
     cores: 2
-  '.*iuc/fasta_stats/fasta-stats.*':
+  
+  toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
+    cores: 2
+    params:
+      docker_enabled: true
+      docker_volumes: '$defaults'
+      docker_memory: '{mem}'
+      docker_sudo: false
+  toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
+    inherits: pulsar_preferred
+    cores: 20
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
     inherits: pulsar_preferred
     cores: 2
-  '.*bwa_mem.*':
-    inherits: pulsar_preferred
-    cores: 2
-  '.*hifiasm.*':
+  toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     inherits: pulsar_preferred
     cores: 2
     rules:
