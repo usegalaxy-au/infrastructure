@@ -1,8 +1,8 @@
 ---
 - name: Make sure pip is available
   package:
-    name: python-pip
-    state: installed
+    name: python3-pip
+    state: present
 
 - name: Ensure influxdb is available
   pip:
@@ -35,7 +35,7 @@
     udp_port: 4444
   with_items:
     - "{{ influxdb.node }}"
-    - "{{ influxdb.grafana }]"
+    - "{{ influxdb.grafana }}"
     
 - name: Create database using custom credentials
   influxdb_database:
@@ -71,7 +71,7 @@
 - name: Grant permissions to galaxy
   influxdb_query:
     database_name: "{{ item }}"
-    query: "GRANT ALL ON {{ item }} TO {{ influxdb.node.username }}"
+    query: "GRANT ALL ON \"{{ item }}\" TO {{ influxdb.node.username }}"
     # Auth
     username: "{{ influxdb.admin.username }}"
     password: "{{ influxdb.admin.password }}"
@@ -86,11 +86,11 @@
 - name: Grant permissions to grafana
   influxdb_query:
     database_name: "{{ item }}"
-    query: "GRANT READ ON {{ item }} TO {{ influxdb.grafana.username }}"
+    query: "GRANT READ ON \"{{ item }}\" TO {{ influxdb.grafana.username }}"
     # Auth
     username: "{{ influxdb.admin.username }}"
     password: "{{ influxdb.admin.password }}"
-    hostname: influxdb.galaxyproject.eu
+    hostname: "{{ hostname }}"
     ssl: yes
     validate_certs: yes
     use_udp: no
