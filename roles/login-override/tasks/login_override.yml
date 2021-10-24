@@ -1,0 +1,13 @@
+---
+  - name: Overwrite Galaxy core Login.vue
+    copy:
+      src: {{ galaxy_config_file_src_dir }}/client/Login.vue
+      dest: {{ galaxy_server_dir }}/client/src/components/login/Login.vue
+
+  - name: Rebuild client
+    make:
+      chdir: "{{ galaxy_server_dir }}"
+      target: "{{ galaxy_client_make_target }}"
+    environment:
+      PATH: "{{ galaxy_venv_dir }}/bin:{{ ansible_env.PATH }}"
+      VIRTUAL_ENV: "{{ galaxy_venv_dir }}"

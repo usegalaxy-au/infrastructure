@@ -47,6 +47,7 @@
     - usegalaxy_eu.tiaas2
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
+    - login-override
   post_tasks:
     - name: Clone Galaxy-Owncloud-Integration
       git:
@@ -73,5 +74,3 @@
         etype: user
         permissions: rw
         state: present
-
-

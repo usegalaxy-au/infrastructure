@@ -1,5 +1,8 @@
 # Specific settings for galaxy dev application/web server
 
+# Login override
+galaxy_login_checksum_expected: 4ec5fb5a6f66fdd8dce0166aafceb0af
+
 # variables for attaching mounted volume to application server
 attached_volumes:
   - device: /dev/vdb
@@ -216,7 +219,7 @@ galaxy_jobconf:
               docker_set_user: ''
               docker_require_container: true
               container_monitor_result: callback
-    tools: 
+    tools:
       - id: interactive_tool_ethercalc
         destination: interactive_local
       - id: interactive_tool_rstudio
