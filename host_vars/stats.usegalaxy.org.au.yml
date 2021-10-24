@@ -1,0 +1,58 @@
+hostname: stats.usegalaxy.org.au
+
+# Volume
+attached_volumes:
+  - device: /dev/vdb
+    partition: 1
+    path: /mnt
+    fstype: xfs
+
+# Certbot
+certbot_auth_method: --webroot
+certbot_well_known_root: /srv/nginx/_well-known_root
+certbot_share_key_users:
+  - nginx
+  - influxdb
+certbot_virtualenv_command: virtualenv-3.6
+certbot_post_renewal: |
+    systemctl restart nginx || true
+    systemctl restart influxdb || true
+
+# NGINX
+nginx_enable_default_server: false
+nginx_servers:
+  - influxdb
+nginx_ssl_servers:
+  - influxdb-ssl
+nginx_conf_http:
+  client_max_body_size: 1g
+
+# Nginx Letsencrypt bindings
+nginx_ssl_role: usegalaxy-eu.certbot
+nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
+nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
+
+# InfluxDB
+influxdb_ver: 1.8.10
+
+influxdb_base_data_dir: /mnt/influx_data
+influxdb_http_auth_enabled: "true"
+influxdb_http_https_enabled: "true"
+influxdb_http_https_certificate: "/etc/ssl/certs/fullchain.pem"
+influxdb_http_https_private_key: "/etc/ssl/user/privkey-influxdb.pem"
+influxdb_http_log_enabled: "false"
+
+# InfluxDB data
+influxdb_index_version: "tsi1"
+influxdb_data_cache_max_memory_size: 1048576000
+influxdb_data_cache_snapshot_write_cold_duration: "10s"
+influxdb_data_max_values_per_tag: 3000000
+
+# InfluxDB logging
+influxdb_logging_level: "error"
+
+# [[graphite]]
+influxdb_graphite_enabled: "false"
+influxdb_collectd_enabled: "false"
+influxdb_tsb_enabled: "false"
+influxdb_udp_enabled: "false"
