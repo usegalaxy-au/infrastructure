@@ -16,4 +16,5 @@
     - galaxyproject.nginx
     - usegalaxy_eu.influxdb
     - slg.influx_objects
+    - cloudalchemy.grafana
   

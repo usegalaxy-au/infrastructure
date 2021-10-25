@@ -41,6 +41,7 @@ roles/usegalaxy_eu.tiaas2
 roles/usegalaxy_eu.gie_proxy
 roles/geerlingguy.docker
 roles/usegalaxy_eu.influxdb
+roles/cloudalchemy.grafana
 
 # integration-testing virtual environment
 integration-testing/venv
