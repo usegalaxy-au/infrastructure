@@ -31,10 +31,10 @@ certbot_agree_tos: --agree-tos
 # NGINX
 nginx_enable_default_server: false
 nginx_servers:
-  - influxdb
+  #- influxdb
   - redirect-ssl
 nginx_ssl_servers:
-  - influxdb-ssl
+  #- influxdb-ssl
   - grafana-ssl
 nginx_conf_http:
   client_max_body_size: 1g
@@ -142,7 +142,8 @@ grafana_auth:
     org_name: "usegalaxy.org.au"
     org_role: "Viewer"
 
-grafana_image_storage: local
+grafana_image_storage: 
+  provider: local
 
 grafana_environment:
   GF_PANELS_DISABLE_SANITIZE_HTML: "true"
