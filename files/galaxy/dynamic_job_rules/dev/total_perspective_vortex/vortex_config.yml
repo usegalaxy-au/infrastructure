@@ -100,13 +100,24 @@ users:
           retval
         fail: "You cannot have more than 4 high-mem jobs running concurrently"
   pulsar_user@usegalaxy.org.au:
-    scheduling:
-      require:
-        - dev-pulsar
+    rules:
+      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')  # this locks out all local tools, might need to make exceptions for these by id
+        scheduling:
+          require:
+            - pulsar  # if pulsar requires the pulsar tag, nothing without the pulsar tag will go there
+            - dev-pulsar
   pulsar_nci_test_user@usegalaxy.org.au:
+    rules:
+      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-nci-test
+  jenkins_bot@usegalaxy.org.au:
+    cores: 1
     scheduling:
       require:
-        - pulsar-nci-test
+        - slurm
 
 destinations:
   slurm:
@@ -116,6 +127,7 @@ destinations:
       accept:
         - pulsar
         - general
+        - slurm
   pulsar_destination:
     cores: 4
     mem: 7.77
