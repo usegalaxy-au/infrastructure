@@ -43,6 +43,7 @@ roles/geerlingguy.docker
 roles/cloudalchemy.grafana
 roles/galaxyproject.miniconda
 roles/usegalaxy_eu.influxdb
+roles/cloudalchemy.grafana
 
 # integration-testing virtual environment
 integration-testing/venv

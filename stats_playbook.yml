@@ -15,8 +15,5 @@
     - insspb.hostname
     - galaxyproject.nginx
     - usegalaxy_eu.influxdb
-<<<<<<< HEAD
-=======
     - slg.influx_objects
->>>>>>> Working influx with dbs and permissions
   
