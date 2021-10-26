@@ -24,11 +24,11 @@ def file_size_to_GB_string(file_size):  # not a full conversion: 500 MB -> (500/
 
 def make_lower_upper_expression(lower, upper):
     if lower == '0':
-        return f'file_size < {upper}'
+        return f'input_size < {upper}'
     elif upper == 'Infinity':
-        return f'file_size >= {lower}'
+        return f'input_size >= {lower}'
     else:
-        return f'file_size >= {lower} and file_size < {upper}'
+        return f'input_size >= {lower} and input_size < {upper}'
 
 ntasks_pattern = re.compile('.*--ntasks=(?P<ntasks>\d+).*')
 
