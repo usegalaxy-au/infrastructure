@@ -1,0 +1,986 @@
+tools:
+  upload1:
+    cores: 1
+  mimodd_align:
+    cores: 1
+    rules:
+    - match: file_size >= (10/1024)
+      cores: 5
+  scanpy_cluster_reduce_dimension:
+    cores: 1
+    rules:
+    - match: file_size >= (500/1024)
+      cores: 5
+  scanpy_inspect:
+    cores: 1
+    rules:
+    - match: file_size >= (500/1024)
+      cores: 5
+  scanpy_filter:
+    cores: 1
+    rules:
+    - match: file_size >= (500/1024)
+      cores: 3
+  scanpy_normalize:
+    cores: 1
+    rules:
+    - match: file_size >= 1
+      cores: 2
+  scanpy_remove_confounders:
+    cores: 1
+    rules:
+    - match: file_size >= (50/1024) and file_size < (500/1024)
+      cores: 5
+    - match: file_size >= (500/1024)
+      cores: 9
+  shovill:
+    cores: 1
+    rules:
+    - match: file_size >= (15/1024) and file_size < 2
+      cores: 7
+    - match: file_size >= 2 and file_size < 10
+      cores: 9
+    - match: file_size >= 10
+      fail: Too much data, shoudn't run
+  spades:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (15/1024) and file_size < 2
+      cores: 4
+    - match: file_size >= 2 and file_size < 20
+      cores: 16
+    - match: file_size >= 20
+      fail: Too much data, please don't use Spades for this
+  metaspades:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size >= (50/1024) and file_size < 1
+      cores: 8
+    - match: file_size >= 1 and file_size < 20
+      cores: 16
+    - match: file_size >= 20 and file_size < 60
+      cores: 16
+    - match: file_size >= 60
+      fail: Too much data, please don't use Spades for this
+  velvet:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (15/1024) and file_size < 1
+      cores: 4
+    - match: file_size >= 1
+      fail: Too much data, please don't use Velvet for this, it is here for training
+        purposes only
+  velvetoptimiser:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (15/1024) and file_size < 1
+      cores: 4
+    - match: file_size >= 1
+      fail: Too much data, please don't use the Velvet Optimiser for this, it is here
+        only for training purposes with small (< 1 GB) datasets. Use SPAdes instead.
+  trinity:
+    inherits: pulsar_preferred
+    cores: 8
+    rules:
+    - match: file_size >= (100/1024) and file_size < 30
+      cores: 63
+    - match: file_size >= 30
+      fail: Too much data, we cannot support such large Trinity assemblies with our
+        backend. Please use another server for your job.
+  trinity_align_and_estimate_abundance:
+    inherits: pulsar_preferred
+    cores: 32
+  ggplot2_point:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024)
+      cores: 1
+  datamash_ops:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024)
+      cores: 1
+  Grouping1:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024)
+      cores: 1
+  tp_sorted_uniq:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024)
+      cores: 1
+  Cut1:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024)
+      cores: 1
+  Remove beginning1:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024)
+      cores: 1
+  cshl_fastq_quality_filter:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024)
+      cores: 1
+  trim_galore:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024) and file_size < (200/1024)
+      cores: 3
+    - match: file_size >= (200/1024)
+      cores: 5
+  prokka:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (1/1024) and file_size < (10/1024)
+      cores: 8
+    - match: file_size >= (10/1024) and file_size < (30/1024)
+      cores: 8
+    - match: file_size >= (30/1024)
+      fail: Too much data, Prokka is designed to annotate bacterial/virus genomes
+        only. Prokka will not annotate eukaryotic genomes nor metagenomes.
+  fastp:
+    cores: 5
+  samtool_filter2:
+    cores: 3
+  lastz_wrapper_2:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (1/1024) and file_size < 1
+      cores: 8
+    - match: file_size >= 1 and file_size < 20
+      cores: 16
+    - match: file_size >= 20
+      cores: 5
+  hyphy_gard:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (5/(1024*1024))
+      cores: 16
+  hyphy_absrel:
+    cores: 16
+  maxquant:
+    cores: 16
+  maxquant_mqpar:
+    cores: 16
+  fasterq_dump:
+    cores: 3
+  fastq_dump:
+    cores: 3
+  sam_dump:
+    cores: 3
+  raxml:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size >= (10/(1024*1024)) and file_size < (500/(1024*1024))
+      cores: 3
+    - match: file_size >= (500/(1024*1024))
+      cores: 16
+  canu:
+    inherits: pulsar_preferred
+    cores: 63
+    rules:
+    - match: file_size >= (200/1024)
+      cores: 126
+  local_canu:
+    inherits: pulsar_preferred
+    cores: 126
+  poretools_events:
+    cores: 3
+  poretools_extract:
+    cores: 3
+  poretools_hist:
+    cores: 3
+  poretools_nucdist:
+    cores: 3
+  poretools_occupancy:
+    cores: 3
+  poretools_qualdist:
+    cores: 3
+  poretools_qualpos:
+    cores: 3
+  poretools_squiggle:
+    cores: 3
+  poretools_stats:
+    cores: 3
+  poretools_tabular:
+    cores: 3
+  poretools_times:
+    cores: 3
+  poretools_winner:
+    cores: 3
+  poretools_yield_plot:
+    cores: 3
+  nanopolish_variants:
+    cores: 3
+  nanopolish_methylation:
+    cores: 3
+  nanopolish_eventalign:
+    cores: 3
+  nanopolish_polya:
+    cores: 3
+  nanoplot:
+    cores: 3
+  porechop:
+    cores: 3
+    rules:
+    - match: file_size >= 5
+      cores: 9
+  barrnap:
+    cores: 1
+    rules:
+    - match: file_size >= (300/(1024*1024))
+      cores: 3
+  busco:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (50/1024) and file_size < (100/1024)
+      cores: 4
+    - match: file_size < Infinity
+      cores: 32
+  fastqc:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (10/1024) and file_size < 2
+      cores: 4
+    - match: file_size >= 2 and file_size < 7
+      cores: 8
+    - match: file_size >= 7
+      cores: 8
+  iuc_pear:
+    cores: 1
+    rules:
+    - match: file_size >= (15/1024) and file_size < 1
+      cores: 5
+    - match: file_size >= 1
+      cores: 7
+  trimmomatic:
+    cores: 1
+    rules:
+    - match: file_size >= (15/1024) and file_size < 3
+      cores: 2
+    - match: file_size >= 3
+      cores: 3
+  abricate:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (5/1024) and file_size < (20/1024)
+      cores: 4
+    - match: file_size >= (20/1024)
+      cores: 3
+  snippy:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (15/1024)
+      cores: 4
+  bwa:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (250/1024) and file_size < 1
+      cores: 4
+    - match: file_size >= 1 and file_size < 10
+      cores: 8
+    - match: file_size >= 10
+      cores: 8
+  bwa_mem:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (250/1024) and file_size < 1
+      cores: 4
+    - match: file_size >= 1 and file_size < 10
+      cores: 8
+    - match: file_size >= 10
+      cores: 7
+  bowtie2:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (100/1024) and file_size < 5
+      cores: 8
+    - match: file_size >= 5
+      cores: 8
+  hisat2:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (500/1024) and file_size < 5
+      cores: 8
+    - match: file_size >= 5 and file_size < 20
+      cores: 8
+    - match: file_size >= 20
+      cores: 16
+  tophat2:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size >= (500/1024) and file_size < 20
+      cores: 8
+    - match: file_size >= 20
+      cores: 7
+  freebayes:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (200/1024) and file_size < 4
+      cores: 4
+    - match: file_size >= 4 and file_size < 20
+      cores: 8
+    - match: file_size >= 20
+      fail: Too much data, please don't use the FreeBayes for this
+  bcftools_mpileup:
+    cores: 2
+    rules:
+    - match: file_size >= (500/1024) and file_size < 10
+      cores: 5
+    - match: file_size >= 10
+      cores: 7
+  lofreq_call:
+    cores: 5
+  lofreq_indelqual:
+    cores: 3
+  qualimap_bamqc:
+    cores: 5
+  multiqc:
+    cores: 3
+  lofreq_filter:
+    inherits: pulsar_preferred
+    cores: 4
+  lofreq_viterbi:
+    inherits: pulsar_preferred
+    cores: 4
+  htseq_count:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size >= (200/1024) and file_size < 10
+      cores: 8
+    - match: file_size >= 10
+      cores: 8
+  deseq2:
+    cores: 3
+  circos_bundlelinks:
+    cores: 1
+    rules:
+    - match: file_size >= (200/(1024*1024)) and file_size < (10/1024)
+      cores: 2
+    - match: file_size >= (10/1024)
+      cores: 5
+  generate_count_matrix:
+    cores: 2
+  join1:
+    cores: 2
+    rules:
+    - match: file_size >= 10
+      cores: 5
+  fastq_groomer:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size >= (100/1024) and file_size < 20
+      cores: 2
+    - match: file_size >= 20
+      cores: 2
+  iqtree:
+    cores: 1
+    rules:
+    - match: file_size >= (20/(1024*1024))
+      cores: 5
+  picard_SamToFastq:
+    cores: 5
+  edger:
+    cores: 5
+  pilon:
+    cores: 5
+  fml_gtf2gff:
+    cores: 3
+  gops_join_1:
+    cores: 5
+  sam_merge2:
+    cores: 3
+  Extract genomic DNA 1:
+    cores: 3
+  snpEff:
+    cores: 3
+    rules:
+    - match: file_size >= (100/1024)
+      cores: 3
+  snpSift_annotate:
+    cores: 3
+  gemini_load:
+    cores: 3
+  ncbi_makeblastdb:
+    cores: 5
+  bcftools_norm:
+    cores: 1
+    rules:
+    - match: file_size >= (500/1024)
+      cores: 2
+  samtools_rmdup:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size >= (500/1024) and file_size < 10
+      cores: 2
+    - match: file_size >= 10
+      cores: 2
+  cuffmerge:
+    cores: 1
+    rules:
+    - match: file_size >= (100/1024)
+      cores: 3
+  cufflinks:
+    cores: 1
+    rules:
+    - match: file_size >= (100/1024) and file_size < 4
+      cores: 3
+    - match: file_size >= 4
+      cores: 5
+  velveth:
+    cores: 2
+  velvetg:
+    cores: 2
+    rules:
+    - match: file_size >= (100/1024)
+      cores: 5
+  fastq_paired_end_interlacer:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024) and file_size < 1
+      cores: 1
+    - match: file_size >= 1 and file_size < 20
+      cores: 8
+    - match: file_size >= 20
+      cores: 5
+  fastq_paired_end_deinterlacer:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size >= 1 and file_size < 20
+      cores: 8
+    - match: file_size >= 20
+      cores: 5
+  deeptools_compute_matrix:
+    cores: 9
+  deeptools_plot_heatmap:
+    cores: 3
+    rules:
+    - match: file_size >= (300/1024) and file_size < 10
+      cores: 7
+    - match: file_size >= 10
+      cores: 3
+  deeptools_bam_coverage:
+    cores: 7
+  deeptools_bam_compare:
+    cores: 9
+  htseqsams2mxlocal:
+    cores: 2
+    rules:
+    - match: file_size >= (150/1024)
+      cores: 3
+  cuffdiff:
+    cores: 2
+    rules:
+    - match: file_size >= (200/1024) and file_size < 4
+      cores: 3
+    - match: file_size >= 4
+      cores: 5
+  cuffnorm:
+    cores: 5
+  stringtie:
+    cores: 1
+    rules:
+    - match: file_size >= (200/1024) and file_size < 2
+      cores: 3
+    - match: file_size >= 2
+      cores: 5
+  stringtie_merge:
+    cores: 1
+  gatk2_unified_genotyper:
+    cores: 5
+  rsem_calculate_expression:
+    cores: 5
+  macs2_1_peakcalling:
+    cores: 9
+  macs2_callpeak:
+    cores: 9
+  macs2_bdgdiff:
+    cores: 5
+  gatk2_variant_recalibrator:
+    cores: 5
+  gatk2_print_reads:
+    cores: 5
+  gatk2_indel_realigner:
+    cores: 5
+  gatk2_variant_eval:
+    cores: 5
+  gatk2_haplotype_caller:
+    cores: 5
+  gatk2_variant_validate:
+    cores: 5
+  gatk2_reduce_reads:
+    cores: 5
+  gatk2_realigner_target_creator:
+    cores: 5
+  gatk2_depth_of_coverage:
+    cores: 5
+  gatk2_variant_apply_recalibration:
+    cores: 5
+  gatk2_variant_filtration:
+    cores: 5
+  gatk2_base_recalibrator:
+    cores: 5
+  gatk2_variant_combine:
+    cores: 5
+  gatk2_variant_select:
+    cores: 5
+  gatk2_variant_annotator:
+    cores: 5
+  ncbi_blastn_wrapper:
+    inherits: pulsar_preferred
+    cores: 5
+  ncbi_blastp_wrapper:
+    inherits: pulsar_preferred
+    cores: 8
+    rules:
+    - match: file_size >= 1
+      cores: 5
+  kraken:
+    cores: 5
+  kraken2:
+    cores: 16
+  kraken2_build_database:
+    cores: 16
+  minimap2:
+    inherits: pulsar_preferred
+    cores: 4
+    rules:
+    - match: file_size >= (500/1024) and file_size < 5
+      cores: 8
+    - match: file_size < Infinity
+      cores: 32
+  kallisto_quant:
+    cores: 2
+    rules:
+    - match: file_size >= (100/1024)
+      cores: 5
+  samtools_mpileup:
+    cores: 5
+  gubbins:
+    cores: 5
+    rules:
+    - match: file_size >= (500/(1024*1024)) and file_size < (500/1024)
+      cores: 16
+    - match: file_size >= (500/1024)
+      fail: Too much data, please don't use the gubbins for this.
+  rbc_mafft:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (500/(1024*1024)) and file_size < (500/1024)
+      cores: 16
+    - match: file_size >= (500/1024)
+      fail: Too much data, please don't use MAFFT for this.
+  salmon:
+    cores: 5
+  dexseq:
+    cores: 9
+  dexseq_count:
+    cores: 5
+  ggplot2_heatmap2:
+    cores: 2
+  jbrowse:
+    cores: 3
+  wig_to_bigWig:
+    cores: 3
+    rules:
+    - match: file_size >= 1
+      cores: 5
+  fastq_paired_end_joiner:
+    cores: 3
+  tabular_to_csv:
+    cores: 1
+    rules:
+    - match: file_size >= 1
+      cores: 3
+  repenrich:
+    cores: 7
+  unicycler:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size >= (200/1024) and file_size < 2
+      cores: 8
+    - match: file_size >= 2 and file_size < 60
+      cores: 16
+    - match: file_size >= 60
+      cores: 16
+  megahit:
+    inherits: pulsar_preferred
+    cores: 8
+    rules:
+    - match: file_size >= 5
+      cores: 16
+  rna_star:
+    inherits: pulsar_preferred
+    cores: 8
+  rna_starsolo:
+    cores: 9
+  rna_star_index_builder_data_manager:
+    cores: 32
+  roary:
+    cores: 7
+  rseqc_RPKM_saturation:
+    inherits: pulsar_preferred
+    cores: 8
+  rseqc_geneBody_coverage:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (500/1024)
+      cores: 2
+  rseqc_geneBody_coverage2:
+    inherits: pulsar_preferred
+    cores: 2
+  rseqc_read_distribution:
+    inherits: pulsar_preferred
+    cores: 2
+  cutadapt:
+    cores: 5
+  ncbi_blastx_wrapper:
+    cores: 16
+  ncbi_tblastn_wrapper:
+    cores: 16
+  ncbi_tblastx_wrapper:
+    cores: 16
+  mira_4_0_mapping:
+    cores: 16
+  mira_4_0_bait:
+    cores: 16
+  mira_4_0_de_novo:
+    cores: 16
+  phyloseq_nmds:
+    cores: 16
+  phyloseq_ordinate:
+    cores: 16
+  biom_filter:
+    cores: 16
+  fasta-stats:
+    cores: 1
+    rules:
+    - match: file_size >= (10/1024)
+      cores: 3
+  ivar_trim:
+    inherits: pulsar_preferred
+    cores: 8
+  ivar_variants:
+    inherits: pulsar_preferred
+    cores: 8
+  ivar_consensus:
+    inherits: pulsar_preferred
+    cores: 8
+  phyml:
+    inherits: pulsar_preferred
+    cores: 126
+  mothur_merge_files:
+    cores: 3
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  mothur_make_group:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  mothur_dist_shared:
+    cores: 1
+    rules:
+    - match: file_size >= (2/1024) and file_size < (5/1024)
+      cores: 5
+    - match: file_size >= (5/1024)
+      cores: 7
+  mothur_unique_seqs:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  mothur_count_seqs:
+    cores: 2
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  mothur_summary_seqs:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  mothur_screen_seqs:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  mothur_align_seqs:
+    cores: 2
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  mothur_filter_seqs:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  mothur_pre_cluster:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  mothur_classify_seqs:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  mothur_cluster_split:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size >= (150/(1024*1024))
+      cores: 63
+  mothur_make_shared:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  mothur_classify_otu:
+    cores: 2
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  mothur_make_contigs:
+    cores: 2
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  mothur_chimera_vsearch:
+    cores: 2
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  mothur_taxonomy_to_krona:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  krona_text:
+    cores: 1
+    rules:
+    - match: file_size >= (20/1024) and file_size < 2
+      cores: 5
+    - match: file_size >= 2
+      cores: 7
+  clustalw:
+    cores: 3
+    rules:
+    - match: file_size >= (300/(1024*1024)) and file_size < (2/1024)
+      cores: 5
+    - match: file_size >= (2/1024) and file_size < (40/1024)
+      cores: 9
+    - match: file_size >= (40/1024)
+      fail: Too much data, please don't use the clustalw for this.
+  flye:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (150/1024) and file_size < 1
+      cores: 8
+    - match: file_size < Infinity
+      cores: 32
+  limma_voom:
+    cores: 7
+  gffread:
+    cores: 9
+  khmer_abundance_distribution_single:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size < Infinity
+      cores: 126
+  circos:
+    inherits: pulsar_preferred
+    cores: 2
+  hifiasm:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (200/1024)
+      cores: 63
+  trycycler_cluster:
+    cores: 1
+    rules:
+    - match: file_size >= (200/1024) and file_size < 3
+      cores: 5
+    - match: file_size >= 3
+      cores: 9
+  trycycler_consensus:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size >= (200/1024) and file_size < 2
+      cores: 8
+    - match: file_size >= 2
+      cores: 16
+  trycycler_partition:
+    cores: 1
+    rules:
+    - match: file_size >= (200/1024) and file_size < 3
+      cores: 5
+    - match: file_size >= 3
+      cores: 9
+  trycycler_reconcile_msa:
+    cores: 1
+    rules:
+    - match: file_size >= (200/1024) and file_size < 3
+      cores: 5
+    - match: file_size >= 3
+      cores: 9
+  trycycler_subsample:
+    cores: 1
+    rules:
+    - match: file_size >= (200/1024) and file_size < 3
+      cores: 5
+    - match: file_size >= 3
+      cores: 9
+  meryl:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (1/1024)
+      cores: 16
+  merqury:
+    cores: 1
+    rules:
+    - match: file_size >= (1/1024)
+      cores: 5
+  racon:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size < Infinity
+      cores: 32
+  medaka_consensus_pipeline:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size < Infinity
+      cores: 32
+  medaka_variant:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size >= (500/1024)
+      cores: 8
+  jellyfish:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (100/1024)
+      cores: 4
+  humann:
+    cores: 1
+    rules:
+    - match: file_size >= (10/1024)
+      cores: 7
+  seqtk_seq:
+    inherits: pulsar_preferred
+    cores: 1
+    rules:
+    - match: file_size < Infinity
+      cores: 32
+  abyss:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (2/1024) and file_size < 5
+      cores: 16
+    - match: file_size >= 5
+      cores: 126
+  shasta:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (2/1024) and file_size < 5
+      cores: 16
+    - match: file_size >= 5
+      cores: 126
+  raven:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (2/1024) and file_size < 5
+      cores: 16
+    - match: file_size >= 5
+      cores: 126
+  gmx_sim:
+    inherits: pulsar_preferred
+    cores: 2
+    rules:
+    - match: file_size >= (10/1024)
+      cores: 8
+  bwa_mem_index_builder_data_manager:
+    cores: 16
+  hisat2_index_builder_data_manager:
+    cores: 5
+  bwameth_index_builder_data_manager:
+    cores: 5
+  bowtie2_index_builder_data_manager:
+    cores: 16
+  twobit_builder_data_manager:
+    cores: 16
+  data_manager_humann_database_downloader:
+    cores: 5
