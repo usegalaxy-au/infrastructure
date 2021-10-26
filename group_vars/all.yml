@@ -66,11 +66,11 @@ machine_users:
         - sudo
       key: files/keys/cameron.pub
       email: "{{ cameron_email }}"
-    # - name: anna
-    #   roles:
-    #     - tiaas_admin
-    #   key: files/keys/anna.pub
-    #   email: "{{ anna_email }}"
+    - name: anna
+      roles:
+        - tiaas_admin
+      key: files/keys/anna.pub
+      email: "{{ anna_email }}"
 
 galaxy_user:
   name: galaxy
