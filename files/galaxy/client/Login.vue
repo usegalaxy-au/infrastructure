@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <div></div>
         <div class="row login">
             <template v-if="!confirmURL">
                 <div class="col col-lg-6">
@@ -214,12 +215,27 @@ export default {
     },
 };
 </script>
+
+<style>
+  #externalLogin {
+    margin-bottom: 2rem;
+  }
+  #externalLogin hr.my-4 {
+    margin: 0.75rem 0;
+    border: none;
+    border-top: none;
+  }
+</style>
+
 <style scoped>
+.center-panel > div > div.container {
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .login {
-    transform: translate(-50%, -50%);
-    position: absolute;
-    top: 40%;
-    left: 50%;
+    margin: 1.5rem;
     width: 100%;
     max-width: 1200px;
     justify-content: center;
@@ -228,10 +244,6 @@ export default {
     overflow: visible;
 }
 .footer {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
     width: 100%;
     display: flex;
     flex-direction: column;

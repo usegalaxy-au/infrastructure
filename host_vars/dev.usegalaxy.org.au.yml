@@ -1,7 +1,7 @@
 # Specific settings for galaxy dev application/web server
 
-# Login override
-galaxy_login_checksum_expected: 4ec5fb5a6f66fdd8dce0166aafceb0af
+# Login override - checksum for Login.vue
+galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
 
 # variables for attaching mounted volume to application server
 attached_volumes:
