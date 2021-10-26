@@ -2,7 +2,8 @@ import argparse
 import oyaml as yaml
 
 """
-Convert values from galaxy_jobconf into a yaml job configuration file
+Convert values from galaxy_jobconf into a yaml job configuration file.  This needs input yaml files
+that contain galaxy_jobconf (previously used for templating job_conf.xml) and galaxy_handler_count
 """
 
 # credit to stackoverflow user's solutions for yaml representation of quoted and blank values
@@ -39,27 +40,21 @@ def quote_values(dict_item):
 
 def main():
     parser = argparse.ArgumentParser(description='Uninstall tool from a galaxy instance')
-    parser.add_argument('input', help='Input file with galaxy_jobconf yaml for templating')
-    parser.add_argument('-v', '--vars', nargs='+', help='Additional host variables file')
+    parser.add_argument('input', nargs='+', help='Input file/files with galaxy_jobconf and galaxy_handler_count')
     parser.add_argument('-o', '--output', help='Output yaml file')
     args = parser.parse_args()
     input = args.input
-    vars = args.vars
     output = args.output
     if not args.output:
         output = 'job_conf_converted.yml'
 
-    with open(input) as handle:
-        config_yaml = yaml.safe_load(handle)
-    
-    if vars:
-        with open(vars) as handle:
-            additional_vars_yaml = yaml.safe_load(handle)
-    else:
-        additional_vars_yaml = {}
+    config_yaml = {}
+    for input in args.input:
+        with open(input) as handle:
+            config_yaml.update(yaml.safe_load(handle))
 
     input_jc = config_yaml['galaxy_jobconf']
-    galaxy_handler_count = config_yaml.get('galaxy_handler_count') or additional_vars_yaml.get('galaxy_handler_count')
+    galaxy_handler_count = config_yaml['galaxy_handler_count']
 
     runners = {}
     environments = {}
