@@ -39,6 +39,9 @@ roles/galaxyproject.gxadmin
 roles/usegalaxy_eu.tiaas2
 roles/usegalaxy_eu.gie_proxy
 roles/geerlingguy.docker
+roles/cloudalchemy.grafana
+roles/galaxyproject.miniconda
+roles/usegalaxy_eu.influxdb
 
 # integration-testing virtual environment
 integration-testing/venv
