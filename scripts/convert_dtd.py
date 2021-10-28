@@ -34,6 +34,8 @@ ntasks_pattern = re.compile('.*--ntasks=(?P<ntasks>\d+).*')
 
 galaxy_instance = GalaxyInstance('https://usegalaxy.org.au')
 
+galaxy_tool_ids = [t['id'] for t in galaxy_instance.tools.get_tools()]
+
 tool_destinations_file = '/Users/cat/dev/infrastructure/files/galaxy/dynamic_job_rules/pawsey/dynamic_rules/tool_destinations.yml'
 
 job_config_file = '/Users/cat/dev/infrastructure/templates/galaxy/config/pawsey_job_conf.yml.j2'
@@ -112,7 +114,21 @@ for tool_id in tool_dests:
                 if key in ['cores', 'fail']:
                     the_rule[key] = rule[key]
             vortex_tool['rules'].append(the_rule)
-    vortex_tools[tool_id] = vortex_tool  # worry about proper tool regex next
+
+    tool_id_regexes = []
+    # tool might be a short id or a toolshed tool id
+    # print(sorted(galaxy_tool_ids))
+    matching_galaxy_toolshed_tool_id_regexes = list(set([
+        f'{("/").join(id.split("/")[:-1])}/.*' for id in galaxy_tool_ids if '/' in id and id.split('/')[-2] == tool_id
+    ]))
+    matching_galaxy_local_tool_id_regexes = [id for id in galaxy_tool_ids if id == tool_id] # i.e. exact match regex
+    new_ids = matching_galaxy_toolshed_tool_id_regexes + matching_galaxy_local_tool_id_regexes
+    if len(new_ids) == 0:
+        print(f'No galaxy tool found for short_id {tool_id}')
+    if len(new_ids) > 1:
+        print(f'{len(new_ids)} found matching short_id {tool_id}: {", ".join(new_ids)}')
+    for new_id in new_ids:
+        vortex_tools[new_id] = vortex_tool  # worry about proper tool regex next
 
 with open('vortex_tools.yml', 'w') as handle:
     yaml.dump({'tools': vortex_tools}, handle)
