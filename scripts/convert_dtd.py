@@ -2,6 +2,7 @@ import oyaml as yaml
 import re
 from bioblend.galaxy import GalaxyInstance
 
+local_tools_not_in_panel = ['upload1']
 
 # todo: the gffread rule will not translate well
 
@@ -31,6 +32,7 @@ def make_lower_upper_expression(lower, upper):
         return f'input_size >= {lower} and input_size < {upper}'
 
 ntasks_pattern = re.compile('.*--ntasks=(?P<ntasks>\d+).*')
+mem_pattern = re.compile('.*--mem=(?P<mem>\d+).*')
 
 galaxy_instance = GalaxyInstance('https://usegalaxy.org.au')
 
@@ -122,6 +124,7 @@ for tool_id in tool_dests:
         f'{("/").join(id.split("/")[:-1])}/.*' for id in galaxy_tool_ids if '/' in id and id.split('/')[-2] == tool_id
     ]))
     matching_galaxy_local_tool_id_regexes = [id for id in galaxy_tool_ids if id == tool_id] # i.e. exact match regex
+    included_unmatched_tools = [id for id in local_tools_not_in_panel if id == tool_id] # i.e. exact match regex
     new_ids = matching_galaxy_toolshed_tool_id_regexes + matching_galaxy_local_tool_id_regexes
     if len(new_ids) == 0:
         print(f'No galaxy tool found for short_id {tool_id}')
@@ -133,4 +136,45 @@ for tool_id in tool_dests:
 with open('vortex_tools.yml', 'w') as handle:
     yaml.dump({'tools': vortex_tools}, handle)
 
+# now for destinations
+destinations = {}
+
+new_env_ids = set(list([env_id.split('_')[:-1] for env_id in destination_cores]))
+
+for new_env_id in new_env_ids:
+    max_existing_env = sorted([e for e in destination_cores if e.startwith(new_id)], reverse=True)[0]
+    new_env = max_existing_env.copy()
+    destinations[new_env_id] = new_env
+
+with open('destinations_for_job_conf.yml', 'w') as handle:
+    yaml.dump({'environments': destinations}, handle)
+
+vortex_destinations = {}
+for id in destinations:
+    env = destinations[id]
+    native_spec = env.get('nativeSpecification') or env.get('submit_native_specification')
+    ntasks = int(re.match(ntasks_pattern, native_spec).groupdict().get('ntasks'))
+    mem = int(re.match(mem_pattern, native_spec).groupdict().get('mem'))
+    vortex_dest = {'cores': ntasks, 'mem': mem/1024, 'scheduling': {}}
+    vortex_dest['scheduling']['allow'] = [id]  # each destination gets its own tag
+    if id.startswith('pulsar'):
+        vortex_dest['scheduling']['require'] = ['pulsar']
     
+with open('vortex_destinations.yml', 'w') as handle:
+    yaml.dump({'destinations': vortex_destinations}, handle)
+
+    
+
+
+# # keep only the maximum spec from each runner
+# for env_id in destination_cores:
+#     new_env_id = '_'.join(env_id.split('_')[:-1])
+#     # native_spec = env.get('nativeSpecification') or env.get('submit_native_specification')
+#     # if native_spec:
+#     #     env = envs[env_id]
+#     #     new_env_id = '_'.join(env_id.split('_')[:-1])
+#     #     ntasks = int(re.match(ntasks_pattern, native_spec).groupdict().get('ntasks'))
+#     #     destination_cores[env_id] = ntasks
+#     #     if destinations
+
+
