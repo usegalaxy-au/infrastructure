@@ -208,7 +208,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+          submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=8029"
           transport: curl
       - id: pulsar-mel_mid
         runner: pulsar_mel2_runner
@@ -219,7 +219,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4"
+          submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4 --mem=16058"
           transport: curl
       - id: pulsar-mel_big
         runner: pulsar_mel2_runner
@@ -230,7 +230,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8"
+          submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116"
           transport: curl
       # Pulsar paw destinations
       # - id: pulsar-paw_small
@@ -242,7 +242,7 @@ galaxy_jobconf:
       #     persistence_directory: /mnt/pulsar/files/persisted_data
       #     remote_metadata: false
       #     rewrite_parameters: true
-      #     submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+      #     submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=8029"
       #     transport: curl
       # - id: pulsar-paw_mid
       #   runner: pulsar-paw_runner
@@ -253,7 +253,7 @@ galaxy_jobconf:
       #     persistence_directory: /mnt/pulsar/files/persisted_data
       #     remote_metadata: false
       #     rewrite_parameters: true
-      #     submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4"
+      #     submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4 --mem=16058"
       #     transport: curl
       # - id: pulsar-paw_big
       #   runner: pulsar-paw_runner
@@ -264,7 +264,7 @@ galaxy_jobconf:
       #     persistence_directory: /mnt/pulsar/files/persisted_data
       #     remote_metadata: false
       #     rewrite_parameters: true
-      #     submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8"
+      #     submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116"
       #     transport: curl
       # Pulsar mel3 destinations
       - id: pulsar-mel3_small

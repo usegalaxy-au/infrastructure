@@ -132,25 +132,6 @@ tools:
             fail_message: Too much data, please don't use Spades for this
             destination: fail
         default_destination: slurm_5slots
-    velvet:
-        rules:
-            - rule_type: file_size
-              nice_value: 0
-              lower_bound: 0
-              upper_bound: 15 MB
-              destination: pulsar-mel_small
-            - rule_type: file_size
-              nice_value: 0
-              lower_bound: 15 MB
-              upper_bound: 1 GB
-              destination: pulsar-mel_mid
-            - rule_type: file_size
-              nice_value: 0
-              lower_bound: 1 GB
-              upper_bound: Infinity
-              destination: fail
-              fail_message: Too much data, please don't use Velvet for this, it is here for training purposes only
-        default_destination: slurm_5slots
     velvetoptimiser:
         rules:
             - rule_type: file_size
@@ -630,12 +611,8 @@ tools:
         default_destination: slurm_5slots
     pilon:
         default_destination: slurm_5slots
-    fml_gtf2gff:
-        default_destination: slurm_3slots
     gops_join_1:
         default_destination: slurm_5slots
-    sam_merge2:
-        default_destination: slurm_3slots
     Extract genomic DNA 1:
         default_destination: slurm_3slots
     snpEff:
@@ -736,19 +713,6 @@ tools:
               upper_bound: 150 MB
               destination: slurm_2slots
         default_destination: slurm_3slots
-    cuffdiff:
-        rules:
-            - rule_type: file_size
-              nice_value: 0
-              lower_bound: 0
-              upper_bound: 200 MB
-              destination: slurm_2slots
-            - rule_type: file_size
-              nice_value: 0
-              lower_bound: 200 MB
-              upper_bound: 4 GB
-              destination: slurm_3slots
-        default_destination: slurm_5slots
     cuffnorm:
         default_destination: slurm_5slots
     stringtie:
@@ -766,10 +730,6 @@ tools:
         default_destination: slurm_5slots
     stringtie_merge:
         default_destination: slurm_1slot
-    gatk2_unified_genotyper:
-        default_destination: slurm_5slots
-    rsem_calculate_expression:
-        default_destination: slurm_5slots
     macs2_1_peakcalling:
         default_destination: slurm_9slots
     macs2_callpeak:
@@ -966,14 +926,6 @@ tools:
     ncbi_tblastn_wrapper:
         default_destination: slurm_16slots
     ncbi_tblastx_wrapper:
-        default_destination: slurm_16slots
-    mira_4_0_mapping:
-        default_destination: slurm_16slots
-    mira_4_0_bait:
-        default_destination: slurm_16slots
-    mira_4_0_de_novo:
-        default_destination: slurm_16slots
-    phyloseq_nmds:
         default_destination: slurm_16slots
     phyloseq_ordinate:
         default_destination: slurm_16slots
@@ -1217,7 +1169,7 @@ tools:
               upper_bound: 2 GB
               destination: slurm_5slots
         default_destination: slurm_7slots
-    krona_text:
+    krona-text:
         rules:
             - rule_type: file_size
               nice_value: 0
@@ -1453,7 +1405,7 @@ tools:
               users:
                 - anna.syme@unimelb.edu.au
         default_destination: pulsar-mel_mid
-    abyss:
+    abyss-pe:
         rules:
             - rule_type: file_size
               nice_value: 0
