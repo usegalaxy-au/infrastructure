@@ -121,6 +121,7 @@ for tool_id in tool_dests:
     # define the core setting as the lowest rule, add all file size rules as separate rules
     tool_rules = file_size_rules[1:]
     vortex_tool['cores'] = file_size_rules[0]['cores']
+    vortex_tool['mem'] = file_size_rules[0]['mem'] / 1024
     if tool_rules:
         vortex_tool['rules'] = []
         for rule in tool_rules:
