@@ -12,6 +12,16 @@ environments:
     rewrite_parameters: true
     submit_native_specification: --nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116
     transport: curl
+  pulsar-paw:
+    runner: pulsar-paw_runner
+    default_file_action: remote_transfer
+    dependency_resolution: remote
+    jobs_directory: /mnt/pulsar/files/staging
+    persistence_directory: /mnt/pulsar/files/persisted_data
+    remote_metadata: false
+    rewrite_parameters: true
+    submit_native_specification: --nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116
+    transport: curl
   pulsar-mel3:
     runner: pulsar-mel3_runner
     default_file_action: remote_transfer

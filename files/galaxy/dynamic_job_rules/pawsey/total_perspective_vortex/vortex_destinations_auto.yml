@@ -13,6 +13,14 @@ destinations:
       - pulsar-mel
       require:
       - pulsar
+  pulsar-paw:
+    cores: 8
+    mem: 31.36328125
+    scheduling:
+      accept:
+      - pulsar-paw
+      require:
+      - pulsar
   pulsar-mel3:
     cores: 32
     mem: 60.625

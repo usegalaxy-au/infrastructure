@@ -814,11 +814,11 @@ tools:
     inherits: pulsar_preferred
     cores: 8
     mem: 30.3125
-  toolshed.g2.bx.psu.edu/repos/vlefort/phyml/phyml/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
     inherits: pulsar_preferred
     cores: 126
     mem: 1922.4912109375
-  toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
+  toolshed.g2.bx.psu.edu/repos/vlefort/phyml/phyml/.*:
     inherits: pulsar_preferred
     cores: 126
     mem: 1922.4912109375
