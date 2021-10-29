@@ -180,7 +180,7 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+      submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=8029"
       transport: curl
     pulsar-mel_mid:
       runner: pulsar_mel2_runner
@@ -190,7 +190,7 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4"
+      submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4 --mem=16058"
       transport: curl
     pulsar-mel_big:
       runner: pulsar_mel2_runner
@@ -200,7 +200,7 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8"
+      submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116"
       transport: curl
     pulsar-paw_small:
       runner: pulsar-paw_runner
@@ -210,7 +210,7 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+      submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=8029"
       transport: curl
     pulsar-paw_mid:
       runner: pulsar-paw_runner
@@ -220,7 +220,7 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4"
+      submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4 --mem=16058"
       transport: curl
     pulsar-paw_big:
       runner: pulsar-paw_runner
@@ -230,7 +230,7 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8"
+      submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116"
       transport: curl
     pulsar-mel3_small:
       runner: pulsar-mel3_runner
