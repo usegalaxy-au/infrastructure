@@ -1,0 +1,67 @@
+users:
+    jenkins_bot@usegalaxy.org.au:
+      cores: 1
+      mem: cores * 3.5 # Or whatever the default multiplier we use
+      scheduling:
+        require:
+          - slurm
+    testbot@usegalaxy.org:
+      cores: 1
+      mem: cores * 3.5 # Or whatever the default multiplier we use
+      scheduling:
+        require:
+          - slurm
+    pulsar_mel2_user@usegalaxy.org.au:
+      scheduling:
+        accept:
+          - pulsar # pulsar must be in require/prefer/accept for a job to be scheduled to pulsar
+        require:
+          - pulsar-mel
+    pulsar_mel3_user@usegalaxy.org.au:
+      scheduling:
+        accept:
+          - pulsar
+        require:
+          - pulsar-mel3
+    pulsar_paw_user@usegalaxy.org.au:
+      scheduling:
+        accept:
+          - pulsar
+        require:
+          - pulsar-paw
+    phm1@genome.edu.au:
+      scheduling:
+        accept:
+          - pulsar
+        require:
+          - pulsar-high-mem1
+    phm2@genome.edu.au:
+      scheduling:
+        accept:
+          - pulsar
+        require:
+          - pulsar-high-mem2
+    pncitrain@genome.edu.au:
+      scheduling:
+        accept:
+          - pulsar
+        require:
+          - pulsar-nci-training
+    pqhm0@genome.edu.au:
+      scheduling:
+        accept:
+          - pulsar
+        require:
+          - pulsar-qld-high-mem0
+    pqhm1@genome.edu.au:
+      scheduling:
+        accept:
+          - pulsar
+        require:
+          - pulsar-qld-high-mem1
+    pqhm2@genome.edu.au:
+      scheduling:
+        accept:
+          - pulsar
+        require:
+          - pulsar-qld-high-mem2

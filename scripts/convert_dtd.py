@@ -1,11 +1,24 @@
 import oyaml as yaml
+import os
 import re
 from bioblend.galaxy import GalaxyInstance
+
+# TODO: handle user and argument based rules
+
+path_to_vortex_rules = os.path.join(
+    os.path.dirname(os.path.realpath(__file__)),
+    '../files/galaxy/dynamic_job_rules/pawsey/total_perspective_vortex'
+)
 
 local_tools_not_in_panel = ['upload1', 'Extract genomic DNA 1']  # galaxy built-in tools that are not returned by the get_tools() function
 oddly_named_data_managers = ['kraken2_build_database']  # data manager tool short ids that do not contain the substring 'data_manager'
 
-# todo: the gffread rule will not translate well
+galaxy_instance = GalaxyInstance('https://usegalaxy.org.au')
+galaxy_tool_ids = [t['id'] for t in galaxy_instance.tools.get_tools()]
+
+tool_destinations_file = '/Users/cat/dev/infrastructure/files/galaxy/dynamic_job_rules/pawsey/dynamic_rules/tool_destinations.yml'
+job_config_file = '/Users/cat/dev/infrastructure/templates/galaxy/config/pawsey_job_conf.yml.j2'
+
 
 def file_size_to_GB_string(file_size):  # not a full conversion: 500 MB -> (500/1024)  # almost like opposite of pg_pretty
     if file_size in (0, '0'):
@@ -32,42 +45,25 @@ def make_lower_upper_expression(lower, upper):
     else:
         return f'input_size >= {lower} and input_size < {upper}'
 
+def get_native_spec(env):
+    return env.get('nativeSpecification') or env.get('submit_native_specification')
+
 def get_cores_from_env(env):
+    print(env)
     ntasks_pattern = re.compile('.*--ntasks=(?P<ntasks>\d+).*')
-    native_spec = env.get('nativeSpecification') or env.get('submit_native_specification')
+    native_spec = get_native_spec(env)
     ntasks = int(re.match(ntasks_pattern, native_spec).groupdict().get('ntasks'))
     return ntasks
 
 def get_mem_from_env(env):
-    print(env)
     mem_pattern = re.compile('.*--mem=(?P<mem>\d+).*')
-    native_spec = env.get('nativeSpecification') or env.get('submit_native_specification')
+    native_spec = get_native_spec(env)
     mem = int(re.match(mem_pattern, native_spec).groupdict().get('mem'))
     return mem
-
-
-galaxy_instance = GalaxyInstance('https://usegalaxy.org.au')
-
-galaxy_tool_ids = [t['id'] for t in galaxy_instance.tools.get_tools()]
-
-tool_destinations_file = '/Users/cat/dev/infrastructure/files/galaxy/dynamic_job_rules/pawsey/dynamic_rules/tool_destinations.yml'
-
-job_config_file = '/Users/cat/dev/infrastructure/templates/galaxy/config/pawsey_job_conf.yml.j2'
-
-# destination_cores = {}
 
 with open(job_config_file) as handle:
     job_conf = yaml.safe_load(handle)
     envs = job_conf.get('execution').get('environments')
-
-# for env_id in envs:
-#     env = envs[env_id]
-#     native_spec = env.get('nativeSpecification') or env.get('submit_native_specification')
-#     if native_spec:
-#         ntasks = int(re.match(ntasks_pattern, native_spec).groupdict().get('ntasks'))
-#         destination_cores[env_id] = ntasks
-
-# destination_cores['fail'] = 'fail'
 
 with open(tool_destinations_file) as handle:
     tool_dests = yaml.safe_load(handle)['tools']
@@ -80,7 +76,7 @@ for tool_id in tool_dests:
     user_rules = []  # skip these for now
     allowed_dests = [tool['default_destination']]
     for rule in tool.get('rules', []):
-        if rule['rule_type'] == 'file_size':
+        if rule['rule_type'] == 'file_size' and not rule.get('users'):
             new_rule = {
                 'lower': file_size_to_GB_string(rule['lower_bound']),
                 'upper': file_size_to_GB_string(rule['upper_bound']),
@@ -91,8 +87,8 @@ for tool_id in tool_dests:
                 new_rule['cores'] = get_cores_from_env(envs[rule['destination']])           
                 new_rule['mem'] = get_mem_from_env(envs[rule['destination']])
             file_size_rules.append(new_rule)
-        allowed_dests.append(rule['destination'])
-    if any([x.startswith('pulsar') for x in allowed_dests]):  # careful: there are some blast rules that go pulsar or slurm depending on params
+            allowed_dests.append(rule['destination'])
+    if any([x.startswith('pulsar') for x in allowed_dests]):
         pulsar_allowed = True
     if not file_size_rules:
         file_size_rules.append({
@@ -129,9 +125,17 @@ for tool_id in tool_dests:
         vortex_tool['rules'] = []
         for rule in tool_rules:
             the_rule = {'match': make_lower_upper_expression(lower=rule['lower'], upper=rule['upper'])}
-            for key in rule.keys():
-                if key in ['cores', 'fail']:
-                    the_rule[key] = rule[key]
+            # for key in rule.keys():
+            #     if key in ['cores', 'mem', 'fail']:
+            #         the_rule[key] = rule[key]
+            if 'cores' in rule.keys():
+                the_rule.update({'cores': rule['cores']})
+            if 'mem' in rule.keys():
+                mem_gb = rule['mem'] / 1024
+                the_rule.update({'mem': mem_gb})
+            if 'fail' in rule.keys():
+                the_rule.update({'fail': rule['fail']})               
+
             vortex_tool['rules'].append(the_rule)
 
     tool_id_regexes = []
@@ -149,76 +153,46 @@ for tool_id in tool_dests:
     if len(new_ids) > 1:
         print(f'{len(new_ids)} found matching short_id {tool_id}: {", ".join(new_ids)}')
     for new_id in new_ids:
-        vortex_tools[new_id] = vortex_tool  # worry about proper tool regex next
+        vortex_tools[new_id] = vortex_tool.copy()
 
-with open('vortex_tools.yml', 'w') as handle:
+with open(os.path.join(path_to_vortex_rules, 'vortex_tools_auto.yml'), 'w') as handle:
     yaml.dump({'tools': vortex_tools}, handle)
 
-# now for destinations
-
-# split destinations by runners IF they destinations have native specifications 
+# split destinations by runners if the destinations have native specifications 
 destinations = {}
-# print(destination_cores.keys())
-# new_env_ids = set(list(['_'.join(env_id.split('_')[:-1]) for env_id in destination_cores.keys()]))
-# print(new_env_ids)
 
 new_dest_ids = []
 for runner_id in job_conf['runners'].keys():
-    runner_envs = [env_id for env_id in envs if envs[env_id]['runner'] == runner_id]
+    runner_envs = [env_id for env_id in envs if envs[env_id]['runner'] == runner_id and get_native_spec(envs[env_id])]
     if len(runner_envs) == 0:
         continue
-    if len(runner_envs = 1):
+    if len(runner_envs) == 1:
         new_dest_id = runner_envs[0]
     else:
         e0, e1 = runner_envs[:2]
         longest_prefix_length = max([x for x in range(min(len(e0), len(e1))) if e0[:x] == e1[:x]])
-        new_dest_id = e0[:longest_prefix_length]
+        new_dest_id = e0[:longest_prefix_length].strip('_')
+    # choose the highest cores/mem of all of the original destinations for native spec
+    # e.g. for slurm, choose native specification from slurm_32slots
     sorted_env_ids = sorted(runner_envs, key=lambda x: get_cores_from_env(envs[x]), reverse=True)
     new_dest = envs[sorted_env_ids[0]].copy()
     destinations[new_dest_id] = new_dest
 
-# vortex_destinations
-# for dest in destionations
-
-
-
-
-
-# for new_env_id in new_env_ids:
-#     print(new_env_id)
-#     max_existing_env = sorted([e for e in destination_cores.keys() if e.startswith(new_id)], reverse=True)[0]
-#     new_env = max_existing_env.copy()
-#     destinations[new_env_id] = new_env
-
-with open('destinations_for_job_conf.yml', 'w') as handle:
+with open(os.path.join(path_to_vortex_rules, 'destinations_for_job_conf_auto.yml'), 'w') as handle:
     yaml.dump({'environments': destinations}, handle)
 
 vortex_destinations = {}
 for id in destinations:
     env = destinations[id]
-    # native_spec = env.get('nativeSpecification') or env.get('submit_native_specification')
     ntasks = get_cores_from_env(env)
     mem = get_mem_from_env(env)
     vortex_dest = {'cores': ntasks, 'mem': mem/1024, 'scheduling': {}}
     vortex_dest['scheduling']['allow'] = [id]  # each destination gets its own tag
     if id.startswith('pulsar'):
         vortex_dest['scheduling']['require'] = ['pulsar']
+    vortex_destinations[id] = vortex_dest
     
-with open('vortex_destinations.yml', 'w') as handle:
+with open(os.path.join(path_to_vortex_rules, 'vortex_destinations_auto.yml'), 'w') as handle:
     yaml.dump({'destinations': vortex_destinations}, handle)
 
-    
-
-
-# # keep only the maximum spec from each runner
-# for env_id in destination_cores:
-#     new_env_id = '_'.join(env_id.split('_')[:-1])
-#     # native_spec = env.get('nativeSpecification') or env.get('submit_native_specification')
-#     # if native_spec:
-#     #     env = envs[env_id]
-#     #     new_env_id = '_'.join(env_id.split('_')[:-1])
-#     #     ntasks = int(re.match(ntasks_pattern, native_spec).groupdict().get('ntasks'))
-#     #     destination_cores[env_id] = ntasks
-#     #     if destinations
-
-
+#  f'{x:.2f}' format x to 2 decimal places

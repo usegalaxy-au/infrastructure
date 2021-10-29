@@ -1,0 +1,19 @@
+roles:
+  training.*:
+    scheduling:
+      require:
+        - training
+        - slurm
+    cores: 2
+    mem: cores * 3.5 # TODO: check multiplier
+    params:
+      - nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024} --partition=training"
+    rules:
+      match: tool.id in ['bwa_mem'] # list of tools that will run on pulsar could be templated
+      scheduling:
+        cores: 4
+        mem: cores * 3.5 # TODO: check multiplier
+        require:
+          - pulsar  # require pulsar and training: only one place to go
+      
+

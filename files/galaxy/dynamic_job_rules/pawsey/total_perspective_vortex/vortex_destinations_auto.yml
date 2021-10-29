@@ -1,0 +1,77 @@
+destinations:
+  slurm:
+    cores: 32
+    mem: 121.25
+    scheduling:
+      allow:
+      - slurm
+  pulsar-mel:
+    cores: 8
+    mem: 31.36328125
+    scheduling:
+      allow:
+      - pulsar-mel
+      require:
+      - pulsar
+  pulsar-mel3:
+    cores: 32
+    mem: 60.625
+    scheduling:
+      allow:
+      - pulsar-mel3
+      require:
+      - pulsar
+  pulsar-high-mem1:
+    cores: 126
+    mem: 3845.09765625
+    scheduling:
+      allow:
+      - pulsar-high-mem1
+      require:
+      - pulsar
+  pulsar-high-mem2:
+    cores: 126
+    mem: 1922.4912109375
+    scheduling:
+      allow:
+      - pulsar-high-mem2
+      require:
+      - pulsar
+  pulsar-qld-high-mem0:
+    cores: 240
+    mem: 3845.072265625
+    scheduling:
+      allow:
+      - pulsar-qld-high-mem0
+      require:
+      - pulsar
+  pulsar-qld-high-mem1:
+    cores: 240
+    mem: 3845.072265625
+    scheduling:
+      allow:
+      - pulsar-qld-high-mem1
+      require:
+      - pulsar
+  pulsar-qld-high-mem2:
+    cores: 240
+    mem: 3845.072265625
+    scheduling:
+      allow:
+      - pulsar-qld-high-mem2
+      require:
+      - pulsar
+  pulsar-nci-training:
+    cores: 16
+    mem: 47.0654296875
+    scheduling:
+      allow:
+      - pulsar-nci-training
+      require:
+      - pulsar
+  interactive_pulsar:
+    cores: 2
+    mem: 7.578125
+    scheduling:
+      allow:
+      - interactive_pulsar
