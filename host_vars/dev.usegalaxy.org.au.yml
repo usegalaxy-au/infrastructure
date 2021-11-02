@@ -83,7 +83,7 @@ host_galaxy_config:  # renamed from __galaxy_config
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
     cleanup_job: never
     job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
-    show_welcome_with_login: true
+    show_welcome_with_login: false
     enable_mulled_containers: true
     enable_beta_containers_interface: true
     watch_job_rules: true
