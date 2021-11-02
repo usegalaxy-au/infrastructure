@@ -64,7 +64,9 @@ def main():
     default_destination = input_jc['default_destination']
 
     if galaxy_handler_count:
-        handling['processes'] = [{f'main.job-handler.{n+1}': None} for n in range(int(galaxy_handler_count))]
+        handling['processes'] = {}
+        for n in range(galaxy_handler_count):
+            handling['processes'][f'main.job-handler.{n+1}'] = None
     for h in input_jc.get('handlers'):
         if h != 'count':
             handling[h] = input_jc['handlers'][h]
