@@ -65,18 +65,20 @@ users:
   default:
     rules:
       # - match: |
-      #     from galaxy.jobs.rule_helper import RuleHelper  # this does not work and is probably taken care of by galaxy anyway
+      #     from galaxy.jobs.rule_helper import RuleHelper  # this is a test of raising JobNotReadyException, jobs per user limit is already taken care of by galaxy
 
       #     retval = False
       #     if user:
       #       rule_helper = RuleHelper(app)
-      #       job_limit = 10
+      #       job_limit = 1
       #       # job_limit = app.job_config.limits.registered_user_concurrent_jobs
-      #       user_job_count = rule_helper.job_count(for_user_email=user.email)
+      #       user_job_count = rule_helper.job_count(for_user_email=user.email, for_job_states=['queued', 'running'])
       #       if user_job_count >= job_limit:
       #         retval = True
       #     retval
-      #   fail: "User {user.id} has too many running jobs to schedule another"
+      #   execute: |
+      #       from galaxy.jobs.mapper import JobNotReadyException
+      #       raise JobNotReadyException()
       - match: |
           from galaxy.jobs.rule_helper import RuleHelper
           from vortex.core.entities import TagType
@@ -144,6 +146,5 @@ destinations:
       accept:
         - general
         - pulsar-nci-test
-        - offline
       require:
         - pulsar
