@@ -9,7 +9,8 @@ roles:
     params:
       nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024} --partition=training"
     rules:
-    - match: tool.id in ['bwa_mem'] # list of tools that will run on pulsar could be templated
+    - match: |
+        entity.tags.filter(tag_value='pulsar')
       cores: 4
       mem: cores * 3.5 # TODO: check multiplier
       scheduling:
@@ -17,8 +18,9 @@ roles:
           - pulsar  # require pulsar and training: only one place to go
           - training
         reject:
-          - slurm # overcome require slurm
-    - match: tool.id in ['unicycler'] # list of higher mem training tools
+          - slurm # overcome require slurm, will this work?
+    - match: |
+        entity.tags.filter(tag_value='pulsar') and tool.id in ['unicycler'] # list of higher mem training tools
       cores: 8
       mem: cores * 3.5 # TODO: check multiplier
       scheduling:
