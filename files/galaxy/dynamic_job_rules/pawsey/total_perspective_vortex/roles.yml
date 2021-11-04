@@ -7,13 +7,23 @@ roles:
     cores: 2
     mem: cores * 3.5 # TODO: check multiplier
     params:
-      - nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024} --partition=training"
+      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024} --partition=training"
     rules:
-      match: tool.id in ['bwa_mem'] # list of tools that will run on pulsar could be templated
+    - match: tool.id in ['bwa_mem'] # list of tools that will run on pulsar could be templated
+      cores: 4
+      mem: cores * 3.5 # TODO: check multiplier
       scheduling:
-        cores: 4
-        mem: cores * 3.5 # TODO: check multiplier
         require:
           - pulsar  # require pulsar and training: only one place to go
-      
-
+          - training
+        reject:
+          - slurm # overcome require slurm
+    - match: tool.id in ['unicycler'] # list of higher mem training tools
+      cores: 8
+      mem: cores * 3.5 # TODO: check multiplier
+      scheduling:
+        require:
+          - pulsar  # require pulsar and training: only one place to go
+          - training
+        reject:
+          - slurm # overcome require slurm
