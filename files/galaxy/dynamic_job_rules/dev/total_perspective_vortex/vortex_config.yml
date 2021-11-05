@@ -8,6 +8,7 @@ tools:
     env: {}
     params:
       nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024}"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024}"
     scheduling:
       prefer:
       accept:
