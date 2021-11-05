@@ -1,31 +1,47 @@
 roles:
+  # When setting cores at the role or user level always set a value for mem as well
   training.*:
     scheduling:
       require:
         - training
-        - slurm
-    cores: 2
-    mem: cores * 3.5 # TODO: check multiplier
-    params:
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024} --partition=training"
     rules:
+    # If the tool does not have a pulsar tag, send training job to slurm
     - match: |
-        entity.tags.filter(tag_value='pulsar')
+        from vortex.core.entities import Tool
+        value = False
+        if isinstance(entity, Tool):
+            value = not list(entity.tags.filter(tag_value='pulsar'))  # tool has no pulsar tag and so runs on slurm
+        value
+      cores: 2
+      mem: cores * 3.5 # TODO: check multiplier
+      params:
+        nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024} --partition=training"
+      scheduling:
+        require:
+          - slurm
+    # If the tool does have a pulsar tag, send training job to pulsar
+    - match: |
+        from vortex.core.entities import Tool
+        value = False
+        big_pulsar_tools = ['unicycler', 'canu'] # short ids, #TODO add tools to this list, # TODO this should be templated, needs to be defined twice because overlapping rules will combine
+        if isinstance(entity, Tool):
+            value = list(entity.tags.filter(tag_value='pulsar')) and not any([short_id in tool.id for short_id in big_pulsar_tools])
+        value
       cores: 4
       mem: cores * 3.5 # TODO: check multiplier
       scheduling:
         require:
           - pulsar  # require pulsar and training: only one place to go
-          - training
-        reject:
-          - slurm # overcome require slurm, will this work?
+    # If the tool is within a predefined list of large pulsar tools, send job to pulsar with higher cores/mem
     - match: |
-        entity.tags.filter(tag_value='pulsar') and tool.id in ['unicycler'] # list of higher mem training tools
+        from vortex.core.entities import Tool
+        value = False
+        big_pulsar_tools = ['unicycler', 'canu'] # short ids, TODO add tools to this list
+        if isinstance(entity, Tool):
+            value = list(entity.tags.filter(tag_value='pulsar')) and any([short_id in tool.id for short_id in big_pulsar_tools])
+        value
       cores: 8
       mem: cores * 3.5 # TODO: check multiplier
       scheduling:
         require:
           - pulsar  # require pulsar and training: only one place to go
-          - training
-        reject:
-          - slurm # overcome require slurm
