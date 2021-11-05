@@ -202,6 +202,10 @@ aarnet-backup ansible_ssh_host=138.44.80.71 internal_ip=192.168.199.93
 DR-galaxy ansible_ssh_host=203.101.226.61
 QLD-DR-db ansible_ssh_host=203.101.227.174
 
+##### Pulsar EU GPU (test machine for Alphafold)
+[GPU-pulsars]
+pulsar_EU_GPU ansible_ssh_host=132.230.223.54 ansible_user=centos
+
 [all:vars]
 ansible_host_key_checking=False
 ansible_user=ubuntu

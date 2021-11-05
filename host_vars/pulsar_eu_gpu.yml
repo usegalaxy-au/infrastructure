@@ -1,0 +1,29 @@
+# SLURM
+#Slurm roles
+slurm_roles: ['controller', 'exec']
+
+slurm_nodes:
+    - name: gpu-node-beta.galaxyproject.eu.novalocal
+      NodeAddr: "{{ hostvars['pulsar_eu_gpu']['ansible_ssh_host'] }}"
+      CPUs: 40
+      RealMemory: 110000
+      State: UNKNOWN
+
+slurm_partitions:
+    - name: main
+      nodes: "gpu-node-beta.galaxyproject.eu.novalocal"
+      Default: YES
+      MaxTime: INFINITE
+      State: UP
+
+slurm_config:
+    ControlMachine: gpu-node-beta.galaxyproject.eu.novalocal
+    SlurmctldPidFile: /run/slurmctld.pid
+    SlurmdPidFile: /run/slurmd.pid
+    # SCHEDULING
+    #FastSchedule: 2
+    SchedulerType: sched/backfill
+    SelectType: select/cons_res
+    SelectTypeParameters: CR_CPU,CR_LLN
+
+slurm_munge_key: files/keys/munge.key
