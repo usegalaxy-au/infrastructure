@@ -102,13 +102,13 @@ execution:
       container_monitor_result: callback
     pulsar-eu-gpu-test:
       runner: pulsar_eu_gpu
-      jobs_directory: /mnt/shared/files/staging
+      jobs_directory: /mnt/share/files/staging
       transport: curl
       remote_metadata: "false"
       default_file_action: remote_transfer
       dependency_resolution: remote
       rewrite_parameters: "true"
-      persistence_directory: /mnt/shared/files/persisted_data
+      persistence_directory: /mnt/share/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
 tools:
 - id: interactive_tool_ethercalc
