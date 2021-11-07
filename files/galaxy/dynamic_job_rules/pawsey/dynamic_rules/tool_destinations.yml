@@ -552,11 +552,9 @@ tools:
     multiqc:
         default_destination: slurm_3slots
     lofreq_filter:
-        # default_destination: pulsar-paw_mid
-        default_destination: pulsar-mel_mid
+        default_destination: pulsar-paw_mid
     lofreq_viterbi:
-        # default_destination: pulsar-paw_mid
-        default_destination: pulsar-mel_mid
+        default_destination: pulsar-paw_mid
     htseq_count:
         rules:
             - rule_type: file_size
@@ -941,14 +939,11 @@ tools:
               destination: slurm_1slot
         default_destination: slurm_3slots
     ivar_trim:
-        # default_destination: pulsar-paw_big
-        default_destination: pulsar-mel3_mid
+        default_destination: pulsar-paw_big
     ivar_variants:
-        # default_destination: pulsar-paw_big
-        default_destination: pulsar-mel3_mid
+        default_destination: pulsar-paw_big
     ivar_consensus:
-        # default_destination: pulsar-paw_big
-        default_destination: pulsar-mel3_mid
+        default_destination: pulsar-paw_big
     phyml:
         default_destination: pulsar-high-mem2_big
     #
