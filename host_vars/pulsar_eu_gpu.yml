@@ -4,7 +4,7 @@ slurm_roles: ['controller', 'exec']
 
 slurm_nodes:
     - name: gpu-node-beta.galaxyproject.eu.novalocal
-      NodeAddr: "{{ hostvars['pulsar_eu_gpu']['ansible_ssh_host'] }}"
+      NodeAddr: "{{ hostvars['pulsar_EU_GPU']['ansible_ssh_host'] }}"
       CPUs: 40
       RealMemory: 110000
       State: UNKNOWN

@@ -4,5 +4,5 @@
     - group_vars/VAULT
     - host_vars/pulsar_EU_GPU.yml
   roles:
-    - galaxyproject.repos
+    #- galaxyproject.repos
     - galaxyproject.slurm
