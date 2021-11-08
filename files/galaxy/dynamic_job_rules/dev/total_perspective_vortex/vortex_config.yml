@@ -152,6 +152,13 @@ users:
           require:
             - pulsar
             - pulsar-nci-test
+  eugpu@usegalaxy.org.au:
+    rules:
+      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-eu-gpu-test
   jenkins_bot@usegalaxy.org.au:
     cores: 1
     scheduling:
@@ -183,5 +190,14 @@ destinations:
       accept:
         - general
         - pulsar-nci-test
+      require:
+        - pulsar
+  pulsar-eu-gpu-test:
+    cores: 40
+    mem: 110000
+    scheduling:
+      accept:
+        - general
+        - pulsar-eu-gpu-test
       require:
         - pulsar

@@ -10,7 +10,10 @@ from galaxy.jobs.dynamic_tool_destination import map_tool_to_destination
 
 TOOL_DESTINATION_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'tool_destinations.yml')
 
-user_destinations = {'pulsar_user@usegalaxy.org.au': 'pulsar_destination'}
+user_destinations = {
+                        'pulsar_user@usegalaxy.org.au': 'pulsar_destination',
+                        'eugpu@usegalaxy.org.au': 'pulsar-eu-gpu-test'
+                    }
 
 pulsar_list = ['fasta-stats', 'bwa_mem']
 
