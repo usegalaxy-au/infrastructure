@@ -366,8 +366,8 @@ tools:
             - rule_type: file_size
               nice_value: 0
               lower_bound: 50 MB
-              upper_bound: 100 MB
-              destination: pulsar-mel_mid
+              upper_bound: 300 MB
+              destination: pulsar-mel3_mid
             - rule_type: file_size
               nice_value: -5
               lower_bound: 0
@@ -375,7 +375,7 @@ tools:
               destination: pulsar-high-mem1_mid
               users:
                 - anna.syme@unimelb.edu.au
-        default_destination: pulsar-mel3_mid
+        default_destination: pulsar-qld-high-mem2_mid
     fastqc:
         rules:
           - rule_type: file_size
@@ -1448,6 +1448,51 @@ tools:
               upper_bound: 10 MB
               destination: pulsar-mel3_small
         default_destination: pulsar-mel3_mid
+    gecko:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 100 MB
+              destination: pulsar-mel_small
+        default_destination: pulsar-mel_mid
+    augustus:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 10 MB
+              destination: pulsar-mel_small
+        default_destination: pulsar-mel3_mid
+    metaphlan:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 500 MB
+              destination: slurm_1slot
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 500 MB
+              upper_bound: 10 GB
+              destination: slurm_5slots
+        default_destination: slurm_16slots
+    deeptools_plot_fingerprint:
+        rules:
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 0
+              upper_bound: 500 MB
+              destination: pulsar-mel_small
+        default_destination: pulsar-mel3_mid
+    quast:
+      rules:
+          - rule_type: file_size
+            nice_value: 0
+            lower_bound: 0
+            upper_bound: 1 GB
+            destination: slurm_1slot
+      default_destination: pulsar-qld-high-mem2_mid
 
     #
     # Data managers
