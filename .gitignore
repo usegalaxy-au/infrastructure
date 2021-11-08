@@ -1,4 +1,5 @@
 .vault_pass.txt
+.vault_password
 venv
 ansible.cfg
 terraform/terraform*
