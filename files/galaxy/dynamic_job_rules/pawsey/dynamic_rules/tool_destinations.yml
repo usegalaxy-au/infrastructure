@@ -424,7 +424,7 @@ tools:
               lower_bound: 5 MB
               upper_bound: 20 MB
               destination: pulsar-mel_mid
-        default_destination: pulsar-mel3_mid
+        default_destination: pulsar-mel_big
     snippy:
         rules:
             - rule_type: file_size
