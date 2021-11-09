@@ -114,7 +114,6 @@ retention_policy_dbs:
   - 'ancillary'
   - 'queues'
 
-
 ###### Grafana
 
 # Grafana General

@@ -1,0 +1,17 @@
+hostname: localhost
+
+#Users
+influxdb:
+  admin:
+    username: admin
+    password: password
+  node:
+    username: node
+    password: password
+  grafana:
+    username: grafana
+    password: password
+
+inflxudb_databases: []
+
+retention_policy_dbs: []
