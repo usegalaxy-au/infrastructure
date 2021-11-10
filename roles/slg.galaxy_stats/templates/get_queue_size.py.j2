@@ -4,9 +4,9 @@ import yaml
 import argparse
 import datetime
 
+from influxdb import InfluxDBClient
 {% if add_queue_info %}
 import psycopg2
-from influxdb import InfluxDBClient
 import xml.etree.ElementTree as ET
 {% endif %}
 {% if add_utilisation_info %}
@@ -115,11 +115,11 @@ def get_sinfo():
     total_cpus = 0
     cpus_allocated = 0
     m = []
-    sout = subprocess.check_output(['sinfo']).split('\n')
+    sout = subprocess.check_output(['sinfo']).decode('utf-8').split('\n')
     #eprint(sout)
     for line in sout:
         if line.startswith('{{ sinfo_line_startswith }}'):
-            capts = re.search(r"(\w+-\w+-\w+)\s+(\d+)/\d+/\d+/(\d+)\s+(\w+)",line)
+            capts = re.search(r"(\w+(-\w+)+)\s+(\d+)/\d+/\d+/(\d+)\s+(\w+)",line)
             node = str(capts.groups()[0])
             node_alloc = float(capts.groups()[1])
             node_cpus = float(capts.groups()[2])

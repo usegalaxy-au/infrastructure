@@ -1,0 +1,277 @@
+#Hostname
+hostname: stats.usegalaxy.org.au
+
+# Volume
+attached_volumes:
+  - device: /dev/vdb
+    partition: 1
+    path: /mnt
+    fstype: xfs
+
+# Certbot
+certbot_auto_renew_hour: "{{ 23 |random(seed=inventory_hostname)  }}"
+certbot_auto_renew_minute: "{{ 59 |random(seed=inventory_hostname)  }}"
+certbot_auth_method: --webroot
+certbot_install_method: virtualenv
+certbot_virtualenv_package_name: python3-virtualenv
+certbot_auto_renew: yes
+certbot_auto_renew_user: root
+certbot_environment: production
+certbot_well_known_root: /srv/nginx/_well-known_root
+certbot_share_key_users:
+  - nginx
+  - influxdb
+certbot_post_renewal: |
+    systemctl restart nginx || true
+    systemctl restart influxdb || true
+certbot_domains:
+ - "{{ hostname }}"
+certbot_agree_tos: --agree-tos
+
+# NGINX
+nginx_enable_default_server: false
+nginx_servers:
+  #- influxdb
+  - redirect-ssl
+nginx_ssl_servers:
+  #- influxdb-ssl
+  - grafana-ssl
+nginx_conf_http:
+  client_max_body_size: 1g
+
+# Nginx Letsencrypt bindings
+nginx_ssl_role: usegalaxy_eu.certbot
+nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
+nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
+
+####### InfluxDB
+
+# General Influx
+influxdb_ver: 1.8.10
+
+influxdb_base_data_dir: /mnt/influx_data
+influxdb_http_auth_enabled: "true"
+influxdb_http_https_enabled: "true"
+influxdb_http_https_certificate: "/etc/ssl/certs/fullchain.pem"
+influxdb_http_https_private_key: "/etc/ssl/user/privkey-influxdb.pem"
+influxdb_http_log_enabled: "false"
+
+# InfluxDB data
+influxdb_index_version: "tsi1"
+influxdb_data_cache_max_memory_size: 1048576000
+influxdb_data_cache_snapshot_write_cold_duration: "10s"
+influxdb_data_max_values_per_tag: 3000000
+
+# InfluxDB logging
+influxdb_logging_level: "error"
+
+# [[graphite]]
+influxdb_graphite_enabled: "false"
+influxdb_collectd_enabled: "false"
+influxdb_tsb_enabled: "false"
+influxdb_udp_enabled: "false"
+
+#Influx Users
+influxdb:
+  admin:
+    username: admin
+    password: "{{ vault_influx_admin_password }}"
+  node:
+    username: node
+    password: "{{ vault_influx_node_password }}"
+  grafana:
+    username: grafana
+    password: "{{ vault_influx_grafana_password }}"
+  url: "https://stats.usegalaxy.org.au:8086"
+
+#Influx DB objects
+influxdb_databases:
+  # Clusters
+  - 'pulsar-mel2'
+  - 'pulsar-mel3'
+  - 'pulsar-paw'
+  - 'pulsar-nci-training'
+  - 'aarnet'
+  - 'pawsey'
+  - 'qld-dr'
+  # Others
+  - 'pulsar-special'
+  - 'ancillary'
+  - 'GA_server'
+  - 'queues'
+
+retention_policy_dbs:
+  # Clusters
+  - 'pulsar-mel2'
+  - 'pulsar-mel3'
+  - 'pulsar-paw'
+  - 'pulsar-nci-training'
+  - 'aarnet'
+  - 'pawsey'
+  - 'qld-dr'
+  # Others
+  - 'pulsar-special'
+  - 'ancillary'
+  - 'queues'
+
+###### Grafana
+
+# Grafana General
+grafana_data_dir: /mnt/grafana_data
+grafana_instance: "{{ hostname }}"
+grafana_address: "127.0.0.1"
+grafana_url: "https://{{ hostname }}"
+grafana_server:
+    domain: "{{ hostname }}"
+    root_url: "https://%(domain)s/"
+
+grafana_users:
+  default_theme: "dark"
+
+grafana_security:
+  admin_user: admin
+  admin_password: "{{ vault_grafana_admin_password }}"
+  allow_embedding: "true"
+  cookie_secure: "true"
+
+grafana_auth:
+  anonymous:
+    enabled: "true"
+    org_name: "usegalaxy.org.au"
+    org_role: "Viewer"
+
+grafana_image_storage: 
+  provider: local
+
+grafana_environment:
+  GF_PANELS_DISABLE_SANITIZE_HTML: "true"
+
+grafana_datasources:
+  - name: "pulsar-mel2"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "pulsar-mel2"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "pulsar-mel3"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "pulsar-mel3"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "pulsar-paw"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "pulsar-paw"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "pulsar-nci-training"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "pulsar-nci-training"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "aarnet"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "aarnet"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "pawsey"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "pawsey"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "qld-dr"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "qld-dr"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "pulsar-special"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "pulsar-special"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "ancillary"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "ancillary"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "queues"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "queues"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "GA_server"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "GA_server"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "InfluxDB - internal"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "_internal"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+
+# Telegraf
+
+# Monitoring
+influx_url: stats.usegalaxy.org.au
+grafana_server_url: "https://{{ influx_url }}:8086"
+influx_salt: "{{ prod_queue_size_salt }}"
+
+telegraf_agent_output:
+  - type: influxdb
+    config:
+    - urls = ["{{ influxdb.url }}"]
+    - database = "ancillary"
+    - username = "{{ influxdb.node.username }}"
+    - password = "{{ influxdb.node.password }}"
+
+telegraf_agent_package_state: latest
+telegraf_agent_package_method: repo
+telegraf_agent_hostname: "{{ inventory_hostname }}"
+
