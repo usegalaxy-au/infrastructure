@@ -125,6 +125,7 @@ host_galaxy_config:  # renamed from __galaxy_config
     nginx_upload_path: '/_upload'
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
     nginx_upload_job_files_path: '/_job_files'
+    dependency_resolvers_config_file: "{{ galaxy_server_dir }}/config/dependency_resolvers_conf.xml.sample"  # remove for 21.09
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs

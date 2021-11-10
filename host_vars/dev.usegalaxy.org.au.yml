@@ -39,10 +39,10 @@ galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
 
 # galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git  # usegalaxy-au fork of galaxy
-galaxy_commit_id: release_21.05_cloudstor
+galaxy_commit_id: release_21.09
 
-# Use cloudstor branch and extra tool_conf file and user prefs for cloudstor tool
-use_cloudstor_conf: true
+# Do not use extra tool_conf file for cloudstor tool
+use_cloudstor_conf: false
 
 galaxy_file_path: "{{ galaxy_root }}/data"
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
@@ -86,7 +86,15 @@ host_galaxy_config:  # renamed from __galaxy_config
     show_welcome_with_login: false
     enable_mulled_containers: true
     enable_beta_containers_interface: true
-    watch_job_rules: true
+    watch_job_rules: true  # important for total perspective vortex
+    dependency_resolvers:
+      - type: tool_shed_packages
+      - type: galaxy_packages
+      - type: conda
+      - type: galaxy_packages
+        versionless: true
+      - type: conda
+        versionless: true
 
 galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
 

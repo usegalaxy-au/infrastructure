@@ -141,7 +141,7 @@ group_galaxy_config:
     use_heartbeat: true
     allow_user_dataset_purge: true
     enable_quotas: true
-    enable_job_recovery: true
+    enable_job_recovery: true  # disappearing in 21.09
     # outputs_to_working_directory: true
     enable_tool_recommendations: true
 
@@ -171,7 +171,6 @@ group_galaxy_config:
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
     tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
     tool_config_file: "{{ tool_config_files }}"
-    dependency_resolvers_config_file: "{{ galaxy_server_dir }}/config/dependency_resolvers_conf.xml.sample"
     user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences_extra_conf.yml"
     file_sources_config_file: "{{ galaxy_config_dir }}/file_sources_conf.yml"
 
