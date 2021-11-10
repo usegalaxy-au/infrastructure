@@ -67,7 +67,7 @@ host_galaxy_config:  # renamed from __galaxy_config
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on dev
     brand: "Australia Dev"
-    database_connection: "postgres://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
+    database_connection: "postgresql://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
     id_secret: "{{ vault_dev_id_secret }}"
     file_path: "{{ galaxy_file_path }}"
     galaxy_infrastructure_url: 'https://dev.usegalaxy.org.au'
