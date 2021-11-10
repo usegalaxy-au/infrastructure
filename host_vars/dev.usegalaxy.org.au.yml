@@ -37,8 +37,7 @@ galaxy_dynamic_job_rules:
 galaxy_tools_indices_dir: "{{ galaxy_root }}"
 galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
 
-# galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_repo: https://github.com/usegalaxy-au/galaxy.git  # usegalaxy-au fork of galaxy
+galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_21.09
 
 # Do not use extra tool_conf file for cloudstor tool
