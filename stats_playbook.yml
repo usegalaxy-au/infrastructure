@@ -2,6 +2,7 @@
   become: true
   vars_files:
     - group_vars/VAULT
+    - secret_group_vars/stats_server_vault
   pre_tasks:
     - name: install xfsprogs
       package:
