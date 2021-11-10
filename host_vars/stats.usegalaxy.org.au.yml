@@ -99,6 +99,8 @@ influxdb_databases:
   - 'ancillary'
   - 'GA_server'
   - 'queues'
+  - 'staging'
+  - 'dev'
 
 retention_policy_dbs:
   # Clusters
@@ -113,6 +115,8 @@ retention_policy_dbs:
   - 'pulsar-special'
   - 'ancillary'
   - 'queues'
+  - 'staging_cluster'
+  - 'dev_cluster'
 
 ###### Grafana
 
@@ -252,6 +256,24 @@ grafana_datasources:
     version: 1
     editable: false
     database: "_internal"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "staging_cluster"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "staging_cluster"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "dev_cluster"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "dev_cluster"
     user: "{{ influxdb.grafana.username }}"
     secureJsonData:
       password: "{{ influxdb.grafana.password }}"
