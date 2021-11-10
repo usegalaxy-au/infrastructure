@@ -286,14 +286,6 @@ tools:
             destination: slurm_3slots
         default_destination: pulsar-mel3_big
     canu:
-        rules:
-          - rule_type: file_size
-            nice_value: -5
-            lower_bound: 0
-            upper_bound: Infinity
-            users:
-                - anna.syme@unimelb.edu.au
-            destination: pulsar-qld-high-mem0_big
         default_destination: pulsar-qld-high-mem1_mid
     local_canu:
         # rules:
@@ -432,7 +424,7 @@ tools:
               lower_bound: 5 MB
               upper_bound: 20 MB
               destination: pulsar-mel_mid
-        default_destination: pulsar-mel3_mid
+        default_destination: pulsar-mel_big
     snippy:
         rules:
             - rule_type: file_size
