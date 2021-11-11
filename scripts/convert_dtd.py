@@ -46,9 +46,9 @@ def file_size_to_nice_number(file_size):  # not a full conversion: 500 MB -> (50
     if unit == 'GB':
         return size
     elif unit == 'MB':
-        return f'{round(size/10**3, 3)}'
+        return f'{round(int(size)/10**3, 3)}'
     elif unit == 'KB':
-        return f'{round(size/(10**6), 6)}'
+        return f'{round(int(size)/(10**6), 6)}'
     # elif unit == 'B': # that does not happen
     #     return f'({size}/(1024*1024*1024))'
     else:
