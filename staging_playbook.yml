@@ -7,6 +7,7 @@
       - group_vars/galaxyservers.yml
       - group_vars/staging_slurm.yml
       - host_vars/staging.usegalaxy.org.au.yml
+      - secret_group_vars/stats_server_vault
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -34,6 +35,7 @@
     - galaxyproject.gxadmin
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
+    - dj-wasabi.telegraf
     - pg-post-tasks
   post_tasks:
     - name: Clone Galaxy-Owncloud-Integration

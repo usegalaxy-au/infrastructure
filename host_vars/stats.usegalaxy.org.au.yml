@@ -115,8 +115,8 @@ retention_policy_dbs:
   - 'pulsar-special'
   - 'ancillary'
   - 'queues'
-  - 'staging_cluster'
-  - 'dev_cluster'
+  - 'staging'
+  - 'dev'
 
 ###### Grafana
 
@@ -264,7 +264,7 @@ grafana_datasources:
     url: "{{ influxdb.url }}"
     version: 1
     editable: false
-    database: "staging_cluster"
+    database: "staging"
     user: "{{ influxdb.grafana.username }}"
     secureJsonData:
       password: "{{ influxdb.grafana.password }}"
@@ -273,7 +273,7 @@ grafana_datasources:
     url: "{{ influxdb.url }}"
     version: 1
     editable: false
-    database: "dev_cluster"
+    database: "dev"
     user: "{{ influxdb.grafana.username }}"
     secureJsonData:
       password: "{{ influxdb.grafana.password }}"
