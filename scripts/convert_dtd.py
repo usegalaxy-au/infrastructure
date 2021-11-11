@@ -37,6 +37,23 @@ def file_size_to_GB_string(file_size):  # not a full conversion: 500 MB -> (500/
     else:
         raise Exception('File size thing is not working')
 
+def file_size_to_nice_number(file_size):  # not a full conversion: 500 MB -> (500/1024)  # almost like opposite of pg_pretty
+    if file_size in (0, '0'):
+        return '0'
+    if file_size == 'Infinity':
+        return 'Infinity'
+    size, unit = file_size.split()
+    if unit == 'GB':
+        return size
+    elif unit == 'MB':
+        return f'{round(size/10**3, 3)}'
+    elif unit == 'KB':
+        return f'{round(size/(10**6), 6)}'
+    # elif unit == 'B': # that does not happen
+    #     return f'({size}/(1024*1024*1024))'
+    else:
+        raise Exception('File size thing is not working')
+
 def make_lower_upper_expression(lower, upper):
     if lower == '0':
         return f'input_size < {upper}'
@@ -78,8 +95,8 @@ for tool_id in tool_dests:
     for rule in tool.get('rules', []):
         if rule['rule_type'] == 'file_size' and not rule.get('users'):
             new_rule = {
-                'lower': file_size_to_GB_string(rule['lower_bound']),
-                'upper': file_size_to_GB_string(rule['upper_bound']),
+                'lower': file_size_to_nice_number(rule['lower_bound']),
+                'upper': file_size_to_nice_number(rule['upper_bound']),
             }
             if rule['destination'] == 'fail':
                 new_rule.update({'fail': rule['fail_message']})
