@@ -67,7 +67,7 @@ host_galaxy_config:  # renamed from __galaxy_config
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }}"
     brand: "Australia Staging"
-    database_connection: "postgres://galaxy:{{ vault_staging_db_user_password }}@staging-db.usegalaxy.org.au:5432/galaxy"
+    database_connection: "postgresql://galaxy:{{ vault_staging_db_user_password }}@staging-db.usegalaxy.org.au:5432/galaxy"
     id_secret: "{{ vault_staging_id_secret }}"
     file_path: "{{ galaxy_file_path }}"
     galaxy_infrastructure_url: 'https://staging.usegalaxy.org.au'
@@ -81,6 +81,7 @@ host_galaxy_config:  # renamed from __galaxy_config
     nginx_upload_path: '/_upload'
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
     nginx_upload_job_files_path: '/_job_files'
+    dependency_resolvers_config_file: "{{ galaxy_server_dir }}/config/dependency_resolvers_conf.xml.sample"  # remove for 21.09
 
 #Galaxy Job Conf
 galaxy_jobconf:

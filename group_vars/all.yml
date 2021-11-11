@@ -58,7 +58,7 @@ machine_users:
       email: "{{ justin_email }}"
     - name: grace
       roles:
-        - user
+        - sudo
       key: files/keys/grace.pub
       email: "{{ grace_email }}"
     - name: cameron
