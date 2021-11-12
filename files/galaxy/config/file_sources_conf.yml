@@ -6,6 +6,7 @@
   root: "/plus/remote.php/webdav"
   login: ${user.preferences['owncloud_account|username']}
   password: ${user.preferences['owncloud_account|password']}
+  writable: true
 
 - type: dropbox
   id: dropbox
