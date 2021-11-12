@@ -7,6 +7,7 @@
       - group_vars/VAULT
       - host_vars/staging-queue.usegalaxy.org.au.yml
       - group_vars/staging_slurm.yml
+      - secret_group_vars/stats_server_vault
   roles:
       - common
       - insspb.hostname
@@ -16,4 +17,5 @@
       - mariadb
       - galaxyproject.repos
       - galaxyproject.slurm
+      - dj-wasabi.telegraf
       - slurm-post-tasks

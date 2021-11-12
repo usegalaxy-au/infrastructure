@@ -6,6 +6,7 @@
       - group_vars/VAULT
       - group_vars/dbservers.yml
       - host_vars/staging-db.usegalaxy.org.au.yml
+      - secret_group_vars/stats_server_vault
   pre_tasks:
       - name: Install psycopg2 for python3
         apt:
@@ -20,3 +21,4 @@
       - role: natefoo.postgresql_objects
         become: true
         become_user: postgres
+      - dj-wasabi.telegraf
