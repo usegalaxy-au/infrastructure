@@ -29,7 +29,7 @@ rabbitmq_vhosts:
   - /pulsar/galaxy_nci_test
   - /pulsar/galaxy_eu_gpu
 
-rabbitmq_version: 3.8.16-1
+rabbitmq_version: 3.9.7-1
 
 rabbitmq_password_admin: "{{ vault_rabbitmq_password_admin_dev }}"
 rabbitmq_password_telegraf: "{{ vault_rabbitmq_password_telegraf_dev }}"
