@@ -12,6 +12,7 @@
     - group_vars/pulsar_nci_training/pulsar-nci-training_slurm.yml
     - group_vars/VAULT
     - host_vars/pulsar-nci-training/pulsar-nci-training.usegalaxy.org.au.yml
+    - secret_group_vars/stats_server_vault
   roles:
     - common
     - insspb.hostname
