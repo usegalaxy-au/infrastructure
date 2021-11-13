@@ -6,6 +6,10 @@ use_internal_ips: false
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 
+#Monitoring for Staging. Once all VM monitoring has moved to stats.usegalaxy.org.au, this can be put in all.yml and removed here.
+influx_url: stats.usegalaxy.org.au
+grafana_server_url: "https://{{ influx_url }}:8086"
+
 # Monitoring
 telegraf_agent_output:
   - type: influxdb
@@ -13,3 +17,5 @@ telegraf_agent_output:
       - urls = ["{{ grafana_server_url }}"]
       - database = "pulsar-mel2"
       - precision = "s"
+      - username = "node"
+      - password = "{{ vault_influx_node_password }}"
