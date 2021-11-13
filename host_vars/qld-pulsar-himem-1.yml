@@ -17,11 +17,11 @@ pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_qld_hm1"
 pulsar_rabbit_vhost: "/pulsar/galaxy_qld_hm1"
 
-attached_volumes:
-  - device: /dev/vdb
-    partition: 1
-    path: /mnt
-    fstype: xfs
+# attached_volumes:
+#   - device: /dev/vdb
+#     partition: 1
+#     path: /mnt
+#     fstype: xfs
 
 galaxy_uid: 10010
 galaxy_gid: 10010
@@ -31,6 +31,10 @@ use_internal_ips: false
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 
+#Monitoring for Staging. Once all VM monitoring has moved to stats.usegalaxy.org.au, this can be put in all.yml and removed here.
+influx_url: stats.usegalaxy.org.au
+grafana_server_url: "https://{{ influx_url }}:8086"
+
 # Monitoring
 telegraf_agent_output:
   - type: influxdb
@@ -38,6 +42,8 @@ telegraf_agent_output:
       - urls = ["{{ grafana_server_url }}"]
       - database = "pulsar-special"
       - precision = "s"
+      - username = "node"
+      - password = "{{ vault_influx_node_password }}"
 
 auth_key_user: ubuntu
 
