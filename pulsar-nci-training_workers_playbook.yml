@@ -7,6 +7,7 @@
     - group_vars/pulsar_nci_training/pulsar-nci-training_workers.yml
     - group_vars/pulsar_nci_training/pulsar-nci-training_slurm.yml
     - group_vars/VAULT
+    - secret_group_vars/stats_server_vault
   pre_tasks:
     - name: Create worker extra disk mount point on /mnt
       file:
