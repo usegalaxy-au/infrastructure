@@ -95,7 +95,7 @@ tools:
             nice_value: 0
             lower_bound: 2 GB
             upper_bound: 20 GB
-            destination: pulsar-mel3_big
+            destination: pulsar-qld-high-mem0_mid
           - rule_type: file_size
             nice_value: 0
             lower_bound: 20 GB
@@ -171,7 +171,7 @@ tools:
               fail_message: Too much data, we cannot support such large Trinity assemblies with our backend. Please use another server for your job.
         default_destination: slurm_32slots
     trinity_align_and_estimate_abundance:
-        default_destination: pulsar-mel3_big_trinity
+        default_destination: pulsar-mel3_mid
     ggplot2_point:
         default_destination: slurm_1slot
     datamash_ops:
@@ -277,14 +277,14 @@ tools:
           - rule_type: file_size
             nice_value: 0
             lower_bound: 0
-            upper_bound: 10 KB
-            destination: slurm_1slot
+            upper_bound: 500 KB
+            destination: pulsar-mel_small
           - rule_type: file_size
             nice_value: 0
-            lower_bound: 10 KB
-            upper_bound: 500 KB
-            destination: slurm_3slots
-        default_destination: pulsar-mel3_big
+            lower_bound: 500 KB
+            upper_bound: 100 MB
+            destination: pulsar-mel3_big
+        default_destination: pulsar-qld-high-mem0_mid
     canu:
         default_destination: pulsar-qld-high-mem1_mid
     local_canu:
@@ -1242,7 +1242,7 @@ tools:
             lower_bound: 0
             upper_bound: 200 MB
             destination: pulsar-mel3_small
-        default_destination: pulsar-high-mem2_mid
+        default_destination: pulsar-qld-high-mem2_mid
     trycycler_cluster:
         rules:
             - rule_type: file_size
