@@ -1,1265 +1,918 @@
 tools:
   upload1:
     cores: 1
-    mem: 39.2734375
+    mem: 39
   toolshed.g2.bx.psu.edu/repos/wolma/mimodd_aln/mimodd_align/.*:
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.01
       cores: 5
-      mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_cluster_reduce_dimension/scanpy_cluster_reduce_dimension/.*:
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.5
       cores: 5
-      mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_inspect/scanpy_inspect/.*:
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.5
       cores: 5
-      mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_filter/scanpy_filter/.*:
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.5
       cores: 3
-      mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_normalize/scanpy_normalize/.*:
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 1
       cores: 2
-      mem: 7.578125
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/scanpy_remove_confounders/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.05 and input_size < 0.5
+    - match: 0.05 <= input_size < 0.5
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 0.5
       cores: 9
-      mem: 34.1015625
   toolshed.g2.bx.psu.edu/repos/iuc/shovill/shovill/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.015 and input_size < 2
+    - match: 0.015 <= input_size < 2
       cores: 7
-      mem: 26.5234375
-    - match: input_size >= 2 and input_size < 10
+    - match: 2 <= input_size < 10
       cores: 9
-      mem: 34.1015625
     - match: input_size >= 10
       fail: Too much data, shoudn't run
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
-    - match: input_size >= 0.015 and input_size < 2
+    - match: 0.015 <= input_size < 2
       cores: 4
-      mem: 15.681640625
-    - match: input_size >= 2 and input_size < 20
+    - match: 2 <= input_size < 20
       cores: 16
-      mem: 60.625
     - match: input_size >= 20
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/nml/metaspades/metaspades/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.578125
     rules:
-    - match: input_size >= 0.05 and input_size < 1
+    - match: 0.05 <= input_size < 1
       cores: 8
-      mem: 30.3125
-    - match: input_size >= 1 and input_size < 20
+    - match: 1 <= input_size < 20
       cores: 16
-      mem: 60.625
-    - match: input_size >= 20 and input_size < 60
+    - match: 20 <= input_size < 60
       cores: 16
-      mem: 60.625
     - match: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/velvetoptimiser/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
-    - match: input_size >= 0.015 and input_size < 1
+    - match: 0.015 <= input_size < 1
       cores: 4
-      mem: 15.681640625
     - match: input_size >= 1
       fail: Too much data, please don't use the Velvet Optimiser for this, it is here
         only for training purposes with small (< 1 GB) datasets. Use SPAdes instead.
   toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
     inherits: pulsar_preferred
     cores: 8
-    mem: 30.3125
     rules:
-    - match: input_size >= 0.1 and input_size < 30
+    - match: 0.1 <= input_size < 30
       cores: 63
-      mem: 961.2451171875
+      mem: 961
     - match: input_size >= 30
       fail: Too much data, we cannot support such large Trinity assemblies with our
         backend. Please use another server for your job.
   toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/trinity_align_and_estimate_abundance/.*:
     inherits: pulsar_preferred
     cores: 32
-    mem: 60.625
+    mem: 60
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_point/ggplot2_point/.*:
     cores: 1
-    mem: 3.7890625
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     cores: 1
-    mem: 3.7890625
   Grouping1:
     cores: 1
-    mem: 3.7890625
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/.*:
     cores: 1
-    mem: 3.7890625
   Cut1:
     cores: 1
-    mem: 3.7890625
   Remove beginning1:
     cores: 1
-    mem: 3.7890625
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_filter/cshl_fastq_quality_filter/.*:
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.02
       cores: 1
-      mem: 3.7890625
   toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.02 and input_size < 0.2
+    - match: 0.02 <= input_size < 0.2
       cores: 3
-      mem: 11.3671875
     - match: input_size >= 0.2
       cores: 5
-      mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
-    - match: input_size >= 0.001 and input_size < 0.01
+    - match: 0.001 <= input_size < 0.01
       cores: 8
-      mem: 31.36328125
-    - match: input_size >= 0.01 and input_size < 0.03
+    - match: 0.01 <= input_size < 0.03
       cores: 8
-      mem: 30.3125
     - match: input_size >= 0.03
       fail: Too much data, Prokka is designed to annotate bacterial/virus genomes
         only. Prokka will not annotate eukaryotic genomes nor metagenomes.
   toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.578125
     rules:
-    - match: input_size >= 0.001 and input_size < 1
+    - match: 0.001 <= input_size < 1
       cores: 8
-      mem: 30.3125
     - match: input_size >= 1
       cores: 16
-      mem: 60.625
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_gard/hyphy_gard/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.578125
     rules:
     - match: input_size >= 5e-06
       cores: 16
-      mem: 60.625
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/.*:
     cores: 16
-    mem: 60.625
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
     cores: 16
-    mem: 60.625
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant_mqpar/maxquant_mqpar/.*:
     cores: 16
-    mem: 60.625
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fasterq_dump/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/raxml/raxml/.*:
     inherits: pulsar_preferred
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 1e-05 and input_size < 0.0005
+    - match: 1e-05 <= input_size < 0.0005
       cores: 3
-      mem: 11.3671875
     - match: input_size >= 0.0005
       cores: 16
-      mem: 60.625
   toolshed.g2.bx.psu.edu/repos/bgruening/canu/canu/.*:
     inherits: pulsar_preferred
     cores: 120
-    mem: 1922.5361328125
+    mem: 1922
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_events/poretools_events/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_extract/poretools_extract/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_hist/poretools_hist/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_nucdist/poretools_nucdist/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_occupancy/poretools_occupancy/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_qualdist/poretools_qualdist/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_qualpos/poretools_qualpos/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_squiggle/poretools_squiggle/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_stats/poretools_stats/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_tabular/poretools_tabular/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_times/poretools_times/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_winner/poretools_winner/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_yield_plot/poretools_yield_plot/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_variants/nanopolish_variants/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_methylation/nanopolish_methylation/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_eventalign/nanopolish_eventalign/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_polya/nanopolish_polya/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/nanoplot/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
     cores: 3
-    mem: 11.3671875
     rules:
     - match: input_size >= 5
       cores: 9
-      mem: 34.1015625
   toolshed.g2.bx.psu.edu/repos/iuc/barrnap/barrnap/.*:
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.0003
       cores: 3
-      mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
-    - match: input_size >= 0.05 and input_size < 0.3
+    - match: 0.05 <= input_size < 0.3
       cores: 8
-      mem: 30.3125
     - match: input_size >= 0.3
       cores: 120
-      mem: 1922.5361328125
+      mem: 1922
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
-    - match: input_size >= 0.01 and input_size < 2
+    - match: 0.01 <= input_size < 2
       cores: 4
-      mem: 15.681640625
-    - match: input_size >= 2 and input_size < 7
+    - match: 2 <= input_size < 7
       cores: 8
-      mem: 31.36328125
     - match: input_size >= 7
       cores: 8
-      mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/iuc/pear/iuc_pear/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.015 and input_size < 1
+    - match: 0.015 <= input_size < 1
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 1
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.015 and input_size < 3
+    - match: 0.015 <= input_size < 3
       cores: 2
-      mem: 7.578125
     - match: input_size >= 3
       cores: 3
-      mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
-    - match: input_size >= 0.005 and input_size < 0.02
+    - match: 0.005 <= input_size < 0.02
       cores: 4
-      mem: 15.681640625
     - match: input_size >= 0.02
       cores: 8
-      mem: 31.36328125
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
     - match: input_size >= 0.015
       cores: 4
-      mem: 15.681640625
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
-    - match: input_size >= 0.25 and input_size < 1
+    - match: 0.25 <= input_size < 1
       cores: 4
-      mem: 15.681640625
     - match: input_size >= 1
       cores: 8
-      mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
-    - match: input_size >= 0.25 and input_size < 1
+    - match: 0.25 <= input_size < 1
       cores: 4
-      mem: 15.681640625
     - match: input_size >= 1
       cores: 8
-      mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
-    - match: input_size >= 0.1 and input_size < 5
+    - match: 0.1 <= input_size < 5
       cores: 8
-      mem: 31.36328125
     - match: input_size >= 5
       cores: 8
-      mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
-    - match: input_size >= 0.5 and input_size < 5
+    - match: 0.5 <= input_size < 5
       cores: 8
-      mem: 31.36328125
-    - match: input_size >= 5 and input_size < 20
+    - match: 5 <= input_size < 20
       cores: 8
-      mem: 30.3125
     - match: input_size >= 20
       cores: 16
-      mem: 60.625
   toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/.*:
     inherits: pulsar_preferred
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.5
       cores: 8
-      mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
-    - match: input_size >= 0.2 and input_size < 4
+    - match: 0.2 <= input_size < 4
       cores: 4
-      mem: 15.681640625
-    - match: input_size >= 4 and input_size < 20
+    - match: 4 <= input_size < 20
       cores: 8
-      mem: 30.3125
     - match: input_size >= 20
       fail: Too much data, please don't use the FreeBayes for this
   toolshed.g2.bx.psu.edu/repos/iuc/bcftools_mpileup/bcftools_mpileup/.*:
     cores: 2
-    mem: 7.578125
     rules:
-    - match: input_size >= 0.5 and input_size < 10
+    - match: 0.5 <= input_size < 10
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 10
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_indelqual/lofreq_indelqual/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/qualimap_bamqc/qualimap_bamqc/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_filter/lofreq_filter/.*:
     inherits: pulsar_preferred
     cores: 4
-    mem: 15.681640625
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_viterbi/lofreq_viterbi/.*:
     inherits: pulsar_preferred
     cores: 4
-    mem: 15.681640625
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     inherits: pulsar_preferred
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.2 and input_size < 10
+    - match: 0.2 <= input_size < 10
       cores: 8
-      mem: 31.36328125
     - match: input_size >= 10
       cores: 8
-      mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_bundlelinks/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.0002 and input_size < 0.01
+    - match: 0.0002 <= input_size < 0.01
       cores: 2
-      mem: 7.578125
     - match: input_size >= 0.01
       cores: 5
-      mem: 18.9453125
   testtoolshed.g2.bx.psu.edu/repos/jchung/generate_count_matrix/generate_count_matrix/.*:
     cores: 2
-    mem: 7.578125
   join1:
     cores: 2
-    mem: 7.578125
     rules:
     - match: input_size >= 10
       cores: 5
-      mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.578125
   toolshed.g2.bx.psu.edu/repos/iuc/iqtree/iqtree/.*:
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 2e-05
       cores: 5
-      mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/iuc/edger/edger/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/.*:
     cores: 5
-    mem: 18.9453125
   Extract genomic DNA 1:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_annotate/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/.*:
     cores: 3
-    mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_makeblastdb/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/iuc/bcftools_norm/bcftools_norm/.*:
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.5
       cores: 2
-      mem: 7.578125
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/.*:
     inherits: pulsar_preferred
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.5
       cores: 2
-      mem: 7.578125
   toolshed.g2.bx.psu.edu/repos/devteam/cuffmerge/cuffmerge/.*:
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.1
       cores: 3
-      mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.1 and input_size < 4
+    - match: 0.1 <= input_size < 4
       cores: 3
-      mem: 11.3671875
     - match: input_size >= 4
       cores: 5
-      mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/.*:
     cores: 2
-    mem: 7.578125
   toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/.*:
     cores: 2
-    mem: 7.578125
     rules:
     - match: input_size >= 0.1
       cores: 5
-      mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/.*:
     inherits: pulsar_preferred
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.02 and input_size < 1
+    - match: 0.02 <= input_size < 1
       cores: 1
-      mem: 3.7890625
     - match: input_size >= 1
       cores: 8
-      mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_deinterlacer/fastq_paired_end_deinterlacer/.*:
     inherits: pulsar_preferred
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 1
       cores: 8
-      mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_matrix/deeptools_compute_matrix/.*:
     cores: 9
-    mem: 34.1015625
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_heatmap/deeptools_plot_heatmap/.*:
     cores: 3
-    mem: 11.3671875
     rules:
-    - match: input_size >= 0.3 and input_size < 10
+    - match: 0.3 <= input_size < 10
       cores: 7
-      mem: 26.5234375
     - match: input_size >= 10
       cores: 3
-      mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/.*:
     cores: 7
-    mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
     cores: 9
-    mem: 34.1015625
   testtoolshed.g2.bx.psu.edu/repos/fubar/htseq_bams_to_count_matrix/htseqsams2mxlocal/.*:
     cores: 2
-    mem: 7.578125
     rules:
     - match: input_size >= 0.15
       cores: 3
-      mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/devteam/cuffnorm/cuffnorm/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.2 and input_size < 2
+    - match: 0.2 <= input_size < 2
       cores: 3
-      mem: 11.3671875
     - match: input_size >= 2
       cores: 5
-      mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie_merge/.*:
     cores: 1
-    mem: 3.7890625
   toolshed.g2.bx.psu.edu/repos/pjbriggs/macs21/macs2_1_peakcalling/.*:
     cores: 9
-    mem: 34.1015625
   toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_callpeak/.*:
     cores: 9
-    mem: 34.1015625
   toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgdiff/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     cores: 16
-    mem: 60.625
   .*kraken2_build_database.*:
     cores: 16
-    mem: 60.625
   toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/.*:
     inherits: pulsar_preferred
     cores: 4
-    mem: 15.681640625
     rules:
-    - match: input_size >= 0.5 and input_size < 5
+    - match: 0.5 <= input_size < 5
       cores: 8
-      mem: 31.36328125
     - match: input_size >= 5
       cores: 16
-      mem: 60.625
   toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/.*:
     cores: 2
-    mem: 7.578125
     rules:
     - match: input_size >= 0.1
       cores: 5
-      mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/iuc/gubbins/gubbins/.*:
     cores: 5
-    mem: 18.9453125
     rules:
-    - match: input_size >= 0.0005 and input_size < 0.5
+    - match: 0.0005 <= input_size < 0.5
       cores: 16
-      mem: 60.625
     - match: input_size >= 0.5
       fail: Too much data, please don't use the gubbins for this.
   toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.578125
     rules:
-    - match: input_size >= 0.0005 and input_size < 0.5
+    - match: 0.0005 <= input_size < 0.5
       cores: 16
-      mem: 60.625
     - match: input_size >= 0.5
       fail: Too much data, please don't use MAFFT for this.
   toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/iuc/dexseq/dexseq/.*:
     cores: 9
-    mem: 34.1015625
   toolshed.g2.bx.psu.edu/repos/iuc/dexseq/dexseq_count/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/.*:
     cores: 2
-    mem: 7.578125
   toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/.*:
     cores: 3
-    mem: 11.3671875
   wig_to_bigWig:
     cores: 3
-    mem: 11.3671875
     rules:
     - match: input_size >= 1
       cores: 5
-      mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/fastq_paired_end_joiner/.*:
     cores: 3
-    mem: 11.3671875
   tabular_to_csv:
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 1
       cores: 3
-      mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/artbio/repenrich/repenrich/.*:
     cores: 7
-    mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
     inherits: pulsar_preferred
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.2 and input_size < 2
+    - match: 0.2 <= input_size < 2
       cores: 8
-      mem: 30.3125
     - match: input_size >= 2
       cores: 16
-      mem: 60.625
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
     inherits: pulsar_preferred
     cores: 8
-    mem: 30.3125
     rules:
     - match: input_size >= 5
       cores: 16
-      mem: 60.625
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
     inherits: pulsar_preferred
     cores: 8
-    mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/rna_starsolo/.*:
     cores: 9
-    mem: 34.1015625
   .*rna_star_index_builder_data_manager.*:
     cores: 32
-    mem: 121.25
   toolshed.g2.bx.psu.edu/repos/iuc/roary/roary/.*:
     cores: 7
-    mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_RPKM_saturation/.*:
     inherits: pulsar_preferred
     cores: 8
-    mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_geneBody_coverage/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
     - match: input_size >= 0.5
       cores: 2
-      mem: 7.578125
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_geneBody_coverage2/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.578125
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_read_distribution/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
   toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/.*:
     cores: 5
-    mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
     cores: 16
-    mem: 60.625
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/.*:
     cores: 16
-    mem: 60.625
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastx_wrapper/.*:
     cores: 16
-    mem: 60.625
   testtoolshed.g2.bx.psu.edu/repos/simon-gladman/phyloseq_ordination_plot/phyloseq_ordinate/.*:
     cores: 16
-    mem: 60.625
   testtoolshed.g2.bx.psu.edu/repos/simon-gladman/phyloseq_filter/biom_filter/.*:
     cores: 16
-    mem: 60.625
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.01
       cores: 3
-      mem: 11.3671875
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_trim/ivar_trim/.*:
     inherits: pulsar_preferred
     cores: 8
-    mem: 31.36328125
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_variants/ivar_variants/.*:
     inherits: pulsar_preferred
     cores: 8
-    mem: 31.36328125
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_consensus/ivar_consensus/.*:
     inherits: pulsar_preferred
     cores: 8
-    mem: 31.36328125
-  toolshed.g2.bx.psu.edu/repos/vlefort/phyml/phyml/.*:
-    inherits: pulsar_preferred
-    cores: 126
-    mem: 1922.4912109375
   toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
     inherits: pulsar_preferred
     cores: 126
-    mem: 1922.4912109375
+    mem: 1922
+  toolshed.g2.bx.psu.edu/repos/vlefort/phyml/phyml/.*:
+    inherits: pulsar_preferred
+    cores: 126
+    mem: 1922
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_merge_files/mothur_merge_files/.*:
     cores: 3
-    mem: 11.3671875
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_group/mothur_make_group/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_dist_shared/mothur_dist_shared/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.002 and input_size < 0.005
+    - match: 0.002 <= input_size < 0.005
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 0.005
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_unique_seqs/mothur_unique_seqs/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_count_seqs/mothur_count_seqs/.*:
     cores: 2
-    mem: 7.578125
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_summary_seqs/mothur_summary_seqs/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_screen_seqs/mothur_screen_seqs/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_align_seqs/mothur_align_seqs/.*:
     cores: 2
-    mem: 7.578125
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_filter_seqs/mothur_filter_seqs/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_pre_cluster/mothur_pre_cluster/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_classify_seqs/mothur_classify_seqs/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_cluster_split/mothur_cluster_split/.*:
     inherits: pulsar_preferred
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.00015
       cores: 63
-      mem: 961.2451171875
+      mem: 961
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_shared/mothur_make_shared/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_classify_otu/mothur_classify_otu/.*:
     cores: 2
-    mem: 7.578125
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_contigs/mothur_make_contigs/.*:
     cores: 2
-    mem: 7.578125
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_vsearch/mothur_chimera_vsearch/.*:
     cores: 2
-    mem: 7.578125
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_taxonomy_to_krona/mothur_taxonomy_to_krona/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/saskia-hiltemann/krona_text/krona-text/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.02 and input_size < 2
+    - match: 0.02 <= input_size < 2
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 2
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/.*:
     cores: 3
-    mem: 11.3671875
     rules:
-    - match: input_size >= 0.0003 and input_size < 0.002
+    - match: 0.0003 <= input_size < 0.002
       cores: 5
-      mem: 18.9453125
-    - match: input_size >= 0.002 and input_size < 0.04
+    - match: 0.002 <= input_size < 0.04
       cores: 9
-      mem: 34.1015625
     - match: input_size >= 0.04
       fail: Too much data, please don't use the clustalw for this.
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.578125
     rules:
-    - match: input_size >= 0.15 and input_size < 1
+    - match: 0.15 <= input_size < 1
       cores: 8
-      mem: 30.3125
     - match: input_size >= 1
       cores: 16
-      mem: 60.625
   toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/.*:
     cores: 7
-    mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/devteam/gffread/gffread/.*:
     cores: 9
-    mem: 34.1015625
   toolshed.g2.bx.psu.edu/repos/iuc/khmer_abundance_distribution_single/khmer_abundance_distribution_single/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.578125
     rules:
     - match: input_size >= 0.1
       cores: 16
-      mem: 60.625
   toolshed.g2.bx.psu.edu/repos/iuc/circos/circos/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.578125
     rules:
     - match: input_size >= 0.2
       cores: 63
-      mem: 961.2451171875
+      mem: 961
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_cluster/trycycler_cluster/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.2 and input_size < 3
+    - match: 0.2 <= input_size < 3
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 3
       cores: 9
-      mem: 34.1015625
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_consensus/trycycler_consensus/.*:
     inherits: pulsar_preferred
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.2 and input_size < 2
+    - match: 0.2 <= input_size < 2
       cores: 8
-      mem: 30.3125
     - match: input_size >= 2
       cores: 16
-      mem: 60.625
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_partition/trycycler_partition/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.2 and input_size < 3
+    - match: 0.2 <= input_size < 3
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 3
       cores: 9
-      mem: 34.1015625
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_reconcile_msa/trycycler_reconcile_msa/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.2 and input_size < 3
+    - match: 0.2 <= input_size < 3
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 3
       cores: 9
-      mem: 34.1015625
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_subsample/trycycler_subsample/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.2 and input_size < 3
+    - match: 0.2 <= input_size < 3
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 3
       cores: 9
-      mem: 34.1015625
   toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.578125
     rules:
     - match: input_size >= 0.001
       cores: 16
-      mem: 60.625
   toolshed.g2.bx.psu.edu/repos/iuc/merqury/merqury/.*:
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.001
       cores: 5
-      mem: 18.9453125
   toolshed.g2.bx.psu.edu/repos/bgruening/racon/racon/.*:
     inherits: pulsar_preferred
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.05
       cores: 8
-      mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus_pipeline/medaka_consensus_pipeline/.*:
     inherits: pulsar_preferred
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.5
       cores: 8
-      mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant/medaka_variant/.*:
     inherits: pulsar_preferred
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.5
       cores: 8
-      mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/iuc/jellyfish/jellyfish/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
     - match: input_size >= 0.1
       cores: 4
-      mem: 15.681640625
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 0.01
       cores: 7
-      mem: 26.5234375
   toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_seq/.*:
     inherits: pulsar_preferred
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 10
       cores: 4
-      mem: 15.681640625
   toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
-    - match: input_size >= 0.002 and input_size < 5
+    - match: 0.002 <= input_size < 5
       cores: 16
-      mem: 60.625
     - match: input_size >= 5
       cores: 126
-      mem: 3845.09765625
+      mem: 3845
   toolshed.g2.bx.psu.edu/repos/iuc/shasta/shasta/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
-    - match: input_size >= 0.002 and input_size < 5
+    - match: 0.002 <= input_size < 5
       cores: 16
-      mem: 60.625
     - match: input_size >= 5
       cores: 126
-      mem: 1922.4912109375
+      mem: 1922
   toolshed.g2.bx.psu.edu/repos/iuc/raven/raven/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
-    - match: input_size >= 0.002 and input_size < 5
+    - match: 0.002 <= input_size < 5
       cores: 16
-      mem: 60.625
     - match: input_size >= 5
       cores: 126
-      mem: 1922.4912109375
+      mem: 1922
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.578125
     rules:
     - match: input_size >= 0.01
       cores: 8
-      mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
     - match: input_size >= 0.1
       cores: 4
-      mem: 15.681640625
   toolshed.g2.bx.psu.edu/repos/bgruening/augustus/augustus/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
     - match: input_size >= 0.01
       cores: 8
-      mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/.*:
     cores: 1
-    mem: 3.7890625
     rules:
-    - match: input_size >= 0.5 and input_size < 10
+    - match: 0.5 <= input_size < 10
       cores: 5
-      mem: 18.9453125
     - match: input_size >= 10
       cores: 16
-      mem: 60.625
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_fingerprint/deeptools_plot_fingerprint/.*:
     inherits: pulsar_preferred
     cores: 2
-    mem: 7.8408203125
     rules:
     - match: input_size >= 0.5
       cores: 8
-      mem: 30.3125
   toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/.*:
     inherits: pulsar_preferred
     cores: 1
-    mem: 3.7890625
     rules:
     - match: input_size >= 1
       cores: 120
-      mem: 1922.5361328125
+      mem: 1922
   .*bwa_mem_index_builder_data_manager.*:
     cores: 16
-    mem: 60.625
   .*hisat2_index_builder_data_manager.*:
     cores: 5
-    mem: 18.9453125
   .*bwameth_index_builder_data_manager.*:
     cores: 5
-    mem: 18.9453125
   .*bowtie2_index_builder_data_manager.*:
     cores: 16
-    mem: 60.625
   .*twobit_builder_data_manager.*:
     cores: 16
-    mem: 60.625
   .*data_manager_humann_database_downloader.*:
     cores: 5
-    mem: 18.9453125

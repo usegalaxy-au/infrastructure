@@ -1,6 +1,7 @@
 import oyaml as yaml
 import os
 import re
+import math
 from bioblend.galaxy import GalaxyInstance
 
 # TODO: handle user and argument based rules
@@ -60,13 +61,13 @@ def make_lower_upper_expression(lower, upper):
     elif upper == 'Infinity':
         return f'input_size >= {lower}'
     else:
-        return f'input_size >= {lower} and input_size < {upper}'
+        return f'{lower} <= input_size < {upper}'
 
 def get_native_spec(env):
     return env.get('nativeSpecification') or env.get('submit_native_specification')
 
 def get_cores_from_env(env):
-    print(env)
+    # print(env)
     ntasks_pattern = re.compile('.*--ntasks=(?P<ntasks>\d+).*')
     native_spec = get_native_spec(env)
     ntasks = int(re.match(ntasks_pattern, native_spec).groupdict().get('ntasks'))
@@ -138,19 +139,23 @@ for tool_id in tool_dests:
     # define the core setting as the lowest rule, add all file size rules as separate rules
     tool_rules = file_size_rules[1:]
     vortex_tool['cores'] = file_size_rules[0]['cores']
-    vortex_tool['mem'] = file_size_rules[0]['mem'] / 1024
+    if 'mem' in file_size_rules[0].keys():
+        mem_gb = file_size_rules[0]['mem'] / 1024
+        # only include mem in specs if mem/cores is not between 3 and 4
+        if not (mem_gb/vortex_tool['cores'] < 4 and mem_gb/vortex_tool['cores'] > 3):
+            vortex_tool['mem'] = math.floor(mem_gb)
+    # vortex_tool['mem'] = file_size_rules[0]['mem'] / 1024
     if tool_rules:
         vortex_tool['rules'] = []
         for rule in tool_rules:
             the_rule = {'match': make_lower_upper_expression(lower=rule['lower'], upper=rule['upper'])}
-            # for key in rule.keys():
-            #     if key in ['cores', 'mem', 'fail']:
-            #         the_rule[key] = rule[key]
             if 'cores' in rule.keys():
                 the_rule.update({'cores': rule['cores']})
             if 'mem' in rule.keys():
                 mem_gb = rule['mem'] / 1024
-                the_rule.update({'mem': mem_gb})
+                # only include mem in specs if mem/cores is not between 3 and 4
+                if not (mem_gb/the_rule['cores'] < 4 and mem_gb/the_rule['cores'] > 3):      
+                    the_rule.update({'mem': math.floor(mem_gb)})
             if 'fail' in rule.keys():
                 the_rule.update({'fail': rule['fail']})               
 
