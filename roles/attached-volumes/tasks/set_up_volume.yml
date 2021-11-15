@@ -1,11 +1,11 @@
 ---
 - block:
-    - name: Detect attached volume
-      parted:
-        device: "{{ attached_volume.device }}"
-        unit: GiB
-      register: volume_info
     - block:
+      - name: Detect attached volume
+        parted:
+          device: "{{ attached_volume.device }}{{ attached_volume.partition }}"
+          unit: GiB
+        register: volume_info
       - name: create a partition on volume
         parted:
           device: "{{ attached_volume.device }}"
@@ -23,6 +23,11 @@
           state: mounted
       when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == attached_volume.device and attached_volume.partition is defined
     - block:
+      - name: Detect attached volume
+        parted:
+          device: "{{ attached_volume.device }}"
+          unit: GiB
+        register: volume_info
       - name: Create a filesystem on volume without partition
         filesystem:
           fstype: "{{ attached_volume.fstype }}"
