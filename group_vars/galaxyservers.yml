@@ -124,7 +124,7 @@ group_galaxy_config:
       - lib/galaxy/main.py
       - lib/galaxy/main.py
     farm: job-handlers:1,2
-    
+
   galaxy:
     check_migrate_tools: false
     log_level: TRACE
@@ -154,7 +154,7 @@ group_galaxy_config:
     data_dir: "{{ galaxy_root }}/cache"  # cache paths are set relative to data_dir (cache_dir will become a config option in 21.05)
 
     conda_prefix: "{{ galaxy_conda_prefix }}"
-  
+
     cleanup_job: onsuccess  # default is always
     retry_job_output_collection: 10
 
@@ -190,7 +190,7 @@ group_galaxy_config:
     statsd_host: localhost
     statsd_port: 8125
     statsd_prefix: galaxy-aust
-    
+
     display_servers: hgw1.cse.ucsc.edu,hgw2.cse.ucsc.edu,hgw3.cse.ucsc.edu,hgw4.cse.ucsc.edu,hgw5.cse.ucsc.edu,hgw6.cse.ucsc.edu,hgw7.cse.ucsc.edu,hgw8.cse.ucsc.edu,lowepub.cse.ucsc.edu
     builds_file_path: /cvmfs/data.galaxyproject.org/managed/location/builds.txt
     build_sites_config_file: "{{ galaxy_config_dir }}/build_sites.yml"
@@ -200,7 +200,7 @@ group_galaxy_config:
     # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
 
     # data_manager_config_file: /mnt/galaxy-app/config/data_manager_conf.xml.sample  # should we be templating these?
-    
+
     # migrated_tools_config: /mnt/galaxy/var/migrated_tools_conf.xml
     # datatypes_config_file: /mnt/galaxy-app/config/datatypes_conf.xml
 
@@ -224,8 +224,16 @@ group_galaxy_config:
     # collect_outputs_from: job_working_directory # surely this is not a real path?  Relative to something?
     # rsync_url: 'rsync://scofield.bx.psu.edu/indexes'
     # len_file_path: /mnt/galaxy-app/tool-data/len
-    #
-    
+
+    # Taken from usegalaxy.org
+    tool_name_boost: 0.1
+    tool_section_boost: 1
+    tool_description_boost: 0.1
+    tool_label_boost: 1
+    tool_stub_boost: 1
+    tool_help_boost: 1
+    tool_search_limit: 160
+
 
 # galaxy_config_template_src_dir: templates/galaxy  ## this var has been moved to all.yml
 group_galaxy_config_templates:
