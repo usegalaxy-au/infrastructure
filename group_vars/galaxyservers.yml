@@ -223,8 +223,15 @@ group_galaxy_config:
     # collect_outputs_from: job_working_directory # surely this is not a real path?  Relative to something?
     # rsync_url: 'rsync://scofield.bx.psu.edu/indexes'
     # len_file_path: /mnt/galaxy-app/tool-data/len
-    #
 
+    # Taken from usegalaxy.org
+    tool_name_boost: 0.1
+    tool_section_boost: 1
+    tool_description_boost: 0.1
+    tool_label_boost: 1
+    tool_stub_boost: 1
+    tool_help_boost: 1
+    tool_search_limit: 160
 
 # galaxy_config_template_src_dir: templates/galaxy  ## this var has been moved to all.yml
 group_galaxy_config_templates:
