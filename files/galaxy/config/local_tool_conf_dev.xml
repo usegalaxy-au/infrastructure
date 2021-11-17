@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<toolbox monitor="true">
+    <section id="local_tools" name="Local Tools">
+        <tool file="/mnt/galaxy/local_tools/alphafold/alphafold.xml" />
+    </section>
+</toolbox>
