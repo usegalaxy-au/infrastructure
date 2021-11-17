@@ -8,6 +8,7 @@
       - group_vars/dev_slurm.yml
       - host_vars/dev.usegalaxy.org.au.yml
       - secret_group_vars/ubuntu_maintenance_key
+      - secret_group_vars/stats_server_vault
   handlers:
     - name: Restart Galaxy
       systemd:
@@ -21,6 +22,7 @@
       pip:  # on the first run, this will create the galaxy venv before the galaxy role is run
         name: git+https://github.com/usegalaxy-au/total-perspective-vortex
         virtualenv: "{{ galaxy_venv_dir }}"
+        state: forcereinstall
   roles:
     - galaxyproject.repos
     - common
@@ -46,6 +48,8 @@
     - usegalaxy_eu.tiaas2
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
+    - dj-wasabi.telegraf
+    - login-override
   post_tasks:
     - name: Clone Galaxy-Owncloud-Integration
       git:
@@ -72,5 +76,3 @@
         etype: user
         permissions: rw
         state: present
-
-

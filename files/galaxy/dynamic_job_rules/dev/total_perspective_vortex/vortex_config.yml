@@ -8,6 +8,7 @@ tools:
     env: {}
     params:
       nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024}"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024}"
     scheduling:
       prefer:
       accept:
@@ -41,13 +42,57 @@ tools:
         - pulsar
   upload1:
     cores: 2
-  '.*iuc/fasta_stats/fasta-stats.*':
-    inherits: pulsar_preferred
+  
+  toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     cores: 2
-  '.*bwa_mem.*':
+    params:
+      docker_enabled: true
+      docker_volumes: '$defaults'
+      docker_memory: '{mem}'
+      docker_sudo: false
+  toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     inherits: pulsar_preferred
-    cores: 2
-  '.*hifiasm.*':
+    cores: 20
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
+    cores: 1
+    rules:
+      # send all paired end jobs to pulsar just because
+      - match: |
+          from functools import reduce
+
+          arguments = {'fastq_input': {"fastq_input_selector": "paired"}}
+
+          def get_keys_from_dict(dl, keys_list):
+
+            # This function builds a list using the keys from nest dictionaries (and has been copied from galaxy dynamic_tool_destination.py along with most of this block)
+
+            if isinstance(dl, dict):
+                keys_list.extend(dl.keys())
+                for x in dl.values():
+                    get_keys_from_dict(x, keys_list)
+            elif isinstance(dl, list):
+                for x in dl:
+                    get_keys_from_dict(x, keys_list)
+
+          options = job.get_param_values(app)
+          matched = True
+          # check if the args in the config file are available
+          for arg in arguments:
+              arg_dict = {arg: arguments[arg]}
+              arg_keys_list = []
+              get_keys_from_dict(arg_dict, arg_keys_list)
+              try:
+                  options_value = reduce(dict.__getitem__, arg_keys_list, options)
+                  arg_value = reduce(dict.__getitem__, arg_keys_list, arg_dict)
+                  if (arg_value != options_value):
+                      matched = False
+              except KeyError:
+                  matched = False 
+          matched         
+        scheduling:
+          prefer:
+            - pulsar
+  toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     inherits: pulsar_preferred
     cores: 2
     rules:
@@ -57,18 +102,20 @@ users:
   default:
     rules:
       # - match: |
-      #     from galaxy.jobs.rule_helper import RuleHelper  # this does not work and is probably taken care of by galaxy anyway
+      #     from galaxy.jobs.rule_helper import RuleHelper  # this is a test of raising JobNotReadyException, jobs per user limit is already taken care of by galaxy
 
       #     retval = False
       #     if user:
       #       rule_helper = RuleHelper(app)
-      #       job_limit = 10
+      #       job_limit = 1
       #       # job_limit = app.job_config.limits.registered_user_concurrent_jobs
-      #       user_job_count = rule_helper.job_count(for_user_email=user.email)
+      #       user_job_count = rule_helper.job_count(for_user_email=user.email, for_job_states=['queued', 'running'])
       #       if user_job_count >= job_limit:
       #         retval = True
       #     retval
-      #   fail: "User {user.id} has too many running jobs to schedule another"
+      #   execute: |
+      #       from galaxy.jobs.mapper import JobNotReadyException
+      #       raise JobNotReadyException()
       - match: |
           from galaxy.jobs.rule_helper import RuleHelper
           from vortex.core.entities import TagType
@@ -92,13 +139,31 @@ users:
           retval
         fail: "You cannot have more than 4 high-mem jobs running concurrently"
   pulsar_user@usegalaxy.org.au:
-    scheduling:
-      require:
-        - dev-pulsar
+    rules:
+      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')  # this locks out all local tools, might need to make exceptions for these by id
+        scheduling:
+          require:
+            - pulsar  # if pulsar requires the pulsar tag, nothing without the pulsar tag will go there
+            - dev-pulsar
   pulsar_nci_test_user@usegalaxy.org.au:
+    rules:
+      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-nci-test
+  eugpu@usegalaxy.org.au:
+    rules:
+      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-eu-gpu-test
+  jenkins_bot@usegalaxy.org.au:
+    cores: 1
     scheduling:
       require:
-        - pulsar-nci-test
+        - slurm
 
 destinations:
   slurm:
@@ -108,6 +173,7 @@ destinations:
       accept:
         - pulsar
         - general
+        - slurm
   pulsar_destination:
     cores: 4
     mem: 7.77
@@ -124,6 +190,14 @@ destinations:
       accept:
         - general
         - pulsar-nci-test
-        - offline
+      require:
+        - pulsar
+  pulsar-eu-gpu-test:
+    cores: 40
+    mem: 110000
+    scheduling:
+      accept:
+        - general
+        - pulsar-eu-gpu-test
       require:
         - pulsar

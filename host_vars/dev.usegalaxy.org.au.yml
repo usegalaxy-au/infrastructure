@@ -1,5 +1,8 @@
 # Specific settings for galaxy dev application/web server
 
+# Login override - checksum for Login.vue
+galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
+
 # variables for attaching mounted volume to application server
 attached_volumes:
   - device: /dev/vdb
@@ -34,12 +37,11 @@ galaxy_dynamic_job_rules:
 galaxy_tools_indices_dir: "{{ galaxy_root }}"
 galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
 
-# galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_repo: https://github.com/usegalaxy-au/galaxy.git  # usegalaxy-au fork of galaxy
-galaxy_commit_id: release_21.05_cloudstor
+galaxy_repo: https://github.com/galaxyproject/galaxy.git
+galaxy_commit_id: release_21.09
 
-# Use cloudstor branch and extra tool_conf file and user prefs for cloudstor tool
-use_cloudstor_conf: true
+# Do not use extra tool_conf file for cloudstor tool
+use_cloudstor_conf: false
 
 galaxy_file_path: "{{ galaxy_root }}/data"
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
@@ -60,12 +62,14 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir}}/oidc_config.xml"
   - src: files/galaxy/dynamic_job_rules/dev/total_perspective_vortex/vortex_config.yml
     dest: "{{ galaxy_config_dir}}/vortex_rules_local.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/local_tool_conf_dev.xml"
+    dest: "{{ galaxy_config_dir }}/local_tool_conf.xml"
 
 host_galaxy_config:  # renamed from __galaxy_config
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on dev
     brand: "Australia Dev"
-    database_connection: "postgres://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
+    database_connection: "postgresql://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
     id_secret: "{{ vault_dev_id_secret }}"
     file_path: "{{ galaxy_file_path }}"
     galaxy_infrastructure_url: 'https://dev.usegalaxy.org.au'
@@ -80,6 +84,18 @@ host_galaxy_config:  # renamed from __galaxy_config
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
     cleanup_job: never
     job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
+    show_welcome_with_login: false
+    enable_mulled_containers: true
+    enable_beta_containers_interface: true
+    watch_job_rules: true  # important for total perspective vortex
+    dependency_resolvers:
+      - type: tool_shed_packages
+      - type: galaxy_packages
+      - type: conda
+      - type: galaxy_packages
+        versionless: true
+      - type: conda
+        versionless: true
 
 galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
 
@@ -120,6 +136,17 @@ galaxy_jobconf:
         load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
         params:
             amqp_url: "pyamqp://galaxy_nci_test:{{ vault_rabbitmq_password_galaxy_nci_test }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_nci_test?ssl=1"
+            galaxy_url: "https://dev.usegalaxy.org.au"
+            manager: _default_
+            amqp_acknowledge: True
+            amqp_ack_republish_time: 1200
+            amqp_consumer_timeout: 2.0
+            amqp_publish_retry: True
+            amqp_publish_retry_max_retries: 60
+      - id: pulsar_eu_gpu
+        load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+        params:
+            amqp_url: "pyamqp://galaxy_eu_gpu:{{ vault_rabbitmq_password_galaxy_eu_gpu }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_eu_gpu?ssl=1"
             galaxy_url: "https://dev.usegalaxy.org.au"
             manager: _default_
             amqp_acknowledge: True
@@ -192,6 +219,17 @@ galaxy_jobconf:
               rewrite_parameters: "true"
               persistence_directory: /mnt/pulsar/files/persisted_data
               submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
+      - id: pulsar-eu-gpu-test
+        runner: pulsar_eu_gpu
+        params:
+              jobs_directory: /mnt/shared/files/staging
+              transport: curl
+              remote_metadata: "false"
+              default_file_action: remote_transfer
+              dependency_resolution: remote
+              rewrite_parameters: "true"
+              persistence_directory: /mnt/shared/files/persisted_data
+              submit_native_specification: "--nodes=1 --ntasks=40 --ntasks-per-node=40 --mem=110000"
       - id: interactive_local
         runner: local
         params:
@@ -213,7 +251,7 @@ galaxy_jobconf:
               docker_set_user: ''
               docker_require_container: true
               container_monitor_result: callback
-    tools: 
+    tools:
       - id: interactive_tool_ethercalc
         destination: interactive_local
       - id: interactive_tool_rstudio

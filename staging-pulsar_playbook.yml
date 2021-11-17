@@ -7,6 +7,7 @@
     - group_vars/staging_pulsar_slurm.yml
     - group_vars/VAULT
     - host_vars/staging-pulsar.usegalaxy.org.au.yml
+    - secret_group_vars/stats_server_vault
   pre_tasks:
     - name: apt update
       apt:
@@ -23,6 +24,7 @@
     - mariadb
     - galaxyproject.slurm
     - galaxyproject.cvmfs
+    - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks
 

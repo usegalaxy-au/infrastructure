@@ -78,7 +78,7 @@ pawsey-w1 ansible_ssh_host=146.118.70.191 internal_ip=192.168.0.101
 pawsey-w2 ansible_ssh_host=146.118.67.128 internal_ip=192.168.0.191
 pawsey-w3 ansible_ssh_host=146.118.66.35 internal_ip=192.168.0.103
 pawsey-w4 ansible_ssh_host=146.118.69.246 internal_ip=192.168.0.109
-pawsey-w5 ansible_ssh_host=146.118.64.228 internal_ip=192.168.0.127
+pawsey-w5 ansible_ssh_host=146.118.69.102 internal_ip=192.168.0.176
 pawsey-w6 ansible_ssh_host=146.118.68.97 internal_ip=192.168.0.152
 pawsey-w7 ansible_ssh_host=146.118.68.32 internal_ip=192.168.0.77
 pawsey-w8 ansible_ssh_host=146.118.65.97 internal_ip=192.168.0.100
@@ -104,11 +104,12 @@ pawsey-queue ansible_ssh_host=146.118.69.35 internal_ip=192.168.0.194
 pawsey-user-nfs ansible_ssh_host=146.118.68.13 internal_ip=192.168.0.165
 pawsey-misc-nfs ansible_ssh_host=146.118.68.229 internal_ip=192.168.0.147
 pawsey-job-nfs ansible_ssh_host=146.118.70.65 internal_ip=192.168.0.92
+pawsey-backup ansible_ssh_host=146.118.68.123 internal_ip=192.168.0.96
 pawsey-w1 ansible_ssh_host=146.118.70.191 internal_ip=192.168.0.101
 pawsey-w2 ansible_ssh_host=146.118.67.128 internal_ip=192.168.0.191
 pawsey-w3 ansible_ssh_host=146.118.66.35 internal_ip=192.168.0.103
 pawsey-w4 ansible_ssh_host=146.118.69.246 internal_ip=192.168.0.109
-pawsey-w5 ansible_ssh_host=146.118.64.228 internal_ip=192.168.0.127
+pawsey-w5 ansible_ssh_host=146.118.69.102 internal_ip=192.168.0.176
 pawsey-w6 ansible_ssh_host=146.118.68.97 internal_ip=192.168.0.152
 pawsey-w7 ansible_ssh_host=146.118.68.32 internal_ip=192.168.0.77
 pawsey-w8 ansible_ssh_host=146.118.65.97 internal_ip=192.168.0.100
@@ -193,6 +194,10 @@ pulsar-nci-training-w9 ansible_ssh_host=10.0.0.104 internal_ip=10.0.0.104
 pulsar-nci-training-w10 ansible_ssh_host=10.0.3.216 internal_ip=10.0.3.216
 pulsar-nci-training-w11 ansible_ssh_host=10.0.1.214 internal_ip=10.0.1.214
 
+[nvme]
+qld-nvme ansible_ssh_host=203.101.231.166
+
+
 [build_machines]
 nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249
 aarnet-backup ansible_ssh_host=138.44.80.71 internal_ip=192.168.199.93
@@ -201,6 +206,14 @@ aarnet-backup ansible_ssh_host=138.44.80.71 internal_ip=192.168.199.93
 [qld_dr]
 DR-galaxy ansible_ssh_host=203.101.226.61
 QLD-DR-db ansible_ssh_host=203.101.227.174
+
+##### Pulsar EU GPU (test machine for Alphafold)
+[GPU-pulsars]
+pulsar_EU_GPU ansible_ssh_host=132.230.223.54 ansible_user=centos
+
+##### Stats server
+[stats_servers]
+stats.usegalaxy.org.au ansible_ssh_host=115.146.84.128
 
 [all:vars]
 ansible_host_key_checking=False

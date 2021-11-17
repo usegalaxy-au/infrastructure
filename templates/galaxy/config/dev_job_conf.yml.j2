@@ -1,3 +1,7 @@
+handling:
+  processes:
+    main.job-handler.1:
+    main.job-handler.2:
 runners:
   dynamic:
     rules_module: dynamic_rules
@@ -28,6 +32,16 @@ runners:
     amqp_ack_republish_time: 1200
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+  pulsar_eu_gpu:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_url: "pyamqp://galaxy_eu_gpu:{{ vault_rabbitmq_password_galaxy_eu_gpu }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_eu_gpu?ssl=1"
+    galaxy_url: "https://dev.usegalaxy.org.au"
+    manager: _default_
+    amqp_acknowledge: True
+    amqp_ack_republish_time: 1200
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: True
     amqp_publish_retry_max_retries: 60
 execution:
   default: vortex_dispatcher
@@ -86,6 +100,30 @@ execution:
       docker_set_user: ''
       docker_require_container: true
       container_monitor_result: callback
+    pulsar-eu-gpu-test:
+      runner: pulsar_eu_gpu
+      jobs_directory: /mnt/share/staging
+      transport: curl
+      remote_metadata: "false"
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: "true"
+      persistence_directory: /mnt/share/persisted_data
+      submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
+    pulsar-eu-gpu-alpha:
+      runner: pulsar_eu_gpu
+      jobs_directory: /mnt/share/staging
+      transport: curl
+      remote_metadata: "false"
+      default_file_action: remote_transfer
+      dependency_resolution: 'none'
+      rewrite_parameters: "true"
+      persistence_directory: /mnt/share/persisted_data
+      submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
+      singularity_enabled: true
+      singularity_run_extra_arguments: --nv
+      singularity_volumes: "$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro"
+
 tools:
 - id: interactive_tool_ethercalc
   environment: interactive_local
@@ -95,6 +133,8 @@ tools:
   environment: interactive_pulsar
 - id: interactive_tool_phinch
   environment: interactive_local
+- id: alphafold
+  environment: pulsar-eu-gpu-alpha
 limits:
 - type: anonymous_user_concurrent_jobs
   value: 1

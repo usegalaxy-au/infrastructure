@@ -5,6 +5,7 @@
     - group_vars/pulsarservers.yml
     - group_vars/VAULT
     - host_vars/pulsar-high-mem2/pulsar-high-mem2.yml
+    - secret_group_vars/stats_server_vault
   pre_tasks:
     - name: Attach volume to instance
       include_role:

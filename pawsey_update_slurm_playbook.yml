@@ -11,11 +11,11 @@
   handlers:
     - name: Restart Slurmd
       systemd:
-        name: galaxy
+        name: slurmd
         state: restarted
     - name: Restart Slurmctld
       systemd:
-        name: galaxy
+        name: slurmctld
         state: restarted
   roles:
     - galaxyproject.slurm

@@ -58,7 +58,7 @@ machine_users:
       email: "{{ justin_email }}"
     - name: grace
       roles:
-        - user
+        - sudo
       key: files/keys/grace.pub
       email: "{{ grace_email }}"
     - name: cameron
@@ -66,11 +66,11 @@ machine_users:
         - sudo
       key: files/keys/cameron.pub
       email: "{{ cameron_email }}"
-    # - name: anna
-    #   roles:
-    #     - tiaas_admin
-    #   key: files/keys/anna.pub
-    #   email: "{{ anna_email }}"
+    - name: anna
+      roles:
+        - tiaas_admin
+      key: files/keys/anna.pub
+      email: "{{ anna_email }}"
 
 galaxy_user:
   name: galaxy
@@ -104,6 +104,7 @@ common_packages:
     - unzip
     - tree
     - python3-passlib
+    - xfsprogs
 
 #Set pip to be pip3 by default - see roles/geerlingguy.pip/defaults/main.yml
 pip_package: python3-pip

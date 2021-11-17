@@ -7,7 +7,7 @@ locals {
   private_ip = "qld-data"
   public_ip = "qld"
 
-  worker_count = 1
+  worker_count = 3
   worker_flavor_name = "qld.biocommons.16c64g"
   tmp_disk_size = 100
 

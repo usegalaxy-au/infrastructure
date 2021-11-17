@@ -27,17 +27,17 @@ galaxy_jobconf:
           amqp_url: "pyamqp://galaxy_mel2:{{ vault_rabbitmq_password_galaxy_mel2_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel2?ssl=1"
           galaxy_url: "https://{{ hostname }}"
           manager: "_default_"
-      # - id: pulsar-paw_runner
-      #   load: "galaxy.jobs.runners.pulsar:PulsarMQJobRunner"
-      #   params:
-      #     amqp_ack_republish_time: 1200
-      #     amqp_acknowledge: True
-      #     amqp_consumer_timeout: 2.0
-      #     amqp_publish_retry: True
-      #     amqp_publish_retry_max_retries: 60
-      #     amqp_url: "pyamqp://galaxy_paw:{{ vault_rabbitmq_password_galaxy_paw_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_paw?ssl=1"
-      #     galaxy_url: "https://{{ hostname }}"
-      #     manager: "_default_"
+      - id: pulsar-paw_runner
+        load: "galaxy.jobs.runners.pulsar:PulsarMQJobRunner"
+        params:
+          amqp_ack_republish_time: 1200
+          amqp_acknowledge: True
+          amqp_consumer_timeout: 2.0
+          amqp_publish_retry: True
+          amqp_publish_retry_max_retries: 60
+          amqp_url: "pyamqp://galaxy_paw:{{ vault_rabbitmq_password_galaxy_paw_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_paw?ssl=1"
+          galaxy_url: "https://{{ hostname }}"
+          manager: "_default_"
       - id: pulsar-mel3_runner
         load: "galaxy.jobs.runners.pulsar:PulsarMQJobRunner"
         params:
@@ -141,7 +141,7 @@ galaxy_jobconf:
       - id: slurm_1slot_upload
         runner: slurm
         params:
-          nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=40216 --partition=main"
+          nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=10240 --partition=main"
       - id: slurm_1slot
         runner: slurm
         params:
@@ -208,7 +208,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
+          submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=8029"
           transport: curl
       - id: pulsar-mel_mid
         runner: pulsar_mel2_runner
@@ -219,7 +219,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4"
+          submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4 --mem=16058"
           transport: curl
       - id: pulsar-mel_big
         runner: pulsar_mel2_runner
@@ -230,42 +230,42 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8"
+          submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116"
           transport: curl
       # Pulsar paw destinations
-      # - id: pulsar-paw_small
-      #   runner: pulsar-paw_runner
-      #   params:
-      #     default_file_action: remote_transfer
-      #     dependency_resolution: remote
-      #     jobs_directory: /mnt/pulsar/files/staging
-      #     persistence_directory: /mnt/pulsar/files/persisted_data
-      #     remote_metadata: false
-      #     rewrite_parameters: true
-      #     submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2"
-      #     transport: curl
-      # - id: pulsar-paw_mid
-      #   runner: pulsar-paw_runner
-      #   params:
-      #     default_file_action: remote_transfer
-      #     dependency_resolution: remote
-      #     jobs_directory: /mnt/pulsar/files/staging
-      #     persistence_directory: /mnt/pulsar/files/persisted_data
-      #     remote_metadata: false
-      #     rewrite_parameters: true
-      #     submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4"
-      #     transport: curl
-      # - id: pulsar-paw_big
-      #   runner: pulsar-paw_runner
-      #   params:
-      #     default_file_action: remote_transfer
-      #     dependency_resolution: remote
-      #     jobs_directory: /mnt/pulsar/files/staging
-      #     persistence_directory: /mnt/pulsar/files/persisted_data
-      #     remote_metadata: false
-      #     rewrite_parameters: true
-      #     submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8"
-      #     transport: curl
+      - id: pulsar-paw_small
+        runner: pulsar-paw_runner
+        params:
+          default_file_action: remote_transfer
+          dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
+          submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=8029"
+          transport: curl
+      - id: pulsar-paw_mid
+        runner: pulsar-paw_runner
+        params:
+          default_file_action: remote_transfer
+          dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
+          submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4 --mem=16058"
+          transport: curl
+      - id: pulsar-paw_big
+        runner: pulsar-paw_runner
+        params:
+          default_file_action: remote_transfer
+          dependency_resolution: remote
+          jobs_directory: /mnt/pulsar/files/staging
+          persistence_directory: /mnt/pulsar/files/persisted_data
+          remote_metadata: false
+          rewrite_parameters: true
+          submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116"
+          transport: curl
       # Pulsar mel3 destinations
       - id: pulsar-mel3_small
         runner: pulsar-mel3_runner
@@ -332,7 +332,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=1004641"
+          submit_native_specification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=984345"
           transport: curl
       - id: pulsar-high-mem1_big
         runner: pulsar-high-mem1_runner
@@ -343,7 +343,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=4018565"
+          submit_native_specification: "--nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=3937380"
           transport: curl
       # Pulsar-high-mem2 destinations
       - id: pulsar-high-mem2_mid
@@ -355,7 +355,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=63 --ntasks-per-node=63 --mem=1004641"
+          submit_native_specification: "--nodes=1 --ntasks=63 --ntasks-per-node=63 --mem=984315"
           transport: curl
       - id: pulsar-high-mem2_big
         runner: pulsar-high-mem2_runner
@@ -366,7 +366,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=2009282"
+          submit_native_specification: "--nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=1968631"
           transport: curl
       # Pulsar QLD High Mem 0 Destinations
       - id: pulsar-qld-high-mem0_mid
@@ -378,7 +378,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=120 --ntasks-per-node=120 --mem=2009282"
+          submit_native_specification: "--nodes=1 --ntasks=120 --ntasks-per-node=120 --mem=1968677"
           transport: curl
       - id: pulsar-qld-high-mem0_big
         runner: pulsar-qld-high-mem0_runner
@@ -389,7 +389,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=4018565"
+          submit_native_specification: "--nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354"
           transport: curl
       # Pulsar QLD High Mem 1 Destinations
       - id: pulsar-qld-high-mem1_mid
@@ -401,7 +401,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=120 --ntasks-per-node=120 --mem=2009282"
+          submit_native_specification: "--nodes=1 --ntasks=120 --ntasks-per-node=120 --mem=1968677"
           transport: curl
       - id: pulsar-qld-high-mem1_big
         runner: pulsar-qld-high-mem1_runner
@@ -412,7 +412,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=4018565"
+          submit_native_specification: "--nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354"
           transport: curl
       # Pulsar QLD High Mem 2 Destinations
       - id: pulsar-qld-high-mem2_mid
@@ -424,7 +424,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=120 --ntasks-per-node=120 --mem=2009282"
+          submit_native_specification: "--nodes=1 --ntasks=120 --ntasks-per-node=120 --mem=1968677"
           transport: curl
       - id: pulsar-qld-high-mem2_big
         runner: pulsar-qld-high-mem2_runner
@@ -435,7 +435,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=4018565"
+          submit_native_specification: "--nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354"
           transport: curl
       # Pulsar NCI Training Destinations
       - id: pulsar-nci-training_small
@@ -447,7 +447,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4 --mem=12337"
+          submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4 --mem=12048"
           transport: curl
       - id: pulsar-nci-training_mid
         runner: pulsar-nci-training_runner
@@ -458,7 +458,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=24675"
+          submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=24097"
           transport: curl
       - id: pulsar-nci-training_big
         runner: pulsar-nci-training_runner
@@ -469,7 +469,7 @@ galaxy_jobconf:
           persistence_directory: /mnt/pulsar/files/persisted_data
           remote_metadata: false
           rewrite_parameters: true
-          submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
+          submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=48195"
           transport: curl
     limits:
       #General limits for user submission

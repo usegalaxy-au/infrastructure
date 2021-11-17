@@ -476,6 +476,9 @@ galaxy_jobconf:
     #     id: pulsar-paw_big
     #     value: 4
     limits:
+      - type: destination_user_concurrent_jobs
+        id: slurm_2slots
+        value: 40
       #Pulsar-paw limits
       - type: destination_total_concurrent_jobs
         id: pulsar-paw_big
