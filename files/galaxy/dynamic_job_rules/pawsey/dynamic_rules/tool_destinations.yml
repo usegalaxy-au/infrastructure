@@ -458,7 +458,12 @@ tools:
               lower_bound: 250 MB
               upper_bound: 1 GB
               destination: pulsar-mel_mid
-        default_destination: pulsar-mel3_mid
+            - rule_type: file_size
+              nice_value: 0
+              lower_bound: 1 GB
+              upper_bound: 20 GB
+              destination: pulsar-mel3_mid
+        default_destination: pulsar-qld-high-mem2_mid
     bowtie2:
         rules:
             - rule_type: file_size
