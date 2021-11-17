@@ -141,7 +141,7 @@ galaxy_jobconf:
       - id: slurm_1slot_upload
         runner: slurm
         params:
-          nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=40216 --partition=main"
+          nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=10240 --partition=main"
       - id: slurm_1slot
         runner: slurm
         params:
