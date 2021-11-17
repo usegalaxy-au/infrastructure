@@ -110,6 +110,20 @@ execution:
       rewrite_parameters: "true"
       persistence_directory: /mnt/share/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
+    pulsar-eu-gpu-alpha:
+      runner: pulsar_eu_gpu
+      jobs_directory: /mnt/share/staging
+      transport: curl
+      remote_metadata: "false"
+      default_file_action: remote_transfer
+      dependency_resolution: 'none'
+      rewrite_parameters: "true"
+      persistence_directory: /mnt/share/persisted_data
+      submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
+      singularity_enabled: true
+      singularity_run_extra_arguments: --nv
+      singularity_volumes: "$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro"
+
 tools:
 - id: interactive_tool_ethercalc
   environment: interactive_local
@@ -119,6 +133,8 @@ tools:
   environment: interactive_pulsar
 - id: interactive_tool_phinch
   environment: interactive_local
+- id: alphafold
+  environment: pulsar-eu-gpu-alpha
 limits:
 - type: anonymous_user_concurrent_jobs
   value: 1
