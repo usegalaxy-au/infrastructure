@@ -1,0 +1,11 @@
+- name: pulsar azure worker playbook
+  hosts: pulsar_azure_workers
+  become: yes
+  vars_files:
+    - group_vars/VAULT
+    - group_vars/all.yml
+  roles:
+    - common
+    - insspb.hostname
+    - galaxyproject.repos
+    - galaxyproject.cvmfs

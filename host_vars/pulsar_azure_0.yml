@@ -1,0 +1,44 @@
+hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
+
+# Keys and shares
+
+create_ssh_key: yes  # Only the first time.
+ssl_country: "AU"
+ssl_state: "NSW"
+ssl_location: "Sydney"
+ssl_organisation: "Galaxy Australia"
+ssl_operational_unit: "Pulsar Azure 0"
+ssl_email: "help@genome.edu.au"
+
+#host specific pulsar settings
+
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_azure_0 }}"
+pulsar_queue_url: "dev-queue.usegalaxy.org.au"
+pulsar_rabbit_username: "galaxy_azure_0"
+pulsar_rabbit_vhost: "/pulsar/galaxy_azure_0"
+
+galaxy_uid: 10010
+galaxy_gid: 10010
+
+use_internal_ips: false
+
+# cvmfs
+# cvmfs_cache_base: /mnt/var/lib/cvmfs
+
+#Monitoring for Staging. Once all VM monitoring has moved to stats.usegalaxy.org.au, this can be put in all.yml and removed here.
+influx_url: stats.usegalaxy.org.au
+grafana_server_url: "https://{{ influx_url }}:8086"
+
+# Monitoring
+telegraf_agent_output:
+  - type: influxdb
+    config:
+      - urls = ["{{ grafana_server_url }}"]
+      - database = "pulsar-special"
+      - precision = "s"
+      - username = "node"
+      - password = "{{ vault_influx_node_password }}"
+
+auth_key_user: ubuntu
+
+head_nodes: "{{ groups['pulsar_azure_0_head'] }}"

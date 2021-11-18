@@ -45,7 +45,7 @@ runners:
     amqp_publish_retry_max_retries: 60
   pulsar_azure_0_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    amqp_url: "pyamqp://galaxy_azure_0:{{ vault_rabbitmq_password_galaxy_azure_0 }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_eu_gpu?ssl=1"
+    amqp_url: "pyamqp://galaxy_azure_0:{{ vault_rabbitmq_password_galaxy_azure_0 }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_azure_0?ssl=1"
     galaxy_url: "https://dev.usegalaxy.org.au"
     manager: _default_
     amqp_acknowledge: True
