@@ -1,7 +1,7 @@
 tools:
   upload1:
     cores: 1
-    mem: 39
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/wolma/mimodd_aln/mimodd_align/.*:
     cores: 1
     rules:
@@ -50,7 +50,8 @@ tools:
     - match: 0.015 <= input_size < 2
       cores: 4
     - match: 2 <= input_size < 20
-      cores: 16
+      cores: 120
+      mem: 1922
     - match: input_size >= 20
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/nml/metaspades/metaspades/.*:
@@ -86,8 +87,7 @@ tools:
         backend. Please use another server for your job.
   toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/trinity_align_and_estimate_abundance/.*:
     inherits: pulsar_preferred
-    cores: 32
-    mem: 60
+    cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_point/ggplot2_point/.*:
     cores: 1
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
@@ -145,6 +145,8 @@ tools:
     cores: 16
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
     cores: 16
+  toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant_mqpar/.*:
+    cores: 16
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant_mqpar/maxquant_mqpar/.*:
     cores: 16
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fasterq_dump/.*:
@@ -155,12 +157,13 @@ tools:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/raxml/raxml/.*:
     inherits: pulsar_preferred
-    cores: 1
+    cores: 2
     rules:
-    - match: 1e-05 <= input_size < 0.0005
-      cores: 3
-    - match: input_size >= 0.0005
+    - match: 0.0005 <= input_size < 0.1
       cores: 16
+    - match: input_size >= 0.1
+      cores: 120
+      mem: 1922
   toolshed.g2.bx.psu.edu/repos/bgruening/canu/canu/.*:
     inherits: pulsar_preferred
     cores: 120
@@ -272,8 +275,11 @@ tools:
     rules:
     - match: 0.25 <= input_size < 1
       cores: 4
-    - match: input_size >= 1
+    - match: 1 <= input_size < 20
       cores: 8
+    - match: input_size >= 20
+      cores: 120
+      mem: 1922
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
     inherits: pulsar_preferred
     cores: 2
@@ -586,11 +592,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_consensus/ivar_consensus/.*:
     inherits: pulsar_preferred
     cores: 8
-  toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
+  toolshed.g2.bx.psu.edu/repos/vlefort/phyml/phyml/.*:
     inherits: pulsar_preferred
     cores: 126
     mem: 1922
-  toolshed.g2.bx.psu.edu/repos/vlefort/phyml/phyml/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
     inherits: pulsar_preferred
     cores: 126
     mem: 1922
@@ -755,8 +761,8 @@ tools:
     cores: 2
     rules:
     - match: input_size >= 0.2
-      cores: 63
-      mem: 961
+      cores: 120
+      mem: 1922
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_cluster/trycycler_cluster/.*:
     cores: 1
     rules:
