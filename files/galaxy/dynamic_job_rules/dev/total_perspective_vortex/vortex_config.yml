@@ -52,7 +52,7 @@ tools:
       docker_sudo: false
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     inherits: pulsar_preferred
-    cores: 20
+    cores: 2
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
     cores: 1
     rules:
@@ -164,6 +164,13 @@ users:
     scheduling:
       require:
         - slurm
+  pulsar_azure_0@genome.edu.au:
+    rules:
+      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-azure-0
 
 destinations:
   slurm:
@@ -198,6 +205,15 @@ destinations:
     scheduling:
       accept:
         - general
-        - pulsar-eu-gpu-test
       require:
         - pulsar
+        - pulsar-eu-gpu-test
+  pulsar-azure-0-std:
+    cores: 8
+    mem: 32
+    scheduling:
+      accept:
+        - general
+      require:
+        - pulsar
+        - pulsar-azure-0
