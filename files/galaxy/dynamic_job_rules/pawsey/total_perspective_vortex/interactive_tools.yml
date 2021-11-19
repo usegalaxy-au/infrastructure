@@ -1,0 +1,33 @@
+tools:
+  interactive_tool:
+    cores: 2
+    params:
+      runner: pulsar_embedded
+      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024} --partition=interactive_tools"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024} --partition=interactive_tools"
+      docker_enabled: true
+      docker_volumes: $defaults
+      docker_sudo: false
+      docker_net: bridge
+      docker_auto_rm: true
+      docker_set_user: ''
+      require_container: true
+      container_monitor_result: callback
+interactive_tool_ethercalc:
+  inherits: interactive_tool
+interactive_tool_rstudio:
+  inherits: interactive_tool
+  rules:
+    - match: |
+        not user or not user.hasthatrole('IT_allowed')
+      fail: "you cannot run this"
+interactive_tool_jupyter_notebook:
+  inherits: interactive_tool
+  rules:
+    - match: |
+        not user or not user.hasthatrole('IT_allowed')
+      fail: "you cannot run this"
+interactive_tool_phinch:
+  inherits: interactive_tool
+interactivetool_cellxgene:
+  inherits: interactive_tool
