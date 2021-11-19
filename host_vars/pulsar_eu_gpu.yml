@@ -24,6 +24,6 @@ slurm_config:
     #FastSchedule: 2
     SchedulerType: sched/backfill
     SelectType: select/cons_res
-    SelectTypeParameters: CR_CPU,CR_LLN
+    SelectTypeParameters: CR_CPU_Memory,CR_LLN
 
 slurm_munge_key: files/keys/munge.key
