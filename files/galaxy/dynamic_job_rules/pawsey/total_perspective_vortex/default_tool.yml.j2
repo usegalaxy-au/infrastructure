@@ -1,0 +1,48 @@
+global:
+  default_inherits: default
+
+tools:
+  default:
+    cores: 1
+    mem: cores * 3.5
+    env: {}
+    params:
+      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024}"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024}"
+    scheduling:
+      reject:
+        - offline
+    rules: []
+    rank: |
+      import requests
+      grafana_destinations = {
+        'Galaxy-Main': 'slurm',
+        'pulsar-high-mem-1': 'pulsar-high-mem1',
+        'pulsar-high-mem2': 'pulsar-high-mem2',
+        'pulsar-mel2': 'pulsar-mel2',
+        'pulsar-mel3': 'pulsar-mel3',
+        'pulsar-nci-training': 'pulsar-nci-training',
+        'pulsar-paw': 'pulsar-paw',
+        'pulsar-qld-himem-0': 'pulsar-qld-high-mem0',
+        'pulsar-qld-himem-1': 'pulsar-qld-high-mem1',
+        'pulsar-qld-himem-2': 'pulsar-qld-high-mem2',
+      }
+      params = {
+        'pretty': 'true',
+        'db': 'pulsar-test',
+        'q': 'SELECT last("percent_allocated") from "sinfo" group by "host"'
+      }
+      if len(candidate_destinations) > 1:
+        try:
+          response = requests.get('http://stats.usegalaxy.org.au:8086/query', auth=('grafana', '{{ vault_influx_grafana_password }}'), params=params)
+          data = response.json()
+          cpu_by_destination = {grafana_destinations[s['tags']['host']]:s['values'][0][1] for s in data.get('results')[0].get('series', [])}
+          # sort by destination preference, and then by cpu usage
+          candidate_destinations.sort(key=lambda d: (-1 * d.score(resource), cpu_by_destination.get(d.id)))
+          final_destinations = candidate_destinations
+        except Exception:
+          log.exception("An error occurred while querying influxdb. Using a weighted random candidate destination")
+          final_destinations = helpers.weighted_random_sampling(candidate_destinations)
+      else:
+        final_destinations = candidate_destinations
+      final_destinations
