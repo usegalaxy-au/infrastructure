@@ -19,14 +19,14 @@ interactive_tool_rstudio:
   inherits: interactive_tool
   rules:
     - match: |
-        not user or not user.hasthatrole('IT_allowed')
-      fail: "you cannot run this"
+        not user or not user.hasthatrole('IT_allowed')  # TODO: this is a placeholder for proper logic, fix it
+      fail: "you cannot run this"  # TODO: update placeholder text
 interactive_tool_jupyter_notebook:
   inherits: interactive_tool
   rules:
     - match: |
-        not user or not user.hasthatrole('IT_allowed')
-      fail: "you cannot run this"
+        not user or not user.hasthatrole('IT_allowed')  # TODO: this is a placeholder for proper logic, fix it
+      fail: "you cannot run this"  # TODO: update placeholder text
 interactive_tool_phinch:
   inherits: interactive_tool
 interactivetool_cellxgene:
