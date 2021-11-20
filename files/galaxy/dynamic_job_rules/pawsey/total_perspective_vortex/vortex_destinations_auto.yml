@@ -7,7 +7,7 @@ destinations:
       - slurm
   pulsar-mel:
     cores: 8
-    mem: 31.36328125
+    mem: 31.36
     scheduling:
       accept:
       - pulsar-mel
@@ -15,7 +15,7 @@ destinations:
       - pulsar
   pulsar-paw:
     cores: 8
-    mem: 31.36328125
+    mem: 31.36
     scheduling:
       accept:
       - pulsar-paw
@@ -23,7 +23,7 @@ destinations:
       - pulsar
   pulsar-mel3:
     cores: 32
-    mem: 60.625
+    mem: 60.62
     scheduling:
       accept:
       - pulsar-mel3
@@ -31,7 +31,7 @@ destinations:
       - pulsar
   pulsar-high-mem1:
     cores: 126
-    mem: 3845.09765625
+    mem: 3845.1
     scheduling:
       accept:
       - pulsar-high-mem1
@@ -39,7 +39,7 @@ destinations:
       - pulsar
   pulsar-high-mem2:
     cores: 126
-    mem: 1922.4912109375
+    mem: 1922.49
     scheduling:
       accept:
       - pulsar-high-mem2
@@ -47,7 +47,7 @@ destinations:
       - pulsar
   pulsar-qld-high-mem0:
     cores: 240
-    mem: 3845.072265625
+    mem: 3845.07
     scheduling:
       accept:
       - pulsar-qld-high-mem0
@@ -55,7 +55,7 @@ destinations:
       - pulsar
   pulsar-qld-high-mem1:
     cores: 240
-    mem: 3845.072265625
+    mem: 3845.07
     scheduling:
       accept:
       - pulsar-qld-high-mem1
@@ -63,7 +63,7 @@ destinations:
       - pulsar
   pulsar-qld-high-mem2:
     cores: 240
-    mem: 3845.072265625
+    mem: 3845.07
     scheduling:
       accept:
       - pulsar-qld-high-mem2
@@ -71,7 +71,7 @@ destinations:
       - pulsar
   pulsar-nci-training:
     cores: 16
-    mem: 47.0654296875
+    mem: 47.07
     scheduling:
       accept:
       - pulsar-nci-training
@@ -79,7 +79,7 @@ destinations:
       - pulsar
   interactive_pulsar:
     cores: 2
-    mem: 7.578125
+    mem: 7.58
     scheduling:
       accept:
       - interactive_pulsar
