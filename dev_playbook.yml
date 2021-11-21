@@ -52,12 +52,6 @@
     - dj-wasabi.telegraf
     - login-override
   post_tasks:
-    - name: Clone Galaxy-Owncloud-Integration
-      git:
-        repo: https://github.com/usegalaxy-au/Galaxy-Owncloud-Integration
-        dest: "{{ galaxy_server_dir }}/tools/Galaxy-Owncloud-Integration"
-        update: no
-      when: use_cloudstor_conf|d(false) == true
     - name: Clone galaxy-local-tools
       git:
         repo: https://github.com/usegalaxy-au/galaxy-local-tools
