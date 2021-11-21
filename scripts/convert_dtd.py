@@ -209,7 +209,7 @@ for id in destinations:
     env = destinations[id]
     ntasks = get_cores_from_env(env)
     mem = get_mem_from_env(env)
-    vortex_dest = {'cores': ntasks, 'mem': mem/1024, 'scheduling': {}}
+    vortex_dest = {'cores': ntasks, 'mem': round(mem/1024, 2), 'scheduling': {}}
     vortex_dest['scheduling']['accept'] = [id]  # each destination gets its own tag
     if id.startswith('pulsar'):
         vortex_dest['scheduling']['require'] = ['pulsar']
