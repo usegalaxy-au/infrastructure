@@ -29,12 +29,12 @@ tools:
       }
       params = {
         'pretty': 'true',
-        'db': 'pulsar-test',
+        'db': 'queues',
         'q': 'SELECT last("percent_allocated") from "sinfo" group by "host"'
       }
       if len(candidate_destinations) > 1:
         try:
-          response = requests.get('http://stats.usegalaxy.org.au:8086/query', auth=('grafana', '{{ vault_influx_grafana_password }}'), params=params)
+          response = requests.get('https://stats.usegalaxy.org.au:8086/query', auth=('grafana', '{{ vault_influx_grafana_password }}'), params=params)
           data = response.json()
           cpu_by_destination = {grafana_destinations[s['tags']['host']]:s['values'][0][1] for s in data.get('results')[0].get('series', [])}
           # sort by destination preference, and then by cpu usage
@@ -46,3 +46,7 @@ tools:
       else:
         final_destinations = candidate_destinations
       final_destinations
+  pulsar_preferred:
+    scheduling:
+      prefer:
+        - pulsar
