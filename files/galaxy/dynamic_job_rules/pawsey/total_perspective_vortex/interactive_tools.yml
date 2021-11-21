@@ -16,21 +16,21 @@ tools:
     scheduling:
       accept:
         - interactive-tool  # this tag will not match anything but it will stop the training role overriding native specification, could call it something like no-training
-interactive_tool_ethercalc:
-  inherits: interactive_tool
-interactive_tool_rstudio:
-  inherits: interactive_tool
-  rules:
-    - match: |
-        not user or not user.hasthatrole('IT_allowed')  # TODO: this is a placeholder for proper logic, fix it
-      fail: "you cannot run this"  # TODO: update placeholder text
-interactive_tool_jupyter_notebook:
-  inherits: interactive_tool
-  rules:
-    - match: |
-        not user or not user.hasthatrole('IT_allowed')  # TODO: this is a placeholder for proper logic, fix it
-      fail: "you cannot run this"  # TODO: update placeholder text
-interactive_tool_phinch:
-  inherits: interactive_tool
-interactivetool_cellxgene:
-  inherits: interactive_tool
+  interactive_tool_ethercalc:
+    inherits: interactive_tool
+  interactive_tool_rstudio:
+    inherits: interactive_tool
+    rules:
+      - match: |
+          not user or not 'trusted_for_ITs' in [role.name for role in user.all_roles() if not role.deleted]
+        fail: "Interactive tool rstudio not available for user"  # TODO: update placeholder text
+  interactive_tool_jupyter_notebook:
+    inherits: interactive_tool
+    rules:
+      - match: |
+          not user or not 'trusted_for_ITs' in [role.name for role in user.all_roles() if not role.deleted]
+        fail: "Interactive tool jupyter not available for user"  # TODO: update placeholder text
+  interactive_tool_phinch:
+    inherits: interactive_tool
+  interactivetool_cellxgene:
+    inherits: interactive_tool
