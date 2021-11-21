@@ -40,16 +40,10 @@ galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_21.09
 
-# Do not use extra tool_conf file for cloudstor tool
-use_cloudstor_conf: false
-
 galaxy_file_path: "{{ galaxy_root }}/data"
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
-
-# ITs tool conf overrides.
-tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_conf|d(false) == true else default_settings['tool_config_files'] }},{{ galaxy_config_dir }}/tool_conf_interactive.xml"
 
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/oidc_backends_config.xml.j2"
@@ -88,14 +82,6 @@ host_galaxy_config:  # renamed from __galaxy_config
     enable_mulled_containers: true
     enable_beta_containers_interface: true
     watch_job_rules: true  # important for total perspective vortex
-    dependency_resolvers:
-      - type: tool_shed_packages
-      - type: galaxy_packages
-      - type: conda
-      - type: galaxy_packages
-        versionless: true
-      - type: conda
-        versionless: true
 
 galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
 
