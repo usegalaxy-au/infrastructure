@@ -45,6 +45,7 @@ users:
       scheduling:
         accept:
           - pulsar
+          - training
         require:
           - pulsar-nci-training
     pqhm0@genome.edu.au:
