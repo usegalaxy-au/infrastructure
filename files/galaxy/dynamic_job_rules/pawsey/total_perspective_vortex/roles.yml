@@ -11,7 +11,7 @@ roles:
             value = not list(ent.tags.filter(tag_value='pulsar')) and not list(entity.tags.filter(tag_value='interactive')) # tool has no pulsar tag and so runs on slurm
         value
       cores: 2
-      mem: cores * 3.5  # TODO check multiplier
+      mem: cores * 3.8  # TODO check multiplier
       params:
         nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024} --partition=training"
       scheduling:
