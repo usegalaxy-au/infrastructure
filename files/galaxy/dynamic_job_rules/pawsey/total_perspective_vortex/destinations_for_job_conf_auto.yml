@@ -2,7 +2,7 @@ environments:
   slurm:
     runner: slurm
     nativeSpecification: --nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=124160 --partition=main
-  pulsar-mel:
+  pulsar-mel2:
     runner: pulsar_mel2_runner
     default_file_action: remote_transfer
     dependency_resolution: remote
@@ -92,15 +92,3 @@ environments:
     rewrite_parameters: true
     submit_native_specification: --nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=48195
     transport: curl
-  interactive_pulsar:
-    runner: pulsar_embedded
-    docker_enabled: true
-    docker_volumes: $defaults
-    docker_sudo: false
-    docker_net: bridge
-    docker_auto_rm: true
-    docker_set_user: ''
-    require_container: true
-    container_monitor_result: callback
-    submit_native_specification: --nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760
-      --partition=interactive_tools
