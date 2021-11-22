@@ -2,9 +2,13 @@ import oyaml as yaml
 import os
 import re
 import math
+import copy
 from bioblend.galaxy import GalaxyInstance
 
 # TODO: handle user and argument based rules
+
+# inherited_pulsar_entity = 'pulsar_tool'
+high_mem_tag = 'high-mem'
 
 path_to_vortex_rules = os.path.join(
     os.path.dirname(os.path.realpath(__file__)),
@@ -63,6 +67,13 @@ def make_lower_upper_expression(lower, upper):
     else:
         return f'{lower} <= input_size < {upper}'
 
+def add_tag(dicto, type, name):
+    if not 'scheduling' in dicto:
+        dicto['scheduling'] = {}
+    if not type in dicto['scheduling']:
+        dicto['scheduling'][type] = []
+    dicto['scheduling'][type].append(name)
+
 def get_native_spec(env):
     return env.get('nativeSpecification') or env.get('submit_native_specification')
 
@@ -86,10 +97,17 @@ with open(job_config_file) as handle:
 with open(tool_destinations_file) as handle:
     tool_dests = yaml.safe_load(handle)['tools']
 
+tools_uploader = []
+tools_local = []
+tools_slurm_only = []
+tools_regular_pulsar = []
+tools_high_mem_pulsar = []
+tools_data_managers = []
 vortex_tools = {}
 for tool_id in tool_dests:
     tool = tool_dests[tool_id]
     pulsar_allowed = False
+    high_mem = False
     file_size_rules = []
     user_rules = []  # skip these for now
     allowed_dests = [tool['default_destination']]
@@ -134,8 +152,7 @@ for tool_id in tool_dests:
         }
         file_size_rules.append(highest_rule)
     vortex_tool = {}
-    if pulsar_allowed:
-        vortex_tool['inherits'] = 'pulsar_preferred'  # or something
+
     # define the core setting as the lowest rule, add all file size rules as separate rules
     tool_rules = file_size_rules[1:]
     vortex_tool['cores'] = file_size_rules[0]['cores']
@@ -144,6 +161,18 @@ for tool_id in tool_dests:
         # only include mem in specs if mem/cores is not between 3 and 4
         if not (mem_gb/vortex_tool['cores'] < 4 and mem_gb/vortex_tool['cores'] > 3):
             vortex_tool['mem'] = math.floor(mem_gb)
+        if pulsar_allowed:
+            # vortex_tool['inherits'] = inherited_pulsar_entity
+            add_tag(vortex_tool, 'accept', 'pulsar')  # or prefer
+        if vortex_tool['cores'] > 16 and pulsar_allowed: # high-mem
+            add_tag(vortex_tool, 'accept', high_mem_tag)
+            high_mem = True
+            # if not 'scheduling' in vortex_tool:
+            #     vortex_tool['scheduling'] = {}
+            # if not 'accept' in vortex_tool['scheduling']:
+            #     vortex_tool['scheduling']['accept'] = []
+            # vortex_tool['scheduling']['accept'].append(high_mem_tag)
+                
     # vortex_tool['mem'] = file_size_rules[0]['mem'] / 1024
     if tool_rules:
         vortex_tool['rules'] = []
@@ -157,7 +186,15 @@ for tool_id in tool_dests:
                 if not (mem_gb/the_rule['cores'] < 4 and mem_gb/the_rule['cores'] > 3):      
                     the_rule.update({'mem': math.floor(mem_gb)})
             if 'fail' in rule.keys():
-                the_rule.update({'fail': rule['fail']})               
+                the_rule.update({'fail': rule['fail']})
+            if the_rule.get('cores', 0) > 16 and pulsar_allowed: # high-mem
+                add_tag(the_rule, 'accept', high_mem_tag)
+                high_mem = True
+                # if not 'scheduling' in the_rule:
+                #     the_rule['scheduling'] = {}
+                # if not 'accept' in the_rule['scheduling']:
+                #     the_rule['scheduling']['accept'] = []
+                # the_rule['scheduling']['accept'].append(high_mem_tag)
 
             vortex_tool['rules'].append(the_rule)
 
@@ -176,7 +213,45 @@ for tool_id in tool_dests:
     if len(new_ids) > 1:
         print(f'{len(new_ids)} found matching short_id {tool_id}: {", ".join(new_ids)}')
     for new_id in new_ids:
-        vortex_tools[new_id] = vortex_tool.copy()
+        vt = copy.deepcopy(vortex_tool)
+        vt.update({'id': new_id})
+        if high_mem:
+            tools_high_mem_pulsar.append(vt)
+        elif pulsar_allowed:
+            tools_regular_pulsar.append(vt)
+        elif new_id.startswith('toolshed') or new_id.startswith('testtoolshed'):
+            tools_slurm_only.append(vt)
+        elif new_id in data_managers:
+            tools_data_managers.append(vt)
+        elif not new_id == 'upload1':
+            tools_local.append(vt)
+        elif new_id == 'upload1':
+            tools_uploader.append(vt)
+        else:
+            print('else  -------------------')
+
+
+        # vortex_tools[new_id] = vortex_tool.copy()
+# print(tools_high_mem_pulsar)
+# print(data_managers)
+for entity in (tools_uploader + sorted(tools_local, key=lambda x: x['id']) +
+        sorted(tools_slurm_only, key=lambda x: x['id']) + sorted(tools_regular_pulsar, key=lambda x: x['id']) +
+        sorted(tools_high_mem_pulsar, key=lambda x: x['id']) + sorted(tools_data_managers, key=lambda x: x['id'])):
+    print(entity)
+    entity_id = entity['id']
+    del entity['id']
+    vortex_tools[entity_id] = entity
+    
+
+# tools_uploader = []
+# tools_local = []
+# tools_slurm_only = []
+# tools_regular_pulsar = []
+# tools_high_mem_pulsar = []
+# data_managers = []
+# sort tools
+
+
 
 with open(os.path.join(path_to_vortex_rules, 'vortex_tools_auto.yml'), 'w') as handle:
     yaml.dump({'tools': vortex_tools}, handle)
@@ -197,6 +272,10 @@ for runner_id in job_conf['runners'].keys():
         new_dest_id = e0[:longest_prefix_length].strip('_')
     # choose the highest cores/mem of all of the original destinations for native spec
     # e.g. for slurm, choose native specification from slurm_32slots
+    if new_dest_id == 'pulsar-mel':
+       new_dest_id = 'pulsar-mel2'
+    if new_dest_id == 'interactive_pulsar':
+       continue
     sorted_env_ids = sorted(runner_envs, key=lambda x: get_cores_from_env(envs[x]), reverse=True)
     new_dest = envs[sorted_env_ids[0]].copy()
     destinations[new_dest_id] = new_dest
