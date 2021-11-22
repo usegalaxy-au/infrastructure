@@ -64,7 +64,8 @@ execution:
       function: map_tool_to_destination
       rules_module: vortex.rules
       vortex_config_files:
-        - "{{ galaxy_config_dir }}/vortex_rules_local.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/vortex_config.yml"
     dynamic_dtd:
       runner: dynamic
       type: dtd
