@@ -23,3 +23,28 @@
     - pulsar-post-tasks
     - slurm-post-tasks
     # - slg.galaxy_stats
+  post_tasks:
+    - name: Create worker tmpdir on /mnt
+      file:
+          path: /mnt/tmpdisk
+          state: directory
+          owner: root
+          group: root
+          mode: '1777'
+    - name: stat links
+      stat:
+          path: /tmp
+      register: links
+    - name: remove old tmp
+      file:
+          path: /tmp
+          state: absent
+      when: links.stat.islnk is defined and not links.stat.islnk
+    - name: Link /tmp to /mnt/tmpdisk
+      file:
+          src: /mnt/tmpdisk
+          dest: /tmp
+          state: link
+      become: yes
+      become_user: root
+      when: links.stat.islnk is defined and not links.stat.islnk
