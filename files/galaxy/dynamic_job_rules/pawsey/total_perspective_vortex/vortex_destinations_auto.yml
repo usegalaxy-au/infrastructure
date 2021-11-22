@@ -5,12 +5,12 @@ destinations:
     scheduling:
       accept:
       - slurm
-  pulsar-mel:
+  pulsar-mel2:
     cores: 8
     mem: 31.36
     scheduling:
       accept:
-      - pulsar-mel
+      - pulsar-mel2
       require:
       - pulsar
   pulsar-paw:
@@ -77,9 +77,3 @@ destinations:
       - pulsar-nci-training
       require:
       - pulsar
-  interactive_pulsar:
-    cores: 2
-    mem: 7.58
-    scheduling:
-      accept:
-      - interactive_pulsar
