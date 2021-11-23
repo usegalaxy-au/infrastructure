@@ -13,7 +13,7 @@ roles:
       cores: 2
       mem: cores * 3.8  # TODO check multiplier
       params:
-        nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024} --partition=training"
+        nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=training"
       scheduling:
         require:
           - slurm

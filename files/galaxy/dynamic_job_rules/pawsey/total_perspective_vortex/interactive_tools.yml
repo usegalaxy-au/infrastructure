@@ -3,8 +3,8 @@ tools:
     cores: 2
     params:
       runner: pulsar_embedded
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024} --partition=interactive_tools"
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={mem*1024} --partition=interactive_tools"
+      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=interactive_tools"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=interactive_tools"
       docker_enabled: true
       docker_volumes: $defaults
       docker_sudo: false
