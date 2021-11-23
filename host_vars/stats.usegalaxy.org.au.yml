@@ -101,6 +101,7 @@ influxdb_databases:
   - 'queues'
   - 'staging'
   - 'dev'
+  - 'mdu-phl'
 
 retention_policy_dbs:
   # Clusters
@@ -117,6 +118,7 @@ retention_policy_dbs:
   - 'queues'
   - 'staging'
   - 'dev'
+  - 'mdu-phl'
 
 ###### Grafana
 
@@ -277,6 +279,16 @@ grafana_datasources:
     user: "{{ influxdb.grafana.username }}"
     secureJsonData:
       password: "{{ influxdb.grafana.password }}"
+  - name: "mdu_phl"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "mdu-phl"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+
 
 # Telegraf
 

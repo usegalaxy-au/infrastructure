@@ -12,6 +12,10 @@
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
+    - name: Install Total Perspective Vortex
+      pip:  # on the first run, this will create the galaxy venv before the galaxy role is run
+        name: "{{ total_perspective_vortex_package }}"
+        virtualenv: "{{ galaxy_venv_dir }}"
   handlers:
     - name: Restart Galaxy
       systemd:
@@ -38,12 +42,6 @@
     - dj-wasabi.telegraf
     - pg-post-tasks
   post_tasks:
-    - name: Clone Galaxy-Owncloud-Integration
-      git:
-        repo: https://github.com/usegalaxy-au/Galaxy-Owncloud-Integration
-        dest: "{{ galaxy_server_dir }}/tools/Galaxy-Owncloud-Integration"
-        update: no
-      when: use_cloudstor_conf|d(false) == true
     - name: Clone galaxy-local-tools
       git:
         repo: https://github.com/usegalaxy-au/galaxy-local-tools

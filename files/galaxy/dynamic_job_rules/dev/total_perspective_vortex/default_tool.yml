@@ -1,0 +1,38 @@
+global:
+  default_inherits: default
+
+tools:
+  default:
+    cores: 1
+    mem: cores * 3 # note, some clusters will accept more than this
+    env: {}
+    params:
+      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)}"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)}"
+    scheduling:
+      prefer:
+      accept:
+        - general
+      reject:
+        - offline
+    rules: []
+    rank: |
+      final_destinations = helpers.weighted_random_sampling(candidate_destinations)
+      final_destinations
+    #   import requests
+    #   params = {
+    #     'pretty': 'true',
+    #     'db': 'pulsar-test',
+    #     'q': 'SELECT last("percent_allocated") from "sinfo" group by "host"'
+    #   }
+    #   try:
+    #     response = requests.get('http://stats.genome.edu.au:8086/query', params=params)
+    #     data = response.json()
+    #     cpu_by_destination = {s['tags']['host']:s['values'][0][1] for s in data.get('results')[0].get('series', [])}
+    #     # sort by destination preference, and then by cpu usage
+    #     candidate_destinations.sort(key=lambda d: (-1 * d.score(resource), cpu_by_destination.get(d.id)))
+    #     final_destinations = candidate_destinations
+    #   except Exception:
+    #     log.exception("An error occurred while querying influxdb. Using a weighted random candidate destination")
+    #     final_destinations = helpers.weighted_random_sampling(candidate_destinations)
+    #   final_destinations
