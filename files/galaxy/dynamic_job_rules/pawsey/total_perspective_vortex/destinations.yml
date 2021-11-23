@@ -36,6 +36,7 @@ destinations:
       - pulsar-high-mem1
       require:
       - pulsar
+      - high-mem
   pulsar-high-mem2:
     cores: 126
     mem: 1922.49
@@ -44,6 +45,7 @@ destinations:
       - pulsar-high-mem2
       require:
       - pulsar
+      - high-mem
   pulsar-qld-high-mem0:
     cores: 240
     mem: 3845.07
@@ -52,6 +54,7 @@ destinations:
       - pulsar-qld-high-mem0
       require:
       - pulsar
+      - high-mem
   pulsar-qld-high-mem1:
     cores: 240
     mem: 3845.07
@@ -60,6 +63,7 @@ destinations:
       - pulsar-qld-high-mem1
       require:
       - pulsar
+      - high-mem
   pulsar-qld-high-mem2:
     cores: 240
     mem: 3845.07
@@ -68,6 +72,7 @@ destinations:
       - pulsar-qld-high-mem2
       require:
       - pulsar
+      - high-mem
   pulsar-nci-training:
     cores: 16
     mem: 47.07

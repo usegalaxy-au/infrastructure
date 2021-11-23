@@ -700,16 +700,22 @@ tools:
     scheduling:
       accept:
       - pulsar
+      prefer:
+      - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_trim/ivar_trim/.*:
     cores: 8
     scheduling:
       accept:
       - pulsar
+      prefer:
+      - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_variants/ivar_variants/.*:
     cores: 8
     scheduling:
       accept:
       - pulsar
+      prefer:
+      - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/jellyfish/jellyfish/.*:
     cores: 2
     scheduling:
@@ -731,11 +737,15 @@ tools:
     scheduling:
       accept:
       - pulsar
+      prefer:
+      - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_viterbi/lofreq_viterbi/.*:
     cores: 4
     scheduling:
       accept:
       - pulsar
+      prefer:
+      - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus_pipeline/medaka_consensus_pipeline/.*:
     cores: 1
     scheduling:
