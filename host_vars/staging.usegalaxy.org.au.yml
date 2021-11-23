@@ -6,6 +6,10 @@ attached_volumes:
     path: /mnt
     fstype: ext4
 
+# total perspective vortex package
+tpv_commit_id: "b32e909f68c756f3075d33303db1fb010d21a0a1"
+total_perspective_vortex_package: "git+https://github.com/usegalaxy-au/total-perspective-vortex@{{ tpv_commit_id }}"
+
 certbot_domains:
 - "{{ hostname }}"
 - "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
@@ -36,6 +40,7 @@ galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
   - dynamic_rules/destination_mapper.py
   - dynamic_rules/tool_destinations.yml
+  - total_perspective_vortex/vortex_config.yml
   - readme.txt
 
 galaxy_tools_indices_dir: "{{ galaxy_root }}"
@@ -49,6 +54,8 @@ nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/oidc_backends_config.xml.j2"
     dest: "{{ galaxy_config_dir}}/oidc_backends_config.xml"
+  - src: "{{ galaxy_config_template_src_dir }}/config/staging_job_conf.yml.j2"
+    dest: "{{ galaxy_config_dir}}/job_conf.yml"
 
 host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
@@ -69,11 +76,13 @@ host_galaxy_config:  # renamed from __galaxy_config
     enable_oidc: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
+    job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
     # nginx upload module
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
     nginx_upload_path: '/_upload'
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
     nginx_upload_job_files_path: '/_job_files'
+    watch_job_rules: true  # important for total perspective vortex
 
 #Galaxy Job Conf
 galaxy_jobconf:
