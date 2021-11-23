@@ -11,7 +11,7 @@ destinations:
     mem: 31.36
     scheduling:
       accept:
-      - pulsar-mel
+      - pulsar-mel2
       require:
       - pulsar
   pulsar-paw:
