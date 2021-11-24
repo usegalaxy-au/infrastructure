@@ -7,7 +7,7 @@ attached_volumes:
     fstype: ext4
 
 # total perspective vortex package
-tpv_commit_id: "b32e909f68c756f3075d33303db1fb010d21a0a1"
+tpv_commit_id: "9cd0c0a255c1491b439c2b31cda1f7de89f04add"
 total_perspective_vortex_package: "git+https://github.com/usegalaxy-au/total-perspective-vortex@{{ tpv_commit_id }}"
 
 certbot_domains:

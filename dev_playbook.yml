@@ -23,6 +23,7 @@
       pip:  # on the first run, this will create the galaxy venv before the galaxy role is run
         name: "{{ total_perspective_vortex_package }}"
         virtualenv: "{{ galaxy_venv_dir }}"
+        state: forcereinstall
   roles:
     - galaxyproject.repos
     - common
