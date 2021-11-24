@@ -134,10 +134,16 @@ tools:
     cores: 2
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
     cores: 16
+    params:
+      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=max_quant_w8"
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant_mqpar/.*:
     cores: 16
+    params:
+      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=max_quant_w8"
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant_mqpar/maxquant_mqpar/.*:
     cores: 16
+    params:
+      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=max_quant_w8"
   toolshed.g2.bx.psu.edu/repos/iuc/barrnap/barrnap/.*:
     cores: 1
     rules:
