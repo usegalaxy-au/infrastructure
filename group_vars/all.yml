@@ -137,7 +137,7 @@ miniconda_channels:
   - defaults
 
 # Monitoring
-influx_url: stats.genome.edu.au
+influx_url: stats.usegalaxy.org.au
 grafana_server_url: "http://{{ influx_url }}:8086"
 influx_salt: "{{ prod_queue_size_salt }}"
 
