@@ -42,3 +42,20 @@ telegraf_agent_output:
 auth_key_user: ubuntu
 
 head_nodes: "{{ groups['pulsar_azure_0_head'] }}"
+
+########################################################################
+###  Overwrite all pulsar locations to put pulsar in /shared/home/pulsar
+###
+########################################################################
+
+# Pulsar
+pulsar_package_version: '0.14.11'
+
+pulsar_root: /shared/home/pulsar
+pulsar_server_dir: /shared/home/pulsar/server
+pulsar_venv_dir: /shared/home/pulsar/venv
+pulsar_config_dir: /shared/home/pulsar/config
+pulsar_staging_dir: /shared/home/pulsar/files/staging
+pulsar_persistence_dir: /shared/home/pulsar/files/persistent_data
+pulsar_dependencies_dir: /shared/home/pulsar/deps
+
