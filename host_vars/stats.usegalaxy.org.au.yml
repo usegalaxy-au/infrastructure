@@ -102,6 +102,7 @@ influxdb_databases:
   - 'staging'
   - 'dev'
   - 'mdu-phl'
+  - 'mdu-research'
 
 retention_policy_dbs:
   # Clusters
@@ -119,6 +120,7 @@ retention_policy_dbs:
   - 'staging'
   - 'dev'
   - 'mdu-phl'
+  - 'mdu-research'
 
 ###### Grafana
 
@@ -285,6 +287,15 @@ grafana_datasources:
     version: 1
     editable: false
     database: "mdu-phl"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "mdu_research"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "mdu-research"
     user: "{{ influxdb.grafana.username }}"
     secureJsonData:
       password: "{{ influxdb.grafana.password }}"

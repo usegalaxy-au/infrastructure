@@ -19,7 +19,7 @@
     - galaxyproject.pulsar
     # - mariadb
     # - galaxyproject.slurm
-    - galaxyproject.cvmfs
+    #- galaxyproject.cvmfs
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     # - slurm-post-tasks
