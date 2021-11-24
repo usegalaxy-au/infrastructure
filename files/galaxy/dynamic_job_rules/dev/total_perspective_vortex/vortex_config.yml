@@ -59,6 +59,19 @@ tools:
     rules:
       - match: input_size >= 0.2
         cores: 16
+  toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/.*:
+    rules:
+    - match: input_size >= 2
+      cores: 3
+  toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
+    rules:
+    - match: input_size >= 2
+      cores: 3
+  toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
+    rules:
+    - match: input_size >= 2
+      cores: 3
+
 users:
   default:
     rules:
