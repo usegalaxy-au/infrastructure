@@ -103,7 +103,7 @@ host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/pawsey_job_conf.yml.j2"
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
   - src: "{{ galaxy_dynamic_job_rules_src_dir }}/total_perspective_vortex/default_tool.yml.j2"
-    dest: "{{ galaxy_dynamic_job_rules_dir }}//total_perspective_vortex/default_tool.yml"
+    dest: "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
 
 host_galaxy_config:  # renamed from __galaxy_config
   uwsgi:
