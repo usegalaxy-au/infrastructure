@@ -1,0 +1,87 @@
+destinations:
+  slurm:
+    cores: 32
+    mem: 121.25
+    scheduling:
+      accept:
+      - slurm
+      - training
+  pulsar-mel2:
+    cores: 8
+    mem: 31.36
+    scheduling:
+      accept:
+      - pulsar-mel2
+      require:
+      - pulsar
+  pulsar-paw:
+    cores: 8
+    mem: 31.36
+    scheduling:
+      require:
+      - pulsar-paw
+      - pulsar
+  pulsar-mel3:
+    cores: 32
+    mem: 60.62
+    scheduling:
+      accept:
+      - pulsar-mel3
+      require:
+      - pulsar
+  pulsar-high-mem1:
+    cores: 126
+    mem: 3845.1
+    scheduling:
+      accept:
+      - pulsar-high-mem1
+      require:
+      - pulsar
+      - high-mem
+  pulsar-high-mem2:
+    cores: 126
+    mem: 1922.49
+    scheduling:
+      accept:
+      - pulsar-high-mem2
+      require:
+      - pulsar
+      - high-mem
+  pulsar-qld-high-mem0:
+    cores: 240
+    mem: 3845.07
+    scheduling:
+      accept:
+      - pulsar-qld-high-mem0
+      require:
+      - pulsar
+      - high-mem
+  pulsar-qld-high-mem1:
+    cores: 240
+    mem: 3845.07
+    scheduling:
+      accept:
+      - pulsar-qld-high-mem1
+      require:
+      - pulsar
+      - high-mem
+  pulsar-qld-high-mem2:
+    cores: 240
+    mem: 3845.07
+    scheduling:
+      accept:
+      - pulsar-qld-high-mem2
+      require:
+      - pulsar
+      - high-mem
+  pulsar-nci-training:
+    cores: 16
+    mem: 47.07
+    scheduling:
+      accept:
+      - pulsar-nci-training
+      require:
+      - pulsar
+      - training
+
+

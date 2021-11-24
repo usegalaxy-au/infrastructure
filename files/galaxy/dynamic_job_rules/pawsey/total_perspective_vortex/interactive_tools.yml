@@ -1,0 +1,36 @@
+tools:
+  interactive_tool:
+    cores: 2
+    params:
+      runner: pulsar_embedded
+      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=interactive_tools"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=interactive_tools"
+      docker_enabled: true
+      docker_volumes: $defaults
+      docker_sudo: false
+      docker_net: bridge
+      docker_auto_rm: true
+      docker_set_user: ''
+      require_container: true
+      container_monitor_result: callback
+    scheduling:
+      accept:
+        - interactive-tool  # this tag will not match anything but it will stop the training role overriding native specification, could call it something like no-training
+  interactive_tool_ethercalc:
+    inherits: interactive_tool
+  interactive_tool_rstudio:
+    inherits: interactive_tool
+    rules:
+      - match: |
+          not user or not 'trusted_for_ITs' in [role.name for role in user.all_roles() if not role.deleted]
+        fail: "Interactive tool rstudio not available for user"  # TODO: update placeholder text
+  interactive_tool_jupyter_notebook:
+    inherits: interactive_tool
+    rules:
+      - match: |
+          not user or not 'trusted_for_ITs' in [role.name for role in user.all_roles() if not role.deleted]
+        fail: "Interactive tool jupyter not available for user"  # TODO: update placeholder text
+  interactive_tool_phinch:
+    inherits: interactive_tool
+  interactivetool_cellxgene:
+    inherits: interactive_tool
