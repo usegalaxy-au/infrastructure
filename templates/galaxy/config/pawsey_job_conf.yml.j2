@@ -111,10 +111,21 @@ runners:
     load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
     pulsar_config: "{{ galaxy_config_dir }}/pulsar_app.yml"
 execution:
-  default: gateway
+  default: vortex_dispatcher
   environments:
     local:
       runner: local
+    vortex_dispatcher:
+      runner: dynamic
+      type: python
+      function: map_tool_to_destination
+      rules_module: vortex.rules
+      vortex_config_files:
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/tools.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/users.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/roles.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/destinations.yml"
     gateway:
       runner: dynamic
       type: python
@@ -122,45 +133,6 @@ execution:
     dynamic_dtd:
       runner: dynamic
       type: dtd
-    slurm_dest:
-      runner: slurm
-      nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=main"
-    slurm_1slot_upload:
-      runner: slurm
-      nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=10240 --partition=main"
-    slurm_1slot:
-      runner: slurm
-      nativeSpecification: "--nodes=1 --ntasks=1 --ntasks-per-node=1 --mem=3880 --partition=main"
-    slurm_2slots:
-      runner: slurm
-      nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=main"
-    slurm_3slots:
-      runner: slurm
-      nativeSpecification: "--nodes=1 --ntasks=3 --ntasks-per-node=3 --mem=11640 --partition=main"
-    slurm_5slots:
-      runner: slurm
-      nativeSpecification: "--nodes=1 --ntasks=5 --ntasks-per-node=5 --mem=19400 --partition=main"
-    slurm_7slots:
-      runner: slurm
-      nativeSpecification: "--nodes=1 --ntasks=7 --ntasks-per-node=7 --mem=27160 --partition=main"
-    slurm_9slots:
-      runner: slurm
-      nativeSpecification: "--nodes=1 --ntasks=9 --ntasks-per-node=9 --mem=34920 --partition=main"
-    slurm_16slots:
-      runner: slurm
-      nativeSpecification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62080 --partition=main"
-    slurm_32slots:
-      runner: slurm
-      nativeSpecification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=124160 --partition=main"
-    slurm_9slots_1off:
-      runner: slurm
-      nativeSpecification: "--nodes=1 --ntasks=9 --ntasks-per-node=9 --mem=34920 --partition=main"
-    slurm_training:
-      runner: slurm
-      nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=training"
-    slurm_max_quant:
-      runner: slurm
-      nativeSpecification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62080 --partition=max_quant_w8"
     interactive_pulsar:
       runner: pulsar_embedded
       docker_enabled: true
@@ -172,7 +144,10 @@ execution:
       require_container: true
       container_monitor_result: callback
       submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=interactive_tools"
-    pulsar-mel_small:
+    slurm:
+      runner: slurm
+      nativeSpecification: --nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=124160 --partition=main
+    pulsar-mel2:
       runner: pulsar_mel2_runner
       default_file_action: remote_transfer
       dependency_resolution: remote
@@ -180,29 +155,9 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=8029"
+      submit_native_specification: --nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116
       transport: curl
-    pulsar-mel_mid:
-      runner: pulsar_mel2_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4 --mem=16058"
-      transport: curl
-    pulsar-mel_big:
-      runner: pulsar_mel2_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116"
-      transport: curl
-    pulsar-paw_small:
+    pulsar-paw:
       runner: pulsar-paw_runner
       default_file_action: remote_transfer
       dependency_resolution: remote
@@ -210,29 +165,9 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=8029"
+      submit_native_specification: --nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116
       transport: curl
-    pulsar-paw_mid:
-      runner: pulsar-paw_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4 --mem=16058"
-      transport: curl
-    pulsar-paw_big:
-      runner: pulsar-paw_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116"
-      transport: curl
-    pulsar-mel3_small:
+    pulsar-mel3:
       runner: pulsar-mel3_runner
       default_file_action: remote_transfer
       dependency_resolution: remote
@@ -240,49 +175,9 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
+      submit_native_specification: --nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=62080
       transport: curl
-    pulsar-mel3_mid:
-      runner: pulsar-mel3_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=31040"
-      transport: curl
-    pulsar-mel3_big:
-      runner: pulsar-mel3_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62080"
-      transport: curl
-    pulsar-mel3_big_trinity:
-      runner: pulsar-mel3_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=62080"
-      transport: curl
-    pulsar-mel3_big_canu:
-      runner: pulsar-mel3_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=62080"
-      transport: curl
-    pulsar-high-mem1_mid:
+    pulsar-high-mem1:
       runner: pulsar-high-mem1_runner
       default_file_action: remote_transfer
       dependency_resolution: remote
@@ -290,19 +185,9 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=984345"
+      submit_native_specification: --nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=3937380
       transport: curl
-    pulsar-high-mem1_big:
-      runner: pulsar-high-mem1_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=3937380"
-      transport: curl
-    pulsar-high-mem2_mid:
+    pulsar-high-mem2:
       runner: pulsar-high-mem2_runner
       default_file_action: remote_transfer
       dependency_resolution: remote
@@ -310,19 +195,9 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=63 --ntasks-per-node=63 --mem=984315"
+      submit_native_specification: --nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=1968631
       transport: curl
-    pulsar-high-mem2_big:
-      runner: pulsar-high-mem2_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=1968631"
-      transport: curl
-    pulsar-qld-high-mem0_mid:
+    pulsar-qld-high-mem0:
       runner: pulsar-qld-high-mem0_runner
       default_file_action: remote_transfer
       dependency_resolution: remote
@@ -330,19 +205,9 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=120 --ntasks-per-node=120 --mem=1968677"
+      submit_native_specification: --nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354
       transport: curl
-    pulsar-qld-high-mem0_big:
-      runner: pulsar-qld-high-mem0_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354"
-      transport: curl
-    pulsar-qld-high-mem1_mid:
+    pulsar-qld-high-mem1:
       runner: pulsar-qld-high-mem1_runner
       default_file_action: remote_transfer
       dependency_resolution: remote
@@ -350,19 +215,9 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=120 --ntasks-per-node=120 --mem=1968677"
+      submit_native_specification: --nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354
       transport: curl
-    pulsar-qld-high-mem1_big:
-      runner: pulsar-qld-high-mem1_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354"
-      transport: curl
-    pulsar-qld-high-mem2_mid:
+    pulsar-qld-high-mem2:
       runner: pulsar-qld-high-mem2_runner
       default_file_action: remote_transfer
       dependency_resolution: remote
@@ -370,19 +225,9 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=120 --ntasks-per-node=120 --mem=1968677"
+      submit_native_specification: --nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354
       transport: curl
-    pulsar-qld-high-mem2_big:
-      runner: pulsar-qld-high-mem2_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354"
-      transport: curl
-    pulsar-nci-training_small:
+    pulsar-nci-training:
       runner: pulsar-nci-training_runner
       default_file_action: remote_transfer
       dependency_resolution: remote
@@ -390,27 +235,7 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       remote_metadata: false
       rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=4 --ntasks-per-node=4 --mem=12048"
-      transport: curl
-    pulsar-nci-training_mid:
-      runner: pulsar-nci-training_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=24097"
-      transport: curl
-    pulsar-nci-training_big:
-      runner: pulsar-nci-training_runner
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      jobs_directory: /mnt/pulsar/files/staging
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      remote_metadata: false
-      rewrite_parameters: true
-      submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=48195"
+      submit_native_specification: --nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=48195
       transport: curl
 tools:
 - id: interactive_tool_ethercalc
@@ -428,126 +253,53 @@ limits:
   value: 1
 - type: registered_user_concurrent_jobs
   value: 10
+
 - type: destination_total_concurrent_jobs
-  id: slurm_1slot_upload
-  value: 10
+  id: slurm
+  value: 40
 - type: destination_user_concurrent_jobs
-  id: slurm_1slot_upload
-  value: 4
-- type: destination_user_concurrent_jobs
-  id: slurm_2slots
-  value: 10
-- type: destination_user_concurrent_jobs
-  id: slurm_3slots
-  value: 10
-- type: destination_user_concurrent_jobs
-  id: slurm_5slots
+  id: slurm
   value: 5
-- type: destination_user_concurrent_jobs
-  id: slurm_7slots
-  value: 3
-- type: destination_user_concurrent_jobs
-  id: slurm_9slots
-  value: 2
-- type: destination_user_concurrent_jobs
-  id: slurm_16slots
-  value: 2
-- type: destination_user_concurrent_jobs
-  id: slurm_32slots
-  value: 1
+
 - type: destination_total_concurrent_jobs
-  id: slurm_9slots_1off
-  value: 1
-- type: destination_total_concurrent_jobs
-  id: slurm_7slots
-  value: 5
-- type: destination_total_concurrent_jobs
-  id: slurm_9slots
-  value: 4
-- type: destination_total_concurrent_jobs
-  id: slurm_16slots
-  value: 2
-- type: destination_user_concurrent_jobs
-  id: pulsar-mel_small
-  value: 8
-- type: destination_user_concurrent_jobs
-  id: pulsar-mel_mid
-  value: 4
-- type: destination_user_concurrent_jobs
-  id: pulsar-mel_big
-  value: 2
-- type: destination_total_concurrent_jobs
-  id: pulsar-mel_small
-  value: 30
-- type: destination_total_concurrent_jobs
-  id: pulsar-mel_mid
+  id: pulsar-mel2
   value: 20
+- type: destination_user_concurrent_jobs
+  id: pulsar-mel2
+  value: 5
+
 - type: destination_total_concurrent_jobs
-  id: pulsar-mel_big
+  id: pulsar-mel3
+  value: 20
+- type: destination_user_concurrent_jobs
+  id: pulsar-mel3
+  value: 5
+
+- type: destination_total_concurrent_jobs
+  id: pulsar-paw
+  value: 10
+
+- type: destination_user_concurrent_jobs
+  id: pulsar-nci-training
+  value: 3
+
+- type: destination_total_concurrent_jobs
+  id: pulsar-high-mem1
   value: 4
-- type: destination_user_concurrent_jobs
-  id: pulsar-mel3_small
-  value: 16
-- type: destination_user_concurrent_jobs
-  id: pulsar-mel3_mid
+
+- type: destination_total_concurrent_jobs
+  id: pulsar-high-mem2
   value: 4
-- type: destination_user_concurrent_jobs
-  id: pulsar-mel3_big
-  value: 2
-- type: destination_user_concurrent_jobs
-  id: pulsar-mel3_big_trinity
-  value: 2
-- type: destination_user_concurrent_jobs
-  id: pulsar-mel3_big_canu
-  value: 1
+
 - type: destination_total_concurrent_jobs
-  id: pulsar-mel3_small
-  value: 16
-- type: destination_total_concurrent_jobs
-  id: pulsar-mel3_mid
-  value: 12
-- type: destination_total_concurrent_jobs
-  id: pulsar-mel3_big
+  id: pulsar-qld-high-mem0
   value: 4
+
 - type: destination_total_concurrent_jobs
-  id: pulsar-mel3_big_trinity
-  value: 2
-- type: destination_total_concurrent_jobs
-  id: pulsar-mel3_big_canu
-  value: 2
-- type: destination_total_concurrent_jobs
-  id: pulsar-nci-training_small
-  value: 24
-- type: destination_total_concurrent_jobs
-  id: pulsar-nci-training_mid
-  value: 12
-- type: destination_total_concurrent_jobs
-  id: pulsar-nci-training_big
-  value: 6
-- type: destination_user_concurrent_jobs
-  id: pulsar-nci-training_small
+  id: pulsar-qld-high-mem1
   value: 4
-- type: destination_user_concurrent_jobs
-  id: pulsar-nci-training_mid
-  value: 2
-- type: destination_user_concurrent_jobs
-  id: pulsar-nci-training_big
-  value: 1
+
 - type: destination_total_concurrent_jobs
-  id: pulsar-high-mem1_big
-  value: 1
-- type: destination_total_concurrent_jobs
-  id: pulsar-high-mem1_mid
-  value: 2
-- type: destination_user_concurrent_jobs
-  id: pulsar-high-mem1_mid
-  value: 1
-- type: destination_total_concurrent_jobs
-  id: pulsar-high-mem2_big
-  value: 1
-- type: destination_total_concurrent_jobs
-  id: pulsar-high-mem2_mid
-  value: 2
-- type: destination_user_concurrent_jobs
-  id: pulsar-high-mem2_mid
-  value: 1
+  id: pulsar-qld-high-mem2
+  value: 4
+
