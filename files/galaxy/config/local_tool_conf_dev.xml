@@ -2,5 +2,6 @@
 <toolbox monitor="true">
     <section id="local_tools" name="Local Tools">
         <tool file="/mnt/galaxy/local_tools/alphafold/alphafold.xml" />
+        <tool file="/mnt/galaxy/local_tools/wtdbg2/wtdbg2.xml" />
     </section>
 </toolbox>
