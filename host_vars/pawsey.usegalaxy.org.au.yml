@@ -27,7 +27,7 @@ nginx_ssl_servers:
 interactive_tools_server_name: "usegalaxy.org.au"
 
 # total perspective vortex package
-tpv_commit_id: "9cd0c0a255c1491b439c2b31cda1f7de89f04add"
+tpv_commit_id: "be4db773bb7a55c764d3f9c07f0ee58e04f14004"
 total_perspective_vortex_package: "git+https://github.com/usegalaxy-au/total-perspective-vortex@{{ tpv_commit_id }}"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
