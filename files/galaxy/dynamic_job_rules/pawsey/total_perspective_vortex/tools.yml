@@ -109,6 +109,13 @@ tools:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*:
     cores: 5
+    rules:
+      - match: |
+          helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
+        cores: 8
+        scheduling:
+          accept:
+            - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
