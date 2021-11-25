@@ -86,6 +86,7 @@ host_galaxy_config:  # renamed from __galaxy_config
     enable_mulled_containers: true
     enable_beta_containers_interface: true
     watch_job_rules: true  # important for total perspective vortex
+    sentry_dsn: "{{ vault_sentry_dsn_dev }}"
 
 galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
 
