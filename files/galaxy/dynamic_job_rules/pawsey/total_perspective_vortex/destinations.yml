@@ -23,7 +23,7 @@ destinations:
       - pulsar
   pulsar-mel3:
     cores: 32
-    mem: 60.62
+    mem: 122.86
     scheduling:
       accept:
       - pulsar-mel3
