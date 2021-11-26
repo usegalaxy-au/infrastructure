@@ -541,16 +541,28 @@ tools:
     rules:
     - match: 0.15 <= input_size < 1
       cores: 8
-    - match: input_size >= 1
+    - match: 1 <= input_size < 10
       cores: 16
+    - match: input_size >= 10
+      cores: 120
+      mem: 1922
+      scheduling:
+        accept:
+        - high-mem
   toolshed.g2.bx.psu.edu/repos/bgruening/racon/racon/.*:
     cores: 1
     scheduling:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.05
+    - match: 0.05 <= input_size < 5
       cores: 8
+    - match: input_size >= 5
+      cores: 120
+      mem: 1922
+      scheduling:
+        accept:
+        - high-mem
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     cores: 2
     scheduling:
@@ -743,8 +755,14 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.1
+    - match: 0.1 <= input_size < 0.5
       cores: 16
+    - match: input_size >= 0.5
+      cores: 120
+      mem: 1922
+      scheduling:
+        accept:
+        - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_filter/lofreq_filter/.*:
     cores: 4
     scheduling:
@@ -765,8 +783,14 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.5
+    - match: 0.5 <= input_size < 5
       cores: 8
+    - match: input_size >= 5
+      cores: 120
+      mem: 1922
+      scheduling:
+        accept:
+        - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant/medaka_variant/.*:
     cores: 1
     scheduling:
@@ -799,8 +823,14 @@ tools:
     rules:
     - match: 0.5 <= input_size < 5
       cores: 8
-    - match: input_size >= 5
+    - match: 5 <= input_size < 20
       cores: 16
+    - match: input_size >= 20
+      cores: 120
+      mem: 1922
+      scheduling:
+        accept:
+        - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
     cores: 8
     scheduling:
@@ -812,8 +842,14 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 10
+    - match: 10 <= input_size < 20
       cores: 4
+    - match: input_size >= 20
+      cores: 120
+      mem: 1922
+      scheduling:
+        accept:
+        - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/.*:
     cores: 2
     scheduling:
