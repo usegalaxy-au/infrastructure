@@ -205,6 +205,8 @@
     </section>
     <section id="hicexplorer" name="HiCExplorer">
     </section>
+    <section id="bb_tools" name="BB Tools">
+    </section>
     <label id="statistics_and_visualisation" text="STATISTICS AND VISUALISATION"/>
     <section id="stats" name="Statistics">
         <tool file="stats/gsummary.xml"/>
