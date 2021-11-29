@@ -23,6 +23,7 @@ shared_mounts:
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
+cvmfs_quota_limit: 20000
 
 #Attached volume
 attached_volumes:
