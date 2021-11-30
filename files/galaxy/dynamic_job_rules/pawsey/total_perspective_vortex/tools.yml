@@ -118,14 +118,39 @@ tools:
             - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
     cores: 5
+    rules:
+      - match: |
+          helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
+        cores: 8
+        scheduling:
+          accept:
+            - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
     cores: 16
+    rules:
+      - match: |
+          helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
+        scheduling:
+          accept:
+            - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_makeblastdb/.*:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/.*:
     cores: 16
+    rules:
+      - match: |
+          helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
+        scheduling:
+          accept:
+            - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastx_wrapper/.*:
     cores: 16
+    rules:
+      - match: |
+          helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
+        scheduling:
+          accept:
+            - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/.*:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/.*:
