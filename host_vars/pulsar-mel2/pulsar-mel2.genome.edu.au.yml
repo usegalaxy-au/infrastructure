@@ -21,3 +21,8 @@ rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_mel2_prod }}"
 pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_mel2"
 pulsar_rabbit_vhost: "/pulsar/galaxy_mel2"
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: public
+    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"

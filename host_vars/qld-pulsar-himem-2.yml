@@ -80,3 +80,8 @@ slurm_config:
     SelectTypeParameters: CR_CPU_Memory,CR_LLN
 
 slurm_munge_key: files/keys/munge.key
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: public
+    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"
