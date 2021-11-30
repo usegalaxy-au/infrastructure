@@ -4,15 +4,12 @@ global:
 tools:
   default:
     cores: 1
-    mem: cores * 3 # note, some clusters will accept more than this
+    mem: cores * 2.5 # reduced from 3 to cater of low mem on dev-w1
     env: {}
     params:
       nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)}"
       submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)}"
     scheduling:
-      prefer:
-      accept:
-        - general
       reject:
         - offline
     rules: []
