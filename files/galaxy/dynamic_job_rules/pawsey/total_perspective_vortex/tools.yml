@@ -196,9 +196,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/novoplasty/novoplasty/.*:
     cores: 2
     rules:
-    - match: 0.2 <= input_size < 5
+    - match: 0.2 <= input_size < 6
       cores: 5
-    - match: input_size >= 5
+    - match: input_size >= 6
       cores: 16
   toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_bundlelinks/.*:
     cores: 1
