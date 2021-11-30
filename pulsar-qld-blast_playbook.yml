@@ -6,6 +6,7 @@
     - group_vars/VAULT
     - host_vars/pulsar-qld-blast.yml
     - secret_group_vars/stats_server_vault
+    - secret_group_vars/ubuntu_maintenance_key
   roles:
     - common
     - insspb.hostname
