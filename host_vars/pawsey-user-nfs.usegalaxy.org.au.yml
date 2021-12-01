@@ -9,6 +9,7 @@ attached_volumes:
     path: /user-data-3
     fstype: ext4
   - device: /dev/vdf
+    partition: 1
     path: /user-data-4
     fstype: ext4
 
