@@ -55,6 +55,10 @@ shared_mounts:
       src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-3"
       fstype: nfs
       state: mounted
+    - path: /mnt/user-data-4
+      src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-4"
+      fstype: nfs
+      state: mounted
     - path: /mnt/tmp
       src: "{{ hostvars['pawsey-job-nfs']['internal_ip'] }}:/mnt/tmp"
       fstype: nfs
