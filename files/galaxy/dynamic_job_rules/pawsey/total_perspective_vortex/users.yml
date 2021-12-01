@@ -17,6 +17,7 @@ users:
           scheduling:
             accept:
               - pulsar # pulsar must be in require/prefer/accept for a job to be scheduled to pulsar
+              - offline # allow scheduling to a destination even when it is offline
             require:
               - pulsar-mel2
     pulsar_mel3_user@usegalaxy.org.au:
@@ -25,6 +26,7 @@ users:
           scheduling:
             accept:
               - pulsar
+              - offline
             require:
               - pulsar-mel3
     pulsar_paw_user@usegalaxy.org.au:
@@ -33,6 +35,7 @@ users:
           scheduling:
             accept:
               - pulsar
+              - offline
             require:
               - pulsar-paw
     phm1@genome.edu.au:
@@ -42,6 +45,7 @@ users:
             accept:
               - pulsar
               - high-mem
+              - offline
             require:
               - pulsar-high-mem1
     phm2@genome.edu.au:
@@ -51,6 +55,7 @@ users:
             accept:
               - pulsar
               - high-mem
+              - offline
             require:
               - pulsar-high-mem2
     pncitrain@genome.edu.au:
@@ -60,8 +65,9 @@ users:
             accept:
               - pulsar
               - training
+              - offline
             require:
-            - pulsar-nci-training
+              - pulsar-nci-training
     pqhm0@genome.edu.au:
       rules:
         - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
@@ -69,6 +75,7 @@ users:
             accept:
               - pulsar
               - high-mem
+              - offline
             require:
               - pulsar-qld-high-mem0
     pqhm1@genome.edu.au:
@@ -78,6 +85,7 @@ users:
             accept:
               - pulsar
               - high-mem
+              - offline
             require:
               - pulsar-qld-high-mem1
     pqhm2@genome.edu.au:
@@ -87,5 +95,6 @@ users:
             accept:
               - pulsar
               - high-mem
+              - offline
             require:
               - pulsar-qld-high-mem2
