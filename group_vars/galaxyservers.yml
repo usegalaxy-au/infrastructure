@@ -59,7 +59,7 @@ nginx_upload_limit_rate: 0 # for nginx template: rate in bytes per second.  0 me
 
 # miniconda
 miniconda_prefix: "{{ galaxy_conda_prefix }}"
-miniconda_version: "{{ global_miniconda_version|d(host_miniconda_version) }}"
+miniconda_version: "{{ host_miniconda_version|d(global_miniconda_version) }}"
 
 # Galaxy
 
