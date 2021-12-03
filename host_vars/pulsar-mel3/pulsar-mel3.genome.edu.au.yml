@@ -32,3 +32,8 @@ attached_volumes:
   - device: /dev/vdc
     path: /mnt/files
     fstype: ext4
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: public
+    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"

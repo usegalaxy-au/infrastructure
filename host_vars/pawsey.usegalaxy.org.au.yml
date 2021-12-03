@@ -27,7 +27,7 @@ nginx_ssl_servers:
 interactive_tools_server_name: "usegalaxy.org.au"
 
 # total perspective vortex package
-tpv_commit_id: "be4db773bb7a55c764d3f9c07f0ee58e04f14004"
+tpv_commit_id: "55bda29bcba72b1dbcbd75fd353860b9021fdb02"
 total_perspective_vortex_package: "git+https://github.com/usegalaxy-au/total-perspective-vortex@{{ tpv_commit_id }}"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
@@ -227,3 +227,35 @@ rpc_pulsar_machines:
     keep_error_days: 7
     cron_hour: "17"
     cron_minute: "40"
+  # - pulsar_name: qld-pulsar-himem-0
+  #   pulsar_ip_address: "{{ hostvars['qld-pulsar-himem-0']['ansible_ssh_host'] }}"
+  #   ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+  #   delete_jwds: true
+  #   keep_error_days: 7
+  #   cron_hour: "17"
+  #   cron_minute: "50"
+  # - pulsar_name: qld-pulsar-himem-1
+  #   pulsar_ip_address: "{{ hostvars['qld-pulsar-himem-1']['ansible_ssh_host'] }}"
+  #   ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+  #   delete_jwds: true
+  #   keep_error_days: 7
+  #   cron_hour: "18"
+  #   cron_minute: "00"
+  # - pulsar_name: qld-pulsar-himem-2
+  #   pulsar_ip_address: "{{ hostvars['qld-pulsar-himem-2']['ansible_ssh_host'] }}"
+  #   ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+  #   delete_jwds: true
+  #   keep_error_days: 7
+  #   cron_hour: "18"
+  #   cron_minute: "10"
+  # - pulsar_name: pulsar-nci-training
+  #   pulsar_ip_address: "{{ hostvars['pulsar-nci-training']['ansible_ssh_host'] }}"
+  #   ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+  #   delete_jwds: true
+  #   keep_error_days: 7
+  #   cron_hour: "18"
+  #   cron_minute: "20"
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: private

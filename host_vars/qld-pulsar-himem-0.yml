@@ -30,6 +30,7 @@ use_internal_ips: false
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
+cvmfs_quota_limit: 20000
 
 #Monitoring for Staging. Once all VM monitoring has moved to stats.usegalaxy.org.au, this can be put in all.yml and removed here.
 influx_url: stats.usegalaxy.org.au
@@ -79,3 +80,8 @@ slurm_config:
     SelectTypeParameters: CR_CPU_Memory,CR_LLN
 
 slurm_munge_key: files/keys/munge.key
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: public
+    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"

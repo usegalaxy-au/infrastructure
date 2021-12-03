@@ -136,13 +136,13 @@ execution:
       singularity_volumes: "$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro"
     pulsar-azure-0-std:
       runner: pulsar_azure_0_runner
-      jobs_directory: /mnt/share/staging
+      jobs_directory: /mnt/pulsar/files/staging
       transport: curl
       remote_metadata: "false"
       default_file_action: remote_transfer
       dependency_resolution: remote
       rewrite_parameters: "true"
-      persistence_directory: /mnt/share/persisted_data
+      persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32000"
 
 

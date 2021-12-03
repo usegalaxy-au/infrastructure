@@ -23,3 +23,8 @@ rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_nci_training_pro
 pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_nci_training"
 pulsar_rabbit_vhost: "/pulsar/galaxy_nci_training"
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: public
+    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"

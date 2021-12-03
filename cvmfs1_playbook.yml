@@ -1,0 +1,6 @@
+- name: CVMFS_stratum_1_playbook
+  become: yes
+  become_user: root
+  hosts: cvmfsstratum1servers
+  roles:
+    - galaxyproject.cvmfs

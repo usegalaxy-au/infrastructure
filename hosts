@@ -222,6 +222,10 @@ pulsar-azure-worker ansible_ssh_host=13.70.104.142
 [stats_servers]
 stats.usegalaxy.org.au ansible_ssh_host=115.146.84.128
 
+######## CVMFS Stratum 1 servers
+[cvmfsstratum1servers]
+cvmfs1-mel0.gvl.org.au ansible_user=ec2-user ansible_ssh_host=115.146.85.207
+
 [all:vars]
 ansible_host_key_checking=False
 ansible_user=ubuntu
