@@ -571,6 +571,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.15 <= input_size < 1
       cores: 8
@@ -912,11 +913,13 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_consensus/trycycler_consensus/.*:
     cores: 1
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.2 <= input_size < 2
       cores: 8
@@ -927,6 +930,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.2 <= input_size < 2
       cores: 8
@@ -1006,12 +1010,14 @@ tools:
       accept:
       - pulsar
       - high-mem
+      - pulsar-training-large
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     cores: 2
     mem: cores * 3.8
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: input_size >= 0.2
       cores: 120
@@ -1044,6 +1050,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.002 <= input_size < 5
       cores: 16
@@ -1076,6 +1083,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: input_size >= 0.00015
       cores: 63
@@ -1090,6 +1098,7 @@ tools:
       accept:
       - pulsar
       - high-mem
+      - pulsar-training-large
   toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/.*:
     cores: 1
     scheduling:
@@ -1108,6 +1117,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.002 <= input_size < 5
       cores: 16
@@ -1140,6 +1150,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.002 <= input_size < 5
       cores: 16
