@@ -203,9 +203,14 @@ nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249
 aarnet-backup ansible_ssh_host=138.44.80.71 internal_ip=192.168.199.93
 
 ##### DR environment at Qriscloud
-[qld_dr]
-DR-galaxy ansible_ssh_host=203.101.226.61
-QLD-DR-db ansible_ssh_host=203.101.227.174
+[qld-dr]
+qld-dr-head ansible_ssh_host=203.101.225.247
+qld-dr-queue ansible_ssh_host=203.101.227.169
+qld-dr-job-nfs ansible_ssh_host=203.101.229.199
+qld-dr-db ansible_ssh_host=203.101.227.89
+qld-dr-w0 ansible_ssh_host=203.101.228.51
+qld-dr-w1 ansible_ssh_host=203.101.227.144
+qld-dr-w2 ansible_ssh_host=203.101.229.95
 
 ##### Pulsar EU GPU (test machine for Alphafold)
 [GPU-pulsars]
