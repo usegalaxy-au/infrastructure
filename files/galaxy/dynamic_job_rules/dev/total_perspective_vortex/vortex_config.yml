@@ -85,8 +85,21 @@ tools:
     inherits: pulsar_preferred
     cores: 8
     mem: 32
-
-
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
+    inherits: pulsar_preferred
+    cores: 4
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_solvate/gmx_solvate/.*:
+    inherits: pulsar_preferred
+    cores: 4
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_setup/gmx_setup/.*:
+    inherits: pulsar_preferred
+    cores: 4
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_editconf/gmx_editconf/.*:
+    inherits: pulsar_preferred
+    cores: 4
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_em/gmx_em/.*:
+    inherits: pulsar_preferred
+    cores: 4
 users:
   default:
     rules:
