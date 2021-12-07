@@ -16,6 +16,18 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     inherits: pulsar_preferred
     cores: 2
+  toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
+    inherits: pulsar_preferred
+    cores: 8
+    mem: 30.39  
+  #   env:
+  #     MAKER_MPI: 1
+  toolshed.g2.bx.psu.edu/repos/iuc/bbtools_callvariants/bbtools_callvariants/.*:
+    inherits: pulsar_preferred
+    cores: 16
+  toolshed.g2.bx.psu.edu/repos/iuc/bbtools_bbmap/bbtools_bbmap/.*:
+    inherits: pulsar_preferred
+    cores: 16
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/*:
     inherits: pulsar_preferred
     rules:
@@ -70,11 +82,24 @@ tools:
     - match: input_size >= 2
       cores: 3
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
-    cores: 2
-    rules:
-    - match: input_size >= 2
-      cores: 3
-
+    inherits: pulsar_preferred
+    cores: 8
+    mem: 30.39
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
+    inherits: pulsar_preferred
+    cores: 4
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_solvate/gmx_solvate/.*:
+    inherits: pulsar_preferred
+    cores: 4
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_setup/gmx_setup/.*:
+    inherits: pulsar_preferred
+    cores: 4
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_editconf/gmx_editconf/.*:
+    inherits: pulsar_preferred
+    cores: 4
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_em/gmx_em/.*:
+    inherits: pulsar_preferred
+    cores: 4
 users:
   default:
     rules:
