@@ -1,8 +1,9 @@
 ---
-- name: Install slurm-drmaa
-  package:
-    name: slurm-drmaa1
-    state: present
+# - name: Install slurm-drmaa
+#   package:
+#     name: slurm-drmaa1
+#     state: present
+#   when: install_drmaa is defined and install_drmaa
 - name: own the pulsar_root dir as ubuntu
   file:
       path: "{{ pulsar_root }}"
