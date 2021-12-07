@@ -19,7 +19,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
     inherits: pulsar_preferred
     cores: 8
-    mem: 32  
+    mem: 30.39  
   #   env:
   #     MAKER_MPI: 1
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_callvariants/bbtools_callvariants/.*:
@@ -84,7 +84,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     inherits: pulsar_preferred
     cores: 8
-    mem: 32
+    mem: 30.39
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     inherits: pulsar_preferred
     cores: 4
