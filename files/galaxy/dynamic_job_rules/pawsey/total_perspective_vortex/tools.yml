@@ -1184,8 +1184,8 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.015 <= input_size < 2
-      cores: 4
+    - match: 0.005 <= input_size < 2
+      cores: 8
       mem: cores * 3.8
     - match: 2 <= input_size < 20
       cores: 120
