@@ -125,9 +125,5 @@ miniconda_version: "{{ global_miniconda_version }}"
 miniconda_base_env_packages:
   - mamba
 
-miniconda_conda_environments:
-  base:
-    packages:
-      - mamba
 
 
