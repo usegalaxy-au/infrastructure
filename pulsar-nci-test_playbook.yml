@@ -13,6 +13,9 @@
     - geerlingguy.pip
     - galaxyproject.repos
     - galaxyproject.pulsar
+    - role: galaxyproject.miniconda
+      become: true
+      become_user: "{{ pulsar_user.name }}"
     - geerlingguy.nfs
     - mariadb
     - galaxyproject.slurm
