@@ -31,7 +31,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install git+https://github.com/usegalaxy-au/total-perspective-vortex pyyaml
+        pip install git+https://github.com/usegalaxy-au/total-perspective-vortex pyyaml galaxy-data
     # Run check files script
     - name: Check vortex destination ids against job conf environment ids
       env:
