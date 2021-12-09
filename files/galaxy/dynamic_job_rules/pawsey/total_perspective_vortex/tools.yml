@@ -724,7 +724,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/circos/circos/.*:
     cores: 2
     scheduling:
-      accept:
+      require:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/.*:
     cores: 2
