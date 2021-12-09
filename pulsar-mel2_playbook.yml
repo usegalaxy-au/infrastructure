@@ -8,6 +8,7 @@
     - group_vars/VAULT
     - host_vars/pulsar-mel2/pulsar-mel2.genome.edu.au.yml
     - secret_group_vars/stats_server_vault
+    - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
     - name: apt update
       apt:
