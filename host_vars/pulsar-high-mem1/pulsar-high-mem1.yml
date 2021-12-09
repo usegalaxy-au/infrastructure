@@ -84,3 +84,46 @@ extra_keys:
   - id: ubuntu_maintenance_key
     type: public
     from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"
+
+
+# for running conda with exec: mamba
+# everything below this line can be copied into pulsarservers.yml
+# pulsar playbooks will need galaxyproject.miniconda
+pulsar_yaml_config:
+  managers:
+      _default_:
+          type: queued_drmaa
+          preprocess_action_max_retries: 10
+          preprocess_action_interval_start: 2
+          preprocess_action_interval_step: 2
+          preprocess_action_interval_max: 60
+          postprocess_action_max_retries: 20
+          postprocess_action_interval_start: 2
+          postprocess_action_interval_step: 4
+          postprocess_action_interval_max: 120
+          min_polling_interval: 15
+  dependency_resolution:
+    resolvers:
+      - type: conda
+        exec: "{{ pulsar_conda_prefix }}/bin/mamba"
+        auto_init: true
+        auto_install: true
+        prefix: "{{ pulsar_conda_prefix }}"
+  staging_directory: "{{ pulsar_staging_dir }}"
+  persistence_directory: "{{ pulsar_persistence_dir }}"
+  message_queue_url: "pyamqp://{{ pulsar_rabbit_username }}:{{ rabbitmq_password_galaxy_au }}@{{ pulsar_queue_url }}:5671/{{ pulsar_rabbit_vhost }}?ssl=1"
+  min_polling_interval: 0.5
+  amqp_publish_retry: True
+  amqp_publish_retry_max_retries: 5
+  amqp_publish_retry_interval_start: 10
+  amqp_publish_retry_interval_step: 10
+  amqp_publish_retry_interval_max: 60
+
+pulsar_conda_prefix: "{{ pulsar_dependencies_dir }}/_conda"
+miniconda_prefix: "{{ pulsar_conda_prefix }}"
+miniconda_version: "{{ global_miniconda_version }}"
+miniconda_base_env_packages:
+  - mamba
+
+
+

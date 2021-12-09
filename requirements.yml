@@ -36,8 +36,8 @@
 - src: usegalaxy_eu.gie_proxy
   version: 0.0.2
 - name: galaxyproject.miniconda
-  src: https://github.com/galaxyproject/ansible-miniconda.git
-  version: 87840bfc324639ccf4a50a2ac4990ebebe12d574  # 0.2.0 + 1 commit
+  src: https://github.com/cat-bro/ansible-miniconda.git
+  version: 43499526b66ed5242055731e4400472e89e03f14  # galaxyproject/ansible-miniconda + 1 commit
 - name: usegalaxy_eu.influxdb
   version: v6.0.8
 - name: cloudalchemy.grafana
