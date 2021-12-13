@@ -43,6 +43,10 @@ auth_key_user: ubuntu
 
 head_nodes: "{{ groups['pulsar_azure_0_head'] }}"
 
+install_drmaa: false
+
+pulsar_drmaa_library_path: /usr/local/lib/libdrmaa.so.1
+
 ########################################################################
 ###  Overwrite all pulsar locations to put pulsar in /shared/home/pulsar
 ###
