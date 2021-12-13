@@ -10,6 +10,7 @@
         parted:
           device: "{{ attached_volume.device }}"
           number: "{{ attached_volume.partition }}"
+          label: "{{ attached_volume.label|d('msdos') }}"
           state: present
         when: attached_volume.partition is defined and volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == attached_volume.device
       - name: Create a filesystem on volume

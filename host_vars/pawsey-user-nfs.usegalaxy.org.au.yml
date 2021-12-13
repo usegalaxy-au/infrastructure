@@ -12,6 +12,7 @@ attached_volumes:
     partition: 1
     path: /user-data-4
     fstype: ext4
+    label: gpt
 
 galaxy_user_data_dir: /mnt/user-data
 galaxy_user_data_2_dir: /user-data-2
