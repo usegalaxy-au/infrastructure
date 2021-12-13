@@ -6,6 +6,9 @@ use_internal_ips: true
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 
+# Use mamba as replacement for conda
+pulsar_conda_exec: "mamba"
+
 #Monitoring for Staging. Once all VM monitoring has moved to stats.usegalaxy.org.au, this can be put in all.yml and removed here.
 influx_url: stats.usegalaxy.org.au
 grafana_server_url: "https://{{ influx_url }}:8086"
