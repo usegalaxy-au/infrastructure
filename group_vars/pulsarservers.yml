@@ -69,6 +69,7 @@ pulsar_optional_dependencies:
   - drmaa
   - kombu
 
+install_drmaa: true
 pulsar_drmaa_library_path: /usr/lib/slurm-drmaa/lib/libdrmaa.so.1
 
 pulsar_yaml_config:
