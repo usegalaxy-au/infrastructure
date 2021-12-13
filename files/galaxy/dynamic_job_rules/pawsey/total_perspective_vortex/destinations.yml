@@ -84,5 +84,14 @@ destinations:
       require:
       - pulsar
       - training
+  pulsar-qld-blast:
+    cores: 60
+    mem: 200
+    scheduling:
+      accept:
+      - pulsar-qld-blast
+      require:
+      - pulsar
+      - pulsar-qld-blast
 
 
