@@ -17,6 +17,8 @@ pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_qld_hm2"
 pulsar_rabbit_vhost: "/pulsar/galaxy_qld_hm2"
 
+pulsar_conda_exec: "mamba"  # Use mamba as replacement for conda
+
 attached_volumes:
   - device: /dev/vdb
     partition: 1

@@ -49,6 +49,9 @@ auth_key_user: ubuntu
 
 head_nodes: "{{ groups['pulsar_high_mem2'] }}"
 
+# Use mamba as replacement for conda
+pulsar_conda_exec: "mamba"
+
 # SLURM
 slurm_nodes:
     - name: pulsar-high-mem2
