@@ -110,7 +110,6 @@ pulsar_yaml_config:
 
 pulsar_conda_prefix: "{{ pulsar_dependencies_dir }}/_conda"
 miniconda_prefix: "{{ pulsar_conda_prefix }}"
-miniconda_version: "{{ global_miniconda_version }}"
 
 # for pulsar-post-tasks
 pulsar_tools_indices_dir: /mnt/tools-indices
