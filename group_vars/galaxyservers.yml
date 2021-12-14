@@ -59,7 +59,6 @@ nginx_upload_limit_rate: 0 # for nginx template: rate in bytes per second.  0 me
 
 # miniconda
 miniconda_prefix: "{{ galaxy_conda_prefix }}"
-miniconda_version: "{{ host_miniconda_version|d(global_miniconda_version) }}"
 
 # Galaxy
 
@@ -86,6 +85,7 @@ galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
 galaxy_mutable_data_dir: "{{ galaxy_root }}"
 galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_conda_prefix: "{{ galaxy_tools_indices_dir }}/tool_dependencies/_conda"
+galaxy_conda_exec: mamba
 
 
 #########################################
@@ -196,9 +196,11 @@ group_galaxy_config:
       - type: tool_shed_packages
       - type: galaxy_packages
       - type: conda
+        exec: "{{ galaxy_conda_prefix }}/bin/{{ galaxy_conda_exec|d('conda') }}"
       - type: galaxy_packages
         versionless: true
       - type: conda
+        exec: "{{ galaxy_conda_prefix }}/bin/{{ galaxy_conda_exec|d('conda') }}"
         versionless: true
 
     # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
