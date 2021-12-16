@@ -858,8 +858,14 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.001
+    - match: 0.001 < input_size <= 5
       cores: 16
+    - match: input_size > 5
+      cores: 60
+      mem: 961
+      scheduling:
+        accept: 
+        - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/.*:
     cores: 4
     mem: cores * 3.8
