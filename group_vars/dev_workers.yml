@@ -8,6 +8,7 @@ attached_volumes:
     path: /mnt
     fstype: ext4
     partition: 1
+    label: msdos
 
 shared_mounts:
     - path: /mnt/galaxy
