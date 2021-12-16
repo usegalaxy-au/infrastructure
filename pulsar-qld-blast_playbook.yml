@@ -12,6 +12,9 @@
     - insspb.hostname
     - geerlingguy.pip
     - galaxyproject.repos
+    - role: galaxyproject.miniconda
+      become: true
+      become_user: "{{ pulsar_user.name }}"
     - galaxyproject.pulsar
     - mariadb
     - galaxyproject.slurm
