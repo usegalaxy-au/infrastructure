@@ -141,7 +141,7 @@ miniconda_base_env_packages:
 
 # Monitoring
 influx_url: stats.usegalaxy.org.au
-grafana_server_url: "http://{{ influx_url }}:8086"
+grafana_server_url: "https://{{ influx_url }}:8086"
 influx_salt: "{{ prod_queue_size_salt }}"
 
 telegraf_agent_package_state: latest
