@@ -37,7 +37,10 @@ tools:
   testtoolshed.g2.bx.psu.edu/repos/simon-gladman/phyloseq_ordination_plot/phyloseq_ordinate/.*:
     cores: 16
   toolshed.g2.bx.psu.edu/repos/artbio/repenrich/repenrich/.*:
-    cores: 7
+    cores: 8
+    scheduling:
+      prefer:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
     cores: 9
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/.*:
