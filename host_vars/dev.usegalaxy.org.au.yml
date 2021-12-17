@@ -4,7 +4,7 @@
 galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
 
 # total perspective vortex package
-tpv_commit_id: "55bda29bcba72b1dbcbd75fd353860b9021fdb02"
+tpv_commit_id: "b5a91079622a8c76529d08abd3fa8e865289767a"
 total_perspective_vortex_package: "git+https://github.com/usegalaxy-au/total-perspective-vortex@{{ tpv_commit_id }}"
 
 # variables for attaching mounted volume to application server
