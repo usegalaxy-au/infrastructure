@@ -62,7 +62,7 @@ slurm_nodes:
 
 slurm_partitions:
     - name: main
-      nodes: "pawsey-w1,pawsey-w2,pawsey-w3,pawsey-w4,pawsey-w5,pawsey-w6"
+      nodes: "pawsey-w1,pawsey-w2,pawsey-w3,pawsey-w4,pawsey-w5,pawsey-w6,pawsey-w7,pawsey-w8"
       Default: YES
       State: UP
     - name: training
@@ -70,7 +70,7 @@ slurm_partitions:
       Default: NO
       State: UP
     - name: max_quant_w8
-      nodes: "pawsey-w8,pawsey-w3"
+      nodes: "pawsey-w8,pawsey-w7"
       Default: NO
       State: UP
     - name: interactive_tools
