@@ -16,14 +16,9 @@ tools:
     rank: |
       import requests
       import random
-      grafana_destinations = {
+      grafana_destinations = {  # dict of destinations where the key from the stats api call differs from the destination id
         'Galaxy-Main': 'slurm',
         'pulsar-high-mem-1': 'pulsar-high-mem1',
-        'pulsar-high-mem2': 'pulsar-high-mem2',
-        'pulsar-mel2': 'pulsar-mel2',
-        'pulsar-mel3': 'pulsar-mel3',
-        'pulsar-nci-training': 'pulsar-nci-training',
-        'pulsar-paw': 'pulsar-paw',
         'pulsar-qld-himem-0': 'pulsar-qld-high-mem0',
         'pulsar-qld-himem-1': 'pulsar-qld-high-mem1',
         'pulsar-qld-himem-2': 'pulsar-qld-high-mem2',
@@ -37,7 +32,7 @@ tools:
         try:
           response = requests.get('https://stats.usegalaxy.org.au:8086/query', auth=('grafana', '{{ vault_influx_grafana_password }}'), params=params)
           data = response.json()
-          cpu_by_destination = {grafana_destinations[s['tags']['host']]:s['values'][0][1] for s in data.get('results')[0].get('series', [])}
+          cpu_by_destination = {grafana_destinations.get(s['tags']['host'], s['tags']['host']):s['values'][0][1] for s in data.get('results')[0].get('series', [])}
           # sort by destination preference, and then by cpu usage
           candidate_destinations.sort(key=lambda d: (-1 * d.score(entity), cpu_by_destination.get(d.id), random.randint(0,9)))
           final_destinations = candidate_destinations
