@@ -1,0 +1,21 @@
+---
+- name: Create directory for deletion scripts
+  file:
+    path: "{{ dt_home }}"
+    state: directory
+    owner: "{{ dt_user }}"
+    group: "{{ dt_user }}"
+- name: Template the python script
+  template:
+    src: delete_tmp_jwds.py
+    dest: "{{ dt_home }}/delete_tmp_jwds.py"  # TODO: this should be a .j2 but during development that would just be a pain
+    owner: "{{ dt_user }}"
+    group: "{{ dt_user }}"
+- name: set up a cron job
+  cron:
+    user: "{{ dt_user }}"
+    name: "daily_delete_tmp_jwds"
+    minute: "{{ dt_cron_minute }}"
+    hour: "{{ dt_cron_hour }}"
+    job: "python {{ dt_home }}/delete_tmp_jwds.py"
+  when: not dt_skip_cron_setup

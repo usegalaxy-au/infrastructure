@@ -6,10 +6,13 @@ import subprocess
 global_keep_error_days = {{ dt_tmp_jwd_keep_error_days }}
 connection_string = '{{ dt_connection_string }}'
 jwd_base = '{{ dt_jwd_base }}'
-bash_script_name = '{{ dt_bash_script_name }}'
-log_file_name = '{{ dt_log_file_name }}'
+remote_user = '{{ dt_remote_user }}'
+remote_ip = '{{ dt_remote_ip }}'
+ssh_key = '{{ dt_ssh_key }}'
 global_dry_run = True  # meaning the script be created but not run for the moment
 
+bash_script_name = 'rm_tmp_jwds.sh'
+log_file_name = 'log.txt'
 dirname = os.path.dirname(__file__)
 rm_tmp_jwds_script = os.path.join(dirname, bash_script_name)
 log_file = os.path.join(dirname, log_file_name)
@@ -61,7 +64,6 @@ def main():
             shell=True,
         ).decode('utf-8')
         job_query_result += job_query_result_section
-        job_query_result += '\n\n'
 
     if check:
         print(job_query_result)
@@ -70,11 +72,13 @@ def main():
         dry_run = ' [dry run]' if dry_run else ''
         log_handle.write(f'{get_current_time()}: Running delete tmp jwds script, keep_error_days={keep_error_days}{dry_run}\n')
         log_handle.write(job_query_result)
+        copy_exit_code = subprocess.call(f'scp -i {ssh_key} -o StrictHostKeyChecking=no {rm_tmp_jwds_script} {remote_user}@{remote_ip}:/home/{remote_user}', shell=True)
+        if not copy_exit_code == 0:
+            log_handle.write(f'Error: Failed to copy {rm_tmp_jwds_script}\n\n')
+            return
         if not dry_run:
-            # script_exit_code = subprocess.call(f'sudo bash {rm_tmp_jwds_script}', shell=True)
+            script_exit_code = subprocess.call(f'ssh -i {ssh_key} -o StrictHostKeyChecking=no {remote_user}@{remote_ip} \"sudo bash {os.path.basename(rm_tmp_jwds_script)}\"', shell=True)
             log_handle.write(f'{get_current_time()}: Finished running script with exit code {script_exit_code}\n\n')
-        else: 
-            log_handle.write(f'{get_current_time()}: Dry run.  Script {rm_tmp_jwds_script} has been created but not run\n\n')
 
 
 def is_string_int(str):
@@ -83,6 +87,7 @@ def is_string_int(str):
         return True
     except Exception:
         return False
+
 
 def sanitize_subprocess_output_list(command):
     blob = subprocess.check_output(command, shell=True)
@@ -96,8 +101,10 @@ def get_job_query(job_ids, keep_error_days):
     query += '\";'
     return query
 
+
 def get_current_time():
     return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
 
 def get_intervals(list_length, batch_size=500):  # define batch beginnings and ends to get batches out of a list without using 'while'
     intervals = []
