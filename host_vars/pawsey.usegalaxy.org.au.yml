@@ -361,3 +361,4 @@ dt_ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
 dt_cron_hour: "20"
 dt_cron_minute: "00"
 dt_skip_cron_setup: true
+dt_connection_string: "postgres://reader:{{ vault_pawsey_db_reader_password }}@pawsey-db.usegalaxy.org.au:5432/galaxy"
