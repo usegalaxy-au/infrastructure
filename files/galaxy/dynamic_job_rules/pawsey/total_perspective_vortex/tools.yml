@@ -41,6 +41,13 @@ tools:
     scheduling:
       prefer:
         - pulsar
+  toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
+    cores: 16
+    params:
+      docker_enabled: true
+      docker_volumes: '$defaults'
+      docker_memory: '{mem}'
+      docker_sudo: false
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
     cores: 9
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/.*:
