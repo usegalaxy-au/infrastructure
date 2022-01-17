@@ -1,0 +1,10 @@
+[Unit]
+ Description=ACL Hack
+ Requires=local-fs.target
+ After=local-fs.target
+
+[Service]
+ ExecStart=/usr/bin/setfacl -R -m u:{{ acl_job_runner_user }}:rw /var/run/docker.sock
+
+[Install]
+ WantedBy=multi-user.target

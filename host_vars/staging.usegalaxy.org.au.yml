@@ -83,6 +83,8 @@ host_galaxy_config:  # renamed from __galaxy_config
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
     nginx_upload_job_files_path: '/_job_files'
     watch_job_rules: true  # important for total perspective vortex
+    enable_mulled_containers: true
+    enable_beta_containers_interface: true
 
 #Galaxy Job Conf
 galaxy_jobconf:

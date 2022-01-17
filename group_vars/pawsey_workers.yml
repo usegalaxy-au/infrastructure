@@ -54,3 +54,5 @@ cvmfs_quota_limit: 20000
 docker_install_compose: false
 docker_users:
   - "{{ galaxy_user.name }}"
+docker_daemon_options:
+  data-root: /mnt/docker-data
