@@ -1,0 +1,9 @@
+- name: Template .service file
+  template:
+    src: start-acl.service.j2
+    dest: /etc/systemd/system/start-acl.service
+- name: Enable service
+  systemd:
+    name: start-acl
+    enabled: true  # will start on reboot
+    state: started  # will start now if not running
