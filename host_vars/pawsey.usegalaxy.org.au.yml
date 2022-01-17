@@ -140,6 +140,8 @@ host_galaxy_config:  # renamed from __galaxy_config
     nginx_upload_job_files_path: '/_job_files'
     job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
     watch_job_rules: true  # important for total perspective vortex
+    enable_mulled_containers: true
+    enable_beta_containers_interface: true
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
