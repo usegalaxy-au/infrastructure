@@ -529,6 +529,13 @@ tools:
     - match: input_size >= 0.01
       cores: 5
 
+  toolshed.g2.bx.psu.edu/repos/bebatut/cdhit/cd_hit_est/.*:
+    scheduling:
+      accept:
+      - pulsar
+    rules:
+    - match: input_size >= 0.1
+      cores: 4
   toolshed.g2.bx.psu.edu/repos/bgruening/augustus/augustus/.*:
     cores: 2
     scheduling:
