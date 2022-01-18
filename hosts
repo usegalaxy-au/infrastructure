@@ -234,6 +234,9 @@ stats.usegalaxy.org.au ansible_ssh_host=115.146.84.128
 [cvmfsstratum1servers]
 cvmfs1-mel0.gvl.org.au ansible_user=ec2-user ansible_ssh_host=115.146.85.207
 
+[cvmfslocalproxies]
+cvmfsp-mel.gvl.org.au ansible_ssh_host=115.146.87.203
+
 [all:vars]
 ansible_host_key_checking=False
 ansible_user=ubuntu
