@@ -1,0 +1,14 @@
+- hosts: cvmfslocalproxies
+  become: true
+  vars_files:
+    - group_vars/VAULT
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+  roles:
+    - common
+    - insspb.hostname
+    - geerlingguy.pip
+    - galaxyproject.repos
+    - galaxyproject.cvmfs
