@@ -116,7 +116,7 @@ tools:
       - match: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
         cores: 15
-        mem: cores * 3.3
+        mem: cores * 3.1  ## TODO: update these to 3.2 once jobs using 3.3x are no longer running
         scheduling:
           accept:
             - pulsar
@@ -128,7 +128,7 @@ tools:
       - match: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
         cores: 15
-        mem: cores * 3.3
+        mem: cores * 3.1
         scheduling:
           accept:
             - pulsar
@@ -140,7 +140,7 @@ tools:
       - match: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
         cores: 15
-        mem: cores * 3.3
+        mem: cores * 3.1
         scheduling:
           accept:
             - pulsar
@@ -154,7 +154,7 @@ tools:
       - match: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
         cores: 15
-        mem: cores * 3.3
+        mem: cores * 3.1
         scheduling:
           accept:
             - pulsar
@@ -165,7 +165,7 @@ tools:
       - match: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
         cores: 15
-        mem: cores * 3.3
+        mem: cores * 3.1
         scheduling:
           accept:
             - pulsar
