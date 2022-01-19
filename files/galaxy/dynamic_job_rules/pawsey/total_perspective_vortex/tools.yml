@@ -1044,6 +1044,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+      reject:
+      - pulsar-mel3
     rules:
     - match: 0.05 <= input_size < 0.3
       cores: 8
