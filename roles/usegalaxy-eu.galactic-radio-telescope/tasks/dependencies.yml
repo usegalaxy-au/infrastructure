@@ -1,0 +1,11 @@
+---
+- name: Install all of the necessary dependencies
+  pip:
+    virtualenv: "{{ grt_dir }}/venv/"
+    requirements: "{{ grt_dir }}/code/requirements.txt"
+  notify: 'reload grt'
+
+- name: Install postgres client on centos
+  package:
+    name: postgresql
+    state: present

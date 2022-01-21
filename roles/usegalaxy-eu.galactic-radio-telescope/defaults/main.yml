@@ -1,0 +1,20 @@
+grt_create_user: true
+grt_dir: /opt/galactic-radio-telescope
+
+grt_group:
+  name: grt
+grt_user:
+  name: grt
+  home: "{{ grt_dir }}"
+  shell: /bin/bash
+
+grt_version: master
+grt_force_checkout: true
+
+grt_create_group: true
+grt_create_user: true
+
+grt_upload_dir: "{{ grt_dir }}/uploads"
+grt_queries_dir: "{{ grt_dir }}/queries"
+
+grt_allowed_hosts: localhost

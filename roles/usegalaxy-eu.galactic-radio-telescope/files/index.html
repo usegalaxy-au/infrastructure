@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Galactic Radio Telescope</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/grt/static/fontawesome/css/font-awesome.min.css" rel="stylesheet" media="all">
+	</head>
+	<body>
+		<div class="navbar navbar-inverse" style="border-radius: 0px; background-color: #2c3143;" role="navigation">
+			<div class="container">
+				<div id="navbar-main" aria-expanded="false" style="height: 1px;">
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 col-lg-6">
+					<img src="grt.png" width="100%" />
+				</div>
+				<div class="col-sm-12 col-lg-6">
+					<h3>About</h3>
+					<p>This project aims to collect aggregate metrics from Galaxy servers for statistical analysis and optimisation of all Galaxies
+					</p>
+					<h3>GRT "API"</h3>
+					<p>
+						An API is made available <a class="btn btn-primary" href="/api/">here</a> for clients to consume.
+					</p>
+
+					<h3>Admins</h3>
+					<p>
+						Administrators must register for an account if they wish to submit their data to GRT
+					</p>
+					<a class="btn btn-primary btn-lg" role="button" href="/grt/accounts/login/?next=/grt/">Log in »</a>
+					<a class="btn btn-primary btn-lg" role="button" href="/grt/accounts/register/?next=/grt/">Register »</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<h3>Statistics</h3>
+					<p>
+					All of our statistics are exported to <a href="https://stats.galaxyproject.eu/d/SDduH5Zik/grt-tool-usage">stats.galaxyproject.eu</a> where you can explore the usage of different tools over time and over servers.
+					</p>
+					<p>
+					Create badges for your tools or embed usage graphs in your webpage:
+					</p>
+					<div class="row">
+						<div class="col-xs-12 col-sm-6">
+							<iframe src="https://stats.galaxyproject.eu/d-solo/SDduH5Zik/grt-tool-usage?refresh=15m&orgId=1&var-tool_id=mothur&var-instance_id=All&var-date_interval=30d&panelId=10" width="100%" height="200" frameborder="0"></iframe>
+						</div>
+						<div class="col-xs-12 col-sm-6">
+							<iframe src="https://stats.galaxyproject.eu/d-solo/SDduH5Zik/grt-tool-usage?refresh=15m&orgId=1&var-tool_id=toolshed.g2.bx.psu.edu%2Frepos%2Fiuc%2Fmothur_make_contigs%2Fmothur_make_contigs%2F1.39.5.0&var-instance_id=All&var-date_interval=30d&panelId=2" width="100%" height="200" frameborder="0"></iframe>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<footer>
+				<hr />
+				<div class="row">
+					<div class="col-lg-12">
+                        			<p>Code <a href="https://github.com/erasche/galactic-radio-telescope">available</a> under AGPLv3.</p>
+						<p>
+							Any rights in individual contents of the database
+							are licensed under the Database Contents License:
+							<a href="http://opendatacommons.org/licenses/dbcl/1.0/">DbCL 1.0</a>.
+							<a href="/tos.html">Terms of Service</a>
+						</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>
