@@ -5,7 +5,7 @@ dev-db ansible_ssh_host=45.113.232.252
 staging-db ansible_ssh_host=115.146.87.93
 
 [pawsey_db_server]
-pawsey-db ansible_ssh_host=146.118.69.83 internal_ip=192.168.0.102
+pawsey-db ansible_ssh_host=146.118.68.220 internal_ip=192.168.0.73
 
 [aarnet_db_server]
 aarnet-db ansible_ssh_host=138.44.80.125 internal_ip=192.168.199.226
@@ -98,7 +98,7 @@ pawsey-backup ansible_ssh_host=146.118.68.123 internal_ip=192.168.0.96
 aarnet-backup ansible_ssh_host=138.44.80.71 internal_ip=192.168.199.93
 
 [pawsey_group]
-pawsey-db ansible_ssh_host=146.118.69.83 internal_ip=192.168.0.102
+pawsey-db ansible_ssh_host=146.118.68.220 internal_ip=192.168.0.73
 pawsey ansible_ssh_host=146.118.70.205 internal_ip=192.168.0.94
 pawsey-queue ansible_ssh_host=146.118.69.35 internal_ip=192.168.0.194
 pawsey-user-nfs ansible_ssh_host=146.118.68.13 internal_ip=192.168.0.165

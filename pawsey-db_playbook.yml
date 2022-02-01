@@ -6,6 +6,7 @@
       - group_vars/VAULT
       - group_vars/dbservers.yml
       - host_vars/pawsey-db.usegalaxy.org.au.yml
+      - secret_group_vars/stats_server_vault
   pre_tasks:
       - name: Attach volume to instance
         include_role:
@@ -15,24 +16,52 @@
             name: python3-psycopg2
             state: present
         become: true
-      - name: Set up Postgres 14 repo
-        shell: |
-            echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-            wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-        args:
-          warn: no
-      - name: create data directory
-        file:
-          path: /data/production
-          owner: postgres
-          group: postgres
-          state: directory
-          mode: 0700
   roles:
       - common
       - insspb.hostname
       - geerlingguy.pip
       - galaxyproject.postgresql
-      - role: natefoo.postgresql_objects
+      #- dj-wasabi.telegraf
+  post_tasks:
+      - name: stat data directory
+        stat:
+          path: "postgresql_pgdata"
+        register: data_dir
+      - name: move the data directory
+        block:
+          - name: get postgresql version string
+            shell: pg_config --version
+            register: version_string
+          - name: set postgresql version major
+            set_fact:
+              postgresql_version_major: "{{ version_string | regex_findall('PostgreSQL ([0-9]+).') | first }}"
+          - name: stop postgres
+            systemd:
+              name: postgresql
+              state: stopped
+          - name: Create data directory
+            file:
+              path: "{{ postgresql_pgdata }}"
+              state: directory
+              mode: 0700
+              owner: postgres
+              group: postgres
+          - name: Run initdB
+            command: 
+              cmd: "/usr/lib/postgresql/{{ postgresql_version_major }}/bin/initdb -D {{ postgresql_pgdata }}"
+            become: true
+            become_user: postgres
+          - name: Start postgresql with -D data_directory
+            command:
+              cmd: "/usr/lib/postgresql/{{ postgresql_version_major }}/bin/pg_ctl -D {{ postgresql_pgdata }} start"
+            become: true
+            become_user: postgres
+          - name: override postgresql_objects_privileges since there are not any tables yet
+            set_fact:
+              postgresql_objects_privileges: []
+        when: not data_dir.stat.exists
+      - name: run postgresql objects role
+        import_role:
+          name: natefoo.postgresql_objects
         become: true
         become_user: postgres

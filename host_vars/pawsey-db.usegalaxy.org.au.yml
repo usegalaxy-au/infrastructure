@@ -1,5 +1,6 @@
 pawsey_galaxy_server_address: "{{ hostvars['pawsey']['internal_ip'] }}/32"
 
+postgresql_flavor: pgdg
 postgresql_version: 14
 
 attached_volumes:
