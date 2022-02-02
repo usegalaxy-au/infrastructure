@@ -177,6 +177,11 @@ tools:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/.*:
     cores: 5
+  toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
+    cores: 2
+    rules:
+    - match: input_size >= 0.1
+      cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/.*:
     cores: 2
     rules:
