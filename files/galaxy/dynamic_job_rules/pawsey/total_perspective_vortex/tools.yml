@@ -1044,7 +1044,12 @@ tools:
       scheduling:
         accept:
         - high-mem
-  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/3.*:  # send busco 3 to slurm
+    cores: 2
+    rules:
+    - match: 0.05 <= input_size
+      cores: 8
+  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/[^3].*:
     cores: 2
     scheduling:
       accept:
