@@ -1173,6 +1173,21 @@ tools:
         - high-mem
     - match: input_size >= 20
       fail: Too much data, please don't use Spades for this
+  toolshed.g2.bx.psu.edu/repos/iuc/spades_rnaviralspades/spades_rnaviralspades/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+  toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/rnaspades/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+  toolshed.g2.bx.psu.edu/repos/iuc/spades_plasmidspades/spades_plasmidspades/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+  toolshed.g2.bx.psu.edu/repos/iuc/spades_metaviralspades/spades_metaviralspades/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+  toolshed.g2.bx.psu.edu/repos/iuc/spades_metaplasmidspades/spades_metaplasmidspades/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+  toolshed.g2.bx.psu.edu/repos/iuc/spades_coronaspades/spades_coronaspades/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+  toolshed.g2.bx.psu.edu/repos/iuc/spades_biosyntheticspades/spades_biosyntheticspades/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+
 
   .*bowtie2_index_builder_data_manager.*:
     cores: 16
