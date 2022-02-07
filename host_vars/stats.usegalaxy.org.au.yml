@@ -94,7 +94,7 @@ influxdb_databases:
   - 'pulsar-nci-training'
   - 'aarnet'
   - 'pawsey'
-  - 'qld-dr'
+  - 'pulsar-QLD'
   # Others
   - 'pulsar-special'
   - 'ancillary'
@@ -113,7 +113,7 @@ retention_policy_dbs:
   - 'pulsar-nci-training'
   - 'aarnet'
   - 'pawsey'
-  - 'qld-dr'
+  - 'pulsar-QLD'
   # Others
   - 'pulsar-special'
   - 'ancillary'
@@ -210,12 +210,12 @@ grafana_datasources:
     user: "{{ influxdb.grafana.username }}"
     secureJsonData:
       password: "{{ influxdb.grafana.password }}"
-  - name: "qld-dr"
+  - name: "pulsar-QLD"
     type: influxdb
     url: "{{ influxdb.url }}"
     version: 1
     editable: false
-    database: "qld-dr"
+    database: "pulsar-QLD"
     user: "{{ influxdb.grafana.username }}"
     secureJsonData:
       password: "{{ influxdb.grafana.password }}"
