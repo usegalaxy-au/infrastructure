@@ -21,11 +21,11 @@
       - insspb.hostname
       - geerlingguy.pip
       - galaxyproject.postgresql
-      #- dj-wasabi.telegraf
+      - dj-wasabi.telegraf
   post_tasks:
       - name: stat data directory
         stat:
-          path: "postgresql_pgdata"
+          path: "{{ postgresql_pgdata }}"
         register: data_dir
       - name: move the data directory
         block:

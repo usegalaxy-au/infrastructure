@@ -27,7 +27,7 @@ psql_db: 'galaxy'
 #Database connection vars
 db_user: galaxy
 db_password: "{{ vault_pawsey_db_user_password }}"
-db_server: 192.168.0.102
+db_server: 192.168.0.73
 db_port: 5432
 
 # Retention time variables
