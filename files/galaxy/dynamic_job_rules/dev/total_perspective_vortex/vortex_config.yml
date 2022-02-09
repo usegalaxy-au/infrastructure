@@ -101,8 +101,8 @@ tools:
     inherits: pulsar_preferred
     cores: 4
   alphafold:
-    cores: 16
-    mem: 49350
+    cores: 40
+    mem: 107
     params:
       dependency_resolution: 'none'
       singularity_enabled: true
@@ -193,10 +193,13 @@ users:
         scheduling:
           accept:
             - pulsar
+          require:
             - pulsar-azure-0
+        cores: 6
+        mem: 105
         params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=???"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=???"
+          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
+          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
 
 
 destinations:
@@ -226,7 +229,7 @@ destinations:
         - pulsar
   pulsar-eu-gpu-test:
     cores: 40
-    mem: 110000
+    mem: 107
     scheduling:
       accept:
         - general
@@ -235,7 +238,7 @@ destinations:
         - pulsar-eu-gpu-test
   pulsar-eu-gpu-alpha:
     cores: 40
-    mem: 110000
+    mem: 107
     scheduling:
       accept:
         - general
@@ -244,8 +247,8 @@ destinations:
         - pulsar
         - pulsar-eu-gpu-alpha
   pulsar-azure-0-std:  # TODO: this needs higher cores/mem for alphafold
-    cores: 8
-    mem: 32
+    cores: 6
+    mem: 107
     scheduling:
       accept:
         - general
