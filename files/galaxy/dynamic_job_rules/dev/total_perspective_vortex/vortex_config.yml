@@ -190,6 +190,10 @@ users:
             - pulsar
             - pulsar-azure-0
       - match: tool.id == 'alphafold'
+        scheduling:
+          accept:
+            - pulsar
+            - pulsar-azure-0
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=???"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=???"
@@ -221,8 +225,8 @@ destinations:
       require:
         - pulsar
   pulsar-eu-gpu-test:
-    cores: 16
-    mem: 49350
+    cores: 40
+    mem: 110000
     scheduling:
       accept:
         - general
@@ -230,8 +234,8 @@ destinations:
         - pulsar
         - pulsar-eu-gpu-test
   pulsar-eu-gpu-alpha:
-    cores: 16
-    mem: 49350
+    cores: 40
+    mem: 110000
     scheduling:
       accept:
         - general
