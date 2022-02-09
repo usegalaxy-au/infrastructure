@@ -189,9 +189,7 @@ users:
           require:
             - pulsar
             - pulsar-azure-0
-      - match: |
-          value = True if tool.id = 'alphafold' else False
-          value
+      - match: tool.id == 'alphafold'
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=???"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=???"
