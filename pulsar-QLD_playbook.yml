@@ -28,6 +28,7 @@
     - common
     - insspb.hostname
     - geerlingguy.pip
+    - mounts
     - galaxyproject.repos
     - role: galaxyproject.miniconda
       become: true
