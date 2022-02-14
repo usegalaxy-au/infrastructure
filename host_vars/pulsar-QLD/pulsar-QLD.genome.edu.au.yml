@@ -6,9 +6,20 @@ attached_volumes:
     path: /mnt
     fstype: ext4
 
+#Mount the job_nfs - override the standard
+shared_mounts:
+    - path: /mnt/tmp
+      src: "{{ hostvars['pulsar-QLD-job-nfs']['ansible_ssh_host'] }}:/mnt/tmp"
+      fstype: nfs
+      state: mounted
+
 #set for job nfs server instead of pulsar head node
 pulsar_staging_dir: /mnt/tmp/files/staging
 pulsar_persistence_dir: /mnt/tmp/files/persistent_data
+
+#Override the slurm roles - only install exec here as we have a dedicated queue server.
+#Slurm roles
+slurm_roles: ['exec']
 
 # Keys and shares
 

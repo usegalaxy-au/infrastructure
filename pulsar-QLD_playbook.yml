@@ -1,0 +1,40 @@
+- hosts: pulsar-QLD-head
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/pulsar_QLD/pulsar-QLD.yml
+    - group_vars/pulsarservers.yml
+    - group_vars/pulsar_QLD/pulsar-QLD_slurm.yml
+    - group_vars/VAULT
+    - host_vars/pulsar-QLD/pulsar-QLD.genome.edu.au.yml
+    - secret_group_vars/stats_server_vault
+    - secret_group_vars/ubuntu_maintenance_key
+  pre_tasks:
+    - name: apt update
+      apt:
+        cache_valid_time: 3600
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+  roles:
+    - common
+    - insspb.hostname
+    - geerlingguy.pip
+    - galaxyproject.repos
+    - role: galaxyproject.miniconda
+      become: true
+      become_user: "{{ pulsar_user.name }}"
+    - galaxyproject.pulsar
+    - geerlingguy.nfs
+    #- mariadb # - not required here as it's not the slurm controller or dbd.
+    - galaxyproject.slurm
+    - galaxyproject.cvmfs
+    - dj-wasabi.telegraf
+    - pulsar-post-tasks
+    - slurm-post-tasks
+    # - slg.galaxy_stats
+  post_tasks:
+    - name: Reload exportfs
+      command: exportfs -ra
