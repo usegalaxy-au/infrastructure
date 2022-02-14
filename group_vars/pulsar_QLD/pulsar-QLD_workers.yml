@@ -12,10 +12,10 @@ shared_mounts:
       src: pulsar-QLD-job-nfs:/mnt/tmp
       fstype: nfs
       state: mounted
-    - path: /mnt/galaxy
-      src: pulsar-QLD:/mnt/galaxy
+    - path: /mnt/pulsar
+      src: pulsar-QLD:/mnt/pulsar
       fstype: nfs
-      state: absent
+      state: mounted
 
 
 # cvmfs
