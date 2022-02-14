@@ -1,4 +1,4 @@
-- hosts: pulsar-QLD-head
+- hosts: pulsar-QLD
   become: true
   vars_files:
     - group_vars/all.yml
@@ -18,6 +18,12 @@
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
+    - name: Create pulsar deps path
+      file:
+        path: "{{ pulsar_dependencies_dir }}"
+        state: directory
+        owner: "{{ pulsar_user.name }}"
+        group: "{{ pulsar_user.name }}"
   roles:
     - common
     - insspb.hostname
