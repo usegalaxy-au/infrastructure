@@ -92,5 +92,14 @@ destinations:
       require:
       - pulsar
       - pulsar-qld-blast
+  pulsar-QLD:
+    cores: 16
+    mem: 62.72
+    scheduling:
+      accept:
+      - pulsar-QLD
+      require:
+      - pulsar
+      - pulsar-QLD
 
 
