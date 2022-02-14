@@ -9,7 +9,7 @@ shared_mounts:
       fstype: nfs
       state: mounted
     - path: /mnt/pulsar
-      src: pulsar-QLD-job-nfs:/mnt/tmp
+      src: "{{ hostvars['pulsar-QLD-job-nfs']['ansible_ssh_host'] }}:/mnt/tmp"
       fstype: nfs
       state: mounted
     - path: /mnt/pulsar
