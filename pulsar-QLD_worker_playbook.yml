@@ -1,0 +1,58 @@
+- name: Pulsar QLD worker node install
+  hosts: pulsar_QLD_workers
+  become: yes
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/pulsar_QLD/pulsar-QLD.yml
+    - group_vars/pulsar_QLD/pulsar-QLD_workers.yml
+    - group_vars/pulsar_QLD/pulsar-QLD_slurm.yml
+    - group_vars/VAULT
+    - secret_group_vars/stats_server_vault
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+  roles:
+      - common
+      - insspb.hostname
+      - galaxyproject.slurm
+      - mounts
+      - galaxyproject.repos
+      - galaxyproject.cvmfs
+      - dj-wasabi.telegraf
+  post_tasks:
+      - name: Restart munge service
+        service:
+            name: munge
+            state: restarted
+      - name: Move /tmp to vdb
+        block:
+          - name: Create worker tmpdir on vdb
+            file:
+                path: /mnt/tmpdisk
+                state: directory
+                owner: root
+                group: root
+                mode: '1777'
+          - name: stat links
+            stat:
+                path: /tmp
+            register: links
+          - name: remove old tmp
+            file:
+                path: /tmp
+                state: absent
+            when: links.stat.islnk is defined and not links.stat.islnk
+          - name: Link /tmp to /mnt/tmpdisk
+            file:
+                src: /mnt/tmpdisk
+                dest: /tmp
+                state: link
+            become: yes
+            become_user: root
+            when: links.stat.islnk is defined and not links.stat.islnk
+        when: attached_volumes is defined
+      - name: Reload cvmfs config
+        command:
+          cmd: cvmfs_config reload
+        become: yes

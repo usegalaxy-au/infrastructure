@@ -1,5 +1,8 @@
 hostname: "{{ ansible_hostname }}.genome.edu.au"
 
+add_hosts_workers: yes
+add_hosts_head: yes
+
 attached_volumes:
   - device: /dev/vdb
     partition: 1
