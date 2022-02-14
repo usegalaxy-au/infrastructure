@@ -107,3 +107,12 @@ users:
               - offline
             require:
               - pulsar-qld-blast
+    pqld@genome.edu.au:
+      rules:
+        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-QLD
