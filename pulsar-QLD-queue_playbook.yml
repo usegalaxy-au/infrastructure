@@ -1,0 +1,22 @@
+- hosts: pulsar_QLD_queue
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/pulsar_QLD/pulsar-QLD.yml
+      - group_vars/rabbitservers.yml
+      - group_vars/VAULT
+      - host_vars/pulsar-QLD/pulsar-QLD-queue.genome.edu.au.yml
+      - group_vars/pulsar_QLD/pulsar-QLD_slurm.yml
+      - secret_group_vars/stats_server_vault
+      - secret_group_vars/ubuntu_maintenance_key
+  roles:
+      - common
+      - insspb.hostname
+      - geerlingguy.pip
+      #- jasonroyle.rabbitmq
+      #- galaxyproject.nginx
+      - mariadb
+      - galaxyproject.repos
+      - galaxyproject.slurm
+      - dj-wasabi.telegraf
+      - slurm-post-tasks

@@ -57,6 +57,7 @@ pawsey-job-nfs ansible_ssh_host=146.118.70.65 internal_ip=192.168.0.92
 aarnet-user-nfs ansible_ssh_host=192.168.199.10 internal_ip=192.168.199.10
 aarnet-misc-nfs ansible_ssh_host=192.168.199.74 internal_ip=192.168.199.74
 aarnet-job-nfs ansible_ssh_host=192.168.199.203 internal_ip=192.168.199.203
+pulsar-QLD-job-nfs ansible_ssh_host=203.101.229.199
 
 [dev_slurm_head]
 dev-queue ansible_ssh_host=45.113.232.149
@@ -171,14 +172,16 @@ qld-pulsar-himem-2 ansible_ssh_host=203.101.231.176
 pulsar-qld-blast ansible_ssh_host=203.101.231.166 internal_ip=10.255.138.38
 
 
-[pulsar_qld_head]
-pulsar-qld ansible_ssh_host=203.101.229.179
+[pulsar_QLD_head]
+pulsar-QLD ansible_ssh_host=203.101.225.247
 
-[pulsar_qld_workers]
-pulsar-qld-w1 ansible_ssh_host=203.101.225.225
-pulsar-qld-w2 ansible_ssh_host=203.101.227.176
-pulsar-qld-w3 ansible_ssh_host=203.101.227.21
-pulsar-qld-w4 ansible_ssh_host=203.101.230.2
+[pulsar_QLD_queue]
+pulsar-QLD-queue ansible_ssh_host=203.101.227.169
+
+[pulsar_QLD_workers]
+pulsar-QLD-w0 ansible_ssh_host=203.101.228.51
+pulsar-QLD-w1 ansible_ssh_host=203.101.227.176
+pulsar-QLD-w2 ansible_ssh_host=203.101.227.21
 
 [pulsar_nci_training_head]
 pulsar-nci-training ansible_ssh_host=130.56.246.233 internal_ip=10.0.1.46
@@ -206,14 +209,14 @@ nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249
 aarnet-backup ansible_ssh_host=138.44.80.71 internal_ip=192.168.199.93
 
 ##### DR environment at Qriscloud
-[qld-dr]
-qld-dr-head ansible_ssh_host=203.101.225.247
-qld-dr-queue ansible_ssh_host=203.101.227.169
-qld-dr-job-nfs ansible_ssh_host=203.101.229.199
-qld-dr-db ansible_ssh_host=203.101.227.89
-qld-dr-w0 ansible_ssh_host=203.101.228.51
-qld-dr-w1 ansible_ssh_host=203.101.227.144
-qld-dr-w2 ansible_ssh_host=203.101.229.95
+#[qld-dr]
+#qld-dr-head ansible_ssh_host=203.101.225.247
+#qld-dr-queue ansible_ssh_host=203.101.227.169
+#qld-dr-job-nfs ansible_ssh_host=203.101.229.199
+#qld-dr-db ansible_ssh_host=203.101.227.89
+#qld-dr-w0 ansible_ssh_host=203.101.228.51
+#qld-dr-w1 ansible_ssh_host=203.101.227.144
+#qld-dr-w2 ansible_ssh_host=203.101.229.95
 
 ##### Pulsar EU GPU (test machine for Alphafold)
 [GPU-pulsars]

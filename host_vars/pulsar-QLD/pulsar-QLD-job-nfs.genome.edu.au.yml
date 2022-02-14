@@ -1,0 +1,15 @@
+attached_volumes:
+  - device: /dev/vdb
+    partition: 1
+    path: /mnt
+    fstype: ext4
+
+galaxy_job_dir: /mnt/tmp
+
+nfs_exports:
+  - "{{ galaxy_job_dir }} 203.101.224.0/19(rw,async,no_root_squash,no_subtree_check)"
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: public
+    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"
