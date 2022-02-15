@@ -4,5 +4,6 @@
         <tool file="/mnt/galaxy/local_tools/alphafold/alphafold.xml" />
         <tool file="/mnt/galaxy/local_tools/wtdbg2/wtdbg2.xml" />
         <tool file="/mnt/galaxy/local_tools/ipa/ipa.xml" />
+        <tool file="/mnt/galaxy/local_tools/links/links.xml" />
     </section>
 </toolbox>
