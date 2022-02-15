@@ -8,6 +8,8 @@
       - group_vars/aarnet_slurm.yml
       - host_vars/aarnet.usegalaxy.org.au.yml
       - host_vars/aarnet_job_conf.yml
+      - secret_group_vars/stats_server_vault # TODO: are any new variables needed for this?
+      - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -20,6 +22,7 @@
   roles:
     - galaxyproject.repos
     - common
+    - install-tpv
     - mounts
     - galaxyproject.postgresql
     - role: natefoo.postgresql_objects
@@ -45,12 +48,6 @@
     # - slg.galaxy_stats
     - usegalaxy_eu.tiaas2
   post_tasks:
-    - name: Clone Galaxy-Owncloud-Integration
-      git:
-        repo: https://github.com/usegalaxy-au/Galaxy-Owncloud-Integration
-        dest: "{{ galaxy_server_dir }}/tools/Galaxy-Owncloud-Integration"
-        update: no
-      when: use_cloudstor_conf|d(false) == true
     - name: Clone galaxy-local-tools
       git:
         repo: https://github.com/usegalaxy-au/galaxy-local-tools
