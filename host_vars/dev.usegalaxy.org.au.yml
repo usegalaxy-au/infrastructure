@@ -306,3 +306,10 @@ rpc_pulsar_machines:
 extra_keys:
   - id: ubuntu_maintenance_key
     type: private
+
+# Golang
+golang_gopath: '/var/workspace-go'
+
+# Singularity target version
+singularity_version: "3.7.4"
+singularity_go_path: "{{ golang_install_dir }}"

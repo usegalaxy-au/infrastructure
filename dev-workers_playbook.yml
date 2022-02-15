@@ -20,6 +20,8 @@
       - galaxyproject.slurm
       - galaxyproject.cvmfs
       - geerlingguy.docker
+      - gantsign.golang
+      - cyverse-ansible.singularity
       - dj-wasabi.telegraf
       - acl-on-startup
   post_tasks:
