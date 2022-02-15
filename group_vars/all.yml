@@ -71,6 +71,10 @@ machine_users:
         - tiaas_admin
       key: files/keys/anna.pub
       email: "{{ anna_email }}"
+    - name: tom
+      roles: []
+      key: files/keys/tom.pub
+      email: "{{ tom_email }}"
 
 galaxy_user:
   name: galaxy
