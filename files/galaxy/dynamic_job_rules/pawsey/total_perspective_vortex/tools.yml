@@ -1205,3 +1205,9 @@ tools:
     cores: 32
   .*twobit_builder_data_manager.*:
     cores: 16
+  .*data_manager_eggnog_mapper_abspath.*:
+    cores: 5
+  .*data_manager_interproscan.*:
+    cores: 5
+  .*data_manager_funannotate.*:
+    cores: 5
