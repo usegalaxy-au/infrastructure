@@ -148,11 +148,15 @@ execution:
         - name: LC_ALL
           value: C
         - name: SINGULARITY_CACHEDIR
-          value: /shared/singularity_cache
+          value: /data/alphafold_databases/singularity_cache
         - name: SINGULARITY_TMPDIR
-          value: /shared/singularity_tmp
-        - name: ALPHAFOLD_DB
-          value: /shared/
+          value: /data/alphafold_databases/singularity_tmp
+          #- name: ALPHAFOLD_DB
+          #value: /data/alphafold_databases
+        - name: APPTAINER_CACHEDIR
+          value: /data/alphafold_databases/singularity_cache
+        - name: APPTAINER_TMPDIR
+          value: /data/alphafold_databases/singularity_tmp
 
 tools:
 - id: interactive_tool_ethercalc
