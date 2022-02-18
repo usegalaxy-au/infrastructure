@@ -1187,7 +1187,13 @@ tools:
     inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
   toolshed.g2.bx.psu.edu/repos/iuc/spades_biosyntheticspades/spades_biosyntheticspades/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
-
+  toolshed.g2.bx.psu.edu/repos/iuc/cat_prepare/cat_prepare/.*:
+    cores: 60
+    mem: 961
+    scheduling:
+      accept:
+      - pulsar
+      - high-mem  
 
   .*bowtie2_index_builder_data_manager.*:
     cores: 16
