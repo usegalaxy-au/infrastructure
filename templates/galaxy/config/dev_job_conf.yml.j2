@@ -65,6 +65,7 @@ execution:
       rules_module: vortex.rules
       vortex_config_files:
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/interactive_tools.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/vortex_config.yml"
     dynamic_dtd:
       runner: dynamic
@@ -158,15 +159,6 @@ execution:
         - name: APPTAINER_TMPDIR
           value: /data/alphafold_databases/singularity_tmp
 
-tools:
-- id: interactive_tool_ethercalc
-  environment: interactive_local
-- id: interactive_tool_rstudio
-  environment: interactive_local
-- id: interactive_tool_jupyter_notebook
-  environment: interactive_pulsar
-- id: interactive_tool_phinch
-  environment: interactive_local
 limits:
 - type: anonymous_user_concurrent_jobs
   value: 1
