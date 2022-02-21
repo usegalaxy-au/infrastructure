@@ -2,7 +2,7 @@ attached_volumes:
   - device: /dev/vdc
     path: /mnt
     fstype: ext4
-  - device: /dev/vdXYZ
+  - device: /dev/vdd
     path: /custom-indices
     partition: 1
     fstype: ext4
