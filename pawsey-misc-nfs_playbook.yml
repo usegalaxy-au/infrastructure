@@ -7,6 +7,10 @@
       - group_vars/nfs_servers.yml
       - host_vars/pawsey-misc-nfs.usegalaxy.org.au.yml
   pre_tasks:
+      - name: Create galaxy_nfs_custom_indices_dir directory
+        file:
+          path: "{{ galaxy_nfs_custom_indices_dir }}"
+          state: directory
       - name: Attach volume to instance
         include_role:
           name: attached-volumes
@@ -24,18 +28,15 @@
       - geerlingguy.pip
       - geerlingguy.nfs
   post_tasks:
-      - name: Chown shared dirs to Galaxy user
+      - name: Chown dirs to Galaxy user
         file:
-          path: "{{ galaxy_nfs_app_dir }}"
+          path: "{{ item }}"
           owner: galaxy
           group: galaxy
-          recurse: yes
-      - name: Chown tools dir to Galaxy user
-        file:
-          path: "{{ galaxy_nfs_tools_dir }}"
-          owner: galaxy
-          group: galaxy
-          recurse: yes
+        with_items:
+          - "{{ galaxy_nfs_app_dir }}"
+          - "{{ galaxy_nfs_tools_dir }}"
+          - "{{ galaxy_nfs_custom_indices_dir }}"
       - name: Reload exportfs
         command: exportfs -ra
         become: yes
