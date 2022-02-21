@@ -141,10 +141,14 @@ execution:
       transport: curl
       remote_metadata: "false"
       default_file_action: remote_transfer
-      dependency_resolution: remote
+      # dependency_resolution: remote
       rewrite_parameters: "true"
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32000"
+      dependency_resolution: 'none'
+      singularity_enabled: true
+      singularity_run_extra_arguments: --nv
+      singularity_volumes: "$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro"
       env:
         - name: LC_ALL
           value: C
