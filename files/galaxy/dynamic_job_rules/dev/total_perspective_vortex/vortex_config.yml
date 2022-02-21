@@ -5,7 +5,7 @@ tools:
         - pulsar
   upload1:
     cores: 1
-  
+
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     cores: 2
     params:
@@ -19,7 +19,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
     inherits: pulsar_preferred
     cores: 8
-    mem: 30.39  
+    mem: 30.39
   #   env:
   #     MAKER_MPI: 1
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_callvariants/bbtools_callvariants/.*:
@@ -103,11 +103,6 @@ tools:
   alphafold:
     cores: 40
     mem: 107
-    params:
-      dependency_resolution: 'none'
-      singularity_enabled: true
-      singularity_run_extra_arguments: --nv
-      singularity_volumes: "$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro"
     scheduling:
       accept:
         - pulsar
@@ -216,7 +211,7 @@ users:
           accept:
             - pulsar
           require:
-            - pulsar-azure-0
+            - pulsar-azure-docker
         cores: 6
         mem: 105
         params:
@@ -278,3 +273,13 @@ destinations:
       require:
         - pulsar
         - pulsar-azure-0
+  pulsar-azure-0-docker:  # TODO: this needs higher cores/mem for alphafold
+    cores: 6
+    mem: 107
+    scheduling:
+      accept:
+        - general
+        - alphafold
+      require:
+        - pulsar
+        - pulsar-azure-docker

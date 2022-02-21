@@ -141,10 +141,14 @@ execution:
       transport: curl
       remote_metadata: "false"
       default_file_action: remote_transfer
-      dependency_resolution: remote
+      # dependency_resolution: remote
       rewrite_parameters: "true"
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32000"
+      dependency_resolution: 'none'
+      singularity_enabled: true
+      singularity_run_extra_arguments: --nv
+      singularity_volumes: "$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro"
       env:
         - name: LC_ALL
           value: C
@@ -158,6 +162,35 @@ execution:
           value: /data/alphafold_databases/singularity_cache
         - name: APPTAINER_TMPDIR
           value: /data/alphafold_databases/singularity_tmp
+    pulsar-azure-0-docker:
+      runner: pulsar_azure_0_runner
+      jobs_directory: /mnt/pulsar/files/staging
+      transport: curl
+      remote_metadata: "false"
+      docker_enabled: true
+      docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
+      docker_memory: 105G
+      docker_sudo: false
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: "true"
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32000"
+      require_container: true
+      docker_run_extra_arguments: "--gpus all"
+      # env:
+      #   - name: LC_ALL
+      #     value: C
+      #   - name: SINGULARITY_CACHEDIR
+      #     value: /data/alphafold_databases/singularity_cache
+      #   - name: SINGULARITY_TMPDIR
+      #     value: /data/alphafold_databases/singularity_tmp
+      #     #- name: ALPHAFOLD_DB
+      #     #value: /data/alphafold_databases
+      #   - name: APPTAINER_CACHEDIR
+      #     value: /data/alphafold_databases/singularity_cache
+      #   - name: APPTAINER_TMPDIR
+      #     value: /data/alphafold_databases/singularity_tmp
 
 limits:
 - type: anonymous_user_concurrent_jobs
