@@ -2,6 +2,8 @@ users:
     jenkins_bot@usegalaxy.org.au:
       cores: 1
       mem: cores * 3.8
+      params:
+        nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=main"
       scheduling:
         require:
           - slurm
