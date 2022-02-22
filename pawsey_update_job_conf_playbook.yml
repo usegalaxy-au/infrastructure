@@ -14,6 +14,7 @@
         - users.yml
         - roles.yml
         - destinations.yml
+        - interactive_tools.yml
     - tpv_templates:
         - default_tool.yml.j2
   handlers:
