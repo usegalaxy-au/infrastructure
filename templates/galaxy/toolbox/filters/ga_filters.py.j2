@@ -1,11 +1,23 @@
 test_tool_users = ["{{ test_tool_users | join('", "') }}"]
 test_tool_label = "test"
 
+restricted_ITs = ["interactive_tool_rstudio", "interactive_tool_jupyter_notebook"]
+IT_roles = ["trusted_for_ITs"]
+
 def hide_test_tools(context, tool):
     """
     hide tools with 'test' tag from all but selected_users
     """
     if hasattr(tool, 'labels') and test_tool_label in tool.labels:
         user = context.trans.user
-        return user and user.email in test_tool_users
+        return user is not None and user.email in test_tool_users
+    return True
+
+def restrict_interactive_tools(context, tool):
+    """
+    Show restricted interactive tools to users with specified roles
+    """
+    if hasattr(tool, 'id') and tool.id in restricted_ITs:
+        user = context.trans.user
+        return user is not None and len([r for r in user.all_roles() if not r.deleted and r.name in IT_roles]) > 0
     return True
