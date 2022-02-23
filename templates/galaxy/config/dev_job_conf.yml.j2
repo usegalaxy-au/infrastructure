@@ -178,6 +178,7 @@ execution:
       submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32000"
       require_container: true
       docker_run_extra_arguments: "--gpus all"
+      docker_set_user: '1000'
       # env:
       #   - name: LC_ALL
       #     value: C

@@ -8,6 +8,7 @@
       - group_vars/dev_slurm.yml
       - host_vars/dev.usegalaxy.org.au.yml
       - secret_group_vars/ubuntu_maintenance_key
+      - secret_group_vars/dev_secrets
   vars:
     - tpv_files:
       - default_tool.yml
