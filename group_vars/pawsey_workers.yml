@@ -17,6 +17,10 @@ shared_mounts:
       src: "{{ hostvars['pawsey-misc-nfs']['internal_ip'] }}:/mnt/tools-indices"
       fstype: nfs
       state: mounted
+    - path: /mnt/custom-indices
+      src: "{{ hostvars['pawsey-misc-nfs']['internal_ip'] }}:/custom-indices"
+      fstype: nfs
+      state: mounted
     - path: /mnt/user-data
       src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/mnt/user-data"
       fstype: nfs
