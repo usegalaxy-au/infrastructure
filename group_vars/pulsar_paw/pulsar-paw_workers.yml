@@ -3,16 +3,16 @@ slurm_roles: ['exec']
 add_hosts_head: yes
 
 shared_mounts:
-    - path: /mnt/tools-indices
-      src: pulsar-paw:/mnt/tools-indices
+    - path: /mnt/custom-indices
+      src: pulsar-paw:/mnt/custom-indices
       fstype: nfs
       state: mounted
     - path: /mnt/pulsar
       src: pulsar-paw:/mnt/pulsar
       fstype: nfs
       state: mounted
-    - path: /mnt/galaxy
-      src: pulsar-paw:/mnt/galaxy
+    - path: /mnt/tools-indices
+      src: pulsar-paw:/mnt/tools-indices
       fstype: nfs
       state: absent
 

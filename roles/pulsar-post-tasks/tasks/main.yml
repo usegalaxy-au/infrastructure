@@ -11,9 +11,9 @@
       group: ubuntu
       state: directory
       mode: 0755
-- name: own the pulsar_tools_indices_dir as ubuntu
+- name: own the pulsar_custom_indices_dir as ubuntu
   file:
-      path: "{{ pulsar_tools_indices_dir }}"
+      path: "{{ pulsar_custom_indices_dir }}"
       owner: ubuntu
       group: ubuntu
       state: directory

@@ -37,7 +37,7 @@ slurmdbd_config:
 #NFS shares
 
 nfs_exports:
-    - "/mnt/tools-indices  *(rw,async,no_root_squash,no_subtree_check)"
+    - "{{ pulsar_custom_indices_dir }}  *(rw,async,no_root_squash,no_subtree_check)"
     - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
 
 # Pulsar
@@ -112,7 +112,7 @@ pulsar_conda_prefix: "{{ pulsar_dependencies_dir }}/_conda"
 miniconda_prefix: "{{ pulsar_conda_prefix }}"
 
 # for pulsar-post-tasks
-pulsar_tools_indices_dir: /mnt/tools-indices
+pulsar_custom_indices_dir: /mnt/custom-indices
 
 #Stats collection
 sinfo_line_startswith: "p"
