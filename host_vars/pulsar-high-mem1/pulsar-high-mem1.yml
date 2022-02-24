@@ -18,9 +18,9 @@ pulsar_rabbit_username: "galaxy_hm1"
 pulsar_rabbit_vhost: "/pulsar/galaxy_hm1"
 
 attached_volumes:
-  - device: /dev/mapper/vg_nvme_striped-lv_nvme_striped
+  - device: /dev/dm-0
     path: /mnt
-    fstype: xfs
+    fstype: ext4
 
 galaxy_uid: 10010
 galaxy_gid: 10010
@@ -51,7 +51,7 @@ head_nodes: "{{ groups['pulsar_high_mem1'] }}"
 
 # 21/02/2022 revert to using conda because of mamba install errors
 # # Use mamba as replacement for conda
-# pulsar_conda_exec: "mamba"
+pulsar_conda_exec: "mamba"
 
 # SLURM
 slurm_nodes:
