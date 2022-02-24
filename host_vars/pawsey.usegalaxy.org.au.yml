@@ -88,7 +88,8 @@ galaxy_dynamic_job_rules:
   - dynamic_rules/tool_destinations.yml
   - readme.txt
 
-galaxy_tools_indices_dir: /mnt/tools-indices     
+galaxy_tools_indices_dir: /mnt/tools-indices
+galaxy_custom_indices_dir: /mnt/custom-indices    
 galaxy_tmp_dir: /mnt/tmp     
 
 galaxy_handler_count: 5   ############# europe uses 5, this could be host specific

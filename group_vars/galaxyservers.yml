@@ -169,7 +169,7 @@ group_galaxy_config:
     user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences_extra_conf.yml"
     file_sources_config_file: "{{ galaxy_config_dir }}/file_sources_conf.yml"
 
-    galaxy_data_manager_data_path: "{{ galaxy_tools_indices_dir }}/custom-indices"
+    galaxy_data_manager_data_path: "{{ galaxy_custom_indices_dir }}"
     shed_tool_data_path: "{{ galaxy_tools_indices_dir }}/tool-data/shed_tool_data"
     tool_data_path: "{{ galaxy_tools_indices_dir }}/tool-data"
     tool_data_table_config_path: "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
