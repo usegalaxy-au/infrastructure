@@ -22,6 +22,7 @@
     - galaxyproject.repos
     - common
     - install-tpv
+    - acl-on-startup
     - mounts
     - galaxyproject.postgresql
     - role: natefoo.postgresql_objects
@@ -82,10 +83,4 @@
         src: /mnt/files
         dest: /mnt/galaxy/files
         state: link
-    - name: add FACL for docker.sock
-      acl:
-        path: /var/run/docker.sock
-        entity: "{{ galaxy_user.name }}"
-        etype: user
-        permissions: rw
-        state: present
+
