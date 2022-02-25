@@ -1024,8 +1024,8 @@ tools:
     - match: 1 <= input_size < 20
       cores: 8
     - match: input_size >= 20
-      cores: 120
-      mem: 1922
+      cores: 60
+      mem: 961
       scheduling:
         accept:
         - high-mem
@@ -1060,8 +1060,8 @@ tools:
     - match: 0.05 <= input_size < 0.3
       cores: 8
     - match: input_size >= 0.3
-      cores: 120
-      mem: 1922
+      cores: 60
+      mem: 961
       scheduling:
         accept:
         - high-mem
@@ -1093,8 +1093,8 @@ tools:
       - pulsar
     rules:
     - match: input_size >= 1
-      cores: 120
-      mem: 1922
+      cores: 60
+      mem: 961
       scheduling:
         accept:
         - high-mem
