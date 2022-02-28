@@ -7,7 +7,6 @@
       - group_vars/galaxyservers.yml
       - group_vars/pawsey_slurm.yml
       - host_vars/pawsey.usegalaxy.org.au.yml
-      - host_vars/pawsey_job_conf.yml
       - secret_group_vars/stats_server_vault
   handlers:
     - name: Restart Slurmd
