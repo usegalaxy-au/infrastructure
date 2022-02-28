@@ -79,6 +79,7 @@ galaxy_dynamic_job_rules:
   - readme.txt
 
 galaxy_tools_indices_dir: /mnt/tools-indices     
+galaxy_custom_indices_dir: /mnt/custom-indices     
 galaxy_tmp_dir: /mnt/tmp
 
 galaxy_handler_count: 5

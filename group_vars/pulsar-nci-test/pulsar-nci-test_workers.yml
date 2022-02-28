@@ -4,16 +4,16 @@ add_hosts_head: yes
 use_internal_ips: true
 
 shared_mounts:
-    - path: /mnt/tools-indices
-      src: pulsar-nci-test:/mnt/tools-indices
+    - path: /mnt/custom-indices
+      src: pulsar-nci-test:/mnt/custom-indices
       fstype: nfs
       state: mounted
     - path: /mnt/pulsar
       src: pulsar-nci-test:/mnt/pulsar
       fstype: nfs
       state: mounted
-    - path: /mnt/galaxy
-      src: pulsar-nci-test:/mnt/galaxy
+    - path: /mnt/tools-indices
+      src: pulsar-nci-test:/mnt/tools-indices
       fstype: nfs
       state: absent
 

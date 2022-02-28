@@ -4,8 +4,8 @@ add_hosts_head: yes
 add_hosts_galaxy: yes
 
 shared_mounts:
-    - path: /mnt/tools-indices
-      src: pulsar-QLD:/mnt/tools-indices
+    - path: /mnt/custom-indices
+      src: pulsar-QLD:/mnt/custom-indices
       fstype: nfs
       state: mounted
     - path: /mnt/tmp
@@ -16,6 +16,10 @@ shared_mounts:
       src: pulsar-QLD:/mnt/pulsar
       fstype: nfs
       state: mounted
+    - path: /mnt/tools-indices
+      src: pulsar-nci-test:/mnt/tools-indices
+      fstype: nfs
+      state: absent
 
 
 # cvmfs
