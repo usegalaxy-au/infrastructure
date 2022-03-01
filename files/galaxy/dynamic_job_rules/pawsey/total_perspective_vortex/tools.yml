@@ -59,6 +59,8 @@ tools:
     rules:
     - match: input_size >= 0.3
       cores: 7
+  toolshed.g2.bx.psu.edu/repos/bgruening/interproscan/interproscan/.*:
+    cores: 8
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_eventalign/nanopolish_eventalign/.*:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_methylation/nanopolish_methylation/.*:
@@ -177,6 +179,8 @@ tools:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/.*:
     cores: 5
+  toolshed.g2.bx.psu.edu/repos/iuc/funannotate_predict/funannotate_predict/.*:
+    cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
     cores: 2
     rules:
@@ -189,6 +193,8 @@ tools:
       cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/.*:
     cores: 2
+  toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper/.*:
+    cores: 6
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
     cores: 16
     params:
@@ -749,7 +755,11 @@ tools:
       - pulsar
     rules:
     - match: input_size >= 5e-06
-      cores: 16
+      cores: 120
+      mem: 1922
+      scheduling:
+        accept:
+        - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_consensus/ivar_consensus/.*:
     cores: 8
     mem: cores * 3.7
@@ -973,13 +983,18 @@ tools:
     - match: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/.*:
-    cores: 2
+    cores: 16
     scheduling:
       accept:
       - pulsar
     rules:
     - match: input_size >= 0.5
       fail: Too much data, please don't use MAFFT for this.
+    - match: |
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 2  # concurrent jobs per user
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/velvetoptimiser/.*:
     cores: 2
     scheduling:
@@ -1210,4 +1225,6 @@ tools:
   .*data_manager_interproscan.*:
     cores: 5
   .*data_manager_funannotate.*:
+    cores: 5
+  .*data_manager_cat.*:
     cores: 5
