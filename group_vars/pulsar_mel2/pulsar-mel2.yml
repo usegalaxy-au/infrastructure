@@ -4,6 +4,13 @@ galaxy_gid: 10010
 use_internal_ips: false
 add_hosts_workers: true
 
+#NFS shares
+
+nfs_exports:
+    - "{{ pulsar_custom_indices_dir }}  *(rw,async,no_root_squash,no_subtree_check)"
+    - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
+    - "/mnt/pulsar/files *(rw,async,no_root_squash,no_subtree_check)"
+
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 
