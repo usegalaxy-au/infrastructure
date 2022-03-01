@@ -190,8 +190,6 @@ group_galaxy_config:
     build_sites_config_file: "{{ galaxy_config_dir }}/build_sites.yml"
     enable_old_display_applications: true
 
-    tool_filters: ga_filters:hide_test_tools
-
     dependency_resolvers:
       - type: tool_shed_packages
       - type: galaxy_packages
@@ -202,6 +200,15 @@ group_galaxy_config:
       - type: conda
         exec: "{{ galaxy_conda_prefix }}/bin/{{ galaxy_conda_exec|d('conda') }}"
         versionless: true
+
+    # Taken from usegalaxy.org
+    tool_name_boost: 0.1
+    tool_section_boost: 1
+    tool_description_boost: 0.1
+    tool_label_boost: 1
+    tool_stub_boost: 1
+    tool_help_boost: 1
+    tool_search_limit: 160
 
     # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
 
@@ -231,14 +238,6 @@ group_galaxy_config:
     # rsync_url: 'rsync://scofield.bx.psu.edu/indexes'
     # len_file_path: /mnt/galaxy-app/tool-data/len
 
-    # Taken from usegalaxy.org
-    tool_name_boost: 0.1
-    tool_section_boost: 1
-    tool_description_boost: 0.1
-    tool_label_boost: 1
-    tool_stub_boost: 1
-    tool_help_boost: 1
-    tool_search_limit: 160
 
 # galaxy_config_template_src_dir: templates/galaxy  ## this var has been moved to all.yml
 group_galaxy_config_templates:
@@ -246,8 +245,6 @@ group_galaxy_config_templates:
     dest: "{{ galaxy_server_dir }}/static/welcome.html"
   - src: "{{ galaxy_config_template_src_dir }}/config/reports.yml.j2"
     dest: "{{ galaxy_config_dir }}/reports.yml"
-  - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
-    dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
   - src: "{{ galaxy_config_template_src_dir }}/config/tool_conf_interactive.xml.j2"
     dest: "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
   - src: "{{ galaxy_config_template_src_dir }}/config/pulsar_app.yml.j2"
