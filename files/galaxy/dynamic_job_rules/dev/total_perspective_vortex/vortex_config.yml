@@ -212,17 +212,46 @@ users:
           require:
             - pulsar
             - pulsar-azure-0
-      - match: tool.id == 'alphafold'
+      - match: |
+          'alphafold' in tool.id
         scheduling:
           accept:
             - pulsar
           require:
             - pulsar-azure-0
         cores: 6
-        mem: 105
+        mem: 107
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
+          docker_enabled: true
+          docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
+          docker_memory: 107G
+          docker_sudo: false
+          require_container: true
+          docker_run_extra_arguments: "--gpus all"
+          docker_set_user: '1000'
+      - match: |
+          'bgruening/flye' in tool.id
+        cores: '???'
+        mem: '???'
+        params:
+          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=???"
+          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=???"
+      - match: |
+          'devteam/bwa/bwa_mem' in tool.id
+        cores: '???'
+        mem: '???'
+        params:
+          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=???"
+          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=???"
+      - match: |
+          'iuc/trinity' in tool.id
+        cores: '???'
+        mem: '???'
+        params:
+          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=???"
+          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=???"
   pulsar_azure_docker@genome.edu.au:
     rules:
       - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')

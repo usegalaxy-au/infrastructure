@@ -141,7 +141,16 @@ execution:
       transport: curl
       remote_metadata: "false"
       default_file_action: remote_transfer
-      # dependency_resolution: remote
+      dependency_resolution: remote
+      rewrite_parameters: "true"
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32000"
+    pulsar-azure-0-singularity:
+      runner: pulsar_azure_0_runner
+      jobs_directory: /mnt/pulsar/files/staging
+      transport: curl
+      remote_metadata: "false"
+      default_file_action: remote_transfer
       rewrite_parameters: "true"
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32000"
@@ -156,8 +165,6 @@ execution:
           value: /data/alphafold_databases/singularity_cache
         - name: SINGULARITY_TMPDIR
           value: /data/alphafold_databases/singularity_tmp
-          #- name: ALPHAFOLD_DB
-          #value: /data/alphafold_databases
         - name: APPTAINER_CACHEDIR
           value: /data/alphafold_databases/singularity_cache
         - name: APPTAINER_TMPDIR
@@ -179,19 +186,6 @@ execution:
       require_container: true
       docker_run_extra_arguments: "--gpus all"
       docker_set_user: '1000'
-      # env:
-      #   - name: LC_ALL
-      #     value: C
-      #   - name: SINGULARITY_CACHEDIR
-      #     value: /data/alphafold_databases/singularity_cache
-      #   - name: SINGULARITY_TMPDIR
-      #     value: /data/alphafold_databases/singularity_tmp
-      #     #- name: ALPHAFOLD_DB
-      #     #value: /data/alphafold_databases
-      #   - name: APPTAINER_CACHEDIR
-      #     value: /data/alphafold_databases/singularity_cache
-      #   - name: APPTAINER_TMPDIR
-      #     value: /data/alphafold_databases/singularity_tmp
 
 limits:
 - type: anonymous_user_concurrent_jobs
