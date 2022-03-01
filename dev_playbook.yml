@@ -55,6 +55,13 @@
     - dj-wasabi.telegraf
     - login-override
   post_tasks:
+    - name: Make local_tool directory group-writable by machine users
+      file:
+        path: /mnt/galaxy/local_tools
+        owner: root
+        group: devs
+        mode: 0775
+        state: directory
     - name: Clone galaxy-local-tools
       git:
         repo: https://github.com/usegalaxy-au/galaxy-local-tools
