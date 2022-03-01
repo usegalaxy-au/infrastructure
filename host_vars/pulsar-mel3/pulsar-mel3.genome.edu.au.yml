@@ -5,7 +5,7 @@ hostname: "{{ ansible_hostname }}.genome.edu.au"
 #NFS shares
 
 nfs_exports:
-    - "/mnt/tools-indices  *(rw,async,no_root_squash,no_subtree_check)"
+    - "{{ pulsar_custom_indices_dir }}  *(rw,async,no_root_squash,no_subtree_check)"
     - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
     - "/mnt/files   *(rw,async,no_root_squash,no_subtree_check)"
 
