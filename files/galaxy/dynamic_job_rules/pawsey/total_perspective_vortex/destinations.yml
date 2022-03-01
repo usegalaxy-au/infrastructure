@@ -14,7 +14,6 @@ destinations:
       - pulsar-mel2
       require:
       - pulsar
-      - offline
   pulsar-paw:
     cores: 8
     mem: 31.36
@@ -55,7 +54,6 @@ destinations:
       accept:
       - pulsar-qld-high-mem0
       require:
-      - offline # machine is being taken offline for a couple of weeks as of 15/01/22
       - pulsar
       - high-mem
   pulsar-qld-high-mem1:
