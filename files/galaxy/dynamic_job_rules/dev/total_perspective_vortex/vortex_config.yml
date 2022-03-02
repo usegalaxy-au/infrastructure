@@ -280,6 +280,24 @@ users:
           require:
             - pulsar
             - pulsar-azure-0
+  pulsar_azure_docker@genome.edu.au:
+    rules:
+      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-azure-docker
+      - match: tool.id == 'alphafold'
+        scheduling:
+          accept:
+            - pulsar
+          require:
+            - pulsar-azure-docker
+        cores: 6
+        mem: 105
+        params:
+          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
+          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
 
 destinations:
   slurm:
