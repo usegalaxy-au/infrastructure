@@ -302,6 +302,11 @@ grafana_datasources:
       password: "{{ influxdb.grafana.password }}"
 
 
+# Docker
+docker_install_compose: false
+docker_users:
+  - ubuntu
+
 # Telegraf
 
 # Monitoring
