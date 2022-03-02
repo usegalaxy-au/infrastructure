@@ -58,13 +58,30 @@ tools:
           from galaxy.jobs.mapper import JobNotReadyException; raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
     cores: 1
+    scheduling:
+      accept:
+        - pulsar  
     rules:
-      # send all paired end jobs to pulsar to test argument matching
-      - match: |
-          helpers.job_args_match(job, app, {'fastq_input': {"fastq_input_selector": "paired"}})
+      - match: user.email == "pulsar_azure_0@usegalaxy.org.au" and input_size < 10
         scheduling:
-          prefer:
-            - pulsar
+          require:
+            - pulsar-azure-0
+        cores: 4
+        mem: 16
+        params:
+          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
+          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
+      - match: user.email == "pulsar_azure_0@usegalaxy.org.au" and input_size >= 10
+        scheduling:
+          require:
+            - pulsar-azure-0
+        cores: 16
+        mem: 64
+        params:
+          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=medium"
+          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=medium"
+
+
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     inherits: pulsar_preferred
     cores: 2
@@ -82,9 +99,19 @@ tools:
     - match: input_size >= 2
       cores: 3
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
-    inherits: pulsar_preferred
     cores: 8
     mem: 30.39
+    scheduling:
+      accept:
+        - pulsar
+    rules:
+      - match: user.email == "pulsar_azure_0@usegalaxy.org.au"
+        cores: 120
+        mem: 2000
+        params:
+          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=special"
+          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=special"
+
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     inherits: pulsar_preferred
     cores: 4
@@ -100,7 +127,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_em/gmx_em/.*:
     inherits: pulsar_preferred
     cores: 4
-  alphafold:
+  .*alphafold.*:  # match local or toolshed alphafold
     cores: 40
     mem: 107
     scheduling:
@@ -109,12 +136,53 @@ tools:
         - pulsar-eu-gpu-alpha
       require:
         - alphafold
+    rules:
+      - match: user.email == "pulsar_azure_0@usegalaxy.org.au"
+        scheduling:
+          require:
+            - pulsar-azure-0
+        cores: 6
+        mem: 107
+        params:
+          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
+          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
+          docker_enabled: true
+          docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
+          docker_memory: 107G
+          docker_sudo: false
+          require_container: true
+          docker_run_extra_arguments: "--gpus all"
+          docker_set_user: '1000'      
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.9+galaxy1:
     cores: 2
     params:
       singularity_enabled: True
       singularity_volumes: '$defaults'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+  toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
+    scheduling:
+      accept:
+        - pulsar
+    rules:
+      - match: user.email == "pulsar_azure_0@usegalaxy.org.au" and input_size < 0.1
+        scheduling:
+          require:
+            - pulsar-azure-0
+        cores: 4
+        mem: 16
+        params:
+          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
+          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
+      - match: user.email == "pulsar_azure_0@usegalaxy.org.au" and input_size >= 0.1
+        scheduling:
+          require:
+            - pulsar-azure-0
+        cores: 32
+        mem: 128
+        params:
+          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=large"
+          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=large"
+  
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     scheduling:
       require:
@@ -212,36 +280,6 @@ users:
           require:
             - pulsar
             - pulsar-azure-0
-      - match: tool.id == 'alphafold'
-        scheduling:
-          accept:
-            - pulsar
-          require:
-            - pulsar-azure-0
-        cores: 6
-        mem: 105
-        params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
-  pulsar_azure_docker@genome.edu.au:
-    rules:
-      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
-        scheduling:
-          require:
-            - pulsar
-            - pulsar-azure-docker
-      - match: tool.id == 'alphafold'
-        scheduling:
-          accept:
-            - pulsar
-          require:
-            - pulsar-azure-docker
-        cores: 6
-        mem: 105
-        params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
-
 
 destinations:
   slurm:
