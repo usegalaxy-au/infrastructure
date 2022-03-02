@@ -18,5 +18,6 @@
     - usegalaxy_eu.influxdb
     - slg.influx_objects
     - cloudalchemy.grafana
+    - geerlingguy.docker
     - dj-wasabi.telegraf
   
