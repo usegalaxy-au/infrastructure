@@ -7,7 +7,8 @@
       - group_vars/galaxyservers.yml
       - group_vars/aarnet_slurm.yml
       - host_vars/aarnet.usegalaxy.org.au.yml
-      - host_vars/aarnet_job_conf.yml
+      - secret_group_vars/stats_server_vault
+      - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -20,6 +21,8 @@
   roles:
     - galaxyproject.repos
     - common
+    - install-tpv
+    - acl-on-startup
     - mounts
     - galaxyproject.postgresql
     - role: natefoo.postgresql_objects
@@ -43,14 +46,9 @@
     - pg-post-tasks
     # - remote-pulsar-cron
     # - slg.galaxy_stats
+    - galaxy-pg-cleanup
     - usegalaxy_eu.tiaas2
   post_tasks:
-    - name: Clone Galaxy-Owncloud-Integration
-      git:
-        repo: https://github.com/usegalaxy-au/Galaxy-Owncloud-Integration
-        dest: "{{ galaxy_server_dir }}/tools/Galaxy-Owncloud-Integration"
-        update: no
-      when: use_cloudstor_conf|d(false) == true
     - name: Clone galaxy-local-tools
       git:
         repo: https://github.com/usegalaxy-au/galaxy-local-tools
@@ -87,15 +85,9 @@
       systemd:
         name: lsyncd
         state: restarted
-    - name: add symlink for files mount
+    - name: add symlink for files mount  # TODO: Set the path in the object store as /mnt/files and stop using this symlink if it is not needed
       file:
         src: /mnt/files
         dest: /mnt/galaxy/files
         state: link
-    - name: add FACL for docker.sock
-      acl:
-        path: /var/run/docker.sock
-        entity: "{{ galaxy_user.name }}"
-        etype: user
-        permissions: rw
-        state: present
+

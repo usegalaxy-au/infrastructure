@@ -13,11 +13,6 @@
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
-    - name: Install Total Perspective Vortex
-      pip:  # on the first run, this will create the galaxy venv before the galaxy role is run
-        name: "{{ total_perspective_vortex_package }}"
-        virtualenv: "{{ galaxy_venv_dir }}"
-        state: forcereinstall
   handlers:
     - name: Restart Galaxy
       systemd:
@@ -26,6 +21,8 @@
   roles:
     - galaxyproject.repos
     - common
+    - install-tpv
+    - acl-on-startup
     - mounts
     - galaxyproject.postgresql
     - role: natefoo.postgresql_objects
@@ -86,10 +83,4 @@
         src: /mnt/files
         dest: /mnt/galaxy/files
         state: link
-    - name: add FACL for docker.sock
-      acl:
-        path: /var/run/docker.sock
-        entity: "{{ galaxy_user.name }}"
-        etype: user
-        permissions: rw
-        state: present
+
