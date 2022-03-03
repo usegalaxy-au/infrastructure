@@ -1,0 +1,11 @@
+cd {{ galaxy_server_dir }}
+
+export GALAXY_CONFIG_FILE="{{ galaxy_config_dir }}/galaxy.yml"
+
+{{ galaxy_venv_dir }}/bin/python {{ galaxy_server_dir }}/scripts/grt/export.py \
+    -g {{ grt_sender_dir }}/grt.yml \
+    -r {{ grt_sender_dir }}/reports
+
+{{ galaxy_venv_dir }}/bin/python {{ galaxy_server_dir }}/scripts/grt/upload.py \
+    -g {{ grt_sender_dir }}/grt.yml \
+    -r {{ grt_sender_dir }}/reports

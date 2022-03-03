@@ -1,0 +1,10 @@
+grt:
+    instance_id: "1"
+    api_key: "{{ grt_sender_api_key }}"
+    url: "{{ grt_sender_grt_url }}"
+
+sanitization:
+    # Blacklist the entire tool from appearing
+    tools:
+        - __SET_METADATA__
+        - upload1

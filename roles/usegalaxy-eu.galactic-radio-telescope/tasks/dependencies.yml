@@ -1,0 +1,12 @@
+---
+- name: Install all of the necessary dependencies
+  pip:
+    virtualenv: "{{ grt_dir }}/venv/"
+    requirements: "{{ grt_dir }}/code/requirements.txt"
+  notify: 'reload grt'
+
+- name: Install postgres client
+  package:
+    name: postgresql
+    state: present
+  when: grt_skip_postgres_install == false

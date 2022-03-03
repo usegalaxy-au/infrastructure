@@ -47,6 +47,7 @@
     - galaxy-pg-cleanup
     - usegalaxy_eu.tiaas2
     # - slg.galaxy_stats
+    - grt-sender
   post_tasks:
     - name: Clone galaxy-local-tools
       git:

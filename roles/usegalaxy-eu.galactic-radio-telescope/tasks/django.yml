@@ -1,0 +1,15 @@
+---
+- name: Collect static files
+  command: "{{ grt_dir }}/venv/bin/python {{ grt_dir }}/code/manage.py collectstatic --noinput"
+
+- name: Migrate database
+  become: true
+  become_user: "{{ grt_user.name }}"
+  command: "{{ grt_dir }}/venv/bin/python {{ grt_dir }}/code/manage.py migrate --no-input"
+  environment:
+    DJANGO_SETTINGS_MODULE: base.production
+    PGHOST: "{{ grt_pghost }}"
+    PGUSER: "{{ grt_pguser }}"
+    PGNAME: "{{ grt_pgname }}"
+    PGPORT: "{{ grt_pgport }}"
+    PGPASSWORD: "{{ grt_pgpassword }}"
