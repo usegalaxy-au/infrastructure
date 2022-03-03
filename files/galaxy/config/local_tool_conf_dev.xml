@@ -5,5 +5,6 @@
         <tool file="/mnt/galaxy/local_tools/wtdbg2/wtdbg2.xml" />
         <tool file="/mnt/galaxy/local_tools/ipa/ipa.xml" />
         <tool file="/mnt/galaxy/local_tools/glt_tom/tools/cactus/cactus_cactus.xml" />
+        <tool file="/mnt/galaxy/local_tools/glt_tom/tools/cactus/cactus_export.xml" />
     </section>
 </toolbox>
