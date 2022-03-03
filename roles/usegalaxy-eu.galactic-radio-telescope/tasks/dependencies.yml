@@ -5,7 +5,8 @@
     requirements: "{{ grt_dir }}/code/requirements.txt"
   notify: 'reload grt'
 
-- name: Install postgres client on centos
+- name: Install postgres client
   package:
     name: postgresql
     state: present
+  when: grt_skip_postgres_install == false

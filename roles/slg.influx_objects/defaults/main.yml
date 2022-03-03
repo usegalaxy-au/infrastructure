@@ -15,3 +15,6 @@ influxdb:
 inflxudb_databases: []
 
 retention_policy_dbs: []
+
+influxdb_ssl: yes
+influxdb_validate_certs: yes

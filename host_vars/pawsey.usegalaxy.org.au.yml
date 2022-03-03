@@ -280,3 +280,9 @@ rpc_pulsar_machines:
 extra_keys:
   - id: ubuntu_maintenance_key
     type: private
+
+# grt-sender role
+grt_sender_dir: /mnt/var/galactic_radio_telescope
+grt_sender_api_key: "{{ vault_grt_api_key }}"
+grt_sender_grt_url: https://telescope.usegalaxy.org.au/grt
+grt_sender_cron_weekday: "*"  # override default Sunday to run it every day to upload old data

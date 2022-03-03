@@ -3,16 +3,16 @@
   cron:
     name: Process GRT Uploads
     user: "{{ grt_user.name }}"
-    minute: 0
-    hour: 0
+    minute: "{{ grt_process_uploads_cron.minute }}"
+    hour: "{{ grt_process_uploads_cron.hour }}"
     job: ". {{ grt_dir }}/config/env.sh && {{ grt_dir }}/venv/bin/python {{ grt_dir }}/code/manage.py import_data"
 
 - name: Export queries
   cron:
     name: Export queries
     user: "{{ grt_user.name }}"
-    minute: 0
-    hour: 4
+    minute: "{{ grt_export_queries_cron.minute }}"
+    hour: "{{ grt_export_queries_cron.hour }}"
     job: "cd {{ grt_queries_dir }}  && . {{ grt_dir }}/config/env.sh && {{ grt_dir }}/venv/bin/python {{ grt_dir }}/code/manage.py queries"
 
 - name: Send influx script
@@ -27,6 +27,6 @@
   cron:
     name: Export to influx
     user: "{{ grt_user.name }}"
-    minute: 0
-    hour: 2
+    minute: "{{ grt_export_to_influx_cron.minute }}"
+    hour: "{{ grt_export_to_influx_cron.hour }}"
     job: "/usr/bin/export-grt-to-influx"

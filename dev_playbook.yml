@@ -11,6 +11,7 @@
       - secret_group_vars/stats_server_vault
       - secret_group_vars/dev_secrets
       - secret_group_vars/sentry_vault
+      - secret_group_vars/galactic_radio_telescope
   handlers:
     - name: Restart Galaxy
       systemd:

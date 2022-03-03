@@ -1,0 +1,6 @@
+grt_sender_user: ubuntu
+grt_sender_dir: "/home/{{ grt_sender_user }}/galactic_radio_telescope"
+
+grt_sender_cron_minute: "00"
+grt_sender_cron_hour: "14"
+grt_sender_cron_weekday: "0"

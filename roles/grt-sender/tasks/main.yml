@@ -1,0 +1,29 @@
+- name: Ensure grt sender directory owned by "{{ grt_sender_user }}"
+  file:
+    state: directory
+    owner: "{{ grt_sender_user }}"
+    group: "{{ grt_sender_user }}"
+    path: "{{ item }}"
+  with_items:
+    - "{{ grt_sender_dir }}"
+    - "{{ grt_sender_dir }}/reports"
+- name: Template grt config file
+  template:
+    src: grt.yml.j2
+    dest: "{{ grt_sender_dir }}/grt.yml"
+    owner: "{{ grt_sender_user }}"
+    group: "{{ grt_sender_user }}"
+- name: Template bash script for running report/export scripts
+  template:
+    src: grt_export_upload.sh.j2
+    dest: "{{ grt_sender_dir }}/grt_export_upload.sh"
+    owner: "{{ grt_sender_user }}"
+    group: "{{ grt_sender_user }}"
+- name: Set up cron job to send data to the galactic radio telescope
+  cron:
+    name: "send_data_to_grt"
+    user: "{{ grt_sender_user }}"
+    weekday: "{{ grt_sender_cron_weekday }}"
+    hour: "{{ grt_sender_cron_hour }}"
+    minute: "{{ grt_sender_cron_minute }}"
+    job: "bash {{ grt_sender_dir }}/grt_export_upload.sh"

@@ -12,9 +12,24 @@ grt_version: master
 grt_force_checkout: true
 
 grt_create_group: true
-grt_create_user: true
 
 grt_upload_dir: "{{ grt_dir }}/uploads"
 grt_queries_dir: "{{ grt_dir }}/queries"
 
 grt_allowed_hosts: localhost
+
+grt_repo: https://github.com/hexylena/galactic-radio-telescope.git
+grt_skip_postgres_install: false
+grt_skip_selinux: false
+
+grt_process_uploads_cron:
+  hour: "15"
+  minute: "00"
+
+grt_export_queries_cron:
+  hour: "17"
+  minute: "00"
+
+grt_export_to_influx_cron:
+  hour: "16"
+  minute: "00"

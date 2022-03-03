@@ -11,14 +11,14 @@
 
 - name: Check need to create admin
   command: |
-    influx -ssl -host "{{ hostname }}" -execute "show users"
+    influx {% if influxdb_ssl %}-ssl{% endif %} -host "{{ hostname }}" -execute "show users"
   ignore_errors: true
   register: should_create_admin
   when: not ansible_check_mode
 
 - name: Create initial admin user
   command: |
-    influx -ssl -host "{{ hostname }}" -execute "CREATE USER {{ influxdb.admin.username }} WITH PASSWORD '{{ influxdb.admin.password }}' WITH ALL PRIVILEGES"
+    influx {% if influxdb_ssl %}-ssl{% endif %} -host "{{ hostname }}" -execute "CREATE USER {{ influxdb.admin.username }} WITH PASSWORD '{{ influxdb.admin.password }}' WITH ALL PRIVILEGES"
   when: 'not ansible_check_mode and "unable to parse authentication credentials" not in should_create_admin.stdout'
 
 - name: Create users
@@ -29,8 +29,8 @@
     username: "{{ influxdb.admin.username }}"
     password: "{{ influxdb.admin.password }}"
     hostname: "{{ hostname }}"
-    ssl: yes
-    validate_certs: yes
+    ssl: "{{ influxdb_ssl }}"
+    validate_certs: "{{ influxdb_validate_certs }}"
     use_udp: no
     udp_port: 4444
   with_items:
@@ -44,8 +44,8 @@
     username: "{{ influxdb.admin.username }}"
     password: "{{ influxdb.admin.password }}"
     hostname: "{{ hostname }}"
-    ssl: yes
-    validate_certs: yes
+    ssl: "{{ influxdb_ssl }}"
+    validate_certs: "{{ influxdb_validate_certs }}"
     use_udp: no
     udp_port: 4444
   with_items: "{{ influxdb_databases }}"
@@ -61,8 +61,8 @@
     username: "{{ influxdb.admin.username }}"
     password: "{{ influxdb.admin.password }}"
     hostname: "{{ hostname }}"
-    ssl: yes
-    validate_certs: yes
+    ssl: "{{ influxdb_ssl }}"
+    validate_certs: "{{ influxdb_validate_certs }}"
     use_udp: no
     udp_port: 4444
   with_items: "{{ retention_policy_dbs }}"
@@ -76,12 +76,16 @@
     username: "{{ influxdb.admin.username }}"
     password: "{{ influxdb.admin.password }}"
     hostname: "{{ hostname }}"
-    ssl: yes
-    validate_certs: yes
+    ssl: "{{ influxdb_ssl }}"
+    validate_certs: "{{ influxdb_validate_certs }}"
     use_udp: no
     udp_port: 4444
   with_items: "{{ influxdb_databases }}"
   when: not ansible_check_mode # This task is not safe if DB doesn't exist.
+
+- name: Pause to allow influx _internal db to be registered (in case of new installation)
+  pause:
+    seconds: 10
 
 - name: Grant permissions to grafana
   influxdb_query:
@@ -91,8 +95,8 @@
     username: "{{ influxdb.admin.username }}"
     password: "{{ influxdb.admin.password }}"
     hostname: "{{ hostname }}"
-    ssl: yes
-    validate_certs: yes
+    ssl: "{{ influxdb_ssl }}"
+    validate_certs: "{{ influxdb_validate_certs }}"
     use_udp: no
     udp_port: 4444
   with_items: ["{{ influxdb_databases }}", '_internal']

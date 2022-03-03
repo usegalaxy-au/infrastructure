@@ -244,6 +244,9 @@ cvmfsp-paw.gvl.org.au ansible_ssh_host=146.118.70.86 internal_ip=192.168.0.131
 [testdbservers]
 test-db-server ansible_ssh_host=115.146.94.248
 
+[galactic_radio_telescope]
+telescope ansible_ssh_host=115.146.86.144
+
 [all:vars]
 ansible_host_key_checking=False
 ansible_user=ubuntu
