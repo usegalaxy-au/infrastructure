@@ -7,7 +7,7 @@ locals {
   private_ip = "qld-data"
   public_ip = "qld"
 
-  worker_count = 1
+  worker_count = 3
   worker_flavor_name = "qld.biocommons.16c64g"
   tmp_disk_size = 100
 
@@ -113,6 +113,19 @@ resource "openstack_blockstorage_volume_v2" "hybrid_worker_node_tmp_disk" {
   description = "hybrid worker node temp disk"
   size        = local.tmp_disk_size
 }
+# Volume for application/web server
+resource "openstack_blockstorage_volume_v2" "NAME of VM" {
+  availability_zone = "nova"
+  name        = "pulsar-paw-volume"
+  description = "Pulsar Pawsey volume"
+  size        = 3000
+}
+
+# Attachment between application/web server and volume
+resource "openstack_compute_volume_attach_v2" "attach-pulsar-paw-volume-to-pulsar-paw" {
+  instance_id = "${openstack_compute_instance_v2.pulsar-paw.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pulsar-paw-volume.id}"
+}
 
 ######################################################################################
 # Attachments
@@ -124,5 +137,12 @@ resource "openstack_compute_volume_attach_v2" "attach-tmp-volume-to-hybrid_worke
   instance_id = openstack_compute_instance_v2.QLD-DR-w[each.value.instance].id
   volume_id   = openstack_blockstorage_volume_v2.hybrid_worker_node_tmp_disk[each.value.volume].id
 }
+$ 
+# Attachment between application/web server and volume
+resource "openstack_compute_volume_attach_v2" "attach-pulsar-paw-volume-to-pulsar-paw" {
+  instance_id = "${openstack_compute_instance_v2.pulsar-paw.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.pulsar-paw-volume.id}"
+}
+
 
 

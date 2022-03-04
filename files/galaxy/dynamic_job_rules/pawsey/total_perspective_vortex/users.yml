@@ -1,0 +1,120 @@
+users:
+    jenkins_bot@usegalaxy.org.au:
+      cores: 1
+      mem: cores * 3.8
+      params:
+        nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=main"
+      scheduling:
+        require:
+          - slurm
+    testbot@usegalaxy.org:
+      cores: 1
+      mem: cores * 3.8
+      scheduling:
+        require:
+          - slurm
+    pulsar_mel2_user@usegalaxy.org.au:
+      rules:
+        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar # pulsar must be in require/prefer/accept for a job to be scheduled to pulsar
+              - offline # allow scheduling to a destination even when it is offline
+            require:
+              - pulsar-mel2
+    pulsar_mel3_user@usegalaxy.org.au:
+      rules:
+        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-mel3
+    pulsar_paw_user@usegalaxy.org.au:
+      rules:
+        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-paw
+    phm1@genome.edu.au:
+      rules:
+        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - high-mem
+              - offline
+            require:
+              - pulsar-high-mem1
+    phm2@genome.edu.au:
+      rules:
+        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - high-mem
+              - offline
+            require:
+              - pulsar-high-mem2
+    pncitrain@genome.edu.au:
+      rules:
+        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - training
+              - offline
+            require:
+              - pulsar-nci-training
+    pqhm0@genome.edu.au:
+      rules:
+        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - high-mem
+              - offline
+            require:
+              - pulsar-qld-high-mem0
+    pqhm1@genome.edu.au:
+      rules:
+        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - high-mem
+              - offline
+            require:
+              - pulsar-qld-high-mem1
+    pqhm2@genome.edu.au:
+      rules:
+        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - high-mem
+              - offline
+            require:
+              - pulsar-qld-high-mem2
+    pblast@genome.edu.au:
+      rules:
+        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-qld-blast
+    pqld@genome.edu.au:
+      rules:
+        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-QLD

@@ -1,0 +1,23 @@
+- hosts: stats_servers
+  become: true
+  vars_files:
+    - group_vars/VAULT
+    - secret_group_vars/stats_server_vault
+  pre_tasks:
+    - name: install xfsprogs
+      package:
+        name: xfsprogs
+        state: latest
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+  roles:
+    - common
+    - insspb.hostname
+    - galaxyproject.nginx
+    - usegalaxy_eu.influxdb
+    - slg.influx_objects
+    - cloudalchemy.grafana
+    - geerlingguy.docker
+    - dj-wasabi.telegraf
+  

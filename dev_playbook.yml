@@ -8,6 +8,10 @@
       - group_vars/dev_slurm.yml
       - host_vars/dev.usegalaxy.org.au.yml
       - secret_group_vars/ubuntu_maintenance_key
+      - secret_group_vars/stats_server_vault
+      - secret_group_vars/dev_secrets
+      - secret_group_vars/sentry_vault
+      - secret_group_vars/galactic_radio_telescope
   handlers:
     - name: Restart Galaxy
       systemd:
@@ -19,7 +23,7 @@
         name: attached-volumes
     - name: Install Total Perspective Vortex
       pip:  # on the first run, this will create the galaxy venv before the galaxy role is run
-        name: git+https://github.com/usegalaxy-au/total-perspective-vortex
+        name: "{{ total_perspective_vortex_package }}"
         virtualenv: "{{ galaxy_venv_dir }}"
         state: forcereinstall
   roles:
@@ -30,6 +34,8 @@
       become: true
       become_user: postgres
     - geerlingguy.pip
+    - gantsign.golang
+    - cyverse-ansible.singularity
     - galaxyproject.galaxy
     - role: galaxyproject.miniconda
       become: true
@@ -47,14 +53,16 @@
     - usegalaxy_eu.tiaas2
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
+    - dj-wasabi.telegraf
     - login-override
   post_tasks:
-    - name: Clone Galaxy-Owncloud-Integration
-      git:
-        repo: https://github.com/usegalaxy-au/Galaxy-Owncloud-Integration
-        dest: "{{ galaxy_server_dir }}/tools/Galaxy-Owncloud-Integration"
-        update: no
-      when: use_cloudstor_conf|d(false) == true
+    - name: Make local_tool directory group-writable by machine users
+      file:
+        path: /mnt/galaxy/local_tools
+        owner: root
+        group: devs
+        mode: 0775
+        state: directory
     - name: Clone galaxy-local-tools
       git:
         repo: https://github.com/usegalaxy-au/galaxy-local-tools

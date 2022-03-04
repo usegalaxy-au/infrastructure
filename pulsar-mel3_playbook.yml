@@ -7,6 +7,8 @@
     - group_vars/pulsar_mel3/pulsar-mel3_slurm.yml
     - group_vars/VAULT
     - host_vars/pulsar-mel3/pulsar-mel3.genome.edu.au.yml
+    - secret_group_vars/stats_server_vault
+    - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
     - name: apt update
       apt:
@@ -21,6 +23,9 @@
     - insspb.hostname
     - geerlingguy.pip
     - galaxyproject.repos
+    - role: galaxyproject.miniconda
+      become: true
+      become_user: "{{ pulsar_user.name }}"
     - galaxyproject.pulsar
     - geerlingguy.nfs
     - mariadb

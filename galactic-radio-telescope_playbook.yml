@@ -1,0 +1,34 @@
+---
+- hosts: galactic_radio_telescope
+  become: true
+  vars:
+    - hostname: "{{ grt_hostname }}"
+  vars_files:
+    - group_vars/all.yml
+    - host_vars/galactic-radio-telescope.yml
+    - group_vars/VAULT
+    - secret_group_vars/galactic_radio_telescope
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+    - name: Install psycopg2 for python3
+      apt:
+          name: python3-psycopg2
+          state: present
+  roles:
+    - common ###
+    - insspb.hostname
+    - galaxyproject.postgresql ###
+    - move-postgresql-data-directory
+    - role: natefoo.postgresql_objects
+      become: true
+      become_user: postgres
+    - galaxyproject.nginx
+    - galaxyproject.gxadmin
+    - usegalaxy-eu.galactic-radio-telescope
+    - usegalaxy_eu.influxdb ###
+    - role: slg.influx_objects ###
+      vars:
+        - hostname: "localhost"
+    - cloudalchemy.grafana ###

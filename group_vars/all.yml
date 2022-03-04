@@ -58,7 +58,7 @@ machine_users:
       email: "{{ justin_email }}"
     - name: grace
       roles:
-        - user
+        - sudo
       key: files/keys/grace.pub
       email: "{{ grace_email }}"
     - name: cameron
@@ -71,6 +71,10 @@ machine_users:
         - tiaas_admin
       key: files/keys/anna.pub
       email: "{{ anna_email }}"
+    - name: tom
+      roles: []
+      key: files/keys/tom.pub
+      email: "{{ tom_email }}"
 
 galaxy_user:
   name: galaxy
@@ -115,30 +119,33 @@ galaxy_cvmfs_repos_enabled: true
 
 galaxy_cvmfs_server_urls:
   - domain: galaxyproject.org
-    use_geoapi: yes
+    #use_geoapi: yes
     urls:
+      - "http://cvmfs1-mel0.gvl.org.au/cvmfs/@fqrn@"
       - "http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@"
       - "http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@"
       - "http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@"
-      - "http://cvmfs1-mel0.gvl.org.au/cvmfs/@fqrn@"
       - "http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
 
 #sinfo and squeue configs
 bashrc_env: |
-  export SINFO_FORMAT="%24n %.12C %.6t"
+  export SINFO_FORMAT="%24n %.14C %.8t"
   export SQUEUE_FORMAT="%8i %9P %.35j %.9T %8r %19S %.10M %.6m %.3C %.3N %.55Z"
   export SACCT_FORMAT="jobid%8,partition%9,jobname%30,alloccpus,elapsed,totalcpu,END,state,MaxRSS,ReqMem,NodeList"
 
 # miniconda
-global_miniconda_version: '4.10.3'
+# miniconda installs the latest version of conda by default
+# installing mamba will also install the latest version of conda
 miniconda_channels:
   - conda-forge
   - bioconda
   - defaults
+miniconda_base_env_packages:
+  - mamba
 
 # Monitoring
-influx_url: stats.genome.edu.au
-grafana_server_url: "http://{{ influx_url }}:8086"
+influx_url: stats.usegalaxy.org.au
+grafana_server_url: "https://{{ influx_url }}:8086"
 influx_salt: "{{ prod_queue_size_salt }}"
 
 telegraf_agent_package_state: latest

@@ -5,7 +5,7 @@ dev-db ansible_ssh_host=45.113.232.252
 staging-db ansible_ssh_host=115.146.87.93
 
 [pawsey_db_server]
-pawsey-db ansible_ssh_host=146.118.69.83 internal_ip=192.168.0.102
+pawsey-db ansible_ssh_host=146.118.68.220 internal_ip=192.168.0.73
 
 [aarnet_db_server]
 aarnet-db ansible_ssh_host=138.44.80.125 internal_ip=192.168.199.226
@@ -57,6 +57,7 @@ pawsey-job-nfs ansible_ssh_host=146.118.70.65 internal_ip=192.168.0.92
 aarnet-user-nfs ansible_ssh_host=192.168.199.10 internal_ip=192.168.199.10
 aarnet-misc-nfs ansible_ssh_host=192.168.199.74 internal_ip=192.168.199.74
 aarnet-job-nfs ansible_ssh_host=192.168.199.203 internal_ip=192.168.199.203
+pulsar-QLD-job-nfs ansible_ssh_host=203.101.229.199
 
 [dev_slurm_head]
 dev-queue ansible_ssh_host=45.113.232.149
@@ -78,7 +79,7 @@ pawsey-w1 ansible_ssh_host=146.118.70.191 internal_ip=192.168.0.101
 pawsey-w2 ansible_ssh_host=146.118.67.128 internal_ip=192.168.0.191
 pawsey-w3 ansible_ssh_host=146.118.66.35 internal_ip=192.168.0.103
 pawsey-w4 ansible_ssh_host=146.118.69.246 internal_ip=192.168.0.109
-pawsey-w5 ansible_ssh_host=146.118.64.228 internal_ip=192.168.0.127
+pawsey-w5 ansible_ssh_host=146.118.69.102 internal_ip=192.168.0.176
 pawsey-w6 ansible_ssh_host=146.118.68.97 internal_ip=192.168.0.152
 pawsey-w7 ansible_ssh_host=146.118.68.32 internal_ip=192.168.0.77
 pawsey-w8 ansible_ssh_host=146.118.65.97 internal_ip=192.168.0.100
@@ -98,17 +99,18 @@ pawsey-backup ansible_ssh_host=146.118.68.123 internal_ip=192.168.0.96
 aarnet-backup ansible_ssh_host=138.44.80.71 internal_ip=192.168.199.93
 
 [pawsey_group]
-pawsey-db ansible_ssh_host=146.118.69.83 internal_ip=192.168.0.102
+pawsey-db ansible_ssh_host=146.118.68.220 internal_ip=192.168.0.73
 pawsey ansible_ssh_host=146.118.70.205 internal_ip=192.168.0.94
 pawsey-queue ansible_ssh_host=146.118.69.35 internal_ip=192.168.0.194
 pawsey-user-nfs ansible_ssh_host=146.118.68.13 internal_ip=192.168.0.165
 pawsey-misc-nfs ansible_ssh_host=146.118.68.229 internal_ip=192.168.0.147
 pawsey-job-nfs ansible_ssh_host=146.118.70.65 internal_ip=192.168.0.92
+pawsey-backup ansible_ssh_host=146.118.68.123 internal_ip=192.168.0.96
 pawsey-w1 ansible_ssh_host=146.118.70.191 internal_ip=192.168.0.101
 pawsey-w2 ansible_ssh_host=146.118.67.128 internal_ip=192.168.0.191
 pawsey-w3 ansible_ssh_host=146.118.66.35 internal_ip=192.168.0.103
 pawsey-w4 ansible_ssh_host=146.118.69.246 internal_ip=192.168.0.109
-pawsey-w5 ansible_ssh_host=146.118.64.228 internal_ip=192.168.0.127
+pawsey-w5 ansible_ssh_host=146.118.69.102 internal_ip=192.168.0.176
 pawsey-w6 ansible_ssh_host=146.118.68.97 internal_ip=192.168.0.152
 pawsey-w7 ansible_ssh_host=146.118.68.32 internal_ip=192.168.0.77
 pawsey-w8 ansible_ssh_host=146.118.65.97 internal_ip=192.168.0.100
@@ -156,25 +158,30 @@ pulsar-nci-test-w1 ansible_ssh_host=10.0.0.20 internal_ip=10.0.0.20
 pulsar-nci-test-w2 ansible_ssh_host=10.0.1.48 internal_ip=10.0.1.48
 
 [pulsar_high_mem1]
-pulsar-high-mem1 ansible_ssh_host=115.146.84.155
+pulsar-high-mem1 ansible_ssh_host=115.146.84.89
 
 [pulsar_high_mem2]
-pulsar-high-mem2 ansible_ssh_host=115.146.85.94
+pulsar-high-mem2 ansible_ssh_host=115.146.85.33
 
 [pulsar_qld_himems]
 qld-pulsar-himem-0 ansible_ssh_host=203.101.225.122
 qld-pulsar-himem-1 ansible_ssh_host=203.101.231.143
 qld-pulsar-himem-2 ansible_ssh_host=203.101.231.176
 
+[pulsar_qld_blast]
+pulsar-qld-blast ansible_ssh_host=203.101.231.166 internal_ip=10.255.138.38
 
-[pulsar_qld_head]
-pulsar-qld ansible_ssh_host=203.101.229.179
 
-[pulsar_qld_workers]
-pulsar-qld-w1 ansible_ssh_host=203.101.225.225
-pulsar-qld-w2 ansible_ssh_host=203.101.227.176
-pulsar-qld-w3 ansible_ssh_host=203.101.227.21
-pulsar-qld-w4 ansible_ssh_host=203.101.230.2
+[pulsar_QLD_head]
+pulsar-QLD ansible_ssh_host=203.101.225.247
+
+[pulsar_QLD_queue]
+pulsar-QLD-queue ansible_ssh_host=203.101.227.169
+
+[pulsar_QLD_workers]
+pulsar-QLD-w0 ansible_ssh_host=203.101.228.51
+pulsar-QLD-w1 ansible_ssh_host=203.101.227.144
+pulsar-QLD-w2 ansible_ssh_host=203.101.229.95
 
 [pulsar_nci_training_head]
 pulsar-nci-training ansible_ssh_host=130.56.246.233 internal_ip=10.0.1.46
@@ -193,14 +200,52 @@ pulsar-nci-training-w9 ansible_ssh_host=10.0.0.104 internal_ip=10.0.0.104
 pulsar-nci-training-w10 ansible_ssh_host=10.0.3.216 internal_ip=10.0.3.216
 pulsar-nci-training-w11 ansible_ssh_host=10.0.1.214 internal_ip=10.0.1.214
 
+[nvme]
+qld-nvme ansible_ssh_host=203.101.231.166
+
+
 [build_machines]
 nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249
 aarnet-backup ansible_ssh_host=138.44.80.71 internal_ip=192.168.199.93
 
 ##### DR environment at Qriscloud
-[qld_dr]
-DR-galaxy ansible_ssh_host=203.101.226.61
-QLD-DR-db ansible_ssh_host=203.101.227.174
+#[qld-dr]
+#qld-dr-head ansible_ssh_host=203.101.225.247
+#qld-dr-queue ansible_ssh_host=203.101.227.169
+#qld-dr-job-nfs ansible_ssh_host=203.101.229.199
+#qld-dr-db ansible_ssh_host=203.101.227.89
+#qld-dr-w0 ansible_ssh_host=203.101.228.51
+#qld-dr-w1 ansible_ssh_host=203.101.227.144
+#qld-dr-w2 ansible_ssh_host=203.101.229.95
+
+##### Pulsar EU GPU (test machine for Alphafold)
+[GPU-pulsars]
+pulsar_EU_GPU ansible_ssh_host=132.230.223.54 ansible_user=centos
+
+##### Pulsar Azure Test Machine
+[pulsar_azure_0_head]
+pulsar-azure-0-head ansible_ssh_host=23.101.213.98
+
+[pulsar_azure_workers]
+pulsar-azure-worker ansible_ssh_host=13.70.104.142
+
+##### Stats server
+[stats_servers]
+stats.usegalaxy.org.au ansible_ssh_host=115.146.84.128
+
+######## CVMFS Stratum 1 servers
+[cvmfsstratum1servers]
+cvmfs1-mel0.gvl.org.au ansible_user=ec2-user ansible_ssh_host=115.146.85.207
+
+[cvmfslocalproxies]
+cvmfsp-mel.gvl.org.au ansible_ssh_host=115.146.87.203
+cvmfsp-paw.gvl.org.au ansible_ssh_host=146.118.70.86 internal_ip=192.168.0.131
+
+[testdbservers]
+test-db-server ansible_ssh_host=115.146.94.248
+
+[galactic_radio_telescope]
+telescope ansible_ssh_host=115.146.86.144
 
 [all:vars]
 ansible_host_key_checking=False

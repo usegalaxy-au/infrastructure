@@ -1,0 +1,352 @@
+handling:
+  processes:
+    main.job-handler.1:
+    main.job-handler.2:
+    main.job-handler.3:
+    main.job-handler.4:
+    main.job-handler.5:
+  max_grab: 8
+  ready_window_size: 20
+runners:
+  local:
+    load: galaxy.jobs.runners.local:LocalJobRunner
+    workers: 4
+  dynamic:
+    rules_module: dynamic_rules
+  slurm:
+    load: galaxy.jobs.runners.slurm:SlurmJobRunner
+  pulsar_rest:
+    load: galaxy.jobs.runners.pulsar:PulsarRESTJobRunner
+  pulsar_mel2_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_mel2:{{ vault_rabbitmq_password_galaxy_mel2_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel2?ssl=1"
+    galaxy_url: "https://{{ hostname }}"
+    manager: _default_
+  pulsar-paw_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_paw:{{ vault_rabbitmq_password_galaxy_paw_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_paw?ssl=1"
+    galaxy_url: "https://{{ hostname }}"
+    manager: _default_
+  pulsar-mel3_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_mel3:{{ vault_rabbitmq_password_galaxy_mel3_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel3?ssl=1"
+    galaxy_url: "https://{{ hostname }}"
+    manager: _default_
+  pulsar-high-mem1_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_hm1:{{ vault_rabbitmq_password_galaxy_hm1_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm1?ssl=1"
+    galaxy_url: "https://{{ hostname }}"
+    manager: _default_
+  pulsar-high-mem2_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_hm2:{{ vault_rabbitmq_password_galaxy_hm2_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm2?ssl=1"
+    galaxy_url: "https://{{ hostname }}"
+    manager: _default_
+  pulsar-qld-high-mem0_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_qld_hm0:{{ vault_rabbitmq_password_galaxy_qld_hm0_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm0?ssl=1"
+    galaxy_url: "https://{{ hostname }}"
+    manager: _default_
+  pulsar-qld-high-mem1_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_qld_hm1:{{ vault_rabbitmq_password_galaxy_qld_hm1_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm1?ssl=1"
+    galaxy_url: "https://{{ hostname }}"
+    manager: _default_
+  pulsar-qld-high-mem2_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_qld_hm2:{{ vault_rabbitmq_password_galaxy_qld_hm2_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm2?ssl=1"
+    galaxy_url: "https://{{ hostname }}"
+    manager: _default_
+  pulsar-nci-training_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_nci_training:{{ vault_rabbitmq_password_galaxy_nci_training_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_nci_training?ssl=1"
+    galaxy_url: "https://{{ hostname }}"
+    manager: _default_
+  pulsar-qld-blast_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_qld_blast:{{ vault_rabbitmq_password_galaxy_qld_blast_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_blast?ssl=1"
+    galaxy_url: "https://{{ hostname }}"
+    manager: _default_
+  pulsar-QLD_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_QLD:{{ vault_rabbitmq_password_galaxy_QLD_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_QLD?ssl=1"
+    galaxy_url: "https://{{ hostname }}"
+    manager: _default_
+  pulsar_embedded:
+    load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
+    pulsar_config: "{{ galaxy_config_dir }}/pulsar_app.yml"
+execution:
+  default: vortex_dispatcher
+  environments:
+    local:
+      runner: local
+    vortex_dispatcher:
+      runner: dynamic
+      type: python
+      function: map_tool_to_destination
+      rules_module: vortex.rules
+      vortex_config_files:
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/tools.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/users.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/roles.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/destinations.yml"
+    gateway:
+      runner: dynamic
+      type: python
+      function: gateway
+    dynamic_dtd:
+      runner: dynamic
+      type: dtd
+    interactive_pulsar:
+      runner: pulsar_embedded
+      docker_enabled: true
+      docker_volumes: $defaults
+      docker_sudo: false
+      docker_net: bridge
+      docker_auto_rm: true
+      docker_set_user: ''
+      require_container: true
+      container_monitor_result: callback
+      submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=interactive_tools"
+    slurm:
+      runner: slurm
+      nativeSpecification: --nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=124160 --partition=main
+    pulsar-mel2:
+      runner: pulsar_mel2_runner
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      jobs_directory: /mnt/pulsar/files/staging
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      remote_metadata: false
+      rewrite_parameters: true
+      submit_native_specification: --nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116
+      transport: curl
+    pulsar-paw:
+      runner: pulsar-paw_runner
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      jobs_directory: /mnt/pulsar/files/staging
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      remote_metadata: false
+      rewrite_parameters: true
+      submit_native_specification: --nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116
+      transport: curl
+    pulsar-mel3:
+      runner: pulsar-mel3_runner
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      jobs_directory: /mnt/pulsar/files/staging
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      remote_metadata: false
+      rewrite_parameters: true
+      submit_native_specification: --nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=62080
+      transport: curl
+    pulsar-high-mem1:
+      runner: pulsar-high-mem1_runner
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      jobs_directory: /mnt/pulsar/files/staging
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      remote_metadata: false
+      rewrite_parameters: true
+      submit_native_specification: --nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=3937380
+      transport: curl
+    pulsar-high-mem2:
+      runner: pulsar-high-mem2_runner
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      jobs_directory: /mnt/pulsar/files/staging
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      remote_metadata: false
+      rewrite_parameters: true
+      submit_native_specification: --nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=1968631
+      transport: curl
+    pulsar-qld-high-mem0:
+      runner: pulsar-qld-high-mem0_runner
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      jobs_directory: /mnt/pulsar/files/staging
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      remote_metadata: false
+      rewrite_parameters: true
+      submit_native_specification: --nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354
+      transport: curl
+    pulsar-qld-high-mem1:
+      runner: pulsar-qld-high-mem1_runner
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      jobs_directory: /mnt/pulsar/files/staging
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      remote_metadata: false
+      rewrite_parameters: true
+      submit_native_specification: --nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354
+      transport: curl
+    pulsar-qld-high-mem2:
+      runner: pulsar-qld-high-mem2_runner
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      jobs_directory: /mnt/pulsar/files/staging
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      remote_metadata: false
+      rewrite_parameters: true
+      submit_native_specification: --nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354
+      transport: curl
+    pulsar-nci-training:
+      runner: pulsar-nci-training_runner
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      jobs_directory: /mnt/pulsar/files/staging
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      remote_metadata: false
+      rewrite_parameters: true
+      submit_native_specification: --nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=48195
+      transport: curl
+    pulsar-qld-blast:
+      runner: pulsar-qld-blast_runner
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      jobs_directory: /mnt/pulsar/files/staging
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      remote_metadata: false
+      rewrite_parameters: true
+      submit_native_specification: --nodes=1 --ntasks=60 --ntasks-per-node=60 --mem=200000
+      transport: curl
+    pulsar-QLD:
+      runner: pulsar-QLD_runner
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      jobs_directory: /mnt/tmp/files/staging
+      persistence_directory: /mnt/tmp/files/persisted_data
+      remote_metadata: false
+      rewrite_parameters: true
+      submit_native_specification: --nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62000
+      transport: curl
+tools:
+- id: interactive_tool_ethercalc
+  environment: interactive_pulsar
+- id: interactive_tool_rstudio
+  environment: interactive_pulsar
+- id: interactive_tool_jupyter_notebook
+  environment: interactive_pulsar
+- id: interactive_tool_phinch
+  environment: interactive_pulsar
+- id: interactive_tool_cellxgene
+  environment: interactive_pulsar
+limits:
+- type: anonymous_user_concurrent_jobs
+  value: 1
+- type: registered_user_concurrent_jobs
+  value: 10
+
+- type: destination_total_concurrent_jobs
+  id: slurm
+  value: 40
+- type: destination_user_concurrent_jobs
+  id: slurm
+  value: 5
+
+- type: destination_total_concurrent_jobs
+  id: pulsar-mel2
+  value: 20
+- type: destination_user_concurrent_jobs
+  id: pulsar-mel2
+  value: 5
+
+- type: destination_total_concurrent_jobs
+  id: pulsar-mel3
+  value: 20
+- type: destination_user_concurrent_jobs
+  id: pulsar-mel3
+  value: 5
+
+- type: destination_total_concurrent_jobs
+  id: pulsar-paw
+  value: 10
+
+- type: destination_user_concurrent_jobs
+  id: pulsar-nci-training
+  value: 3
+
+- type: destination_total_concurrent_jobs
+  id: pulsar-high-mem1
+  value: 4
+
+- type: destination_total_concurrent_jobs
+  id: pulsar-high-mem2
+  value: 4
+
+- type: destination_total_concurrent_jobs
+  id: pulsar-qld-high-mem0
+  value: 4
+
+- type: destination_total_concurrent_jobs
+  id: pulsar-qld-high-mem1
+  value: 4
+
+- type: destination_total_concurrent_jobs
+  id: pulsar-qld-high-mem2
+  value: 4
+
+- type: destination_total_concurrent_jobs
+  id: pulsar-QLD
+  value: 10
+- type: user_total_concurrent_jobs
+  id: pulsar-QLD
+  value: 5
+

@@ -1,5 +1,5 @@
 #pawsey_galaxy_server_address: "{{ hostvars['pawsey']['internal_ip'] }}/32"
-qld-dr_galaxy_server_address: "{{ hostvars['DR-galaxy'] }}/32"
+qld-dr_galaxy_server_address: "{{ hostvars['qld-dr-head'] }}/32"
 
 attached_volumes:
   - device: /dev/vdc

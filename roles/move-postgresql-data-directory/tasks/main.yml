@@ -1,0 +1,34 @@
+- name: stat data directory
+  stat:
+    path: "{{ postgresql_pgdata }}"
+  register: data_dir
+- name: move the data directory
+  block:
+    - name: get postgresql version string
+      shell: pg_config --version
+      register: version_string
+    - name: set postgresql version major
+      set_fact:
+        postgresql_version_major: "{{ version_string | regex_findall('PostgreSQL ([0-9]+).') | first }}"
+    - name: stop postgres
+      systemd:
+        name: postgresql
+        state: stopped
+    - name: Create data directory
+      file:
+        path: "{{ postgresql_pgdata }}"
+        state: directory
+        mode: 0700
+        owner: postgres
+        group: postgres
+    - name: Run initdB
+      command: 
+        cmd: "/usr/lib/postgresql/{{ postgresql_version_major }}/bin/initdb -D {{ postgresql_pgdata }}"
+      become: true
+      become_user: postgres
+    - name: Start postgresql with -D data_directory
+      command:
+        cmd: "/usr/lib/postgresql/{{ postgresql_version_major }}/bin/pg_ctl -D {{ postgresql_pgdata }} start"
+      become: true
+      become_user: postgres
+  when: not data_dir.stat.exists

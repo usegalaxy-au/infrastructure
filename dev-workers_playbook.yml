@@ -6,6 +6,11 @@
       - group_vars/VAULT
       - group_vars/dev_slurm.yml
       - group_vars/dev_workers.yml
+      - secret_group_vars/stats_server_vault
+  pre_tasks:
+      - name: Attach volume to instance
+        include_role:
+          name: attached-volumes
   roles:
       - common
       - insspb.hostname
@@ -15,15 +20,40 @@
       - galaxyproject.slurm
       - galaxyproject.cvmfs
       - geerlingguy.docker
+      - gantsign.golang
+      - cyverse-ansible.singularity
+      - dj-wasabi.telegraf
+      - acl-on-startup
   post_tasks:
       - name: restart munge
         systemd:
             name: munge
             state: restarted
-      - name: set acl for galaxy user on docker.sock
-        acl:
-            path: /var/run/docker.sock
-            entity: "{{ galaxy_user.name }}"
-            etype: user
-            permissions: rw
-            state: present
+      - name: Move /tmp to /mnt
+        block:
+          - name: Create worker tmpdir on /mnt
+            file:
+                path: /mnt/tmpdisk
+                state: directory
+                owner: root
+                group: root
+                mode: '1777'
+          - name: stat links
+            stat:
+                path: /tmp
+            register: links
+          - name: remove old tmp
+            file:
+                path: /tmp
+                state: absent
+            when: links.stat.islnk is defined and not links.stat.islnk
+          - name: Link /tmp to /mnt/tmpdisk
+            file:
+                src: /mnt/tmpdisk
+                dest: /tmp
+                state: link
+            become: yes
+            become_user: root
+            when: links.stat.islnk is defined and not links.stat.islnk
+        when: attached_volumes is defined
+

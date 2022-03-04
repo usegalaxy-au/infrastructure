@@ -1,0 +1,6 @@
+---
+- name: Install Total Perspective Vortex
+  pip:
+    name: "git+{{ tpv_repo }}{% if tpv_commit_id|d('') %}@{{ tpv_commit_id }}{% endif %}"
+    virtualenv: "{{ galaxy_venv_dir }}"
+    state: forcereinstall

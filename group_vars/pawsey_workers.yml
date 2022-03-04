@@ -17,6 +17,10 @@ shared_mounts:
       src: "{{ hostvars['pawsey-misc-nfs']['internal_ip'] }}:/mnt/tools-indices"
       fstype: nfs
       state: mounted
+    - path: /mnt/custom-indices
+      src: "{{ hostvars['pawsey-misc-nfs']['internal_ip'] }}:/custom-indices"
+      fstype: nfs
+      state: mounted
     - path: /mnt/user-data
       src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/mnt/user-data"
       fstype: nfs
@@ -27,6 +31,10 @@ shared_mounts:
       state: mounted
     - path: /mnt/user-data-3
       src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-3"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/user-data-4
+      src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-4"
       fstype: nfs
       state: mounted
     - path: /mnt/tmp
@@ -44,8 +52,11 @@ shared_mounts:
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
+cvmfs_quota_limit: 20000
 
 # Interactive Tools
 docker_install_compose: false
 docker_users:
   - "{{ galaxy_user.name }}"
+docker_daemon_options:
+  data-root: /mnt/docker-data

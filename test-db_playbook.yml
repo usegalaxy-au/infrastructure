@@ -1,0 +1,40 @@
+- hosts: test-db-server
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/staging.yml
+      - group_vars/VAULT
+      - group_vars/dbservers.yml
+      - host_vars/test-db-server.yml
+      - secret_group_vars/stats_server_vault
+  pre_tasks:
+      - name: Attach volume to instance
+        include_role:
+          name: attached-volumes
+      - name: Install psycopg2 for python3
+        apt:
+            name: python3-psycopg2
+            state: present
+        become: true
+      - name: Set up Postgres 14 repo
+        shell: |
+            echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+            wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+        args:
+          warn: no
+      - name: create data directory
+        file:
+          path: /data/production
+          owner: postgres
+          group: postgres
+          state: directory
+          mode: 0700
+  roles:
+      - common
+      - insspb.hostname
+      - geerlingguy.pip
+      - galaxyproject.postgresql
+      - role: natefoo.postgresql_objects
+        become: true
+        become_user: postgres
+      #- dj-wasabi.telegraf

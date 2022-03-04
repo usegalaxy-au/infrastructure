@@ -14,3 +14,5 @@ rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_au_staging }}"
 pulsar_queue_url: "staging-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_au"
 pulsar_rabbit_vhost: "/pulsar/galaxy_au"
+
+pulsar_conda_exec: "mamba"  # Use mamba as replacement for conda

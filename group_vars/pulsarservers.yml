@@ -37,11 +37,11 @@ slurmdbd_config:
 #NFS shares
 
 nfs_exports:
-    - "/mnt/tools-indices  *(rw,async,no_root_squash,no_subtree_check)"
+    - "{{ pulsar_custom_indices_dir }}  *(rw,async,no_root_squash,no_subtree_check)"
     - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
 
 # Pulsar
-pulsar_package_version: '0.14.11'
+pulsar_package_version: '0.14.13'
 
 pulsar_root: /mnt/pulsar
 pulsar_server_dir: /mnt/pulsar/server
@@ -69,6 +69,7 @@ pulsar_optional_dependencies:
   - drmaa
   - kombu
 
+install_drmaa: true
 pulsar_drmaa_library_path: /usr/lib/slurm-drmaa/lib/libdrmaa.so.1
 
 pulsar_yaml_config:
@@ -84,9 +85,19 @@ pulsar_yaml_config:
           postprocess_action_interval_step: 4
           postprocess_action_interval_max: 120
           min_polling_interval: 15
-  dependency_resolvers_config_file: dependency_resolvers_conf.xml
-  conda_auto_init: True
-  conda_auto_install: True
+  dependency_resolution:
+    resolvers:
+      - type: conda
+        exec: "{{ pulsar_conda_prefix }}/bin/{{ pulsar_conda_exec|d('conda') }}"
+        auto_init: true
+        auto_install: true
+        prefix: "{{ pulsar_conda_prefix }}"
+      - type: conda
+        exec: "{{ pulsar_conda_prefix }}/bin/{{ pulsar_conda_exec|d('conda') }}"
+        auto_init: true
+        auto_install: true
+        prefix: "{{ pulsar_conda_prefix }}"
+        versionless: true
   staging_directory: "{{ pulsar_staging_dir }}"
   persistence_directory: "{{ pulsar_persistence_dir }}"
   message_queue_url: "pyamqp://{{ pulsar_rabbit_username }}:{{ rabbitmq_password_galaxy_au }}@{{ pulsar_queue_url }}:5671/{{ pulsar_rabbit_vhost }}?ssl=1"
@@ -97,8 +108,11 @@ pulsar_yaml_config:
   amqp_publish_retry_interval_step: 10
   amqp_publish_retry_interval_max: 60
 
+pulsar_conda_prefix: "{{ pulsar_dependencies_dir }}/_conda"
+miniconda_prefix: "{{ pulsar_conda_prefix }}"
+
 # for pulsar-post-tasks
-pulsar_tools_indices_dir: /mnt/tools-indices
+pulsar_custom_indices_dir: /mnt/custom-indices
 
 #Stats collection
 sinfo_line_startswith: "p"

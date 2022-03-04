@@ -1,0 +1,26 @@
+server {
+
+    listen 443 ssl default_server;
+    listen [::]:443 ssl;
+
+    server_name {{ hostname }};
+
+    location /api/ {
+        alias {{ grt_queries_dir }}/;
+        autoindex on;
+    }
+
+    location /grt/ {
+        uwsgi_pass      127.0.0.1:8080;
+        include         uwsgi_params;
+    }
+
+    location / {
+        alias {{ grt_web_dir }}/;
+    }
+
+    location /grafana/ {
+        proxy_pass                 http://127.0.0.1:3000;
+    }
+
+}

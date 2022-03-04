@@ -1,0 +1,34 @@
+slurm_roles: ['exec']
+
+add_hosts_head: yes
+add_hosts_galaxy: yes
+
+shared_mounts:
+    - path: /mnt/custom-indices
+      src: pulsar-QLD:/mnt/custom-indices
+      fstype: nfs
+      state: mounted
+    - path: /mnt/tmp
+      src: "{{ hostvars['pulsar-QLD-job-nfs']['ansible_ssh_host'] }}:/mnt/tmp"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/pulsar
+      src: pulsar-QLD:/mnt/pulsar
+      fstype: nfs
+      state: mounted
+    - path: /mnt/tools-indices
+      src: pulsar-nci-test:/mnt/tools-indices
+      fstype: nfs
+      state: absent
+
+
+# cvmfs
+cvmfs_cache_base: /mnt/var/lib/cvmfs
+cvmfs_quota_limit: 20000
+
+#Attached volume
+attached_volumes:
+  - device: /dev/vdb
+    partition: 1
+    path: /mnt
+    fstype: ext4

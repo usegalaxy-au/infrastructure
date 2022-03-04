@@ -8,12 +8,19 @@ attached_volumes:
   - device: /dev/vde
     path: /user-data-3
     fstype: ext4
+  - device: /dev/vdf
+    partition: 1
+    path: /user-data-4
+    fstype: ext4
+    label: gpt
 
 galaxy_user_data_dir: /mnt/user-data
 galaxy_user_data_2_dir: /user-data-2
 galaxy_user_data_3_dir: /user-data-3
+galaxy_user_data_4_dir: /user-data-4
 
 nfs_exports:
   - "{{ galaxy_user_data_dir }} 192.168.0.0/24(rw,async,no_root_squash,no_subtree_check)"
   - "{{ galaxy_user_data_2_dir }} 192.168.0.0/24(rw,async,no_root_squash,no_subtree_check)"
   - "{{ galaxy_user_data_3_dir }} 192.168.0.0/24(rw,async,no_root_squash,no_subtree_check)"
+  - "{{ galaxy_user_data_4_dir }} 192.168.0.0/24(rw,async,no_root_squash,no_subtree_check)"

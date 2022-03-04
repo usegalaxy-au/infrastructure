@@ -13,11 +13,18 @@ ssl_email: "help@genome.edu.au"
 #host specific pulsar settings
 
 rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_paw_prod }}"
-pulsar_queue_url: "aarnet-queue.usegalaxy.org.au"
+pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_paw"
 pulsar_rabbit_vhost: "/pulsar/galaxy_paw"
+
+pulsar_conda_exec: "mamba"  # Use mamba as replacement for conda
 
 attached_volumes:
   - device: /dev/vdc
     path: /mnt
     fstype: ext4
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: public
+    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"

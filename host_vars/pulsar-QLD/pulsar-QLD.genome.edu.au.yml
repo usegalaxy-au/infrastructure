@@ -1,0 +1,49 @@
+hostname: "{{ ansible_hostname }}.genome.edu.au"
+
+add_hosts_workers: yes
+add_hosts_head: yes
+
+attached_volumes:
+  - device: /dev/vdb
+    partition: 1
+    path: /mnt
+    fstype: ext4
+
+#Mount the job_nfs - override the standard
+shared_mounts:
+    - path: /mnt/tmp
+      src: "{{ hostvars['pulsar-QLD-job-nfs']['ansible_ssh_host'] }}:/mnt/tmp"
+      fstype: nfs
+      state: mounted
+
+#set for job nfs server instead of pulsar head node
+pulsar_staging_dir: /mnt/tmp/files/staging
+pulsar_persistence_dir: /mnt/tmp/files/persistent_data
+
+#Override the slurm roles - only install exec here as we have a dedicated queue server.
+#Slurm roles
+slurm_roles: ['exec']
+
+# Keys and shares
+
+create_ssh_key: yes  # Only the first time.
+ssl_country: "AU"
+ssl_state: "Vic"
+ssl_location: "Melbourne"
+ssl_organisation: "Galaxy Australia"
+ssl_operational_unit: "Pulsar QLD"
+ssl_email: "help@genome.edu.au"
+
+#host specific pulsar settings
+
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_QLD_prod }}"
+pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
+pulsar_rabbit_username: "galaxy_QLD"
+pulsar_rabbit_vhost: "/pulsar/galaxy_QLD"
+
+pulsar_conda_exec: "mamba"  # Use mamba as replacement for conda
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: public
+    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"

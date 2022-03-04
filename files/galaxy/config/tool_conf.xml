@@ -26,6 +26,7 @@
         <tool file="data_source/metabolicmine.xml"/>
     </section>
     <section id="send" name="Send Data">
+        <tool file="data_export/export_remote.xml" />
         <tool file="cloud/send.xml"/>
     </section>
     <section id="collection_operations" name="Collection Operations">
@@ -203,6 +204,8 @@
     <section id="rad_seq" name="RAD-seq">
     </section>
     <section id="hicexplorer" name="HiCExplorer">
+    </section>
+    <section id="bb_tools" name="BB Tools">
     </section>
     <label id="statistics_and_visualisation" text="STATISTICS AND VISUALISATION"/>
     <section id="stats" name="Statistics">

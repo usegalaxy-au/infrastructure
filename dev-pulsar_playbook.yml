@@ -8,6 +8,7 @@
     - group_vars/VAULT
     - host_vars/dev-pulsar.usegalaxy.org.au.yml
     - secret_group_vars/ubuntu_maintenance_key
+    - secret_group_vars/stats_server_vault
   pre_tasks:
     - name: apt update
       apt:
@@ -19,10 +20,14 @@
     - insspb.hostname
     - geerlingguy.pip
     - galaxyproject.repos
+    - role: galaxyproject.miniconda
+      become: true
+      become_user: "{{ pulsar_user.name }}"
     - galaxyproject.pulsar
     - geerlingguy.nfs
     - mariadb
     - galaxyproject.slurm
     - galaxyproject.cvmfs
+    - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks

@@ -7,6 +7,8 @@
       - group_vars/VAULT
       - host_vars/dev-queue.usegalaxy.org.au.yml
       - group_vars/dev_slurm.yml
+      - secret_group_vars/stats_server_vault
+      - secret_group_vars/dev_secrets
   roles:
       - common
       - insspb.hostname
@@ -17,3 +19,4 @@
       - galaxyproject.repos
       - galaxyproject.slurm
       - slurm-post-tasks
+      - dj-wasabi.telegraf

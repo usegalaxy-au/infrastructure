@@ -18,9 +18,9 @@ pulsar_rabbit_username: "galaxy_hm1"
 pulsar_rabbit_vhost: "/pulsar/galaxy_hm1"
 
 attached_volumes:
-  - device: /dev/mapper/vg_nvme_striped-lv_nvme_striped
+  - device: /dev/dm-0
     path: /mnt
-    fstype: xfs
+    fstype: ext4
 
 galaxy_uid: 10010
 galaxy_gid: 10010
@@ -29,6 +29,11 @@ use_internal_ips: false
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
+cvmfs_quota_limit: 20000
+
+#Monitoring for Staging. Once all VM monitoring has moved to stats.usegalaxy.org.au, this can be put in all.yml and removed here.
+influx_url: stats.usegalaxy.org.au
+grafana_server_url: "https://{{ influx_url }}:8086"
 
 # Monitoring
 telegraf_agent_output:
@@ -37,10 +42,16 @@ telegraf_agent_output:
       - urls = ["{{ grafana_server_url }}"]
       - database = "pulsar-special"
       - precision = "s"
+      - username = "node"
+      - password = "{{ vault_influx_node_password }}"
 
 auth_key_user: ubuntu
 
 head_nodes: "{{ groups['pulsar_high_mem1'] }}"
+
+# 21/02/2022 revert to using conda because of mamba install errors
+# # Use mamba as replacement for conda
+pulsar_conda_exec: "mamba"
 
 # SLURM
 slurm_nodes:
@@ -69,6 +80,11 @@ slurm_config:
     FastSchedule: 2
     SchedulerType: sched/backfill
     SelectType: select/cons_res
-    SelectTypeParameters: CR_CPU,CR_LLN
+    SelectTypeParameters: CR_CPU_Memory,CR_LLN
 
 slurm_munge_key: files/keys/munge.key
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: public
+    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"

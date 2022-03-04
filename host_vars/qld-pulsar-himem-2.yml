@@ -17,6 +17,8 @@ pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_qld_hm2"
 pulsar_rabbit_vhost: "/pulsar/galaxy_qld_hm2"
 
+pulsar_conda_exec: "mamba"  # Use mamba as replacement for conda
+
 attached_volumes:
   - device: /dev/vdb
     partition: 1
@@ -30,6 +32,11 @@ use_internal_ips: false
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
+cvmfs_quota_limit: 20000
+
+#Monitoring for Staging. Once all VM monitoring has moved to stats.usegalaxy.org.au, this can be put in all.yml and removed here.
+influx_url: stats.usegalaxy.org.au
+grafana_server_url: "https://{{ influx_url }}:8086"
 
 # Monitoring
 telegraf_agent_output:
@@ -38,6 +45,8 @@ telegraf_agent_output:
       - urls = ["{{ grafana_server_url }}"]
       - database = "pulsar-special"
       - precision = "s"
+      - username = "node"
+      - password = "{{ vault_influx_node_password }}"
 
 auth_key_user: ubuntu
 
@@ -73,3 +82,8 @@ slurm_config:
     SelectTypeParameters: CR_CPU_Memory,CR_LLN
 
 slurm_munge_key: files/keys/munge.key
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: public
+    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"

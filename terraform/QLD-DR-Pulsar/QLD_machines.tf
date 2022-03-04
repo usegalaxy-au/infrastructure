@@ -3,7 +3,7 @@ locals {
   tmp_disk_size = 200
   avail_zone = "QRIScloud"
   key_pair = "galaxy-australia"
-  image_name = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
+  image_id = "356ff1ed-5960-4ac2-96a1-0c0198e6a999" # image_name = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
 
   #Loops for worker nodes
   instances = toset(formatlist("%d", range(local.worker_count)))
@@ -22,7 +22,8 @@ locals {
 resource "openstack_compute_instance_v2" "worker-nodes" {
   for_each = local.instances
   name            = "QLD-w${each.value}"
-  image_name      = local.image_name
+#  image_name      = local.image_name
+  image_id      = local.image_id
   flavor_name     = "r3.xlarge"
   key_pair        = local.key_pair
   security_groups = ["SSH only", "default"]
@@ -32,7 +33,8 @@ resource "openstack_compute_instance_v2" "worker-nodes" {
 #Head node
 resource "openstack_compute_instance_v2" "QLD-head" {
   name = "QLD-Pulsar-DR"
-  image_name = local.image_name
+#  image_name = local.image_name
+  image_id      = local.image_id
   flavor_name = "r3.large"
   key_pair = local.key_pair
   security_groups = ["SSH only", "Web-Services", "default"]
@@ -42,7 +44,8 @@ resource "openstack_compute_instance_v2" "QLD-head" {
 #Queue server
 resource "openstack_compute_instance_v2" "QLD-queue" {
   name = "QLD-queue"
-  image_name = local.image_name
+#  image_name = local.image_name
+  image_id = local.image_id
   flavor_name = "m3.medium"
   key_pair = local.key_pair
   security_groups = ["SSH only", "default", "rabbitmq"]
@@ -52,7 +55,8 @@ resource "openstack_compute_instance_v2" "QLD-queue" {
 #Job NFS
 resource "openstack_compute_instance_v2" "QLD-job-nfs" {
   name = "QLD-job-nfs"
-  image_name = local.image_name
+#  image_name = local.image_name
+  image_id = local.image_id
   flavor_name = "r3.large"
   key_pair = local.key_pair
   security_groups = ["SSH only", "default"]
@@ -62,7 +66,7 @@ resource "openstack_compute_instance_v2" "QLD-job-nfs" {
 #Misc NFS
 resource "openstack_compute_instance_v2" "QLD-misc-nfs" {
   name = "QLD-misc-nfs"
-  image_name = local.image_name
+  image_id = local.image_id
   flavor_name = "r3.large"
   key_pair = local.key_pair
   security_groups = ["SSH only", "default"]
@@ -82,7 +86,8 @@ resource "openstack_compute_instance_v2" "QLD-misc-nfs" {
 #Database server
 resource "openstack_compute_instance_v2" "QLD-db" {
   name = "QLD-db"
-  image_name = local.image_name
+#  image_name = local.image_name
+  image_id = local.image_id
   flavor_name = "r3.medium"
   key_pair = local.key_pair
   security_groups = ["SSH only", "default"]

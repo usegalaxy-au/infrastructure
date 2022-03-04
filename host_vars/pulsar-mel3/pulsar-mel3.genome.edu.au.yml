@@ -5,7 +5,7 @@ hostname: "{{ ansible_hostname }}.genome.edu.au"
 #NFS shares
 
 nfs_exports:
-    - "/mnt/tools-indices  *(rw,async,no_root_squash,no_subtree_check)"
+    - "{{ pulsar_custom_indices_dir }}  *(rw,async,no_root_squash,no_subtree_check)"
     - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
     - "/mnt/files   *(rw,async,no_root_squash,no_subtree_check)"
 
@@ -24,6 +24,8 @@ pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_mel3"
 pulsar_rabbit_vhost: "/pulsar/galaxy_mel3"
 
+pulsar_conda_exec: "mamba"  # Use mamba as replacement for conda
+
 #Attached volume
 attached_volumes:
   - device: /dev/vdb
@@ -32,3 +34,8 @@ attached_volumes:
   - device: /dev/vdc
     path: /mnt/files
     fstype: ext4
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: public
+    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"

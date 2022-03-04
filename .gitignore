@@ -1,4 +1,5 @@
 .vault_pass.txt
+.vault_password
 venv
 ansible.cfg
 terraform/terraform*
@@ -28,6 +29,7 @@ roles/geerlingguy.pip/
 roles/geerlingguy.nfs/
 roles/natefoo.postgresql_objects/
 roles/uchida.miniconda/
+roles/galaxyproject.miniconda
 roles/usegalaxy_eu.certbot/
 roles/usegalaxy_eu.galaxy_systemd/
 roles/usegalaxy_eu.gxadmin
@@ -39,6 +41,10 @@ roles/galaxyproject.gxadmin
 roles/usegalaxy_eu.tiaas2
 roles/usegalaxy_eu.gie_proxy
 roles/geerlingguy.docker
+roles/cloudalchemy.grafana
+roles/galaxyproject.miniconda
+roles/usegalaxy_eu.influxdb
+roles/cloudalchemy.grafana
 
 # integration-testing virtual environment
 integration-testing/venv

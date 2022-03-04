@@ -49,7 +49,7 @@ nginx_enable_default_server: false
 nginx_ssl_servers:
   - galaxy
 nginx_conf_http:
-  client_max_body_size: 80g
+  client_max_body_size: 120g
 nginx_ssl_role: usegalaxy_eu.certbot
 nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
 nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
@@ -59,19 +59,14 @@ nginx_upload_limit_rate: 0 # for nginx template: rate in bytes per second.  0 me
 
 # miniconda
 miniconda_prefix: "{{ galaxy_conda_prefix }}"
-miniconda_version: "{{ global_miniconda_version|d(host_miniconda_version) }}"
 
 # Galaxy
 
-# Variables that will differ based on the value of use_cloudstor_conf
-default_settings:
-  tool_config_files: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_config_dir }}/nagios_tool_conf.xml,{{ galaxy_config_dir }}/local_tool_conf.xml"
-
-cloudstor_settings:
-  tool_config_files: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_config_dir }}/nagios_tool_conf.xml,{{ galaxy_config_dir }}/cloudstor_tool_conf.xml,{{ galaxy_config_dir }}/local_tool_conf.xml"
-
-tool_config_files: "{{ cloudstor_settings['tool_config_files'] if use_cloudstor_conf|d(false) == true else default_settings['tool_config_files'] }}"
-# end variables dependent on use_cloudstor_conf
+galaxy_tool_config_files:
+  - "{{ galaxy_config_dir }}/tool_conf.xml"
+  - "{{ galaxy_config_dir }}/nagios_tool_conf.xml"
+  - "{{ galaxy_config_dir }}/local_tool_conf.xml"
+  - "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
 
 galaxy_create_user: true
 galaxy_separate_privileges: true
@@ -90,6 +85,7 @@ galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
 galaxy_mutable_data_dir: "{{ galaxy_root }}"
 galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_conda_prefix: "{{ galaxy_tools_indices_dir }}/tool_dependencies/_conda"
+galaxy_conda_exec: mamba
 
 
 #########################################
@@ -141,7 +137,7 @@ group_galaxy_config:
     use_heartbeat: true
     allow_user_dataset_purge: true
     enable_quotas: true
-    enable_job_recovery: true
+    enable_job_recovery: true  # disappearing in 21.09
     # outputs_to_working_directory: true
     enable_tool_recommendations: true
 
@@ -170,12 +166,10 @@ group_galaxy_config:
 
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
     tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
-    tool_config_file: "{{ tool_config_files }}"
-    dependency_resolvers_config_file: "{{ galaxy_server_dir }}/config/dependency_resolvers_conf.xml.sample"
     user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences_extra_conf.yml"
     file_sources_config_file: "{{ galaxy_config_dir }}/file_sources_conf.yml"
 
-    galaxy_data_manager_data_path: "{{ galaxy_tools_indices_dir }}/custom-indices"
+    galaxy_data_manager_data_path: "{{ galaxy_custom_indices_dir }}"
     shed_tool_data_path: "{{ galaxy_tools_indices_dir }}/tool-data/shed_tool_data"
     tool_data_path: "{{ galaxy_tools_indices_dir }}/tool-data"
     tool_data_table_config_path: "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
@@ -196,7 +190,26 @@ group_galaxy_config:
     build_sites_config_file: "{{ galaxy_config_dir }}/build_sites.yml"
     enable_old_display_applications: true
 
-    tool_filters: ga_filters:hide_test_tools
+    dependency_resolvers:
+      - type: tool_shed_packages
+      - type: galaxy_packages
+      - type: conda
+        exec: "{{ galaxy_conda_prefix }}/bin/{{ galaxy_conda_exec|d('conda') }}"
+      - type: galaxy_packages
+        versionless: true
+      - type: conda
+        exec: "{{ galaxy_conda_prefix }}/bin/{{ galaxy_conda_exec|d('conda') }}"
+        versionless: true
+
+    # Taken from usegalaxy.org
+    tool_name_boost: 0.1
+    tool_section_boost: 1
+    tool_description_boost: 0.1
+    tool_label_boost: 1
+    tool_stub_boost: 1
+    tool_help_boost: 1
+    tool_search_limit: 160
+
     # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
 
     # data_manager_config_file: /mnt/galaxy-app/config/data_manager_conf.xml.sample  # should we be templating these?
@@ -224,19 +237,14 @@ group_galaxy_config:
     # collect_outputs_from: job_working_directory # surely this is not a real path?  Relative to something?
     # rsync_url: 'rsync://scofield.bx.psu.edu/indexes'
     # len_file_path: /mnt/galaxy-app/tool-data/len
-    #
 
 
 # galaxy_config_template_src_dir: templates/galaxy  ## this var has been moved to all.yml
 group_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/static/welcome.html.j2"
     dest: "{{ galaxy_server_dir }}/static/welcome.html"
-  - src: "{{ galaxy_config_template_src_dir }}/config/job_conf.xml.j2"
-    dest: "{{ galaxy_config_dir}}/job_conf.xml"
   - src: "{{ galaxy_config_template_src_dir }}/config/reports.yml.j2"
     dest: "{{ galaxy_config_dir }}/reports.yml"
-  - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
-    dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
   - src: "{{ galaxy_config_template_src_dir }}/config/tool_conf_interactive.xml.j2"
     dest: "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
   - src: "{{ galaxy_config_template_src_dir }}/config/pulsar_app.yml.j2"
@@ -254,8 +262,6 @@ group_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_conf.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/nagios_tool_conf.xml"
     dest: "{{ galaxy_config_dir }}/nagios_tool_conf.xml"
-  - src: "{{ galaxy_config_file_src_dir }}/config/cloudstor_tool_conf.xml"
-    dest: "{{ galaxy_config_dir }}/cloudstor_tool_conf.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/local_tool_conf.xml"
     dest: "{{ galaxy_config_dir }}/local_tool_conf.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/user_preferences_extra_conf.yml"

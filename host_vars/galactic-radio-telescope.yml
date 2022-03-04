@@ -1,0 +1,143 @@
+attached_volumes:
+  - device: /dev/vdb
+    partition: 1
+    path: /mnt
+    fstype: ext4
+
+grt_dir: /mnt/galactic-radio-telescope
+
+grt_hostname: telescope.usegalaxy.org.au
+
+grt_repo: https://github.com/cat-bro/galactic-radio-telescope.git  # TODO: make usegalaxy-au fork
+grt_skip_postgres_install: true
+grt_skip_selinux: true
+
+# postgresql
+postgresql_pgdata: /mnt/postgresql_data
+postgresql_conf:
+  - data_directory: "'{{ postgresql_pgdata }}'"
+
+# ssl key
+create_ssh_key: yes  # Only the first time.
+ssl_country: "AU"
+ssl_state: "VIC"
+ssl_location: "Melbourne"
+ssl_organisation: "Galaxy Australia"
+ssl_operational_unit: "Galactic Radio Telescope"
+ssl_email: "help@genome.edu.au"
+
+# Nginx Letsencrypt bindings
+nginx_ssl_role: usegalaxy_eu.certbot
+nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
+nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
+
+nginx_check_conf: false
+
+pip_virtualenv_command: /usr/bin/python3 -m virtualenv # usegalaxy_eu.certbot
+
+# Certbot
+certbot_auth_method: --webroot
+certbot_well_known_root: /srv/nginx/_well-known_root
+
+certbot_post_renewal: |
+  systemctl restart nginx || true
+  systemctl restart influxdb || true
+certbot_virtualenv_package_name: python3-virtualenv
+certbot_auto_renew: yes
+certbot_auto_renew_user: root
+certbot_environment: production
+
+certbot_share_key_users:
+  - nginx
+  - influxdb
+certbot_domains:
+ - "{{ grt_hostname }}"
+certbot_agree_tos: --agree-tos
+
+# NGINX
+nginx_enable_default_server: false
+nginx_servers:
+  - redirect-ssl
+nginx_ssl_servers:
+  - telescope
+nginx_conf_http:
+  client_max_body_size: 1g
+
+# # PostgreSQL
+postgresql_pg_hba_conf:
+  - host all all "127.0.0.1/32" md5
+
+postgresql_objects_users:
+  - name: "{{ grt_user.name }}"
+    db: 'grt'
+    password: "{{ grt_pgpassword }}"
+postgresql_objects_databases:
+  - name: "{{ grt_user.name }}"
+    owner: "{{ grt_user.name }}"
+
+# GRT
+grt_upload_dir: /mnt/uploads
+grt_queries_dir: /srv/nginx/grt-api
+grt_web_dir: /srv/nginx/grt
+
+grt_pghost: localhost
+grt_pguser: "grt"
+grt_pgname: "grt"
+grt_pgport: 5432
+grt_pgpassword: "{{ vault_grt_postgres_password }}"
+grt_allowed_hosts: "{{ grt_hostname }}"
+
+grt_django_debug: "True" # do not set to true in production TODO
+
+# gxadmin
+gxadmin_commit: main
+gxadmin_dir: /opt/gxadmin
+gxadmin_bin_dir: /usr/bin
+gxadmin_force: true
+gxadmin_repo: "https://github.com/galaxyproject/gxadmin.git" # TODO: we are using old role that defaults to usegalaxy-eu instead of galaxyproject for  this repo
+
+grt_run_migrations_always: true
+
+grafana_version: '8.3.4'
+
+grafana_url: "https://{{ hostname }}/grafana/"
+grafana_server:
+  serve_from_sub_path: true
+
+grafana_security:
+    admin_user: admin
+    admin_password: "{{ vault_grt_grafana_admin_password }}"
+
+# These datasources will be automatically included into Grafana
+grafana_datasources:
+ - name: grt
+   type: influxdb
+   access: proxy
+   url: "{{ influxdb.url }}"
+   isDefault: true
+   version: 1
+   editable: false
+   database: grt
+   user: grafana
+   secureJsonData:
+      password: "{{ vault_grt_influx_grafana_password }}" # TODO: set vault passwords
+
+influxdb:
+  url: http://localhost:8086
+  admin:
+    username: admin
+    password: "{{ vault_grt_influx_admin_password }}"
+  node:
+    username: node
+    password: "{{ vault_grt_influx_node_password }}"
+  grafana:
+    username: grafana
+    password: "{{ vault_grt_influx_grafana_password }}"
+
+influxdb_databases:
+  - grt
+
+influxdb_ssl: false
+influxdb_validate_certs: false
+
+influxdb_base_data_dir: /mnt/influxdb_data

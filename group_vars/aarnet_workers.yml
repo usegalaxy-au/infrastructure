@@ -4,11 +4,12 @@ add_hosts_head: yes
 add_hosts_galaxy: yes
 
 attached_volumes:
-  - device: /dev/vdb
+  - device: /dev/vdb  # TODO: check
     path: /mnt
     fstype: ext4
+    partition: 1
 
-shared_mounts:
+shared_mounts:  # TODO: /mnt/custom-indices from aarnet-misc-nfs
     - path: /mnt/galaxy
       src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
       fstype: nfs
@@ -44,8 +45,11 @@ shared_mounts:
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
+cvmfs_quota_limit: 20000
 
 # Interactive Tools
 docker_install_compose: false
 docker_users:
   - "{{ galaxy_user.name }}"
+docker_daemon_options:
+  data-root: /mnt/docker-data

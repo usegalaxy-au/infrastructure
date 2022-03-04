@@ -70,7 +70,7 @@ slurm_partitions:
       Default: NO
       State: UP
     - name: max_quant_w8
-      nodes: "pawsey-w8,pawsey-w3"
+      nodes: "pawsey-w8,pawsey-w5"
       Default: NO
       State: UP
     - name: interactive_tools

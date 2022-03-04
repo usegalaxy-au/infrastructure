@@ -6,6 +6,7 @@
       - group_vars/VAULT
       - group_vars/nfs_servers.yml
       - host_vars/pawsey-user-nfs.usegalaxy.org.au.yml
+      - secret_group_vars/stats_server_vault
   pre_tasks:
       - name: Create galaxy_user_data_2_dir directory
         file:
@@ -14,6 +15,10 @@
       - name: Create galaxy_user_data_3_dir directory
         file:
           path: "{{ galaxy_user_data_3_dir }}"
+          state: directory
+      - name: Create galaxy_user_data_4_dir directory
+        file:
+          path: "{{ galaxy_user_data_4_dir }}"
           state: directory
       - name: Attach volume to instance
         include_role:
@@ -39,6 +44,7 @@
           - "{{ galaxy_user_data_dir }}"
           - "{{ galaxy_user_data_2_dir }}"
           - "{{ galaxy_user_data_3_dir }}"
+          - "{{ galaxy_user_data_4_dir }}"
       - name: Reload exportfs
         command: exportfs -ra
         become: yes
