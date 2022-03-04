@@ -1,0 +1,40 @@
+---
+# tasks file for ansible-singularity
+- name: Ubuntu package installation for pre-3.0
+  apt:
+    name:
+      - autogen
+      - autoconf
+      - libtool
+      - libarchive-dev
+    state: latest
+    update_cache: yes
+  when: ansible_distribution == "Ubuntu"
+
+- name: CentOS package installation for pre-3.0
+  yum:
+    name:
+      - autoconf
+      - libtool
+      - libarchive-devel
+    state: latest
+    update_cache: yes
+  when: ansible_distribution == "CentOS"
+
+- name: clone the singularity repo for pre-3.0
+  git:
+    repo: "https://github.com/singularityware/singularity.git"
+    dest: /opt/singularity
+    version: "{{ singularity_version }}"
+
+- name: execute autogen.sh for pre-3.0
+  command: /opt/singularity/autogen.sh chdir=/opt/singularity
+
+- name: execute configure for pre-3.0
+  command: /opt/singularity/configure --prefix=/usr/local chdir=/opt/singularity
+
+- name: execute make for pre-3.0
+  command: make chdir=/opt/singularity
+
+- name: execute make install for pre-3.0
+  command: make install chdir=/opt/singularity

@@ -1,0 +1,12 @@
+---
+- name: if singularity version is not defined, define the default
+  set_fact:
+    singularity_version: "{{ singularity_version | default(singularity_default_version) }}"
+
+- name: if singularity_version is pre-3.0
+  include: singularity-pre-3.yml
+  when: singularity_version is version('3.0', operator='lt')
+
+- name: if singularity_version is 3.0 or later
+  include: singularity-post-3.yml
+  when: singularity_version is version('3.0', operator='ge')

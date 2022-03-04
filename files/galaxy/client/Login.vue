@@ -33,8 +33,10 @@
                             </b-card-header>
 
                             <b-card-body>
-                                <!-- OIDC login-->
-                                <external-login :login_page="true" />
+                                <!-- Hard-coded AAF OIDC login-->
+                                <b-button variant="link" class="my-2" @click="submitOIDCLogin('Keycloak')">
+                                    <img :src="https://swift.rc.nectar.org.au/v1/AUTH_377/public/Galaxy/AAF_BTN_Sign_in_med_gradient_orange_FIN2020.png" height="45" alt="" />
+                                </b-button>
                             </b-card-body>
                         </b-card>
 
@@ -63,7 +65,7 @@
 
                             <b-card-body>
                                 <div v-if="!showOther">
-                                    <b-button name="other" href="#" @click="clickOther">
+                                    <b-button class="my-2" name="other" href="#" @click="clickOther">
                                         <img src="/static/images/au/galaxy-black.svg" style="width: auto; height: 26px; margin-right: 10px; padding: 2px;">
                                         Sign in with email
                                     </b-button>
@@ -132,31 +134,31 @@
             <div class="row">
                 <div class="row logo">
                     <a href="https://www.melbournebioinformatics.org.au/" target="_blank">
-                        <img src="/static/images/au/logos/melbourne-bioinformatics.png" />
+                        <img src="/static/images/logos/melbourne-bioinformatics.png" />
                     </a>
 
                     <a href="https://ardc.edu.au/" target="_blank">
-                        <img src="/static/images/au/logos/ardc.png" />
+                        <img src="/static/images/logos/ardc.png" />
                     </a>
 
                     <a href="https://bioplatforms.com/" target="_blank">
-                        <img src="/static/images/au/logos/bpa.png" />
+                        <img src="/static/images/logos/bpa.png" />
                     </a>
 
                     <a href="https://www.biocommons.org.au/" target="_blank">
-                        <img src="/static/images/au/logos/australian-biocommons.png" />
+                        <img src="/static/images/logos/australian-biocommons.png" />
                     </a>
 
                     <a href="https://www.qcif.edu.au/" target="_blank">
-                        <img src="/static/images/au/logos/qcif.jpg" />
+                        <img src="/static/images/logos/qcif.jpg" />
                     </a>
 
                     <a href="https://www.dese.gov.au/ncris" target="_blank">
-                        <img src="/static/images/au/logos/ncris.svg" />
+                        <img src="/static/images/logos/ncris.svg" />
                     </a>
 
                     <a href="https://rcc.uq.edu.au/" target="_blank">
-                        <img src="/static/images/au/logos/uq-2.png" />
+                        <img src="/static/images/logos/uq-2.png" />
                     </a>
                 </div>
             </div>
@@ -256,6 +258,21 @@ export default {
                         window.location = encodeURI(response.data.redirect);
                     } else {
                         window.location = `${rootUrl}`;
+                    }
+                })
+                .catch((error) => {
+                    this.messageVariant = "danger";
+                    const message = error.response.data && error.response.data.err_msg;
+                    this.messageText = message || "Login failed for an unknown reason.";
+                });
+        },
+        submitOIDCLogin(idp) {
+            const rootUrl = getAppRoot();
+            axios
+                .post(`${rootUrl}authnz/${idp}/login`)
+                .then((response) => {
+                    if (response.data.redirect_uri) {
+                        window.location = response.data.redirect_uri;
                     }
                 })
                 .catch((error) => {

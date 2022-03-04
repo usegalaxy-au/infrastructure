@@ -1,0 +1,4 @@
+---
+# defaults file for ansible-singularity
+singularity_default_version: "3.5.3"
+singularity_go_path: "/opt/go"

@@ -1,0 +1,30 @@
+---
+galaxy_info:
+  author: John Freeman
+  description: Role for installing the Go language SDK.
+  company: GantSign Ltd.
+  license: MIT
+  min_ansible_version: 2.8
+  platforms:
+    - name: EL
+      versions:
+        - 7
+        - 8
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+    - name: Debian
+      versions:
+        - stretch
+        - jessie
+    - name: Fedora
+      versions:
+        - 31
+    - name: opensuse
+      versions:
+        - 15.1
+  galaxy_tags:
+    - golang
+    - development
+dependencies: []
