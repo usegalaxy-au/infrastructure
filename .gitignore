@@ -45,6 +45,8 @@ roles/cloudalchemy.grafana
 roles/galaxyproject.miniconda
 roles/usegalaxy_eu.influxdb
 roles/cloudalchemy.grafana
+roles/cyverse-ansible.singularity
+roles/gantsign.golang
 
 # integration-testing virtual environment
 integration-testing/venv
