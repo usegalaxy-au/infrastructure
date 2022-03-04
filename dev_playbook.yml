@@ -45,7 +45,7 @@
     - galaxyproject.nginx
     - geerlingguy.nfs
     - galaxyproject.slurm
-    # - galaxyproject.cvmfs
+    - galaxyproject.cvmfs
     - galaxyproject.gxadmin
     - pg-post-tasks
     - remote-pulsar-cron
