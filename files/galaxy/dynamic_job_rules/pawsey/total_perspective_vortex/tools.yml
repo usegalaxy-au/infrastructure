@@ -417,6 +417,8 @@ tools:
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/.*:
     cores: 5
+    env:
+      _JAVA_OPTIONS: -Xmx19G -Xms1G
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
     cores: 3
     rules:
