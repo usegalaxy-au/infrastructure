@@ -200,18 +200,19 @@ tools:
       singularity_volumes: '$defaults'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
   cactus_cactus:
-    cores: 2
+    cores: 3
     params:
-      singularity_enabled: True
-      singularity_volumes: '$defaults'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+      docker_enabled: true
+      docker_volumes: '$defaults'
+      docker_memory: '{mem}'
+      docker_sudo: false
   cactus_export:
     cores: 1
     params:
-      singularity_enabled: True
-      singularity_volumes: '$defaults'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
-
+      docker_enabled: true
+      docker_volumes: '$defaults'
+      docker_memory: '{mem}'
+      docker_sudo: false
 
 users:
   default:
