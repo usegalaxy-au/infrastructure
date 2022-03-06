@@ -211,7 +211,7 @@ tools:
     params:
       docker_enabled: true
       docker_volumes: '$defaults'
-      docker_memory: '{mem}'
+      docker_memory: '{mem}G'
       docker_sudo: false
 
 users:
