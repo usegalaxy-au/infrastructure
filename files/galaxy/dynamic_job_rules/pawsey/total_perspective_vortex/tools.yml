@@ -416,9 +416,9 @@ tools:
     - match: input_size >= 1
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/.*:
-    cores: 5
+    cores: 9
     env:
-      _JAVA_OPTIONS: -Xmx19G -Xms1G
+      _JAVA_OPTIONS: -Xmx34G -Xms1G
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
     cores: 3
     rules:
