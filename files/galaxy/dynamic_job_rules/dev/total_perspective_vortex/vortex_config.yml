@@ -142,7 +142,7 @@ tools:
           require:
             - pulsar-azure-0
         cores: 6
-        mem: 107
+        mem: 106
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
