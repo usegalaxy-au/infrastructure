@@ -35,7 +35,7 @@
                             <b-card-body>
                                 <!-- Hard-coded AAF OIDC login-->
                                 <b-button variant="link" class="my-2" @click="submitOIDCLogin('Keycloak')">
-                                    <img :src="https://swift.rc.nectar.org.au/v1/AUTH_377/public/Galaxy/AAF_BTN_Sign_in_med_gradient_orange_FIN2020.png" height="45" alt="" />
+                                    <img src="https://swift.rc.nectar.org.au/v1/AUTH_377/public/Galaxy/AAF_BTN_Sign_in_med_gradient_orange_FIN2020.png" height="45" alt="AAF login" />
                                 </b-button>
                             </b-card-body>
                         </b-card>
@@ -134,31 +134,31 @@
             <div class="row">
                 <div class="row logo">
                     <a href="https://www.melbournebioinformatics.org.au/" target="_blank">
-                        <img src="/static/images/logos/melbourne-bioinformatics.png" />
+                        <img src="/static/images/au/logos/melbourne-bioinformatics.png" />
                     </a>
 
                     <a href="https://ardc.edu.au/" target="_blank">
-                        <img src="/static/images/logos/ardc.png" />
+                        <img src="/static/images/au/logos/ardc.png" />
                     </a>
 
                     <a href="https://bioplatforms.com/" target="_blank">
-                        <img src="/static/images/logos/bpa.png" />
+                        <img src="/static/images/au/logos/bpa.png" />
                     </a>
 
                     <a href="https://www.biocommons.org.au/" target="_blank">
-                        <img src="/static/images/logos/australian-biocommons.png" />
+                        <img src="/static/images/au/logos/australian-biocommons.png" />
                     </a>
 
                     <a href="https://www.qcif.edu.au/" target="_blank">
-                        <img src="/static/images/logos/qcif.jpg" />
+                        <img src="/static/images/au/logos/qcif.jpg" />
                     </a>
 
                     <a href="https://www.dese.gov.au/ncris" target="_blank">
-                        <img src="/static/images/logos/ncris.svg" />
+                        <img src="/static/images/au/logos/ncris.svg" />
                     </a>
 
                     <a href="https://rcc.uq.edu.au/" target="_blank">
-                        <img src="/static/images/logos/uq-2.png" />
+                        <img src="/static/images/au/logos/uq-2.png" />
                     </a>
                 </div>
             </div>

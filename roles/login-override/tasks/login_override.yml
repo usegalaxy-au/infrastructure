@@ -14,5 +14,5 @@
 
   - name: Copy static files for Login.vue
     copy:
-      src: "{{ galaxy_config_file_src_dir }}/images/logos"
+      src: "{{ galaxy_config_file_src_dir }}/images/au"
       dest: "{{ galaxy_server_dir }}/static/images"
