@@ -347,6 +347,7 @@ export default {
     width: auto;
 }
 .login-info {
+    text-align: left;
     margin: .5rem 0;
 }
 @media only screen and (max-width: 1400px) {
