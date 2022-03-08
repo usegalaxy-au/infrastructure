@@ -78,8 +78,8 @@ tools:
         cores: 16
         mem: 60.8
         params:
-          nativeSpecification: "--nodes=2 --ntasks={cores} --ntasks-per-node={round(cores/2)} --mem={round(mem*1024)} --partition=small"
-          submit_native_specification: "--nodes=2 --ntasks={cores} --ntasks-per-node={round(cores/2)} --mem={round(mem*1024)} --partition=small"
+          nativeSpecification: "--nodes=2 --ntasks={cores} --ntasks-per-node={round(cores/2)} --mem={round(mem*1024)} --partition=medium"
+          submit_native_specification: "--nodes=2 --ntasks={cores} --ntasks-per-node={round(cores/2)} --mem={round(mem*1024)} --partition=medium"
 
 
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
@@ -109,8 +109,8 @@ tools:
         cores: 120
         mem: 1900
         params:
-          nativeSpecification: "--nodes=2 --ntasks={cores} --ntasks-per-node={round(cores/2)} --mem={round(mem*1024)} --partition=small"
-          submit_native_specification: "--nodes=2 --ntasks={cores} --ntasks-per-node={round(cores/2)} --mem={round(mem*1024)} --partition=small"
+          nativeSpecification: "--nodes=2 --ntasks={cores} --ntasks-per-node={round(cores/2)} --mem={round(mem*1024)} --partition=special"
+          submit_native_specification: "--nodes=2 --ntasks={cores} --ntasks-per-node={round(cores/2)} --mem={round(mem*1024)} --partition=special"
 
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     inherits: pulsar_preferred
@@ -180,8 +180,8 @@ tools:
         cores: 32
         mem: 121.6
         params:
-          nativeSpecification: "--nodes=2 --ntasks={cores} --ntasks-per-node={round(cores/2)} --mem={round(mem*1024)} --partition=small"
-          submit_native_specification: "--nodes=2 --ntasks={cores} --ntasks-per-node={round(cores/2)} --mem={round(mem*1024)} --partition=small"
+          nativeSpecification: "--nodes=2 --ntasks={cores} --ntasks-per-node={round(cores/2)} --mem={round(mem*1024)} --partition=large"
+          submit_native_specification: "--nodes=2 --ntasks={cores} --ntasks-per-node={round(cores/2)} --mem={round(mem*1024)} --partition=large"
   
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     scheduling:
@@ -352,8 +352,8 @@ destinations:
         - pulsar
         - pulsar-eu-gpu-alpha
   pulsar-azure-0-std:  # TODO: this needs higher cores/mem for alphafold
-    cores: 6
-    mem: 107
+    cores: 120
+    mem: 2000
     scheduling:
       accept:
         - general
