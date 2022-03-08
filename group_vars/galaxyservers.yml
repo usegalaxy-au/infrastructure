@@ -268,8 +268,6 @@ group_galaxy_config_files:
     dest: "{{ galaxy_config['galaxy']['user_preferences_extra_conf_path'] }}"
   - src: "{{ galaxy_config_file_src_dir }}/config/build_sites.yml"
     dest: "{{ galaxy_config_dir }}/build_sites.yml"
-  - src: "{{ galaxy_config_file_src_dir }}/images/AAF_BTN_Sign_in_med_gradient_orange_FIN2020.png"
-    dest: "{{ galaxy_config_dir }}/AAF_BTN_Sign_in_med_gradient_orange_FIN2020.png"
   - src: "{{ galaxy_config_file_src_dir }}/config/file_sources_conf.yml"
     dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
   - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
