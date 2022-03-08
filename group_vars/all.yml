@@ -75,6 +75,12 @@ machine_users:
       roles: []
       key: files/keys/tom.pub
       email: "{{ tom_email }}"
+    - name: gavin
+      roles:
+        - sudo
+        - galaxy_admin
+      key: files/keys/gavin.pub
+      email: "{{ gavin_email }}"
 
 galaxy_user:
   name: galaxy
