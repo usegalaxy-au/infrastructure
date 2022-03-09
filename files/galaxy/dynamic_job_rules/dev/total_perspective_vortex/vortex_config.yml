@@ -203,14 +203,14 @@ tools:
     cores: 3
     params:
       docker_enabled: true
-      docker_volumes: '$defaults,/etc/passwd'
+      docker_volumes: '$defaults,/etc/passwd:ro'
       docker_memory: '{mem}G'
       docker_sudo: false
   cactus_export:
     cores: 1
     params:
       docker_enabled: true
-      docker_volumes: '$defaults,/etc/passwd'
+      docker_volumes: '$defaults,/etc/passwd:ro'
       docker_memory: '{mem}G'
       docker_sudo: false
 
