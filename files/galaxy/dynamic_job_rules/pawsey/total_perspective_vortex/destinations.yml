@@ -56,7 +56,6 @@ destinations:
       require:
       - pulsar
       - high-mem
-      - offline
   pulsar-qld-high-mem1:
     cores: 240
     mem: 3845.07
@@ -66,7 +65,6 @@ destinations:
       require:
       - pulsar
       - high-mem
-      - offline
   pulsar-qld-high-mem2:
     cores: 240
     mem: 3845.07
@@ -76,7 +74,6 @@ destinations:
       require:
       - pulsar
       - high-mem
-      - offline
   pulsar-nci-training:
     cores: 16
     mem: 47.07
@@ -95,7 +92,6 @@ destinations:
       require:
       - pulsar
       - pulsar-qld-blast
-      - offline
   pulsar-QLD:
     cores: 16
     mem: 62.72
@@ -104,6 +100,5 @@ destinations:
       - pulsar-QLD
       require:
       - pulsar
-      - offline
 
 
