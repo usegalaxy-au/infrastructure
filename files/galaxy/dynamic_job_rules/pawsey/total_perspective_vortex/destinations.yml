@@ -5,6 +5,13 @@ destinations:
     scheduling:
       accept:
       - slurm
+  slurm-training:
+    cores: 32
+    mem: 60.62
+    scheduling:
+      accept:
+      - slurm
+      require:
       - training
   pulsar-mel2:
     cores: 8
