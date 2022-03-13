@@ -290,6 +290,11 @@ tools:
     - match: input_size >= 0.1
       cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
+    scheduling:
+      accept:
+        - pulsar
+      reject:
+        - pulsar-QLD
     cores: 16
   toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/.*:
     cores: 7
@@ -487,11 +492,14 @@ tools:
     - match: input_size >= 0.5
       cores: 9
   toolshed.g2.bx.psu.edu/repos/iuc/shovill/shovill/.*:
+    scheduling:
+      accept:
+        - pulsar
     rules:
     - match: 0.015 <= input_size < 2
-      cores: 7
+      cores: 8
     - match: 2 <= input_size < 10
-      cores: 9
+      cores: 10
     - match: input_size >= 10
       fail: Too much data, shoudn't run
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/.*:
