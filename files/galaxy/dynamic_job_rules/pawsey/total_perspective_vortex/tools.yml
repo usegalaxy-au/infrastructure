@@ -297,6 +297,13 @@ tools:
       reject:
         - pulsar-QLD
     cores: 16
+    rules:
+    - match: |
+        user_limit = 2
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/.*:
     cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/.*:
@@ -736,7 +743,6 @@ tools:
     scheduling:
       accept:
       - pulsar
-      - pulsar-training-large
     rules:
     - match: 0.005 <= input_size < 0.02
       cores: 4
@@ -939,7 +945,6 @@ tools:
     scheduling:
       accept:
       - pulsar
-      - pulsar-training-large
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_consensus/trycycler_consensus/.*:
     cores: 1
     scheduling:
@@ -977,7 +982,6 @@ tools:
     scheduling:
       accept:
       - pulsar
-      - pulsar-training-large
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_geneBody_coverage/.*:
     cores: 2
     scheduling:
