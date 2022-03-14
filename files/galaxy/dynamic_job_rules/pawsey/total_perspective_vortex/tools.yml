@@ -439,7 +439,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/.*:
     cores: 9
     env:
-      _JAVA_OPTIONS: -Xmx34G -Xms1G
+      _JAVA_OPTIONS: '-Xmx{int(mem)}G -Xms1G'
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
     cores: 3
     rules:
@@ -790,7 +790,6 @@ tools:
         - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_consensus/ivar_consensus/.*:
     cores: 8
-    mem: cores * 3.7
     scheduling:
       accept:
       - pulsar
@@ -798,7 +797,6 @@ tools:
       - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_trim/ivar_trim/.*:
     cores: 8
-    mem: cores * 3.7
     scheduling:
       accept:
       - pulsar
@@ -806,7 +804,6 @@ tools:
       - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_variants/ivar_variants/.*:
     cores: 8
-    mem: cores * 3.7
     scheduling:
       accept:
       - pulsar
@@ -836,7 +833,6 @@ tools:
         - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_filter/lofreq_filter/.*:
     cores: 4
-    mem: cores * 3.7
     scheduling:
       accept:
       - pulsar
@@ -844,7 +840,6 @@ tools:
       - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_viterbi/lofreq_viterbi/.*:
     cores: 4
-    mem: cores * 3.7
     scheduling:
       accept:
       - pulsar
@@ -1233,6 +1228,9 @@ tools:
     inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
   toolshed.g2.bx.psu.edu/repos/iuc/spades_coronaspades/spades_coronaspades/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+    scheduling:
+      accept:
+        - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/spades_biosyntheticspades/spades_biosyntheticspades/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
 
