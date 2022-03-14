@@ -14,27 +14,27 @@ slurm_nodes:
     - name: pulsar-paw-w1
       NodeAddr: "{{ hostvars['pulsar-paw-w1']['internal_ip'] }}"
       CPUs: 8
-      RealMemory: 30500
+      RealMemory: 32208
       State: UNKNOWN
     - name: pulsar-paw-w2
       NodeAddr: "{{ hostvars['pulsar-paw-w2']['internal_ip'] }}"
       CPUs: 8
-      RealMemory: 30500
+      RealMemory: 32208
       State: UNKNOWN
     - name: pulsar-paw-w3
       NodeAddr: "{{ hostvars['pulsar-paw-w3']['internal_ip'] }}"
       CPUs: 8
-      RealMemory: 30500
+      RealMemory: 32208
       State: UNKNOWN
     - name: pulsar-paw-w4
       NodeAddr: "{{ hostvars['pulsar-paw-w4']['internal_ip'] }}"
       CPUs: 8
-      RealMemory: 30500
+      RealMemory: 32208
       State: UNKNOWN
     - name: pulsar-paw-w5
       NodeAddr: "{{ hostvars['pulsar-paw-w5']['internal_ip'] }}"
       CPUs: 8
-      RealMemory: 30500
+      RealMemory: 32208
       State: UNKNOWN
 
 slurm_partitions:
