@@ -290,7 +290,20 @@ tools:
     - match: input_size >= 0.1
       cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
+    scheduling:
+      accept:
+        - pulsar
+        - pulsar-training-large
+      reject:
+        - pulsar-QLD
     cores: 16
+    rules:
+    - match: |
+        user_limit = 2
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/.*:
     cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/.*:
@@ -487,11 +500,14 @@ tools:
     - match: input_size >= 0.5
       cores: 9
   toolshed.g2.bx.psu.edu/repos/iuc/shovill/shovill/.*:
+    scheduling:
+      accept:
+        - pulsar
     rules:
     - match: 0.015 <= input_size < 2
-      cores: 7
+      cores: 8
     - match: 2 <= input_size < 10
-      cores: 9
+      cores: 10
     - match: input_size >= 10
       fail: Too much data, shoudn't run
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/.*:
@@ -700,6 +716,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.001 <= input_size < 1
       cores: 8
@@ -763,6 +780,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: input_size >= 5e-06
       cores: 120
@@ -859,6 +877,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: input_size >= 5
       cores: 16
@@ -867,6 +886,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.001 < input_size <= 5
       cores: 16
@@ -897,6 +917,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
   toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_seq/.*:
     cores: 1
     scheduling:
@@ -924,7 +945,6 @@ tools:
     scheduling:
       accept:
       - pulsar
-      - pulsar-training-large
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_consensus/trycycler_consensus/.*:
     cores: 1
     scheduling:
@@ -985,6 +1005,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.05 <= input_size < 1
       cores: 8
@@ -1172,6 +1193,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.1 <= input_size < 30
       cores: 60
@@ -1187,6 +1209,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.005 <= input_size < 2
       cores: 8
