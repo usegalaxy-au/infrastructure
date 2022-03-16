@@ -11,5 +11,6 @@
         <tool file="/mnt/galaxy/local_tools/glt_tom/tools/purge_haplotigs/purge_haplotigs_cov.xml"/>
         <tool file="/mnt/galaxy/local_tools/glt_tom/tools/purge_haplotigs/purge_haplotigs_hist.xml"/>
         <tool file="/mnt/galaxy/local_tools/glt_tom/tools/purge_haplotigs/purge_haplotigs_purge.xml"/>
+        <tool file="/mnt/galaxy/local_tools/glt_tom/tools/pbccs/pbccs.xml" />
     </section>
 </toolbox>
