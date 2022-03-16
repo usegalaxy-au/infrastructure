@@ -8,5 +8,8 @@
         <tool file="/mnt/galaxy/local_tools/glt_tom/tools/cactus/cactus_export.xml" />
         <tool file="/mnt/galaxy/local_tools/glt_tom/tools/pbgcpp/pbgcpp.xml" />
         <tool file="/mnt/galaxy/local_tools/glt_tom/tools/pbmm2/pbmm2.xml" />
+        <tool file="/mnt/galaxy/local_tools/glt_tom/tools/purge_haplotigs/purge_haplotigs_cov.xml"/>
+        <tool file="/mnt/galaxy/local_tools/glt_tom/tools/purge_haplotigs/purge_haplotigs_hist.xml"/>
+        <tool file="/mnt/galaxy/local_tools/glt_tom/tools/purge_haplotigs/purge_haplotigs_purge.xml"/>
     </section>
 </toolbox>
