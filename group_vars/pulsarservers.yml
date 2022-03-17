@@ -120,4 +120,4 @@ add_utilisation_info: true
 stats_dir: /home/ubuntu/stats_collection
 
 # acl-on-startup role
-acl_job_runner_user: ubuntu
+acl_job_runner_user: "{{ pulsar_user.name }}"

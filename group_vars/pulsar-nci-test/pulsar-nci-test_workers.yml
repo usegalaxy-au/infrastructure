@@ -37,7 +37,7 @@ docker_daemon_options:
   data-root: /mnt/docker-data
 
 # acl-on-startup role
-acl_job_runner_user: ubuntu
+acl_job_runner_user: "{{ pulsar_user.name }}"
 
 # Golang
 golang_gopath: '/var/workspace-go'
