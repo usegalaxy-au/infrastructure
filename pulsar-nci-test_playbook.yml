@@ -20,9 +20,13 @@
     - mariadb
     - galaxyproject.slurm
     - galaxyproject.cvmfs
+    - gantsign.golang
+    - cyverse-ansible.singularity
+    - geerlingguy.docker
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks
+    - acl-on-startup
     # - slg.galaxy_stats
   post_tasks:
     - name: Reload exportfs

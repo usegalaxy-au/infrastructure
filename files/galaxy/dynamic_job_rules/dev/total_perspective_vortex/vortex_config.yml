@@ -3,16 +3,42 @@ tools:
     scheduling:
       prefer:
         - pulsar
+  slurm_singularity:
+    params:
+      singularity_enabled: True
+      singularity_volumes: '$defaults'
+      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+  pulsar_singularity:
+    inherits: slurm_singularity
+    scheduling:
+      require:
+        - pulsar
+    params:
+      singularity_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw'
+  slurm_docker:
+    params:
+      docker_enabled: true
+      docker_volumes: '$defaults'
+      docker_memory: '{mem}G'
+      docker_sudo: false  
+  pulsar_docker:
+    inherits: slurm_docker
+    scheduling:
+      require:
+        - pulsar
+    params:
+      docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw'
+      docker_set_user: '1000'
+
   upload1:
     cores: 1
 
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
+    inherits: pulsar_docker
+    cores: 8
+  toolshed.g2.bx.psu.edu/repos/iuc/links/links/.*:
+    inherits: pulsar_singularity
     cores: 2
-    params:
-      docker_enabled: true
-      docker_volumes: '$defaults'
-      docker_memory: '{mem}'
-      docker_sudo: false
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     inherits: pulsar_preferred
     cores: 2
@@ -188,12 +214,6 @@ tools:
       require:
         - pulsar
         - pulsar-nci-test
-    cores: 2
-    params:
-      singularity_enabled: True
-      singularity_volumes: '$defaults'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
-  links:
     cores: 2
     params:
       singularity_enabled: True
