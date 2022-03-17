@@ -3,6 +3,13 @@ slurm_roles: ['exec']
 add_hosts_head: yes
 use_internal_ips: true
 
+#Attached volume
+attached_volumes:
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
+    label: msdos
+
 shared_mounts:
     - path: /mnt/custom-indices
       src: pulsar-nci-test:/mnt/custom-indices
@@ -21,3 +28,20 @@ shared_mounts:
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 cvmfs_quota_limit: 20000
+
+# Docker
+docker_install_compose: false
+docker_users:
+  - "{{ pulsar_user.name }}"
+docker_daemon_options:
+  data-root: /mnt/docker-data
+
+# acl-on-startup role
+acl_job_runner_user: ubuntu
+
+# Golang
+golang_gopath: '/var/workspace-go'
+
+# Singularity target version
+singularity_version: "3.7.4"
+singularity_go_path: "{{ golang_install_dir }}"
