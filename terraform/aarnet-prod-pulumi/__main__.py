@@ -143,8 +143,8 @@ VM_CONFIG = {
         "flavor": "C4R16D40",
     },
     "aarnet-job-nfs": {"volume": [20000], "flavor": "C8R32D40"},
-    "aarnet-misc-nfs": {"volume": [200, 300, 300, 1000], "flavor": "C8R32D40"},
-    "aarnet-user-nfs": {"volume": [80000, 50000], "flavor": "C8R32D40"},
+    "aarnet-misc-nfs": {"volume": [1000, 2000], "flavor": "C8R32D40"},
+    "aarnet-user-nfs": {"volume": [150000], "flavor": "C8R32D40"},
     "aarnet-db": {
         "ext-net": True,
         "sec-groups": [db_sec_grp.id],

@@ -3,16 +3,42 @@ tools:
     scheduling:
       prefer:
         - pulsar
+  slurm_singularity:
+    params:
+      singularity_enabled: True
+      singularity_volumes: '$defaults'
+      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+  pulsar_singularity:
+    inherits: slurm_singularity
+    scheduling:
+      require:
+        - pulsar
+    params:
+      singularity_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw'
+  slurm_docker:
+    params:
+      docker_enabled: true
+      docker_volumes: '$defaults'
+      docker_memory: '{mem}G'
+      docker_sudo: false  
+  pulsar_docker:
+    inherits: slurm_docker
+    scheduling:
+      require:
+        - pulsar
+    params:
+      docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw'
+      docker_set_user: '1000'
+
   upload1:
     cores: 1
 
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
+    inherits: pulsar_docker
+    cores: 8
+  toolshed.g2.bx.psu.edu/repos/iuc/links/links/.*:
+    inherits: pulsar_singularity
     cores: 2
-    params:
-      docker_enabled: true
-      docker_volumes: '$defaults'
-      docker_memory: '{mem}'
-      docker_sudo: false
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     inherits: pulsar_preferred
     cores: 2
@@ -62,21 +88,21 @@ tools:
       accept:
         - pulsar  
     rules:
-      - match: user.email == "pulsar_azure_0@usegalaxy.org.au" and input_size < 10
+      - match: user.email == "pulsar_azure_0@genome.edu.au" and input_size < 10
         scheduling:
           require:
             - pulsar-azure-0
         cores: 4
-        mem: 16
+        mem: 15
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
-      - match: user.email == "pulsar_azure_0@usegalaxy.org.au" and input_size >= 10
+      - match: user.email == "pulsar_azure_0@genome.edu.au" and input_size >= 10
         scheduling:
           require:
             - pulsar-azure-0
         cores: 16
-        mem: 64
+        mem: 60.8
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=medium"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=medium"
@@ -105,9 +131,9 @@ tools:
       accept:
         - pulsar
     rules:
-      - match: user.email == "pulsar_azure_0@usegalaxy.org.au"
+      - match: user.email == "pulsar_azure_0@genome.edu.au"
         cores: 120
-        mem: 2000
+        mem: 1900
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=special"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=special"
@@ -137,12 +163,12 @@ tools:
       require:
         - alphafold
     rules:
-      - match: user.email == "pulsar_azure_0@usegalaxy.org.au"
+      - match: user.email == "pulsar_azure_0@genome.edu.au"
         scheduling:
           require:
             - pulsar-azure-0
         cores: 6
-        mem: 107
+        mem: 106
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
@@ -164,21 +190,21 @@ tools:
       accept:
         - pulsar
     rules:
-      - match: user.email == "pulsar_azure_0@usegalaxy.org.au" and input_size < 0.1
+      - match: user.email == "pulsar_azure_0@genome.edu.au" and input_size < 0.1
         scheduling:
           require:
             - pulsar-azure-0
         cores: 4
-        mem: 16
+        mem: 15
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
-      - match: user.email == "pulsar_azure_0@usegalaxy.org.au" and input_size >= 0.1
+      - match: user.email == "pulsar_azure_0@genome.edu.au" and input_size >= 0.1
         scheduling:
           require:
             - pulsar-azure-0
         cores: 32
-        mem: 128
+        mem: 121.6
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=large"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=large"
@@ -193,25 +219,32 @@ tools:
       singularity_enabled: True
       singularity_volumes: '$defaults'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
-  links:
-    cores: 2
-    params:
-      singularity_enabled: True
-      singularity_volumes: '$defaults'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
   cactus_cactus:
-    cores: 2
+    cores: 3
     params:
-      singularity_enabled: True
-      singularity_volumes: '$defaults'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+      docker_enabled: true
+      docker_volumes: '$defaults,/etc/passwd:ro'
+      docker_memory: '{mem}G'
+      docker_sudo: false
   cactus_export:
     cores: 1
     params:
+      docker_enabled: true
+      docker_volumes: '$defaults,/etc/passwd:ro'
+      docker_memory: '{mem}G'
+      docker_sudo: false
+  pbgcpp:
+    cores: 2
+    params:
       singularity_enabled: True
       singularity_volumes: '$defaults'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
-
+  pbmm2:
+    cores: 2
+    params:
+      singularity_enabled: True
+      singularity_volumes: '$defaults'
+      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
 
 users:
   default:
@@ -351,8 +384,8 @@ destinations:
         - pulsar
         - pulsar-eu-gpu-alpha
   pulsar-azure-0-std:  # TODO: this needs higher cores/mem for alphafold
-    cores: 6
-    mem: 107
+    cores: 120
+    mem: 2000
     scheduling:
       accept:
         - general

@@ -208,35 +208,35 @@ rpc_db_connection_string: "postgres://reader:{{ vault_pawsey_db_reader_password 
 rpc_pulsar_machines:
   - pulsar_name: pulsar-mel3
     pulsar_ip_address: "{{ hostvars['pulsar-mel3']['ansible_ssh_host'] }}"
-    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
     delete_jwds: true
     keep_error_days: 7
     cron_hour: "17"
     cron_minute: "00"
   - pulsar_name: pulsar-mel2
     pulsar_ip_address: "{{ hostvars['pulsar-mel2']['ansible_ssh_host'] }}"
-    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
     delete_jwds: true
     keep_error_days: 7
     cron_hour: "5,11,17,23"
     cron_minute: "10"
   - pulsar_name: pulsar-paw
     pulsar_ip_address: "{{ hostvars['pulsar-paw']['ansible_ssh_host'] }}"
-    ssh_key: /home/ubuntu/.ssh/gvl_2019
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
     delete_jwds: true
     keep_error_days: 7
     cron_hour: "17"
     cron_minute: "20"
   - pulsar_name: pulsar-high-mem1
     pulsar_ip_address: "{{ hostvars['pulsar-high-mem1']['ansible_ssh_host'] }}"
-    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
     delete_jwds: true
     keep_error_days: 7
     cron_hour: "17"
     cron_minute: "30"
   - pulsar_name: pulsar-high-mem2
     pulsar_ip_address: "{{ hostvars['pulsar-high-mem2']['ansible_ssh_host'] }}"
-    ssh_key: /home/ubuntu/.ssh/galaxy-australia
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
     delete_jwds: true
     keep_error_days: 7
     cron_hour: "17"
@@ -276,6 +276,14 @@ rpc_pulsar_machines:
     keep_error_days: 7
     cron_hour: "18"
     cron_minute: "30"
+  - pulsar_name: pulsar-QLD
+    pulsar_ip_address: "{{ hostvars['pulsar-QLD']['ansible_ssh_host'] }}"
+    pulsar_staging_dir: /mnt/tmp/files/staging
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "18"
+    cron_minute: "40"
 
 extra_keys:
   - id: ubuntu_maintenance_key
@@ -285,4 +293,3 @@ extra_keys:
 grt_sender_dir: /mnt/var/galactic_radio_telescope
 grt_sender_api_key: "{{ vault_grt_api_key }}"
 grt_sender_grt_url: https://telescope.usegalaxy.org.au/grt
-grt_sender_cron_weekday: "*"  # override default Sunday to run it every day to upload old data

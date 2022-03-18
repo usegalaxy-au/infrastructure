@@ -2,6 +2,14 @@ tools:
   upload1:
     cores: 1
     mem: 10
+    rules:
+    - match: |
+        user_limit = 4
+        total_limit = 10
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit or helpers.concurrent_job_count_for_tool(app, tool) >= total_limit
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
   Cut1:
     cores: 1
   Extract genomic DNA 1:
@@ -282,7 +290,20 @@ tools:
     - match: input_size >= 0.1
       cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
+    scheduling:
+      accept:
+        - pulsar
+        - pulsar-training-large
+      reject:
+        - pulsar-QLD
     cores: 16
+    rules:
+    - match: |
+        user_limit = 2
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/.*:
     cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/.*:
@@ -416,7 +437,9 @@ tools:
     - match: input_size >= 1
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/.*:
-    cores: 5
+    cores: 9
+    env:
+      _JAVA_OPTIONS: '-Xmx{int(mem)}G -Xms1G'
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
     cores: 3
     rules:
@@ -477,11 +500,14 @@ tools:
     - match: input_size >= 0.5
       cores: 9
   toolshed.g2.bx.psu.edu/repos/iuc/shovill/shovill/.*:
+    scheduling:
+      accept:
+        - pulsar
     rules:
     - match: 0.015 <= input_size < 2
-      cores: 7
+      cores: 8
     - match: 2 <= input_size < 10
-      cores: 9
+      cores: 10
     - match: input_size >= 10
       fail: Too much data, shoudn't run
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/.*:
@@ -690,6 +716,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.001 <= input_size < 1
       cores: 8
@@ -753,6 +780,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: input_size >= 5e-06
       cores: 120
@@ -762,7 +790,6 @@ tools:
         - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_consensus/ivar_consensus/.*:
     cores: 8
-    mem: cores * 3.7
     scheduling:
       accept:
       - pulsar
@@ -770,7 +797,6 @@ tools:
       - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_trim/ivar_trim/.*:
     cores: 8
-    mem: cores * 3.7
     scheduling:
       accept:
       - pulsar
@@ -778,7 +804,6 @@ tools:
       - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_variants/ivar_variants/.*:
     cores: 8
-    mem: cores * 3.7
     scheduling:
       accept:
       - pulsar
@@ -808,7 +833,6 @@ tools:
         - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_filter/lofreq_filter/.*:
     cores: 4
-    mem: cores * 3.7
     scheduling:
       accept:
       - pulsar
@@ -816,7 +840,6 @@ tools:
       - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_viterbi/lofreq_viterbi/.*:
     cores: 4
-    mem: cores * 3.7
     scheduling:
       accept:
       - pulsar
@@ -849,6 +872,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: input_size >= 5
       cores: 16
@@ -857,6 +881,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.001 < input_size <= 5
       cores: 16
@@ -887,6 +912,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
   toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_seq/.*:
     cores: 1
     scheduling:
@@ -914,7 +940,6 @@ tools:
     scheduling:
       accept:
       - pulsar
-      - pulsar-training-large
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_consensus/trycycler_consensus/.*:
     cores: 1
     scheduling:
@@ -975,6 +1000,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.05 <= input_size < 1
       cores: 8
@@ -1162,6 +1188,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.1 <= input_size < 30
       cores: 60
@@ -1177,6 +1204,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-training-large
     rules:
     - match: 0.005 <= input_size < 2
       cores: 8
@@ -1200,6 +1228,9 @@ tools:
     inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
   toolshed.g2.bx.psu.edu/repos/iuc/spades_coronaspades/spades_coronaspades/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+    scheduling:
+      accept:
+        - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/spades_biosyntheticspades/spades_biosyntheticspades/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
 

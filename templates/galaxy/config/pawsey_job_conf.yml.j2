@@ -167,6 +167,9 @@ execution:
     slurm:
       runner: slurm
       nativeSpecification: --nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=124160 --partition=main
+    slurm-training:
+      runner: slurm
+      nativeSpecification: --nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62080 --partition=training
     pulsar-mel2:
       runner: pulsar_mel2_runner
       default_file_action: remote_transfer
@@ -296,10 +299,17 @@ limits:
 
 - type: destination_total_concurrent_jobs
   id: slurm
-  value: 40
+  value: 55
 - type: destination_user_concurrent_jobs
   id: slurm
   value: 5
+
+- type: destination_total_concurrent_jobs
+  id: slurm-training
+  value: 28
+- type: destination_user_concurrent_jobs
+  id: slurm-training
+  value: 4
 
 - type: destination_total_concurrent_jobs
   id: pulsar-mel2
