@@ -226,8 +226,8 @@ tools:
     inherits: pulsar_docker
     cores: 16
     mem: 48
-    # params:  # may need to bind /etc/passwd, try without first
-    #   docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/cvmfs/data.galaxyproject.org:ro,/etc/passwd:ro'
+    params:  # may need to bind /etc/passwd, try without first
+      docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/cvmfs/data.galaxyproject.org:ro,/etc/passwd:ro'
   cactus_export:
     cores: 1
     params:
