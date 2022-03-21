@@ -345,7 +345,6 @@ destinations:
     mem: 7.59
     scheduling:
       accept:
-        - pulsar
         - slurm
   pulsar_destination:
     cores: 4

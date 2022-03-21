@@ -1,8 +1,14 @@
-# check whether the tool destinations file has changed
-TOOL_DEST_FILE_PATH="files/galaxy/dynamic_job_rules/pawsey/total_perspective_vortex"
-TOOL_DEST_UPDATED=$(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep $TOOL_DEST_FILE_PATH)
+# check whether the production tpv files have changed
+PROD_TPV_FILE_PATH="files/galaxy/dynamic_job_rules/pawsey/total_perspective_vortex"
+PROD_TPV_UPDATED=$(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep $PROD_TPV_FILE_PATH)
 
-if [ ! "$TOOL_DEST_UPDATED" ]; then
+# check whether dev files of interest have changed
+DEV_LOCAL_TOOL_CONF="files/config/local_tool_conf_dev.xml"
+DEV_JOB_CONF_PATH="templates/galaxy/config/dev_job_conf.yml.j2"
+DEV_TPV_FILE_PATH="files/galaxy/dynamic_job_rules/dev/total_perspective_vortex"
+DEV_RELEVANT_FILES_UPDATED=$(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep -E '$DEV_TPV_FILE_PATH|$DEV_JOB_CONF_PATH|$DEV_LOCAL_TOOL_CONF')
+
+if [ ! "$PROD_TPV_UPDATED" ] && [ ! "$DEV_RELEVANT_FILES_UPDATED" ]; then
     # nothing to do
     echo -e "\nNo updates to tool destinations\n"
     exit 0
@@ -25,7 +31,16 @@ pip install -r $REQUIREMENTS_FILE
 cp $REQUIREMENTS_FILE $CACHED_REQUIREMENTS_FILE
 fi
 
-echo -e "\nUpdating tool destinations file on Galaxy\n"
+if [ "$PROD_TPV_UPDATED" ]; then
+    echo -e "\nUpdating tool destinations file on Galaxy production instance\n"
 
-echo "helloworld" > .vault_pass.txt  # ansible needs .vault_pass.txt to exist
-ansible-playbook -i hosts pawsey_update_job_conf_playbook.yml --extra-vars "ansible_user=jenkins_bot" --vault-password-file "$VAULT_PASS"
+    echo "helloworld" > .vault_pass.txt  # ansible needs .vault_pass.txt to exist
+    ansible-playbook -i hosts pawsey_update_job_conf_playbook.yml --extra-vars "ansible_user=jenkins_bot" --vault-password-file "$VAULT_PASS"
+fi
+
+if [ "$DEV_RELEVANT_FILES_UPDATED" ]; then
+    echo -e "\nUpdating tool destinations file on Galaxy dev instance\n"
+
+    echo "helloworld" > .vault_pass.txt  # ansible needs .vault_pass.txt to exist
+    ansible-playbook -i hosts dev_update_configs_playbook.yml --extra-vars "ansible_user=jenkins_bot" --vault-password-file "$VAULT_PASS"
+fi
