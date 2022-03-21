@@ -6,7 +6,7 @@ PROD_TPV_UPDATED=$(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat |
 DEV_LOCAL_TOOL_CONF="files/config/local_tool_conf_dev.xml"
 DEV_JOB_CONF_PATH="templates/galaxy/config/dev_job_conf.yml.j2"
 DEV_TPV_FILE_PATH="files/galaxy/dynamic_job_rules/dev/total_perspective_vortex"
-DEV_RELEVANT_FILES_UPDATED=$(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep -E '$DEV_TPV_FILE_PATH|$DEV_JOB_CONF_PATH|$DEV_LOCAL_TOOL_CONF')
+DEV_RELEVANT_FILES_UPDATED=$(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep -E "$DEV_TPV_FILE_PATH|$DEV_JOB_CONF_PATH|$DEV_LOCAL_TOOL_CONF")
 
 if [ ! "$PROD_TPV_UPDATED" ] && [ ! "$DEV_RELEVANT_FILES_UPDATED" ]; then
     # nothing to do

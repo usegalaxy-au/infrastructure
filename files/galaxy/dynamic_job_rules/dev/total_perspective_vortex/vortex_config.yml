@@ -49,7 +49,7 @@ tools:
   #   env:
   #     MAKER_MPI: 1
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_callvariants/bbtools_callvariants/.*:
-    inherits: pulsar_preferred
+    inherits: pulsar_singularity
     cores: 16
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_bbmap/bbtools_bbmap/.*:
     inherits: pulsar_preferred
