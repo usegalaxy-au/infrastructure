@@ -753,23 +753,20 @@ tools:
     scheduling:
       require:
       - pulsar
-  toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/.*:  # slurm only
     cores: 2
-    scheduling:
-      accept:
-      - pulsar
     rules:
     - match: input_size >= 0.1
-      cores: 4
+      cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
     cores: 2
     scheduling:
       accept:
       - pulsar
     rules:
-    - match: 0.5 <= input_size < 20
+    - match: 0.5 <= input_size < 15
       cores: 8
-    - match: input_size >= 20
+    - match: input_size >= 15
       cores: 60  # one quarter of a QLD high mem pulsar
       mem: 961
       scheduling:
