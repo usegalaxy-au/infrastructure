@@ -342,7 +342,7 @@ users:
 destinations:
   slurm:
     cores: 4
-    mem: 7.59
+    mem: 15.625
     scheduling:
       accept:
         - slurm

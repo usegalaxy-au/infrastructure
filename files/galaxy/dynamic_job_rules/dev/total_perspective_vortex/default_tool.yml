@@ -4,7 +4,7 @@ global:
 tools:
   default:
     cores: 1
-    mem: cores * 2.5 # reduced from 3 to cater of low mem on dev-w1
+    mem: cores * 3.8
     env: {}
     params:
       nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)}"
