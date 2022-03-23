@@ -217,13 +217,13 @@ tools:
     cores: 2
     params:
       singularity_enabled: True
-      singularity_volumes: '$defaults'
+      singularity_volumes: '$defaults,/cvmfs:ro'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
   pbmm2:
     cores: 2
     params:
       singularity_enabled: True
-      singularity_volumes: '$defaults'
+      singularity_volumes: '$defaults,/cvmfs:ro'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
 
 users:
