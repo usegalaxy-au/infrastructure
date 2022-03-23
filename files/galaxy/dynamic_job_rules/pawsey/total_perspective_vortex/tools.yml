@@ -1232,27 +1232,27 @@ tools:
     inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
 
   # Stacks 2 tools
-  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_clonefilter/stacks2_clonefilter/*:
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_clonefilter/stacks2_clonefilter/.*:
     cores: 2
-  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_cstacks/stacks2_cstacks/*:
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_cstacks/stacks2_cstacks/.*:
     cores: 16
-  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_denovomap/stacks2_denovomap/*:
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_denovomap/stacks2_denovomap/.*:
     cores: 16
-  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_gstacks/stacks2_gstacks/*:
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_gstacks/stacks2_gstacks/.*:
     cores: 16
-  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_kmerfilter/stacks2_kmerfilter/*:
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_kmerfilter/stacks2_kmerfilter/.*:
     cores: 2
-  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_populations/stacks2_populations/*:
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_populations/stacks2_populations/.*:
     cores: 8
   # toolshed.g2.bx.psu.edu/repos/iuc/stacks2_procrad/stacks2_procrad/*
-  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_refmap/stacks2_refmap/*:
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_refmap/stacks2_refmap/.*:
     cores: 8
-  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_shortreads/stacks2_shortreads/*:
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_shortreads/stacks2_shortreads/.*:
     cores: 2
-  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_sstacks/stacks2_sstacks/*:
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_sstacks/stacks2_sstacks/.*:
     cores: 16
   # toolshed.g2.bx.psu.edu/repos/iuc/stacks2_tsv2bam/stacks2_tsv2bam/*
-  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_ustacks/stacks2_ustacks/*:
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_ustacks/stacks2_ustacks/.*:
     cores: 16
 
 
