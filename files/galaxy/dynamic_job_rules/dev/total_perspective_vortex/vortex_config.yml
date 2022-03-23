@@ -3,16 +3,45 @@ tools:
     scheduling:
       prefer:
         - pulsar
+  slurm_singularity:
+    params:
+      singularity_enabled: True
+      # Note: '$defaults' expands to '$galaxy_root:ro,$tool_directory:ro,$job_directory:ro,$working_directory:rw,$default_file_path:rw'
+      # For production this needs to be more nuanced, there will be a lot of paths that need to be readable
+      # including custom-indices and all user-data dirs. Including qld dirs could cause jobs to fail when qld is offline
+      singularity_volumes: '$defaults,/cvmfs/data.galaxyproject.org:ro'
+      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+  pulsar_singularity:
+    inherits: slurm_singularity
+    scheduling:
+      require:
+        - pulsar
+    params:
+      singularity_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/cvmfs/data.galaxyproject.org:ro'
+  slurm_docker:
+    params:
+      docker_enabled: true
+      docker_volumes: '$defaults,/cvmfs/data.galaxyproject.org:ro'
+      docker_memory: '{mem}G'
+      docker_sudo: false  
+  pulsar_docker:
+    inherits: slurm_docker
+    scheduling:
+      require:
+        - pulsar
+    params:
+      docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/cvmfs/data.galaxyproject.org:ro'
+      docker_set_user: '1000'
+
   upload1:
     cores: 1
 
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
+    inherits: pulsar_docker
+    cores: 8
+  toolshed.g2.bx.psu.edu/repos/iuc/links/links/.*:
+    inherits: pulsar_singularity
     cores: 2
-    params:
-      docker_enabled: true
-      docker_volumes: '$defaults'
-      docker_memory: '{mem}'
-      docker_sudo: false
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     inherits: pulsar_preferred
     cores: 2
@@ -23,7 +52,7 @@ tools:
   #   env:
   #     MAKER_MPI: 1
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_callvariants/bbtools_callvariants/.*:
-    inherits: pulsar_preferred
+    inherits: pulsar_singularity
     cores: 16
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_bbmap/bbtools_bbmap/.*:
     inherits: pulsar_preferred
@@ -193,19 +222,12 @@ tools:
       singularity_enabled: True
       singularity_volumes: '$defaults'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
-  links:
-    cores: 2
-    params:
-      singularity_enabled: True
-      singularity_volumes: '$defaults'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
   cactus_cactus:
-    cores: 3
-    params:
-      docker_enabled: true
-      docker_volumes: '$defaults,/etc/passwd:ro'
-      docker_memory: '{mem}G'
-      docker_sudo: false
+    inherits: pulsar_docker
+    cores: 16
+    mem: 48
+    params:  # may need to bind /etc/passwd, try without first
+      docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/cvmfs/data.galaxyproject.org:ro,/etc/passwd:ro'
   cactus_export:
     cores: 1
     params:
@@ -322,10 +344,9 @@ users:
 destinations:
   slurm:
     cores: 4
-    mem: 7.59
+    mem: 15.625
     scheduling:
       accept:
-        - pulsar
         - slurm
   pulsar_destination:
     cores: 4
