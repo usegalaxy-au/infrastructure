@@ -908,7 +908,7 @@ tools:
         accept:
         - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
-    cores: 8
+    cores: 12
     scheduling:
       accept:
       - pulsar
