@@ -53,8 +53,8 @@ tools:
     cores: 16
     params:
       docker_enabled: true
-      docker_volumes: '$defaults'
-      docker_memory: '{mem}'
+      docker_volumes: '$defaults,/cvmfs/data.galaxyproject.org:ro,/mnt/user-data:ro,/mnt/user-data-2:ro,/mnt/user-data-3:ro'
+      docker_memory: '{mem}G'
       docker_sudo: false
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
     cores: 9
