@@ -223,9 +223,8 @@ tools:
       singularity_volumes: '$defaults'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
   cactus_cactus:
-    inherits: pulsar_docker
-    cores: 16
-    mem: 48
+    cores: 4
+    mem: 15
     params:  # may need to bind /etc/passwd, try without first
       docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/cvmfs/data.galaxyproject.org:ro,/etc/passwd:ro'
   cactus_export:
