@@ -53,8 +53,8 @@ tools:
     cores: 16
     params:
       docker_enabled: true
-      docker_volumes: '$defaults'
-      docker_memory: '{mem}'
+      docker_volumes: '$defaults,/cvmfs/data.galaxyproject.org:ro,/mnt/user-data:ro,/mnt/user-data-2:ro,/mnt/user-data-3:ro'
+      docker_memory: '{mem}G'
       docker_sudo: false
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
     cores: 9
@@ -753,23 +753,20 @@ tools:
     scheduling:
       require:
       - pulsar
-  toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/.*:  # slurm only
     cores: 2
-    scheduling:
-      accept:
-      - pulsar
     rules:
     - match: input_size >= 0.1
-      cores: 4
+      cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
     cores: 2
     scheduling:
       accept:
       - pulsar
     rules:
-    - match: 0.5 <= input_size < 20
+    - match: 0.5 <= input_size < 15
       cores: 8
-    - match: input_size >= 20
+    - match: input_size >= 15
       cores: 60  # one quarter of a QLD high mem pulsar
       mem: 961
       scheduling:
@@ -908,7 +905,7 @@ tools:
         accept:
         - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
-    cores: 8
+    cores: 12
     scheduling:
       accept:
       - pulsar
@@ -1233,6 +1230,30 @@ tools:
         - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/spades_biosyntheticspades/spades_biosyntheticspades/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+
+  # Stacks 2 tools
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_clonefilter/stacks2_clonefilter/.*:
+    cores: 2
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_cstacks/stacks2_cstacks/.*:
+    cores: 16
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_denovomap/stacks2_denovomap/.*:
+    cores: 16
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_gstacks/stacks2_gstacks/.*:
+    cores: 16
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_kmerfilter/stacks2_kmerfilter/.*:
+    cores: 2
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_populations/stacks2_populations/.*:
+    cores: 8
+  # toolshed.g2.bx.psu.edu/repos/iuc/stacks2_procrad/stacks2_procrad/*
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_refmap/stacks2_refmap/.*:
+    cores: 8
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_shortreads/stacks2_shortreads/.*:
+    cores: 2
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_sstacks/stacks2_sstacks/.*:
+    cores: 16
+  # toolshed.g2.bx.psu.edu/repos/iuc/stacks2_tsv2bam/stacks2_tsv2bam/*
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_ustacks/stacks2_ustacks/.*:
+    cores: 16
 
 
   .*bowtie2_index_builder_data_manager.*:
