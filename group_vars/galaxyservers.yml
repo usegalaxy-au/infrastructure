@@ -77,7 +77,7 @@ galaxy_shed_tools_dir: "{{ galaxy_tools_indices_dir }}/shed_tools"
 galaxy_config_style: yaml
 galaxy_force_checkout: true
 
-galaxy_australia_website: "https://usegalaxy-au.github.io"
+galaxy_australia_website: "https://site.usegalaxy.org.au"
 
 galaxy_server_dir: "{{ galaxy_root }}/galaxy-app"
 galaxy_venv_dir: "{{ galaxy_root }}/venv" # set this explicitly as it can fail when host/group variables are used out of the context of the galaxy role
