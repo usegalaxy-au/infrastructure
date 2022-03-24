@@ -42,7 +42,7 @@ galaxy_dynamic_job_rules:
   - readme.txt
 
 galaxy_tools_indices_dir: "{{ galaxy_root }}"
-galaxy_custom_indices_dir: "{{ galaxy_root }}/custom-indices" 
+galaxy_custom_indices_dir: "{{ galaxy_root }}/custom-indices"
 galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
@@ -168,3 +168,6 @@ golang_gopath: '/var/workspace-go'
 # Singularity target version
 singularity_version: "3.7.4"
 singularity_go_path: "{{ golang_install_dir }}"
+
+# Website
+galaxy_australia_website: "https://site.usegalaxy.org.au"
