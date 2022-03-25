@@ -46,7 +46,7 @@ galaxy_custom_indices_dir: "{{ galaxy_root }}/custom-indices"
 galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_21.09
+galaxy_commit_id: release_22.01
 
 galaxy_file_path: "{{ galaxy_root }}/data"
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
