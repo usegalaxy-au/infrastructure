@@ -3,3 +3,5 @@ attached_volumes:
     partition: 1
     path: /mnt
     fstype: ext4
+
+hostname: cvmfsp-mel.gvl.org.au
