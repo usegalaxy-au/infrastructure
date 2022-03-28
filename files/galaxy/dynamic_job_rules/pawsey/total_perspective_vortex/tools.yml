@@ -1255,6 +1255,28 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_ustacks/stacks2_ustacks/.*:
     cores: 16
 
+  # alphafold
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
+    cores: 6
+    mem: 110
+    params:
+      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
+      docker_enabled: true
+      docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
+      docker_memory: '{mem}G'
+      docker_sudo: false
+      require_container: true
+      docker_run_extra_arguments: "--gpus all"
+      docker_set_user: '1000'
+    scheduling:
+      require:
+        - pulsar-azure
+    rules:
+      - match: |
+          not user or not any([r for r in user.all_roles() if r.name == 'Alphafold'])
+        fail: |
+          This tool is currently being beta-tested on GPUs and your account has not been given access. Contact help@genome.edu.au if you think this is in error.
 
   .*bowtie2_index_builder_data_manager.*:
     cores: 16
