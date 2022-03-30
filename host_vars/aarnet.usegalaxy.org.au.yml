@@ -7,7 +7,7 @@
 
 # variables for attaching mounted volume to application server
 attached_volumes:
-  - device: /dev/vdb  # TODO: check
+  - device: /dev/vdb
     path: /mnt
     fstype: ext4
     partition: 1
@@ -46,18 +46,30 @@ shared_mounts:  # TODO: /mnt/custom-indices from aarnet-misc-nfs
       src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/tools-indices"
       fstype: nfs
       state: mounted
-    - path: /mnt/user-data
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/perth/user-data"
+    - path: /mnt/custom-indices
+      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/custom-indices"
       fstype: nfs
       state: mounted
-    - path: /mnt/user-data-2
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/perth/user-data-2"
+    - path: /mnt/user-data-test  # TODO: Unmount and remove this after testing
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-test"
       fstype: nfs
       state: mounted
-    - path: /mnt/user-data-3
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/aarnet/user-data-3"
-      fstype: nfs
-      state: mounted
+    # - path: /mnt/user-data
+    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
+    #   fstype: nfs
+    #   state: mounted
+    # - path: /mnt/user-data-2
+    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-2"
+    #   fstype: nfs
+    #   state: mounted
+    # - path: /mnt/user-data-3
+    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-3"
+    #   fstype: nfs
+    #   state: mounted
+    # - path: /mnt/user-data-4
+    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-4"
+    #   fstype: nfs
+    #   state: mounted
     - path: /mnt/tmp
       src: "{{ hostvars['aarnet-job-nfs']['internal_ip'] }}:/mnt/tmp"
       fstype: nfs
@@ -95,14 +107,14 @@ galaxy_tmp_dir: /mnt/tmp
 galaxy_handler_count: 5
 
 # galaxy_file_path: /mnt/user-data-3/test
-galaxy_file_path: /mnt/galaxy/data  # update to test volume path
+galaxy_file_path: /mnt/user-data-test # TEST this path is for testing only, update to /mnt/user-data-4 for going to production 
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 
-# host_galaxy_config_files:
-#   - src: "{{ galaxy_config_file_src_dir }}/config/aarnet_object_store_conf.xml"
-#     dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
+host_galaxy_config_files:
+  - src: "{{ galaxy_config_file_src_dir }}/config/aarnet_object_store_conf.xml"  # TODO: This is the test object store and will need to be updated when aarnet is the production server
+    dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
 
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/aarnet_job_conf.yml.j2"
@@ -128,7 +140,7 @@ host_galaxy_config:  # renamed from __galaxy_config
     database_connection: "postgres://galaxy:{{ vault_aarnet_db_user_password }}@{{ hostvars['aarnet-db']['internal_ip'] }}:5432/galaxy"
     id_secret: "{{ vault_aarnet_id_secret }}"
     file_path: "{{ galaxy_file_path }}"
-    # object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
+    object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     smtp_server: localhost
     # ga_code: "{{ vault_prod_ga_code }}"  ## swich off ga_code while testing.  TODO: uncomment this when we go live
     interactivetools_enable: true

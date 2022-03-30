@@ -4,7 +4,7 @@ add_hosts_head: yes
 add_hosts_galaxy: yes
 
 attached_volumes:
-  - device: /dev/vdb  # TODO: check
+  - device: /dev/vdb
     path: /mnt
     fstype: ext4
     partition: 1
@@ -18,18 +18,30 @@ shared_mounts:  # TODO: /mnt/custom-indices from aarnet-misc-nfs
       src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/tools-indices"
       fstype: nfs
       state: mounted
-    - path: /mnt/user-data
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/perth/user-data"
+    - path: /mnt/custom-indices
+      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/custom-indices"
       fstype: nfs
       state: mounted
-    - path: /mnt/user-data-2
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/perth/user-data-2"
+    - path: /mnt/user-data-test  # TODO: Unmount and remove this after testing
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-test"
       fstype: nfs
       state: mounted
-    - path: /mnt/user-data-3
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/aarnet/user-data-3"
-      fstype: nfs
-      state: mounted
+    # - path: /mnt/user-data
+    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
+    #   fstype: nfs
+    #   state: mounted
+    # - path: /mnt/user-data-2
+    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-2"
+    #   fstype: nfs
+    #   state: mounted
+    # - path: /mnt/user-data-3
+    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-3"
+    #   fstype: nfs
+    #   state: mounted
+    # - path: /mnt/user-data-4
+    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-4"
+    #   fstype: nfs
+    #   state: mounted
     - path: /mnt/tmp
       src: "{{ hostvars['aarnet-job-nfs']['internal_ip'] }}:/mnt/tmp"
       fstype: nfs

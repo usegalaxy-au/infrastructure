@@ -1,13 +1,13 @@
 attached_volumes:
-  - device: /dev/vdXYZ  # TODO: Find out
+  - device: /dev/vdb
     path: /mnt/tools-indices
     fstype: ext4
     partition: 1
-  - device: /dev/vdXYZ  # TODO: Find out
+  - device: /dev/vdc
     path: /mnt/custom-indices
     fstype: ext4
     partition: 1
-  - device: /dev/vdXYZ  # TODO: Find out
+  - device: /dev/vdd
     path: /mnt/ghost-galaxy-app
     fstype: ext4
     partition: 1

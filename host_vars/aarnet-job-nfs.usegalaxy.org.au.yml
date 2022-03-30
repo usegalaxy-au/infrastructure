@@ -1,5 +1,5 @@
 attached_volumes:
-  - device: /dev/vdZZZZZZ  # TODO: Find out
+  - device: /dev/vdb
     path: /mnt
     fstype: ext4
     partition: 1
