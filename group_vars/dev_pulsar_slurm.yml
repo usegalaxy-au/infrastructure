@@ -5,8 +5,8 @@ auth_key_user: ubuntu
 slurm_nodes:
     - name: dev-pulsar
       NodeAddr: "{{ hostvars['dev-pulsar']['ansible_ssh_host'] }}"
-      CPUs: 4
-      RealMemory: 7780
+      CPUs: 2
+      RealMemory: 7950
       State: UNKNOWN
 
 slurm_partitions:
