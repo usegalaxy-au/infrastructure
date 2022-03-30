@@ -345,14 +345,14 @@ users:
 
 destinations:
   slurm:
-    cores: 4
-    mem: 15.625
+    cores: 16
+    mem: 62.5
     scheduling:
       accept:
         - slurm
   pulsar_destination:
-    cores: 4
-    mem: 7.77
+    cores: 2
+    mem: 7.76
     scheduling:
       accept:
         - dev-pulsar
