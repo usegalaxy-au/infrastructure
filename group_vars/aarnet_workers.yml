@@ -14,8 +14,8 @@ shared_mounts:  # TODO: /mnt/custom-indices from aarnet-misc-nfs
       src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
       fstype: nfs
       state: mounted
-    - path: /mnt/tools-indices
-      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/tools-indices"
+    - path: /mnt/tools
+      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/tools"
       fstype: nfs
       state: mounted
     - path: /mnt/custom-indices
