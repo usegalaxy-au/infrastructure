@@ -181,7 +181,10 @@ tools:
           docker_sudo: false
           require_container: true
           docker_run_extra_arguments: "--gpus all"
-          docker_set_user: '1000'      
+          docker_set_user: '1000'
+        env:
+          ALPHAFOLD_AA_LENGTH_MIN: 50
+          ALPHAFOLD_AA_LENGTH_MAX: 100   
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.9+galaxy1:
     cores: 2
     params:
