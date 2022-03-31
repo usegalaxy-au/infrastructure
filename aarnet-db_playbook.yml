@@ -34,3 +34,6 @@
         become: true
         become_user: postgres
       - dj-wasabi.telegraf
+      # Note: After running this playbook for the first time the postgresql services
+      # may have stopped with errors due to the moving of the data directory.
+      # A reboot should fix this.
