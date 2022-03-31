@@ -223,20 +223,18 @@ tools:
       singularity_volumes: '$defaults'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
   cactus_cactus:
-    cores: 4
-    mem: 15
+    cores: 16
+    mem: 32
     params:
-      docker_enabled: true
-      docker_volumes: '$defaults,/etc/passwd:ro'
-      docker_memory: '{mem}G'
-      docker_sudo: false
+      singularity_enabled: True
+      singularity_volumes: '$defaults,/cvmfs:ro'
+      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
   cactus_export:
     cores: 1
     params:
-      docker_enabled: true
-      docker_volumes: '$defaults,/etc/passwd:ro'
-      docker_memory: '{mem}G'
-      docker_sudo: false
+      singularity_enabled: True
+      singularity_volumes: '$defaults,/cvmfs:ro'
+      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
   pbgcpp:
     cores: 2
     params:
