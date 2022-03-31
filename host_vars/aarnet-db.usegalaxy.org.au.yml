@@ -17,9 +17,9 @@ postgresql_conf:
   #   DB Type: web
   #   Total Memory (RAM): 32 GB
   #   CPUs num: 8
-  #   Connections num: 500
-  #   Data Storage: hdd
-  - max_connections: 100       # Set to be the same as main
+  #   Connections num: 100
+  #   Data Storage: san
+  - max_connections: 200
   - listen_addresses: "'*'"   # Allow remote connections
   - data_directory: "'/data/production'"
   - shared_buffers: 8GB
@@ -37,11 +37,10 @@ postgresql_conf:
   - max_parallel_workers_per_gather: 4
   - max_parallel_workers: 8
   - max_parallel_maintenance_workers: 4
-  # Following is for Replication database access and setup
-  - WAL_LEVEL: ARCHIVE
-  - Archive_mode: on
-  - max_wal_senders: 5
-  - wal_keep_segments: 100
+  - temp_buffers: 64MB
+  # - log_filename: "'postgresql-%Y-%m-%d.log'"
+  # - log_statement: all
+  # - logging_collector: on  # altering this requires a restart
 
 
 
