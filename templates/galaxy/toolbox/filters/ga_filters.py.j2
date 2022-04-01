@@ -15,5 +15,5 @@ def restrict_alphafold(context, tool):
     Only let GA team and alphafold beta users see alphafold
     """
     if tool.id.startswith('toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold'):
-        return user is not None and (user.email in test_tool_users or any([r for r in user.all_roles() if r.name == 'Alphafold']))
+        return user is not None and (user.email in test_tool_users or any([role.name == 'Alphafold' for role in user.all_roles() if not role.deleted]))
     return True
