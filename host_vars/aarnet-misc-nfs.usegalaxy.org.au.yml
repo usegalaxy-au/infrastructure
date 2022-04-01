@@ -1,19 +1,19 @@
 attached_volumes:
-  - device: /dev/vdXYZ  # TODO: Find out
-    path: /mnt/tools-indices
+  - device: /dev/vdb
+    path: /mnt/tools
     fstype: ext4
     partition: 1
-  - device: /dev/vdXYZ  # TODO: Find out
+  - device: /dev/vdc
     path: /mnt/custom-indices
     fstype: ext4
     partition: 1
-  - device: /dev/vdXYZ  # TODO: Find out
+  - device: /dev/vdd
     path: /mnt/ghost-galaxy-app
     fstype: ext4
     partition: 1
 
 galaxy_nfs_app_dir: /mnt/ghost-galaxy-app
-galaxy_nfs_tools_dir: /mnt/tools-indices
+galaxy_nfs_tools_dir: /mnt/tools
 galaxy_nfs_custom_indices_dir: /mnt/custom-indices
 
 nfs_exports:
