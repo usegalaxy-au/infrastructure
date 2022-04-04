@@ -47,9 +47,9 @@ rabbitmq_users:
   - user: galaxy_QLD
     password: "{{ rabbitmq_password_galaxy_QLD }}"
     vhost: /pulsar/galaxy_QLD
-  - user: galaxy_azure_prod
+  - user: galaxy_azure_0
     password: "{{ rabbitmq_password_galaxy_azure_prod }}"
-    vhost: /pulsar/galaxy_azure_prod
+    vhost: /pulsar/galaxy_azure_0
 
 rabbitmq_vhosts:
   - galaxy
@@ -65,7 +65,7 @@ rabbitmq_vhosts:
   - /pulsar/galaxy_qld_hm2
   - /pulsar/galaxy_qld_blast
   - /pulsar/galaxy_QLD
-  - /pulsar/galaxy_azure_prod
+  - /pulsar/galaxy_azure_0
 
 rabbitmq_version: 3.8.16-1
 
