@@ -1271,6 +1271,7 @@ tools:
       docker_set_user: '1000'
     scheduling:
       require:
+        - pulsar
         - pulsar-azure
     rules:
       - match: |
