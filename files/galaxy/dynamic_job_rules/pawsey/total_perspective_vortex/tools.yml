@@ -1274,7 +1274,7 @@ tools:
         - pulsar-azure
     rules:
       - match: |
-          not user or not any([r for r in user.all_roles() if r.name == 'Alphafold'])
+          not user or 'Alphafold' not in [role.name for role in user.all_roles() if not role.deleted]
         fail: |
           This tool is currently being beta-tested on GPUs and your account has not been given access. Contact help@genome.edu.au if you think this is in error.
 

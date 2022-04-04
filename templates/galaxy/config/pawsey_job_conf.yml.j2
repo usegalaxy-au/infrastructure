@@ -129,7 +129,7 @@ runners:
     manager: _default_
   pulsar_azure_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    amqp_url: "pyamqp://galaxy_azure_prod:{{ vault_rabbitmq_password_galaxy_azure_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_azure_prod?ssl=1"
+    amqp_url: "pyamqp://galaxy_azure_0:{{ vault_rabbitmq_password_galaxy_azure_0 }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_azure_0?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
     amqp_acknowledge: True
