@@ -2,6 +2,7 @@
 <toolbox monitor="true">
     <section id="local_tools" name="Local Tools">
         <tool file="/mnt/galaxy/local_tools/alphafold/alphafold.xml" />
+        <tool file="/mnt/galaxy/local_tools/hapcut2/hapcut2.xml" />
         <tool file="/mnt/galaxy/local_tools/wtdbg2/wtdbg2.xml" />
         <tool file="/mnt/galaxy/local_tools/ipa/ipa.xml" />
         <tool file="/mnt/galaxy/local_tools/glt_tom/tools/cactus/cactus_cactus.xml" />
