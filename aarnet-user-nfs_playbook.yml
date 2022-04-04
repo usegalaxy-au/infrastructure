@@ -6,18 +6,22 @@
       - group_vars/VAULT
       - group_vars/nfs_servers.yml
       - host_vars/aarnet-user-nfs.usegalaxy.org.au.yml
+      - secret_group_vars/stats_server_vault
   pre_tasks:
-      - name: Create galaxy_aarnet_user_data_dir directory
-        file:
-          path: /mnt/aarnet/user-data-3
-          state: directory
-      - name: Create galaxy_perth_user_data_dir directory
-        file:
-          path: /mnt/perth
-          state: directory
       - name: Attach volumes to instance
         include_role:
           name: attached-volumes
+      - name: Ensure galaxy nfs user data directories exist
+        file:
+          path: "{{ item }}"
+          state: directory
+        with_items:
+          - "{{ galaxy_nfs_user_data_dir }}"
+          - "{{ galaxy_nfs_user_data_2_dir }}"
+          - "{{ galaxy_nfs_user_data_3_dir }}"
+          - "{{ galaxy_nfs_user_data_4_dir }}"
+          - "{{ galaxy_nfs_user_data_test_dir }}"
+
   roles:
       - common
       - insspb.hostname
@@ -27,10 +31,15 @@
   post_tasks:
       - name: Chown shared dirs to Galaxy user
         file:
-          path: "{{ galaxy_aarnet_user_data_dir }}"
+          path: "{{ item }}"
           owner: galaxy
           group: galaxy
-          recurse: yes
+        with_items:
+          - "{{ galaxy_nfs_user_data_dir }}"
+          - "{{ galaxy_nfs_user_data_2_dir }}"
+          - "{{ galaxy_nfs_user_data_3_dir }}"
+          - "{{ galaxy_nfs_user_data_4_dir }}"
+          - "{{ galaxy_nfs_user_data_test_dir }}"
       - name: Reload exportfs
         command: exportfs -ra
         become: yes

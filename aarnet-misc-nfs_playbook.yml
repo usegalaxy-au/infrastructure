@@ -7,14 +7,14 @@
       - group_vars/nfs_servers.yml
       - host_vars/aarnet-misc-nfs.usegalaxy.org.au.yml
   pre_tasks:
-      - name: Create galaxy_nfs_app_dir directory
+      - name: Create nfs directories
         file:
-          path: "{{ galaxy_nfs_app_dir }}"
+          path: "{{ item }}"
           state: directory
-      - name: Create galaxy_nfs_tools_dir dir
-        file:
-          path: "{{ galaxy_nfs_tools_dir }}"
-          state: directory
+        with_items:
+          - "{{ galaxy_nfs_app_dir }}"
+          - "{{ galaxy_nfs_tools_dir }}"
+          - "{{ galaxy_nfs_custom_indices_dir }}"
       - name: Attach volume to instance
         include_role:
           name: attached-volumes
@@ -27,16 +27,13 @@
   post_tasks:
       - name: Chown shared dirs to Galaxy user
         file:
-          path: "{{ galaxy_nfs_app_dir }}"
+          path: "{{ item }}"
           owner: galaxy
           group: galaxy
-          recurse: yes
-      - name: Chown tools dir to Galaxy user
-        file:
-          path: "{{ galaxy_nfs_tools_dir }}"
-          owner: galaxy
-          group: galaxy
-          recurse: yes
+        with_items:
+          - "{{ galaxy_nfs_app_dir }}"
+          - "{{ galaxy_nfs_tools_dir }}"
+          - "{{ galaxy_nfs_custom_indices_dir }}"
       - name: Reload exportfs
         command: exportfs -ra
         become: yes
