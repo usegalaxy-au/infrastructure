@@ -393,6 +393,7 @@ destinations:
       accept:
         - general
         - alphafold
+        - offline
       require:
         - pulsar
         - pulsar-azure-0
@@ -403,6 +404,7 @@ destinations:
       accept:
         - general
         - alphafold
+        - offline
       require:
         - pulsar
         - pulsar-azure-docker
