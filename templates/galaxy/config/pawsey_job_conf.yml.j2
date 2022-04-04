@@ -127,6 +127,16 @@ runners:
     amqp_url: "pyamqp://galaxy_QLD:{{ vault_rabbitmq_password_galaxy_QLD_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_QLD?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
+  pulsar_azure_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_url: "pyamqp://galaxy_azure_0:{{ vault_rabbitmq_password_galaxy_azure_0 }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_azure_0?ssl=1"
+    galaxy_url: "https://{{ hostname }}"
+    manager: _default_
+    amqp_acknowledge: True
+    amqp_ack_republish_time: 1200
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: True
+    amqp_publish_retry_max_retries: 60
   pulsar_embedded:
     load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
     pulsar_config: "{{ galaxy_config_dir }}/pulsar_app.yml"
@@ -280,6 +290,16 @@ execution:
       rewrite_parameters: true
       submit_native_specification: --nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62000
       transport: curl
+    pulsar-azure:
+      runner: pulsar_azure_runner
+      jobs_directory: /mnt/pulsar/files/staging
+      transport: curl
+      remote_metadata: "false"
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: "true"
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      submit_native_specification: "--nodes=1 --ntasks=6 --ntasks-per-node=6 --mem=110000"
 tools:
 - id: interactive_tool_ethercalc
   environment: interactive_pulsar
@@ -359,4 +379,11 @@ limits:
 - type: user_total_concurrent_jobs
   id: pulsar-QLD
   value: 5
+
+- type: destination_total_concurrent_jobs
+  id: pulsar-azure
+  value: 4
+- type: user_total_concurrent_jobs
+  id: pulsar-azure
+  value: 1
 
