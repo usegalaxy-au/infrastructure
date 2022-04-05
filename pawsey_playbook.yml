@@ -41,6 +41,8 @@
     - galaxyproject.slurm
     - galaxyproject.cvmfs
     - galaxyproject.gxadmin
+    - gantsign.golang
+    - cyverse-ansible.singularity
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
     - pg-post-tasks

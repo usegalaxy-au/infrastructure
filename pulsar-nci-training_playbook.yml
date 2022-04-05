@@ -27,6 +27,10 @@
     - mariadb
     - galaxyproject.slurm
     - galaxyproject.cvmfs
+    - gantsign.golang
+    - cyverse-ansible.singularity
+    - geerlingguy.docker
+    - acl-on-startup
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks
