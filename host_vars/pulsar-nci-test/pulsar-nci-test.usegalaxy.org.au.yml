@@ -31,10 +31,3 @@ pulsar_conda_exec: "mamba"
 docker_install_compose: false
 docker_users:
   - "{{ pulsar_user.name }}"
-
-# Golang
-golang_gopath: '/var/workspace-go'
-
-# Singularity target version
-singularity_version: "3.7.4"
-singularity_go_path: "{{ golang_install_dir }}"

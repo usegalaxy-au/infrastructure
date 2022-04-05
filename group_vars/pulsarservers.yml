@@ -119,5 +119,13 @@ sinfo_line_startswith: "p"
 add_utilisation_info: true
 stats_dir: /home/ubuntu/stats_collection
 
+# pulsar-singularity-settings role
+pulsar_singularity_cachedir: "{{ pulsar_dependencies_dir }}/singularity/cache"
+pulsar_singularity_tmpdir:  "{{ pulsar_dependencies_dir }}/singularity/tmp"
+
+# docker
+docker_users:
+  - "{{ pulsar_user.name }}"
+
 # acl-on-startup role
 acl_job_runner_user: "{{ pulsar_user.name }}"
