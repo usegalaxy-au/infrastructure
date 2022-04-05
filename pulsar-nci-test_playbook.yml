@@ -23,10 +23,10 @@
     - gantsign.golang
     - cyverse-ansible.singularity
     - geerlingguy.docker
+    - acl-on-startup
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks
-    - acl-on-startup
     # - slg.galaxy_stats
   post_tasks:
     - name: Reload exportfs
