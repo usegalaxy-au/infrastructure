@@ -1272,7 +1272,7 @@ tools:
     scheduling:
       require:
         - pulsar
-        - pulsar-azure
+        - pulsar-azure-gpu
     rules:
       - match: |
           not user or 'Alphafold' not in [role.name for role in user.all_roles() if not role.deleted]

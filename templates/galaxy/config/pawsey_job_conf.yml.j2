@@ -300,6 +300,16 @@ execution:
       rewrite_parameters: "true"
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=6 --ntasks-per-node=6 --mem=110000"
+    pulsar-azure-gpu:
+      runner: pulsar_azure_runner
+      jobs_directory: /mnt/pulsar/files/staging
+      transport: curl
+      remote_metadata: "false"
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: "true"
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      submit_native_specification: "--nodes=1 --ntasks=6 --ntasks-per-node=6 --mem=110000"
 tools:
 - id: interactive_tool_ethercalc
   environment: interactive_pulsar
@@ -385,5 +395,12 @@ limits:
   value: 4
 - type: user_total_concurrent_jobs
   id: pulsar-azure
+  value: 1
+
+- type: destination_total_concurrent_jobs
+  id: pulsar-azure-gpu
+  value: 4
+- type: user_total_concurrent_jobs
+  id: pulsar-azure-gpu
   value: 1
 
