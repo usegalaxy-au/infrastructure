@@ -613,6 +613,13 @@ tools:
       scheduling:
         accept:
         - high-mem
+  toolshed.g2.bx.psu.edu/repos/bgruening/openbabel_svg_depiction/openbabel_svg_depiction/.*:
+    scheduling:
+      accept:
+      - pulsar
+    rules:
+    - match: input_size >= 5e-06  # over ~5KB
+      cores: 8
   toolshed.g2.bx.psu.edu/repos/bgruening/racon/racon/.*:
     cores: 1
     scheduling:
