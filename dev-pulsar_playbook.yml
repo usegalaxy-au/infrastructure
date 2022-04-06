@@ -30,9 +30,8 @@
     - galaxyproject.cvmfs
     - gantsign.golang
     - cyverse-ansible.singularity
-    - pulsar-singularity-settings
     - geerlingguy.docker
+    - acl-on-startup
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks
-    - acl-on-startup
