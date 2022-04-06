@@ -20,8 +20,6 @@
     - insspb.hostname
     - geerlingguy.pip
     - galaxyproject.repos
-    - gantsign.golang
-    - cyverse-ansible.singularity
     - role: galaxyproject.miniconda
       become: true
       become_user: "{{ pulsar_user.name }}"
@@ -30,8 +28,10 @@
     - mariadb
     - galaxyproject.slurm
     - galaxyproject.cvmfs
+    - gantsign.golang
+    - cyverse-ansible.singularity
     - geerlingguy.docker
+    - acl-on-startup
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks
-    - acl-on-startup

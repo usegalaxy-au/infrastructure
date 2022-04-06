@@ -98,9 +98,9 @@ host_galaxy_config:  # renamed from __galaxy_config
       - type: explicit_singularity
         cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
       - type: cached_mulled_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-      #   cache_directory: /cvmfs/singularity.galaxyproject.org/all  # from usa usegalaxy-playbook
-      #   cache_directory_cacher_type: dir_mtime
+        # cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all  # from usa usegalaxy-playbook
+        cache_directory_cacher_type: dir_mtime
       - type: mulled_singularity
         cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
       - type: build_mulled_singularity
@@ -162,12 +162,35 @@ extra_keys:
   - id: ubuntu_maintenance_key
     type: private
 
-# Golang
-golang_gopath: '/var/workspace-go'
+# Docker
+docker_users:
+  - "{{ galaxy_user.name }}"
+docker_daemon_options:
+  data-root: /mnt/docker-data
 
-# Singularity target version
-singularity_version: "3.7.4"
-singularity_go_path: "{{ golang_install_dir }}"
+# Singularity and docker volumes
+slurm_singularity_volumes_list: # for production this needs /mnt/user-data 1,2,3,4 + /mnt/custom-indices, all ro
+  - '$galaxy_root:ro'
+  - '$tool_directory:ro'
+  - '$job_directory:ro'
+  - '$working_directory:rw'
+  - '$default_file_path:rw'
+  - '/cvmfs/data.galaxyproject.org:ro'
 
-# Website
-galaxy_australia_website: "https://site.usegalaxy.org.au"
+pulsar_singularity_volumes_list:
+  - '$job_directory:ro'
+  - '$tool_directory:ro'
+  - '$job_directory/outputs:rw'
+  - '$working_directory:rw'
+  - '/cvmfs/data.galaxyproject.org:ro'
+
+slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
+pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
+
+# comma separated strings for the job conf
+slurm_singularity_volumes: "{{ slurm_singularity_volumes_list | join(',') }}"
+pulsar_singularity_volumes: "{{ pulsar_singularity_volumes_list | join(',') }}"
+slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
+pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
+
+singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'

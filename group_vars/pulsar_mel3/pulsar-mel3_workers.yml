@@ -30,3 +30,7 @@ attached_volumes:
   - device: /dev/vdb
     path: /mnt
     fstype: ext4
+
+# docker
+docker_daemon_options:
+  data-root: /mnt/docker-data

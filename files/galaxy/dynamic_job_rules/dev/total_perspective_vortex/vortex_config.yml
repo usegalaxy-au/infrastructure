@@ -1,64 +1,46 @@
 tools:
-  pulsar_preferred:
-    scheduling:
-      prefer:
-        - pulsar
-  slurm_singularity:
-    params:
-      singularity_enabled: True
-      # Note: '$defaults' expands to '$galaxy_root:ro,$tool_directory:ro,$job_directory:ro,$working_directory:rw,$default_file_path:rw'
-      # For production this needs to be more nuanced, there will be a lot of paths that need to be readable
-      # including custom-indices and all user-data dirs. Including qld dirs could cause jobs to fail when qld is offline
-      singularity_volumes: '$defaults,/cvmfs/data.galaxyproject.org:ro'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
-  pulsar_singularity:
-    inherits: slurm_singularity
-    scheduling:
-      require:
-        - pulsar
-    params:
-      singularity_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/cvmfs/data.galaxyproject.org:ro'
-  slurm_docker:
-    params:
-      docker_enabled: true
-      docker_volumes: '$defaults,/cvmfs/data.galaxyproject.org:ro'
-      docker_memory: '{mem}G'
-      docker_sudo: false  
-  pulsar_docker:
-    inherits: slurm_docker
-    scheduling:
-      require:
-        - pulsar
-    params:
-      docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/cvmfs/data.galaxyproject.org:ro'
-      docker_set_user: '1000'
-
   upload1:
     cores: 1
-
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
-    inherits: pulsar_docker
+    scheduling:
+      accept:
+        - pulsar
+    params:
+      docker_enabled: true
+      docker_memory: '{mem}G'
     cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/links/links/.*:
-    inherits: pulsar_singularity
+    params:
+      singularity_enabled: true
+      dependency_resolution: 'none'
     cores: 2
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 2
   toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 8
     mem: 30.39
   #   env:
   #     MAKER_MPI: 1
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_callvariants/bbtools_callvariants/.*:
-    inherits: pulsar_singularity
-    cores: 16
+    scheduling:
+      accept:
+        - pulsar
+    cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_bbmap/bbtools_bbmap/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 16
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     rules:
       - match: |
           ### helper function
@@ -112,7 +94,9 @@ tools:
 
 
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 2
     rules:
       - match: input_size >= 0.2
@@ -142,19 +126,29 @@ tools:
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=special"
 
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 4
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_solvate/gmx_solvate/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 4
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_setup/gmx_setup/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 4
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_editconf/gmx_editconf/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 4
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_em/gmx_em/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 4
   .*alphafold.*:  # match local or toolshed alphafold
     cores: 40

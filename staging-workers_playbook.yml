@@ -15,9 +15,11 @@
       - galaxyproject.repos
       - galaxyproject.slurm
       - galaxyproject.cvmfs
-      - dj-wasabi.telegraf
+      - gantsign.golang
+      - cyverse-ansible.singularity
       - geerlingguy.docker
       - acl-on-startup
+      - dj-wasabi.telegraf
   post_tasks:
       - name: restart munge
         systemd:

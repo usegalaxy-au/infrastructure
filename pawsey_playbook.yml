@@ -23,7 +23,6 @@
     - galaxyproject.repos
     - common
     - install-tpv
-    - acl-on-startup
     - mounts
     - galaxyproject.postgresql
     - role: natefoo.postgresql_objects
@@ -40,8 +39,11 @@
     - geerlingguy.nfs
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - galaxyproject.gxadmin
+    - gantsign.golang
+    - cyverse-ansible.singularity
     - geerlingguy.docker
+    - acl-on-startup
+    - galaxyproject.gxadmin
     - usegalaxy_eu.gie_proxy
     - pg-post-tasks
     - remote-pulsar-cron

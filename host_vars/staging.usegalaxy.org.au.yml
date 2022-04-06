@@ -105,3 +105,36 @@ gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 aaf_issuer_url: "{{ vault_aaf_issuer_url_staging }}"
 aaf_client_id: "{{ vault_aaf_client_id_staging }}"
 aaf_client_secret: "{{ vault_aaf_client_secret_staging }}"
+
+# Docker
+docker_users:
+  - "{{ galaxy_user.name }}"
+docker_daemon_options:
+  data-root: /mnt/docker-data
+
+# Singularity and docker volumes
+slurm_singularity_volumes_list:
+  - '$galaxy_root:ro'
+  - '$tool_directory:ro'
+  - '$job_directory:ro'
+  - '$working_directory:rw'
+  - '$default_file_path:rw'
+  - '/cvmfs/data.galaxyproject.org:ro'
+
+pulsar_singularity_volumes_list:
+  - '$job_directory:ro'
+  - '$tool_directory:ro'
+  - '$job_directory/outputs:rw'
+  - '$working_directory:rw'
+  - '/cvmfs/data.galaxyproject.org:ro'
+
+slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
+pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
+
+# comma separated strings for the job conf
+slurm_singularity_volumes: "{{ slurm_singularity_volumes_list | join(',') }}"
+pulsar_singularity_volumes: "{{ pulsar_singularity_volumes_list | join(',') }}"
+slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
+pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
+
+singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'

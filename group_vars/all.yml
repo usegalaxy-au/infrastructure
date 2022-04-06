@@ -179,3 +179,15 @@ internal_ssh_keys:
     private_key_content: "{{ vault_ubuntu_maintenance_key }}"
     public_key_src: files/keys/ubuntu_maintenance_key.pub
     user: ubuntu
+
+# Golang
+golang_version: '1.15.6' # default for role version 2.6.3
+golang_install_dir: '/opt/go/{{ golang_version }}' # default for role version 2.6.3
+golang_gopath: '/var/workspace-go'
+
+# Singularity target version
+singularity_version: "3.7.4"
+singularity_go_path: "{{ golang_install_dir }}"
+
+# docker
+docker_install_compose: false
