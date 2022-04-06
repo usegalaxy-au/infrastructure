@@ -16,8 +16,8 @@
       - mounts
       - galaxyproject.repos
       - galaxyproject.cvmfs
+      - gantsign.golang
       - cyverse-ansible.singularity
-      - dj-wasabi.telegraf
       - geerlingguy.docker
       - acl-on-startup
       - dj-wasabi.telegraf

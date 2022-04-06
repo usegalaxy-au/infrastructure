@@ -293,3 +293,9 @@ extra_keys:
 grt_sender_dir: /mnt/var/galactic_radio_telescope
 grt_sender_api_key: "{{ vault_grt_api_key }}"
 grt_sender_grt_url: https://telescope.usegalaxy.org.au/grt
+
+# Docker
+docker_users:
+  - "{{ galaxy_user.name }}"
+docker_daemon_options:
+  data-root: /mnt/docker-data
