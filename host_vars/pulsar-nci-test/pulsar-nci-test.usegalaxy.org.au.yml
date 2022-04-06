@@ -28,6 +28,5 @@ pulsar_rabbit_vhost: "/pulsar/galaxy_nci_test"
 pulsar_conda_exec: "mamba"
 
 # Docker
-docker_install_compose: false
-docker_users:
-  - "{{ pulsar_user.name }}"
+docker_daemon_options:
+  data-root: /mnt/docker-data
