@@ -1,0 +1,12 @@
+- hosts: aarnet-db, aarnet-queue, aarnet, aarnet-user-nfs, aarnet-misc-nfs, aarnet-job-nfs, aarnet_workers
+  become: true
+  vars_files:
+      - group_vars/all.yml
+  tasks:
+      - name: add galaxy australia authorised key
+        authorized_key:
+          user: ubuntu
+          state: present
+          key: "{{ lookup('file','files/keys/galaxy-australia.pub') }}"
+      
+      
