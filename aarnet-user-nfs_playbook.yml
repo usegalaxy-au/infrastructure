@@ -16,10 +16,10 @@
           path: "{{ item }}"
           state: directory
         with_items:
-          - "{{ galaxy_nfs_user_data_dir }}"
-          - "{{ galaxy_nfs_user_data_2_dir }}"
-          - "{{ galaxy_nfs_user_data_3_dir }}"
-          - "{{ galaxy_nfs_user_data_4_dir }}"
+          # - "{{ galaxy_nfs_user_data_dir }}"
+          # - "{{ galaxy_nfs_user_data_2_dir }}"
+          # - "{{ galaxy_nfs_user_data_3_dir }}"
+          # - "{{ galaxy_nfs_user_data_4_dir }}"
           - "{{ galaxy_nfs_user_data_test_dir }}"
 
   roles:
@@ -35,10 +35,10 @@
           owner: galaxy
           group: galaxy
         with_items:
-          - "{{ galaxy_nfs_user_data_dir }}"
-          - "{{ galaxy_nfs_user_data_2_dir }}"
-          - "{{ galaxy_nfs_user_data_3_dir }}"
-          - "{{ galaxy_nfs_user_data_4_dir }}"
+          # - "{{ galaxy_nfs_user_data_dir }}"
+          # - "{{ galaxy_nfs_user_data_2_dir }}"
+          # - "{{ galaxy_nfs_user_data_3_dir }}"
+          # - "{{ galaxy_nfs_user_data_4_dir }}"
           - "{{ galaxy_nfs_user_data_test_dir }}"
       - name: Reload exportfs
         command: exportfs -ra
