@@ -55,7 +55,7 @@ postgresql_pg_hba_conf:
 
 postgresql_objects_users:
   - name: galaxy
-    password: "{{ galaxy_aarnet_db_user_password}}"
+    password: "{{ galaxy_aarnet_db_user_password }}"
     db: galaxy
     priv: "ALL"
   - name: galaxyftp
