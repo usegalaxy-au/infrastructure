@@ -51,7 +51,7 @@ shared_mounts:  # TODO: /mnt/custom-indices from aarnet-misc-nfs
       fstype: nfs
       state: mounted
     - path: /mnt/user-data-test  # TODO: Unmount and remove this after testing
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-test"
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/user-data-test"
       fstype: nfs
       state: mounted
     # - path: /mnt/user-data
