@@ -23,7 +23,7 @@ shared_mounts:  # TODO: /mnt/custom-indices from aarnet-misc-nfs
       fstype: nfs
       state: mounted
     - path: /mnt/user-data-test  # TODO: Unmount and remove this after testing
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-test"
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/user-data-test"
       fstype: nfs
       state: mounted
     # - path: /mnt/user-data
@@ -46,14 +46,14 @@ shared_mounts:  # TODO: /mnt/custom-indices from aarnet-misc-nfs
       src: "{{ hostvars['aarnet-job-nfs']['internal_ip'] }}:/mnt/tmp"
       fstype: nfs
       state: mounted
-    - path: /mnt/files
-      src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/files2
-      src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
-      fstype: nfs
-      state: mounted
+    # - path: /mnt/files
+    #   src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
+    #   fstype: nfs
+    #   state: mounted
+    # - path: /mnt/files2
+    #   src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
+    #   fstype: nfs
+    #   state: mounted
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
