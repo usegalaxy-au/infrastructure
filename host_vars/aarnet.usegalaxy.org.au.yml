@@ -137,7 +137,7 @@ host_galaxy_config:  # renamed from __galaxy_config
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
     brand: "Australia"
-    database_connection: "postgres://galaxy:{{ vault_aarnet_db_user_password }}@{{ hostvars['aarnet-db']['internal_ip'] }}:5432/galaxy"
+    database_connection: "postgresql://galaxy:{{ vault_aarnet_db_user_password }}@{{ hostvars['aarnet-db']['internal_ip'] }}:5432/galaxy"
     id_secret: "{{ vault_aarnet_id_secret }}"
     file_path: "{{ galaxy_file_path }}"
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
