@@ -48,7 +48,7 @@ rabbitmq_users:
     password: "{{ rabbitmq_password_galaxy_QLD }}"
     vhost: /pulsar/galaxy_QLD
   - user: galaxy_azure_0
-    password: "{{ rabbitmq_password_galaxy_azure_prod }}"
+    password: "{{ rabbitmq_password_galaxy_azure }}"
     vhost: /pulsar/galaxy_azure_0
 
 rabbitmq_vhosts:
@@ -84,7 +84,7 @@ rabbitmq_password_galaxy_qld_hm1: "{{ vault_rabbitmq_password_galaxy_qld_hm1_pro
 rabbitmq_password_galaxy_qld_hm2: "{{ vault_rabbitmq_password_galaxy_qld_hm2_prod }}"
 rabbitmq_password_galaxy_qld_blast: "{{ vault_rabbitmq_password_galaxy_qld_blast_prod }}"
 rabbitmq_password_galaxy_QLD: "{{ vault_rabbitmq_password_galaxy_QLD_prod }}"
-rabbitmq_password_azure_prod: "{{ vault_rabbitmq_password_galaxy_azure_prod }}"
+rabbitmq_password_galaxy_azure: "{{ vault_rabbitmq_password_galaxy_azure_prod }}"
 
 # Host specific Slurm settings
 slurm_roles: ['controller', 'dbd']
