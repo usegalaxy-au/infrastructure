@@ -32,3 +32,8 @@
         chdir: /home/ubuntu/infrastructure
       become: yes
       become_user: ubuntu
+    - name: add galaxy australia authorised key
+        authorized_key:
+          user: ubuntu
+          state: present
+          key: "{{ lookup('file','files/keys/galaxy-australia.pub') }}"
