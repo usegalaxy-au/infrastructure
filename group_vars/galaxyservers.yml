@@ -301,7 +301,7 @@ docker_users:
   - "{{ galaxy_user.name }}"
 
 gie_proxy_dir: "{{ galaxy_root }}/gie-proxy/proxy"
-gie_proxy_git_version: master
+gie_proxy_git_version: main
 gie_proxy_setup_nodejs: nodeenv
 gie_proxy_virtualenv_command: "{{ pip_virtualenv_command }}"
 gie_proxy_nodejs_version: "10.13.0"
