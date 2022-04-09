@@ -69,15 +69,21 @@
       package:
         name: lsyncd
         state: present
-    - name: create lsync dir
+    - name: create lsync dirs
       file:
-        path: /etc/lsyncd
+        path: "{{ item }}"
         state: directory
+      with_items:
+        - /etc/lsyncd
+        - /var/log/lsyncd
     - name: config lsyncd
       copy:
         src: lsyncd/lsyncd.conf.lua
         dest: /etc/lsyncd/lsyncd.conf.lua
       become: yes
+    - name: Set max_user_watches
+      command: sysctl fs.inotify.max_user_watches=524288
+      become: true
     - name: restart lsyncd
       systemd:
         name: lsyncd
