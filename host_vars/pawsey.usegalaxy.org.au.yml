@@ -5,7 +5,7 @@
 
 # variables for attaching mounted volume to application server
 attached_volumes:
-  - device: /dev/vdc
+  - device: /dev/sdc
     path: /mnt
     fstype: ext4
 
