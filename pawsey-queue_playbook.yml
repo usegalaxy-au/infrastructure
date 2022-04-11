@@ -12,8 +12,8 @@
       - common
       - insspb.hostname
       - geerlingguy.pip
-      - jasonroyle.rabbitmq
-      - galaxyproject.nginx
+      #- jasonroyle.rabbitmq
+      #- galaxyproject.nginx
       - mariadb
       - galaxyproject.repos
       - galaxyproject.slurm
