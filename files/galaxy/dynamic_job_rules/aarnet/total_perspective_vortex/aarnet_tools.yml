@@ -41,16 +41,16 @@ tools:
   testtoolshed.g2.bx.psu.edu/repos/jchung/generate_count_matrix/generate_count_matrix/.*:
     cores: 2
   testtoolshed.g2.bx.psu.edu/repos/simon-gladman/phyloseq_filter/biom_filter/.*:
-    cores: 16
+    cores: 12
   testtoolshed.g2.bx.psu.edu/repos/simon-gladman/phyloseq_ordination_plot/phyloseq_ordinate/.*:
-    cores: 16
+    cores: 12
   toolshed.g2.bx.psu.edu/repos/artbio/repenrich/repenrich/.*:
     cores: 8
     scheduling:
       prefer:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
-    cores: 16
+    cores: 12
     params:
       docker_enabled: true
       docker_volumes: '$defaults,/cvmfs/data.galaxyproject.org:ro,/mnt/user-data:ro,/mnt/user-data-2:ro,/mnt/user-data-3:ro'
@@ -125,7 +125,7 @@ tools:
     rules:
       - match: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
-        cores: 15
+        cores: 12
         mem: cores * 3.1  ## TODO: update these to 3.2 once jobs using 3.3x are no longer running
         scheduling:
           accept:
@@ -135,17 +135,17 @@ tools:
     rules:
       - match: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
-        cores: 15
+        cores: 12
         mem: cores * 3.1
         scheduling:
           accept:
             - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
-    cores: 16
+    cores: 12
     rules:
       - match: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
-        cores: 15
+        cores: 12
         mem: cores * 3.1
         scheduling:
           accept:
@@ -157,17 +157,17 @@ tools:
     rules:
       - match: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
-        cores: 15
+        cores: 12
         mem: cores * 3.1
         scheduling:
           accept:
             - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastx_wrapper/.*:
-    cores: 16
+    cores: 12
     rules:
       - match: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
-        cores: 15
+        cores: 12
         mem: cores * 3.1
         scheduling:
           accept:
@@ -195,15 +195,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper/.*:
     cores: 6
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
-    cores: 16
+    cores: 12
     params:
       nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=max_quant_w8"
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant_mqpar/.*:
-    cores: 16
+    cores: 12
     params:
       nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=max_quant_w8"
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant_mqpar/maxquant_mqpar/.*:
-    cores: 16
+    cores: 12
     params:
       nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=max_quant_w8"
   toolshed.g2.bx.psu.edu/repos/iuc/barrnap/barrnap/.*:
@@ -227,7 +227,7 @@ tools:
     - match: 0.2 <= input_size < 6
       cores: 5
     - match: input_size >= 6
-      cores: 16
+      cores: 12
   toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_bundlelinks/.*:
     rules:
     - match: 0.0002 <= input_size < 0.01
@@ -260,7 +260,7 @@ tools:
     cores: 5
     rules:
     - match: 0.0005 <= input_size < 0.5
-      cores: 16
+      cores: 12
     - match: input_size >= 0.5
       fail: Too much data, please don't use the gubbins for this.
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
@@ -268,7 +268,7 @@ tools:
     - match: input_size >= 0.01
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/.*:
-    cores: 16
+    cores: 12
   toolshed.g2.bx.psu.edu/repos/iuc/iqtree/iqtree/.*:
     rules:
     - match: input_size >= 2e-05
@@ -287,7 +287,7 @@ tools:
         - pulsar-training-large
       reject:
         - pulsar-QLD
-    cores: 16
+    cores: 12
     rules:
     - match: |
         user_limit = 2
@@ -314,7 +314,7 @@ tools:
     - match: 0.5 <= input_size < 10
       cores: 5
     - match: input_size >= 10
-      cores: 16
+      cores: 12
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_align_seqs/mothur_align_seqs/.*:
     cores: 2
     rules:
@@ -597,10 +597,9 @@ tools:
     - match: 0.15 <= input_size < 1
       cores: 8
     - match: 1 <= input_size < 10
-      cores: 16
+      cores: 12
     - match: input_size >= 10
-      cores: 120
-      mem: 1922
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -613,8 +612,7 @@ tools:
     - match: 0.05 <= input_size < 5
       cores: 8
     - match: input_size >= 5
-      cores: 120
-      mem: 1922
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -712,7 +710,7 @@ tools:
     - match: 0.001 <= input_size < 1
       cores: 8
     - match: input_size >= 1
-      cores: 16
+      cores: 12
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/.*:
     cores: 1
     scheduling:
@@ -758,8 +756,7 @@ tools:
     - match: 0.5 <= input_size < 15
       cores: 8
     - match: input_size >= 15
-      cores: 60  # one quarter of a QLD high mem pulsar
-      mem: 961
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -771,8 +768,7 @@ tools:
       - pulsar-training-large
     rules:
     - match: input_size >= 5e-06
-      cores: 120
-      mem: 1922
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -812,10 +808,9 @@ tools:
       - pulsar
     rules:
     - match: 0.1 <= input_size < 0.5
-      cores: 16
+      cores: 12
     - match: input_size >= 0.5
-      cores: 120
-      mem: 1922
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -842,8 +837,7 @@ tools:
     - match: 0.5 <= input_size < 5
       cores: 8
     - match: input_size >= 5
-      cores: 120
-      mem: 1922
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -863,7 +857,7 @@ tools:
       - pulsar-training-large
     rules:
     - match: input_size >= 5
-      cores: 16
+      cores: 12
   toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
     cores: 2
     scheduling:
@@ -872,10 +866,9 @@ tools:
       - pulsar-training-large
     rules:
     - match: 0.001 < input_size <= 5
-      cores: 16
+      cores: 12
     - match: input_size > 5
-      cores: 60
-      mem: 961
+      cores: 12
       scheduling:
         accept: 
         - high-mem
@@ -888,10 +881,9 @@ tools:
     - match: 0.5 <= input_size < 5
       cores: 8
     - match: 5 <= input_size < 20
-      cores: 16
+      cores: 12
     - match: input_size >= 20
-      cores: 120
-      mem: 1922
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -910,8 +902,7 @@ tools:
     - match: 10 <= input_size < 20
       cores: 4
     - match: input_size >= 20
-      cores: 120
-      mem: 1922
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -938,7 +929,7 @@ tools:
     - match: 0.2 <= input_size < 2
       cores: 8
     - match: input_size >= 2
-      cores: 16
+      cores: 12
   toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
     cores: 1
     scheduling:
@@ -949,7 +940,7 @@ tools:
     - match: 0.2 <= input_size < 2
       cores: 8
     - match: input_size >= 2
-      cores: 16
+      cores: 12
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     cores: 1
     scheduling:
@@ -993,11 +984,11 @@ tools:
     - match: 0.05 <= input_size < 1
       cores: 8
     - match: 1 <= input_size < 60
-      cores: 16
+      cores: 12
     - match: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/.*:
-    cores: 16
+    cores: 12
     scheduling:
       accept:
       - pulsar
@@ -1022,8 +1013,7 @@ tools:
         only for training purposes with small (< 1 GB) datasets. Use SPAdes instead.
 
   toolshed.g2.bx.psu.edu/repos/bgruening/canu/canu/.*:
-    cores: 120
-    mem: 1922
+    cores: 1
     scheduling:
       accept:
       - pulsar
@@ -1037,8 +1027,7 @@ tools:
       - pulsar-training-large
     rules:
     - match: input_size >= 0.2
-      cores: 120
-      mem: 1922
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -1053,8 +1042,7 @@ tools:
     - match: 1 <= input_size < 20
       cores: 8
     - match: input_size >= 20
-      cores: 60
-      mem: 961
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -1066,10 +1054,9 @@ tools:
       - pulsar-training-large
     rules:
     - match: 0.002 <= input_size < 5
-      cores: 16
+      cores: 12
     - match: input_size >= 5
-      cores: 120
-      mem: 1922
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -1089,8 +1076,7 @@ tools:
     - match: 0.05 <= input_size < 0.3
       cores: 8
     - match: input_size >= 0.3
-      cores: 60
-      mem: 961
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -1102,14 +1088,12 @@ tools:
       - pulsar-training-large
     rules:
     - match: input_size >= 0.00015
-      cores: 60
-      mem: 961
+      cores: 12
       scheduling:
         accept:
         - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
-    cores: 120
-    mem: 1922
+    cores: 1
     scheduling:
       accept:
       - pulsar
@@ -1122,8 +1106,7 @@ tools:
       - pulsar
     rules:
     - match: input_size >= 1
-      cores: 60
-      mem: 961
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -1135,10 +1118,9 @@ tools:
       - pulsar-training-large
     rules:
     - match: 0.002 <= input_size < 5
-      cores: 16
+      cores: 12
     - match: input_size >= 5
-      cores: 120
-      mem: 1922
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -1149,10 +1131,9 @@ tools:
       - pulsar
     rules:
     - match: 0.0005 <= input_size < 0.1
-      cores: 16
+      cores: 12
     - match: input_size >= 0.1
-      cores: 120
-      mem: 1922
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -1164,10 +1145,9 @@ tools:
       - pulsar-training-large
     rules:
     - match: 0.002 <= input_size < 5
-      cores: 16
+      cores: 12
     - match: input_size >= 5
-      cores: 120
-      mem: 1922
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -1179,8 +1159,7 @@ tools:
       - pulsar-training-large
     rules:
     - match: 0.1 <= input_size < 30
-      cores: 60
-      mem: 961
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -1197,8 +1176,7 @@ tools:
     - match: 0.005 <= input_size < 2
       cores: 8
     - match: 2 <= input_size < 20
-      cores: 60
-      mem: 961
+      cores: 12
       scheduling:
         accept:
         - high-mem
@@ -1226,11 +1204,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_clonefilter/stacks2_clonefilter/.*:
     cores: 2
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_cstacks/stacks2_cstacks/.*:
-    cores: 16
+    cores: 12
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_denovomap/stacks2_denovomap/.*:
-    cores: 16
+    cores: 12
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_gstacks/stacks2_gstacks/.*:
-    cores: 16
+    cores: 12
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_kmerfilter/stacks2_kmerfilter/.*:
     cores: 2
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_populations/stacks2_populations/.*:
@@ -1241,39 +1219,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_shortreads/stacks2_shortreads/.*:
     cores: 2
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_sstacks/stacks2_sstacks/.*:
-    cores: 16
+    cores: 12
   # toolshed.g2.bx.psu.edu/repos/iuc/stacks2_tsv2bam/stacks2_tsv2bam/*
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_ustacks/stacks2_ustacks/.*:
-    cores: 16
-
-  # alphafold
-  toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
-    cores: 6
-    mem: 106
-    params:
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
-      docker_enabled: true
-      docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
-      docker_memory: '{mem}G'
-      docker_sudo: false
-      require_container: true
-      docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=30 --env ALPHAFOLD_AA_LENGTH_MAX=3000"
-      docker_set_user: '1000'
-    scheduling:
-      require:
-        - pulsar
-        - pulsar-azure-gpu
-    rules:
-      - match: |
-          not user or 'Alphafold' not in [role.name for role in user.all_roles() if not role.deleted]
-        fail: |
-          This tool is currently being beta-tested on GPUs and your account has not been given access. Contact help@genome.edu.au if you think this is in error.
+    cores: 12
 
   .*bowtie2_index_builder_data_manager.*:
-    cores: 16
+    cores: 12
   .*bwa_mem_index_builder_data_manager.*:
-    cores: 16
+    cores: 12
   .*bwameth_index_builder_data_manager.*:
     cores: 5
   .*data_manager_humann_database_downloader.*:
@@ -1281,11 +1235,11 @@ tools:
   .*hisat2_index_builder_data_manager.*:
     cores: 5
   .*kraken2_build_database.*:
-    cores: 16
+    cores: 12
   .*rna_star_index_builder_data_manager.*:
     cores: 32
   .*twobit_builder_data_manager.*:
-    cores: 16
+    cores: 12
   .*data_manager_eggnog_mapper_abspath.*:
     cores: 5
   .*data_manager_interproscan.*:
