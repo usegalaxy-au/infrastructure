@@ -220,13 +220,13 @@ rpc_pulsar_machines:
     keep_error_days: 7
     cron_hour: "5,11,17,23"
     cron_minute: "10"
-  - pulsar_name: pulsar-paw
-    pulsar_ip_address: "{{ hostvars['pulsar-paw']['ansible_ssh_host'] }}"
-    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
-    delete_jwds: true
-    keep_error_days: 7
-    cron_hour: "17"
-    cron_minute: "20"
+  # - pulsar_name: pulsar-paw
+  #   pulsar_ip_address: "{{ hostvars['pulsar-paw']['ansible_ssh_host'] }}"
+  #   ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+  #   delete_jwds: true
+  #   keep_error_days: 7
+  #   cron_hour: "17"
+  #   cron_minute: "20"
   - pulsar_name: pulsar-high-mem1
     pulsar_ip_address: "{{ hostvars['pulsar-high-mem1']['ansible_ssh_host'] }}"
     ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
