@@ -4,7 +4,7 @@
         <backend id="testNFS" type="disk" order="1">
             <files_dir path="/mnt/user-data-test" />
         </backend>
-        <backend id="testNFS" type="disk" order="0">
+        <backend id="loadtestNFS" type="disk" order="0">
             <files_dir path="/mnt/user-data-load-test" />
         </backend>
         <!--
