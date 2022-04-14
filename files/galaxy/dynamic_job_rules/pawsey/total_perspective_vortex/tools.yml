@@ -509,7 +509,7 @@ tools:
     - match: 2 <= input_size < 10
       cores: 10
     - match: input_size >= 10
-      fail: Too much data, shoudn't run
+      fail: Your input data exceeds 10GB and therefore is not suitable for Shovill.
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/.*:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_annotate/.*:

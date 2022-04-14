@@ -51,6 +51,7 @@
     - usegalaxy_eu.tiaas2
     # - slg.galaxy_stats
     - grt-sender
+    - dj-wasabi.telegraf
   post_tasks:
     - name: Clone galaxy-local-tools
       git:
