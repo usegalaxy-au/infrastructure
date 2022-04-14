@@ -1,8 +1,11 @@
 <?xml version="1.0"?>
 <object_store type="hierarchical">
     <backends>
-        <backend id="testNFS" type="disk" order="0">
+        <backend id="testNFS" type="disk" order="1">
             <files_dir path="/mnt/user-data-test" />
+        </backend>
+        <backend id="testNFS" type="disk" order="0">
+            <files_dir path="/mnt/user-data-load-test" />
         </backend>
         <!--
         <backend id="perthNFS4" type="disk" order="0">
