@@ -54,6 +54,10 @@ shared_mounts:  # TODO: /mnt/custom-indices from aarnet-misc-nfs
       src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/user-data-test"
       fstype: nfs
       state: mounted
+    - path: /mnt/user-data-load-test  # TODO: Unmount and remove this after testing
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/user-data-load-test"
+      fstype: nfs
+      state: mounted
     # - path: /mnt/user-data
     #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
     #   fstype: nfs
@@ -107,7 +111,7 @@ galaxy_tmp_dir: /mnt/tmp
 galaxy_handler_count: 5
 
 # galaxy_file_path: /mnt/user-data-3/test
-galaxy_file_path: /mnt/user-data-test # TEST this path is for testing only, update to /mnt/user-data-4 for going to production 
+galaxy_file_path: /mnt/user-data-load-test # TEST this path is for testing only, update to /mnt/user-data-4 for going to production 
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
