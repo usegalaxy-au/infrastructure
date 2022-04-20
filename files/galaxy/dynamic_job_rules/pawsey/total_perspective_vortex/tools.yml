@@ -438,6 +438,9 @@ tools:
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/.*:
     cores: 9
+    rules:
+    - match: input_size >= 4
+      cores: 16
     env:
       _JAVA_OPTIONS: '-Xmx{int(mem)}G -Xms1G'
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
