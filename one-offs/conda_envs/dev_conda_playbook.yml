@@ -1,0 +1,11 @@
+- hosts: dev_galaxy_server
+  become: true
+  become_user: galaxy
+  vars_files:
+    - ../../group_vars/all.yml
+    - ../../group_vars/galaxyservers.yml
+    - ../../host_vars/dev.usegalaxy.org.au.yml
+    - conda_environments.yml
+  tasks:
+    - name: Create and update conda envs
+      include_tasks: conda_create_update.yml

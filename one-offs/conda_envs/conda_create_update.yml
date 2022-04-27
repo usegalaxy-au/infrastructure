@@ -1,0 +1,25 @@
+---
+# create and update tasks from galaxyproject.miniconda with mamba replacing conda as exec
+- name: Create conda envs
+  command: >-
+    {{ miniconda_prefix }}/bin/mamba create --yes
+    {{ '--override-channels --channel' if (item.value.channels | default(miniconda_channels)) else '' }}
+    {{ (item.value.channels | default(miniconda_channels)) | join(' --channel ') }}
+    {{ '--name ' ~ item.key if not item.key.startswith('/') else '--prefix ' ~ item.key }}
+    {{ '--copy' if (item.value['copy'] is boolean and item.value['copy']) else '' }}
+    {{ item.value.packages | join(' ') }}
+  args:
+    creates: "{{ miniconda_prefix ~ '/envs/' ~ item.key if not item.key.startswith('/') else item.key }}"
+  loop: "{{ miniconda_conda_environments | dict2items }}"
+
+- name: Update conda envs
+  command: >-
+    {{ miniconda_prefix }}/bin/mamba install --yes
+    {{ '--override-channels --channel' if (item.value.channels | default(miniconda_channels)) else '' }}
+    {{ (item.value.channels | default(miniconda_channels)) | join(' --channel ') }}
+    {{ '--name ' ~ item.key if not item.key.startswith('/') else '--prefix ' ~ item.key }}
+    {{ '--copy' if (item.value['copy'] is boolean and item.value['copy']) else '' }}
+    {{ item.value.packages | join(' ') }}
+  register: __miniconda_conda_install_output
+  changed_when: "'All requested packages already installed' not in __miniconda_conda_install_output.stdout"
+  loop: "{{ miniconda_conda_environments | dict2items }}"
