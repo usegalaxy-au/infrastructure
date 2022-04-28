@@ -216,14 +216,14 @@ tools:
       singularity_enabled: True
       singularity_volumes: '$defaults'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
-  https://toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
     cores: 16
     mem: 32
     params:
       singularity_enabled: True
       singularity_volumes: '$defaults,/cvmfs:ro'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
-  https://toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
     cores: 1
     params:
       singularity_enabled: True
@@ -241,7 +241,7 @@ tools:
       singularity_enabled: True
       singularity_volumes: '$defaults,/cvmfs:ro'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
-  https://toolshed.g2.bx.psu.edu/repos/iracooke/protk_proteogenomics/.*:
+  toolshed.g2.bx.psu.edu/repos/iracooke/protk_proteogenomics/.*:
     cores: 1
     params:
       singularity_enabled: True
