@@ -165,7 +165,6 @@ gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 # vars for stats_collection
 stats_dir: /home/ubuntu/stats_collection/
 db_server: "{{ hostvars['pawsey-db']['internal_ip'] }}"
-influx_url: "stats.genome.edu.au"
 db_password: "{{ galaxy_db_user_password }}"
 influx_salt: "{{ prod_queue_size_salt }}"
 influx_db_stats: "GA_server"
