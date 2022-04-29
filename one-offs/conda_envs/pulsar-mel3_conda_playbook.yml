@@ -4,7 +4,7 @@
   vars_files:
     - ../../group_vars/all.yml
     - ../../group_vars/pulsarservers.yml
-    - ../../group_vars/pulsar-mel3.yml
+    - ../../group_vars/pulsar_mel3/pulsar-mel3.yml
     - ../../host_vars/pulsar-mel3/pulsar-mel3.genome.edu.au
     - conda_environments.yml
   tasks:
