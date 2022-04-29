@@ -5,158 +5,160 @@ miniconda_conda_environments:
         - samtools=1.9
         - python=3.8.1 # additional
     # toolshed.g2.bx.psu.edu/repos/iuc/ivar_consensus/ivar_consensus/1.2+galaxy0
-    # mulled-v1-b255ef4bfc995286d3f3e9608747db07e48d70389740d87c259f3379987a7610:
-    #     packages:
-    #     - ivar=1.2
-    #     - samtools=1.9
-    #     - python=3.8.1 # additional
-    # __multiqc@1.6:
-    #     packages:
-    #     - multiqc=1.6
-    #     - networkx<=2.5 # additional
-    # __multiqc@1.7:
-    #     packages:
-    #     - multiqc=1.7
-    #     - python<=3.7 # additional
-    # __multiqc@1.8:
-    #     packages:
-    #     - multiqc=1.8
-    #     - python<=3.8 # additional
-    # __multiqc@1.9:
-    #     packages:
-    #     - multiqc=1.9
-    #     - python<=3.8 # additional
-    # # toolshed.g2.bx.psu.edu/repos/bgruening/hicexplorer_hicbuildmatrix/hicexplorer_hicbuildmatrix/3.4.3.0
-    # mulled-v1-34b5a02e84ed6e4ea683a4aaa554b2adbec36373e59d7ab5485292263fde6672:
-    #     packages:
-    #     - hicexplorer=3.4.3
-    #     - samtools=1.9
-    #     - biopython=1.77 # additional
-    # # toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/4.1.2
-    # mulled-v1-5132bf8c254352839ea9d33cc958f3a956bb88e7dda969309ff11a0637a17cd3:
-    #     packages:
-    #     - busco=4.1.2
-    #     - tar=1.32
-    #     - biopython=1.77 # additional
-    # # toolshed.g2.bx.psu.edu/repos/iuc/fastqe/fastqe/0.2.6+galaxy0
-    # mulled-v1-d5d1fbb2f28d4944aa451eac1bdf6bc9bc4ed3a63b637c1fb2c6522db8afb291:
-    #     packages:
-    #     - fastqe=0.2.6
-    #     - sed=4.7
-    #     - biopython=1.77 # additional
-    # # toolshed.g2.bx.psu.edu/repos/galaxyp/translate_bed/translate_bed/0.1.0
-    # mulled-v1-f1eae2529cb23632ae70f91d1ecbadb12a9c569633a29f465dd3c28e718e2062:
-    #     packages:
-    #     - requests-cache=0.4.10
-    #     - biopython=1.70 # replacement for 1.62 which is not in conda # TODO: raise this with galaxyp
-    #     - twobitreader=3.1.4
-    # # # toolshed.g2.bx.psu.edu/repos/iuc/bcftools_annotate/bcftools_annotate/1.4.0
-    # # mulled-v1-4aeaa4935af894e44b08b05bc9b2f841b6ce1106db59e5b45995b8ffa4b5ceeb: # libcrypto
-    # #     packages:
-    # #     - bcftools=1.4
-    # #     - htslib=1.4
-    # # # toolshed.g2.bx.psu.edu/repos/iuc/bcftools_convert_to_vcf/bcftools_convert_to_vcf/1.4.0
-    # # mulled-v1-418b13b77f11da185418f8f4f2ac9eed99437777282892919fcc102953c37e97: # libcrypto
-    # #     packages:
-    # #     - bcftools=1.4
-    # #     - htslib=1.4
-    # #     - samtools=1.3.1
-    # # tbb
-    # # toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/2.8.4
-    # __trinity@2.8.4:
-    #     packages:
-    #     - trinity=2.8.4
-    #     - tbb=2020.2 # additional
-    # # toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/2.8.5
-    # __trinity@2.8.5:
-    #     packages:
-    #     - trinity=2.8.5
-    #     - tbb=2020.2 # additional
-    # # toolshed.g2.bx.psu.edu/repos/artbio/repenrich/repenrich/1.6.1
-    # mulled-v1-a0db76a4949d92132d6182bdf6f88ff42d22d6dd908aaccfb554fb025c12f8e5:
-    #     packages:
-    #     - bowtie=1.2.0
-    #     - samtools=0.1.19
-    #     - bedtools=2.20.1
-    #     - biopython=1.69
-    #     - tbb=2020.2 # additional
-    # # toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/0.10.1.1
-    # mulled-v1-829314ac038f2cc97bb459e8c0d20dcec54e8770551af955b463166bc35f4aa6:
-    #     packages:
-    #     - bzip2=1.0.6
-    #     - sailfish=0.10.1
-    #     - tbb=2020.2 # additional
-    # # toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/0.11.2
-    # mulled-v1-0f2791bb260c3b308e9af3187885d5ee7a01e661ddab2623d2e5386ec9448578:
-    #     packages:
-    #     - bzip2=1.0.6
-    #     - salmon=0.11.2
-    #     - seqtk=1.2
-    #     - tbb=2020.2 # additional
-    # # toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/0.8.2
-    # mulled-v1-a1f40c8f725199402017692f0ee9345282556bcfde2909bd69e10c407932ea3a:
-    #     packages:
-    #     - bzip2=1.0.6
-    #     - salmon=0.8.2
-    #     - tbb=2020.2 # additional
-    # # toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/1.3.0+galaxy1
-    # mulled-v1-98d3118e419b1cc7a1a0dd314446a6d832c0ac4077b856227bc3b5e6b9d739d8:
-    #     packages:
-    #     - salmon=1.3.0
-    #     - seqtk=1.3
-    #     - samtools=1.10
-    #     - vpolo=0.2.0
-    #     - pandas=1.0.3
-    #     - scipy=1.4.1
-    #     - tbb=2020.2 # additional
-    # # toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/0.14.1.2+galaxy1
-    # mulled-v1-2650066e371bad06f321ad9e44811a01f3183a6719e2d4e64ba6370743ccb03f:
-    #     packages:
-    #     - seqtk=1.3
-    #     - salmon=0.14.1
-    #     - samtools=1.10
-    #     - vpolo=0.2.0
-    #     - pandas=0.25.1
-    #     - scipy=1.3.1
-    #     - tbb=2020.2 # additional
-    # # toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.3.4.3, 2.3.4.3+galaxy0
-    # mulled-v1-5bee08a20f60a5597c4ecd54735d608dc6a44caf6f433cd52f23c80aa5a38d02:
-    #     packages:
-    #     - bowtie2=2.3.4.1
-    #     - samtools=1.9
-    #     - tbb=2020.2 # additional
-    # # toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.3.4.2
-    # mulled-v1-7576289d51ff5aefa21c8a2af901e1a61eb245f4e5fd66ae894d120dd35ff8f6:
-    #     packages:
-    #     - bowtie2=2.3.4
-    #     - samtools=1.8
-    #     - tbb=2020.2 # additional
-    # # toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.3.4.1
-    # mulled-v1-65d5efe4f1b69ab7166d1a5a5616adebe902133ea3e4c189d87d7de2e21ddc17:
-    #     packages:
-    #     - bowtie2=2.3.4
-    #     - samtools=1.6
-    #     - tbb=2020.2 # additional
-    # # toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.3.0.1
-    # mulled-v1-d95627189237fac550a9b53956b040c455a7f3682aea67e941022bbc115bc78a:
-    #     packages:
-    #     - bowtie2=2.3.0
-    #     - samtools=1.3.1
-    #     - tbb=2020.2 # additional
-    # # toolshed.g2.bx.psu.edu/repos/devteam/bowtie_wrappers/bowtie_wrapper/1.2.0
-    # __bowtie@1.2.0:
-    #     packages:
-    #     - bowtie=1.2.0
-    #     - tbb=2020.2 # additional
-    # # openssl
-    # # toolshed.g2.bx.psu.edu/repos/iuc/gtftobed12/gtftobed12/357
-    # mulled-v1-bc7b107b0663d43fca4b8caaf96f2169a610bfef81516cf5e812a01f736b94ba:
-    #     packages:
-    #     - ucsc-gtftogenepred=357
-    #     - ucsc-genepredtobed=357
-    #     - openssl<=1.0.2p
-    # # toolshed.g2.bx.psu.edu/repos/iuc/ucsc_fasplit/fasplit/357
-    # __ucsc-fasplit@357:
-    #     packages:
-    #     - ucsc-fasplit=357
-    #     - openssl<=1.0.2p
+    mulled-v1-b255ef4bfc995286d3f3e9608747db07e48d70389740d87c259f3379987a7610:
+        packages:
+        - ivar=1.2
+        - samtools=1.9
+        - python=3.8.1 # additional
+    __multiqc@1.6:
+        packages:
+        - multiqc=1.6
+        - networkx<=2.5 # additional
+    __multiqc@1.7:
+        packages:
+        - multiqc=1.7
+        - python<=3.7 # additional
+    __multiqc@1.8:
+        packages:
+        - multiqc=1.8
+        - python<=3.8 # additional
+    __multiqc@1.9:
+        packages:
+        - multiqc=1.9
+        - python<=3.8 # additional
+    # toolshed.g2.bx.psu.edu/repos/bgruening/hicexplorer_hicbuildmatrix/hicexplorer_hicbuildmatrix/3.4.3.0
+    mulled-v1-34b5a02e84ed6e4ea683a4aaa554b2adbec36373e59d7ab5485292263fde6672:
+        packages:
+        - hicexplorer=3.4.3
+        - samtools=1.9
+        - biopython=1.77 # additional
+    # toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/4.1.2
+    mulled-v1-5132bf8c254352839ea9d33cc958f3a956bb88e7dda969309ff11a0637a17cd3:
+        packages:
+        - busco=4.1.2
+        - tar=1.32
+        - biopython=1.77 # additional
+    # toolshed.g2.bx.psu.edu/repos/iuc/fastqe/fastqe/0.2.6+galaxy0
+    mulled-v1-d5d1fbb2f28d4944aa451eac1bdf6bc9bc4ed3a63b637c1fb2c6522db8afb291:
+        packages:
+        - fastqe=0.2.6
+        - sed=4.7
+        - biopython=1.77 # additional
+    # toolshed.g2.bx.psu.edu/repos/galaxyp/translate_bed/translate_bed/0.1.0
+    mulled-v1-f1eae2529cb23632ae70f91d1ecbadb12a9c569633a29f465dd3c28e718e2062:
+        packages:
+        - requests-cache=0.4.10
+        - biopython=1.70 # replacement for 1.62 which is not in conda # TODO: raise this with galaxyp
+        - twobitreader=3.1.4
+    # tbb
+    # toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/2.8.4
+    __trinity@2.8.4:
+        packages:
+        - trinity=2.8.4
+        - tbb=2020.2 # additional
+    # toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/2.8.5
+    __trinity@2.8.5:
+        packages:
+        - trinity=2.8.5
+        - tbb=2020.2 # additional
+    # toolshed.g2.bx.psu.edu/repos/artbio/repenrich/repenrich/1.6.1
+    mulled-v1-a0db76a4949d92132d6182bdf6f88ff42d22d6dd908aaccfb554fb025c12f8e5:
+        packages:
+        - bowtie=1.2.0
+        - samtools=0.1.19
+        - bedtools=2.20.1
+        - biopython=1.69
+        - tbb=2020.2 # additional
+    # toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/0.10.1.1
+    mulled-v1-829314ac038f2cc97bb459e8c0d20dcec54e8770551af955b463166bc35f4aa6:
+        packages:
+        - bzip2=1.0.6
+        - sailfish=0.10.1
+        - tbb=2020.2 # additional
+    # toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/0.11.2
+    mulled-v1-0f2791bb260c3b308e9af3187885d5ee7a01e661ddab2623d2e5386ec9448578:
+        packages:
+        - bzip2=1.0.6
+        - salmon=0.11.2
+        - seqtk=1.2
+        - tbb=2020.2 # additional
+    # toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/0.8.2
+    mulled-v1-a1f40c8f725199402017692f0ee9345282556bcfde2909bd69e10c407932ea3a:
+        packages:
+        - bzip2=1.0.6
+        - salmon=0.8.2
+        - tbb=2020.2 # additional
+    # toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/1.3.0+galaxy1
+    mulled-v1-98d3118e419b1cc7a1a0dd314446a6d832c0ac4077b856227bc3b5e6b9d739d8:
+        packages:
+        - salmon=1.3.0
+        - seqtk=1.3
+        - samtools=1.10
+        - vpolo=0.2.0
+        - pandas=1.0.3
+        - scipy=1.4.1
+        - tbb=2020.2 # additional
+    # toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/0.14.1.2+galaxy1
+    mulled-v1-2650066e371bad06f321ad9e44811a01f3183a6719e2d4e64ba6370743ccb03f:
+        packages:
+        - seqtk=1.3
+        - salmon=0.14.1
+        - samtools=1.10
+        - vpolo=0.2.0
+        - pandas=0.25.1
+        - scipy=1.3.1
+        - tbb=2020.2 # additional
+    # toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.3.4.3, 2.3.4.3+galaxy0
+    mulled-v1-5bee08a20f60a5597c4ecd54735d608dc6a44caf6f433cd52f23c80aa5a38d02:
+        packages:
+        - bowtie2=2.3.4.1
+        - samtools=1.9
+        - tbb=2020.2 # additional
+    # toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.3.4.2
+    mulled-v1-7576289d51ff5aefa21c8a2af901e1a61eb245f4e5fd66ae894d120dd35ff8f6:
+        packages:
+        - bowtie2=2.3.4
+        - samtools=1.8
+        - tbb=2020.2 # additional
+    # toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.3.4.1
+    mulled-v1-65d5efe4f1b69ab7166d1a5a5616adebe902133ea3e4c189d87d7de2e21ddc17:
+        packages:
+        - bowtie2=2.3.4
+        - samtools=1.6
+        - tbb=2020.2 # additional
+    # toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.3.0.1
+    mulled-v1-d95627189237fac550a9b53956b040c455a7f3682aea67e941022bbc115bc78a:
+        packages:
+        - bowtie2=2.3.0
+        - samtools=1.3.1
+        - tbb=2020.2 # additional
+    # toolshed.g2.bx.psu.edu/repos/devteam/bowtie_wrappers/bowtie_wrapper/1.2.0
+    __bowtie@1.2.0:
+        packages:
+        - bowtie=1.2.0
+        - tbb=2020.2 # additional
+    # openssl
+    # toolshed.g2.bx.psu.edu/repos/iuc/gtftobed12/gtftobed12/357
+    mulled-v1-bc7b107b0663d43fca4b8caaf96f2169a610bfef81516cf5e812a01f736b94ba:
+        packages:
+        - ucsc-gtftogenepred=357
+        - ucsc-genepredtobed=357
+        - openssl<=1.0.2u
+    # toolshed.g2.bx.psu.edu/repos/iuc/ucsc_fasplit/fasplit/357
+    __ucsc-fasplit@357:
+        packages:
+        - ucsc-fasplit=357
+        - openssl<=1.0.2u
+    # toolshed.g2.bx.psu.edu/repos/iuc/bcftools_annotate/bcftools_annotate/1.4.0
+    mulled-v1-4aeaa4935af894e44b08b05bc9b2f841b6ce1106db59e5b45995b8ffa4b5ceeb: # libcrypto
+        packages:
+        - bcftools=1.4
+        - htslib=1.4
+        - openssl<=1.0.2u
+    # toolshed.g2.bx.psu.edu/repos/iuc/bcftools_convert_to_vcf/bcftools_convert_to_vcf/1.4.0
+    mulled-v1-418b13b77f11da185418f8f4f2ac9eed99437777282892919fcc102953c37e97: # libcrypto
+        packages:
+        - bcftools=1.4
+        - htslib=1.4
+        - samtools=1.3.1
+        - openssl<=1.0.2u
