@@ -276,14 +276,14 @@ rpc_pulsar_machines:
     keep_error_days: 7
     cron_hour: "18"
     cron_minute: "30"
-  - pulsar_name: pulsar-QLD
-    pulsar_ip_address: "{{ hostvars['pulsar-QLD']['ansible_ssh_host'] }}"
-    pulsar_staging_dir: /mnt/tmp/files/staging
-    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
-    delete_jwds: true
-    keep_error_days: 7
-    cron_hour: "18"
-    cron_minute: "40"
+  # - pulsar_name: pulsar-QLD
+  #   pulsar_ip_address: "{{ hostvars['pulsar-QLD']['ansible_ssh_host'] }}"
+  #   pulsar_staging_dir: /mnt/tmp/files/staging
+  #   ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+  #   delete_jwds: true
+  #   keep_error_days: 7
+  #   cron_hour: "18"
+  #   cron_minute: "40"
 
 extra_keys:
   - id: ubuntu_maintenance_key
