@@ -72,6 +72,7 @@ destinations:
       accept:
       - pulsar-qld-high-mem1
       require:
+      - offline
       - pulsar
       - high-mem
   pulsar-qld-high-mem2:
