@@ -23,3 +23,4 @@
   register: __miniconda_conda_install_output
   changed_when: "'All requested packages already installed' not in __miniconda_conda_install_output.stdout"
   loop: "{{ miniconda_conda_environments | dict2items }}"
+  ignore_errors: true  # There will be an error if the folder exists and is not a conda environment.  If this is the case, manually remove the folder and try again

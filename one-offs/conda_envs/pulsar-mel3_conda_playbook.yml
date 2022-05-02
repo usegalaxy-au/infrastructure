@@ -5,7 +5,7 @@
     - ../../group_vars/all.yml
     - ../../group_vars/pulsarservers.yml
     - ../../group_vars/pulsar_mel3/pulsar-mel3.yml
-    - ../../host_vars/pulsar-mel3/pulsar-mel3.genome.edu.au
+    - ../../host_vars/pulsar-mel3/pulsar-mel3.genome.edu.au.yml
     - conda_environments.yml
   tasks:
     - name: Create and update conda envs
