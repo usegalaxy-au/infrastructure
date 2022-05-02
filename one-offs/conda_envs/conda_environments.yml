@@ -207,7 +207,7 @@ miniconda_conda_environments:
     __rseqc@2.6.4:
         packages:
         - rseqc=2.6.4
-        - pysam=0.16.0.1
+        - pysam=0.16.0.1 # added
     # toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/trinity_align_and_estimate_abundance/2.9.1
     mulled-v1-3213810583b3c414a873752c2610a95351f8665124407340352879200d8f7bbf:
         channels:  # skip defaults channel
@@ -217,3 +217,9 @@ miniconda_conda_environments:
         - trinity=2.9.1
         - rsem=1.3.2
         - kallisto=0.46.0
+    # toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/0.9.1
+    mulled-v1-c9f488ec0e9a96bed61dcc2e074b26ce37ed596751861ff368fd824a2a5f11d4:
+        packages:
+        - htseq=0.9.1
+        - samtools=1.7
+        - openssl=1.0.2p # added
