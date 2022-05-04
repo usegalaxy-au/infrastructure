@@ -74,11 +74,11 @@ execution:
       runner: slurm
       nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
       singularity_enabled: false
-      singularity_volumes: "{{ slurm_singularity_volumes }}"
-      singularity_default_container_id: "{{ singularity_default_container_id }}"
+      singularity_volumes: '{{ slurm_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
       docker_enabled: false
       docker_sudo: false
-      docker_volumes: "{{ slurm_docker_volumes }}"
+      docker_volumes: '{{ slurm_docker_volumes }}'
     pulsar_destination:
       runner: pulsar_au_01
       jobs_directory: /mnt/pulsar/files/staging
@@ -91,11 +91,16 @@ execution:
       submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7495"
       docker_enabled: false
       docker_sudo: false
-      docker_volumes: "{{ pulsar_docker_volumes }}"
+      docker_volumes: '{{ pulsar_docker_volumes }}'
       docker_run_user: '1000'
       singularity_enabled: false
-      singularity_volumes: "{{ pulsar_singularity_volumes }}"
-      singularity_default_container_id: "{{ singularity_default_container_id }}"
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: cached_mulled_singularity  # if not using cvmfs, omit cache directory
+          cache_directory: /cvmfs/singularity.galaxyproject.org/all 
+          cache_directory_cacher_type: dir_mtime
       env:
         - name: SINGULARITY_CACHEDIR
           value: /mnt/pulsar/deps/singularity
@@ -113,11 +118,16 @@ execution:
       submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
       docker_enabled: false
       docker_sudo: false
-      docker_volumes: "{{ pulsar_docker_volumes }}"
+      docker_volumes: '{{ pulsar_docker_volumes }}'
       docker_run_user: '1000'
       singularity_enabled: false
-      singularity_volumes: "{{ pulsar_singularity_volumes }}"
-      singularity_default_container_id: "{{ singularity_default_container_id }}"
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: cached_mulled_singularity  # if not using cvmfs, omit cache directory
+          cache_directory: /cvmfs/singularity.galaxyproject.org/all 
+          cache_directory_cacher_type: dir_mtime
       env:
         - name: SINGULARITY_CACHEDIR
           value: /mnt/pulsar/deps/singularity

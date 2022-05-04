@@ -173,9 +173,11 @@ slurm_singularity_volumes_list: # for production this needs /mnt/user-data 1,2,3
   - '$galaxy_root:ro'
   - '$tool_directory:ro'
   - '$job_directory:ro'
+  - '$job_directory/outputs:rw'
   - '$working_directory:rw'
   - '$default_file_path:rw'
   - '/cvmfs/data.galaxyproject.org:ro'
+  - '/tmp:rw'
 
 pulsar_singularity_volumes_list:
   - '$job_directory:ro'
@@ -183,6 +185,7 @@ pulsar_singularity_volumes_list:
   - '$job_directory/outputs:rw'
   - '$working_directory:rw'
   - '/cvmfs/data.galaxyproject.org:ro'
+  - '/tmp:rw'
 
 slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
 pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
