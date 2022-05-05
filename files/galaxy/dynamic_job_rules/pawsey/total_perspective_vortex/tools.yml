@@ -1070,6 +1070,8 @@ tools:
       scheduling:
         accept:
         - high-mem
+  toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*
   toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
     cores: 2
     scheduling:
