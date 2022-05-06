@@ -1071,7 +1071,19 @@ tools:
         accept:
         - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*
+    cores: 2
+    scheduling:
+      accept:
+      - pulsar
+    rules:
+    - match: 0.25 <= input_size < 2
+      cores: 8
+    - match: input_size >= 2
+      cores: 30
+      mem: 480.5
+      scheduling:
+        accept:
+        - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
     cores: 2
     scheduling:
