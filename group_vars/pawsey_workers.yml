@@ -3,11 +3,11 @@ slurm_roles: ['exec']
 add_hosts_head: yes
 add_hosts_galaxy: yes
 
-attached_volumes:
-  - device: /dev/sdc
-    path: /mnt
-    fstype: ext4
-    partition: 1
+# attached_volumes:
+#   - device: /dev/sdc
+#     path: /mnt
+#     fstype: ext4
+#     partition: 1
 
 shared_mounts:
     - path: /mnt/galaxy
