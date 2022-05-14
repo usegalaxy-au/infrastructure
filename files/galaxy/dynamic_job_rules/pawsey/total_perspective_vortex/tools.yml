@@ -3,7 +3,7 @@ tools:
     cores: 1
     mem: 10
     rules:
-    - match: |
+    - if: |
         user_limit = 4
         total_limit = 10
         helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit or helpers.concurrent_job_count_for_tool(app, tool) >= total_limit
@@ -21,22 +21,22 @@ tools:
   join1:
     cores: 2
     rules:
-    - match: input_size >= 10
+    - if: input_size >= 10
       cores: 5
   tabular_to_csv:
     rules:
-    - match: input_size >= 1
+    - if: input_size >= 1
       cores: 3
   wig_to_bigWig:
     cores: 3
     rules:
-    - match: input_size >= 1
+    - if: input_size >= 1
       cores: 5
 
   testtoolshed.g2.bx.psu.edu/repos/fubar/htseq_bams_to_count_matrix/htseqsams2mxlocal/.*:
     cores: 2
     rules:
-    - match: input_size >= 0.15
+    - if: input_size >= 0.15
       cores: 3
   testtoolshed.g2.bx.psu.edu/repos/jchung/generate_count_matrix/generate_count_matrix/.*:
     cores: 2
@@ -65,7 +65,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_heatmap/deeptools_plot_heatmap/.*:
     cores: 3
     rules:
-    - match: input_size >= 0.3
+    - if: input_size >= 0.3
       cores: 7
   toolshed.g2.bx.psu.edu/repos/bgruening/interproscan/interproscan/.*:
     cores: 8
@@ -83,28 +83,28 @@ tools:
     cores: 1
   toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/.*:
     rules:
-    - match: 0.02 <= input_size < 0.2
+    - if: 0.02 <= input_size < 0.2
       cores: 3
-    - match: input_size >= 0.2
+    - if: input_size >= 0.2
       cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/.*:
     cores: 3
     rules:
-    - match: 0.0003 <= input_size < 0.002
+    - if: 0.0003 <= input_size < 0.002
       cores: 5
-    - match: 0.002 <= input_size < 0.04
+    - if: 0.002 <= input_size < 0.04
       cores: 9
-    - match: input_size >= 0.04
+    - if: input_size >= 0.04
       fail: Too much data, please don't use the clustalw for this.
   toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/.*:
     rules:
-    - match: 0.1 <= input_size < 4
+    - if: 0.1 <= input_size < 4
       cores: 3
-    - match: input_size >= 4
+    - if: input_size >= 4
       cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/cuffmerge/cuffmerge/.*:
     rules:
-    - match: input_size >= 0.1
+    - if: input_size >= 0.1
       cores: 3
   toolshed.g2.bx.psu.edu/repos/devteam/cuffnorm/cuffnorm/.*:
     cores: 5
@@ -112,7 +112,7 @@ tools:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_filter/cshl_fastq_quality_filter/.*:
     rules:
-    - match: input_size >= 0.02
+    - if: input_size >= 0.02
       cores: 1
   toolshed.g2.bx.psu.edu/repos/devteam/gffread/gffread/.*:
     cores: 9
@@ -123,7 +123,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*:
     cores: 5
     rules:
-      - match: |
+      - if: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
         cores: 15
         mem: cores * 3.1  ## TODO: update these to 3.2 once jobs using 3.3x are no longer running
@@ -135,7 +135,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
     cores: 5
     rules:
-      - match: |
+      - if: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
         cores: 15
         mem: cores * 3.1
@@ -147,7 +147,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
     cores: 16
     rules:
-      - match: |
+      - if: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
         cores: 15
         mem: cores * 3.1
@@ -161,7 +161,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/.*:
     cores: 5
     rules:
-      - match: |
+      - if: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
         cores: 15
         mem: cores * 3.1
@@ -172,7 +172,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastx_wrapper/.*:
     cores: 16
     rules:
-      - match: |
+      - if: |
           helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
         cores: 15
         mem: cores * 3.1
@@ -192,12 +192,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
     cores: 2
     rules:
-    - match: input_size >= 0.1
+    - if: input_size >= 0.1
       cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/.*:
     cores: 2
     rules:
-    - match: input_size >= 0.1
+    - if: input_size >= 0.1
       cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/.*:
     cores: 2
@@ -217,31 +217,31 @@ tools:
       nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=max_quant_w8"
   toolshed.g2.bx.psu.edu/repos/iuc/barrnap/barrnap/.*:
     rules:
-    - match: input_size >= 0.0003
+    - if: input_size >= 0.0003
       cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/bcftools_mpileup/bcftools_mpileup/.*:
     cores: 2
     rules:
-    - match: 0.5 <= input_size < 10
+    - if: 0.5 <= input_size < 10
       cores: 5
-    - match: input_size >= 10
+    - if: input_size >= 10
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/bcftools_norm/bcftools_norm/.*:
     rules:
-    - match: input_size >= 0.5
+    - if: input_size >= 0.5
       cores: 2
   toolshed.g2.bx.psu.edu/repos/iuc/novoplasty/novoplasty/.*:
     cores: 2
     rules:
-    - match: 0.2 <= input_size < 6
+    - if: 0.2 <= input_size < 6
       cores: 5
-    - match: input_size >= 6
+    - if: input_size >= 6
       cores: 16
   toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_bundlelinks/.*:
     rules:
-    - match: 0.0002 <= input_size < 0.01
+    - if: 0.0002 <= input_size < 0.01
       cores: 2
-    - match: input_size >= 0.01
+    - if: input_size >= 0.01
       cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     cores: 1
@@ -255,7 +255,7 @@ tools:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     rules:
-    - match: input_size >= 0.01
+    - if: input_size >= 0.01
       cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/.*:
     cores: 5
@@ -268,26 +268,26 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/gubbins/gubbins/.*:
     cores: 5
     rules:
-    - match: 0.0005 <= input_size < 0.5
+    - if: 0.0005 <= input_size < 0.5
       cores: 16
-    - match: input_size >= 0.5
+    - if: input_size >= 0.5
       fail: Too much data, please don't use the gubbins for this.
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
     rules:
-    - match: input_size >= 0.01
+    - if: input_size >= 0.01
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/.*:
     cores: 16
   toolshed.g2.bx.psu.edu/repos/iuc/iqtree/iqtree/.*:
     rules:
-    - match: input_size >= 2e-05
+    - if: input_size >= 2e-05
       cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/.*:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/.*:
     cores: 2
     rules:
-    - match: input_size >= 0.1
+    - if: input_size >= 0.1
       cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     scheduling:
@@ -298,7 +298,7 @@ tools:
         - pulsar-QLD
     cores: 16
     rules:
-    - match: |
+    - if: |
         user_limit = 2
         helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit
       execute: |
@@ -316,115 +316,115 @@ tools:
     cores: 9
   toolshed.g2.bx.psu.edu/repos/iuc/merqury/merqury/.*:
     rules:
-    - match: input_size >= 0.001
+    - if: input_size >= 0.001
       cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/.*:
     rules:
-    - match: 0.5 <= input_size < 10
+    - if: 0.5 <= input_size < 10
       cores: 5
-    - match: input_size >= 10
+    - if: input_size >= 10
       cores: 16
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_align_seqs/mothur_align_seqs/.*:
     cores: 2
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_vsearch/mothur_chimera_vsearch/.*:
     cores: 2
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_classify_otu/mothur_classify_otu/.*:
     cores: 2
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_classify_seqs/mothur_classify_seqs/.*:
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_count_seqs/mothur_count_seqs/.*:
     cores: 2
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_dist_shared/mothur_dist_shared/.*:
     rules:
-    - match: 0.002 <= input_size < 0.005
+    - if: 0.002 <= input_size < 0.005
       cores: 5
-    - match: input_size >= 0.005
+    - if: input_size >= 0.005
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_filter_seqs/mothur_filter_seqs/.*:
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_contigs/mothur_make_contigs/.*:
     cores: 2
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_group/mothur_make_group/.*:
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_shared/mothur_make_shared/.*:
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_merge_files/mothur_merge_files/.*:
     cores: 3
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_pre_cluster/mothur_pre_cluster/.*:
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_screen_seqs/mothur_screen_seqs/.*:
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_summary_seqs/mothur_summary_seqs/.*:
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_taxonomy_to_krona/mothur_taxonomy_to_krona/.*:
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_unique_seqs/mothur_unique_seqs/.*:
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
     cores: 3
@@ -432,21 +432,21 @@ tools:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/pear/iuc_pear/.*:
     rules:
-    - match: 0.015 <= input_size < 1
+    - if: 0.015 <= input_size < 1
       cores: 5
-    - match: input_size >= 1
+    - if: input_size >= 1
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/.*:
     cores: 9
     rules:
-    - match: input_size >= 4
+    - if: input_size >= 4
       cores: 16
     env:
       _JAVA_OPTIONS: '-Xmx{int(mem)}G -Xms1G'
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
     cores: 3
     rules:
-    - match: input_size >= 5
+    - if: input_size >= 5
       cores: 9
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_events/poretools_events/.*:
     cores: 3
@@ -482,36 +482,36 @@ tools:
     cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_cluster_reduce_dimension/scanpy_cluster_reduce_dimension/.*:
     rules:
-    - match: input_size >= 0.5
+    - if: input_size >= 0.5
       cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_filter/scanpy_filter/.*:
     rules:
-    - match: input_size >= 0.5
+    - if: input_size >= 0.5
       cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_inspect/scanpy_inspect/.*:
     rules:
-    - match: input_size >= 0.5
+    - if: input_size >= 0.5
       cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_normalize/scanpy_normalize/.*:
     rules:
-    - match: input_size >= 1
+    - if: input_size >= 1
       cores: 2
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/scanpy_remove_confounders/.*:
     rules:
-    - match: 0.05 <= input_size < 0.5
+    - if: 0.05 <= input_size < 0.5
       cores: 5
-    - match: input_size >= 0.5
+    - if: input_size >= 0.5
       cores: 9
   toolshed.g2.bx.psu.edu/repos/iuc/shovill/shovill/.*:
     scheduling:
       accept:
         - pulsar
     rules:
-    - match: 0.015 <= input_size < 2
+    - if: 0.015 <= input_size < 2
       cores: 8
-    - match: 2 <= input_size < 10
+    - if: 2 <= input_size < 10
       cores: 10
-    - match: input_size >= 10
+    - if: input_size >= 10
       fail: Your input data exceeds 10GB and therefore is not suitable for Shovill.
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/.*:
     cores: 3
@@ -525,35 +525,35 @@ tools:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/.*:
     rules:
-    - match: 0.2 <= input_size < 2
+    - if: 0.2 <= input_size < 2
       cores: 3
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie_merge/.*:
     cores: 1
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_cluster/trycycler_cluster/.*:
     rules:
-    - match: 0.2 <= input_size < 3
+    - if: 0.2 <= input_size < 3
       cores: 5
-    - match: input_size >= 3
+    - if: input_size >= 3
       cores: 9
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_partition/trycycler_partition/.*:
     rules:
-    - match: 0.2 <= input_size < 3
+    - if: 0.2 <= input_size < 3
       cores: 5
-    - match: input_size >= 3
+    - if: input_size >= 3
       cores: 9
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_reconcile_msa/trycycler_reconcile_msa/.*:
     rules:
-    - match: 0.2 <= input_size < 3
+    - if: 0.2 <= input_size < 3
       cores: 5
-    - match: input_size >= 3
+    - if: input_size >= 3
       cores: 9
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_subsample/trycycler_subsample/.*:
     rules:
-    - match: 0.2 <= input_size < 3
+    - if: 0.2 <= input_size < 3
       cores: 5
-    - match: input_size >= 3
+    - if: input_size >= 3
       cores: 9
   toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/.*:
     cores: 5
@@ -561,19 +561,19 @@ tools:
     cores: 9
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/.*:
     rules:
-    - match: 0.015 <= input_size < 3
+    - if: 0.015 <= input_size < 3
       cores: 2
-    - match: input_size >= 3
+    - if: input_size >= 3
       cores: 3
   toolshed.g2.bx.psu.edu/repos/saskia-hiltemann/krona_text/krona-text/.*:
     rules:
-    - match: 0.02 <= input_size < 2
+    - if: 0.02 <= input_size < 2
       cores: 5
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 7
   toolshed.g2.bx.psu.edu/repos/wolma/mimodd_aln/mimodd_align/.*:
     rules:
-    - match: input_size >= 0.01
+    - if: input_size >= 0.01
       cores: 5
 
   toolshed.g2.bx.psu.edu/repos/bebatut/cdhit/cd_hit_est/.*:
@@ -581,7 +581,7 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.1
+    - if: input_size >= 0.1
       cores: 4
   toolshed.g2.bx.psu.edu/repos/bgruening/augustus/augustus/.*:
     cores: 2
@@ -589,7 +589,7 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.01
+    - if: input_size >= 0.01
       cores: 8
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_fingerprint/deeptools_plot_fingerprint/.*:
     cores: 2
@@ -597,7 +597,7 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.5
+    - if: input_size >= 0.5
       cores: 8
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     cores: 2
@@ -606,11 +606,11 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: 0.15 <= input_size < 1
+    - if: 0.15 <= input_size < 1
       cores: 8
-    - match: 1 <= input_size < 10
+    - if: 1 <= input_size < 10
       cores: 16
-    - match: input_size >= 10
+    - if: input_size >= 10
       cores: 120
       mem: 1922
       scheduling:
@@ -622,9 +622,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.05 <= input_size < 5
+    - if: 0.05 <= input_size < 5
       cores: 8
-    - match: input_size >= 5
+    - if: input_size >= 5
       cores: 120
       mem: 1922
       scheduling:
@@ -636,7 +636,7 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.01
+    - if: input_size >= 0.01
       cores: 8
   toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/.*:
     cores: 2
@@ -644,9 +644,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.001 <= input_size < 0.03
+    - if: 0.001 <= input_size < 0.03
       cores: 8
-    - match: input_size >= 0.03
+    - if: input_size >= 0.03
       fail: Too much data, Prokka is designed to annotate bacterial/virus genomes
         only. Prokka will not annotate eukaryotic genomes nor metagenomes.
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
@@ -655,9 +655,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.1 <= input_size < 5
+    - if: 0.1 <= input_size < 5
       cores: 8
-    - match: input_size >= 5
+    - if: input_size >= 5
       cores: 8
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 2
@@ -665,9 +665,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.25 <= input_size < 1
+    - if: 0.25 <= input_size < 1
       cores: 4
-    - match: input_size >= 1
+    - if: input_size >= 1
       cores: 8
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/.*:
     cores: 2
@@ -680,7 +680,7 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 1
+    - if: input_size >= 1
       cores: 8
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/.*:
     cores: 1
@@ -688,9 +688,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.02 <= input_size < 1
+    - if: 0.02 <= input_size < 1
       cores: 1
-    - match: input_size >= 1
+    - if: input_size >= 1
       cores: 8
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
     cores: 2
@@ -698,9 +698,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.01 <= input_size < 2
+    - if: 0.01 <= input_size < 2
       cores: 4
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 8
   toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/.*:
     cores: 2
@@ -708,11 +708,11 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.2 <= input_size < 4
+    - if: 0.2 <= input_size < 4
       cores: 4
-    - match: 4 <= input_size < 20
+    - if: 4 <= input_size < 20
       cores: 8
-    - match: input_size >= 20
+    - if: input_size >= 20
       fail: Too much data, please don't use the FreeBayes for this
   toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/.*:
     cores: 2
@@ -721,9 +721,9 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: 0.001 <= input_size < 1
+    - if: 0.001 <= input_size < 1
       cores: 8
-    - match: input_size >= 1
+    - if: input_size >= 1
       cores: 16
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/.*:
     cores: 1
@@ -731,7 +731,7 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.5
+    - if: input_size >= 0.5
       cores: 2
   toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/.*:
     cores: 1
@@ -739,7 +739,7 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.5
+    - if: input_size >= 0.5
       cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/.*:
     cores: 2
@@ -747,9 +747,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.005 <= input_size < 0.02
+    - if: 0.005 <= input_size < 0.02
       cores: 4
-    - match: input_size >= 0.02
+    - if: input_size >= 0.02
       cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/circos/circos/.*:
     cores: 2
@@ -759,7 +759,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/.*:  # slurm only
     cores: 2
     rules:
-    - match: input_size >= 0.1
+    - if: input_size >= 0.1
       cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
     cores: 2
@@ -767,9 +767,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.5 <= input_size < 15
+    - if: 0.5 <= input_size < 15
       cores: 8
-    - match: input_size >= 15
+    - if: input_size >= 15
       cores: 60  # one quarter of a QLD high mem pulsar
       mem: 961
       scheduling:
@@ -782,7 +782,7 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: input_size >= 5e-06
+    - if: input_size >= 5e-06
       cores: 120
       mem: 1922
       scheduling:
@@ -815,7 +815,7 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.1
+    - if: input_size >= 0.1
       cores: 4
   toolshed.g2.bx.psu.edu/repos/iuc/khmer_abundance_distribution_single/khmer_abundance_distribution_single/.*:
     cores: 2
@@ -823,9 +823,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.1 <= input_size < 0.5
+    - if: 0.1 <= input_size < 0.5
       cores: 16
-    - match: input_size >= 0.5
+    - if: input_size >= 0.5
       cores: 120
       mem: 1922
       scheduling:
@@ -851,9 +851,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.5 <= input_size < 5
+    - if: 0.5 <= input_size < 5
       cores: 8
-    - match: input_size >= 5
+    - if: input_size >= 5
       cores: 120
       mem: 1922
       scheduling:
@@ -865,7 +865,7 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.5
+    - if: input_size >= 0.5
       cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
     cores: 8
@@ -874,7 +874,7 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: input_size >= 5
+    - if: input_size >= 5
       cores: 16
   toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
     cores: 2
@@ -883,9 +883,9 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: 0.001 < input_size <= 5
+    - if: 0.001 < input_size <= 5
       cores: 16
-    - match: input_size > 5
+    - if: input_size > 5
       cores: 60
       mem: 961
       scheduling:
@@ -897,11 +897,11 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.5 <= input_size < 5
+    - if: 0.5 <= input_size < 5
       cores: 8
-    - match: 5 <= input_size < 20
+    - if: 5 <= input_size < 20
       cores: 16
-    - match: input_size >= 20
+    - if: input_size >= 20
       cores: 120
       mem: 1922
       scheduling:
@@ -919,9 +919,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 10 <= input_size < 20
+    - if: 10 <= input_size < 20
       cores: 4
-    - match: input_size >= 20
+    - if: input_size >= 20
       cores: 120
       mem: 1922
       scheduling:
@@ -933,7 +933,7 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.015
+    - if: input_size >= 0.015
       cores: 4
   toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/trinity_align_and_estimate_abundance/.*:
     cores: 8
@@ -947,9 +947,9 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: 0.2 <= input_size < 2
+    - if: 0.2 <= input_size < 2
       cores: 8
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 16
   toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
     cores: 1
@@ -958,9 +958,9 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: 0.2 <= input_size < 2
+    - if: 0.2 <= input_size < 2
       cores: 8
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 16
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     cores: 1
@@ -968,9 +968,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.2 <= input_size < 10
+    - if: 0.2 <= input_size < 10
       cores: 8
-    - match: input_size >= 10
+    - if: input_size >= 10
       cores: 8
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_RPKM_saturation/.*:
     cores: 8
@@ -983,7 +983,7 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.5
+    - if: input_size >= 0.5
       cores: 2
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_geneBody_coverage2/.*:
     cores: 2
@@ -1002,11 +1002,11 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: 0.05 <= input_size < 1
+    - if: 0.05 <= input_size < 1
       cores: 8
-    - match: 1 <= input_size < 60
+    - if: 1 <= input_size < 60
       cores: 16
-    - match: input_size >= 60
+    - if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/.*:
     cores: 16
@@ -1014,9 +1014,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 0.5
+    - if: input_size >= 0.5
       fail: Too much data, please don't use MAFFT for this.
-    - match: |
+    - if: |
         helpers.concurrent_job_count_for_tool(app, tool, user) >= 2  # concurrent jobs per user
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
@@ -1027,9 +1027,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.015 <= input_size < 1
+    - if: 0.015 <= input_size < 1
       cores: 4
-    - match: input_size >= 1
+    - if: input_size >= 1
       fail: Too much data, please don't use the Velvet Optimiser for this, it is here
         only for training purposes with small (< 1 GB) datasets. Use SPAdes instead.
 
@@ -1048,7 +1048,7 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: input_size >= 0.2
+    - if: input_size >= 0.2
       cores: 120
       mem: 1922
       scheduling:
@@ -1060,11 +1060,11 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.25 <= input_size < 1
+    - if: 0.25 <= input_size < 1
       cores: 4
-    - match: 1 <= input_size < 20
+    - if: 1 <= input_size < 20
       cores: 8
-    - match: input_size >= 20
+    - if: input_size >= 20
       cores: 60
       mem: 961
       scheduling:
@@ -1076,9 +1076,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.25 <= input_size < 2
+    - if: 0.25 <= input_size < 2
       cores: 8
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 30
       mem: 480.5
       scheduling:
@@ -1091,9 +1091,9 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: 0.002 <= input_size < 5
+    - if: 0.002 <= input_size < 5
       cores: 16
-    - match: input_size >= 5
+    - if: input_size >= 5
       cores: 120
       mem: 1922
       scheduling:
@@ -1102,7 +1102,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/3.*:  # send busco 3 to slurm
     cores: 2
     rules:
-    - match: 0.05 <= input_size
+    - if: 0.05 <= input_size
       cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/[^3].*:
     cores: 2
@@ -1112,9 +1112,9 @@ tools:
       reject:
       - pulsar-mel2
     rules:
-    - match: 0.05 <= input_size < 0.3
+    - if: 0.05 <= input_size < 0.3
       cores: 8
-    - match: input_size >= 0.3
+    - if: input_size >= 0.3
       cores: 60
       mem: 961
       scheduling:
@@ -1127,7 +1127,7 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: input_size >= 0.00015
+    - if: input_size >= 0.00015
       cores: 60
       mem: 961
       scheduling:
@@ -1147,7 +1147,7 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: input_size >= 1
+    - if: input_size >= 1
       cores: 60
       mem: 961
       scheduling:
@@ -1160,9 +1160,9 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: 0.002 <= input_size < 5
+    - if: 0.002 <= input_size < 5
       cores: 16
-    - match: input_size >= 5
+    - if: input_size >= 5
       cores: 120
       mem: 1922
       scheduling:
@@ -1174,9 +1174,9 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.0005 <= input_size < 0.1
+    - if: 0.0005 <= input_size < 0.1
       cores: 16
-    - match: input_size >= 0.1
+    - if: input_size >= 0.1
       cores: 120
       mem: 1922
       scheduling:
@@ -1189,9 +1189,9 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: 0.002 <= input_size < 5
+    - if: 0.002 <= input_size < 5
       cores: 16
-    - match: input_size >= 5
+    - if: input_size >= 5
       cores: 120
       mem: 1922
       scheduling:
@@ -1204,13 +1204,13 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: 0.1 <= input_size < 30
+    - if: 0.1 <= input_size < 30
       cores: 60
       mem: 961
       scheduling:
         accept:
         - high-mem
-    - match: input_size >= 30
+    - if: input_size >= 30
       fail: Too much data, we cannot support such large Trinity assemblies with our
         backend. Please use another server for your job.
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
@@ -1220,15 +1220,15 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - match: 0.005 <= input_size < 2
+    - if: 0.005 <= input_size < 2
       cores: 8
-    - match: 2 <= input_size < 20
+    - if: 2 <= input_size < 20
       cores: 60
       mem: 961
       scheduling:
         accept:
         - high-mem
-    - match: input_size >= 20
+    - if: input_size >= 20
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_rnaviralspades/spades_rnaviralspades/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
@@ -1291,7 +1291,7 @@ tools:
         - pulsar
         - pulsar-azure-gpu
     rules:
-      - match: |
+      - if: |
           not user or 'Alphafold' not in [role.name for role in user.all_roles() if not role.deleted]
         fail: |
           This tool is currently being beta-tested on GPUs and your account has not been given access. Contact help@genome.edu.au if you think this is in error.

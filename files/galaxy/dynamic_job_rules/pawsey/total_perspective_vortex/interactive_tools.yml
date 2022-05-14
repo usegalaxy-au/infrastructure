@@ -21,13 +21,13 @@ tools:
   interactive_tool_rstudio:
     inherits: interactive_tool
     rules:
-      - match: |
+      - if: |
           not user or not 'trusted_for_ITs' in [role.name for role in user.all_roles() if not role.deleted]
         fail: "Interactive tool rstudio not available for user"  # TODO: update placeholder text
   interactive_tool_jupyter_notebook:
     inherits: interactive_tool
     rules:
-      - match: |
+      - if: |
           not user or not 'trusted_for_ITs' in [role.name for role in user.all_roles() if not role.deleted]
         fail: "Interactive tool jupyter not available for user"  # TODO: update placeholder text
   interactive_tool_phinch:
