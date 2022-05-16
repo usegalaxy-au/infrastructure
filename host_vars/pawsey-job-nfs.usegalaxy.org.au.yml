@@ -11,4 +11,4 @@ nfs_exports:
 extra_keys:
   - id: ubuntu_maintenance_key
     type: public
-    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"
+    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }},{{ hostvars['pawsey']['internal_ip'] }}"
