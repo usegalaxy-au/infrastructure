@@ -68,17 +68,18 @@ def main():
     if check:
         print(job_query_result)
     
-    with open(log_file, 'a+') as log_handle:
-        dry_run = ' [dry run]' if dry_run else ''
-        log_handle.write(f'{get_current_time()}: Running delete tmp jwds script, keep_error_days={keep_error_days}{dry_run}\n')
-        log_handle.write(job_query_result)
-        copy_exit_code = subprocess.call(f'scp -i {ssh_key} -o StrictHostKeyChecking=no {rm_tmp_jwds_script} {remote_user}@{remote_ip}:/home/{remote_user}', shell=True)
-        if not copy_exit_code == 0:
-            log_handle.write(f'Error: Failed to copy {rm_tmp_jwds_script}\n\n')
-            return
-        if not dry_run:
-            script_exit_code = subprocess.call(f'ssh -i {ssh_key} -o StrictHostKeyChecking=no {remote_user}@{remote_ip} \"sudo bash {os.path.basename(rm_tmp_jwds_script)}\"', shell=True)
-            log_handle.write(f'{get_current_time()}: Finished running script with exit code {script_exit_code}\n\n')
+    # Commented out 16/5/22 as there is no way to ssh to pawsey-job-nfs at the moment.  This needs to be run manually from pawsey
+    # with open(log_file, 'a+') as log_handle:
+    #     dry_run = ' [dry run]' if dry_run else ''
+    #     log_handle.write(f'{get_current_time()}: Running delete tmp jwds script, keep_error_days={keep_error_days}{dry_run}\n')
+    #     log_handle.write(job_query_result)
+    #     copy_exit_code = subprocess.call(f'scp -i {ssh_key} -o StrictHostKeyChecking=no {rm_tmp_jwds_script} {remote_user}@{remote_ip}:/home/{remote_user}', shell=True)
+    #     if not copy_exit_code == 0:
+    #         log_handle.write(f'Error: Failed to copy {rm_tmp_jwds_script}\n\n')
+    #         return
+    #     if not dry_run:
+    #         script_exit_code = subprocess.call(f'ssh -i {ssh_key} -o StrictHostKeyChecking=no {remote_user}@{remote_ip} \"sudo bash {os.path.basename(rm_tmp_jwds_script)}\"', shell=True)
+    #         log_handle.write(f'{get_current_time()}: Finished running script with exit code {script_exit_code}\n\n')
 
 
 def is_string_int(str):

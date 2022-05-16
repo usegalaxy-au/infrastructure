@@ -356,7 +356,7 @@ miniconda_version: "4.13.0"
 miniconda_base_env_packages: []
 galaxy_conda_exec: conda
 # delete-tmp-jwds role for removing job working directories from /mnt/tmp
-dt_remote_ip: "{{ hostvars['pawsey-job-nfs']['ansible_ssh_host'] }}"
+dt_remote_ip: "{{ hostvars['pawsey-job-nfs']['internal_ip'] }}"
 dt_ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
 dt_cron_hour: "20"
 dt_cron_minute: "00"
