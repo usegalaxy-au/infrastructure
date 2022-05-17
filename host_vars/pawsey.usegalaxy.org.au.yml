@@ -301,31 +301,24 @@ docker_daemon_options:
 
 # Singularity and docker volumes
 slurm_singularity_volumes_list: # for production this needs /mnt/user-data 1,2,3,4 + /mnt/custom-indices, all ro
-  - '$galaxy_root:ro'
-  - '$tool_directory:ro'
-  - '$job_directory:ro'
-  - '$job_directory/outputs:rw'
-  - '$working_directory:rw'
-  - '$default_file_path:rw'
-  - '/cvmfs/data.galaxyproject.org:ro'
-  - '/tmp:rw'
+  - $job_directory:rw
+  - $galaxy_root:ro
+  - $tool_directory:ro
   - /mnt/user-data-4:ro
   - /mnt/user-data-3:ro
   - /mnt/user-data-2:ro
-  - /mnt/user-data:rw
+  - /mnt/user-data:ro
   - /mnt/galaxy/files:ro
   - /mnt/files:ro
   - /mnt/files2:ro
   - /mnt/custom-indices:ro
+  - /cvmfs/data.galaxyproject.org:ro
 
 pulsar_singularity_volumes_list:
-  - '$job_directory:ro'
-  - '$tool_directory:ro'
-  - '$job_directory/outputs:rw'
-  - '$working_directory:rw'
-  - '/cvmfs/data.galaxyproject.org:ro'
-  - '/tmp:rw'
+  - $job_directory:rw
+  - $tool_directory:ro
   - /mnt/custom-indices:ro
+  - /cvmfs/data.galaxyproject.org:ro
 
 slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
 pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
