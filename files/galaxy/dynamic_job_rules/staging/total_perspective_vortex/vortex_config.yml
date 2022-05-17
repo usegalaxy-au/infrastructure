@@ -9,6 +9,7 @@ tools:
     params:
       nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)}"
       submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)}"
+      docker_memory: '{mem}G'
     scheduling:
       reject:
         - offline
@@ -23,9 +24,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     params:
       docker_enabled: true
-      docker_volumes: '$defaults'
-      docker_memory: '{mem}'
-      docker_sudo: false
 
 destinations:
   slurm:
