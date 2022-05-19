@@ -12,7 +12,9 @@ users:
             destinations = [d.id for d in mapper.destinations.values()
                             if any(d.tags.filter(tag_value='high-mem',
                                    tag_type=[TagType.REQUIRE, TagType.PREFER, TagType.ACCEPT]))]
-            count = rule_helper.job_count(for_user_email=user.email, for_destinations=destinations)
+            count = rule_helper.job_count(
+              for_user_email=user.email, for_destinations=destinations, for_job_states=['queued', 'running']
+            )
             if count > user_high_mem_jobs_limit:
               retval = True
             else:
