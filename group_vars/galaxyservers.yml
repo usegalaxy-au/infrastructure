@@ -97,7 +97,7 @@ group_galaxy_config:
   uwsgi:  # todo: check desired dev settings for processes, threads, logging, mule, farm, look at how this is defined in prod galaxy.yml
     socket: 127.0.0.1:8080
     buffer-size: 16384
-    processes: 4
+    processes: 5
     threads: 4
     offload-threads: 2
     static-map:
