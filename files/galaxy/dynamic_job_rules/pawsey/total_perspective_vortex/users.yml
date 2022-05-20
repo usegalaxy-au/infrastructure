@@ -1,11 +1,11 @@
 users:
-    catherine.bromhead@unimelb.edu.au:  # change this to 'default' after a test
+    default:
       rules:
         - match: |
             from galaxy.jobs.rule_helper import RuleHelper
             from vortex.core.entities import TagType
 
-            user_high_mem_jobs_limit = 4
+            user_high_mem_jobs_limit = 3
             if entity.tags.filter(tag_value='high-mem'):
               rule_helper = RuleHelper(app)
               # Find all destinations that support high-mem
