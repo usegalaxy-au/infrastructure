@@ -32,7 +32,7 @@ resource "openstack_compute_instance_v2" "dev-queue" {
 resource "openstack_compute_instance_v2" "dev-w1" {
   name            = "dev-w1"
   image_id        = "f8b79936-6616-4a22-b55d-0d0a1d27bceb"
-  flavor_name     = "uom.general.4c16g"
+  flavor_name     = "uom.general.16c64g"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
   availability_zone = "melbourne-qh2-uom"

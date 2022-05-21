@@ -21,3 +21,4 @@ extra_keys:
   - id: ubuntu_maintenance_key
     type: public
     from: "{{ hostvars['dev']['ansible_ssh_host'] }}"
+

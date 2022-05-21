@@ -2,7 +2,7 @@
   become: true
   vars_files:
       - group_vars/all.yml
-      - group_vars/dev.yml
+      - group_vars/dev.yml  # machine_users overridden in this file
       - group_vars/VAULT
       - group_vars/galaxyservers.yml
       - group_vars/dev_slurm.yml

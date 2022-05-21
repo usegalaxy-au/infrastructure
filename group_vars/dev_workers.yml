@@ -22,9 +22,3 @@ docker_users:
   - "{{ galaxy_user.name }}"
 docker_daemon_options:
   data-root: /mnt/docker-data
-
-# Golang
-golang_gopath: '/var/workspace-go'
-# Singularity target version
-singularity_version: "3.7.4"
-singularity_go_path: "{{ golang_install_dir }}"

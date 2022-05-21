@@ -1,14 +1,22 @@
 attached_volumes:
-  - device: /dev/vde
-    path: /mnt/tools-indices
+  - device: /dev/vdb
+    path: /mnt/tools
     fstype: ext4
+    partition: 1
   - device: /dev/vdc
+    path: /mnt/custom-indices
+    fstype: ext4
+    partition: 1
+  - device: /dev/vdd
     path: /mnt/ghost-galaxy-app
     fstype: ext4
+    partition: 1
 
 galaxy_nfs_app_dir: /mnt/ghost-galaxy-app
-galaxy_nfs_tools_dir: /mnt/tools-indices
+galaxy_nfs_tools_dir: /mnt/tools
+galaxy_nfs_custom_indices_dir: /mnt/custom-indices
 
 nfs_exports:
-  - "{{ galaxy_nfs_app_dir }} 192.168.199.0/24(rw,async,no_root_squash,no_subtree_check)"
-  - "{{ galaxy_nfs_tools_dir }} 192.168.199.0/24(rw,async,no_root_squash,no_subtree_check)"
+  - "{{ galaxy_nfs_app_dir }} {{ hostvars['aarnet'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
+  - "{{ galaxy_nfs_tools_dir }} {{ hostvars['aarnet'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
+  - "{{ galaxy_nfs_custom_indices_dir }} {{ hostvars['aarnet'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"

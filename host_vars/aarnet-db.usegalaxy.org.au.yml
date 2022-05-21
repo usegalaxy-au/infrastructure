@@ -17,9 +17,9 @@ postgresql_conf:
   #   DB Type: web
   #   Total Memory (RAM): 32 GB
   #   CPUs num: 8
-  #   Connections num: 500
-  #   Data Storage: hdd
-  - max_connections: 100       # Set to be the same as main
+  #   Connections num: 100
+  #   Data Storage: san
+  - max_connections: 200
   - listen_addresses: "'*'"   # Allow remote connections
   - data_directory: "'/data/production'"
   - shared_buffers: 8GB
@@ -37,11 +37,10 @@ postgresql_conf:
   - max_parallel_workers_per_gather: 4
   - max_parallel_workers: 8
   - max_parallel_maintenance_workers: 4
-  # Following is for Replication database access and setup
-  - WAL_LEVEL: ARCHIVE
-  - Archive_mode: on
-  - max_wal_senders: 5
-  - wal_keep_segments: 100
+  - temp_buffers: 64MB
+  # - log_filename: "'postgresql-%Y-%m-%d.log'"
+  # - log_statement: all
+  # - logging_collector: on  # altering this requires a restart
 
 
 
@@ -52,11 +51,11 @@ postgresql_pg_hba_conf:
   - host all all "{{ aarnet_galaxy_server_address }}" md5 #The allowed connection to the database for the dev galaxy server.
   - host all all "{{ hostvars['aarnet']['ansible_ssh_host'] }}/32" md5
   - host all all "{{ hostvars['aarnet-backup']['internal_ip'] }}/32" md5 #The allowed connection to the database from the backup server.
-  - host replication postgres	"{{ hostvars['QLD-DR-db']['ansible_ssh_host'] }}/32" trust #connection from replication database
+  # - host replication postgres	"{{ hostvars['QLD-DR-db']['ansible_ssh_host'] }}/32" trust #connection from replication database
 
 postgresql_objects_users:
   - name: galaxy
-    password: "{{ galaxy_aarnet_db_user_password}}"
+    password: "{{ galaxy_aarnet_db_user_password }}"
     db: galaxy
     priv: "ALL"
   - name: galaxyftp

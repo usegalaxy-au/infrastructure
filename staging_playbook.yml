@@ -40,8 +40,11 @@
     - geerlingguy.nfs
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - galaxyproject.gxadmin
+    - gantsign.golang
+    - cyverse-ansible.singularity
     - geerlingguy.docker
+    - acl-on-startup
+    - galaxyproject.gxadmin
     - usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf
     - pg-post-tasks

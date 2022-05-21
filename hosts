@@ -8,7 +8,7 @@ staging-db ansible_ssh_host=115.146.87.93
 pawsey-db ansible_ssh_host=146.118.68.220 internal_ip=192.168.0.73
 
 [aarnet_db_server]
-aarnet-db ansible_ssh_host=138.44.80.125 internal_ip=192.168.199.226
+aarnet-db ansible_ssh_host=138.44.80.119 internal_ip=192.168.199.24
 
 [dev_galaxy_server]
 dev ansible_ssh_host=45.113.232.186
@@ -17,16 +17,18 @@ dev ansible_ssh_host=45.113.232.186
 staging ansible_ssh_host=115.146.84.166
 
 [pawsey_galaxy_server]
-pawsey ansible_ssh_host=146.118.70.205 internal_ip=192.168.0.94
+pawsey ansible_ssh_host=146.118.70.105 internal_ip=192.168.0.126
 
 [aarnet_galaxy_server]
-aarnet ansible_ssh_host=138.44.80.27 internal_ip=192.168.199.170
+aarnet ansible_ssh_host=138.44.80.40 internal_ip=192.168.199.221
 
 [aarnet_slurm_head]
-aarnet-queue ansible_ssh_host=138.44.80.85 internal_ip=192.168.199.89
+aarnet-queue ansible_ssh_host=138.44.80.74 internal_ip=192.168.199.210
 
-[dev_ftp_server]
+# unused ftp VMs for repurposing
+[ftp_servers]
 dev-ftp	ansible_ssh_host=45.113.235.70
+aarnet-ftp ansible_ssh_host=138.44.80.113 internal_ip=192.168.199.129
 
 [aarnet_ftp_server]
 aarnet-ftp ansible_ssh_host=138.44.80.28 internal_ip=192.168.199.39
@@ -36,15 +38,13 @@ dev-queue ansible_ssh_host=45.113.232.149
 staging-queue ansible_ssh_host=115.146.84.121
 prod-rabbit ansible_ssh_host=115.146.86.67
 pawsey-queue ansible_ssh_host=146.118.69.35 internal_ip=192.168.0.194
-aarnet-dev-queue ansible_ssh_host=192.168.0.250 internal_ip=192.168.0.250
-aarnet-queue ansible_ssh_host=138.44.80.118 internal_ip=192.168.199.79
+aarnet-queue ansible_ssh_host=138.44.80.74 internal_ip=192.168.199.210
 
 [slurmcontrollers]
 dev-queue ansible_ssh_host=45.113.232.149
 staging-queue ansible_ssh_host=115.146.84.121
 pawsey-queue ansible_ssh_host=146.118.69.35 internal_ip=192.168.0.194
-aarnet-dev-queue ansible_ssh_host=192.168.0.250 internal_ip=192.168.0.250
-aarnet-queue ansible_ssh_host=138.44.80.98 internal_ip=192.168.199.173
+aarnet-queue ansible_ssh_host=138.44.80.74 internal_ip=192.168.199.210
 
 [pulsarservers]
 dev-pulsar ansible_ssh_host=45.113.233.82
@@ -54,9 +54,9 @@ staging-pulsar ansible_ssh_host=115.146.87.193
 pawsey-user-nfs ansible_ssh_host=146.118.68.13 internal_ip=192.168.0.165
 pawsey-misc-nfs ansible_ssh_host=146.118.68.229 internal_ip=192.168.0.147
 pawsey-job-nfs ansible_ssh_host=146.118.70.65 internal_ip=192.168.0.92
-aarnet-user-nfs ansible_ssh_host=192.168.199.10 internal_ip=192.168.199.10
-aarnet-misc-nfs ansible_ssh_host=192.168.199.74 internal_ip=192.168.199.74
-aarnet-job-nfs ansible_ssh_host=192.168.199.203 internal_ip=192.168.199.203
+aarnet-user-nfs ansible_ssh_host=192.168.199.169 internal_ip=192.168.199.169
+aarnet-misc-nfs ansible_ssh_host=192.168.199.153 internal_ip=192.168.199.153
+aarnet-job-nfs ansible_ssh_host=192.168.199.43 internal_ip=192.168.199.43
 pulsar-QLD-job-nfs ansible_ssh_host=203.101.229.199
 
 [dev_slurm_head]
@@ -75,45 +75,45 @@ staging-w1 ansible_ssh_host=115.146.87.130
 pawsey-queue ansible_ssh_host=146.118.70.91 internal_ip=192.168.0.154
 
 [pawsey_workers]
-pawsey-w1 ansible_ssh_host=146.118.70.191 internal_ip=192.168.0.101
-pawsey-w2 ansible_ssh_host=146.118.67.128 internal_ip=192.168.0.191
-pawsey-w3 ansible_ssh_host=146.118.66.35 internal_ip=192.168.0.103
-pawsey-w4 ansible_ssh_host=146.118.69.246 internal_ip=192.168.0.109
-pawsey-w5 ansible_ssh_host=146.118.69.102 internal_ip=192.168.0.176
-pawsey-w6 ansible_ssh_host=146.118.68.97 internal_ip=192.168.0.152
-pawsey-w7 ansible_ssh_host=146.118.68.32 internal_ip=192.168.0.77
-pawsey-w8 ansible_ssh_host=146.118.65.97 internal_ip=192.168.0.100
+pawsey-w1 ansible_ssh_host=146.118.70.162 internal_ip=192.168.0.195
+pawsey-w2 ansible_ssh_host=146.118.65.213 internal_ip=192.168.0.172
+pawsey-w3 ansible_ssh_host=146.118.65.61 internal_ip=192.168.0.88
+pawsey-w4 ansible_ssh_host=146.118.69.82 internal_ip=192.168.0.81
+pawsey-w5 ansible_ssh_host=146.118.67.236 internal_ip=192.168.0.184
+pawsey-w6 ansible_ssh_host=146.118.66.154 internal_ip=192.168.0.98
+pawsey-w7 ansible_ssh_host=146.118.68.99 internal_ip=192.168.0.86
+pawsey-w8 ansible_ssh_host=146.118.64.30 internal_ip=192.168.0.168
 
 [aarnet_workers]
-aarnet-w1 ansible_ssh_host=192.168.199.155 internal_ip=192.168.199.155
-aarnet-w2 ansible_ssh_host=192.168.199.98 internal_ip=192.168.199.98
-aarnet-w3 ansible_ssh_host=192.168.199.247 internal_ip=192.168.199.247
-aarnet-w4 ansible_ssh_host=192.168.199.138 internal_ip=192.168.199.138
-aarnet-w5 ansible_ssh_host=192.168.199.177 internal_ip=192.168.199.177
-aarnet-w6 ansible_ssh_host=192.168.199.224 internal_ip=192.168.199.224
-aarnet-w7 ansible_ssh_host=192.168.199.131 internal_ip=192.168.199.131
-aarnet-w8 ansible_ssh_host=192.168.199.9 internal_ip=192.168.199.9
+aarnet-w1 ansible_ssh_host=192.168.199.251 internal_ip=192.168.199.251
+aarnet-w2 ansible_ssh_host=192.168.199.218 internal_ip=192.168.199.218
+aarnet-w3 ansible_ssh_host=192.168.199.80 internal_ip=192.168.199.80
+aarnet-w4 ansible_ssh_host=192.168.199.7 internal_ip=192.168.199.7
+aarnet-w5 ansible_ssh_host=192.168.199.126 internal_ip=192.168.199.126
+aarnet-w6 ansible_ssh_host=192.168.199.228 internal_ip=192.168.199.228
+aarnet-w7 ansible_ssh_host=192.168.199.82 internal_ip=192.168.199.82
+aarnet-w8 ansible_ssh_host=192.168.199.156 internal_ip=192.168.199.156
 
 [backupservers]
 pawsey-backup ansible_ssh_host=146.118.68.123 internal_ip=192.168.0.96
-aarnet-backup ansible_ssh_host=138.44.80.71 internal_ip=192.168.199.93
+aarnet-backup ansible_ssh_host=138.44.80.22 internal_ip=192.168.199.12
 
 [pawsey_group]
 pawsey-db ansible_ssh_host=146.118.68.220 internal_ip=192.168.0.73
-pawsey ansible_ssh_host=146.118.70.205 internal_ip=192.168.0.94
+pawsey ansible_ssh_host=146.118.70.105 internal_ip=192.168.0.126
 pawsey-queue ansible_ssh_host=146.118.69.35 internal_ip=192.168.0.194
 pawsey-user-nfs ansible_ssh_host=146.118.68.13 internal_ip=192.168.0.165
 pawsey-misc-nfs ansible_ssh_host=146.118.68.229 internal_ip=192.168.0.147
 pawsey-job-nfs ansible_ssh_host=146.118.70.65 internal_ip=192.168.0.92
 pawsey-backup ansible_ssh_host=146.118.68.123 internal_ip=192.168.0.96
-pawsey-w1 ansible_ssh_host=146.118.70.191 internal_ip=192.168.0.101
-pawsey-w2 ansible_ssh_host=146.118.67.128 internal_ip=192.168.0.191
-pawsey-w3 ansible_ssh_host=146.118.66.35 internal_ip=192.168.0.103
-pawsey-w4 ansible_ssh_host=146.118.69.246 internal_ip=192.168.0.109
-pawsey-w5 ansible_ssh_host=146.118.69.102 internal_ip=192.168.0.176
-pawsey-w6 ansible_ssh_host=146.118.68.97 internal_ip=192.168.0.152
-pawsey-w7 ansible_ssh_host=146.118.68.32 internal_ip=192.168.0.77
-pawsey-w8 ansible_ssh_host=146.118.65.97 internal_ip=192.168.0.100
+pawsey-w1 ansible_ssh_host=146.118.70.162 internal_ip=192.168.0.195
+pawsey-w2 ansible_ssh_host=146.118.65.213 internal_ip=192.168.0.172
+pawsey-w3 ansible_ssh_host=146.118.65.61 internal_ip=192.168.0.88
+pawsey-w4 ansible_ssh_host=146.118.69.82 internal_ip=192.168.0.81
+pawsey-w5 ansible_ssh_host=146.118.67.236 internal_ip=192.168.0.184
+pawsey-w6 ansible_ssh_host=146.118.66.154 internal_ip=192.168.0.98
+pawsey-w7 ansible_ssh_host=146.118.68.99 internal_ip=192.168.0.86
+pawsey-w8 ansible_ssh_host=146.118.64.30 internal_ip=192.168.0.168
 
 # Pulsar servers
 
@@ -206,7 +206,7 @@ qld-nvme ansible_ssh_host=203.101.231.166
 
 [build_machines]
 nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249
-aarnet-backup ansible_ssh_host=138.44.80.71 internal_ip=192.168.199.93
+aarnet-backup ansible_ssh_host=138.44.80.22 internal_ip=192.168.199.12
 
 ##### DR environment at Qriscloud
 #[qld-dr]

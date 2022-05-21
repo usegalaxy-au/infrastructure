@@ -7,7 +7,7 @@
 
 # variables for attaching mounted volume to application server
 attached_volumes:
-  - device: /dev/vdb  # TODO: check
+  - device: /dev/vdb
     path: /mnt
     fstype: ext4
     partition: 1
@@ -42,34 +42,50 @@ shared_mounts:  # TODO: /mnt/custom-indices from aarnet-misc-nfs
       src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
       fstype: nfs
       state: mounted
-    - path: /mnt/tools-indices
-      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/tools-indices"
+    - path: /mnt/tools
+      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/tools"
       fstype: nfs
       state: mounted
-    - path: /mnt/user-data
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/perth/user-data"
+    - path: /mnt/custom-indices
+      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/custom-indices"
       fstype: nfs
       state: mounted
-    - path: /mnt/user-data-2
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/perth/user-data-2"
+    - path: /mnt/user-data-test  # TODO: Unmount and remove this after testing
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/user-data-test"
       fstype: nfs
       state: mounted
-    - path: /mnt/user-data-3
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/aarnet/user-data-3"
+    - path: /mnt/user-data-load-test  # TODO: Unmount and remove this after testing
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-load-test"
       fstype: nfs
       state: mounted
+    # - path: /mnt/user-data
+    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
+    #   fstype: nfs
+    #   state: mounted
+    # - path: /mnt/user-data-2
+    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-2"
+    #   fstype: nfs
+    #   state: mounted
+    # - path: /mnt/user-data-3
+    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-3"
+    #   fstype: nfs
+    #   state: mounted
+    # - path: /mnt/user-data-4
+    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-4"
+    #   fstype: nfs
+    #   state: mounted
     - path: /mnt/tmp
       src: "{{ hostvars['aarnet-job-nfs']['internal_ip'] }}:/mnt/tmp"
       fstype: nfs
       state: mounted
-    - path: /mnt/files
-      src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/files2
-      src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
-      fstype: nfs
-      state: mounted
+    # - path: /mnt/files
+    #   src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
+    #   fstype: nfs
+    #   state: mounted
+    # - path: /mnt/files2
+    #   src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
+    #   fstype: nfs
+    #   state: mounted
 
 galaxy_db_user_password: "{{ vault_aarnet_db_user_password }}"
 
@@ -78,6 +94,7 @@ galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/aarnet
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
   - total_perspective_vortex/aarnet_tpv_config.yml  # config file for aarnet testing
+  - total_perspective_vortex/aarnet_tools.yml  # config file for aarnet testing
   # - total_perspective_vortex/tools.yml
   # - total_perspective_vortex/destinations.yml
   # - total_perspective_vortex/users.yml
@@ -88,29 +105,29 @@ galaxy_dynamic_job_rules:
   - dynamic_rules/tool_destinations.yml
   - readme.txt
 
-galaxy_tools_indices_dir: /mnt/tools-indices     
+galaxy_tools_indices_dir: /mnt/tools
 galaxy_custom_indices_dir: /mnt/custom-indices     
 galaxy_tmp_dir: /mnt/tmp
 
 galaxy_handler_count: 5
 
 # galaxy_file_path: /mnt/user-data-3/test
-galaxy_file_path: /mnt/galaxy/data  # update to test volume path
+galaxy_file_path: /mnt/user-data-load-test # TEST this path is for testing only, update to /mnt/user-data-4 for going to production 
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 
-# host_galaxy_config_files:
-#   - src: "{{ galaxy_config_file_src_dir }}/config/aarnet_object_store_conf.xml"
-#     dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
+host_galaxy_config_files:
+  - src: "{{ galaxy_config_file_src_dir }}/config/aarnet_object_store_conf.xml"  # TODO: This is the test object store and will need to be updated when aarnet is the production server
+    dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
 
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/aarnet_job_conf.yml.j2"
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
   # - src: "{{ galaxy_dynamic_job_rules_src_dir }}/total_perspective_vortex/default_tool.yml.j2"
   #   dest: "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
-  # - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"  ## File cannot be created at dest on first run of playbook
-  #   dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
+  - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"  ## File cannot be created at dest on first run of playbook
+    dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
 
 
 host_galaxy_config:  # renamed from __galaxy_config
@@ -125,10 +142,10 @@ host_galaxy_config:  # renamed from __galaxy_config
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
     brand: "Australia"
-    database_connection: "postgres://galaxy:{{ vault_aarnet_db_user_password }}@{{ hostvars['aarnet-db']['internal_ip'] }}:5432/galaxy"
+    database_connection: "postgresql://galaxy:{{ vault_aarnet_db_user_password }}@{{ hostvars['aarnet-db']['internal_ip'] }}:5432/galaxy"
     id_secret: "{{ vault_aarnet_id_secret }}"
     file_path: "{{ galaxy_file_path }}"
-    # object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
+    object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     smtp_server: localhost
     # ga_code: "{{ vault_prod_ga_code }}"  ## swich off ga_code while testing.  TODO: uncomment this when we go live
     interactivetools_enable: true
@@ -146,7 +163,7 @@ host_galaxy_config:  # renamed from __galaxy_config
     watch_job_rules: true  # important for total perspective vortex
     enable_mulled_containers: true
     enable_beta_containers_interface: true
-    # tool_filters: ga_filters:hide_test_tools  # filter code cannot be copied to galaxy on the first run of the playbook, uncomment this after
+    tool_filters: ga_filters:hide_test_tools,ga_filters:restrict_alphafold
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
