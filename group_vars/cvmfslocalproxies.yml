@@ -3,8 +3,21 @@ galaxy_cvmfs_repos_enabled: true
 cvmfs_localproxy_cache_dir:
   dir: /mnt/cvmfs
   size: 800000
-cvmfs_localproxy_cache_mem: 8192
+cvmfs_localproxy_cache_mem: 512
 # CERN config examples use 128 KB for both local proxies and stratum 1, but data objects are larger than this. I started
 # with 4 (MB) but that still seems way too small for a good hit ratio for stuff in the data repo.
 cvmfs_localproxy_maximum_object_size_in_memory: 64
 
+#Monitoring for Staging. Once all VM monitoring has moved to stats.usegalaxy.org.au, this can be put in all.yml and removed here.
+influx_url: stats.usegalaxy.org.au
+grafana_server_url: "https://{{ influx_url }}:8086"
+
+# Monitoring
+telegraf_agent_output:
+  - type: influxdb
+    config:
+      - urls = ["{{ grafana_server_url }}"]
+      - database = "ancillary"
+      - precision = "s"
+      - username = "node"
+      - password = "{{ vault_influx_node_password }}"

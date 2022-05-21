@@ -38,6 +38,10 @@
     #- mariadb # - not required here as it's not the slurm controller or dbd.
     - galaxyproject.slurm
     - galaxyproject.cvmfs
+    - gantsign.golang
+    - cyverse-ansible.singularity
+    - geerlingguy.docker
+    - acl-on-startup
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks

@@ -1,7 +1,5 @@
 attached_volumes:
   - device: /dev/vdc
-    partition: 1
     path: /mnt
     fstype: ext4
-
-hostname: cvmfsp-paw.gvl.org.au
+    partition: 1

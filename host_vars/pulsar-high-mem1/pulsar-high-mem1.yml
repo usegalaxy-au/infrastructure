@@ -88,3 +88,7 @@ extra_keys:
   - id: ubuntu_maintenance_key
     type: public
     from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"
+
+# docker
+docker_daemon_options:
+  data-root: /mnt/docker-data

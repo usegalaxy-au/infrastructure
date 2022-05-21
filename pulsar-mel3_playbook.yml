@@ -18,6 +18,12 @@
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
+    - name: Create pulsar deps path
+      file:
+        path: "{{ pulsar_dependencies_dir }}"
+        state: directory
+        owner: "{{ pulsar_user.name }}"
+        group: "{{ pulsar_user.name }}"
   roles:
     - common
     - insspb.hostname
@@ -31,6 +37,10 @@
     - mariadb
     - galaxyproject.slurm
     - galaxyproject.cvmfs
+    - gantsign.golang
+    - cyverse-ansible.singularity
+    - geerlingguy.docker
+    - acl-on-startup
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks

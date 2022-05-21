@@ -77,7 +77,7 @@ galaxy_shed_tools_dir: "{{ galaxy_tools_indices_dir }}/shed_tools"
 galaxy_config_style: yaml
 galaxy_force_checkout: true
 
-galaxy_australia_website: "https://usegalaxy-au.github.io"
+galaxy_australia_website: "https://site.usegalaxy.org.au"
 
 galaxy_server_dir: "{{ galaxy_root }}/galaxy-app"
 galaxy_venv_dir: "{{ galaxy_root }}/venv" # set this explicitly as it can fail when host/group variables are used out of the context of the galaxy role
@@ -97,7 +97,7 @@ group_galaxy_config:
   uwsgi:  # todo: check desired dev settings for processes, threads, logging, mule, farm, look at how this is defined in prod galaxy.yml
     socket: 127.0.0.1:8080
     buffer-size: 16384
-    processes: 4
+    processes: 5
     threads: 4
     offload-threads: 2
     static-map:
@@ -301,10 +301,18 @@ docker_users:
   - "{{ galaxy_user.name }}"
 
 gie_proxy_dir: "{{ galaxy_root }}/gie-proxy/proxy"
-gie_proxy_git_version: master
+gie_proxy_git_version: main
 gie_proxy_setup_nodejs: nodeenv
 gie_proxy_virtualenv_command: "{{ pip_virtualenv_command }}"
 gie_proxy_nodejs_version: "10.13.0"
 gie_proxy_virtualenv: "{{ galaxy_root }}/gie-proxy/venv"
 gie_proxy_setup_service: systemd
 gie_proxy_sessions_path: "{{ galaxy_mutable_data_dir }}/interactivetools_map.sqlite"
+
+# Telegraf extra stuff for statsd
+telegraf_plugins_extra:
+  listen_galaxy_routes:
+    plugin: "statsd"
+    config:
+      - service_address = ":8125"
+      - metric_separator = "."

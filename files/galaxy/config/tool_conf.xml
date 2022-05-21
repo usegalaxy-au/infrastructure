@@ -180,6 +180,8 @@
     <label id="proteomics_metabolomics" text="PROTEOMICS, METABOLOMICS"/>
     <section id="proteomics" name="Proteomics">
     </section>
+    <section id="proteomic_ai" name="Proteomic AI">
+    </section>
     <section id="metabolomics" name="Metabolomics">
     </section>
     <section id="chemicaltoolbox" name="ChemicalToolBox">

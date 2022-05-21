@@ -17,7 +17,106 @@ tools:
     rules: []
     rank: |
       helpers.weighted_random_sampling(candidate_destinations)
-
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
+    cores: 2
+    scheduling:
+      require:
+      - slurm
+    rules:
+    - match: 0.25 <= input_size < 1
+      cores: 4
+    - match: 1 <= input_size < 20
+      cores: 8
+    - match: input_size >= 20
+      cores: 16
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
+    cores: 2
+    scheduling:
+      require:
+      - pulsar
+    rules:
+    - match: 0.01 <= input_size < 2
+      cores: 4
+    - match: input_size >= 2
+      cores: 8
+  toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/.*:
+    cores: 5
+  toolshed.g2.bx.psu.edu/repos/iuc/shovill/shovill/.*:
+    scheduling:
+      accept:
+        - pulsar
+    rules:
+    - match: 0.015 <= input_size < 2
+      cores: 8
+    - match: 2 <= input_size < 10
+      cores: 10
+    - match: input_size >= 10
+      fail: Your input data exceeds 10GB and therefore is not suitable for Shovill.
+  toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/.*:
+    cores: 2
+    scheduling:
+      accept:
+      - pulsar
+    rules:
+    - match: 0.005 <= input_size < 0.02
+      cores: 4
+    - match: input_size >= 0.02
+      cores: 8
+  toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
+    rules:
+    - match: input_size >= 0.01
+      cores: 3
+  toolshed.g2.bx.psu.edu/repos/iuc/ivar_consensus/ivar_consensus/.*:
+    cores: 8
+    scheduling:
+      accept:
+      - pulsar
+      prefer:
+      - pulsar-paw
+  toolshed.g2.bx.psu.edu/repos/iuc/ivar_trim/ivar_trim/.*:
+    cores: 8
+    scheduling:
+      accept:
+      - pulsar
+      prefer:
+      - pulsar-paw
+  toolshed.g2.bx.psu.edu/repos/iuc/ivar_variants/ivar_variants/.*:
+    cores: 8
+    scheduling:
+      accept:
+      - pulsar
+      prefer:
+      - pulsar-paw
+  toolshed.g2.bx.psu.edu/repos/iuc/lofreq_filter/lofreq_filter/.*:
+    cores: 4
+    scheduling:
+      accept:
+      - pulsar
+      prefer:
+      - pulsar-paw
+  toolshed.g2.bx.psu.edu/repos/iuc/lofreq_viterbi/lofreq_viterbi/.*:
+    cores: 4
+    scheduling:
+      accept:
+      - pulsar
+      prefer:
+      - pulsar-paw
+  toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/.*:
+    cores: 5
+  toolshed.g2.bx.psu.edu/repos/iuc/lofreq_indelqual/lofreq_indelqual/.*:
+    cores: 3
+  toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/.*:
+    cores: 3
+  toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/.*:
+    rules:
+    - match: 0.015 <= input_size < 3
+      cores: 2
+    - match: input_size >= 3
+      cores: 3
+  toolshed.g2.bx.psu.edu/repos/iuc/qualimap_bamqc/qualimap_bamqc/.*:
+    cores: 5
+  toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
+    cores: 3
 destinations:
   slurm:
     cores: 32
@@ -26,3 +125,53 @@ destinations:
       accept:
       - slurm
       - training
+  pulsar-paw:
+    cores: 8
+    mem: 31.36
+    scheduling:
+      require:
+      - pulsar-paw
+      - pulsar
+  # pulsar-nci-test:
+  #   cores: 16
+  #   mem: 48.19
+  #   scheduling:
+  #     accept:
+  #       - general
+  #       - pulsar-nci-test
+  #     require:
+  #       - pulsar
+  pulsar-QLD:
+    cores: 16
+    mem: 62.72
+    scheduling:
+      accept:
+      - pulsar-QLD
+      require:
+      - pulsar
+
+users:
+  jenkins_bot@usegalaxy.org.au:
+    cores: 1
+    mem: cores * 3.8
+    params:
+      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=main"
+    scheduling:
+      require:
+        - slurm
+  pulsar_paw_user@usegalaxy.org.au:
+    rules:
+      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        scheduling:
+          accept:
+            - pulsar
+            - offline
+          require:
+            - pulsar-paw
+  pulsar_nci_test_user@usegalaxy.org.au:
+    rules:
+      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-nci-test
