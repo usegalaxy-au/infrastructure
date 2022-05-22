@@ -65,6 +65,7 @@ destinations:
       require:
       - pulsar
       - high-mem
+      - offine
   pulsar-qld-high-mem1:
     cores: 240
     mem: 3845.07
