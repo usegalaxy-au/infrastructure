@@ -53,7 +53,7 @@ tools:
     cores: 16
     params:
       docker_enabled: true
-      docker_volumes: '$defaults,/cvmfs/data.galaxyproject.org:ro,/mnt/user-data:ro,/mnt/user-data-2:ro,/mnt/user-data-3:ro'
+      docker_volumes: '$job_directory:rw,$galaxy_root:ro,$tool_directory:ro,/mnt/user-data-4:ro,/mnt/user-data-3:ro,/mnt/user-data-2:ro,/mnt/user-data:ro,/mnt/galaxy/files:ro,/mnt/files:ro,/mnt/files2:ro,/mnt/custom-indices:ro,/cvmfs/data.galaxyproject.org:ro'
       docker_memory: '{mem}G'
       docker_sudo: false
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
