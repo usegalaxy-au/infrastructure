@@ -255,7 +255,8 @@ tools:
       dependency_resolution: 'none'
    maxquant_test:
      scheduling:
-        accept:
+        require:
+          - pulsar
           - dev-pulsar
      cores: 2
      mem: 7.76
