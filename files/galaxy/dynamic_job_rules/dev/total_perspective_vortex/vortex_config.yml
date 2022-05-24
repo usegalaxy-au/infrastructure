@@ -253,13 +253,13 @@ tools:
       singularity_enabled: True
       singularity_run_extra_arguments: '--writable-tmpfs'
       dependency_resolution: 'none'
-   maxquant_test:
-     scheduling:
-        require:
-          - pulsar
-          - dev-pulsar
-     cores: 2
-     mem: 7.76
+  maxquant_test:
+    scheduling:
+       require:
+         - pulsar
+         - dev-pulsar
+    cores: 2
+    mem: 7.76
 
 users:
   default:
