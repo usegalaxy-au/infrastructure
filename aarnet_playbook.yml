@@ -87,9 +87,3 @@
       systemd:
         name: lsyncd
         state: restarted
-    - name: add symlink for files mount  # TODO: Set the path in the object store as /mnt/files and stop using this symlink if it is not needed
-      file:
-        src: /mnt/files
-        dest: /mnt/galaxy/files
-        state: link
-
