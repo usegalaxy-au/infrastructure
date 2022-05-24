@@ -12,7 +12,7 @@ attached_volumes:
 # galaxy_nfs_user_data_3_dir: /mnt/user-data-3
 # galaxy_nfs_user_data_4_dir: /mnt/user-data-4
 galaxy_nfs_user_data_test_dir: /user-data-test
-galaxy_nfs_user_data_load_test_dir: /mnt/user-data-load-test
+# galaxy_nfs_user_data_load_test_dir: /mnt/user-data-load-test
 
 nfs_exports:
   # - "{{ galaxy_nfs_user_data_dir }} {{ hostvars['aarnet'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
@@ -20,4 +20,4 @@ nfs_exports:
   # - "{{ galaxy_nfs_user_data_3_dir }} {{ hostvars['aarnet'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
   # - "{{ galaxy_nfs_user_data_4_dir }} {{ hostvars['aarnet'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
   - "{{ galaxy_nfs_user_data_test_dir }} {{ hostvars['aarnet'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
-  - "{{ galaxy_nfs_user_data_load_test_dir }} {{ hostvars['aarnet'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
+  # - "{{ galaxy_nfs_user_data_load_test_dir }} {{ hostvars['aarnet'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
