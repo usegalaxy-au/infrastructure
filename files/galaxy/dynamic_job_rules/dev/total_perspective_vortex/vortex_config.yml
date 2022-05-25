@@ -259,6 +259,12 @@ tools:
       singularity_enabled: True
       singularity_run_extra_arguments: '--writable-tmpfs'
       dependency_resolution: 'none'
+  toolshed.g2.bx.psu.edu/repos/iracooke/tpp_prophets/.*:
+    cores: 1
+    params:
+      singularity_enabled: True
+      singularity_run_extra_arguments: '--writable-tmpfs'
+      dependency_resolution: 'none'
   maxquant_test:
     scheduling:
        require:
