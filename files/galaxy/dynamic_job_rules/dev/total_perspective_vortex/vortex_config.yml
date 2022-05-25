@@ -260,6 +260,9 @@ tools:
          - dev-pulsar
     cores: 2
     mem: 7.76
+  toolshed.g2.bx.psu.edu/view/bgruening/chemfp/.*:
+    params:
+      singularity_enabled: True
 
 users:
   default:
