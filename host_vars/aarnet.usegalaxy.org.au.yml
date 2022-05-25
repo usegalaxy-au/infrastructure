@@ -32,9 +32,8 @@ interactive_tools_server_name: "aarnet.usegalaxy.org.au"
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_21.09
 
-# total perspective vortex package
-tpv_commit_id: "b5a91079622a8c76529d08abd3fa8e865289767a"
-total_perspective_vortex_package: "git+https://github.com/usegalaxy-au/total-perspective-vortex@{{ tpv_commit_id }}"
+# total perspective vortex
+tpv_version: '1.1.0'
 
 # Mounts for various connections:
 shared_mounts:  # TODO: /mnt/custom-indices from aarnet-misc-nfs

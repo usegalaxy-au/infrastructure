@@ -3,9 +3,8 @@
 # Login override - checksum for Login.vue
 galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
 
-# total perspective vortex package
-tpv_commit_id: "b5a91079622a8c76529d08abd3fa8e865289767a"
-total_perspective_vortex_package: "git+https://github.com/usegalaxy-au/total-perspective-vortex@{{ tpv_commit_id }}"
+# total perspective vortex
+tpv_version: '1.1.0'
 
 # variables for attaching mounted volume to application server
 attached_volumes:
