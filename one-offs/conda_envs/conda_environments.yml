@@ -223,3 +223,8 @@ miniconda_conda_environments:
         - htseq=0.9.1
         - samtools=1.7
         - openssl=1.0.2p # added
+    # toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/1.8+galaxy1
+    __samtools@1.8:
+        packages:
+        - samtools=1.8
+        - openssl=1.0.2p # added
