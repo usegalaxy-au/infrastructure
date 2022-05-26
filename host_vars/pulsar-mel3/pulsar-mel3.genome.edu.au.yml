@@ -38,7 +38,7 @@ attached_volumes:
 extra_keys:
   - id: ubuntu_maintenance_key
     type: public
-    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"
+    from: "{{ hostvars['aarnet']['ansible_ssh_host'] }}"
 
 # docker
 docker_daemon_options:
