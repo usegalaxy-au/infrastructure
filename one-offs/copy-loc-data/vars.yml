@@ -4,11 +4,11 @@ dest_host: aarnet
 
 origin_tools_indices_path: /mnt/tools-indices
 origin_tool_data_path: "{{ origin_tools_indices_path }}/tool-data"
-origin_custom_indices_path: "{{ origin_tools_indices_path }}/custom-indices"
+origin_custom_indices_path: "/mnt/custom-indices"
 
-dest_tools_indices_path: /mnt/tools-indices
-dest_tool_data_path: "{{ origin_tools_indices_path }}/tool-data"
-dest_custom_indices_path: "{{ dest_tools_indices_path }}/custom-indices"
+dest_tools_indices_path: /mnt/tools
+dest_tool_data_path: "{{ dest_tools_indices_path }}/tool-data"
+dest_custom_indices_path: "/mnt/custom-indices"
 
 origin_galaxy_url: 'https://usegalaxy.org.au'
 origin_api_key: "{{ vault_jenkins_bot_production_api_key }}"
