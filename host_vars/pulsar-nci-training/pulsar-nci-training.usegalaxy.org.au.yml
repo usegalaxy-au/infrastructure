@@ -20,7 +20,7 @@ add_hosts_workers: yes
 #host specific pulsar settings
 
 rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_nci_training_prod }}"
-pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
+pulsar_queue_url: "aarnet-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_nci_training"
 pulsar_rabbit_vhost: "/pulsar/galaxy_nci_training"
 
