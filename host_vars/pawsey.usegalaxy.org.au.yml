@@ -104,7 +104,7 @@ nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 nginx_upload_store_set_cleanup_cron_job: true
 
 host_galaxy_config_files:
-  - src: "{{ galaxy_config_file_src_dir }}/config/object_store_conf.xml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/pawsey_object_store_conf.xml"
     dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
 
 host_galaxy_config_templates:
