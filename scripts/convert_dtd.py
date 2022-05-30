@@ -177,7 +177,7 @@ for tool_id in tool_dests:
     if tool_rules:
         vortex_tool['rules'] = []
         for rule in tool_rules:
-            the_rule = {'match': make_lower_upper_expression(lower=rule['lower'], upper=rule['upper'])}
+            the_rule = {'if': make_lower_upper_expression(lower=rule['lower'], upper=rule['upper'])}
             if 'cores' in rule.keys():
                 the_rule.update({'cores': rule['cores']})
             if 'mem' in rule.keys():
