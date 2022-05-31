@@ -1296,7 +1296,7 @@ tools:
         fail: |
           This tool is currently being beta-tested on GPUs and your account has not been given access. Contact help@genome.edu.au if you think this is in error.
   # Peptide shaker and other galaxyP tools
-  toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker:
+  toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker/.*:
     cores:  7
 
   .*bowtie2_index_builder_data_manager.*:
