@@ -1298,6 +1298,8 @@ tools:
   # Peptide shaker and other galaxyP tools
   toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker/.*:
     cores:  7
+    env:
+      _JAVA_OPTIONS: '-Xmx{int(mem)}G -Xms1G'
 
   .*bowtie2_index_builder_data_manager.*:
     cores: 16
