@@ -1307,7 +1307,11 @@ tools:
     cores: 16
   .*bwameth_index_builder_data_manager.*:
     cores: 5
+  .*data_manager_diamond_database_builder.*:
+    cores: 5
   .*data_manager_humann_database_downloader.*:
+    cores: 5
+  .*data_manager_humann2_database_downloader.*:
     cores: 5
   .*hisat2_index_builder_data_manager.*:
     cores: 5
