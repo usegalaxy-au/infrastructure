@@ -1284,7 +1284,7 @@ tools:
       docker_memory: '{mem}G'
       docker_sudo: false
       require_container: true
-      docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=30 --env ALPHAFOLD_AA_LENGTH_MAX=3000"
+      docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000"
       docker_set_user: '1000'
     scheduling:
       require:
