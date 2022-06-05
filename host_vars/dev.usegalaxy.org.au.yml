@@ -43,7 +43,7 @@ galaxy_dynamic_job_rules:
 galaxy_tools_indices_dir: "{{ galaxy_root }}"
 galaxy_custom_indices_dir: "{{ galaxy_root }}/custom-indices"
 galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
-galaxy_tus_upload_store: "{{ galaxy_tools_indices_dir  }}/tus"
+galaxy_tus_upload_store: "{{ galaxy_tmp_dir }}/tus"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_22.01
@@ -112,7 +112,6 @@ host_galaxy_config:  # renamed from __galaxy_config
 galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
 
 # TUS
-galaxy_tusd_port: 1080
 tusd_instances:
   - name: main
     user: "{{ galaxy_user.name }}"
