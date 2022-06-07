@@ -201,6 +201,20 @@ group_galaxy_config:
         exec: "{{ galaxy_conda_prefix }}/bin/{{ galaxy_conda_exec|d('conda') }}"
         versionless: true
 
+    container_resolvers:
+      - type: explicit
+      - type: explicit_singularity
+        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
+      - type: cached_mulled_singularity
+        # cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all  # from usa usegalaxy-playbook
+        cache_directory_cacher_type: dir_mtime
+      - type: mulled_singularity
+        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
+      - type: build_mulled_singularity
+        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
+        auto_install: false
+
     # Taken from usegalaxy.org
     tool_name_boost: 0.1
     tool_section_boost: 1

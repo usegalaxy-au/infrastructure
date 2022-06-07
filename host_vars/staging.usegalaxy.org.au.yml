@@ -113,18 +113,15 @@ docker_daemon_options:
 
 # Singularity and docker volumes
 slurm_singularity_volumes_list:
+  - '$job_directory:rw'
   - '$galaxy_root:ro'
   - '$tool_directory:ro'
-  - '$job_directory:ro'
-  - '$working_directory:rw'
-  - '$default_file_path:rw'
+  - '$default_file_path:ro'
   - '/cvmfs/data.galaxyproject.org:ro'
 
 pulsar_singularity_volumes_list:
-  - '$job_directory:ro'
+  - '$job_directory:rw'
   - '$tool_directory:ro'
-  - '$job_directory/outputs:rw'
-  - '$working_directory:rw'
   - '/cvmfs/data.galaxyproject.org:ro'
 
 slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"

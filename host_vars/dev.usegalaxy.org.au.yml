@@ -95,20 +95,6 @@ host_galaxy_config:  # renamed from __galaxy_config
     # TUS
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
 
-    container_resolvers:
-      - type: explicit
-      - type: explicit_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-      - type: cached_mulled_singularity
-        # cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-        cache_directory: /cvmfs/singularity.galaxyproject.org/all  # from usa usegalaxy-playbook
-        cache_directory_cacher_type: dir_mtime
-      - type: mulled_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-      - type: build_mulled_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-        auto_install: false
-
 galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
 
 # TUS
@@ -183,23 +169,17 @@ docker_daemon_options:
   data-root: /mnt/docker-data
 
 # Singularity and docker volumes
-slurm_singularity_volumes_list: # for production this needs /mnt/user-data 1,2,3,4 + /mnt/custom-indices, all ro
+slurm_singularity_volumes_list:
+  - '$job_directory:rw'
   - '$galaxy_root:ro'
   - '$tool_directory:ro'
-  - '$job_directory:ro'
-  - '$job_directory/outputs:rw'
-  - '$working_directory:rw'
-  - '$default_file_path:rw'
+  - '$default_file_path:ro'
   - '/cvmfs/data.galaxyproject.org:ro'
-  - '/tmp:rw'
 
 pulsar_singularity_volumes_list:
-  - '$job_directory:ro'
+  - '$job_directory:rw'
   - '$tool_directory:ro'
-  - '$job_directory/outputs:rw'
-  - '$working_directory:rw'
   - '/cvmfs/data.galaxyproject.org:ro'
-  - '/tmp:rw'
 
 slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
 pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
