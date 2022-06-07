@@ -486,9 +486,9 @@ execution:
           cache_directory_cacher_type: dir_mtime
       env:
         - name: SINGULARITY_CACHEDIR
-          value: /mnt/tmp/deps/singularity
+          value: /mnt/pulsar/deps/singularity
         - name: SINGULARITY_TMPDIR
-          value: /mnt/tmp/deps/singularity/tmp
+          value: /mnt/pulsar/deps/singularity/tmp
     pulsar-azure:
       runner: pulsar_azure_runner
       jobs_directory: /mnt/pulsar/files/staging
