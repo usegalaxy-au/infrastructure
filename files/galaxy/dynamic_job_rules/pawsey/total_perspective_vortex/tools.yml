@@ -1301,6 +1301,8 @@ tools:
     env:
       _JAVA_OPTIONS: '-Xmx{int(mem)}G -Xms1G'
 
+  .*data_manager.*:
+    cores: 5
   .*bowtie2_index_builder_data_manager.*:
     cores: 16
   .*bwa_mem_index_builder_data_manager.*:
