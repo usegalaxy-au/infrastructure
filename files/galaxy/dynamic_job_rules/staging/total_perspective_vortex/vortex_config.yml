@@ -24,6 +24,21 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     params:
       docker_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina/docking/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_nxn_clustering/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_mol2fps/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_sdf2fps/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_butina_clustering/.*:
+    params:
+      singularity_enabled: true
 
 destinations:
   slurm:
