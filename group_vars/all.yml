@@ -141,14 +141,16 @@ bashrc_env: |
   export SACCT_FORMAT="jobid%8,partition%9,jobname%30,alloccpus,elapsed,totalcpu,END,state,MaxRSS,ReqMem,NodeList"
 
 # miniconda
-# miniconda installs the latest version of conda by default
-# installing mamba will also install the latest version of conda
+miniconda_version: '4.12.0'
+miniconda_mamba_version: '0.23.3'
+
 miniconda_channels:
   - conda-forge
   - bioconda
   - defaults
 miniconda_base_env_packages:
-  - mamba
+  - mamba="{{ miniconda_mamba_version }}"
+  - conda="{{ miniconda_version }}"
 
 # Monitoring
 influx_url: stats.usegalaxy.org.au
