@@ -12,7 +12,13 @@ destinations:
       accept:
         - slurm
       require:
-        - training
+      - training
+  interactive_pulsar:
+    cores: 32
+    mem: 60.62
+    scheduling:
+      require:
+      - interactive_pulsar
   pulsar-mel2:
     cores: 8
     mem: 31.36

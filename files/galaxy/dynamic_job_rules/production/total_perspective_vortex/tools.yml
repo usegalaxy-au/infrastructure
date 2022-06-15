@@ -34,6 +34,15 @@ tools:
     - if: input_size >= 1
       cores: 5
 
+  interactive_tool_.*:
+    cores: 2
+    params:
+      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=interactive_tools"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=interactive_tools"
+    scheduling:
+      require:
+        - interactive_pulsar
+
   testtoolshed.g2.bx.psu.edu/repos/fubar/htseq_bams_to_count_matrix/htseqsams2mxlocal/.*:
     cores: 2
     rules:

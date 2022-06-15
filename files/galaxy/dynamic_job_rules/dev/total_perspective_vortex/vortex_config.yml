@@ -2,6 +2,12 @@ tools:
   __DATA_FETCH__:
     params:
       tmp_dir: True
+  interactive_tool_.*:
+    cores: 2
+    scheduling:
+      require:
+        - interactive_local
+
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     scheduling:
       accept:
@@ -422,6 +428,12 @@ destinations:
     scheduling:
       accept:
         - slurm
+  interactive_local:
+    cores: 2
+    mem: 8
+    scheduling:
+      require:
+        - interactive_local
   pulsar_destination:
     cores: 2
     mem: 7.76
