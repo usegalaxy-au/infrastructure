@@ -681,6 +681,22 @@ tools:
       cores: 4
     - if: input_size >= 1
       cores: 8
+  toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/.*:
+    cores: 2
+    scheduling:
+      accept:
+      - pulsar
+    rules:
+    - if: 0.25 <= input_size < 1
+      cores: 4
+    - if: 1 <= input_size < 20
+      cores: 8
+    - if: input_size >= 20
+      cores: 60
+      mem: 961
+      scheduling:
+        accept:
+        - high-mem
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/.*:
     cores: 2
     scheduling:
