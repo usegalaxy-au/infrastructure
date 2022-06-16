@@ -31,7 +31,9 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install git+https://github.com/usegalaxy-au/total-perspective-vortex pyyaml galaxy-data
+        pip install total-perspective-vortex==$TPV_VERSION pyyaml galaxy-data
+      env:
+        TPV_VERSION: '1.2.0'
     # Run check files script
     - name: Check vortex destination ids against job conf environment ids
       env:
@@ -48,7 +50,7 @@ jobs:
             except KeyError as e:
                 raise Exception(f'Destination id {vd} not found in job config file')        
       shell: python
-    - name: Run vortex lint on all vortex config files
+    - name: Run tpv lint on all vortex config files
       env:
         SETTING: github
-      run: for f in files/galaxy/dynamic_job_rules/pawsey/total_perspective_vortex/*; do vortex lint $f; done
+      run: for f in files/galaxy/dynamic_job_rules/pawsey/total_perspective_vortex/*; do tpv lint $f; done
