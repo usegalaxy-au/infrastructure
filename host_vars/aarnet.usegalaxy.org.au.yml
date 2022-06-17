@@ -243,3 +243,35 @@ rpc_db_connection_string: "postgres://reader:{{ vault_aarnet_db_reader_password 
 extra_keys:
   - id: ubuntu_maintenance_key
     type: private
+
+# Singularity and docker volumes
+slurm_singularity_volumes_list: # for production this needs /mnt/user-data 1,2,3,4 + /mnt/custom-indices, all ro
+  - $job_directory:rw
+  - $galaxy_root:ro
+  - $tool_directory:ro
+  - /mnt/user-data-5:rw
+  - /mnt/user-data-4:ro
+  - /mnt/user-data-3:ro
+  - /mnt/user-data-2:ro
+  - /mnt/user-data:ro
+  - /mnt/files:ro
+  - /mnt/files2:ro
+  - /mnt/custom-indices:ro
+  - /cvmfs/data.galaxyproject.org:ro
+
+pulsar_singularity_volumes_list:
+  - $job_directory:rw
+  - $tool_directory:ro
+  - /mnt/custom-indices:ro
+  - /cvmfs/data.galaxyproject.org:ro
+
+slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
+pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
+
+# comma separated strings for the job conf
+slurm_singularity_volumes: "{{ slurm_singularity_volumes_list | join(',') }}"
+pulsar_singularity_volumes: "{{ pulsar_singularity_volumes_list | join(',') }}"
+slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
+pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
+
+singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
