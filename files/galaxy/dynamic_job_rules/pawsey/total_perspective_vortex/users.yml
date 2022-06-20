@@ -3,7 +3,7 @@ users:
       rules:
         - if: |
             from galaxy.jobs.rule_helper import RuleHelper
-            from vortex.core.entities import TagType
+            from tpv.core.entities import TagType
 
             user_high_mem_jobs_limit = 3
             if entity.tags.filter(tag_value='high-mem'):
