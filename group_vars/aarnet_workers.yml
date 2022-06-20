@@ -30,38 +30,38 @@ shared_mounts:  # TODO: /mnt/custom-indices from aarnet-misc-nfs
       src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/user-data-test"
       fstype: nfs
       state: absent
-    # - path: /mnt/user-data
-    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
-    #   fstype: nfs
-    #   state: mounted
-    # - path: /mnt/user-data-2
-    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-2"
-    #   fstype: nfs
-    #   state: mounted
-    # - path: /mnt/user-data-3
-    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-3"
-    #   fstype: nfs
-    #   state: mounted
-    # - path: /mnt/user-data-4
-    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-4"
-    #   fstype: nfs
-    #   state: mounted
-    # - path: /mnt/user-data-5 # new file path for production aarnet
-    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-5"
-    #   fstype: nfs
-    #   state: mounted
+    - path: /mnt/user-data
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/user-data-2
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-2"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/user-data-3
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-3"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/user-data-4
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-4"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/user-data-5 # new file path for production aarnet
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-5"
+      fstype: nfs
+      state: mounted
     - path: /mnt/tmp
       src: "{{ hostvars['aarnet-job-nfs']['internal_ip'] }}:/mnt/tmp"
       fstype: nfs
       state: mounted
-    # - path: /mnt/files
-    #   src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
-    #   fstype: nfs
-    #   state: mounted
-    # - path: /mnt/files2
-    #   src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
-    #   fstype: nfs
-    #   state: mounted
+    - path: /mnt/files
+      src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/files2
+      src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
+      fstype: nfs
+      state: mounted
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
