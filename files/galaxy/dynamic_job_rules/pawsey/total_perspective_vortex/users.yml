@@ -1,30 +1,30 @@
 users:
-    default:
-      rules:
-        - if: |
-            from galaxy.jobs.rule_helper import RuleHelper
-            from tpv.core.entities import TagType
+    # default:
+    #   rules:
+    #     - if: |
+    #         from galaxy.jobs.rule_helper import RuleHelper
+    #         from tpv.core.entities import TagType
 
-            user_high_mem_jobs_limit = 3
-            if entity.tags.filter(tag_value='high-mem'):
-              rule_helper = RuleHelper(app)
-              # Find all destinations that support high-mem
-              destinations = [d.id for d in mapper.destinations.values()
-                              if any(d.tags.filter(tag_value='high-mem',
-                                    tag_type=[TagType.REQUIRE, TagType.PREFER, TagType.ACCEPT]))]
-              count = rule_helper.job_count(
-                for_user_email=user.email, for_destinations=destinations, for_job_states=['queued', 'running']
-              )
-              if count > user_high_mem_jobs_limit:
-                retval = True
-              else:
-                retval = False
-            else:
-              retval = False
-            retval
-          execute: |
-            from galaxy.jobs.mapper import JobNotReadyException
-            raise JobNotReadyException()
+    #         user_high_mem_jobs_limit = 3
+    #         if entity.tags.filter(tag_value='high-mem'):
+    #           rule_helper = RuleHelper(app)
+    #           # Find all destinations that support high-mem
+    #           destinations = [d.id for d in mapper.destinations.values()
+    #                           if any(d.tags.filter(tag_value='high-mem',
+    #                                 tag_type=[TagType.REQUIRE, TagType.PREFER, TagType.ACCEPT]))]
+    #           count = rule_helper.job_count(
+    #             for_user_email=user.email, for_destinations=destinations, for_job_states=['queued', 'running']
+    #           )
+    #           if count > user_high_mem_jobs_limit:
+    #             retval = True
+    #           else:
+    #             retval = False
+    #         else:
+    #           retval = False
+    #         retval
+    #       execute: |
+    #         from galaxy.jobs.mapper import JobNotReadyException
+    #         raise JobNotReadyException()
     jenkins_bot@usegalaxy.org.au:
       cores: 1
       mem: cores * 3.8
