@@ -3,39 +3,39 @@ roles:
     scheduling:
       require:
         - training
-    rules:
-    - if: |
-        from vortex.core.entities import Tool
-        value = True  # assume rule matches, opt out if there is a pulsar tag
-        for ent in filter(lambda x: isinstance(x, Tool), entities):
-            value = not list(ent.tags.filter(tag_value='pulsar')) and not list(entity.tags.filter(tag_value='interactive-tool')) # tool has no pulsar tag and so runs on slurm
-        value
-      cores: 2
-      mem: cores * 3.8  # TODO check multiplier
-      params:
-        nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=training"
-      scheduling:
-        require:
-          - slurm
-    - if: |
-        from vortex.core.entities import Tool
-        value = False
-        for ent in filter(lambda x: isinstance(x, Tool), entities):
-            value = list(ent.tags.filter(tag_value='pulsar')) and not list(ent.tags.filter(tag_value='pulsar-training-large'))
-        value
-      cores: 4
-      mem: cores * 2.9  # ratio for pulsar-nci-training
-      scheduling:
-        require:
-          - pulsar  # require pulsar and training: only one place to go
-    - if: |
-        from vortex.core.entities import Tool
-        value = False
-        for ent in filter(lambda x: isinstance(x, Tool), entities):
-            value = list(ent.tags.filter(tag_value='pulsar-training-large'))
-        value
-      cores: 8
-      mem: cores * 2.9  # ratio for pulsar-nci-training
-      scheduling:
-        require:
-          - pulsar  # require pulsar and training: only one place to go
+    # rules:
+    # - if: |
+    #     from tpv.core.entities import Tool
+    #     value = True  # assume rule matches, opt out if there is a pulsar tag
+    #     for ent in filter(lambda x: isinstance(x, Tool), entities):
+    #         value = not list(ent.tags.filter(tag_value='pulsar')) and not list(entity.tags.filter(tag_value='interactive-tool')) # tool has no pulsar tag and so runs on slurm
+    #     value
+    #   cores: 2
+    #   mem: cores * 3.8  # TODO check multiplier
+    #   params:
+    #     nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=training"
+    #   scheduling:
+    #     require:
+    #       - slurm
+    # - if: |
+    #     from tpv.core.entities import Tool
+    #     value = False
+    #     for ent in filter(lambda x: isinstance(x, Tool), entities):
+    #         value = list(ent.tags.filter(tag_value='pulsar')) and not list(ent.tags.filter(tag_value='pulsar-training-large'))
+    #     value
+    #   cores: 4
+    #   mem: cores * 2.9  # ratio for pulsar-nci-training
+    #   scheduling:
+    #     require:
+    #       - pulsar  # require pulsar and training: only one place to go
+    # - if: |
+    #     from tpv.core.entities import Tool
+    #     value = False
+    #     for ent in filter(lambda x: isinstance(x, Tool), entities):
+    #         value = list(ent.tags.filter(tag_value='pulsar-training-large'))
+    #     value
+    #   cores: 8
+    #   mem: cores * 2.9  # ratio for pulsar-nci-training
+    #   scheduling:
+    #     require:
+    #       - pulsar  # require pulsar and training: only one place to go

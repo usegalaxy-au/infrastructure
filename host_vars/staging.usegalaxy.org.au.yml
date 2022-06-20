@@ -7,7 +7,7 @@ attached_volumes:
     fstype: ext4
 
 # total perspective vortex
-tpv_version: '1.1.0'
+tpv_version: '1.2.0'
 
 certbot_domains:
 - "{{ hostname }}"

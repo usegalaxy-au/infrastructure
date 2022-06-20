@@ -27,7 +27,7 @@ nginx_ssl_servers:
 interactive_tools_server_name: "usegalaxy.org.au"
 
 # total perspective vortex
-tpv_version: '1.1.0'
+tpv_version: '1.2.0'
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_21.09
