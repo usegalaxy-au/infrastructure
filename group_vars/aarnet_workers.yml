@@ -35,19 +35,19 @@ shared_mounts:  # TODO: /mnt/custom-indices from aarnet-misc-nfs
       fstype: nfs
       state: mounted
     - path: /mnt/user-data-2
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-2"
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data2"
       fstype: nfs
       state: mounted
     - path: /mnt/user-data-3
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-3"
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data3"
       fstype: nfs
       state: mounted
     - path: /mnt/user-data-4
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-4"
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data4"
       fstype: nfs
       state: mounted
     - path: /mnt/user-data-5 # new file path for production aarnet
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-5"
+      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data5"
       fstype: nfs
       state: mounted
     - path: /mnt/tmp
