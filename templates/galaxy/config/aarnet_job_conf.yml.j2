@@ -24,7 +24,7 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
-    amqp_url: "pyamqp://galaxy_mel2:{{ vault_rabbitmq_password_galaxy_mel2_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel2?ssl=1"
+    amqp_url: "pyamqp://galaxy_mel2:{{ vault_rabbitmq_password_galaxy_mel2_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel2?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
   pulsar-paw_runner:
@@ -34,7 +34,7 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
-    amqp_url: "pyamqp://galaxy_paw:{{ vault_rabbitmq_password_galaxy_paw_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_paw?ssl=1"
+    amqp_url: "pyamqp://galaxy_paw:{{ vault_rabbitmq_password_galaxy_paw_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_paw?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
   pulsar-mel3_runner:
@@ -44,7 +44,7 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
-    amqp_url: "pyamqp://galaxy_mel3:{{ vault_rabbitmq_password_galaxy_mel3_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel3?ssl=1"
+    amqp_url: "pyamqp://galaxy_mel3:{{ vault_rabbitmq_password_galaxy_mel3_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel3?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
   pulsar-high-mem1_runner:
@@ -54,7 +54,7 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
-    amqp_url: "pyamqp://galaxy_hm1:{{ vault_rabbitmq_password_galaxy_hm1_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm1?ssl=1"
+    amqp_url: "pyamqp://galaxy_hm1:{{ vault_rabbitmq_password_galaxy_hm1_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm1?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
   pulsar-high-mem2_runner:
@@ -64,7 +64,7 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
-    amqp_url: "pyamqp://galaxy_hm2:{{ vault_rabbitmq_password_galaxy_hm2_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm2?ssl=1"
+    amqp_url: "pyamqp://galaxy_hm2:{{ vault_rabbitmq_password_galaxy_hm2_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm2?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
   pulsar-qld-high-mem0_runner:
@@ -74,7 +74,7 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
-    amqp_url: "pyamqp://galaxy_qld_hm0:{{ vault_rabbitmq_password_galaxy_qld_hm0_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm0?ssl=1"
+    amqp_url: "pyamqp://galaxy_qld_hm0:{{ vault_rabbitmq_password_galaxy_qld_hm0_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm0?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
   pulsar-qld-high-mem1_runner:
@@ -84,7 +84,7 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
-    amqp_url: "pyamqp://galaxy_qld_hm1:{{ vault_rabbitmq_password_galaxy_qld_hm1_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm1?ssl=1"
+    amqp_url: "pyamqp://galaxy_qld_hm1:{{ vault_rabbitmq_password_galaxy_qld_hm1_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm1?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
   pulsar-qld-high-mem2_runner:
@@ -94,7 +94,7 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
-    amqp_url: "pyamqp://galaxy_qld_hm2:{{ vault_rabbitmq_password_galaxy_qld_hm2_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm2?ssl=1"
+    amqp_url: "pyamqp://galaxy_qld_hm2:{{ vault_rabbitmq_password_galaxy_qld_hm2_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm2?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
   pulsar-nci-training_runner:
@@ -104,7 +104,7 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
-    amqp_url: "pyamqp://galaxy_nci_training:{{ vault_rabbitmq_password_galaxy_nci_training_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_nci_training?ssl=1"
+    amqp_url: "pyamqp://galaxy_nci_training:{{ vault_rabbitmq_password_galaxy_nci_training_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_nci_training?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
   pulsar-qld-blast_runner:
@@ -114,7 +114,7 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
-    amqp_url: "pyamqp://galaxy_qld_blast:{{ vault_rabbitmq_password_galaxy_qld_blast_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_blast?ssl=1"
+    amqp_url: "pyamqp://galaxy_qld_blast:{{ vault_rabbitmq_password_galaxy_qld_blast_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_blast?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
   pulsar-QLD_runner:
@@ -124,12 +124,12 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
-    amqp_url: "pyamqp://galaxy_QLD:{{ vault_rabbitmq_password_galaxy_QLD_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_QLD?ssl=1"
+    amqp_url: "pyamqp://galaxy_QLD:{{ vault_rabbitmq_password_galaxy_QLD_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_QLD?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
   pulsar_azure_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    amqp_url: "pyamqp://galaxy_azure_0:{{ vault_rabbitmq_password_galaxy_azure_prod }}@pawsey-queue.usegalaxy.org.au:5671//pulsar/galaxy_azure_0?ssl=1"
+    amqp_url: "pyamqp://galaxy_azure_0:{{ vault_rabbitmq_password_galaxy_azure_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_azure_0?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
     amqp_acknowledge: True
