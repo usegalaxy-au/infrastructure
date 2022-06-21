@@ -186,10 +186,10 @@ influx_url: "stats.usegalaxy.org.au"
 db_password: "{{ galaxy_db_user_password }}"
 influx_salt: "{{ prod_queue_size_salt }}"
 sinfo_line_startswith: a
-add_daily_stats: false #change this when aarnet is usegalaxy.org.au
+add_daily_stats: true #change this when aarnet is usegalaxy.org.au
 add_monthly_stats: true
 add_utilisation_info: true
-add_queue_info: false #Change this when aarnet is usegalaxy.org.au
+add_queue_info: true #Change this when aarnet is usegalaxy.org.au
 
 #Vars for TIaaS
 tiaas_galaxy_db_host: "aarnet-db.usegalaxy.org.au"
