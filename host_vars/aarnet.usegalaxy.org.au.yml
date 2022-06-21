@@ -14,8 +14,8 @@ attached_volumes:
 
 certbot_domains:
 - "{{ hostname }}"
-# - "usegalaxy.org.au"
-# - "www.usegalaxy.org.au"
+- "usegalaxy.org.au"
+- "www.usegalaxy.org.au"
 - "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
