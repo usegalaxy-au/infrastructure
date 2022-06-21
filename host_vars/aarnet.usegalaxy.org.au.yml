@@ -16,7 +16,7 @@ certbot_domains:
 - "{{ hostname }}"
 # - "usegalaxy.org.au"
 # - "www.usegalaxy.org.au"
-- "*.interactivetoolentrypoint.interactivetool.aarnet.usegalaxy.org.au"  # we can only use aarnet.usegalaxy, not usegalaxy at this point
+- "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_api_token }}"
@@ -26,8 +26,8 @@ nginx_ssl_servers:
   - galaxy
   - galaxy-gie-proxy
 
-  #gie proxy hostname
-interactive_tools_server_name: "aarnet.usegalaxy.org.au"
+# gie proxy hostname
+interactive_tools_server_name: "usegalaxy.org.au"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_21.09
