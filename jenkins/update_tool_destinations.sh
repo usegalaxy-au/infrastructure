@@ -1,5 +1,5 @@
 # check whether the production tpv files have changed
-PROD_TPV_FILE_PATH="files/galaxy/dynamic_job_rules/pawsey/total_perspective_vortex"
+PROD_TPV_FILE_PATH="files/galaxy/dynamic_job_rules/production/total_perspective_vortex"
 PROD_TPV_UPDATED=$(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep $PROD_TPV_FILE_PATH)
 
 # check whether dev files of interest have changed
