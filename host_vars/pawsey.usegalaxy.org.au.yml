@@ -78,7 +78,7 @@ shared_mounts:
 galaxy_db_user_password: "{{ vault_pawsey_db_user_password }}"
 
 # ansible-galaxy
-galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/pawsey
+galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/production
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
   - total_perspective_vortex/tools.yml
