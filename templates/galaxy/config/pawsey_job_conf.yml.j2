@@ -141,16 +141,16 @@ runners:
     load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
     pulsar_config: "{{ galaxy_config_dir }}/pulsar_app.yml"
 execution:
-  default: vortex_dispatcher
+  default: tpv_dispatcher
   environments:
     local:
       runner: local
-    vortex_dispatcher:
+    tpv_dispatcher:
       runner: dynamic
       type: python
       function: map_tool_to_destination
-      rules_module: vortex.rules
-      vortex_config_files:
+      rules_module: tpv.rules
+      tpv_config_files:
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/tools.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/users.yml"
@@ -177,9 +177,21 @@ execution:
     slurm:
       runner: slurm
       nativeSpecification: --nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=124160 --partition=main
+      singularity_enabled: false
+      singularity_volumes: '{{ slurm_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ slurm_docker_volumes }}'
     slurm-training:
       runner: slurm
       nativeSpecification: --nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62080 --partition=training
+      singularity_enabled: false
+      singularity_volumes: '{{ slurm_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ slurm_docker_volumes }}'
     pulsar-mel2:
       runner: pulsar_mel2_runner
       default_file_action: remote_transfer
@@ -190,6 +202,23 @@ execution:
       rewrite_parameters: true
       submit_native_specification: --nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116
       transport: curl
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ pulsar_docker_volumes }}'
+      docker_run_user: '1000'
+      singularity_enabled: false
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: cached_mulled_singularity  # if not using cvmfs, omit cache directory
+          cache_directory: /cvmfs/singularity.galaxyproject.org/all 
+          cache_directory_cacher_type: dir_mtime
+      env:
+        - name: SINGULARITY_CACHEDIR
+          value: /mnt/pulsar/deps/singularity
+        - name: SINGULARITY_TMPDIR
+          value: /mnt/pulsar/deps/singularity/tmp
     pulsar-paw:
       runner: pulsar-paw_runner
       default_file_action: remote_transfer
@@ -200,6 +229,23 @@ execution:
       rewrite_parameters: true
       submit_native_specification: --nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32116
       transport: curl
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ pulsar_docker_volumes }}'
+      docker_run_user: '1000'
+      singularity_enabled: false
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: cached_mulled_singularity  # if not using cvmfs, omit cache directory
+          cache_directory: /cvmfs/singularity.galaxyproject.org/all 
+          cache_directory_cacher_type: dir_mtime
+      env:
+        - name: SINGULARITY_CACHEDIR
+          value: /mnt/pulsar/deps/singularity
+        - name: SINGULARITY_TMPDIR
+          value: /mnt/pulsar/deps/singularity/tmp
     pulsar-mel3:
       runner: pulsar-mel3_runner
       default_file_action: remote_transfer
@@ -210,6 +256,23 @@ execution:
       rewrite_parameters: true
       submit_native_specification: --nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=62080
       transport: curl
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ pulsar_docker_volumes }}'
+      docker_run_user: '1000'
+      singularity_enabled: false
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: cached_mulled_singularity  # if not using cvmfs, omit cache directory
+          cache_directory: /cvmfs/singularity.galaxyproject.org/all 
+          cache_directory_cacher_type: dir_mtime
+      env:
+        - name: SINGULARITY_CACHEDIR
+          value: /mnt/pulsar/deps/singularity
+        - name: SINGULARITY_TMPDIR
+          value: /mnt/pulsar/deps/singularity/tmp
     pulsar-high-mem1:
       runner: pulsar-high-mem1_runner
       default_file_action: remote_transfer
@@ -220,6 +283,23 @@ execution:
       rewrite_parameters: true
       submit_native_specification: --nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=3937380
       transport: curl
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ pulsar_docker_volumes }}'
+      docker_run_user: '1000'
+      singularity_enabled: false
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: cached_mulled_singularity  # if not using cvmfs, omit cache directory
+          cache_directory: /cvmfs/singularity.galaxyproject.org/all 
+          cache_directory_cacher_type: dir_mtime
+      env:
+        - name: SINGULARITY_CACHEDIR
+          value: /mnt/pulsar/deps/singularity
+        - name: SINGULARITY_TMPDIR
+          value: /mnt/pulsar/deps/singularity/tmp
     pulsar-high-mem2:
       runner: pulsar-high-mem2_runner
       default_file_action: remote_transfer
@@ -230,6 +310,23 @@ execution:
       rewrite_parameters: true
       submit_native_specification: --nodes=1 --ntasks=126 --ntasks-per-node=126 --mem=1968631
       transport: curl
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ pulsar_docker_volumes }}'
+      docker_run_user: '1000'
+      singularity_enabled: false
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: cached_mulled_singularity  # if not using cvmfs, omit cache directory
+          cache_directory: /cvmfs/singularity.galaxyproject.org/all 
+          cache_directory_cacher_type: dir_mtime
+      env:
+        - name: SINGULARITY_CACHEDIR
+          value: /mnt/pulsar/deps/singularity
+        - name: SINGULARITY_TMPDIR
+          value: /mnt/pulsar/deps/singularity/tmp
     pulsar-qld-high-mem0:
       runner: pulsar-qld-high-mem0_runner
       default_file_action: remote_transfer
@@ -240,6 +337,23 @@ execution:
       rewrite_parameters: true
       submit_native_specification: --nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354
       transport: curl
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ pulsar_docker_volumes }}'
+      docker_run_user: '1000'
+      singularity_enabled: false
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: cached_mulled_singularity  # if not using cvmfs, omit cache directory
+          cache_directory: /cvmfs/singularity.galaxyproject.org/all 
+          cache_directory_cacher_type: dir_mtime
+      env:
+        - name: SINGULARITY_CACHEDIR
+          value: /mnt/pulsar/deps/singularity
+        - name: SINGULARITY_TMPDIR
+          value: /mnt/pulsar/deps/singularity/tmp
     pulsar-qld-high-mem1:
       runner: pulsar-qld-high-mem1_runner
       default_file_action: remote_transfer
@@ -250,6 +364,23 @@ execution:
       rewrite_parameters: true
       submit_native_specification: --nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354
       transport: curl
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ pulsar_docker_volumes }}'
+      docker_run_user: '1000'
+      singularity_enabled: false
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: cached_mulled_singularity  # if not using cvmfs, omit cache directory
+          cache_directory: /cvmfs/singularity.galaxyproject.org/all 
+          cache_directory_cacher_type: dir_mtime
+      env:
+        - name: SINGULARITY_CACHEDIR
+          value: /mnt/pulsar/deps/singularity
+        - name: SINGULARITY_TMPDIR
+          value: /mnt/pulsar/deps/singularity/tmp
     pulsar-qld-high-mem2:
       runner: pulsar-qld-high-mem2_runner
       default_file_action: remote_transfer
@@ -260,6 +391,23 @@ execution:
       rewrite_parameters: true
       submit_native_specification: --nodes=1 --ntasks=240 --ntasks-per-node=240 --mem=3937354
       transport: curl
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ pulsar_docker_volumes }}'
+      docker_run_user: '1000'
+      singularity_enabled: false
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: cached_mulled_singularity  # if not using cvmfs, omit cache directory
+          cache_directory: /cvmfs/singularity.galaxyproject.org/all 
+          cache_directory_cacher_type: dir_mtime
+      env:
+        - name: SINGULARITY_CACHEDIR
+          value: /mnt/pulsar/deps/singularity
+        - name: SINGULARITY_TMPDIR
+          value: /mnt/pulsar/deps/singularity/tmp
     pulsar-nci-training:
       runner: pulsar-nci-training_runner
       default_file_action: remote_transfer
@@ -270,6 +418,23 @@ execution:
       rewrite_parameters: true
       submit_native_specification: --nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=48195
       transport: curl
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ pulsar_docker_volumes }}'
+      docker_run_user: '1000'
+      singularity_enabled: false
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: cached_mulled_singularity  # if not using cvmfs, omit cache directory
+          cache_directory: /cvmfs/singularity.galaxyproject.org/all 
+          cache_directory_cacher_type: dir_mtime
+      env:
+        - name: SINGULARITY_CACHEDIR
+          value: /mnt/pulsar/deps/singularity
+        - name: SINGULARITY_TMPDIR
+          value: /mnt/pulsar/deps/singularity/tmp
     pulsar-qld-blast:
       runner: pulsar-qld-blast_runner
       default_file_action: remote_transfer
@@ -280,6 +445,23 @@ execution:
       rewrite_parameters: true
       submit_native_specification: --nodes=1 --ntasks=60 --ntasks-per-node=60 --mem=200000
       transport: curl
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ pulsar_docker_volumes }}'
+      docker_run_user: '1000'
+      singularity_enabled: false
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: cached_mulled_singularity  # if not using cvmfs, omit cache directory
+          cache_directory: /cvmfs/singularity.galaxyproject.org/all 
+          cache_directory_cacher_type: dir_mtime
+      env:
+        - name: SINGULARITY_CACHEDIR
+          value: /mnt/pulsar/deps/singularity
+        - name: SINGULARITY_TMPDIR
+          value: /mnt/pulsar/deps/singularity/tmp
     pulsar-QLD:
       runner: pulsar-QLD_runner
       default_file_action: remote_transfer
@@ -290,6 +472,23 @@ execution:
       rewrite_parameters: true
       submit_native_specification: --nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62000
       transport: curl
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ pulsar_docker_volumes }}'
+      docker_run_user: '1000'
+      singularity_enabled: false
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: cached_mulled_singularity  # if not using cvmfs, omit cache directory
+          cache_directory: /cvmfs/singularity.galaxyproject.org/all 
+          cache_directory_cacher_type: dir_mtime
+      env:
+        - name: SINGULARITY_CACHEDIR
+          value: /mnt/pulsar/deps/singularity
+        - name: SINGULARITY_TMPDIR
+          value: /mnt/pulsar/deps/singularity/tmp
     pulsar-azure:
       runner: pulsar_azure_runner
       jobs_directory: /mnt/pulsar/files/staging

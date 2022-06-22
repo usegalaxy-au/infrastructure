@@ -26,9 +26,8 @@ nginx_ssl_servers:
   #gie proxy hostname
 interactive_tools_server_name: "usegalaxy.org.au"
 
-# total perspective vortex package
-tpv_commit_id: "b5a91079622a8c76529d08abd3fa8e865289767a"
-total_perspective_vortex_package: "git+https://github.com/usegalaxy-au/total-perspective-vortex@{{ tpv_commit_id }}"
+# total perspective vortex
+tpv_version: '1.2.0'
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_21.09
@@ -79,7 +78,7 @@ shared_mounts:
 galaxy_db_user_password: "{{ vault_pawsey_db_user_password }}"
 
 # ansible-galaxy
-galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/pawsey
+galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/production
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
   - total_perspective_vortex/tools.yml
@@ -98,14 +97,14 @@ galaxy_tmp_dir: /mnt/tmp
 
 galaxy_handler_count: 5   ############# europe uses 5, this could be host specific
 
-galaxy_file_path: /mnt/user-data-3
+galaxy_file_path: /mnt/user-data-4
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 nginx_upload_store_set_cleanup_cron_job: true
 
 host_galaxy_config_files:
-  - src: "{{ galaxy_config_file_src_dir }}/config/object_store_conf.xml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/pawsey_object_store_conf.xml"
     dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
 
 host_galaxy_config_templates:
@@ -298,3 +297,40 @@ docker_users:
   - "{{ galaxy_user.name }}"
 docker_daemon_options:
   data-root: /mnt/docker-data
+
+# Singularity and docker volumes
+slurm_singularity_volumes_list: # for production this needs /mnt/user-data 1,2,3,4 + /mnt/custom-indices, all ro
+  - $job_directory:rw
+  - $galaxy_root:ro
+  - $tool_directory:ro
+  - /mnt/user-data-4:ro
+  - /mnt/user-data-3:ro
+  - /mnt/user-data-2:ro
+  - /mnt/user-data:ro
+  - /mnt/galaxy/files:ro
+  - /mnt/files:ro
+  - /mnt/files2:ro
+  - /mnt/custom-indices:ro
+  - /cvmfs/data.galaxyproject.org:ro
+
+pulsar_singularity_volumes_list:
+  - $job_directory:rw
+  - $tool_directory:ro
+  - /mnt/custom-indices:ro
+  - /cvmfs/data.galaxyproject.org:ro
+
+slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
+pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
+
+# comma separated strings for the job conf
+slurm_singularity_volumes: "{{ slurm_singularity_volumes_list | join(',') }}"
+pulsar_singularity_volumes: "{{ pulsar_singularity_volumes_list | join(',') }}"
+slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
+pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
+
+singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+
+# conda/mamba overrides for pawsey
+miniconda_version: '4.13.0'
+miniconda_base_env_packages: []
+galaxy_conda_exec: conda

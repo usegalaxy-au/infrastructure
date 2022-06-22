@@ -6,9 +6,8 @@ attached_volumes:
     path: /mnt
     fstype: ext4
 
-# total perspective vortex package
-tpv_commit_id: "b5a91079622a8c76529d08abd3fa8e865289767a"
-total_perspective_vortex_package: "git+https://github.com/usegalaxy-au/total-perspective-vortex@{{ tpv_commit_id }}"
+# total perspective vortex
+tpv_version: '1.2.0'
 
 certbot_domains:
 - "{{ hostname }}"
@@ -114,18 +113,15 @@ docker_daemon_options:
 
 # Singularity and docker volumes
 slurm_singularity_volumes_list:
+  - '$job_directory:rw'
   - '$galaxy_root:ro'
   - '$tool_directory:ro'
-  - '$job_directory:ro'
-  - '$working_directory:rw'
-  - '$default_file_path:rw'
+  - '$default_file_path:ro'
   - '/cvmfs/data.galaxyproject.org:ro'
 
 pulsar_singularity_volumes_list:
-  - '$job_directory:ro'
+  - '$job_directory:rw'
   - '$tool_directory:ro'
-  - '$job_directory/outputs:rw'
-  - '$working_directory:rw'
   - '/cvmfs/data.galaxyproject.org:ro'
 
 slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"

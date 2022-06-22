@@ -4,7 +4,7 @@ We use the NML's tool_destinations.yml system included in Galaxy as the 'DTD' dy
 
 ### The `tool_destinations.yml` file
 
-The tool destination file that gets copied to Galaxy Australia lives in the `files/galaxy/dynamic_job_rules/pawsey/dynamic_rules/tool_destinations.yml` file.
+The tool destination file that gets copied to Galaxy Australia lives in the `files/galaxy/dynamic_job_rules/production/dynamic_rules/tool_destinations.yml` file.
 
 This file sets out rules for selection of destinations for various jobs based upon: Tool Id, User and Input file sizes.
 
@@ -71,7 +71,7 @@ The easiest way for team members to modify the `tool_destinations.yml` file is v
 **Procedure**
 
 1. Navigate to the repo at: [https://github.com/usegalaxy-au/infrastructure](https://github.com/usegalaxy-au/infrastructure)
-2. Open the view of the `tool_destinations.yml` file (click on the file) in the `files/galaxy/dynamic_job_rules/pawsey/dynamic_rules` directory.
+2. Open the view of the `tool_destinations.yml` file (click on the file) in the `files/galaxy/dynamic_job_rules/production/dynamic_rules` directory.
 3. Click the "Pencil" (edit) icon at the top of the file view.
 4. Edit the file.
 5. In the *Commit Changes* box at the bottom of the screen, give a description of what changes you made and why.

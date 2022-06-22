@@ -26,7 +26,6 @@ destinations:
     mem: 31.36
     scheduling:
       require:
-      - offline
       - pulsar-paw
       - pulsar
   pulsar-mel3:
@@ -65,7 +64,6 @@ destinations:
       require:
       - pulsar
       - high-mem
-      - offine
   pulsar-qld-high-mem1:
     cores: 240
     mem: 3845.07
@@ -110,7 +108,6 @@ destinations:
       - pulsar-QLD
       require:
       - pulsar
-      - offline
   pulsar-azure:
     cores: 6
     mem: 106

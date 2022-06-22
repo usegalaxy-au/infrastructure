@@ -201,6 +201,20 @@ group_galaxy_config:
         exec: "{{ galaxy_conda_prefix }}/bin/{{ galaxy_conda_exec|d('conda') }}"
         versionless: true
 
+    container_resolvers:
+      - type: explicit
+      - type: explicit_singularity
+        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
+      - type: cached_mulled_singularity
+        # cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all  # from usa usegalaxy-playbook
+        cache_directory_cacher_type: dir_mtime
+      - type: mulled_singularity
+        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
+      - type: build_mulled_singularity
+        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
+        auto_install: false
+
     # Taken from usegalaxy.org
     tool_name_boost: 0.1
     tool_section_boost: 1
@@ -279,6 +293,9 @@ galaxy_config_files: "{{ group_galaxy_config_files + host_galaxy_config_files|d(
 # defined in both group_galaxy_config and host_galaxy_config the value from host_galaxy_config will
 # be used.
 galaxy_config: "{{ group_galaxy_config | combine(host_galaxy_config | default({}), recursive=True) }}"
+
+# TUS
+galaxy_tusd_port: 1080
 
 #Slurm client
 slurm_roles: ['exec']

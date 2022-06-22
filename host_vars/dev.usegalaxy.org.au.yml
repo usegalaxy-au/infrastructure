@@ -3,9 +3,8 @@
 # Login override - checksum for Login.vue
 galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
 
-# total perspective vortex package
-tpv_commit_id: "b5a91079622a8c76529d08abd3fa8e865289767a"
-total_perspective_vortex_package: "git+https://github.com/usegalaxy-au/total-perspective-vortex@{{ tpv_commit_id }}"
+# total perspective vortex
+tpv_version: '1.2.0'
 
 # variables for attaching mounted volume to application server
 attached_volumes:
@@ -44,6 +43,7 @@ galaxy_dynamic_job_rules:
 galaxy_tools_indices_dir: "{{ galaxy_root }}"
 galaxy_custom_indices_dir: "{{ galaxy_root }}/custom-indices"
 galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
+galaxy_tus_upload_store: "{{ galaxy_tmp_dir }}/tus"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_22.01
@@ -92,22 +92,22 @@ host_galaxy_config:  # renamed from __galaxy_config
     watch_job_rules: true  # important for total perspective vortex
     sentry_dsn: "{{ vault_sentry_dsn_dev }}"
     tool_filters: ga_filters:hide_test_tools
-
-    container_resolvers:
-      - type: explicit
-      - type: explicit_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-      - type: cached_mulled_singularity
-        # cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-        cache_directory: /cvmfs/singularity.galaxyproject.org/all  # from usa usegalaxy-playbook
-        cache_directory_cacher_type: dir_mtime
-      - type: mulled_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-      - type: build_mulled_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-        auto_install: false
+    # TUS
+    tus_upload_store: "{{ galaxy_tus_upload_store }}"
 
 galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
+
+# TUS
+tusd_instances:
+  - name: main
+    user: "{{ galaxy_user.name }}"
+    group: "galaxy"
+    args:
+      - "-host=localhost"
+      - "-port={{ galaxy_tusd_port }}"
+      - "-upload-dir={{ galaxy_tus_upload_store }}"
+      - "-hooks-http=https://{{ hostname }}/api/upload/hooks"
+      - "-hooks-http-forward-headers=X-Api-Key,Cookie"
 
 # NFS stuff
 nfs_exports:
@@ -169,23 +169,17 @@ docker_daemon_options:
   data-root: /mnt/docker-data
 
 # Singularity and docker volumes
-slurm_singularity_volumes_list: # for production this needs /mnt/user-data 1,2,3,4 + /mnt/custom-indices, all ro
+slurm_singularity_volumes_list:
+  - '$job_directory:rw'
   - '$galaxy_root:ro'
   - '$tool_directory:ro'
-  - '$job_directory:ro'
-  - '$job_directory/outputs:rw'
-  - '$working_directory:rw'
-  - '$default_file_path:rw'
+  - '$default_file_path:ro'
   - '/cvmfs/data.galaxyproject.org:ro'
-  - '/tmp:rw'
 
 pulsar_singularity_volumes_list:
-  - '$job_directory:ro'
+  - '$job_directory:rw'
   - '$tool_directory:ro'
-  - '$job_directory/outputs:rw'
-  - '$working_directory:rw'
   - '/cvmfs/data.galaxyproject.org:ro'
-  - '/tmp:rw'
 
 slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
 pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"

@@ -1,9 +1,9 @@
 users:
     default:
       rules:
-        - match: |
+        - if: |
             from galaxy.jobs.rule_helper import RuleHelper
-            from vortex.core.entities import TagType
+            from tpv.core.entities import TagType
 
             user_high_mem_jobs_limit = 3
             if entity.tags.filter(tag_value='high-mem'):
@@ -41,7 +41,7 @@ users:
           - slurm
     pulsar_mel2_user@usegalaxy.org.au:
       rules:
-        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
             accept:
               - pulsar # pulsar must be in require/prefer/accept for a job to be scheduled to pulsar
@@ -50,7 +50,7 @@ users:
               - pulsar-mel2
     pulsar_mel3_user@usegalaxy.org.au:
       rules:
-        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
             accept:
               - pulsar
@@ -59,7 +59,7 @@ users:
               - pulsar-mel3
     pulsar_paw_user@usegalaxy.org.au:
       rules:
-        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
             accept:
               - pulsar
@@ -68,7 +68,7 @@ users:
               - pulsar-paw
     phm1@genome.edu.au:
       rules:
-        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
             accept:
               - pulsar
@@ -78,7 +78,7 @@ users:
               - pulsar-high-mem1
     phm2@genome.edu.au:
       rules:
-        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
             accept:
               - pulsar
@@ -88,7 +88,7 @@ users:
               - pulsar-high-mem2
     pncitrain@genome.edu.au:
       rules:
-        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
             accept:
               - pulsar
@@ -98,7 +98,7 @@ users:
               - pulsar-nci-training
     pqhm0@genome.edu.au:
       rules:
-        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
             accept:
               - pulsar
@@ -108,7 +108,7 @@ users:
               - pulsar-qld-high-mem0
     pqhm1@genome.edu.au:
       rules:
-        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
             accept:
               - pulsar
@@ -118,7 +118,7 @@ users:
               - pulsar-qld-high-mem1
     pqhm2@genome.edu.au:
       rules:
-        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
             accept:
               - pulsar
@@ -128,7 +128,7 @@ users:
               - pulsar-qld-high-mem2
     pblast@genome.edu.au:
       rules:
-        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
             accept:
               - pulsar
@@ -137,7 +137,7 @@ users:
               - pulsar-qld-blast
     pqld@genome.edu.au:
       rules:
-        - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
             accept:
               - pulsar

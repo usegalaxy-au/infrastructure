@@ -12,11 +12,6 @@
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
-    - name: Install Total Perspective Vortex
-      pip:  # on the first run, this will create the galaxy venv before the galaxy role is run
-        name: "{{ total_perspective_vortex_package }}"
-        virtualenv: "{{ galaxy_venv_dir }}"
-        state: forcereinstall
   handlers:
     - name: Restart Galaxy
       systemd:
@@ -25,6 +20,7 @@
   roles:
     - galaxyproject.repos
     - common
+    - install-tpv
     - galaxyproject.postgresql
     - role: natefoo.postgresql_objects
       become: true

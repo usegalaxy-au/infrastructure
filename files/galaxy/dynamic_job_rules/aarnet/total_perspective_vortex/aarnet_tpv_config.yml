@@ -23,11 +23,11 @@ tools:
       require:
       - slurm
     rules:
-    - match: 0.25 <= input_size < 1
+    - if: 0.25 <= input_size < 1
       cores: 4
-    - match: 1 <= input_size < 20
+    - if: 1 <= input_size < 20
       cores: 8
-    - match: input_size >= 20
+    - if: input_size >= 20
       cores: 16
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
     cores: 2
@@ -35,9 +35,9 @@ tools:
       require:
       - pulsar
     rules:
-    - match: 0.01 <= input_size < 2
+    - if: 0.01 <= input_size < 2
       cores: 4
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/.*:
     cores: 5
@@ -46,11 +46,11 @@ tools:
       accept:
         - pulsar
     rules:
-    - match: 0.015 <= input_size < 2
+    - if: 0.015 <= input_size < 2
       cores: 8
-    - match: 2 <= input_size < 10
+    - if: 2 <= input_size < 10
       cores: 10
-    - match: input_size >= 10
+    - if: input_size >= 10
       fail: Your input data exceeds 10GB and therefore is not suitable for Shovill.
   toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/.*:
     cores: 2
@@ -58,13 +58,13 @@ tools:
       accept:
       - pulsar
     rules:
-    - match: 0.005 <= input_size < 0.02
+    - if: 0.005 <= input_size < 0.02
       cores: 4
-    - match: input_size >= 0.02
+    - if: input_size >= 0.02
       cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     rules:
-    - match: input_size >= 0.01
+    - if: input_size >= 0.01
       cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_consensus/ivar_consensus/.*:
     cores: 8
@@ -109,9 +109,9 @@ tools:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/.*:
     rules:
-    - match: 0.015 <= input_size < 3
+    - if: 0.015 <= input_size < 3
       cores: 2
-    - match: input_size >= 3
+    - if: input_size >= 3
       cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/qualimap_bamqc/qualimap_bamqc/.*:
     cores: 5
@@ -161,7 +161,7 @@ users:
         - slurm
   pulsar_paw_user@usegalaxy.org.au:
     rules:
-      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+      - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
         scheduling:
           accept:
             - pulsar
@@ -170,7 +170,7 @@ users:
             - pulsar-paw
   pulsar_nci_test_user@usegalaxy.org.au:
     rules:
-      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+      - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
         scheduling:
           require:
             - pulsar

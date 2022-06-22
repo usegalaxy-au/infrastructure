@@ -13,7 +13,7 @@ ssl_email: "help@genome.edu.au"
 #host specific pulsar settings
 
 rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_qld_blast_prod }}"
-pulsar_queue_url: "pawsey-queue.usegalaxy.org.au"
+pulsar_queue_url: "aarnet-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_qld_blast"
 pulsar_rabbit_vhost: "/pulsar/galaxy_qld_blast"
 
@@ -80,7 +80,7 @@ slurm_munge_key: files/keys/munge.key
 extra_keys:
   - id: ubuntu_maintenance_key
     type: public
-    from: "{{ hostvars['pawsey']['ansible_ssh_host'] }}"
+    from: "{{ hostvars['aarnet']['ansible_ssh_host'] }}"
 
 # docker
 docker_daemon_options:
