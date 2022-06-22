@@ -14,9 +14,9 @@ attached_volumes:
 
 certbot_domains:
 - "{{ hostname }}"
-# - "usegalaxy.org.au"
-# - "www.usegalaxy.org.au"
-- "*.interactivetoolentrypoint.interactivetool.aarnet.usegalaxy.org.au"  # we can only use aarnet.usegalaxy, not usegalaxy at this point
+- "usegalaxy.org.au"
+- "www.usegalaxy.org.au"
+- "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_api_token }}"
@@ -26,8 +26,8 @@ nginx_ssl_servers:
   - galaxy
   - galaxy-gie-proxy
 
-  #gie proxy hostname
-interactive_tools_server_name: "aarnet.usegalaxy.org.au"
+# gie proxy hostname
+interactive_tools_server_name: "usegalaxy.org.au"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_21.09
@@ -150,10 +150,10 @@ host_galaxy_config:  # renamed from __galaxy_config
     file_path: "{{ galaxy_file_path }}"
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     smtp_server: localhost
-    # ga_code: "{{ vault_prod_ga_code }}"  ## swich off ga_code while testing.  TODO: uncomment this when we go live
+    ga_code: "{{ vault_prod_ga_code }}"  ## swich off ga_code while testing.  TODO: uncomment this when we go live
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
-    galaxy_infrastructure_url: 'https://aarnet.usegalaxy.org.au'
+    galaxy_infrastructure_url: 'https://usegalaxy.org.au'
     enable_oidc: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
@@ -186,10 +186,10 @@ influx_url: "stats.usegalaxy.org.au"
 db_password: "{{ galaxy_db_user_password }}"
 influx_salt: "{{ prod_queue_size_salt }}"
 sinfo_line_startswith: a
-add_daily_stats: false #change this when aarnet is usegalaxy.org.au
+add_daily_stats: true #change this when aarnet is usegalaxy.org.au
 add_monthly_stats: true
 add_utilisation_info: true
-add_queue_info: false #Change this when aarnet is usegalaxy.org.au
+add_queue_info: true #Change this when aarnet is usegalaxy.org.au
 
 #Vars for TIaaS
 tiaas_galaxy_db_host: "aarnet-db.usegalaxy.org.au"
@@ -243,6 +243,17 @@ rpc_db_connection_string: "postgres://reader:{{ vault_aarnet_db_reader_password 
 extra_keys:
   - id: ubuntu_maintenance_key
     type: private
+
+# grt-sender role
+grt_sender_dir: /mnt/var/galactic_radio_telescope
+grt_sender_api_key: "{{ vault_grt_api_key }}"
+grt_sender_grt_url: https://telescope.usegalaxy.org.au/grt
+
+# Docker
+docker_users:
+  - "{{ galaxy_user.name }}"
+docker_daemon_options:
+  data-root: /mnt/docker-data
 
 # Singularity and docker volumes
 slurm_singularity_volumes_list: # for production this needs /mnt/user-data 1,2,3,4 + /mnt/custom-indices, all ro
