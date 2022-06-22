@@ -115,13 +115,13 @@ galaxy_tmp_dir: /mnt/tmp
 galaxy_handler_count: 5
 
 # galaxy_file_path: /mnt/user-data-3/test
-galaxy_file_path: /mnt/tmp/temporary-user-data # TEST this path is for testing only, update to /mnt/user-data-5 for going to production 
+galaxy_file_path: /mnt/user-data-5
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 
 host_galaxy_config_files:
-  - src: "{{ galaxy_config_file_src_dir }}/config/aarnet_object_store_conf.xml"  # TODO: This is the test object store and will need to be updated when aarnet is the production server
+  - src: "{{ galaxy_config_file_src_dir }}/config/aarnet_object_store_conf.xml"
     dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
 
 host_galaxy_config_templates:
