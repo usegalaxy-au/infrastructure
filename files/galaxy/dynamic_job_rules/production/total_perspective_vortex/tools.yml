@@ -1299,6 +1299,9 @@ tools:
   # toolshed.g2.bx.psu.edu/repos/iuc/stacks2_tsv2bam/stacks2_tsv2bam/*
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_ustacks/stacks2_ustacks/.*:
     cores: 16
+    
+  toolshed.g2.bx.psu.edu/repos/iuc/exonerate/exonerate/.*:
+    cores: 16
 
   # alphafold
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
