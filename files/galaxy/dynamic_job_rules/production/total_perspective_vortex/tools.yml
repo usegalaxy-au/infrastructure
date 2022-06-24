@@ -193,6 +193,15 @@ tools:
             - pulsar
           require:
             - pulsar-qld-blast
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/.*:
+    scheduling:
+      accept:
+        - pulsar
+    env:
+      _JAVA_OPTIONS: '-Xmx{int(mem)}G -Xms1G'
+    rules:
+      - if: input_size >= 1
+        cores: 3
   toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/.*:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/.*:
