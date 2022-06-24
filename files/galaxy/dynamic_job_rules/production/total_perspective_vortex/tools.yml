@@ -1301,7 +1301,12 @@ tools:
     cores: 16
     
   toolshed.g2.bx.psu.edu/repos/iuc/exonerate/exonerate/.*:
-    cores: 16
+    scheduling:
+      accept:
+        - pulsar
+        - high-mem
+    cores: 30
+    mem: 480.5
 
   # alphafold
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
