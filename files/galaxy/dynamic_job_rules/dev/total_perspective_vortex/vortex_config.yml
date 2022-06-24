@@ -391,7 +391,6 @@ destinations:
       accept:
         - general
         - pulsar-nci-test
-        - offline
       require:
         - pulsar
   pulsar-eu-gpu-test:
