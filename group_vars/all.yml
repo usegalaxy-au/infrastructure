@@ -81,6 +81,11 @@ machine_users:
         - galaxy_admin
       key: files/keys/gavin.pub
       email: "{{ gavin_email }}"
+    - name: ollie
+      roles:
+        - sudo
+      key: files/keys/ollie.pub
+      email: "{{ ollie_email }}"
 
 galaxy_user:
   name: galaxy
