@@ -46,7 +46,7 @@
     - galaxyproject.gxadmin
     - usegalaxy_eu.gie_proxy
     - pg-post-tasks
-    # - remote-pulsar-cron
+    - remote-pulsar-cron
     # - slg.galaxy_stats
     - galaxy-pg-cleanup
     - usegalaxy_eu.tiaas2
