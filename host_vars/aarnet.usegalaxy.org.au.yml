@@ -112,11 +112,11 @@ galaxy_tmp_dir: /mnt/tmp
 
 galaxy_handler_count: 5
 
-# galaxy_file_path: /mnt/user-data-3/test
 galaxy_file_path: /mnt/user-data-5
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
+nginx_upload_store_set_cleanup_cron_job: true
 
 host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/aarnet_object_store_conf.xml"
@@ -220,23 +220,85 @@ aaf_client_secret: "{{ vault_aaf_client_secret_prod }}"
 rpc_skip_cron_setup: true # TODO: Set to false once aarnet is the production galaxy
 rpc_db_connection_string: "postgres://reader:{{ vault_aarnet_db_reader_password }}@aarnet-db.usegalaxy.org.au:5432/galaxy"
 
-# TODO: Copy and paste this rpc_pulsar_machines from block from host_vars/pawsey.usegalaxy.org.au
-# make sure all pulsars have the ubuntu_maintenance_key public key
-# rpc_pulsar_machines:
-#   - pulsar_name: pulsar-mel3
-#     pulsar_ip_address: "{{ hostvars['pulsar-mel3']['ansible_ssh_host'] }}"
-#     ssh_key: /home/ubuntu/.ssh/galaxy-australia
-#     delete_jwds: true
-#     keep_error_days: 7
-#     cron_hour: "17"
-#     cron_minute: "00"
-#   - pulsar_name: pulsar-mel2
-#     pulsar_ip_address: "{{ hostvars['pulsar-mel2']['ansible_ssh_host'] }}"
-#     ssh_key: /home/ubuntu/.ssh/galaxy-australia
-#     delete_jwds: true
-#     keep_error_days: 7
-#     cron_hour: "17"
-#     cron_minute: "10"
+rpc_pulsar_machines:
+  - pulsar_name: pulsar-mel3
+    pulsar_ip_address: "{{ hostvars['pulsar-mel3']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "00"
+  - pulsar_name: pulsar-mel2
+    pulsar_ip_address: "{{ hostvars['pulsar-mel2']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "5,11,17,23"
+    cron_minute: "10"
+  - pulsar_name: pulsar-paw
+    pulsar_ip_address: "{{ hostvars['pulsar-paw']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "20"
+  - pulsar_name: pulsar-high-mem1
+    pulsar_ip_address: "{{ hostvars['pulsar-high-mem1']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "30"
+  - pulsar_name: pulsar-high-mem2
+    pulsar_ip_address: "{{ hostvars['pulsar-high-mem2']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "40"
+  - pulsar_name: qld-pulsar-himem-0
+    pulsar_ip_address: "{{ hostvars['qld-pulsar-himem-0']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "50"
+  - pulsar_name: qld-pulsar-himem-1
+    pulsar_ip_address: "{{ hostvars['qld-pulsar-himem-1']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "18"
+    cron_minute: "00"
+  - pulsar_name: qld-pulsar-himem-2
+    pulsar_ip_address: "{{ hostvars['qld-pulsar-himem-2']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "18"
+    cron_minute: "10"
+  - pulsar_name: pulsar-nci-training
+    pulsar_ip_address: "{{ hostvars['pulsar-nci-training']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "18"
+    cron_minute: "20"
+  - pulsar_name: pulsar-qld-blast
+    pulsar_ip_address: "{{ hostvars['pulsar-qld-blast']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "18"
+    cron_minute: "30"
+  - pulsar_name: pulsar-QLD
+    pulsar_ip_address: "{{ hostvars['pulsar-QLD']['ansible_ssh_host'] }}"
+    pulsar_staging_dir: /mnt/tmp/files/staging
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "18"
+    cron_minute: "40"
 
 extra_keys:
   - id: ubuntu_maintenance_key
