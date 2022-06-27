@@ -1,9 +1,7 @@
 # Specific settings for galaxy dev application/web server
 
-# TO DO (25/2/22):
-# object store
-# /mnt/custom-indices: Do we want this volume?  Ask aarnet for extra volume
-# tpv config for aarnet testing
+# legacy_file_mounts_available: set to true if /mnt/files, /mnt/files2 should be in the object store
+legacy_file_mounts_available: False  # assume true unless set to false
 
 # variables for attaching mounted volume to application server
 attached_volumes:
@@ -118,11 +116,11 @@ nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 nginx_upload_store_set_cleanup_cron_job: true
 
-host_galaxy_config_files:
-  - src: "{{ galaxy_config_file_src_dir }}/config/aarnet_object_store_conf.xml"
-    dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
+host_galaxy_config_files: []
 
 host_galaxy_config_templates:
+  - src: "{{ galaxy_config_template_src_dir }}/config/aarnet_object_store_conf.xml.j2"
+    dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
   - src: "{{ galaxy_config_template_src_dir }}/config/aarnet_job_conf.yml.j2"
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
   - src: "{{ galaxy_dynamic_job_rules_src_dir }}/total_perspective_vortex/default_tool.yml.j2"
@@ -316,7 +314,7 @@ docker_daemon_options:
   data-root: /mnt/docker-data
 
 # Singularity and docker volumes
-slurm_singularity_volumes_list: # for production this needs /mnt/user-data 1,2,3,4 + /mnt/custom-indices, all ro
+slurm_singularity_volumes_list_restricted:
   - $job_directory:rw
   - $galaxy_root:ro
   - $tool_directory:ro
@@ -325,10 +323,12 @@ slurm_singularity_volumes_list: # for production this needs /mnt/user-data 1,2,3
   - /mnt/user-data-3:ro
   - /mnt/user-data-2:ro
   - /mnt/user-data:ro
-  - /mnt/files:ro
-  - /mnt/files2:ro
   - /mnt/custom-indices:ro
   - /cvmfs/data.galaxyproject.org:ro
+
+legacy_singularity_volumes_list: "{{ ['/mnt/files:ro', '/mnt/files2:ro'] if legacy_file_mounts_available|d(True) else [] }}"
+
+slurm_singularity_volumes_list: "{{ slurm_singularity_volumes_list_restricted + legacy_singularity_volumes_list }}"
 
 pulsar_singularity_volumes_list:
   - $job_directory:rw
