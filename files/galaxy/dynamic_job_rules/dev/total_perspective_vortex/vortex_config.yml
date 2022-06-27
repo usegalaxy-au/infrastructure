@@ -277,47 +277,50 @@ tools:
       singularity_enabled: True
 
 users:
-  default:
+  default: {}
+  # test_user:
+  #   rules:
+  #     - id: toolshed_tool
+  #       if: |
+  #         enable_singularity = False
+  #         if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+  #           with open('/home/galaxy/tpv_test_file', 'w') as handle:
+  #             handle.write('str(locals())')
+  #           try:
+  #             enable_singularity = (
+  #               any([(hta.user_value == 'singularity' or hta.user_tname == 'singularity') for hta in history.tags]
+  #             )
+  #           except:
+  #             pass
+  #         enable_singularity
+  #       params:
+  #         singularity_enabled: True
+  star@email.com:
+    params:
+      is_any_of_this_working: 'yes'
     rules:
       # - if: |
-      #     from galaxy.jobs.rule_helper import RuleHelper  # this is a test of raising JobNotReadyException, jobs per user limit is already taken care of by galaxy
-
-      #     retval = False
-      #     if user:
-      #       rule_helper = RuleHelper(app)
-      #       job_limit = 1
-      #       # job_limit = app.job_config.limits.registered_user_concurrent_jobs
-      #       user_job_count = rule_helper.job_count(for_user_email=user.email, for_job_states=['queued', 'running'])
-      #       if user_job_count >= job_limit:
-      #         retval = True
-      #     retval
-      #   execute: |
-      #       from galaxy.jobs.mapper import JobNotReadyException
-      #       raise JobNotReadyException()
-      - if: |
-          from galaxy.jobs.rule_helper import RuleHelper
-          from tpv.core.entities import TagType
-          if entity.tags.filter(tag_value='highmem'):
-            rule_helper = RuleHelper(app)
-            # Find all destinations that support highmem
-            destinations = [d.id for d in mapper.destinations.values()
-                            if any(d.tags.filter(tag_value='highmem',
-                                   tag_type=[TagType.REQUIRE, TagType.PREFER, TagType.ACCEPT]))]
-            count = rule_helper.job_count(
-              for_user_email=user.email,
-              for_destinations=destinations,
-              for_job_states=['queued', 'running'],
-            )
-            if count > 4:
-              retval = True
-            else:
-              retval = False
-          else:
-            retval = False
-          retval
-        execute: |
-          from galaxy.jobs.mapper import JobNotReadyException; raise JobNotReadyException()
+      #     'featurecounts' in tool.id
+      #   params:
+      #     singularity_enabled: true
+      #     this_tool_is_featurecounts: true
+      - id: toolshed_tool
+        if: |
+          enable_singularity = False
+          if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+            with open('/home/galaxy/tpv_test_file', 'w') as handle:
+              handle.write('str(locals())')
+            try:
+              enable_singularity = (
+                any([(hta.user_value == 'singularity' or hta.user_tname == 'singularity') for hta in history.tags])
+              )
+            except:
+              pass
+          enable_singularity
+        params:
+          singularity_enabled: True
   pulsar_user@usegalaxy.org.au:
+    # inherits: test_user
     rules:
       - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')  # this locks out all local tools, might need to make exceptions for these by id
         scheduling:
@@ -325,6 +328,7 @@ users:
             - pulsar  # if pulsar requires the pulsar tag, nothing without the pulsar tag will go there
             - dev-pulsar
   pulsar_nci_test_user@usegalaxy.org.au:
+    # inherits: test_user
     rules:
       - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
         scheduling:
@@ -339,6 +343,7 @@ users:
             - pulsar
             - pulsar-eu-gpu-alpha
   jenkins_bot@usegalaxy.org.au:
+    # inherits: test_user
     cores: 1
     scheduling:
       require:
