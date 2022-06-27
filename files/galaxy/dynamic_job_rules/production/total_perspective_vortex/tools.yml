@@ -52,6 +52,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina/docking/.*:
     params:
       singularity_enabled: true
+      singularity_volumes: '$job_directory:rw,$galaxy_root:ro,$tool_directory:ro,/mnt/user-data-5:rw,/mnt/user-data-4:ro,/mnt/user-data-3:ro,/mnt/user-data-2:ro,/mnt/user-data:ro,/mnt/custom-indices:ro,/cvmfs/data.galaxyproject.org:ro'
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     cores: 16
     params:
