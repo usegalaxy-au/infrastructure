@@ -85,6 +85,7 @@ execution:
       transport: curl
       remote_metadata: 'false'
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       rewrite_parameters: 'true'
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -112,6 +113,7 @@ execution:
       transport: curl
       remote_metadata: 'false'
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       rewrite_parameters: 'true'
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -144,6 +146,7 @@ execution:
       docker_require_container: true
     interactive_pulsar:
       runner: pulsar_embedded
+      outputs_to_working_directory: false
       docker_enabled: true
       docker_volumes: $defaults
       docker_sudo: false
@@ -158,6 +161,7 @@ execution:
       transport: curl
       remote_metadata: "false"
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       rewrite_parameters: "true"
       persistence_directory: /mnt/share/persisted_data
@@ -168,6 +172,7 @@ execution:
       transport: curl
       remote_metadata: "false"
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: 'none'
       rewrite_parameters: "true"
       persistence_directory: /mnt/share/persisted_data
@@ -181,6 +186,7 @@ execution:
       transport: curl
       remote_metadata: "false"
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       rewrite_parameters: "true"
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -191,6 +197,7 @@ execution:
       transport: curl
       remote_metadata: "false"
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       rewrite_parameters: "true"
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32000"
@@ -219,6 +226,7 @@ execution:
       docker_memory: 105G
       docker_sudo: false
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       rewrite_parameters: "true"
       persistence_directory: /mnt/pulsar/files/persisted_data
