@@ -1375,3 +1375,12 @@ tools:
     cores: 5
   .*data_manager_cat.*:
     cores: 5
+    
+  # cactus suite
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
+    cores: 16
+    params:
+      singularity_enabled: True
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
+    params:
+      singularity_enabled: True
