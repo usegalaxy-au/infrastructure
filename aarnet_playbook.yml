@@ -35,6 +35,7 @@
     - usegalaxy_eu.galaxy_systemd
     - nginx-upload-module
     - galaxyproject.nginx
+    - galaxyproject.tusd
     - geerlingguy.nfs
     - galaxyproject.slurm
     - galaxyproject.cvmfs

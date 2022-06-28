@@ -28,7 +28,7 @@ nginx_ssl_servers:
 interactive_tools_server_name: "usegalaxy.org.au"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_21.09
+galaxy_commit_id: release_22.01
 
 # total perspective vortex
 tpv_version: '1.2.0'
@@ -107,6 +107,7 @@ galaxy_dynamic_job_rules:
 galaxy_tools_indices_dir: /mnt/tools
 galaxy_custom_indices_dir: /mnt/custom-indices     
 galaxy_tmp_dir: /mnt/tmp
+galaxy_tus_upload_store: "{{ galaxy_tmp_dir }}/tus"
 
 galaxy_handler_count: 5
 
@@ -163,6 +164,20 @@ host_galaxy_config:  # renamed from __galaxy_config
     enable_mulled_containers: true
     enable_beta_containers_interface: true
     tool_filters: ga_filters:hide_test_tools,ga_filters:restrict_alphafold
+    # TUS
+    tus_upload_store: "{{ galaxy_tus_upload_store }}"
+
+# TUS
+tusd_instances:
+  - name: main
+    user: "{{ galaxy_user.name }}"
+    group: "galaxy"
+    args:
+      - "-host=localhost"
+      - "-port={{ galaxy_tusd_port }}"
+      - "-upload-dir={{ galaxy_tus_upload_store }}"
+      - "-hooks-http=https://{{ hostname }}/api/upload/hooks"
+      - "-hooks-http-forward-headers=X-Api-Key,Cookie"
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
