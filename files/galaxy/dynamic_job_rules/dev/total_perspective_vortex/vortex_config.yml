@@ -278,49 +278,25 @@ tools:
 
 users:
   default: {}
-  # test_user:
-  #   rules:
-  #     - id: toolshed_tool
-  #       if: |
-  #         enable_singularity = False
-  #         if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
-  #           with open('/home/galaxy/tpv_test_file', 'w') as handle:
-  #             handle.write('str(locals())')
-  #           try:
-  #             enable_singularity = (
-  #               any([(hta.user_value == 'singularity' or hta.user_tname == 'singularity') for hta in history.tags]
-  #             )
-  #           except:
-  #             pass
-  #         enable_singularity
-  #       params:
-  #         singularity_enabled: True
-  star@email.com:
-    params:
-      is_any_of_this_working: 'yes'
+  test_user:
     rules:
-      # - if: |
-      #     'featurecounts' in tool.id
-      #   params:
-      #     singularity_enabled: true
-      #     this_tool_is_featurecounts: true
       - id: toolshed_tool
         if: |
           enable_singularity = False
           if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
-            with open('/home/galaxy/tpv_test_file', 'w') as handle:
-              handle.write('str(locals())')
             try:
               enable_singularity = (
-                any([(hta.user_value == 'singularity' or hta.user_tname == 'singularity') for hta in history.tags])
+                any([(hta.user_value == 'singularity' or hta.user_tname == 'singularity') for hta in job.history.tags])
               )
             except:
               pass
           enable_singularity
         params:
           singularity_enabled: True
+  star@email.com:
+    inherits: test_user
   pulsar_user@usegalaxy.org.au:
-    # inherits: test_user
+    inherits: test_user
     rules:
       - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')  # this locks out all local tools, might need to make exceptions for these by id
         scheduling:
@@ -328,7 +304,7 @@ users:
             - pulsar  # if pulsar requires the pulsar tag, nothing without the pulsar tag will go there
             - dev-pulsar
   pulsar_nci_test_user@usegalaxy.org.au:
-    # inherits: test_user
+    inherits: test_user
     rules:
       - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
         scheduling:
@@ -343,7 +319,7 @@ users:
             - pulsar
             - pulsar-eu-gpu-alpha
   jenkins_bot@usegalaxy.org.au:
-    # inherits: test_user
+    inherits: test_user
     cores: 1
     scheduling:
       require:

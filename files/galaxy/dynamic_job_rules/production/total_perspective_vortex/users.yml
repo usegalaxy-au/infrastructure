@@ -25,7 +25,23 @@ users:
           execute: |
             from galaxy.jobs.mapper import JobNotReadyException
             raise JobNotReadyException()
+    test_user:
+      rules:
+        - id: toolshed_tool
+          if: |
+            enable_singularity = False
+            if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+              try:
+                enable_singularity = (
+                  any([(hta.user_value == 'singularity' or hta.user_tname == 'singularity') for hta in job.history.tags])
+                )
+              except:
+                pass
+            enable_singularity
+          params:
+            singularity_enabled: True
     jenkins_bot@usegalaxy.org.au:
+      inherits: test_user
       cores: 1
       mem: cores * 3.8
       params:
@@ -34,12 +50,14 @@ users:
         require:
           - slurm
     testbot@usegalaxy.org:
+      inherits: test_user
       cores: 1
       mem: cores * 3.8
       scheduling:
         require:
           - slurm
     pulsar_mel2_user@usegalaxy.org.au:
+      inherits: test_user
       rules:
         - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
@@ -49,6 +67,7 @@ users:
             require:
               - pulsar-mel2
     pulsar_mel3_user@usegalaxy.org.au:
+      inherits: test_user
       rules:
         - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
@@ -58,6 +77,7 @@ users:
             require:
               - pulsar-mel3
     pulsar_paw_user@usegalaxy.org.au:
+      inherits: test_user
       rules:
         - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
@@ -67,6 +87,7 @@ users:
             require:
               - pulsar-paw
     phm1@genome.edu.au:
+      inherits: test_user
       rules:
         - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
@@ -77,6 +98,7 @@ users:
             require:
               - pulsar-high-mem1
     phm2@genome.edu.au:
+      inherits: test_user
       rules:
         - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
@@ -87,6 +109,7 @@ users:
             require:
               - pulsar-high-mem2
     pncitrain@genome.edu.au:
+      inherits: test_user
       rules:
         - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
@@ -97,6 +120,7 @@ users:
             require:
               - pulsar-nci-training
     pqhm0@genome.edu.au:
+      inherits: test_user
       rules:
         - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
@@ -107,6 +131,7 @@ users:
             require:
               - pulsar-qld-high-mem0
     pqhm1@genome.edu.au:
+      inherits: test_user
       rules:
         - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
@@ -117,6 +142,7 @@ users:
             require:
               - pulsar-qld-high-mem1
     pqhm2@genome.edu.au:
+      inherits: test_user
       rules:
         - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
@@ -127,6 +153,7 @@ users:
             require:
               - pulsar-qld-high-mem2
     pblast@genome.edu.au:
+      inherits: test_user
       rules:
         - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:
@@ -136,6 +163,7 @@ users:
             require:
               - pulsar-qld-blast
     pqld@genome.edu.au:
+      inherits: test_user
       rules:
         - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
           scheduling:

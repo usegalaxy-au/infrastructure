@@ -58,7 +58,23 @@ destinations:
         - pulsar
 
 users:
+  test_user:
+    rules:
+      - id: toolshed_tool
+        if: |
+          enable_singularity = False
+          if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+            try:
+              enable_singularity = (
+                any([(hta.user_value == 'singularity' or hta.user_tname == 'singularity') for hta in job.history.tags])
+              )
+            except:
+              pass
+          enable_singularity
+        params:
+          singularity_enabled: True
   jenkins_bot@usegalaxy.org.au:
+    inherits: test_user
     cores: 1
     scheduling:
       require:
