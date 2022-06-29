@@ -270,8 +270,8 @@ tools:
        require:
          - pulsar
          - pulsar-nci-test
-    cores: 2
-    mem: 7.76
+    cores: 12
+    mem: 48
   toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/.*:
     params:
       singularity_enabled: True
