@@ -269,9 +269,9 @@ tools:
     scheduling:
        require:
          - pulsar
-         - dev-pulsar
-    cores: 2
-    mem: 7.76
+         - pulsar-nci-test
+    cores: 12
+    mem: 48
   toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/.*:
     params:
       singularity_enabled: True
