@@ -230,7 +230,7 @@ aaf_client_id: "{{ vault_aaf_client_id_prod }}"
 aaf_client_secret: "{{ vault_aaf_client_secret_prod }}"
 
 # remote-pulsar-cron variables
-rpc_skip_cron_setup: true # TODO: Set to false once aarnet is the production galaxy
+rpc_skip_cron_setup: false
 rpc_db_connection_string: "postgres://reader:{{ vault_aarnet_db_reader_password }}@aarnet-db.usegalaxy.org.au:5432/galaxy"
 
 rpc_pulsar_machines:
