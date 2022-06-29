@@ -269,7 +269,7 @@ tools:
     scheduling:
        require:
          - pulsar
-         - dev-pulsar
+         - pulsar-nci-test
     cores: 2
     mem: 7.76
   toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/.*:
