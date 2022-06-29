@@ -57,6 +57,7 @@ execution:
       transport: curl
       remote_metadata: 'false'
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       rewrite_parameters: 'true'
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -80,6 +81,7 @@ execution:
           value: /mnt/pulsar/deps/singularity/tmp
     interactive_pulsar:
       runner: pulsar_embedded
+      outputs_to_working_directory: false
       docker_enabled: true
       docker_volumes: $defaults
       docker_sudo: false
