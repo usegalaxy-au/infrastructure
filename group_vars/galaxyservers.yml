@@ -137,8 +137,7 @@ group_galaxy_config:
     use_heartbeat: true
     allow_user_dataset_purge: true
     enable_quotas: true
-    enable_job_recovery: true  # disappearing in 21.09
-    # outputs_to_working_directory: true
+    outputs_to_working_directory: true # disable in job confs for all pulsars
     enable_tool_recommendations: true
 
     static_enabled: true

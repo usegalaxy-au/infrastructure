@@ -172,6 +172,7 @@ execution:
       docker_auto_rm: true
       docker_set_user: ''
       require_container: true
+      outputs_to_working_directory: false
       container_monitor_result: callback
       submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=interactive_tools"
     slurm:
@@ -195,6 +196,7 @@ execution:
     pulsar-mel2:
       runner: pulsar_mel2_runner
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       jobs_directory: /mnt/pulsar/files/staging
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -222,6 +224,7 @@ execution:
     pulsar-paw:
       runner: pulsar-paw_runner
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       jobs_directory: /mnt/pulsar/files/staging
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -249,6 +252,7 @@ execution:
     pulsar-mel3:
       runner: pulsar-mel3_runner
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       jobs_directory: /mnt/pulsar/files/staging
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -276,6 +280,7 @@ execution:
     pulsar-high-mem1:
       runner: pulsar-high-mem1_runner
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       jobs_directory: /mnt/pulsar/files/staging
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -303,6 +308,7 @@ execution:
     pulsar-high-mem2:
       runner: pulsar-high-mem2_runner
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       jobs_directory: /mnt/pulsar/files/staging
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -330,6 +336,7 @@ execution:
     pulsar-qld-high-mem0:
       runner: pulsar-qld-high-mem0_runner
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       jobs_directory: /mnt/pulsar/files/staging
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -357,6 +364,7 @@ execution:
     pulsar-qld-high-mem1:
       runner: pulsar-qld-high-mem1_runner
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       jobs_directory: /mnt/pulsar/files/staging
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -384,6 +392,7 @@ execution:
     pulsar-qld-high-mem2:
       runner: pulsar-qld-high-mem2_runner
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       jobs_directory: /mnt/pulsar/files/staging
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -411,6 +420,7 @@ execution:
     pulsar-nci-training:
       runner: pulsar-nci-training_runner
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       jobs_directory: /mnt/pulsar/files/staging
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -438,6 +448,7 @@ execution:
     pulsar-qld-blast:
       runner: pulsar-qld-blast_runner
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       jobs_directory: /mnt/pulsar/files/staging
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -465,6 +476,7 @@ execution:
     pulsar-QLD:
       runner: pulsar-QLD_runner
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       jobs_directory: /mnt/tmp/files/staging
       persistence_directory: /mnt/tmp/files/persisted_data
@@ -495,6 +507,7 @@ execution:
       transport: curl
       remote_metadata: "false"
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       rewrite_parameters: "true"
       persistence_directory: /mnt/pulsar/files/persisted_data
@@ -505,6 +518,7 @@ execution:
       transport: curl
       remote_metadata: "false"
       default_file_action: remote_transfer
+      outputs_to_working_directory: false
       dependency_resolution: remote
       rewrite_parameters: "true"
       persistence_directory: /mnt/pulsar/files/persisted_data
