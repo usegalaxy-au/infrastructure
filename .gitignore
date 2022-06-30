@@ -8,7 +8,7 @@ terraform/prod/.terraform
 terraform/dev/.terraform
 terraform/staging/.terraform
 terraform/pawsey/.terraform
-terraform/pawsey/terraform*
+terraform/pawsey/*
 terraform/one-offs/*/.terraform
 terraform/one-offs/*/terraform*
 terraform/*/.terraform
@@ -23,6 +23,7 @@ roles/galaxyproject.galaxy/
 roles/galaxyproject.nginx/
 roles/galaxyproject.cvmfs/
 roles/galaxyproject.postgresql/
+roles/galaxyproject.tusd
 # roles/galaxyproject.slurm/ # Commented out as we have made modifications to this role so slurmdbd installation works
 # roles/galaxyproject.repos/ # Commented out as Simon made a modification so ppa is added to ubuntu 20.04
 roles/geerlingguy.pip/
