@@ -139,6 +139,7 @@ group_galaxy_config:
     enable_quotas: true
     outputs_to_working_directory: true # disable in job confs for all pulsars
     enable_tool_recommendations: true
+    expose_potentially_sensitive_job_metrics: true
 
     static_enabled: true
     show_welcome_with_login: true
