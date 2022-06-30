@@ -22,9 +22,9 @@
     - common
     - install-tpv
     - galaxyproject.postgresql
-    - role: natefoo.postgresql_objects
-      become: true
-      become_user: postgres
+    # - role: natefoo.postgresql_objects
+    #   become: true
+    #   become_user: postgres
     - geerlingguy.pip
     - galaxyproject.galaxy
     - role: galaxyproject.miniconda
