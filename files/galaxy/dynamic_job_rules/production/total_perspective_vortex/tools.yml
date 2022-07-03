@@ -257,6 +257,8 @@ tools:
       cores: 5
     - if: input_size >= 6
       cores: 16
+  toolshed.g2.bx.psu.edu/repos/iuc/cat_bins/cat_bins/.*:
+    cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_bundlelinks/.*:
     rules:
     - if: 0.0002 <= input_size < 0.01
@@ -296,6 +298,8 @@ tools:
     rules:
     - if: input_size >= 0.01
       cores: 7
+  toolshed.g2.bx.psu.edu/repos/iuc/humann2/humann2/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/.*:
     cores: 16
   toolshed.g2.bx.psu.edu/repos/iuc/iqtree/iqtree/.*:
