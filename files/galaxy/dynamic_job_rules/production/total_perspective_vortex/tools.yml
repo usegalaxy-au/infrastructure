@@ -1339,10 +1339,20 @@ tools:
         - pulsar
         - pulsar-azure-gpu
     rules:
-      - if: |
+      - id: alphafold_role_rule
+        if: |
           not user or 'Alphafold' not in [role.name for role in user.all_roles() if not role.deleted]
         fail: |
           This tool is currently being beta-tested on GPUs and your account has not been given access. Contact help@genome.edu.au if you think this is in error.
+  # alphafold-dev
+  alphafold-dev:
+    inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*
+    rules:
+      - id: alphafold_role_rule
+        if: |
+          not user or 'alphafold-dev' not in [role.name for role in user.all_roles() if not role.deleted]
+        fail: |
+          This is a development version of alphafold.  Only users with the role 'alphafold-dev' are allowed to run it.
   # Peptide shaker and other galaxyP tools
   toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker/.*:
     cores:  7
