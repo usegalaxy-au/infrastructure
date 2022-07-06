@@ -1,5 +1,5 @@
 tools:
-  upload1:
+  __DATA_FETCH__:
     cores: 1
     mem: 10
     rules:
