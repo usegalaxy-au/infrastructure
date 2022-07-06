@@ -1,6 +1,7 @@
 tools:
-  upload1:
-    cores: 1
+  __DATA_FETCH__:
+    env:
+      TEMP: /mnt/galaxy/tmp/data_fetch
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     scheduling:
       accept:
