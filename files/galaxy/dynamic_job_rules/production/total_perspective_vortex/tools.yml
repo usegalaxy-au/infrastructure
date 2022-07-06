@@ -1,7 +1,6 @@
 tools:
   __DATA_FETCH__:
     cores: 1
-    mem: 10
     rules:
     - if: |
         user_limit = 4
