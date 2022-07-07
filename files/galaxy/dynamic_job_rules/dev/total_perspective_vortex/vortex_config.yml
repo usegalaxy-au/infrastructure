@@ -354,7 +354,7 @@ users:
   pulsar_azure_1@genome.edu.au:
     rules:
       - if: |
-          'alphafold' in tool.id
+          tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed') or 'alphafold' in tool.id
         scheduling:
           require:
             - pulsar
