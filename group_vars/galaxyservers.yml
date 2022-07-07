@@ -207,9 +207,7 @@ group_galaxy_config:
       - type: explicit_singularity
         cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
       - type: cached_mulled_singularity
-        # cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-        cache_directory: /cvmfs/singularity.galaxyproject.org/all  # from usa usegalaxy-playbook
-        cache_directory_cacher_type: dir_mtime
+        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
       - type: mulled_singularity
         cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
       - type: build_mulled_singularity
