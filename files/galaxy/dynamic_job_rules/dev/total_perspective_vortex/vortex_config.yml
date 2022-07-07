@@ -182,6 +182,22 @@ tools:
           require_container: true
           docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=30 --env ALPHAFOLD_AA_LENGTH_MAX=2000"
           docker_set_user: '1000'
+      - if: user.email == "pulsar_azure_1@genome.edu.au"
+        scheduling:
+          require:
+            - pulsar-azure-1
+        cores: 8
+        mem: 70 # TODO: how much?
+        params:
+          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
+          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
+          docker_enabled: true
+          docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
+          docker_memory: 107G
+          docker_sudo: false
+          require_container: true
+          docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=30 --env ALPHAFOLD_AA_LENGTH_MAX=2000"
+          docker_set_user: '1000'
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.9+galaxy1:
     cores: 2
     params:
@@ -335,6 +351,14 @@ users:
           require:
             - pulsar
             - pulsar-azure-0
+  pulsar_azure_1@genome.edu.au:
+    rules:
+      - if: |
+          'alphafold' in tool.id
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-azure-1
   pulsar_azure_docker@genome.edu.au:
     rules:
       - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
@@ -408,6 +432,17 @@ destinations:
       require:
         - pulsar
         - pulsar-azure-0
+  pulsar-azure-1-std:  # TODO: this needs higher cores/mem for alphafold
+    cores: 24
+    mem: 210
+    scheduling:
+      accept:
+        - general
+        - alphafold
+        - offline
+      require:
+        - pulsar
+        - pulsar-azure-1
   pulsar-azure-0-docker:  # TODO: this needs higher cores/mem for alphafold
     cores: 6
     mem: 107
