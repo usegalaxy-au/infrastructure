@@ -439,7 +439,6 @@ destinations:
       accept:
         - general
         - alphafold
-        - offline
       require:
         - pulsar
         - pulsar-azure-1
