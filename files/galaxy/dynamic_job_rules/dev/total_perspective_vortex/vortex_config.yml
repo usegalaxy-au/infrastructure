@@ -72,7 +72,7 @@ tools:
     cores: 1
     scheduling:
       accept:
-        - pulsar  
+        - pulsar
     rules:
       - if: user.email == "pulsar_azure_0@genome.edu.au" and input_size < 10
         scheduling:
@@ -187,13 +187,13 @@ tools:
           require:
             - pulsar-azure-1
         cores: 8
-        mem: 70 # TODO: how much?
+        mem: 69
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
           docker_enabled: true
           docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
-          docker_memory: 107G
+          #docker_memory: 107G
           docker_sudo: false
           require_container: true
           docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=30 --env ALPHAFOLD_AA_LENGTH_MAX=2000"
@@ -227,7 +227,7 @@ tools:
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=large"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=large"
-  
+
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     scheduling:
       require:
@@ -359,6 +359,7 @@ users:
           require:
             - pulsar
             - pulsar-azure-1
+
   pulsar_azure_docker@genome.edu.au:
     rules:
       - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
