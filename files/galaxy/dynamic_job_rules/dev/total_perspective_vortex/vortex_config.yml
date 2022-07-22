@@ -312,6 +312,18 @@ users:
           enable_singularity
         params:
           singularity_enabled: True
+      - id: pulsar_test_user_rule
+        if: |
+          require_pulsar = False
+          if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+            try:
+              require_pulsar = 'pulsar' in [hta.user_tname for hta in job.history.tags]
+            except:
+              pass
+          require_pulsar
+        scheduling:
+          require:
+            - pulsar
   star@email.com:
     inherits: test_user
   pulsar_user@usegalaxy.org.au:
