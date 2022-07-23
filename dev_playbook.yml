@@ -64,6 +64,12 @@
         repo: https://github.com/usegalaxy-au/galaxy-local-tools
         dest: "{{ galaxy_server_dir }}/tools/galaxy-local-tools"
         update: yes
+    - name: Ensure data_fetch tmp directory exists
+      file:
+        path: "{{ galaxy_tmp_dir }}/data_fetch"
+        owner: "{{ galaxy_user.name }}"
+        group: "{{ galaxy_user.name }}"
+        state: directory
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1

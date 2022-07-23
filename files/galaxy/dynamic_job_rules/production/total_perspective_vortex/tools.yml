@@ -1,6 +1,8 @@
 tools:
   __DATA_FETCH__:
     cores: 1
+    params:
+      tmp_dir: True
     rules:
     - if: |
         user_limit = 4
@@ -653,6 +655,11 @@ tools:
       scheduling:
         accept:
         - high-mem
+  toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/.*:
+    cores: 8
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     cores: 2
     scheduling:
@@ -672,6 +679,11 @@ tools:
     - if: input_size >= 0.03
       fail: Too much data, Prokka is designed to annotate bacterial/virus genomes
         only. Prokka will not annotate eukaryotic genomes nor metagenomes.
+  toolshed.g2.bx.psu.edu/repos/csbl/repeatmodeler/repeatmodeler/.*:
+    cores: 8
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
     cores: 2
     scheduling:
