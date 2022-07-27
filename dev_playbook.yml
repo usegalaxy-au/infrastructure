@@ -52,6 +52,15 @@
     - dj-wasabi.telegraf
     - login-override
   post_tasks:
+    - name: Ensure object store paths exist
+      file:
+        state: directory
+        path: "{{ item }}"
+        owner: galaxy
+        group: galaxy
+      with_items:
+        - /mnt/galaxy/data
+        - /mnt/galaxy/data-2
     - name: Make local_tool directory group-writable by machine users
       file:
         path: /mnt/galaxy/local_tools
