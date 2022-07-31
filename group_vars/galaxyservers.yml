@@ -2,11 +2,11 @@ group_packages:
   - make
   - python3-psycopg2
   - libbz2-dev
-  - liblzma-dev  # 'libbz2-dev', 'liblzma-dev' have not been necessary for galaxy setup prior to ubuntu 20.04
+  - liblzma-dev # 'libbz2-dev', 'liblzma-dev' have not been necessary for galaxy setup prior to ubuntu 20.04
 
 # Python 3 support
 pip_virtualenv_command: /usr/bin/python3 -m virtualenv # usegalaxy_eu.certbot, usegalaxy_eu.tiaas2, galaxyproject.galaxy
-certbot_virtualenv_package_name: python3-virtualenv    # usegalaxy_eu.certbot
+certbot_virtualenv_package_name: python3-virtualenv # usegalaxy_eu.certbot
 
 # Postgres
 postgresql_objects_users:
@@ -35,7 +35,7 @@ certbot_well_known_root: /srv/nginx/_well-known_root
 certbot_share_key_users:
   - nginx
 certbot_post_renewal: |
-    systemctl restart nginx || true
+  systemctl restart nginx || true
 ## Moved to hostvars as can change for things.
 ## certbot_domains:
 ## - "{{ hostname }}"
@@ -50,11 +50,32 @@ nginx_ssl_servers:
   - galaxy
 nginx_conf_http:
   client_max_body_size: 120g
+  gzip_proxied: "any"
+  gzip_static: "on" # The ngx_http_gzip_static_module module allows sending precompressed files with the ".gz" filename extension instead of regular files.
+  gzip_vary: "on"
+  gzip_min_length: 128
+  gzip_comp_level: 6 # Tradeoff of better compression for slightly more CPU time.
+  gzip_types: |
+    text/plain
+    text/css
+    text/xml
+    text/javascript
+    application/javascript
+    application/x-javascript
+    application/json
+    application/xml
+    application/xml+rss
+    application/xhtml+xml
+    application/x-font-ttf
+    application/x-font-opentype
+    image/png
+    image/svg+xml
+    image/x-icon
 nginx_ssl_role: usegalaxy_eu.certbot
 nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
 nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
 create_nginx_htpasswd: true
-nginx_conf_user: galaxy  # the nginx-with-dynamic-module role uses this (though it is a var for galaxyproject.nginx)
+nginx_conf_user: galaxy # the nginx-with-dynamic-module role uses this (though it is a var for galaxyproject.nginx)
 nginx_upload_limit_rate: 0 # for nginx template: rate in bytes per second.  0 means no limit. (EU has '32k', US has no limit)
 
 # miniconda
@@ -87,14 +108,13 @@ galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_conda_prefix: "{{ galaxy_tools_indices_dir }}/tool_dependencies/_conda"
 galaxy_conda_exec: mamba
 
-
 #########################################
 # group_galaxy_config contains variables for galaxy_config that can be overridden by variables in host_galaxy_config (defined in host_vars)
 # host specific variables such as admin_users, brand, database_connection, id_secret and galaxy_infrastructure_url are in host_galaxy_config
 # variables are set in group_galaxy_config if they are variables used on all hosts or are sensible defaults
 #########################################
 group_galaxy_config:
-  uwsgi:  # todo: check desired dev settings for processes, threads, logging, mule, farm, look at how this is defined in prod galaxy.yml
+  uwsgi: # todo: check desired dev settings for processes, threads, logging, mule, farm, look at how this is defined in prod galaxy.yml
     socket: 127.0.0.1:8080
     buffer-size: 16384
     processes: 5
@@ -144,15 +164,15 @@ group_galaxy_config:
 
     static_enabled: true
     show_welcome_with_login: true
-    error_email_to: <help@genome.edu.au>  # error reports are disabled if no email is set
+    error_email_to: <help@genome.edu.au> # error reports are disabled if no email is set
     email_from: <galaxy-no-reply@usegalaxy.org.au>
     support_url: "{{ galaxy_australia_website }}/help"
 
-    data_dir: "{{ galaxy_root }}/cache"  # cache paths are set relative to data_dir (cache_dir will become a config option in 21.05)
+    data_dir: "{{ galaxy_root }}/cache" # cache paths are set relative to data_dir (cache_dir will become a config option in 21.05)
 
     conda_prefix: "{{ galaxy_conda_prefix }}"
 
-    cleanup_job: onsuccess  # default is always
+    cleanup_job: onsuccess # default is always
     retry_job_output_collection: 10
 
     heartbeat_log: "{{ galaxy_tmp_dir }}/heartbeat_{server_name}.log"
@@ -251,7 +271,6 @@ group_galaxy_config:
     # rsync_url: 'rsync://scofield.bx.psu.edu/indexes'
     # len_file_path: /mnt/galaxy-app/tool-data/len
 
-
 # galaxy_config_template_src_dir: templates/galaxy  ## this var has been moved to all.yml
 group_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/static/welcome.html.j2"
@@ -297,7 +316,7 @@ galaxy_config: "{{ group_galaxy_config | combine(host_galaxy_config | default({}
 galaxy_tusd_port: 1080
 
 #Slurm client
-slurm_roles: ['exec']
+slurm_roles: ["exec"]
 
 #Add slurm controllers hostname to hosts.
 add_hosts_head: yes
