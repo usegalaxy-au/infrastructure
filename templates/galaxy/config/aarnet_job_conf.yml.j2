@@ -127,9 +127,19 @@ runners:
     amqp_url: "pyamqp://galaxy_QLD:{{ vault_rabbitmq_password_galaxy_QLD_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_QLD?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
-  pulsar_azure_runner:
+  pulsar_azure_0_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    amqp_url: "pyamqp://galaxy_azure_0:{{ vault_rabbitmq_password_galaxy_azure_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_azure_0?ssl=1"
+    amqp_url: "pyamqp://galaxy_azure_0:{{ vault_rabbitmq_password_galaxy_azure_0_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_azure_0?ssl=1"
+    galaxy_url: "https://{{ hostname }}"
+    manager: _default_
+    amqp_acknowledge: True
+    amqp_ack_republish_time: 1200
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: True
+    amqp_publish_retry_max_retries: 60
+  pulsar_azure_1_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_url: "pyamqp://galaxy_azure_1:{{ vault_rabbitmq_password_galaxy_azure_1_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_azure_1?ssl=1"
     galaxy_url: "https://{{ hostname }}"
     manager: _default_
     amqp_acknowledge: True
@@ -480,7 +490,7 @@ execution:
         - name: SINGULARITY_TMPDIR
           value: /mnt/pulsar/deps/singularity/tmp
     pulsar-azure:
-      runner: pulsar_azure_runner
+      runner: pulsar_azure_0_runner
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
       remote_metadata: "false"
@@ -491,7 +501,7 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=6 --ntasks-per-node=6 --mem=110000"
     pulsar-azure-gpu:
-      runner: pulsar_azure_runner
+      runner: pulsar_azure_0_runner
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
       remote_metadata: "false"
@@ -501,6 +511,36 @@ execution:
       rewrite_parameters: "true"
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=6 --ntasks-per-node=6 --mem=110000"
+      docker_sudo: false
+      docker_run_user: '1000'
+      docker_volumes: '{{ pulsar_docker_volumes }},/data/alphafold_databases:/data:ro'
+      require_container: true
+    pulsar-azure-1:
+      runner: pulsar_azure_1_runner
+      jobs_directory: /mnt/pulsar/files/staging
+      transport: curl
+      remote_metadata: "false"
+      default_file_action: remote_transfer
+      outputs_to_working_directory: false
+      dependency_resolution: remote
+      rewrite_parameters: "true"
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      submit_native_specification: "--nodes=1 --ntasks=24 --ntasks-per-node=24 --mem=212000"
+    pulsar-azure-1-gpu:
+      runner: pulsar_azure_1_runner
+      jobs_directory: /mnt/pulsar/files/staging
+      transport: curl
+      remote_metadata: "false"
+      default_file_action: remote_transfer
+      outputs_to_working_directory: false
+      dependency_resolution: remote
+      rewrite_parameters: "true"
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      submit_native_specification: "--nodes=1 --ntasks=24 --ntasks-per-node=24 --mem=212000"
+      docker_sudo: false
+      docker_run_user: '1000'
+      docker_volumes: '{{ pulsar_docker_volumes }},/data/alphafold_databases:/data:ro'
+      require_container: true
 tools:
 - id: interactive_tool_ethercalc
   environment: interactive_pulsar
