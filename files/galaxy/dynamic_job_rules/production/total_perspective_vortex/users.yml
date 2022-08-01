@@ -38,6 +38,7 @@ users:
             enable_singularity
           params:
             singularity_enabled: True
+            dependency_resolution: none
     jenkins_bot@usegalaxy.org.au:
       inherits: test_user
       cores: 1
