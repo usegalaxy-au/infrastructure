@@ -217,7 +217,7 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       singularity_enabled: false
       singularity_volumes: '{{ pulsar_singularity_volumes }}'
       singularity_default_container_id: '{{ singularity_default_container_id }}'
@@ -243,7 +243,7 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       singularity_enabled: false
       singularity_volumes: '{{ pulsar_singularity_volumes }}'
       singularity_default_container_id: '{{ singularity_default_container_id }}'
@@ -269,7 +269,7 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       singularity_enabled: false
       singularity_volumes: '{{ pulsar_singularity_volumes }}'
       singularity_default_container_id: '{{ singularity_default_container_id }}'
@@ -295,7 +295,7 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       singularity_enabled: false
       singularity_volumes: '{{ pulsar_singularity_volumes }}'
       singularity_default_container_id: '{{ singularity_default_container_id }}'
@@ -321,7 +321,7 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       singularity_enabled: false
       singularity_volumes: '{{ pulsar_singularity_volumes }}'
       singularity_default_container_id: '{{ singularity_default_container_id }}'
@@ -347,7 +347,7 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       singularity_enabled: false
       singularity_volumes: '{{ pulsar_singularity_volumes }}'
       singularity_default_container_id: '{{ singularity_default_container_id }}'
@@ -373,7 +373,7 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       singularity_enabled: false
       singularity_volumes: '{{ pulsar_singularity_volumes }}'
       singularity_default_container_id: '{{ singularity_default_container_id }}'
@@ -399,7 +399,7 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       singularity_enabled: false
       singularity_volumes: '{{ pulsar_singularity_volumes }}'
       singularity_default_container_id: '{{ singularity_default_container_id }}'
@@ -425,7 +425,7 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       singularity_enabled: false
       singularity_volumes: '{{ pulsar_singularity_volumes }}'
       singularity_default_container_id: '{{ singularity_default_container_id }}'
@@ -451,7 +451,7 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       singularity_enabled: false
       singularity_volumes: '{{ pulsar_singularity_volumes }}'
       singularity_default_container_id: '{{ singularity_default_container_id }}'
@@ -477,7 +477,7 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       singularity_enabled: false
       singularity_volumes: '{{ pulsar_singularity_volumes }}'
       singularity_default_container_id: '{{ singularity_default_container_id }}'
@@ -512,7 +512,7 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=6 --ntasks-per-node=6 --mem=110000"
       docker_sudo: false
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
       require_container: true
     pulsar-azure-1:
@@ -538,7 +538,7 @@ execution:
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=24 --ntasks-per-node=24 --mem=212000"
       docker_sudo: false
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
       require_container: true
 tools:
