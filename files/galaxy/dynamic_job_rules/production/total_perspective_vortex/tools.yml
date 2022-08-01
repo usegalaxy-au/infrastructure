@@ -226,16 +226,16 @@ tools:
     cores: 6
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
     cores: 16
-    params:
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=max_quant_w8"
+    context:
+      partition: max_quant_w8
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant_mqpar/.*:
     cores: 16
-    params:
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=max_quant_w8"
+    context:
+      partition: max_quant_w8
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant_mqpar/maxquant_mqpar/.*:
     cores: 16
-    params:
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=max_quant_w8"
+    context:
+      partition: max_quant_w8
   toolshed.g2.bx.psu.edu/repos/iuc/barrnap/barrnap/.*:
     rules:
     - if: input_size >= 0.0003
@@ -1333,25 +1333,38 @@ tools:
 
   # alphafold
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
-    cores: 6
-    mem: 106
-    params:
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
-      docker_enabled: true
-      docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
-      docker_memory: '{mem}G'
-      docker_sudo: false
-      require_container: true
-      docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000"
-      docker_set_user: '1000'
-    scheduling:
-      require:
-        - pulsar
-        - pulsar-azure-gpu
     rules:
       - if: |
-          not user or 'Alphafold' not in [role.name for role in user.all_roles() if not role.deleted]
+          user and 'Alphafold' in [role.name for role in user.all_roles() if not role.deleted]
+        cores: 6
+        mem: 106
+        context:
+          partition: azuregpu1
+        params:
+          docker_enabled: true
+          docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000"
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-azure-gpu
+      - if: |
+          user and 'UoM_Vet_Alphafold' in [role.name for role in user.all_roles() if not role.deleted]
+        cores: 8
+        mem: 69
+        context:
+          partition: azuregpu1
+        params:
+          docker_enabled: true
+          docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000"
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-azure-1-gpu
+      - if: |
+          not user or not any([
+            role for role in user.all_roles() if (
+              role.name in ['Alphafold', 'UoM_Vet_Alphafold'] and not role.deleted
+          )])
         fail: |
           This tool is currently being beta-tested on GPUs and your account has not been given access. Contact help@genome.edu.au if you think this is in error.
   # Peptide shaker and other galaxyP tools
