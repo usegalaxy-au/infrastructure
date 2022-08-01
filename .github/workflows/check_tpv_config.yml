@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [ master ]
     paths:
-      - templates/galaxy/config/pawsey_job_conf.yml.j2
       - templates/galaxy/config/aarnet_job_conf.yml.j2
       - files/galaxy/dynamic_job_rules/production/total_perspective_vortex/*  # check
 
@@ -35,22 +34,6 @@ jobs:
         pip install total-perspective-vortex==$TPV_VERSION pyyaml galaxy-data
       env:
         TPV_VERSION: '1.2.0'
-    # Run check files script
-    - name: Check vortex destination ids against job conf environment ids (pawsey)
-      env:
-        SETTING: github
-      run: |
-        import yaml
-        with open('templates/galaxy/config/pawsey_job_conf.yml.j2') as handle:
-            job_conf_destinations = yaml.safe_load(handle).get('execution', {}).get('environments', [])
-        with open('files/galaxy/dynamic_job_rules/production/total_perspective_vortex/destinations.yml') as handle:
-            vortex_destinations = yaml.safe_load(handle).get('destinations', [])
-        for vd in vortex_destinations:
-            try:
-                job_conf_env = job_conf_destinations[vd]
-            except KeyError as e:
-                raise Exception(f'Destination id {vd} not found in job config file')        
-      shell: python
     # Run check files script
     - name: Check vortex destination ids against job conf environment ids (aarnet)
       env:
