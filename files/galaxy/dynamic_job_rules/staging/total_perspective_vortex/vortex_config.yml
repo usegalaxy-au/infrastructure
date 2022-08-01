@@ -39,6 +39,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_butina_clustering/.*:
     params:
       singularity_enabled: true
+  # cactus suite
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
+    params:
+      singularity_enabled: True
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
+    params:
+      singularity_enabled: True
 
 destinations:
   slurm:
