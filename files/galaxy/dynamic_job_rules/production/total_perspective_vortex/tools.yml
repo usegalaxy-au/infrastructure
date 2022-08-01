@@ -1335,7 +1335,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     rules:
       - if: |
-          user and 'Alphafold' in [role.name for role in user.all_roles if not role.deleted]
+          user and 'Alphafold' in [role.name for role in user.all_roles() if not role.deleted]
         cores: 6
         mem: 106
         context:
@@ -1348,7 +1348,7 @@ tools:
             - pulsar
             - pulsar-azure-gpu
       - if: |
-          user and 'UoM_Vet_Alphafold' in [role.name for role in user.all_roles if not role.deleted]
+          user and 'UoM_Vet_Alphafold' in [role.name for role in user.all_roles() if not role.deleted]
         cores: 8
         mem: 69
         context:
