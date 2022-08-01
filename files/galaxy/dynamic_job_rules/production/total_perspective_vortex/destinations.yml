@@ -4,111 +4,110 @@ destinations:
     mem: 121.25
     scheduling:
       accept:
-      - slurm
+        - slurm
   slurm-training:
     cores: 32
     mem: 60.62
     scheduling:
       accept:
-      - slurm
+        - slurm
       require:
-      - training
+        - training
   pulsar-mel2:
     cores: 8
     mem: 31.36
     scheduling:
       accept:
-      - pulsar-mel2
+        - pulsar-mel2
       require:
-      - pulsar
+        - pulsar
   pulsar-paw:
     cores: 8
     mem: 31.36
     scheduling:
       require:
-      - pulsar-paw
-      - pulsar
+        - pulsar-paw
+        - pulsar
   pulsar-mel3:
     cores: 32
     mem: 122.86
     scheduling:
       accept:
-      - pulsar-mel3
+        - pulsar-mel3
       require:
-      - pulsar
+        - pulsar
   pulsar-high-mem1:
     cores: 126
     mem: 3845.1
     scheduling:
       accept:
-      - pulsar-high-mem1
+        - pulsar-high-mem1
       require:
-      - pulsar
-      - high-mem
+        - pulsar
+        - high-mem
   pulsar-high-mem2:
     cores: 126
     mem: 1922.49
     scheduling:
       accept:
-      - pulsar-high-mem2
+        - pulsar-high-mem2
       require:
-      - pulsar
-      - high-mem
-      - offline
+        - pulsar
+        - high-mem
+        - offline
   pulsar-qld-high-mem0:
     cores: 240
     mem: 3845.07
     scheduling:
       accept:
-      - pulsar-qld-high-mem0
+        - pulsar-qld-high-mem0
       require:
-      - pulsar
-      - high-mem
+        - pulsar
+        - high-mem
   pulsar-qld-high-mem1:
     cores: 240
     mem: 3845.07
     scheduling:
       accept:
-      - pulsar-qld-high-mem1
+        - pulsar-qld-high-mem1
       require:
-      - pulsar
-      - high-mem
+        - pulsar
+        - high-mem
   pulsar-qld-high-mem2:
     cores: 240
     mem: 3845.07
     scheduling:
       accept:
-      - pulsar-qld-high-mem2
+        - pulsar-qld-high-mem2
       require:
-      - pulsar
-      - high-mem
-      - offline
+        - pulsar
+        - high-mem
   pulsar-nci-training:
     cores: 16
     mem: 47.07
     scheduling:
       accept:
-      - pulsar-nci-training
+        - pulsar-nci-training
       require:
-      - pulsar
-      - training
+        - pulsar
+        - training
   pulsar-qld-blast:
     cores: 60
     mem: 200
     scheduling:
       accept:
-      - pulsar-qld-blast
+        - pulsar-qld-blast
       require:
-      - pulsar
-      - pulsar-qld-blast
+        - pulsar
+        - pulsar-qld-blast
   pulsar-QLD:
     cores: 16
     mem: 62.72
     scheduling:
       accept:
-      - pulsar-QLD
+        - pulsar-QLD
       require:
-      - pulsar
+        - pulsar
   pulsar-azure:
     cores: 6
     mem: 106
