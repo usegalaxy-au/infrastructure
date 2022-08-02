@@ -321,6 +321,7 @@ users:
           enable_singularity
         params:
           singularity_enabled: True
+          dependency_resolution: none
       - id: pulsar_test_user_rule
         if: |
           require_pulsar = False
