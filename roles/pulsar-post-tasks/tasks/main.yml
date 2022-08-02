@@ -18,6 +18,19 @@
       group: ubuntu
       state: directory
       mode: 0750
+- name: create singularity cache dir
+  file:
+      path: "{{ pulsar_dependencies_dir }}/singularity"
+      owner: ubuntu
+      group: ubuntu
+      state: directory
+      mode: 0700
+- name: create singularity tmp dir
+  file:
+      path: "{{ pulsar_dependencies_dir }}/singularity/tmp"
+      owner: ubuntu
+      group: ubuntu
+      state: directory
 - name: restart munge
   systemd:
     name: munge
