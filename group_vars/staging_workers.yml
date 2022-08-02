@@ -3,6 +3,12 @@ slurm_roles: ['exec']
 add_hosts_head: yes
 add_hosts_galaxy: yes
 
+attached_volumes:
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
+    partition: 1
+
 shared_mounts:
     - path: /mnt/galaxy
       src: staging:/mnt/galaxy
@@ -13,3 +19,5 @@ shared_mounts:
 docker_install_compose: false
 docker_users:
   - "{{ galaxy_user.name }}"
+docker_daemon_options:
+  data-root: /mnt/docker-data
