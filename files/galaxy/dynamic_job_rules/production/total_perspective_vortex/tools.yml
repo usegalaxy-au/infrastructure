@@ -1060,9 +1060,9 @@ tools:
     - if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/.*:
-    cores: 16
+    cores: 8
     scheduling:
-      accept:
+      prefer:
       - pulsar
     rules:
     - if: input_size >= 0.5
