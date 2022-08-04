@@ -71,7 +71,7 @@ execution:
       singularity_default_container_id: '{{ singularity_default_container_id }}'
       container_resolvers: 
         - type: explicit_singularity
-        - type: cached_mulled_singularity
+        - type: mulled_singularity
       env:
         - name: SINGULARITY_CACHEDIR
           value: /mnt/pulsar/deps/singularity
