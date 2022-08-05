@@ -18,6 +18,7 @@
         </backend>
         <backend id="NFS" type="disk" order="6">
             <files_dir path="/mnt/files2" />
+        </backend>
         <backend id="loadtest" type="disk" order="0">
 		<files_dir path="/mnt/user-data/load-test" />
         </backend>
