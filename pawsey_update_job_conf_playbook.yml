@@ -10,12 +10,7 @@
       - secret_group_vars/stats_server_vault
   vars:
     - tpv_files:
-        - tools.yml
-        - users.yml
-        - roles.yml
-        - destinations.yml
-    - tpv_templates:
-        - default_tool.yml.j2
+        - testing_tpv_config.yml
   handlers:
     - name: Restart Galaxy
       systemd:

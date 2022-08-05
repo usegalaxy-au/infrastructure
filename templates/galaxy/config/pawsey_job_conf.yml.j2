@@ -151,11 +151,7 @@ execution:
       function: map_tool_to_destination
       rules_module: tpv.rules
       tpv_config_files:
-        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
-        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/tools.yml"
-        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/users.yml"
-        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/roles.yml"
-        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/destinations.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/testing_tpv_config.yml"
     gateway:
       runner: dynamic
       type: python
