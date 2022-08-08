@@ -224,6 +224,8 @@ group_galaxy_config:
 
     container_resolvers:
       - type: explicit
+      - type: cached_explicit_singularity
+        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
       - type: explicit_singularity
         cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
       - type: cached_mulled_singularity
