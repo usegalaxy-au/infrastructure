@@ -1,7 +1,7 @@
 # Specific settings for galaxy dev application/web server
 
 # legacy_file_mounts_available: set to true if /mnt/files, /mnt/files2 should be in the object store
-legacy_file_mounts_available: True  # assume true unless set to false
+legacy_file_mounts_available: True # assume true unless set to false
 
 # variables for attaching mounted volume to application server
 attached_volumes:
@@ -11,10 +11,10 @@ attached_volumes:
     partition: 1
 
 certbot_domains:
-- "{{ hostname }}"
-- "usegalaxy.org.au"
-- "www.usegalaxy.org.au"
-- "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
+  - "{{ hostname }}"
+  - "usegalaxy.org.au"
+  - "www.usegalaxy.org.au"
+  - "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_api_token }}"
@@ -31,62 +31,62 @@ galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_22.01
 
 # total perspective vortex
-tpv_version: '1.2.0'
+tpv_version: "1.2.0"
 
 # Mounts for various connections:
-shared_mounts:  # TODO: /mnt/custom-indices from aarnet-misc-nfs
-    - path: /mnt/ghost-galaxy-app
-      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/tools
-      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/tools"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/custom-indices
-      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/custom-indices"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/user-data-load-test  # TODO: Unmount and remove this after testing
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-load-test"
-      fstype: nfs
-      state: absent
-    - path: /mnt/user-data-test  # TODO: Unmount and remove this after testing
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/user-data-test"
-      fstype: nfs
-      state: absent
-    - path: /mnt/user-data
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/user-data-2
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data2"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/user-data-3
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data3"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/user-data-4
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data4"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/user-data-5 # new file path for production aarnet
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data5"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/tmp
-      src: "{{ hostvars['aarnet-job-nfs']['internal_ip'] }}:/mnt/tmp"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/files
-      src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/files2
-      src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
-      fstype: nfs
-      state: mounted
+shared_mounts: # TODO: /mnt/custom-indices from aarnet-misc-nfs
+  - path: /mnt/ghost-galaxy-app
+    src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/tools
+    src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/tools"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/custom-indices
+    src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/custom-indices"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data-load-test # TODO: Unmount and remove this after testing
+    src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-load-test"
+    fstype: nfs
+    state: absent
+  - path: /mnt/user-data-test # TODO: Unmount and remove this after testing
+    src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/user-data-test"
+    fstype: nfs
+    state: absent
+  - path: /mnt/user-data
+    src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data-2
+    src: "pawsey-user-nfs.usegalaxy.org.au:/user-data2"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data-3
+    src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data3"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data-4
+    src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data4"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data-5 # new file path for production aarnet
+    src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data5"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/tmp
+    src: "{{ hostvars['aarnet-job-nfs']['internal_ip'] }}:/mnt/tmp"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/files
+    src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/files2
+    src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
+    fstype: nfs
+    state: mounted
 
 galaxy_db_user_password: "{{ vault_aarnet_db_user_password }}"
 
@@ -100,12 +100,12 @@ galaxy_dynamic_job_rules:
   - total_perspective_vortex/roles.yml
   # - total_perspective_vortex/interactive_tools.yml # leave these as mapped from job_conf for now
   # - total_perspective_vortex/default_tool.yml.j2 # a future version of galaxyproject.galaxy will allow listing templates here
-  - dynamic_rules/destination_mapper.py  # TODO: get dynamic_rules out of job conf files
+  - dynamic_rules/destination_mapper.py # TODO: get dynamic_rules out of job conf files
   - dynamic_rules/tool_destinations.yml
   - readme.txt
 
 galaxy_tools_indices_dir: /mnt/tools
-galaxy_custom_indices_dir: /mnt/custom-indices     
+galaxy_custom_indices_dir: /mnt/custom-indices
 galaxy_tmp_dir: /mnt/tmp
 galaxy_tus_upload_store: "{{ galaxy_tmp_dir }}/tus"
 
@@ -126,11 +126,10 @@ host_galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
   - src: "{{ galaxy_dynamic_job_rules_src_dir }}/total_perspective_vortex/default_tool.yml.j2"
     dest: "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
-  - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"  ## File cannot be created at dest on first run of playbook
+  - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2" ## File cannot be created at dest on first run of playbook
     dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
 
-
-host_galaxy_config:  # renamed from __galaxy_config
+host_galaxy_config: # renamed from __galaxy_config
   uwsgi:
     mule:
       - lib/galaxy/main.py
@@ -147,20 +146,20 @@ host_galaxy_config:  # renamed from __galaxy_config
     file_path: "{{ galaxy_file_path }}"
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     smtp_server: localhost
-    ga_code: "{{ vault_prod_ga_code }}"  ## swich off ga_code while testing.  TODO: uncomment this when we go live
+    ga_code: "{{ vault_prod_ga_code }}" ## swich off ga_code while testing.  TODO: uncomment this when we go live
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
-    galaxy_infrastructure_url: 'https://usegalaxy.org.au'
+    galaxy_infrastructure_url: "https://usegalaxy.org.au"
     enable_oidc: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
     # nginx upload module
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
-    nginx_upload_path: '/_upload'
+    nginx_upload_path: "/_upload"
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
-    nginx_upload_job_files_path: '/_job_files'
+    nginx_upload_job_files_path: "/_job_files"
     job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
-    watch_job_rules: true  # important for total perspective vortex
+    watch_job_rules: true # important for total perspective vortex
     enable_mulled_containers: true
     enable_beta_containers_interface: true
     tool_filters: ga_filters:hide_test_tools,ga_filters:restrict_alphafold
@@ -213,16 +212,16 @@ tiaas_info:
   owner_site: "https://usegalaxy.org.au"
   domain: "usegalaxy.org.au"
 tiaas_other_config: |
-    EMAIL_HOST="localhost"
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_TIMEOUT = 60
-    TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
-    TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"
+  EMAIL_HOST="localhost"
+  EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+  EMAIL_TIMEOUT = 60
+  TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
+  TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"
 
-  # Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
+# Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
 tiaas_disassociate_training_roles:
-  hour: 9      # optional, defaults to 0
-  minute: 0    # optional, defaults to 0
+  hour: 9 # optional, defaults to 0
+  minute: 0 # optional, defaults to 0
 
 # AAF specific settings
 aaf_issuer_url: "{{ vault_aaf_issuer_url_prod }}"
@@ -360,4 +359,4 @@ pulsar_singularity_volumes: "{{ pulsar_singularity_volumes_list | join(',') }}"
 slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
 pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
 
-singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
