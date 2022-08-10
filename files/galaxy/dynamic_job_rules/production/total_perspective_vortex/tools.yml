@@ -704,6 +704,16 @@ tools:
       cores: 4
     - if: input_size >= 1
       cores: 8
+  toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/.*:
+    scheduling:
+      accept:
+      - pulsar
+    params:
+      singularity_enabled: True
+      dependency_resolution: none
+    rules:
+    - if: 2 <= input_size
+      cores: 4    
   toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/.*:
     cores: 2
     scheduling:
@@ -959,7 +969,7 @@ tools:
         accept:
         - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
-    cores: 12
+    cores: 8
     scheduling:
       accept:
       - pulsar
@@ -1160,9 +1170,14 @@ tools:
     scheduling:
       accept:
       - pulsar
-      reject:
-      - pulsar-mel2
     rules:
+    - if: |
+        import packaging.version
+        minimum_singularity_version = '5.0.0+galaxy0'
+        packaging.version.parse(tool.version) >= packaging.version.parse(minimum_singularity_version)
+      params:
+        singularity_enabled: true
+        dependency_resolution: none
     - if: 0.05 <= input_size < 0.3
       cores: 8
     - if: input_size >= 0.3

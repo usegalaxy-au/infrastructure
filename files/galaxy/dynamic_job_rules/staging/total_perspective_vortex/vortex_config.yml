@@ -46,6 +46,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
     params:
       singularity_enabled: True
+  toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/.*:
+    params:
+      singularity_enabled: True
 
 destinations:
   slurm:
