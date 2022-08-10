@@ -60,7 +60,7 @@ shared_mounts: # TODO: /mnt/custom-indices from aarnet-misc-nfs
     fstype: nfs
     state: mounted
   - path: /mnt/user-data-2
-    src: "pawsey-user-nfs.usegalaxy.org.au:/user-data2"
+    src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-2"
     fstype: nfs
     state: mounted
   - path: /mnt/user-data-3
