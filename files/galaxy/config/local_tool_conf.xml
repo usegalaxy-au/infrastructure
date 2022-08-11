@@ -2,5 +2,6 @@
 <toolbox monitor="true">
     <section id="local_tools" name="Local Tools">
         <!-- <tool file="galaxy-local-tools/tools/canu/canu.xml" labels="test"/> -->
+        <tool file="/mnt/galaxy/local_tools/maxquant/maxquant.xml" labels="test"/>
     </section>
 </toolbox>
