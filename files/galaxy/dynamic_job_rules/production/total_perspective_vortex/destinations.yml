@@ -45,6 +45,7 @@ destinations:
       require:
         - pulsar
         - high-mem
+        - offline
   pulsar-high-mem2:
     cores: 126
     mem: 1922.49
