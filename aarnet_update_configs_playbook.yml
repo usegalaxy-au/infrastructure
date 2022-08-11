@@ -34,6 +34,12 @@
         dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
       notify: Restart Galaxy
       when: not ansible_user == 'jenkins_bot'  # do not let the automatic process object store or restart galaxy
+    - name: template toolbox filters
+      template:
+        src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
+        dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
+      notify: Restart Galaxy
+      when: not ansible_user == 'jenkins_bot'  # do not let the automatic process object store or restart galaxy
     - name: copy total perspective vortex files
       copy:
         src: "{{ galaxy_dynamic_job_rules_src_dir }}/total_perspective_vortex/{{ item }}"

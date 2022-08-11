@@ -52,11 +52,13 @@
     - galaxy-pg-cleanup
     - usegalaxy_eu.tiaas2
   post_tasks:
-    - name: Clone galaxy-local-tools
-      git:
-        repo: https://github.com/usegalaxy-au/galaxy-local-tools
-        dest: "{{ galaxy_server_dir }}/tools/galaxy-local-tools"
-        update: yes
+    - name: Make local_tool directory group-writable by machine users
+      file:
+        path: "{{ galaxy_root }}/local_tools"
+        owner: root
+        group: devs
+        mode: 0775
+        state: directory
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1
