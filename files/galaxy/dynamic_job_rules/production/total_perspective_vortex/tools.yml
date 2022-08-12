@@ -1436,3 +1436,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
     params:
       singularity_enabled: True
+
+  # test tools
+  maxquant_test:
+    cores: 30
+    mem: 480.5
+    scheduling:
+      accept:
+        - pulsar
+        - high-mem
