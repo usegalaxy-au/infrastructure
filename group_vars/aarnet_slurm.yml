@@ -61,7 +61,7 @@ slurm_nodes:
 
 slurm_partitions:
   - name: main
-    nodes: "aarnet-w1,aarnet-w2,aarnet-w3,aarnet-w4,aarnet-w5,aarnet-w6,aarnet-w8,aarnet-w7"
+    nodes: "aarnet-w1,aarnet-w2,aarnet-w3,aarnet-w4,aarnet-w5,aarnet-w6,aarnet-w8"
     Default: YES
     State: UP
   - name: training
