@@ -61,6 +61,7 @@
       with_items:
         - /mnt/galaxy/data
         - /mnt/galaxy/data-2
+        - /mnt/galaxy/data-3
     - name: Make local_tool directory group-writable by machine users
       file:
         path: /mnt/galaxy/local_tools
