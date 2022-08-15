@@ -34,11 +34,13 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--path', help='file path')
     parser.add_argument('-i', '--id', help='object store id')
+    parser.add_argument('-y', '--yes', action='store_true', help='skip confirmation, just do it')
     args = parser.parse_args()
 
-    answer = input(f"Set all datasets in {args.path} to have object_store_id {args.id}: Type y/yes to and enter to continue: ")
-    if not answer in ['y', 'yes']:
-        raise Exception()
+    if not args.yes:
+        answer = input(f"Set all datasets in {args.path} to have object_store_id {args.id}: Type y/yes to and enter to continue: ")
+        if not answer in ['y', 'yes']:
+            raise Exception()
 
     counter = 0
     temp_data = []
