@@ -36,7 +36,6 @@ destinations:
         - pulsar-mel3
       require:
         - pulsar
-        - offline
   pulsar-high-mem1:
     cores: 126
     mem: 3845.1
