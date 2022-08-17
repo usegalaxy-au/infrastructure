@@ -1,3 +1,5 @@
+#! /bin/bash
+
 source jenkins/utils.sh
 
 # check whether the production tpv files have changed

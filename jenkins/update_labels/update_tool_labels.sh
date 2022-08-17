@@ -1,3 +1,5 @@
+#! /bin/bash
+
 source jenkins/utils.sh
 
 activate_virtualenv

@@ -1,5 +1,3 @@
-#! /bin/bash
-
 activate_virtualenv() {
     # Activate the virtual environment on jenkins. If this script is being run for
     # the first time we will need to set up the virtual environment
