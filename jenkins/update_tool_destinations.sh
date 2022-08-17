@@ -22,7 +22,8 @@ fi
 
 # Activate the virtual environment on jenkins. If this script is being run for
 # the first time we will need to set up the virtual environment
-VIRTUALENV="../.ansible_venv"
+VENV_DIR="/var/lib/jenkins/jobs_common"
+VIRTUALENV="$VENV_DIR/.ansible_venv"
 REQUIREMENTS_FILE="jenkins/requirements.txt"
 CACHED_REQUIREMENTS_FILE="$VIRTUALENV/cached_requirements.txt"
 echo "helloworld" > .vault_pass.txt  # ansible needs .vault_pass.txt to exist
