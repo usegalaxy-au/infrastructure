@@ -53,11 +53,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina/docking/.*:
     params:
       singularity_enabled: true
-      singularity_volumes: '$job_directory:rw,$galaxy_root:ro,$tool_directory:ro,/mnt/user-data-5:rw,/mnt/user-data-4:ro,/mnt/user-data-3:ro,/mnt/user-data-2:ro,/mnt/user-data:ro,/mnt/custom-indices:ro,/cvmfs/data.galaxyproject.org:ro'
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     cores: 16
     params:
       docker_enabled: true
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_nxn_clustering/.*:
     params:
       singularity_enabled: true
@@ -72,10 +74,19 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
     cores: 9
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/.*:
     cores: 7
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_matrix/deeptools_compute_matrix/.*:
     cores: 9
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_heatmap/deeptools_plot_heatmap/.*:
     cores: 3
     rules:
@@ -103,6 +114,9 @@ tools:
       cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/.*:
     cores: 3
+    scheduling:
+      accept:
+      - pulsar
     rules:
     - if: 0.0003 <= input_size < 0.002
       cores: 5
@@ -111,6 +125,9 @@ tools:
     - if: input_size >= 0.04
       fail: Too much data, please don't use the clustalw for this.
   toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/.*:
+    scheduling:
+      accept:
+      - pulsar
     rules:
     - if: 0.1 <= input_size < 4
       cores: 3
@@ -121,6 +138,9 @@ tools:
     - if: input_size >= 0.1
       cores: 3
   toolshed.g2.bx.psu.edu/repos/devteam/cuffnorm/cuffnorm/.*:
+    scheduling:
+      accept:
+      - pulsar
     cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/fastq_paired_end_joiner/.*:
     cores: 3
@@ -129,6 +149,9 @@ tools:
     - if: input_size >= 0.02
       cores: 1
   toolshed.g2.bx.psu.edu/repos/devteam/gffread/gffread/.*:
+    scheduling:
+      accept:
+      - pulsar
     cores: 9
   toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/.*:
     cores: 5
@@ -207,11 +230,17 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/.*:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/.*:
+    scheduling:
+      accept:
+      - pulsar
     cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_predict/funannotate_predict/.*:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
     cores: 2
+    scheduling:
+      accept:
+      - pulsar
     rules:
     - if: input_size >= 0.1
       cores: 5
@@ -261,6 +290,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/cat_bins/cat_bins/.*:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_bundlelinks/.*:
+    scheduling:
+      accept:
+      - pulsar
     rules:
     - if: 0.0002 <= input_size < 0.01
       cores: 2
@@ -290,6 +322,9 @@ tools:
     cores: 1
   toolshed.g2.bx.psu.edu/repos/iuc/gubbins/gubbins/.*:
     cores: 5
+    scheduling:
+      accept:
+      - pulsar
     rules:
     - if: 0.0005 <= input_size < 0.5
       cores: 16
@@ -304,6 +339,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/.*:
     cores: 16
   toolshed.g2.bx.psu.edu/repos/iuc/iqtree/iqtree/.*:
+    scheduling:
+      accept:
+      - pulsar
     rules:
     - if: input_size >= 2e-05
       cores: 5
@@ -336,6 +374,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_indelqual/lofreq_indelqual/.*:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgdiff/.*:
+    scheduling:
+      accept:
+      - pulsar
     cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_callpeak/.*:
     cores: 9
@@ -456,6 +497,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/nanoplot/.*:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/pear/iuc_pear/.*:
+    scheduling:
+      accept:
+      - pulsar
     rules:
     - if: 0.015 <= input_size < 1
       cores: 5
@@ -463,6 +507,9 @@ tools:
       cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/.*:
     cores: 9
+    scheduling:
+      accept:
+      - pulsar
     rules:
     - if: input_size >= 4
       cores: 16
@@ -470,6 +517,9 @@ tools:
       _JAVA_OPTIONS: '-Xmx{int(mem)}G -Xms1G'
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
     cores: 3
+    scheduling:
+      accept:
+      - pulsar
     rules:
     - if: input_size >= 5
       cores: 9
@@ -585,6 +635,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/pjbriggs/macs21/macs2_1_peakcalling/.*:
     cores: 9
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/.*:
+    scheduling:
+      accept:
+      - pulsar
     rules:
     - if: 0.015 <= input_size < 3
       cores: 2
