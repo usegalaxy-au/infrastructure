@@ -1,0 +1,79 @@
+- hosts:
+    - aarnet
+    - staging
+    - dev
+  become: true
+  pre_tasks:
+    - name: Copy files from /mnt/galaxy/var
+      fetch:
+        flat: yes
+        fail_on_missing: no
+        src: "/mnt/galaxy/var/{{ item }}"
+        dest: "configs/{{ ansible_hostname }}/var/"
+      with_items:
+        - integrated_tool_panel.xml
+        - migrated_tools_conf.xml
+        - sanitize_allowlist.txt
+        - shed_data_manager_conf.xml
+        - shed_tool_conf.xml
+        - shed_tool_data_table_conf.xml
+        - galaxy_install_db.sqlite
+    - name: Copy files from /mnt/galaxy/config
+      fetch:
+        flat: yes
+        fail_on_missing: no
+        src: "/mnt/galaxy/config/{{ item }}"
+        dest: "configs/{{ ansible_hostname }}/config/"
+      with_items:
+        - build_sites.yml
+        - galaxy.yml
+        - job_conf.yml
+        - object_store_conf.xml
+        - nagios_tool_conf.xml
+        - reports.yml
+        - tool_conf.xml
+        - tool_sheds_conf.xml
+        - user_preferences_extra_conf.yml
+    - name: Check for tiaas dir
+      stat:
+        path: /opt/tiaas
+      register: tiaas_dir
+    - name: Copy tiaas db
+      fetch:
+        flat: yes
+        fail_on_missing: no
+        src: "/opt/tiaas/{{ item }}"
+        dest: "configs/{{ ansible_hostname }}/tiaas/"
+      with_items:
+        - db.sqlite3
+      when: tiaas_dir.stat.exists
+
+- hosts:
+    - pulsar-mel2
+    - pulsar-mel3
+    - pulsar-QLD
+    - pulsar-paw
+    - pulsar-nci-training
+    - pulsar-qld-blast
+    - pulsar-high-mem1
+    - pulsar-high-mem2
+    - qld-pulsar-himem-0
+    - qld-pulsar-himem-1
+    - qld-pulsar-himem-2
+    - dev-pulsar
+    - staging-pulsar
+    - pulsar-nci-test
+    # TODO: allow jenkins_bot to log into azure pulsars and add them to this list
+  become: yes
+  pre_tasks:
+    - name: Copy files from /mnt/pulsar/config
+      fetch:
+        flat: yes
+        fail_on_missing: no
+        src: "/mnt/pulsar/config/{{ item }}"
+        dest: "configs/{{ ansible_hostname }}/config/"
+      with_items:
+        - app.yml
+        - job_metrics_conf.yml
+        - local_env.sh
+        - server.ini
