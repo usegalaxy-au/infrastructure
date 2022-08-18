@@ -635,6 +635,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/pjbriggs/macs21/macs2_1_peakcalling/.*:
     cores: 9
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/.*:
+    scheduling:
+      accept:
+      - pulsar
     rules:
     - if: 0.015 <= input_size < 3
       cores: 2
