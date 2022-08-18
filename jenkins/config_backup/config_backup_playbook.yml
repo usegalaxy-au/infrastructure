@@ -9,7 +9,7 @@
         flat: yes
         fail_on_missing: no
         src: "/mnt/galaxy/var/{{ item }}"
-        dest: "configs/{{ ansible_hostname }}/var/"
+        dest: "{{ backup_dir }}/{{ ansible_hostname }}/var/"
       with_items:
         - integrated_tool_panel.xml
         - migrated_tools_conf.xml
@@ -23,7 +23,7 @@
         flat: yes
         fail_on_missing: no
         src: "/mnt/galaxy/config/{{ item }}"
-        dest: "configs/{{ ansible_hostname }}/config/"
+        dest: "{{ backup_dir }}/{{ ansible_hostname }}/config/"
       with_items:
         - build_sites.yml
         - galaxy.yml
@@ -43,7 +43,7 @@
         flat: yes
         fail_on_missing: no
         src: "/opt/tiaas/{{ item }}"
-        dest: "configs/{{ ansible_hostname }}/tiaas/"
+        dest: "{{ backup_dir }}/{{ ansible_hostname }}/tiaas/"
       with_items:
         - db.sqlite3
       when: tiaas_dir.stat.exists
@@ -71,7 +71,7 @@
         flat: yes
         fail_on_missing: no
         src: "/mnt/pulsar/config/{{ item }}"
-        dest: "configs/{{ ansible_hostname }}/config/"
+        dest: "{{ backup_dir }}/{{ ansible_hostname }}/config/"
       with_items:
         - app.yml
         - job_metrics_conf.yml
