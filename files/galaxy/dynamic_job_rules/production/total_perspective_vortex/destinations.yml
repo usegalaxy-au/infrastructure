@@ -88,6 +88,7 @@ destinations:
     scheduling:
       accept:
         - pulsar-nci-training
+        - pulsar-qld-blast # allow training jobs with require: pulsar-qld-blast to run here
       require:
         - pulsar
         - training
