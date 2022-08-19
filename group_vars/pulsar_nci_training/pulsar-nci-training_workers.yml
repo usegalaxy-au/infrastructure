@@ -27,3 +27,7 @@ attached_volumes:
   - device: /dev/vdc
     path: /mnt/tmpdisk
     fstype: ext4
+
+# docker
+docker_daemon_options:
+  data-root: /mnt/tmpdisk/docker-data

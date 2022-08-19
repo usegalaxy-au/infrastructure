@@ -3,9 +3,8 @@
 # Login override - checksum for Login.vue
 galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
 
-# total perspective vortex package
-tpv_commit_id: "b5a91079622a8c76529d08abd3fa8e865289767a"
-total_perspective_vortex_package: "git+https://github.com/usegalaxy-au/total-perspective-vortex@{{ tpv_commit_id }}"
+# total perspective vortex
+tpv_version: "1.2.0"
 
 # variables for attaching mounted volume to application server
 attached_volumes:
@@ -44,16 +43,19 @@ galaxy_dynamic_job_rules:
 galaxy_tools_indices_dir: "{{ galaxy_root }}"
 galaxy_custom_indices_dir: "{{ galaxy_root }}/custom-indices"
 galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
+galaxy_tus_upload_store: "{{ galaxy_tmp_dir }}/tus"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_22.01
 
-galaxy_file_path: "{{ galaxy_root }}/data"
+galaxy_file_path: "{{ galaxy_root }}/data-3"
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 
 host_galaxy_config_templates:
+  - src: "{{ galaxy_config_template_src_dir }}/config/dev_object_store_conf.xml.j2"
+    dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
   - src: "{{ galaxy_config_template_src_dir }}/config/oidc_backends_config.xml.j2"
     dest: "{{ galaxy_config_dir}}/oidc_backends_config.xml"
   - src: "{{ galaxy_config_template_src_dir }}/config/dev_job_conf.yml.j2"
@@ -67,21 +69,22 @@ host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/local_tool_conf_dev.xml"
     dest: "{{ galaxy_config_dir }}/local_tool_conf.xml"
 
-host_galaxy_config:  # renamed from __galaxy_config
+host_galaxy_config: # renamed from __galaxy_config
   galaxy:
-    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }}" # everyone is an admin on dev
+    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},uwe@biocommons.org.au" # everyone is an admin on dev
     brand: "Australia Dev"
     database_connection: "postgresql://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
     id_secret: "{{ vault_dev_id_secret }}"
     file_path: "{{ galaxy_file_path }}"
-    galaxy_infrastructure_url: 'https://dev.usegalaxy.org.au'
+    object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
+    galaxy_infrastructure_url: "https://dev.usegalaxy.org.au"
     enable_oidc: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
-    nginx_upload_path: '/_upload'
+    nginx_upload_path: "/_upload"
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
-    nginx_upload_job_files_path: '/_job_files'
+    nginx_upload_job_files_path: "/_job_files"
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
     cleanup_job: never
@@ -89,29 +92,29 @@ host_galaxy_config:  # renamed from __galaxy_config
     show_welcome_with_login: false
     enable_mulled_containers: true
     enable_beta_containers_interface: true
-    watch_job_rules: true  # important for total perspective vortex
+    watch_job_rules: true # important for total perspective vortex
     sentry_dsn: "{{ vault_sentry_dsn_dev }}"
     tool_filters: ga_filters:hide_test_tools
+    # TUS
+    tus_upload_store: "{{ galaxy_tus_upload_store }}"
 
-    container_resolvers:
-      - type: explicit
-      - type: explicit_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-      - type: cached_mulled_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-      #   cache_directory: /cvmfs/singularity.galaxyproject.org/all  # from usa usegalaxy-playbook
-      #   cache_directory_cacher_type: dir_mtime
-      - type: mulled_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-      - type: build_mulled_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-        auto_install: false
+galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
-galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
+# TUS
+tusd_instances:
+  - name: main
+    user: "{{ galaxy_user.name }}"
+    group: "galaxy"
+    args:
+      - "-host=localhost"
+      - "-port={{ galaxy_tusd_port }}"
+      - "-upload-dir={{ galaxy_tus_upload_store }}"
+      - "-hooks-http=https://{{ hostname }}/api/upload/hooks"
+      - "-hooks-http-forward-headers=X-Api-Key,Cookie"
 
 # NFS stuff
 nfs_exports:
-    - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
+  - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
@@ -137,13 +140,22 @@ tiaas_info:
 
   # Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
 tiaas_disassociate_training_roles:
-  hour: 9      # optional, defaults to 0
-  minute: 0    # optional, defaults to 0
+  hour: 9 # optional, defaults to 0
+  minute: 0 # optional, defaults to 0
 
 # AAF specific settings
 aaf_issuer_url: "{{ vault_aaf_issuer_url_dev }}"
 aaf_client_id: "{{ vault_aaf_client_id_dev }}"
 aaf_client_secret: "{{ vault_aaf_client_secret_dev }}"
+
+# Other OIDC providers
+extra_oidc_providers:
+  - provider: CILogon
+    url: https://cilogon.org/authorize
+    client_id: "{{ vault_dev_cilogon_client }}"
+    client_secret: "{{ vault_dev_cilogon_secret }}"
+    redirect_uri: https://dev.usegalaxy.org.au/authnz/cilogon/callback
+    realm: master
 
 # remote-pulsar-cron variables
 rpc_skip_cron_setup: false
@@ -162,12 +174,32 @@ extra_keys:
   - id: ubuntu_maintenance_key
     type: private
 
-# Golang
-golang_gopath: '/var/workspace-go'
+# Docker
+docker_users:
+  - "{{ galaxy_user.name }}"
+docker_daemon_options:
+  data-root: /mnt/docker-data
 
-# Singularity target version
-singularity_version: "3.7.4"
-singularity_go_path: "{{ golang_install_dir }}"
+# Singularity and docker volumes
+slurm_singularity_volumes_list:
+  - "$job_directory:rw"
+  - "$galaxy_root:ro"
+  - "$tool_directory:ro"
+  - "$default_file_path:ro"
+  - "/cvmfs/data.galaxyproject.org:ro"
 
-# Website
-galaxy_australia_website: "https://site.usegalaxy.org.au"
+pulsar_singularity_volumes_list:
+  - "$job_directory:rw"
+  - "$tool_directory:ro"
+  - "/cvmfs/data.galaxyproject.org:ro"
+
+slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
+pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
+
+# comma separated strings for the job conf
+slurm_singularity_volumes: "{{ slurm_singularity_volumes_list | join(',') }}"
+pulsar_singularity_volumes: "{{ pulsar_singularity_volumes_list | join(',') }}"
+slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
+pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
+
+singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"

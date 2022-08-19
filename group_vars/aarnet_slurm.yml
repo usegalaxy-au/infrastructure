@@ -1,97 +1,95 @@
-
 auth_key_user: ubuntu
 
 head_nodes: "{{ groups['aarnet_slurm_head'] }}"
 worker_nodes: "{{ groups['aarnet_workers'] }}"
 galaxy_nodes: "{{ groups['aarnet_galaxy_server'] }}"
 
-add_galaxy_user: true  # Adds the galaxy user to all machines that have slurm on them
+add_galaxy_user: true # Adds the galaxy user to all machines that have slurm on them
 
 # SLURM
 slurm_nodes:
-    - name: aarnet-w1
-      NodeAddr: "{{ hostvars['aarnet-w1']['internal_ip'] }}"
-      CPUs: 16
-      RealMemory: 62815
-      State: UNKNOWN
-    - name: aarnet-w2
-      NodeAddr: "{{ hostvars['aarnet-w2']['internal_ip'] }}"
-      CPUs: 16
-      RealMemory: 62815
-      State: UNKNOWN
-    - name: aarnet-w3
-      NodeAddr: "{{ hostvars['aarnet-w3']['internal_ip'] }}"
-      CPUs: 16
-      RealMemory: 62815
-      State: UNKNOWN
-    - name: aarnet-w4
-      NodeAddr: "{{ hostvars['aarnet-w4']['internal_ip'] }}"
-      CPUs: 16
-      RealMemory: 62815
-      State: UNKNOWN
-    - name: aarnet-w5
-      NodeAddr: "{{ hostvars['aarnet-w5']['internal_ip'] }}"
-      CPUs: 16
-      RealMemory: 62815
-      State: UNKNOWN
-    - name: aarnet-w6
-      NodeAddr: "{{ hostvars['aarnet-w6']['internal_ip'] }}"
-      CPUs: 32
-      RealMemory: 125812
-      State: UNKNOWN
-    - name: aarnet-w7
-      NodeAddr: "{{ hostvars['aarnet-w7']['internal_ip'] }}"
-      CPUs: 16
-      RealMemory: 62815
-      State: UNKNOWN
-    - name: aarnet-w8
-      NodeAddr: "{{ hostvars['aarnet-w8']['internal_ip'] }}"
-      CPUs: 16
-      RealMemory: 62815
-      State: UNKNOWN
-    - name: aarnet-queue
-      NodeAddr: "{{ hostvars['aarnet-queue']['internal_ip'] }}"
-      CPUs: 4
-      RealMemory: 15638
-      State: UNKNOWN
-    - name: aarnet
-      NodeAddr: "{{ hostvars['aarnet']['internal_ip'] }}"
-      CPUs: 16
-      RealMemory: 62815
-      State: UNKNOWN
+  - name: aarnet-w1
+    NodeAddr: "{{ hostvars['aarnet-w1']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+  - name: aarnet-w2
+    NodeAddr: "{{ hostvars['aarnet-w2']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+  - name: aarnet-w3
+    NodeAddr: "{{ hostvars['aarnet-w3']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+  - name: aarnet-w4
+    NodeAddr: "{{ hostvars['aarnet-w4']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+  - name: aarnet-w5
+    NodeAddr: "{{ hostvars['aarnet-w5']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+  - name: aarnet-w6
+    NodeAddr: "{{ hostvars['aarnet-w6']['internal_ip'] }}"
+    CPUs: 32
+    RealMemory: 125812
+    State: UNKNOWN
+  - name: aarnet-w7
+    NodeAddr: "{{ hostvars['aarnet-w7']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+  - name: aarnet-w8
+    NodeAddr: "{{ hostvars['aarnet-w8']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+  - name: aarnet-queue
+    NodeAddr: "{{ hostvars['aarnet-queue']['internal_ip'] }}"
+    CPUs: 4
+    RealMemory: 15638
+    State: UNKNOWN
+  - name: aarnet
+    NodeAddr: "{{ hostvars['aarnet']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
 
 slurm_partitions:
-    - name: main
-      nodes: "aarnet-w1,aarnet-w2,aarnet-w3,aarnet-w4,aarnet-w5,aarnet-w6,aarnet-w8"
-      Default: YES
-      State: UP
-    - name: training
-      nodes: "aarnet-w7,aarnet-w5,aarnet-w4,aarnet-w8"
-      Default: NO
-      State: UP
-    - name: max_quant_w8
-      nodes: "aarnet-w8"
-      Default: NO
-      State: UP
-    - name: interactive_tools
-      nodes: "aarnet-w4,aarnet-w5"
-      Default: NO
-      State: UP
-      MaxTime: '10:00:00'
-    
+  - name: main
+    nodes: "aarnet-w1,aarnet-w2,aarnet-w3,aarnet-w4,aarnet-w5,aarnet-w6,aarnet-w8"
+    Default: YES
+    State: UP
+  - name: training
+    nodes: "aarnet-w7,aarnet-w5,aarnet-w4,aarnet-w8"
+    Default: NO
+    State: UP
+  - name: max_quant_w8
+    nodes: "aarnet-w8"
+    Default: NO
+    State: UP
+  - name: interactive_tools
+    nodes: "aarnet-w4,aarnet-w5"
+    Default: NO
+    State: UP
+    MaxTime: "10:00:00"
 
 slurm_config:
-    #SlurmDBd includes
-    AccountingStorageType: accounting_storage/slurmdbd
-    AccountingStorageHost: localhost
-    JobAcctGatherType: jobacct_gather/linux
-    ControlMachine: aarnet-queue
-    SlurmctldPidFile: /run/slurmctld.pid
-    SlurmdPidFile: /run/slurmd.pid
-    # SCHEDULING
-    FastSchedule: 2
-    SchedulerType: sched/backfill
-    SelectType: select/cons_res
-    SelectTypeParameters: CR_CPU_Memory,CR_LLN
+  #SlurmDBd includes
+  AccountingStorageType: accounting_storage/slurmdbd
+  AccountingStorageHost: localhost
+  JobAcctGatherType: jobacct_gather/linux
+  ControlMachine: aarnet-queue
+  SlurmctldPidFile: /run/slurmctld.pid
+  SlurmdPidFile: /run/slurmd.pid
+  # SCHEDULING
+  FastSchedule: 2
+  SchedulerType: sched/backfill
+  SelectType: select/cons_res
+  SelectTypeParameters: CR_CPU_Memory,CR_LLN
 
 slurm_munge_key: files/keys/munge.key

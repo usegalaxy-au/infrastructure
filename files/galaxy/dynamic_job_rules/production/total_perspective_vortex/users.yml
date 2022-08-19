@@ -1,0 +1,173 @@
+users:
+    default:
+      rules:
+        - if: |
+            from galaxy.jobs.rule_helper import RuleHelper
+            from tpv.core.entities import TagType
+
+            user_high_mem_jobs_limit = 3
+            if entity.tags.filter(tag_value='high-mem'):
+              rule_helper = RuleHelper(app)
+              # Find all destinations that support high-mem
+              destinations = [d.id for d in mapper.destinations.values()
+                              if any(d.tags.filter(tag_value='high-mem',
+                                    tag_type=[TagType.REQUIRE, TagType.PREFER, TagType.ACCEPT]))]
+              count = rule_helper.job_count(
+                for_user_email=user.email, for_destinations=destinations, for_job_states=['queued', 'running']
+              )
+              if count > user_high_mem_jobs_limit:
+                retval = True
+              else:
+                retval = False
+            else:
+              retval = False
+            retval
+          execute: |
+            from galaxy.jobs.mapper import JobNotReadyException
+            raise JobNotReadyException()
+    test_user:
+      rules:
+        - id: singularity_test_user_rule
+          if: |
+            enable_singularity = False
+            if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+              try:
+                enable_singularity = 'singularity' in [hta.user_tname for hta in job.history.tags]
+              except:
+                pass
+            enable_singularity
+          params:
+            singularity_enabled: True
+            dependency_resolution: none
+    jenkins_bot@usegalaxy.org.au:
+      inherits: test_user
+      cores: 1
+      mem: cores * 3.8
+      params:
+        nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=main"
+      scheduling:
+        require:
+          - slurm
+    testbot@usegalaxy.org:
+      inherits: test_user
+      cores: 1
+      mem: cores * 3.8
+      scheduling:
+        require:
+          - slurm
+    pulsar_mel2_user@usegalaxy.org.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar # pulsar must be in require/prefer/accept for a job to be scheduled to pulsar
+              - offline # allow scheduling to a destination even when it is offline
+            require:
+              - pulsar-mel2
+    pulsar_mel3_user@usegalaxy.org.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-mel3
+    pulsar_paw_user@usegalaxy.org.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-paw
+    phm1@genome.edu.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - high-mem
+              - offline
+            require:
+              - pulsar-high-mem1
+    phm2@genome.edu.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - high-mem
+              - offline
+            require:
+              - pulsar-high-mem2
+    pncitrain@genome.edu.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - training
+              - offline
+            require:
+              - pulsar-nci-training
+    pqhm0@genome.edu.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - high-mem
+              - offline
+            require:
+              - pulsar-qld-high-mem0
+    pqhm1@genome.edu.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - high-mem
+              - offline
+            require:
+              - pulsar-qld-high-mem1
+    pqhm2@genome.edu.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - high-mem
+              - offline
+            require:
+              - pulsar-qld-high-mem2
+    pblast@genome.edu.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-qld-blast
+    pqld@genome.edu.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-QLD

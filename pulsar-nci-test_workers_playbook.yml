@@ -3,6 +3,7 @@
   become: yes
   vars_files:
     - group_vars/all.yml
+    - group_vars/pulsarservers.yml
     - group_vars/pulsar-nci-test/pulsar-nci-test.yml
     - group_vars/pulsar-nci-test/pulsar-nci-test_workers.yml
     - group_vars/pulsar-nci-test/pulsar-nci-test_slurm.yml
@@ -17,12 +18,12 @@
       - galaxyproject.slurm
       - mounts
       - galaxyproject.repos
+      - galaxyproject.cvmfs
       - gantsign.golang
       - cyverse-ansible.singularity
-      - galaxyproject.cvmfs
-      - dj-wasabi.telegraf
       - geerlingguy.docker
       - acl-on-startup
+      - dj-wasabi.telegraf
   post_tasks:
       - name: Restart munge service
         service:

@@ -1,4 +1,3 @@
-
 auth_key_user: ubuntu
 
 head_nodes: "{{ groups['pulsar_QLD_queue'] }}"
@@ -7,46 +6,56 @@ galaxy_nodes: "{{ groups['pulsar_QLD_head'] }}"
 
 # SLURM
 slurm_nodes:
-    - name: pulsar-QLD
-      NodeAddr: "{{ hostvars['pulsar-QLD']['ansible_ssh_host'] }}"
-      CPUs: 8
-      RealMemory: 64419
-      State: UNKNOWN
-    - name: pulsar-QLD-w0
-      NodeAddr: "{{ hostvars['pulsar-QLD-w0']['ansible_ssh_host'] }}"
-      CPUs: 16
-      RealMemory: 64419
-      State: UNKNOWN
-    - name: pulsar-QLD-w1
-      NodeAddr: "{{ hostvars['pulsar-QLD-w1']['ansible_ssh_host'] }}"
-      CPUs: 16
-      RealMemory: 64419
-      State: UNKNOWN
-    - name: pulsar-QLD-w2
-      NodeAddr: "{{ hostvars['pulsar-QLD-w2']['ansible_ssh_host'] }}"
-      CPUs: 16
-      RealMemory: 64419
-      State: UNKNOWN
+  - name: pulsar-QLD
+    NodeAddr: "{{ hostvars['pulsar-QLD']['ansible_ssh_host'] }}"
+    CPUs: 8
+    RealMemory: 64419
+    State: UNKNOWN
+  - name: pulsar-QLD-w0
+    NodeAddr: "{{ hostvars['pulsar-QLD-w0']['ansible_ssh_host'] }}"
+    CPUs: 16
+    RealMemory: 64419
+    State: UNKNOWN
+  - name: pulsar-QLD-w1
+    NodeAddr: "{{ hostvars['pulsar-QLD-w1']['ansible_ssh_host'] }}"
+    CPUs: 16
+    RealMemory: 64419
+    State: UNKNOWN
+  - name: pulsar-QLD-w2
+    NodeAddr: "{{ hostvars['pulsar-QLD-w2']['ansible_ssh_host'] }}"
+    CPUs: 16
+    RealMemory: 64419
+    State: UNKNOWN
+  - name: pulsar-QLD-w3
+    NodeAddr: "{{ hostvars['pulsar-QLD-w3']['ansible_ssh_host'] }}"
+    CPUs: 16
+    RealMemory: 64419
+    State: UNKNOWN
+  - name: pulsar-QLD-w4
+    NodeAddr: "{{ hostvars['pulsar-QLD-w4']['ansible_ssh_host'] }}"
+    CPUs: 16
+    RealMemory: 64419
+    State: UNKNOWN
 
 slurm_partitions:
-    - name: main
-      nodes: "pulsar-QLD-w0,pulsar-QLD-w1,pulsar-QLD-w2"
-      Default: YES
-      MaxTime: INFINITE
-      State: UP
+  - name: main
+    nodes: "pulsar-QLD-w0,pulsar-QLD-w1,pulsar-QLD-w2,pulsar-QLD-w3,pulsar-QLD-w4"
+    Default: YES
+    MaxTime: INFINITE
+    State: UP
 
 slurm_config:
-    #SlurmDBd includes
-    AccountingStorageType: accounting_storage/slurmdbd
-    AccountingStorageHost: localhost
-    JobAcctGatherType: jobacct_gather/linux
-    ControlMachine: pulsar-QLD-queue
-    SlurmctldPidFile: /run/slurmctld.pid
-    SlurmdPidFile: /run/slurmd.pid
-    # SCHEDULING
-    FastSchedule: 2
-    SchedulerType: sched/backfill
-    SelectType: select/cons_res
-    SelectTypeParameters: CR_CPU_Memory,CR_LLN
+  #SlurmDBd includes
+  AccountingStorageType: accounting_storage/slurmdbd
+  AccountingStorageHost: localhost
+  JobAcctGatherType: jobacct_gather/linux
+  ControlMachine: pulsar-QLD-queue
+  SlurmctldPidFile: /run/slurmctld.pid
+  SlurmdPidFile: /run/slurmd.pid
+  # SCHEDULING
+  FastSchedule: 2
+  SchedulerType: sched/backfill
+  SelectType: select/cons_res
+  SelectTypeParameters: CR_CPU_Memory,CR_LLN
 
 slurm_munge_key: files/keys/munge.key

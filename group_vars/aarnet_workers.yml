@@ -1,4 +1,4 @@
-slurm_roles: ['exec']
+slurm_roles: ["exec"]
 
 add_hosts_head: yes
 add_hosts_galaxy: yes
@@ -9,51 +9,59 @@ attached_volumes:
     fstype: ext4
     partition: 1
 
-shared_mounts:  # TODO: /mnt/custom-indices from aarnet-misc-nfs
-    - path: /mnt/galaxy
-      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/tools
-      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/tools"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/custom-indices
-      src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/custom-indices"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/user-data-test  # TODO: Unmount and remove this after testing
-      src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-test"
-      fstype: nfs
-      state: mounted
-    # - path: /mnt/user-data
-    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
-    #   fstype: nfs
-    #   state: mounted
-    # - path: /mnt/user-data-2
-    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-2"
-    #   fstype: nfs
-    #   state: mounted
-    # - path: /mnt/user-data-3
-    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-3"
-    #   fstype: nfs
-    #   state: mounted
-    # - path: /mnt/user-data-4
-    #   src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-4"
-    #   fstype: nfs
-    #   state: mounted
-    - path: /mnt/tmp
-      src: "{{ hostvars['aarnet-job-nfs']['internal_ip'] }}:/mnt/tmp"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/files
-      src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/files2
-      src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
-      fstype: nfs
-      state: mounted
+shared_mounts: # TODO: /mnt/custom-indices from aarnet-misc-nfs
+  - path: /mnt/galaxy
+    src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/tools
+    src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/tools"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/custom-indices
+    src: "{{ hostvars['aarnet-misc-nfs']['internal_ip'] }}:/mnt/custom-indices"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data-load-test # TODO: Unmount and remove this after testing
+    src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data-load-test"
+    fstype: nfs
+    state: absent
+  - path: /mnt/user-data-test # TODO: Unmount and remove this after testing
+    src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/user-data-test"
+    fstype: nfs
+    state: absent
+  - path: /mnt/user-data
+    src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data-2
+    src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-2"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data-3
+    src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data3"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data-4
+    src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data4"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data-5 # new file path for production aarnet
+    src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data5"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/tmp
+    src: "{{ hostvars['aarnet-job-nfs']['internal_ip'] }}:/mnt/tmp"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/files
+    src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/files2
+    src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
+    fstype: nfs
+    state: mounted
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs

@@ -48,8 +48,11 @@ rabbitmq_users:
     password: "{{ rabbitmq_password_galaxy_QLD }}"
     vhost: /pulsar/galaxy_QLD
   - user: galaxy_azure_0
-    password: "{{ rabbitmq_password_galaxy_azure_prod }}"
+    password: "{{ rabbitmq_password_galaxy_azure }}"
     vhost: /pulsar/galaxy_azure_0
+  - user: galaxy_azure_1
+    password: "{{ rabbitmq_password_galaxy_azure_1 }}"
+    vhost: /pulsar/galaxy_azure_1
 
 rabbitmq_vhosts:
   - galaxy
@@ -66,8 +69,9 @@ rabbitmq_vhosts:
   - /pulsar/galaxy_qld_blast
   - /pulsar/galaxy_QLD
   - /pulsar/galaxy_azure_0
+  - /pulsar/galaxy_azure_1
 
-rabbitmq_version: 3.8.16-1
+rabbitmq_version: 3.10.6-1
 
 rabbitmq_password_admin: "{{ vault_rabbitmq_password_admin_prod }}"
 rabbitmq_password_telegraf: "{{ vault_rabbitmq_password_telegraf_prod }}"
@@ -84,14 +88,15 @@ rabbitmq_password_galaxy_qld_hm1: "{{ vault_rabbitmq_password_galaxy_qld_hm1_pro
 rabbitmq_password_galaxy_qld_hm2: "{{ vault_rabbitmq_password_galaxy_qld_hm2_prod }}"
 rabbitmq_password_galaxy_qld_blast: "{{ vault_rabbitmq_password_galaxy_qld_blast_prod }}"
 rabbitmq_password_galaxy_QLD: "{{ vault_rabbitmq_password_galaxy_QLD_prod }}"
-rabbitmq_password_azure_prod: "{{ vault_rabbitmq_password_galaxy_azure_prod }}"
+rabbitmq_password_galaxy_azure: "{{ vault_rabbitmq_password_galaxy_azure_0_prod }}"
+rabbitmq_password_galaxy_azure_1: "{{ vault_rabbitmq_password_galaxy_azure_1_prod }}"
 
 # Host specific Slurm settings
-slurm_roles: ['controller', 'dbd']
+slurm_roles: ["controller", "dbd"]
 
 slurm_database_user: slurm
 slurm_database_user_password: "{{ mariadb_password_slurm }}"
-slurm_database: 'slurm_acct_db'
+slurm_database: "slurm_acct_db"
 
 add_hosts_workers: yes
 add_hosts_galaxy: yes
@@ -106,9 +111,9 @@ mariadb_options:
 mariadb_users:
   - name: "{{ slurm_database_user }}"
     password: "{{ slurm_database_user_password }}"
-    priv: '{{ slurm_database }}.*:ALL'
+    priv: "{{ slurm_database }}.*:ALL"
 mariadb_databases:
-  - name: '{{ slurm_database }}'
+  - name: "{{ slurm_database }}"
 
 mariadb_password_slurm: "{{ vault_aarnet_mariadb_password_slurm }}"
 mariadb_password_root: "{{ vault_aarnet_mariadb_password_root }}"

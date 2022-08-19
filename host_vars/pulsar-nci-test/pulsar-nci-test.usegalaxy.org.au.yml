@@ -28,13 +28,5 @@ pulsar_rabbit_vhost: "/pulsar/galaxy_nci_test"
 pulsar_conda_exec: "mamba"
 
 # Docker
-docker_install_compose: false
-docker_users:
-  - "{{ pulsar_user.name }}"
-
-# Golang
-golang_gopath: '/var/workspace-go'
-
-# Singularity target version
-singularity_version: "3.7.4"
-singularity_go_path: "{{ golang_install_dir }}"
+docker_daemon_options:
+  data-root: /mnt/docker-data

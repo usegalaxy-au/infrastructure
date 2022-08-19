@@ -6,6 +6,7 @@
       - group_vars/VAULT
       - group_vars/nfs_servers.yml
       - host_vars/aarnet-job-nfs.usegalaxy.org.au.yml
+      - secret_group_vars/stats_server_vault
   pre_tasks:
       - name: Attach volume to instance
         include_role:

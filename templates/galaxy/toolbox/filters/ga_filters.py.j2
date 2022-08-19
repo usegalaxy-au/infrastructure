@@ -1,20 +1,39 @@
 test_tool_users = ["{{ test_tool_users | join('", "') }}"]
 test_tool_label = "test"
 
+test_tools = [
+    {
+        'id': 'maxquant_test',
+        'role': 'maxquant_test',
+    },
+]
+
 def hide_test_tools(context, tool):
     """
     hide tools with 'test' tag from all but selected_users
     """
     if hasattr(tool, 'labels') and test_tool_label in tool.labels:
         user = context.trans.user
+        for test_tool in test_tools:
+            if tool.id == test_tool['id']:
+                return user is not None and (
+                    user.email in test_tool_users or test_tool['role'] in [
+                        r.name for r in user.all_roles() if not r.deleted
+                    ]
+                )
         return user is not None and user.email in test_tool_users
     return True
 
 def restrict_alphafold(context, tool):
     """
-    Only let GA team and alphafold beta users see alphafold
+    Only let GA team, alphafold beta users and UoM vet school alphafold users see alphafold
     """
     if tool.id.startswith('toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold'):
         user = context.trans.user
-        return user is not None and (user.email in test_tool_users or 'Alphafold' in [role.name for role in user.all_roles() if not role.deleted])
+        return user is not None and (
+            user.email in test_tool_users or any([
+                role for role in user.all_roles() if (
+                    role.name in ['Alphafold', 'UoM_Vet_Alphafold'] and not role.deleted
+        )]))
     return True
+

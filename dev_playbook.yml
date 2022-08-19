@@ -1,16 +1,16 @@
 - hosts: dev_galaxy_server
   become: true
   vars_files:
-      - group_vars/all.yml
-      - group_vars/dev.yml
-      - group_vars/VAULT
-      - group_vars/galaxyservers.yml
-      - group_vars/dev_slurm.yml
-      - host_vars/dev.usegalaxy.org.au.yml
-      - secret_group_vars/ubuntu_maintenance_key
-      - secret_group_vars/stats_server_vault
-      - secret_group_vars/dev_secrets
-      - secret_group_vars/sentry_vault
+    - group_vars/all.yml
+    - group_vars/dev.yml # machine_users overridden in this file
+    - group_vars/VAULT
+    - group_vars/galaxyservers.yml
+    - group_vars/dev_slurm.yml
+    - host_vars/dev.usegalaxy.org.au.yml
+    - secret_group_vars/ubuntu_maintenance_key
+    - secret_group_vars/stats_server_vault
+    - secret_group_vars/dev_secrets
+    - secret_group_vars/sentry_vault
   handlers:
     - name: Restart Galaxy
       systemd:
@@ -20,14 +20,10 @@
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
-    - name: Install Total Perspective Vortex
-      pip:  # on the first run, this will create the galaxy venv before the galaxy role is run
-        name: "{{ total_perspective_vortex_package }}"
-        virtualenv: "{{ galaxy_venv_dir }}"
-        state: forcereinstall
   roles:
     - galaxyproject.repos
     - common
+    - install-tpv
     - galaxyproject.postgresql
     - role: natefoo.postgresql_objects
       become: true
@@ -42,6 +38,7 @@
     - usegalaxy_eu.galaxy_systemd
     - nginx-upload-module
     - galaxyproject.nginx
+    - galaxyproject.tusd
     - geerlingguy.nfs
     - galaxyproject.slurm
     - galaxyproject.cvmfs
@@ -49,12 +46,23 @@
     - pg-post-tasks
     - remote-pulsar-cron
     - galaxy-pg-cleanup
-    - usegalaxy_eu.tiaas2
+    #- usegalaxy_eu.tiaas2
+    - dev-tiaas2
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf
-    - login-override
+    #- login-override
   post_tasks:
+    - name: Ensure object store paths exist
+      file:
+        state: directory
+        path: "{{ item }}"
+        owner: galaxy
+        group: galaxy
+      with_items:
+        - /mnt/galaxy/data
+        - /mnt/galaxy/data-2
+        - /mnt/galaxy/data-3
     - name: Make local_tool directory group-writable by machine users
       file:
         path: /mnt/galaxy/local_tools
@@ -67,6 +75,12 @@
         repo: https://github.com/usegalaxy-au/galaxy-local-tools
         dest: "{{ galaxy_server_dir }}/tools/galaxy-local-tools"
         update: yes
+    - name: Ensure data_fetch tmp directory exists
+      file:
+        path: "{{ galaxy_tmp_dir }}/data_fetch"
+        owner: "{{ galaxy_user.name }}"
+        group: "{{ galaxy_user.name }}"
+        state: directory
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1

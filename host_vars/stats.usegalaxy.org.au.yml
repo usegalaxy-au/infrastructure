@@ -104,6 +104,7 @@ influxdb_databases:
   - 'dev'
   - 'mdu-phl'
   - 'mdu-research'
+  - 'aarnet-testing'
 
 retention_policy_dbs:
   # Clusters
@@ -297,6 +298,15 @@ grafana_datasources:
     version: 1
     editable: false
     database: "mdu-research"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "aarnet-testing"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "aarnet-testing"
     user: "{{ influxdb.grafana.username }}"
     secureJsonData:
       password: "{{ influxdb.grafana.password }}"

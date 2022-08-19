@@ -22,7 +22,6 @@
     - galaxyproject.repos
     - common
     - install-tpv
-    - acl-on-startup
     - mounts
     - galaxyproject.postgresql
     - role: natefoo.postgresql_objects
@@ -36,24 +35,30 @@
     - usegalaxy_eu.galaxy_systemd
     - nginx-upload-module
     - galaxyproject.nginx
+    - galaxyproject.tusd
     - geerlingguy.nfs
     - galaxyproject.slurm
     - galaxyproject.cvmfs
+    - gantsign.golang
+    - cyverse-ansible.singularity
+    - geerlingguy.docker
+    - acl-on-startup
     - dj-wasabi.telegraf
     - galaxyproject.gxadmin
-    - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
     - pg-post-tasks
-    # - remote-pulsar-cron
+    - remote-pulsar-cron
     # - slg.galaxy_stats
     - galaxy-pg-cleanup
     - usegalaxy_eu.tiaas2
   post_tasks:
-    - name: Clone galaxy-local-tools
-      git:
-        repo: https://github.com/usegalaxy-au/galaxy-local-tools
-        dest: "{{ galaxy_server_dir }}/tools/galaxy-local-tools"
-        update: yes
+    - name: Make local_tool directory group-writable by machine users
+      file:
+        path: "{{ galaxy_root }}/local_tools"
+        owner: root
+        group: devs
+        mode: 0775
+        state: directory
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1
@@ -85,9 +90,3 @@
       systemd:
         name: lsyncd
         state: restarted
-    - name: add symlink for files mount  # TODO: Set the path in the object store as /mnt/files and stop using this symlink if it is not needed
-      file:
-        src: /mnt/files
-        dest: /mnt/galaxy/files
-        state: link
-

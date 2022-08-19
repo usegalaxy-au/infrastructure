@@ -12,7 +12,7 @@ high_mem_tag = 'high-mem'
 
 path_to_vortex_rules = os.path.join(
     os.path.dirname(os.path.realpath(__file__)),
-    '../files/galaxy/dynamic_job_rules/pawsey/total_perspective_vortex'
+    '../files/galaxy/dynamic_job_rules/production/total_perspective_vortex'
 )
 
 local_tools_not_in_panel = ['upload1', 'Extract genomic DNA 1']  # galaxy built-in tools that are not returned by the get_tools() function
@@ -21,7 +21,7 @@ oddly_named_data_managers = ['kraken2_build_database']  # data manager tool shor
 galaxy_instance = GalaxyInstance('https://usegalaxy.org.au')
 galaxy_tool_ids = [t['id'] for t in galaxy_instance.tools.get_tools()]
 
-tool_destinations_file = '/Users/cat/dev/infrastructure/files/galaxy/dynamic_job_rules/pawsey/dynamic_rules/tool_destinations.yml'
+tool_destinations_file = '/Users/cat/dev/infrastructure/files/galaxy/dynamic_job_rules/production/dynamic_rules/tool_destinations.yml'
 job_config_file = '/Users/cat/dev/infrastructure/templates/galaxy/config/pawsey_job_conf.yml.j2'
 
 
@@ -177,7 +177,7 @@ for tool_id in tool_dests:
     if tool_rules:
         vortex_tool['rules'] = []
         for rule in tool_rules:
-            the_rule = {'match': make_lower_upper_expression(lower=rule['lower'], upper=rule['upper'])}
+            the_rule = {'if': make_lower_upper_expression(lower=rule['lower'], upper=rule['upper'])}
             if 'cores' in rule.keys():
                 the_rule.update({'cores': rule['cores']})
             if 'mem' in rule.keys():

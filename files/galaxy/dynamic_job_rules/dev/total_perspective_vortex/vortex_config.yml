@@ -1,68 +1,51 @@
 tools:
-  pulsar_preferred:
-    scheduling:
-      prefer:
-        - pulsar
-  slurm_singularity:
+  __DATA_FETCH__:
     params:
-      singularity_enabled: True
-      # Note: '$defaults' expands to '$galaxy_root:ro,$tool_directory:ro,$job_directory:ro,$working_directory:rw,$default_file_path:rw'
-      # For production this needs to be more nuanced, there will be a lot of paths that need to be readable
-      # including custom-indices and all user-data dirs. Including qld dirs could cause jobs to fail when qld is offline
-      singularity_volumes: '$defaults,/cvmfs/data.galaxyproject.org:ro'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
-  pulsar_singularity:
-    inherits: slurm_singularity
+      tmp_dir: True
+  toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     scheduling:
-      require:
+      accept:
         - pulsar
-    params:
-      singularity_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/cvmfs/data.galaxyproject.org:ro'
-  slurm_docker:
     params:
       docker_enabled: true
-      docker_volumes: '$defaults,/cvmfs/data.galaxyproject.org:ro'
       docker_memory: '{mem}G'
-      docker_sudo: false  
-  pulsar_docker:
-    inherits: slurm_docker
-    scheduling:
-      require:
-        - pulsar
-    params:
-      docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/cvmfs/data.galaxyproject.org:ro'
-      docker_set_user: '1000'
-
-  upload1:
-    cores: 1
-
-  toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
-    inherits: pulsar_docker
     cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/links/links/.*:
-    inherits: pulsar_singularity
+    params:
+      singularity_enabled: true
+      dependency_resolution: 'none'
     cores: 2
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 2
   toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 8
     mem: 30.39
   #   env:
   #     MAKER_MPI: 1
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_callvariants/bbtools_callvariants/.*:
-    inherits: pulsar_singularity
-    cores: 16
+    scheduling:
+      accept:
+        - pulsar
+    cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_bbmap/bbtools_bbmap/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 16
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     rules:
-      - match: |
+      - if: |
           ### helper function
-          from vortex.core.entities import Tool
+          from tpv.core.entities import Tool
           from galaxy import model
           import re
 
@@ -89,9 +72,9 @@ tools:
     cores: 1
     scheduling:
       accept:
-        - pulsar  
+        - pulsar
     rules:
-      - match: user.email == "pulsar_azure_0@genome.edu.au" and input_size < 10
+      - if: user.email == "pulsar_azure_0@genome.edu.au" and input_size < 10
         scheduling:
           require:
             - pulsar-azure-0
@@ -100,7 +83,7 @@ tools:
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
-      - match: user.email == "pulsar_azure_0@genome.edu.au" and input_size >= 10
+      - if: user.email == "pulsar_azure_0@genome.edu.au" and input_size >= 10
         scheduling:
           require:
             - pulsar-azure-0
@@ -112,21 +95,28 @@ tools:
 
 
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 2
     rules:
-      - match: input_size >= 0.2
+      - if: input_size >= 0.2
         cores: 16
   toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/.*:
     cores: 2
     rules:
-    - match: input_size >= 2
+    - if: input_size >= 2
       cores: 3
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
     cores: 2
     rules:
-    - match: input_size >= 2
-      cores: 3
+    - if: input_size >= 2
+      scheduling:
+        require:
+          - pulsar
+          - pulsar-nci-test
+      cores: 12
+      mem: 48
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     cores: 8
     mem: 30.39
@@ -134,7 +124,7 @@ tools:
       accept:
         - pulsar
     rules:
-      - match: user.email == "pulsar_azure_0@genome.edu.au"
+      - if: user.email == "pulsar_azure_0@genome.edu.au"
         cores: 120
         mem: 1900
         params:
@@ -142,23 +132,34 @@ tools:
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=special"
 
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 4
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_solvate/gmx_solvate/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 4
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_setup/gmx_setup/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 4
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_editconf/gmx_editconf/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 4
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_em/gmx_em/.*:
-    inherits: pulsar_preferred
+    scheduling:
+      accept:
+        - pulsar
     cores: 4
   .*alphafold.*:  # match local or toolshed alphafold
     cores: 40
     mem: 107
+    gpus: 1
     scheduling:
       accept:
         - pulsar
@@ -166,21 +167,35 @@ tools:
       require:
         - alphafold
     rules:
-      - match: user.email == "pulsar_azure_0@genome.edu.au"
+      - if: user.email == "pulsar_azure_0@genome.edu.au"
         scheduling:
           require:
             - pulsar-azure-0
         cores: 6
         mem: 106
+        context:
+          partition: azuregpu1
         params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
           docker_enabled: true
           docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
-          docker_memory: 107G
           docker_sudo: false
           require_container: true
           docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=30 --env ALPHAFOLD_AA_LENGTH_MAX=2000"
+          docker_set_user: '1000'
+      - if: user.email == "pulsar_azure_1@genome.edu.au"
+        scheduling:
+          require:
+            - pulsar-azure-1
+        cores: 8
+        mem: 69
+        context:
+          partition: azuregpu1
+        params:
+          docker_enabled: true
+          docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
+          docker_sudo: false
+          docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=30 --env ALPHAFOLD_AA_LENGTH_MAX=2000"
+          require_container: true
           docker_set_user: '1000'
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.9+galaxy1:
     cores: 2
@@ -193,7 +208,7 @@ tools:
       accept:
         - pulsar
     rules:
-      - match: user.email == "pulsar_azure_0@genome.edu.au" and input_size < 0.1
+      - if: user.email == "pulsar_azure_0@genome.edu.au" and input_size < 0.1
         scheduling:
           require:
             - pulsar-azure-0
@@ -202,7 +217,7 @@ tools:
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
-      - match: user.email == "pulsar_azure_0@genome.edu.au" and input_size >= 0.1
+      - if: user.email == "pulsar_azure_0@genome.edu.au" and input_size >= 0.1
         scheduling:
           require:
             - pulsar-azure-0
@@ -211,7 +226,7 @@ tools:
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=large"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=large"
-  
+
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     scheduling:
       require:
@@ -222,19 +237,15 @@ tools:
       singularity_enabled: True
       singularity_volumes: '$defaults'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
-  cactus_cactus:
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
     cores: 16
     mem: 32
     params:
       singularity_enabled: True
-      singularity_volumes: '$defaults,/cvmfs:ro'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
-  cactus_export:
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
     cores: 1
     params:
       singularity_enabled: True
-      singularity_volumes: '$defaults,/cvmfs:ro'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
   pbgcpp:
     cores: 2
     params:
@@ -247,89 +258,144 @@ tools:
       singularity_enabled: True
       singularity_volumes: '$defaults,/cvmfs:ro'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+  toolshed.g2.bx.psu.edu/repos/iracooke/protk_proteogenomics/.*:
+    cores: 1
+    params:
+      singularity_enabled: True
+      singularity_run_extra_arguments: '--writable-tmpfs'
+      dependency_resolution: 'none'
+  toolshed.g2.bx.psu.edu/repos/iracooke/xtandem/.*:
+    cores: 1
+    params:
+      singularity_enabled: True
+      singularity_run_extra_arguments: '--writable-tmpfs'
+      dependency_resolution: 'none'
+  toolshed.g2.bx.psu.edu/repos/iracooke/protk-galaxytools/.*:
+    cores: 1
+    params:
+      singularity_enabled: True
+      singularity_run_extra_arguments: '--writable-tmpfs'
+      dependency_resolution: 'none'
+  toolshed.g2.bx.psu.edu/repos/iracooke/tpp_prophets/.*:
+    cores: 1
+    params:
+      singularity_enabled: True
+      singularity_run_extra_arguments: '--writable-tmpfs'
+      dependency_resolution: 'none'
+  maxquant_test:
+    scheduling:
+       require:
+         - pulsar
+         - pulsar-nci-test
+    cores: 12
+    mem: 48
+  toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/.*:
+    params:
+      singularity_enabled: True
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
+    scheduling:
+       require:
+         - pulsar
+         - pulsar-nci-test
+    cores: 4
+    params:
+      singularity_enabled: True
+      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
+    # context:
+    #   minimum_singularity_version: 5.0.0+galaxy0  # not working, ref https://github.com/galaxyproject/total-perspective-vortex/pull/32
+    rules:
+      - if: |
+          import packaging.version
+          minimum_singularity_version = '5.0.0+galaxy0'
+          packaging.version.parse(tool.version) >= packaging.version.parse(minimum_singularity_version)
+        params:
+          singularity_enabled: true
+          dependency_resolution: none
 
 users:
-  default:
+  default: {}
+  test_user:
     rules:
-      # - match: |
-      #     from galaxy.jobs.rule_helper import RuleHelper  # this is a test of raising JobNotReadyException, jobs per user limit is already taken care of by galaxy
-
-      #     retval = False
-      #     if user:
-      #       rule_helper = RuleHelper(app)
-      #       job_limit = 1
-      #       # job_limit = app.job_config.limits.registered_user_concurrent_jobs
-      #       user_job_count = rule_helper.job_count(for_user_email=user.email, for_job_states=['queued', 'running'])
-      #       if user_job_count >= job_limit:
-      #         retval = True
-      #     retval
-      #   execute: |
-      #       from galaxy.jobs.mapper import JobNotReadyException
-      #       raise JobNotReadyException()
-      - match: |
-          from galaxy.jobs.rule_helper import RuleHelper
-          from vortex.core.entities import TagType
-          if entity.tags.filter(tag_value='highmem'):
-            rule_helper = RuleHelper(app)
-            # Find all destinations that support highmem
-            destinations = [d.id for d in mapper.destinations.values()
-                            if any(d.tags.filter(tag_value='highmem',
-                                   tag_type=[TagType.REQUIRE, TagType.PREFER, TagType.ACCEPT]))]
-            count = rule_helper.job_count(
-              for_user_email=user.email,
-              for_destinations=destinations,
-              for_job_states=['queued', 'running'],
-            )
-            if count > 4:
-              retval = True
-            else:
-              retval = False
-          else:
-            retval = False
-          retval
-        execute: |
-          from galaxy.jobs.mapper import JobNotReadyException; raise JobNotReadyException()
+      - id: singularity_test_user_rule
+        if: |
+          enable_singularity = False
+          if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+            try:
+              enable_singularity = 'singularity' in [hta.user_tname for hta in job.history.tags]
+            except:
+              pass
+          enable_singularity
+        params:
+          singularity_enabled: True
+          dependency_resolution: none
+      - id: pulsar_test_user_rule
+        if: |
+          require_pulsar = False
+          if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+            try:
+              require_pulsar = 'pulsar' in [hta.user_tname for hta in job.history.tags]
+            except:
+              pass
+          require_pulsar
+        scheduling:
+          require:
+            - pulsar
+  star@email.com:
+    inherits: test_user
   pulsar_user@usegalaxy.org.au:
+    inherits: test_user
     rules:
-      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')  # this locks out all local tools, might need to make exceptions for these by id
+      - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')  # this locks out all local tools, might need to make exceptions for these by id
         scheduling:
           require:
             - pulsar  # if pulsar requires the pulsar tag, nothing without the pulsar tag will go there
             - dev-pulsar
   pulsar_nci_test_user@usegalaxy.org.au:
+    inherits: test_user
     rules:
-      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+      - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
         scheduling:
           require:
             - pulsar
             - pulsar-nci-test
   eugpu@usegalaxy.org.au:
     rules:
-      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed') or tool.id == 'alphafold'
+      - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed') or tool.id == 'alphafold'
         scheduling:
           require:
             - pulsar
             - pulsar-eu-gpu-alpha
   jenkins_bot@usegalaxy.org.au:
+    inherits: test_user
     cores: 1
     scheduling:
       require:
         - slurm
   pulsar_azure_0@genome.edu.au:
     rules:
-      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+      - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
         scheduling:
           require:
             - pulsar
             - pulsar-azure-0
+  pulsar_azure_1@genome.edu.au:
+    rules:
+      - if: |
+          tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed') or 'alphafold' in tool.id
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-azure-1
+
   pulsar_azure_docker@genome.edu.au:
     rules:
-      - match: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+      - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
         scheduling:
           require:
             - pulsar
             - pulsar-azure-docker
-      - match: tool.id == 'alphafold'
+      - if: tool.id == 'alphafold'
         scheduling:
           accept:
             - pulsar
@@ -377,6 +443,7 @@ destinations:
   pulsar-eu-gpu-alpha:
     cores: 40
     mem: 107
+    gpus: 1
     scheduling:
       accept:
         - general
@@ -387,6 +454,7 @@ destinations:
   pulsar-azure-0-std:  # TODO: this needs higher cores/mem for alphafold
     cores: 120
     mem: 2000
+    gpus: 1
     scheduling:
       accept:
         - general
@@ -395,9 +463,21 @@ destinations:
       require:
         - pulsar
         - pulsar-azure-0
+  pulsar-azure-1-std:  # TODO: this needs higher cores/mem for alphafold
+    cores: 24
+    mem: 210
+    gpus: 1
+    scheduling:
+      accept:
+        - general
+        - alphafold
+      require:
+        - pulsar
+        - pulsar-azure-1
   pulsar-azure-0-docker:  # TODO: this needs higher cores/mem for alphafold
     cores: 6
     mem: 107
+    gpus: 1
     scheduling:
       accept:
         - general
