@@ -29,8 +29,13 @@
   version: 0.13.0
 - src: galaxyproject.gxadmin
   version: 0.0.8
+
+# TIaaS roles. Note official eu role is for production. github role is for dev.
 - src: usegalaxy_eu.tiaas2
   version: 0.0.9
+- src: https://github.com/neoformit/ansible-tiaas2
+  name: dev-tiaas2
+
 - src: geerlingguy.docker
   version: 4.1.3
 - src: usegalaxy_eu.gie_proxy
