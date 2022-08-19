@@ -138,10 +138,18 @@ tiaas_info:
   owner_site: "https://dev.usegalaxy.org.au"
   domain: "dev.usegalaxy.org.au"
 
-  # Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
+# Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
 tiaas_disassociate_training_roles:
   hour: 9 # optional, defaults to 0
   minute: 0 # optional, defaults to 0
+
+tiaas_show_advertising: false
+tiaas_retain_contact_consent: false
+
+# Templates to override web content:
+tiaas_templates_dir: files/tiaas/html
+# Static files referenced by above templates:
+tiaas_extra_static_dir: files/tiaas/static
 
 # AAF specific settings
 aaf_issuer_url: "{{ vault_aaf_issuer_url_dev }}"
