@@ -8,3 +8,8 @@ galaxy_job_dir: /mnt/tmp
 
 nfs_exports:
   - "{{ galaxy_job_dir }} {{ hostvars['aarnet'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: public
+    from: "{{ hostvars['aarnet']['internal_ip'] }}"
