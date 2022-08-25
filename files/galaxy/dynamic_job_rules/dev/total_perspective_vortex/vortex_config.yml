@@ -293,10 +293,6 @@ tools:
     params:
       singularity_enabled: True
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
-    scheduling:
-       require:
-         - pulsar
-         - pulsar-nci-test
     cores: 4
     params:
       singularity_enabled: True
