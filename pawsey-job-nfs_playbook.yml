@@ -6,12 +6,11 @@
       - group_vars/VAULT
       - group_vars/nfs_servers.yml
       - host_vars/pawsey-job-nfs.usegalaxy.org.au.yml
-      - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
       - name: Attach volume to instance
         include_role:
           name: attached-volumes
-      - name: Create galaxy_job_dir directory
+      - name: Create galaxy_user_data_dir directory
         file:
           path: "{{ galaxy_job_dir }}"
           state: directory
@@ -26,6 +25,7 @@
           path: "{{ galaxy_job_dir }}"
           owner: galaxy
           group: galaxy
+          recurse: yes
       - name: Reload exportfs
         command: exportfs -ra
         become: yes
