@@ -128,6 +128,7 @@ db_address: "dev-db.usegalaxy.org.au"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 
 # TIaaS specific settings
+tiaas_repo: "https://github.com/neoformit/tiaas2"
 tiaas_galaxy_db_host: "dev-db.usegalaxy.org.au"
 tiaas_galaxy_db_port: "5432"
 tiaas_galaxy_db_user: "tiaas"
