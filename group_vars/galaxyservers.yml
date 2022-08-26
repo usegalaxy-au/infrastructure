@@ -112,6 +112,9 @@ galaxy_conda_exec: mamba
 # group_galaxy_config contains variables for galaxy_config that can be overridden by variables in host_galaxy_config (defined in host_vars)
 # host specific variables such as admin_users, brand, database_connection, id_secret and galaxy_infrastructure_url are in host_galaxy_config
 # variables are set in group_galaxy_config if they are variables used on all hosts or are sensible defaults
+#
+# **As we migrate to 22.05 we will need to put the uwsgi/gunicorn/gravity sections into the individual hostvars files.**
+#
 #########################################
 group_galaxy_config:
   uwsgi: # todo: check desired dev settings for processes, threads, logging, mule, farm, look at how this is defined in prod galaxy.yml

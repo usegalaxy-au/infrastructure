@@ -1,7 +1,7 @@
 # Specific settings for galaxy dev application/web server
 
 #TO DO:
-# 
+#
 
 # variables for attaching mounted volume to application server
 attached_volumes:
@@ -10,10 +10,10 @@ attached_volumes:
     fstype: ext4
 
 certbot_domains:
-- "{{ hostname }}"
-- "usegalaxy.org.au"
-- "www.usegalaxy.org.au"
-- "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
+  - "{{ hostname }}"
+  - "usegalaxy.org.au"
+  - "www.usegalaxy.org.au"
+  - "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_api_token }}"
@@ -27,53 +27,53 @@ nginx_ssl_servers:
 interactive_tools_server_name: "usegalaxy.org.au"
 
 # total perspective vortex
-tpv_version: '1.2.0'
+tpv_version: "1.2.0"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_21.09
 
 # Mounts for various connections:
 shared_mounts:
-    - path: /mnt/ghost-galaxy-app
-      src: "{{ hostvars['pawsey-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/tools-indices
-      src: "{{ hostvars['pawsey-misc-nfs']['internal_ip'] }}:/mnt/tools-indices"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/custom-indices
-      src: "{{ hostvars['pawsey-misc-nfs']['internal_ip'] }}:/custom-indices"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/user-data
-      src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/mnt/user-data"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/user-data-2
-      src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-2"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/user-data-3
-      src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-3"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/user-data-4
-      src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-4"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/tmp
-      src: "{{ hostvars['pawsey-job-nfs']['internal_ip'] }}:/mnt/tmp"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/files
-      src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
-      fstype: nfs
-      state: mounted
-    - path: /mnt/files2
-      src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
-      fstype: nfs
-      state: mounted
+  - path: /mnt/ghost-galaxy-app
+    src: "{{ hostvars['pawsey-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/tools-indices
+    src: "{{ hostvars['pawsey-misc-nfs']['internal_ip'] }}:/mnt/tools-indices"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/custom-indices
+    src: "{{ hostvars['pawsey-misc-nfs']['internal_ip'] }}:/custom-indices"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data
+    src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/mnt/user-data"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data-2
+    src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-2"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data-3
+    src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-3"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data-4
+    src: "{{ hostvars['pawsey-user-nfs']['internal_ip'] }}:/user-data-4"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/tmp
+    src: "{{ hostvars['pawsey-job-nfs']['internal_ip'] }}:/mnt/tmp"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/files
+    src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/files2
+    src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
+    fstype: nfs
+    state: mounted
 
 galaxy_db_user_password: "{{ vault_pawsey_db_user_password }}"
 
@@ -92,10 +92,10 @@ galaxy_dynamic_job_rules:
   - readme.txt
 
 galaxy_tools_indices_dir: /mnt/tools-indices
-galaxy_custom_indices_dir: /mnt/custom-indices    
-galaxy_tmp_dir: /mnt/tmp     
+galaxy_custom_indices_dir: /mnt/custom-indices
+galaxy_tmp_dir: /mnt/tmp
 
-galaxy_handler_count: 5   ############# europe uses 5, this could be host specific
+galaxy_handler_count: 5 ############# europe uses 5, this could be host specific
 
 galaxy_file_path: /mnt/user-data/load-test
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
@@ -115,8 +115,29 @@ host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
     dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
 
-host_galaxy_config:  # renamed from __galaxy_config
-  uwsgi:
+host_galaxy_config: # renamed from __galaxy_config
+  uwsgi: # todo: check desired dev settings for processes, threads, logging, mule, farm, look at how this is defined in prod galaxy.yml
+    socket: 127.0.0.1:8080
+    buffer-size: 16384
+    processes: 5
+    threads: 4
+    offload-threads: 2
+    static-map:
+      - /static/style={{ galaxy_server_dir }}/static/style/blue
+      - /static={{ galaxy_server_dir }}/static
+      - /favicon.ico={{ galaxy_server_dir }}/static/favicon.ico
+    static-safe: client/galaxy/images
+    master: true
+    virtualenv: "{{ galaxy_venv_dir }}"
+    pythonpath: "{{ galaxy_server_dir }}/lib"
+    module: galaxy.webapps.galaxy.buildapp:uwsgi_app()
+    thunder-lock: true
+    die-on-term: true
+    hook-master-start:
+      - unix_signal:2 gracefully_kill_them_all
+      - unix_signal:15 gracefully_kill_them_all
+    py-call-osafterfork: true
+    enable-threads: true
     mule:
       - lib/galaxy/main.py
       - lib/galaxy/main.py
@@ -135,17 +156,17 @@ host_galaxy_config:  # renamed from __galaxy_config
     ga_code: "{{ vault_prod_ga_code }}"
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
-    galaxy_infrastructure_url: 'https://usegalaxy.org.au'
+    galaxy_infrastructure_url: "https://usegalaxy.org.au"
     enable_oidc: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
     # nginx upload module
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
-    nginx_upload_path: '/_upload'
+    nginx_upload_path: "/_upload"
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
-    nginx_upload_job_files_path: '/_job_files'
+    nginx_upload_job_files_path: "/_job_files"
     job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
-    watch_job_rules: true  # important for total perspective vortex
+    watch_job_rules: true # important for total perspective vortex
     enable_mulled_containers: true
     enable_beta_containers_interface: true
     tool_filters: ga_filters:hide_test_tools,ga_filters:restrict_alphafold
@@ -183,16 +204,16 @@ tiaas_info:
   owner_site: "https://usegalaxy.org.au"
   domain: "usegalaxy.org.au"
 tiaas_other_config: |
-    EMAIL_HOST="localhost"
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_TIMEOUT = 60
-    TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
-    TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"
+  EMAIL_HOST="localhost"
+  EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+  EMAIL_TIMEOUT = 60
+  TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
+  TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"
 
-  # Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
+# Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
 tiaas_disassociate_training_roles:
-  hour: 9      # optional, defaults to 0
-  minute: 0    # optional, defaults to 0
+  hour: 9 # optional, defaults to 0
+  minute: 0 # optional, defaults to 0
 
 ## AAF specific settings
 aaf_issuer_url: "{{ vault_aaf_issuer_url_prod }}"
@@ -328,9 +349,9 @@ pulsar_singularity_volumes: "{{ pulsar_singularity_volumes_list | join(',') }}"
 slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
 pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
 
-singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
 
 # conda/mamba overrides for pawsey
-miniconda_version: '4.13.0'
+miniconda_version: "4.13.0"
 miniconda_base_env_packages: []
 galaxy_conda_exec: conda
