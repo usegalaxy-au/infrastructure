@@ -550,7 +550,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_yield_plot/poretools_yield_plot/.*:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/qualimap_bamqc/qualimap_bamqc/.*:
-    cores: 5
+    rules:
+    - if: 0.2 <= input_size < 30
+      cores: 5
+    - if: input_size >= 30
+      cores: 9
   toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/rna_starsolo/.*:
     cores: 9
   toolshed.g2.bx.psu.edu/repos/iuc/roary/roary/.*:
