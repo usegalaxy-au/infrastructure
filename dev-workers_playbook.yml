@@ -18,6 +18,7 @@
       - mounts
       - galaxyproject.repos
       - galaxyproject.slurm
+      - galaxyproject.s3fs
       - galaxyproject.cvmfs
       - geerlingguy.docker
       - gantsign.golang
