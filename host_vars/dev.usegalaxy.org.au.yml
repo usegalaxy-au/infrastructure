@@ -247,7 +247,10 @@ slurm_singularity_volumes_list:
   - "$job_directory:rw"
   - "$galaxy_root:ro"
   - "$tool_directory:ro"
-  - "$default_file_path:ro"
+  - "/mnt/galaxy/data:ro"
+  - "/mnt/galaxy/data-2:ro"
+  - "/mnt/galaxy/data-3:ro"
+  - "/mnt/test_mount:ro"
   - "/cvmfs/data.galaxyproject.org:ro"
 
 pulsar_singularity_volumes_list:
