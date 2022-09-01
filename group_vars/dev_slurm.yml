@@ -14,6 +14,11 @@ slurm_nodes:
       CPUs: 16
       RealMemory: 64000
       State: UNKNOWN
+    - name: dev-w2
+      NodeAddr: "{{ hostvars['dev-w2']['ansible_ssh_host'] }}"
+      CPUs: 16
+      RealMemory: 64000
+      State: UNKNOWN
     - name: dev-queue
       NodeAddr: "{{ hostvars['dev-queue']['ansible_ssh_host'] }}"
       CPUs: 2
@@ -27,8 +32,18 @@ slurm_nodes:
 
 slurm_partitions:
     - name: main
-      nodes: "dev-w1"
+      nodes: "dev-w1,dev-w2"
       Default: YES
+      MaxTime: '30-00:00:00'
+      State: UP
+    - name: cvmfs
+      nodes: "dev-w1"
+      Default: NO
+      MaxTime: '30-00:00:00'
+      State: UP
+    - name: s3fs
+      nodes: "dev-w2"
+      Default: NO
       MaxTime: '30-00:00:00'
       State: UP
 
