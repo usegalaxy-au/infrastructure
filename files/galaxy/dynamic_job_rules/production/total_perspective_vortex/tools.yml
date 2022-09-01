@@ -693,8 +693,8 @@ tools:
     - if: 1 <= input_size < 10
       cores: 16
     - if: input_size >= 10
-      cores: 120
-      mem: 1922
+      cores: 60
+      mem: 961
       scheduling:
         accept:
         - high-mem
@@ -707,8 +707,8 @@ tools:
     - if: 0.05 <= input_size < 5
       cores: 8
     - if: input_size >= 5
-      cores: 120
-      mem: 1922
+      cores: 60
+      mem: 961
       scheduling:
         accept:
         - high-mem
@@ -888,8 +888,8 @@ tools:
     - if: 0.5 <= input_size < 15
       cores: 8
     - if: input_size >= 15
-      cores: 60  # one quarter of a QLD high mem pulsar
-      mem: 961
+      cores: 30
+      mem: 480.5
       scheduling:
         accept:
         - high-mem
@@ -972,8 +972,8 @@ tools:
     - if: 0.5 <= input_size < 5
       cores: 8
     - if: input_size >= 5
-      cores: 120
-      mem: 1922
+      cores: 60
+      mem: 961
       scheduling:
         accept:
         - high-mem
@@ -1020,8 +1020,8 @@ tools:
     - if: 5 <= input_size < 20
       cores: 16
     - if: input_size >= 20
-      cores: 120
-      mem: 1922
+      cores: 30
+      mem: 480.5
       scheduling:
         accept:
         - high-mem
@@ -1040,8 +1040,8 @@ tools:
     - if: 10 <= input_size < 20
       cores: 4
     - if: input_size >= 20
-      cores: 120
-      mem: 1922
+      cores: 60
+      mem: 961
       scheduling:
         accept:
         - high-mem
@@ -1167,8 +1167,8 @@ tools:
       - pulsar-training-large
     rules:
     - if: input_size >= 0.2
-      cores: 120
-      mem: 1922
+      cores: 60
+      mem: 961
       scheduling:
         accept:
         - high-mem
@@ -1238,8 +1238,8 @@ tools:
     - if: 0.05 <= input_size < 0.3
       cores: 8
     - if: input_size >= 0.3
-      cores: 60
-      mem: 961
+      cores: 30
+      mem: 480.5
       scheduling:
         accept:
         - high-mem
@@ -1271,11 +1271,7 @@ tools:
       - pulsar
     rules:
     - if: input_size >= 1
-      cores: 60
-      mem: 961
-      scheduling:
-        accept:
-        - high-mem
+      cores: 16
   toolshed.g2.bx.psu.edu/repos/iuc/raven/raven/.*:
     cores: 2
     scheduling:
@@ -1315,8 +1311,8 @@ tools:
     - if: 0.002 <= input_size < 5
       cores: 16
     - if: input_size >= 5
-      cores: 120
-      mem: 1922
+      cores: 60
+      mem: 961
       scheduling:
         accept:
         - high-mem
@@ -1346,8 +1342,8 @@ tools:
     - if: 0.005 <= input_size < 2
       cores: 8
     - if: 2 <= input_size < 20
-      cores: 60
-      mem: 961
+      cores: 30
+      mem: 480.5
       scheduling:
         accept:
         - high-mem
