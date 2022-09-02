@@ -250,7 +250,7 @@ slurm_singularity_volumes_list:
   - "/mnt/galaxy/data:ro"
   - "/mnt/galaxy/data-2:ro"
   - "/mnt/galaxy/data-3:ro"
-  - "/mnt/test_mount:ro"
+  # - "/mnt/test_mount:ro"  # including this causes singularity jobs to fail
   - "/cvmfs/data.galaxyproject.org:ro"
 
 pulsar_singularity_volumes_list:
