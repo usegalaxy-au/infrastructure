@@ -32,7 +32,7 @@ slurm_nodes:
 
 slurm_partitions:
     - name: main
-      nodes: "dev-w1,dev-w2"
+      nodes: "dev-w1"
       Default: YES
       MaxTime: '30-00:00:00'
       State: UP
