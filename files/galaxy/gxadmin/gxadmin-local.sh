@@ -5,6 +5,8 @@
 GXADMIN_LOCAL_EXTRA=${BASH_SOURCE%/*}/gxadmin-local-extra.sh
 [ -f $GXADMIN_LOCAL_EXTRA ] && source $GXADMIN_LOCAL_EXTRA
 
+registered_subcommands="$registered_subcommands local"
+
 local_query-monthly-users-registered-by-group(){ ## [year]: Number of users registered each month for each group
 	handle_help "$@" <<-EOF
         Number of users per group each month that registered. **NOTE**: Does not include anonymous users or users in no group.
@@ -320,7 +322,7 @@ EOFhelp
 EOF
 }
 
-local_query-histogram-of-history-create-time(){
+local_query-histogram-of-history-create-time() { ## : Produces data for a histogram of history create times by weeks
 	handle_help "$@" <<-EOFhelp
 	Produces data for a histogram of history create times by weeks
 
@@ -369,7 +371,7 @@ EOFhelp
 EOF
 }
 
-local_query-histogram-of-history-create-update-time(){
+local_query-histogram-of-history-create-update-time() { ## : Produces data for a histogram of history create and update times by weeks
 	handle_help "$@" <<-EOFhelp
 	Produces data for a histogram of history create and update times by weeks
 
@@ -393,7 +395,7 @@ EOFhelp
 EOF
 }
 
-local_query-job-input-datasets() { ##? <id>: Job ID
+local_query-job-input-datasets() { ##? [job_id] : Show job input datasets with sizes for a job
 	# similar to gxadmin query-job-inputs but with sizes
 	arg_id="$1"
 	handle_help "$@" <<-EOF
@@ -428,7 +430,7 @@ local_query-job-input-datasets() { ##? <id>: Job ID
 }
 
 
-local_query-job-input-size() { ##? <id>: Job ID
+local_query-job-input-size() { ##? [job_id]: Shows details of a job including the sum of input dataset sizes
 	job_id="$1"
 	handle_help "$@" <<-EOF
 
@@ -465,7 +467,7 @@ local_query-job-input-size() { ##? <id>: Job ID
 	EOF
 }
 
-local_query-job-input-size-by-tool() { ##? <tool> input tool substr,  # optional <limit>
+local_query-job-input-size-by-tool() { ##? [tool] <limit> : Show most recent jobs for a tool including total input size
 	tool_substr="$1"
 	[ ! "$2" ] && limit="10" || limit="$2"
 	handle_help "$@" <<-EOF
@@ -475,7 +477,7 @@ local_query-job-input-size-by-tool() { ##? <tool> input tool substr,  # optional
 	**NOTE**: since the tool argument is a substring of the ID, to specifically look for bwa jobs without including
 	bwa_mem jobs the appropriate argument would be '/bwa/bwa/'
 
-	$ gxadmin local query-jobs-input-size-by-tool multiqc
+	$ gxadmin local query-job-input-size-by-tool multiqc
 
 	 job_id  |          created           |          updated           |   username   | state |                       tool_id                        | sum_input_size | destination  | external_id
 	---------+----------------------------+----------------------------+--------------+-------+------------------------------------------------------+----------------+--------------+-------------
@@ -514,7 +516,7 @@ local_query-job-input-size-by-tool() { ##? <tool> input tool substr,  # optional
 	EOF
 }
 
-local_query-all-jobs() {  ##? <limit> number of jobs to return (optional)
+local_query-all-jobs() {  ##? <limit> : List most recently updated jobs
 	[ ! "$1" ] && limit="50" || limit="$1"
 	handle_help "$@" <<-EOF
 
@@ -542,58 +544,12 @@ local_query-all-jobs() {  ##? <limit> number of jobs to return (optional)
 				j.destination_id as destination
 			FROM job j, galaxy_user u
 			WHERE j.user_id = u.id
-			ORDER BY j.create_time desc
-			LIMIT $limit
-	EOF
-}
-
-local_query-1slot-jobs-by-walltime() { ##? <runtime_seconds> minimum runtime in seconds,  # optional <limit>
-	walltime_seconds="$1"
-	[ ! "$2" ] && limit="50" || limit="$2"
-
-	handle_help "$@" <<-EOF
-
-	Produces a table of completed jobs with running time *greater than* the input argument in seconds that have
-	run on the slurm_1slot destination.  There is an optional second argument of the number of rows to return
-	(default 50).
-
-	For example, the last 4 jobs that ran on slurm_1slot for more than half an hour (1800 seconds)
-
-	$ gxadmin local query-1slot-jobs-by-walltime 1800 10
-	 job_id  |        update_time         |                                                   tool_id                                                    | runtime  | sum_input_size
-	---------+----------------------------+--------------------------------------------------------------------------------------------------------------+----------+----------------
-	 7535177 | 2021-09-14 06:48:04.311428 | toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/1.2.0.1+galaxy0 | 00:38:25 | 603 MB
-	 7534756 | 2021-09-14 04:17:04.111619 | toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/scanpy_remove_confounders/1.7.1+galaxy0           | 00:56:32 | 4659 MB
-	 7534276 | 2021-09-14 03:17:39.812616 | toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/scanpy_remove_confounders/1.7.1+galaxy0           | 01:14:35 | 4659 MB
-	 7534370 | 2021-09-14 03:14:51.898115 | toolshed.g2.bx.psu.edu/repos/iuc/fastqe/fastqe/0.2.6+galaxy0                                                 | 01:19:38 | 9799 MB
-
-	EOF
-
-	read -r -d '' QUERY <<-EOF
-		SELECT
-			jmn.job_id as job_id,
-			j.update_time as update_time,
-			j.tool_id as tool_id,
-			TO_CHAR((jmn.metric_value || ' second')::interval, 'HH24:MI:SS') as runtime,
-			(
-				SELECT
-				pg_size_pretty(SUM(d.total_size))
-				FROM dataset d, history_dataset_association hda, job_to_input_dataset jtid
-				WHERE hda.dataset_id = d.id
-				AND jtid.job_id = j.id
-				AND hda.id = jtid.dataset_id
-			) as sum_input_size
-			FROM job_metric_numeric jmn, job j
-			WHERE jmn.job_id = j.id
-			AND j.destination_id = 'slurm_1slot'
-			AND jmn.metric_name = 'runtime_seconds'
-			AND jmn.metric_value > $walltime_seconds
 			ORDER BY j.update_time desc
 			LIMIT $limit
 	EOF
 }
 
-local_query-walltime-size-by-tool() { ##? <tool> input tool substr,  # optional <limit>
+local_query-walltime-size-by-tool() { ##? [tool substr] <limit> : Show most recent jobs with walltime and total input size for a given tool
 	tool_substr="$1"
 	[ ! "$2" ] && limit="50" || limit="$2"
 	handle_help "$@" <<-EOF
@@ -636,14 +592,16 @@ local_query-walltime-size-by-tool() { ##? <tool> input tool substr,  # optional 
 					AND hda.id = jtid.dataset_id
 				) as sum_input_size,
 				j.destination_id as destination
-			FROM job j, galaxy_user u
+			FROM job j
+			FULL OUTER JOIN galaxy_user u ON j.user_id = u.id
 			WHERE j.user_id = u.id
 			AND position('$tool_substr' in j.tool_id)>0
 			ORDER BY j.update_time desc
 			LIMIT $limit
 	EOF
 }
-local_query-jobs-running-at-datetime() { ##? <datetime> datetime string
+
+local_query-jobs-running-at-datetime() { ##? <datetime> : See completed jobs created before and completed after a given datetime
 	datetime="$1"
 	handle_help "$@" <<-EOF
 
@@ -678,7 +636,7 @@ local_query-jobs-running-at-datetime() { ##? <datetime> datetime string
 	EOF
 }
 
-local_query-queue() { ##? [--all] [--seconds] [--since-update]: Detailed overview of running and queued jobs
+local_query-queue() { ##? [--all] [--seconds] [--since-update]: Detailed overview of running and queued jobs with cores/mem info
 	# this is a copy of gxadmin query queue-detail with job destination info (cores/mem/partition) added and runner_id, count removed
 	handle_help "$@" <<-EOF
 			$ gxadmin local query-queue
