@@ -57,9 +57,9 @@ tools:
     cores: 16
     params:
       docker_enabled: true
-    scheduling:
-      accept:
-      - pulsar
+    # scheduling:  # TODO: fix bionano on pulsar
+    #   accept:
+    #   - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_nxn_clustering/.*:
     params:
       singularity_enabled: true
