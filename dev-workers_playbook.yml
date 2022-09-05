@@ -18,7 +18,7 @@
         include_role:
           name: galaxyproject.cvmfs
         when: "{{ hostname.startswith('dev-w1') }}"
-      - name: Include the cvmfs role
+      - name: Include the s3fs role
         include_role:
           name: galaxyproject.s3fs
         when: "{{ hostname.startswith('dev-w2') }}"
