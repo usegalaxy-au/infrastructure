@@ -64,6 +64,7 @@ dev-queue ansible_ssh_host=45.113.232.149
 
 [dev_workers]
 dev-w1 ansible_ssh_host=45.113.233.251
+dev-w2 ansible_ssh_host=45.113.233.7
 
 [staging_slurm_head]
 staging-queue ansible_ssh_host=115.146.84.121
