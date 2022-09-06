@@ -56,14 +56,15 @@ machine_users:
         - galaxy_admin
       key: files/keys/justin.pub
       email: "{{ justin_email }}"
-    - name: grace
-      roles:
-        - sudo
-      key: files/keys/grace.pub
-      email: "{{ grace_email }}"
+    # - name: grace  # TODO: add task to remove alumni accounts (GH, TC)
+    #   roles:
+    #     - sudo
+    #   key: files/keys/grace.pub
+    #   email: "{{ grace_email }}"
     - name: cameron
       roles:
         - sudo
+        - galaxy_admin
       key: files/keys/cameron.pub
       email: "{{ cameron_email }}"
     - name: anna
