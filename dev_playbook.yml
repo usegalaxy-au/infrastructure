@@ -23,6 +23,7 @@
   roles:
     - galaxyproject.repos
     - common
+    - mounts
     - install-tpv
     - galaxyproject.postgresql
     - role: natefoo.postgresql_objects
