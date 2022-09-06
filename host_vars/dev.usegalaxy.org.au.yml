@@ -12,6 +12,12 @@ attached_volumes:
     path: /mnt
     fstype: ext4
 
+shared_mounts:
+  - path: /mnt/test_mount
+    src: 115.146.87.37:/galaxy-backup-au
+    fstype: nfs
+    state: mounted
+
 certbot_domains:
   - "{{ hostname }}"
   - "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
@@ -250,7 +256,7 @@ slurm_singularity_volumes_list:
   - "/mnt/galaxy/data:ro"
   - "/mnt/galaxy/data-2:ro"
   - "/mnt/galaxy/data-3:ro"
-  # - "/mnt/test_mount:ro"  # including this causes singularity jobs to fail
+  - "/mnt/test_mount:ro"
   - "/cvmfs/data.galaxyproject.org:ro"
 
 pulsar_singularity_volumes_list:
