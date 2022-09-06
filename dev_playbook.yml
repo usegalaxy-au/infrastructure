@@ -23,6 +23,7 @@
   roles:
     - galaxyproject.repos
     - common
+    - mounts
     - install-tpv
     - galaxyproject.postgresql
     - role: natefoo.postgresql_objects
@@ -41,13 +42,14 @@
     - galaxyproject.tusd
     - geerlingguy.nfs
     - galaxyproject.slurm
+    # - galaxyproject.s3fs
     - galaxyproject.cvmfs
     - galaxyproject.gxadmin
     - pg-post-tasks
     - remote-pulsar-cron
     - galaxy-pg-cleanup
     #- usegalaxy_eu.tiaas2
-    - dev-tiaas2
+    #- dev-tiaas2
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf

@@ -28,9 +28,18 @@ resource "openstack_compute_instance_v2" "dev-queue" {
   availability_zone = "melbourne-qh2-uom"
 }
 
-# slurm worker
+# slurm workers
 resource "openstack_compute_instance_v2" "dev-w1" {
   name            = "dev-w1"
+  image_id        = "f8b79936-6616-4a22-b55d-0d0a1d27bceb"
+  flavor_name     = "uom.general.16c64g"
+  key_pair        = "galaxy-australia"
+  security_groups = ["SSH", "default"]
+  availability_zone = "melbourne-qh2-uom"
+}
+
+resource "openstack_compute_instance_v2" "dev-w2" {
+  name            = "dev-w2"
   image_id        = "f8b79936-6616-4a22-b55d-0d0a1d27bceb"
   flavor_name     = "uom.general.16c64g"
   key_pair        = "galaxy-australia"
@@ -62,7 +71,7 @@ resource "openstack_compute_volume_attach_v2" "attach-dev-volume-to-dev" {
   volume_id   = "${openstack_blockstorage_volume_v2.dev-volume.id}"
 }
 
-# Volume for dev worker
+# Volumes for dev workers
 resource "openstack_blockstorage_volume_v2" "dev-w1-volume" {
   availability_zone = "melbourne-qh2-uom"
   name        = "dev-w1-volume"
@@ -70,33 +79,20 @@ resource "openstack_blockstorage_volume_v2" "dev-w1-volume" {
   size        = 100
 }
 
-# Attachment between dev worker and volume
+resource "openstack_blockstorage_volume_v2" "dev-w2-volume" {
+  availability_zone = "melbourne-qh2-uom"
+  name        = "dev-w2-volume"
+  description = "Galaxy Australia Dev w2 volume"
+  size        = 100
+}
+
+# Attachment between dev workers and volumes
 resource "openstack_compute_volume_attach_v2" "attach-dev-w1-volume-to-dev-w1" {
   instance_id = "${openstack_compute_instance_v2.dev-w1.id}"
   volume_id   = "${openstack_blockstorage_volume_v2.dev-w1-volume.id}"
 }
 
-# ftp
-resource "openstack_compute_instance_v2" "dev-ftp" {
-  name            = "dev-ftp"
-  image_id        = "f8b79936-6616-4a22-b55d-0d0a1d27bceb"
-  flavor_name     = "uom.general.2c8g"
-  key_pair        = "galaxy-australia"
-  security_groups = ["SSH", "Web-Services", "default"]
-  availability_zone = "melbourne-qh2-uom"
+resource "openstack_compute_volume_attach_v2" "attach-dev-w2-volume-to-dev-w2" {
+  instance_id = "${openstack_compute_instance_v2.dev-w2.id}"
+  volume_id   = "${openstack_blockstorage_volume_v2.dev-w2-volume.id}"
 }
-
-# Volume for ftp
-resource "openstack_blockstorage_volume_v2" "dev-ftp-volume" {
-  availability_zone = "melbourne-qh2-uom"
-  name        = "dev-ftp-volume"
-  description = "Galaxy Australia Dev volume for ftp"
-  size        = 300
-}
-
-# Attachment between application/web server and upload store volume
-resource "openstack_compute_volume_attach_v2" "attach-dev-ftp-volume-to-dev-ftp" {
-  instance_id = "${openstack_compute_instance_v2.dev-ftp.id}"
-  volume_id   = "${openstack_blockstorage_volume_v2.dev-ftp-volume.id}"
-}
-

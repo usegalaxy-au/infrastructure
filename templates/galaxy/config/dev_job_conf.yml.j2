@@ -1,10 +1,9 @@
 handling:
-  processes:
-    main.job-handler.1:
-    main.job-handler.2:
+  assign: 
+    - db-skip-locked
+  max_grab: 16
+  ready_window_size: 32
 runners:
-  dynamic:
-    rules_module: dynamic_rules
   local:
     load: galaxy.jobs.runners.local:LocalJobRunner
     workers: 4
