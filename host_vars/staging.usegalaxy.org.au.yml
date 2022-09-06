@@ -7,11 +7,11 @@ attached_volumes:
     fstype: ext4
 
 # total perspective vortex
-tpv_version: '1.2.0'
+tpv_version: "1.2.0"
 
 certbot_domains:
-- "{{ hostname }}"
-- "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
+  - "{{ hostname }}"
+  - "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_api_token }}"
@@ -28,7 +28,7 @@ galaxy_db_user_password: "{{ vault_staging_db_user_password }}"
 
 # NFS stuff
 nfs_exports:
-    - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
+  - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
 
 # ansible-galaxy
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
@@ -64,16 +64,42 @@ host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
     dest: "{{ galaxy_config_dir}}/oidc_config.xml"
 
-galaxy_handler_count: 2   ############# europe uses 5, this could be host specific
+galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
-host_galaxy_config:  # renamed from __galaxy_config
+host_galaxy_config: # renamed from __galaxy_config
+  uwsgi: # todo: check desired dev settings for processes, threads, logging, mule, farm, look at how this is defined in prod galaxy.yml
+    socket: 127.0.0.1:8080
+    buffer-size: 16384
+    processes: 5
+    threads: 4
+    offload-threads: 2
+    static-map:
+      - /static/style={{ galaxy_server_dir }}/static/style/blue
+      - /static={{ galaxy_server_dir }}/static
+      - /favicon.ico={{ galaxy_server_dir }}/static/favicon.ico
+    static-safe: client/galaxy/images
+    master: true
+    virtualenv: "{{ galaxy_venv_dir }}"
+    pythonpath: "{{ galaxy_server_dir }}/lib"
+    module: galaxy.webapps.galaxy.buildapp:uwsgi_app()
+    thunder-lock: true
+    die-on-term: true
+    hook-master-start:
+      - unix_signal:2 gracefully_kill_them_all
+      - unix_signal:15 gracefully_kill_them_all
+    py-call-osafterfork: true
+    enable-threads: true
+    mule:
+      - lib/galaxy/main.py
+      - lib/galaxy/main.py
+    farm: job-handlers:1,2
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }}"
     brand: "Australia Staging"
     database_connection: "postgresql://galaxy:{{ vault_staging_db_user_password }}@staging-db.usegalaxy.org.au:5432/galaxy"
     id_secret: "{{ vault_staging_id_secret }}"
     file_path: "{{ galaxy_file_path }}"
-    galaxy_infrastructure_url: 'https://staging.usegalaxy.org.au'
+    galaxy_infrastructure_url: "https://staging.usegalaxy.org.au"
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
     enable_oidc: true
@@ -82,10 +108,10 @@ host_galaxy_config:  # renamed from __galaxy_config
     job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
     # nginx upload module
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
-    nginx_upload_path: '/_upload'
+    nginx_upload_path: "/_upload"
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
-    nginx_upload_job_files_path: '/_job_files'
-    watch_job_rules: true  # important for total perspective vortex
+    nginx_upload_job_files_path: "/_job_files"
+    watch_job_rules: true # important for total perspective vortex
     enable_mulled_containers: true
     enable_beta_containers_interface: true
     tool_filters: ga_filters:hide_test_tools
@@ -128,16 +154,16 @@ docker_daemon_options:
 
 # Singularity and docker volumes
 slurm_singularity_volumes_list:
-  - '$job_directory:rw'
-  - '$galaxy_root:ro'
-  - '$tool_directory:ro'
-  - '$default_file_path:ro'
-  - '/cvmfs/data.galaxyproject.org:ro'
+  - "$job_directory:rw"
+  - "$galaxy_root:ro"
+  - "$tool_directory:ro"
+  - "$default_file_path:ro"
+  - "/cvmfs/data.galaxyproject.org:ro"
 
 pulsar_singularity_volumes_list:
-  - '$job_directory:rw'
-  - '$tool_directory:ro'
-  - '/cvmfs/data.galaxyproject.org:ro'
+  - "$job_directory:rw"
+  - "$tool_directory:ro"
+  - "/cvmfs/data.galaxyproject.org:ro"
 
 slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
 pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
@@ -148,7 +174,7 @@ pulsar_singularity_volumes: "{{ pulsar_singularity_volumes_list | join(',') }}"
 slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
 pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
 
-singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
 
 # TIaaS specific settings
 tiaas_repo: "https://github.com/neoformit/tiaas2"

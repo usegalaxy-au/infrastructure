@@ -64,7 +64,7 @@ shared_mounts: # TODO: /mnt/custom-indices from aarnet-misc-nfs
     fstype: nfs
     state: mounted
   - path: /mnt/user-data-3
-    src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data3"
+    src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-3"
     fstype: nfs
     state: mounted
   - path: /mnt/user-data-4
@@ -130,7 +130,28 @@ host_galaxy_config_templates:
     dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
 
 host_galaxy_config: # renamed from __galaxy_config
-  uwsgi:
+  uwsgi: # todo: check desired dev settings for processes, threads, logging, mule, farm, look at how this is defined in prod galaxy.yml
+    socket: 127.0.0.1:8080
+    buffer-size: 16384
+    processes: 5
+    threads: 4
+    offload-threads: 2
+    static-map:
+      - /static/style={{ galaxy_server_dir }}/static/style/blue
+      - /static={{ galaxy_server_dir }}/static
+      - /favicon.ico={{ galaxy_server_dir }}/static/favicon.ico
+    static-safe: client/galaxy/images
+    master: true
+    virtualenv: "{{ galaxy_venv_dir }}"
+    pythonpath: "{{ galaxy_server_dir }}/lib"
+    module: galaxy.webapps.galaxy.buildapp:uwsgi_app()
+    thunder-lock: true
+    die-on-term: true
+    hook-master-start:
+      - unix_signal:2 gracefully_kill_them_all
+      - unix_signal:15 gracefully_kill_them_all
+    py-call-osafterfork: true
+    enable-threads: true
     mule:
       - lib/galaxy/main.py
       - lib/galaxy/main.py
@@ -138,6 +159,7 @@ host_galaxy_config: # renamed from __galaxy_config
       - lib/galaxy/main.py
       - lib/galaxy/main.py
     farm: job-handlers:1,2,3,4,5
+
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
     brand: "Australia"
