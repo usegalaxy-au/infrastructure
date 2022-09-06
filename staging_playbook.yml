@@ -39,6 +39,7 @@
     - galaxyproject.cvmfs
     - gantsign.golang
     - cyverse-ansible.singularity
+    - dev-tiaas2
     - geerlingguy.docker
     - acl-on-startup
     - galaxyproject.gxadmin

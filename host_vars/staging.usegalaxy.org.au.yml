@@ -175,3 +175,28 @@ slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
 pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
 
 singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
+
+# TIaaS specific settings
+tiaas_repo: "https://github.com/neoformit/tiaas2"
+tiaas_galaxy_db_host: "staging-db.usegalaxy.org.au"
+tiaas_galaxy_db_port: "5432"
+tiaas_galaxy_db_user: "tiaasadmin"
+tiaas_galaxy_db_pass: "{{ vault_staging_db_tiaasadmin_password }}"
+tiaas_info:
+  owner: "Galaxy Australia staging"
+  owner_email: help@genome.edu.au
+  owner_site: "https://staging.usegalaxy.org.au"
+  domain: "staging.usegalaxy.org.au"
+
+# Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
+tiaas_disassociate_training_roles:
+  hour: 9 # optional, defaults to 0
+  minute: 0 # optional, defaults to 0
+
+tiaas_show_advertising: false
+tiaas_retain_contact_consent: false
+
+# Templates to override web content:
+tiaas_templates_dir: files/tiaas/html
+# Static files referenced by above templates:
+tiaas_extra_static_dir: files/tiaas/static
