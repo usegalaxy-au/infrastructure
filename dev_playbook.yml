@@ -41,7 +41,7 @@
     - galaxyproject.tusd
     - geerlingguy.nfs
     - galaxyproject.slurm
-    - galaxyproject.s3fs
+    # - galaxyproject.s3fs
     - galaxyproject.cvmfs
     - galaxyproject.gxadmin
     - pg-post-tasks

@@ -15,6 +15,11 @@ shared_mounts:
       src: dev:/mnt/galaxy
       fstype: nfs
       state: mounted
+    - path: /mnt/test_mount
+      src: 115.146.87.37:/galaxy-backup-au
+      fstype: nfs
+      state: mounted
+
 
 # Interactive Tools
 docker_install_compose: false
