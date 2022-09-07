@@ -42,32 +42,6 @@ tools:
     scheduling:
       accept:
         - pulsar
-    rules:
-      - if: |
-          ### helper function
-          from tpv.core.entities import Tool
-          from galaxy import model
-          import re
-
-          def concurrent_jobs_for_tool(app, entity, user=None):
-            if user and isinstance(entity, Tool):
-              try:
-                get_tool_id_regex = re.compile('Tool: (?P<tool_id_regex>[^,]*)')
-                tool_id_regex = re.match(get_tool_id_regex, entity.id).groupdict()['tool_id_regex']
-              except Exception:
-                return 0
-              query = app.model.context.query(model.Job)
-              if user:
-                query = query.filter(model.Job.table.c.user_id == user.id)
-              query = query.filter(model.Job.table.c.state.in_(['queued', 'running']))
-              query = query.filter(model.Job.table.c.tool_id.regexp_match(tool_id_regex))
-              return query.count()
-            return 0  # if entity is not tool, return 0
-          ### end helper function
-
-          concurrent_jobs_for_tool(app, entity, user) > 0 # limits fastqc to one job per user at a time
-        execute: |
-          from galaxy.jobs.mapper import JobNotReadyException; raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
     cores: 1
     scheduling:
