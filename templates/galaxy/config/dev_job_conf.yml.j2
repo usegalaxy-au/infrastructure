@@ -62,6 +62,27 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: True
     amqp_publish_retry_max_retries: 60
+  pulsar_reservation_g2_xlarge_A_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_url: "pyamqp://galaxy_reservation_g2_xlarge_A:{{ vault_rabbitmq_password_galaxy_reservation_g2_xlarge_A }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_reservation_g2_xlarge_A?ssl=1"
+    galaxy_url: "https://dev.usegalaxy.org.au"
+    manager: _default_
+    amqp_acknowledge: True
+    amqp_ack_republish_time: 1200
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: True
+    amqp_publish_retry_max_retries: 60
+  pulsar_reservation_g2_xlarge_B_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_url: "pyamqp://galaxy_reservation_g2_xlarge_B:{{ vault_rabbitmq_password_galaxy_reservation_g2_xlarge_B }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_reservation_g2_xlarge_B?ssl=1"
+    galaxy_url: "https://dev.usegalaxy.org.au"
+    manager: _default_
+    amqp_acknowledge: True
+    amqp_ack_republish_time: 1200
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: True
+    amqp_publish_retry_max_retries: 60
+
 execution:
   default: tpv_dispatcher
   environments:
@@ -76,6 +97,7 @@ execution:
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/interactive_tools.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/vortex_config.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/reservation_destinations.yml"
     dynamic_dtd:
       runner: dynamic
       type: dtd
@@ -252,6 +274,60 @@ execution:
       rewrite_parameters: "true"
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32000"
+    pulsar-reservation-g2-xlarge-A:
+      runner: pulsar_reservation_g2_xlarge_A_runner
+      jobs_directory: /mnt/pulsar/files/staging
+      transport: curl
+      remote_metadata: 'false'
+      # metadata_strategy: 'extended'
+      default_file_action: remote_transfer
+      outputs_to_working_directory: false
+      dependency_resolution: remote
+      rewrite_parameters: 'true'
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      submit_native_specification: "--nodes=1 --ntasks=60 --ntasks-per-node=60 --mem=122880"
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ pulsar_docker_volumes }}'
+      docker_run_user: '1000'
+      singularity_enabled: false
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: mulled_singularity
+      env:
+        - name: SINGULARITY_CACHEDIR
+          value: /mnt/pulsar/deps/singularity
+        - name: SINGULARITY_TMPDIR
+          value: /mnt/pulsar/deps/singularity/tmp
+    pulsar-reservation-g2-xlarge-B:
+      runner: pulsar_reservation_g2_xlarge_B_runner
+      jobs_directory: /mnt/pulsar/files/staging
+      transport: curl
+      remote_metadata: 'false'
+      # metadata_strategy: 'extended'
+      default_file_action: remote_transfer
+      outputs_to_working_directory: false
+      dependency_resolution: remote
+      rewrite_parameters: 'true'
+      persistence_directory: /mnt/pulsar/files/persisted_data
+      submit_native_specification:  "--nodes=1 --ntasks=60 --ntasks-per-node=60 --mem=122880"
+      docker_enabled: false
+      docker_sudo: false
+      docker_volumes: '{{ pulsar_docker_volumes }}'
+      docker_run_user: '1000'
+      singularity_enabled: false
+      singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      singularity_default_container_id: '{{ singularity_default_container_id }}'
+      container_resolvers: 
+        - type: explicit_singularity
+        - type: mulled_singularity
+      env:
+        - name: SINGULARITY_CACHEDIR
+          value: /mnt/pulsar/deps/singularity
+        - name: SINGULARITY_TMPDIR
+          value: /mnt/pulsar/deps/singularity/tmp
 
 limits:
 - type: anonymous_user_concurrent_jobs
