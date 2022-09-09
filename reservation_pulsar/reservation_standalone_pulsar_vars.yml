@@ -1,0 +1,103 @@
+hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
+
+common_role_skip_machine_users: true
+machine_users: [] # for now
+# Keys and shares
+
+create_ssh_key: yes  # Only the first time.
+ssl_country: "AU"
+ssl_state: "Vic"
+ssl_location: "Melbourne"
+ssl_organisation: "Galaxy Australia"
+ssl_operational_unit: "Pulsar Reservation {{ reservation_hostname }}"
+ssl_email: "help@genome.edu.au"
+
+#host specific pulsar settings
+
+# reservation_rabbit_id could be 01 or 02 at this point.  Playbook will fail if this is not provided
+# machine_type can only be g2_xlarge, no need to provide this in --extra-vars yet but it *could* be needed later on
+reservation_machine_type: g2_xlarge
+
+rabbitmq_password_galaxy_au: "{{ reservation_pulsar_rabbit_vars[reservation_machine_type][reservation_rabbit_id]['password'] }}"
+pulsar_queue_url: "dev-queue.usegalaxy.org.au"
+pulsar_rabbit_username: "{{ reservation_pulsar_rabbit_vars[reservation_machine_type][reservation_rabbit_id]['username'] }}"
+pulsar_rabbit_vhost: "{{ reservation_pulsar_rabbit_vars[reservation_machine_type][reservation_rabbit_id]['vhost'] }}"
+
+# attached_volumes:
+#   - device: /dev/dm-0
+#     path: /mnt
+#     fstype: ext4
+
+galaxy_uid: 10010
+galaxy_gid: 10010
+
+use_internal_ips: false
+
+# # cvmfs
+# cvmfs_cache_base: /mnt/var/lib/cvmfs
+# cvmfs_quota_limit: 20000
+
+#Monitoring for Staging. Once all VM monitoring has moved to stats.usegalaxy.org.au, this can be put in all.yml and removed here.
+influx_url: stats.usegalaxy.org.au
+grafana_server_url: "https://{{ influx_url }}:8086"
+
+# # Monitoring  # no monitoring for now but pulsar-reservation, maybe
+# telegraf_agent_output:
+#   - type: influxdb
+#     config:
+#       - urls = ["{{ grafana_server_url }}"]
+#       - database = "pulsar-special"
+#       - precision = "s"
+#       - username = "node"
+#       - password = "{{ vault_influx_node_password }}"
+
+auth_key_user: ubuntu
+
+head_nodes:
+    - "{{ reservation_hostname }}"
+
+# # 21/02/2022 revert to using conda because of mamba install errors
+# # # Use mamba as replacement for conda
+# pulsar_conda_exec: "mamba"
+
+# SLURM
+reservation_machine_name: "pulsar-reservation-{{ reservation_machine_type.replace('_', '-') }}-{{ reservation_rabbit_id }}"
+
+slurm_nodes:
+    - name: "{{ reservation_hostname }}"
+      NodeAddr: "{{ hostvars[reservation_hostname]['ansible_ssh_host'] }}"
+      CPUs: "{{ reservation_pulsar_specs[reservation_machine_type]['cores'] }}"
+      RealMemory: "{{ reservation_pulsar_specs[reservation_machine_type]['mem_MB'] }}"
+      State: UNKNOWN
+
+slurm_partitions:
+    - name: main
+      nodes: "{{ reservation_hostname }}"
+      Default: YES
+      MaxTime: INFINITE
+      State: UP
+
+slurm_config:
+    #SlurmDBd includes
+    AccountingStorageType: accounting_storage/slurmdbd
+    AccountingStorageHost: localhost
+    JobAcctGatherType: jobacct_gather/linux
+    ControlMachine: "{{ reservation_hostname }}"
+    SlurmctldPidFile: /run/slurmctld.pid
+    SlurmdPidFile: /run/slurmd.pid
+    # SCHEDULING
+    FastSchedule: 2
+    SchedulerType: sched/backfill
+    SelectType: select/cons_res
+    SelectTypeParameters: CR_CPU_Memory,CR_LLN
+
+slurm_munge_key: files/keys/munge.key
+
+# extra_keys:
+#   - id: ubuntu_maintenance_key
+#     type: public
+#     from: "{{ hostvars['aarnet']['ansible_ssh_host'] }}"
+
+# # docker
+# docker_daemon_options:
+#   data-root: /mnt/docker-data  # uncomment if using a volume

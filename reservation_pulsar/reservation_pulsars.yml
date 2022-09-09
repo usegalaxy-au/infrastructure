@@ -1,0 +1,15 @@
+reservation_pulsar_rabbit_vars:
+    g2_xlarge:
+        A:  # aaargh avoid this level of nesting if possible
+            password: "{{ vault_rabbitmq_password_galaxy_reservation_g2_xlarge_A }}"
+            username: "galaxy_reservation_g2_xlarge_A"
+            vhost: "/pulsar/galaxy_reservation_g2_xlarge_A"
+        B:
+            password: "{{ vault_rabbitmq_password_galaxy_reservation_g2_xlarge_B }}"
+            username: "galaxy_reservation_g2_xlarge_B"
+            vhost: "/pulsar/galaxy_reservation_g2_xlarge_B"
+
+reservation_pulsar_specs:
+    g2_xlarge:
+        cores: 60
+        mem_MB: 122880

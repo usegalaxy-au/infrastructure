@@ -1,0 +1,73 @@
+- hosts: "{{ reservation_hostname }}"
+  become: true
+  vars_files:
+    - ../group_vars/all.yml
+    - ../group_vars/pulsarservers.yml
+    - ../group_vars/VAULT
+    - reservation_pulsars.yml
+    - reservation_standalone_pulsar_vars.yml
+    - ../secret_group_vars/stats_server_vault
+    - ../secret_group_vars/dev_secrets
+    # - ../secret_group_vars/ubuntu_maintenance_key
+  vars:
+    - playbook_dir: '..'
+  pre_tasks:
+    # - name: Attach volume to instance  # leave this out for now though it may be needed
+    #   include_role:
+    #     name: attached-volumes
+    # - name: Create pulsar deps path
+    #   file:
+    #     path: "{{ pulsar_dependencies_dir }}"
+    #     state: directory
+    #     owner: "{{ pulsar_user.name }}"
+    #     group: "{{ pulsar_user.name }}"
+  roles:
+    # - common
+    # - insspb.hostname
+    # - geerlingguy.pip
+    # - galaxyproject.repos
+    # # - role: galaxyproject.miniconda  # leave miniconda out of it, this thing is meant to run docker only
+    # #   become: true
+    # #   become_user: "{{ pulsar_user.name }}"
+    # - galaxyproject.pulsar
+    # - mariadb
+    - role: galaxyproject.slurm
+      dir: '..'
+    - galaxyproject.cvmfs
+    # - gantsign.golang  # leave singularity out of it, this thing is meant to run docker only
+    # - cyverse-ansible.singularity
+    - geerlingguy.docker
+    - acl-on-startup
+    # - dj-wasabi.telegraf
+    - pulsar-post-tasks
+    - slurm-post-tasks
+    # - slg.galaxy_stats
+  post_tasks:
+    # - name: Create worker tmpdir on /mnt
+    #   file:
+    #       path: /mnt/tmpdisk
+    #       state: directory
+    #       owner: root
+    #       group: root
+    #       mode: '1777'
+    # - name: stat links
+    #   stat:
+    #       path: /tmp
+    #   register: links
+    # - name: remove old tmp
+    #   file:
+    #       path: /tmp
+    #       state: absent
+    #   when: links.stat.islnk is defined and not links.stat.islnk
+    # - name: Link /tmp to /mnt/tmpdisk
+    #   file:
+    #       src: /mnt/tmpdisk
+    #       dest: /tmp
+    #       state: link
+    #   become: yes
+    #   become_user: root
+    #   when: links.stat.islnk is defined and not links.stat.islnk
+    - name: Reload cvmfs config
+      command:
+        cmd: cvmfs_config reload
+      become: yes
