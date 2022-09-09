@@ -125,7 +125,7 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       singularity_enabled: false
       singularity_volumes: '{{ pulsar_singularity_volumes }}'
       singularity_default_container_id: '{{ singularity_default_container_id }}'
@@ -152,7 +152,7 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
+      docker_set_user: '1000'
       singularity_enabled: false
       singularity_volumes: '{{ pulsar_singularity_volumes }}'
       singularity_default_container_id: '{{ singularity_default_container_id }}'
@@ -289,18 +289,18 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
-      singularity_enabled: false
-      singularity_volumes: '{{ pulsar_singularity_volumes }}'
-      singularity_default_container_id: '{{ singularity_default_container_id }}'
-      container_resolvers: 
-        - type: explicit_singularity
-        - type: mulled_singularity
-      env:
-        - name: SINGULARITY_CACHEDIR
-          value: /mnt/pulsar/deps/singularity
-        - name: SINGULARITY_TMPDIR
-          value: /mnt/pulsar/deps/singularity/tmp
+      docker_set_user: '1000'
+      # singularity_enabled: false  # TODO: having singularity variables causes docker jobs to fail, these need to be set in destinations
+      # singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      # singularity_default_container_id: '{{ singularity_default_container_id }}'
+      # container_resolvers: 
+      #   - type: explicit_singularity
+      #   - type: mulled_singularity
+      # env:
+      #   - name: SINGULARITY_CACHEDIR
+      #     value: /mnt/pulsar/deps/singularity
+      #   - name: SINGULARITY_TMPDIR
+      #     value: /mnt/pulsar/deps/singularity/tmp
     pulsar-reservation-g2-xlarge-B:
       runner: pulsar_reservation_g2_xlarge_B_runner
       jobs_directory: /mnt/pulsar/files/staging
@@ -316,18 +316,18 @@ execution:
       docker_enabled: false
       docker_sudo: false
       docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_run_user: '1000'
-      singularity_enabled: false
-      singularity_volumes: '{{ pulsar_singularity_volumes }}'
-      singularity_default_container_id: '{{ singularity_default_container_id }}'
-      container_resolvers: 
-        - type: explicit_singularity
-        - type: mulled_singularity
-      env:
-        - name: SINGULARITY_CACHEDIR
-          value: /mnt/pulsar/deps/singularity
-        - name: SINGULARITY_TMPDIR
-          value: /mnt/pulsar/deps/singularity/tmp
+      docker_set_user: '1000'
+      # singularity_enabled: false
+      # singularity_volumes: '{{ pulsar_singularity_volumes }}'
+      # singularity_default_container_id: '{{ singularity_default_container_id }}'
+      # container_resolvers: 
+      #   - type: explicit_singularity
+      #   - type: mulled_singularity
+      # env:
+      #   - name: SINGULARITY_CACHEDIR
+      #     value: /mnt/pulsar/deps/singularity
+      #   - name: SINGULARITY_TMPDIR
+      #     value: /mnt/pulsar/deps/singularity/tmp
 
 limits:
 - type: anonymous_user_concurrent_jobs

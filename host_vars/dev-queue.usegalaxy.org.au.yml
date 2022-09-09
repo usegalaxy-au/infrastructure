@@ -42,6 +42,8 @@ rabbitmq_vhosts:
   - /pulsar/galaxy_eu_gpu
   - /pulsar/galaxy_azure_0
   - /pulsar/galaxy_azure_1
+  - /pulsar/galaxy_reservation_g2_xlarge_A
+  - /pulsar/galaxy_reservation_g2_xlarge_B
 
 rabbitmq_version: 3.10.5-1
 
