@@ -7,7 +7,6 @@ destinations:
       require:
         - pulsar
         - reservation-pulsar
-        - offline
       accept:
         - alphafold
         - pulsar-reservation-g2-xlarge-A
