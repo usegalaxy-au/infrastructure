@@ -49,6 +49,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/.*:
     params:
       singularity_enabled: True
+  toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
+    params:
+      singularity_enabled: true  
 
 destinations:
   slurm:
