@@ -45,10 +45,10 @@ tools:
       accept:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
-    cores: 1
-    scheduling:
-      accept:
-        - pulsar
+    cores: 2
+    # scheduling:
+    #   accept:
+    #     - pulsar
     rules:
       - if: user.email == "pulsar_azure_0@genome.edu.au" and input_size < 10
         scheduling:
@@ -321,6 +321,30 @@ users:
         scheduling:
           require:
             - pulsar
+      - id: cvmfs_test_user_rule
+        if: |
+          tag = 'cvmfs'
+          tag_present = False
+          if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+            try:
+              tag_present = tag in [hta.user_tname for hta in job.history.tags]
+            except:
+              pass
+          tag_present
+        context:
+          partition: cvmfs
+      - id: s3fs_test_user_rule
+        if: |
+          tag = 's3fs'
+          tag_present = False
+          if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+            try:
+              tag_present = tag in [hta.user_tname for hta in job.history.tags]
+            except:
+              pass
+          tag_present
+        context:
+          partition: s3fs
   star@email.com:
     inherits: test_user
   pulsar_user@usegalaxy.org.au:
