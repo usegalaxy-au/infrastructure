@@ -298,6 +298,9 @@ tools:
       cores: 2
     - if: input_size >= 0.01
       cores: 5
+  toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     cores: 1
   toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/.*:
