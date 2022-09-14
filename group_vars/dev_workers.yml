@@ -30,11 +30,11 @@ docker_daemon_options:
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
-cvmfs_quota_limit: 20000
+cvmfs_quota_limit: 5000
 
 # s3fs
 s3fs_cache_base: /mnt/var/lib/s3fs
-s3fs_ensure_diskfree: 75000
+s3fs_ensure_diskfree: 90077
 
 s3fs:
   access_key:

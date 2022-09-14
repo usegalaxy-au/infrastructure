@@ -65,4 +65,8 @@
             become_user: root
             when: links.stat.islnk is defined and not links.stat.islnk
         when: attached_volumes is defined
-
+      - name: Reload cvmfs config
+        command:
+          cmd: cvmfs_config reload
+        become: yes
+        when: "{{ hostname.startswith('dev-w1') }}"
