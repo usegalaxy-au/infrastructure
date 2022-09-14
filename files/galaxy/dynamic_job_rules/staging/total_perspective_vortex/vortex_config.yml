@@ -51,7 +51,10 @@ tools:
       singularity_enabled: True
   toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
     params:
-      singularity_enabled: true  
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
+    params:
+      singularity_enabled: True 
 
 destinations:
   slurm:
