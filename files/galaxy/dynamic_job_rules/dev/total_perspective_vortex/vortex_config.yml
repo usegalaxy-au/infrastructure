@@ -45,14 +45,12 @@ tools:
       accept:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
-    cores: 2
-    # scheduling:
-    #   accept:
-    #     - pulsar
+    cores: 6
     rules:
       - if: user.email == "pulsar_azure_0@genome.edu.au" and input_size < 10
         scheduling:
           require:
+            - pulsar
             - pulsar-azure-0
         cores: 4
         mem: 15
@@ -62,6 +60,7 @@ tools:
       - if: user.email == "pulsar_azure_0@genome.edu.au" and input_size >= 10
         scheduling:
           require:
+            - pulsar
             - pulsar-azure-0
         cores: 16
         mem: 60.8
