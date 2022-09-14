@@ -773,7 +773,14 @@ tools:
       dependency_resolution: none
     rules:
     - if: 2 <= input_size
-      cores: 4    
+      cores: 4
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
+    cores: 12
+    params:
+      singularity_enabled: True
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/.*:
     cores: 2
     scheduling:
