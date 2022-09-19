@@ -18,6 +18,7 @@
       systemd:
         name: galaxy
         state: restarted
+      listen: restart galaxy
   roles:
     - galaxyproject.repos
     - common
