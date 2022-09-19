@@ -15,6 +15,8 @@
       - interactive_tools.yml
       - vortex_config.yml
       - reservation_destinations.yml
+    - tpv_templates:
+      - destinations.yml
   handlers:
     - name: galaxy gravity restart
       become: True
@@ -33,6 +35,11 @@
         src: "files/galaxy/dynamic_job_rules/dev/total_perspective_vortex/{{ item }}"
         dest: "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/{{ item }}"
       with_items: "{{ tpv_files }}"
+    - name: copy total perspective vortex templates
+      template:
+        src: "{{ galaxy_dynamic_job_rules_src_dir }}/total_perspective_vortex/{{ item }}"
+        dest: "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/{{ item | replace('.j2', '') }}"
+      with_items: "{{ tpv_templates }}"
     - name: "Copy local tool configuration file to dev"
       copy:
         src: "{{ galaxy_config_file_src_dir }}/config/local_tool_conf_dev.xml"
