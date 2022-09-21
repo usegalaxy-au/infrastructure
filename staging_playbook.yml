@@ -1,23 +1,23 @@
 - hosts: staging_galaxy_server
   become: true
   vars_files:
-      - group_vars/all.yml
-      - group_vars/staging.yml
-      - group_vars/VAULT
-      - group_vars/galaxyservers.yml
-      - group_vars/staging_slurm.yml
-      - host_vars/staging.usegalaxy.org.au.yml
-      - secret_group_vars/stats_server_vault
+    - group_vars/all.yml
+    - group_vars/staging.yml
+    - group_vars/VAULT
+    - group_vars/galaxyservers.yml
+    - group_vars/staging_slurm.yml
+    - host_vars/staging.usegalaxy.org.au.yml
+    - secret_group_vars/stats_server_vault
   pre_tasks:
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
-  handlers:
-    - name: Restart Galaxy
-      systemd:
-        name: galaxy
-        state: restarted
-      listen: restart galaxy
+  # handlers:
+  #   - name: Restart Galaxy
+  #     systemd:
+  #       name: galaxy
+  #       state: restarted
+  #     listen: restart galaxy
   roles:
     - galaxyproject.repos
     - common
@@ -40,7 +40,7 @@
     - galaxyproject.cvmfs
     - gantsign.golang
     - cyverse-ansible.singularity
-    - dev-tiaas2
+    #- dev-tiaas2
     - geerlingguy.docker
     - acl-on-startup
     - galaxyproject.gxadmin
