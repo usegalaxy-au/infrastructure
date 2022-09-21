@@ -28,6 +28,12 @@ rabbitmq_users:
   - user: galaxy_azure_1
     password: "{{ rabbitmq_password_galaxy_azure_1 }}"
     vhost: /pulsar/galaxy_azure_1
+  - user: galaxy_reservation_g2_xlarge_A
+    password: "{{ rabbitmq_password_galaxy_reservation_g2_xlarge_A }}"
+    vhost: /pulsar/galaxy_reservation_g2_xlarge_A
+  - user: galaxy_reservation_g2_xlarge_B
+    password: "{{ rabbitmq_password_galaxy_reservation_g2_xlarge_B }}"
+    vhost: /pulsar/galaxy_reservation_g2_xlarge_B
 
 rabbitmq_vhosts:
   - galaxy
@@ -36,6 +42,8 @@ rabbitmq_vhosts:
   - /pulsar/galaxy_eu_gpu
   - /pulsar/galaxy_azure_0
   - /pulsar/galaxy_azure_1
+  - /pulsar/galaxy_reservation_g2_xlarge_A
+  - /pulsar/galaxy_reservation_g2_xlarge_B
 
 rabbitmq_version: 3.10.5-1
 
@@ -47,6 +55,8 @@ rabbitmq_password_galaxy_nci_test: "{{ vault_rabbitmq_password_galaxy_nci_test }
 rabbitmq_password_galaxy_eu_gpu: "{{ vault_rabbitmq_password_galaxy_eu_gpu }}"
 rabbitmq_password_galaxy_azure_0: "{{ vault_rabbitmq_password_galaxy_azure_0 }}"
 rabbitmq_password_galaxy_azure_1: "{{ vault_rabbitmq_password_galaxy_azure_1 }}"
+rabbitmq_password_galaxy_reservation_g2_xlarge_A: "{{ vault_rabbitmq_password_galaxy_reservation_g2_xlarge_A }}"
+rabbitmq_password_galaxy_reservation_g2_xlarge_B: "{{ vault_rabbitmq_password_galaxy_reservation_g2_xlarge_B }}"
 
 # Host specific Slurm settings
 slurm_roles: ['controller', 'dbd']

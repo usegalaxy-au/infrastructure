@@ -6,9 +6,11 @@ tools:
     scheduling:
       accept:
         - pulsar
+        - reservation-pulsar
+      prefer:
+        - pulsar-reservation-g2-xlarge-A
     params:
       docker_enabled: true
-      docker_memory: '{mem}G'
     cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/links/links/.*:
     params:
@@ -42,41 +44,13 @@ tools:
     scheduling:
       accept:
         - pulsar
-    rules:
-      - if: |
-          ### helper function
-          from tpv.core.entities import Tool
-          from galaxy import model
-          import re
-
-          def concurrent_jobs_for_tool(app, entity, user=None):
-            if user and isinstance(entity, Tool):
-              try:
-                get_tool_id_regex = re.compile('Tool: (?P<tool_id_regex>[^,]*)')
-                tool_id_regex = re.match(get_tool_id_regex, entity.id).groupdict()['tool_id_regex']
-              except Exception:
-                return 0
-              query = app.model.context.query(model.Job)
-              if user:
-                query = query.filter(model.Job.table.c.user_id == user.id)
-              query = query.filter(model.Job.table.c.state.in_(['queued', 'running']))
-              query = query.filter(model.Job.table.c.tool_id.regexp_match(tool_id_regex))
-              return query.count()
-            return 0  # if entity is not tool, return 0
-          ### end helper function
-
-          concurrent_jobs_for_tool(app, entity, user) > 0 # limits fastqc to one job per user at a time
-        execute: |
-          from galaxy.jobs.mapper import JobNotReadyException; raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
-    cores: 1
-    scheduling:
-      accept:
-        - pulsar
+    cores: 6
     rules:
       - if: user.email == "pulsar_azure_0@genome.edu.au" and input_size < 10
         scheduling:
           require:
+            - pulsar
             - pulsar-azure-0
         cores: 4
         mem: 15
@@ -86,6 +60,7 @@ tools:
       - if: user.email == "pulsar_azure_0@genome.edu.au" and input_size >= 10
         scheduling:
           require:
+            - pulsar
             - pulsar-azure-0
         cores: 16
         mem: 60.8
@@ -166,6 +141,13 @@ tools:
         - pulsar-eu-gpu-alpha
       require:
         - alphafold
+    params:
+      docker_enabled: true
+      docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
+      docker_sudo: false
+      require_container: true
+      docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=30 --env ALPHAFOLD_AA_LENGTH_MAX=2000"
+      docker_set_user: '1000'
     rules:
       - if: user.email == "pulsar_azure_0@genome.edu.au"
         scheduling:
@@ -175,13 +157,6 @@ tools:
         mem: 106
         context:
           partition: azuregpu1
-        params:
-          docker_enabled: true
-          docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
-          docker_sudo: false
-          require_container: true
-          docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=30 --env ALPHAFOLD_AA_LENGTH_MAX=2000"
-          docker_set_user: '1000'
       - if: user.email == "pulsar_azure_1@genome.edu.au"
         scheduling:
           require:
@@ -190,13 +165,13 @@ tools:
         mem: 69
         context:
           partition: azuregpu1
-        params:
-          docker_enabled: true
-          docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
-          docker_sudo: false
-          docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=30 --env ALPHAFOLD_AA_LENGTH_MAX=2000"
-          require_container: true
-          docker_set_user: '1000'
+      - if: user.email == "star@email.com"
+        scheduling:
+          require:
+            - reservation-pulsar
+        cores: 6 # there are 60, but match the regular alphafold
+        mem: 106 # there is 120ish, but match the regular alphafold
+
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.9+galaxy1:
     cores: 2
     params:
@@ -293,10 +268,18 @@ tools:
     params:
       singularity_enabled: True
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
-    cores: 4
     params:
       singularity_enabled: True
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+    rules:
+      - if: user.email == 'star@email.com'
+        cores: 8
+      - if: user.email != 'star@email.com'
+        cores: 8
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-nci-test
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
     # context:
     #   minimum_singularity_version: 5.0.0+galaxy0  # not working, ref https://github.com/galaxyproject/total-perspective-vortex/pull/32
@@ -337,6 +320,30 @@ users:
         scheduling:
           require:
             - pulsar
+      - id: cvmfs_test_user_rule
+        if: |
+          tag = 'cvmfs'
+          tag_present = False
+          if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+            try:
+              tag_present = tag in [hta.user_tname for hta in job.history.tags]
+            except:
+              pass
+          tag_present
+        context:
+          partition: cvmfs
+      - id: s3fs_test_user_rule
+        if: |
+          tag = 's3fs'
+          tag_present = False
+          if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+            try:
+              tag_present = tag in [hta.user_tname for hta in job.history.tags]
+            except:
+              pass
+          tag_present
+        context:
+          partition: s3fs
   star@email.com:
     inherits: test_user
   pulsar_user@usegalaxy.org.au:

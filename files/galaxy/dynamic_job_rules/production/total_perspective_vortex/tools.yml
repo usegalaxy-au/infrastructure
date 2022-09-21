@@ -57,9 +57,9 @@ tools:
     cores: 16
     params:
       docker_enabled: true
-    scheduling:
-      accept:
-      - pulsar
+    # scheduling:  # TODO: fix bionano on pulsar
+    #   accept:
+    #   - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_nxn_clustering/.*:
     params:
       singularity_enabled: true
@@ -298,6 +298,9 @@ tools:
       cores: 2
     - if: input_size >= 0.01
       cores: 5
+  toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     cores: 1
   toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/.*:
@@ -550,7 +553,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_yield_plot/poretools_yield_plot/.*:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/qualimap_bamqc/qualimap_bamqc/.*:
-    cores: 5
+    rules:
+    - if: 0.2 <= input_size < 30
+      cores: 5
+    - if: input_size >= 30
+      cores: 9
   toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/rna_starsolo/.*:
     cores: 9
   toolshed.g2.bx.psu.edu/repos/iuc/roary/roary/.*:
@@ -766,7 +773,14 @@ tools:
       dependency_resolution: none
     rules:
     - if: 2 <= input_size
-      cores: 4    
+      cores: 4
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
+    cores: 12
+    params:
+      singularity_enabled: True
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/.*:
     cores: 2
     scheduling:
@@ -1500,3 +1514,15 @@ tools:
         - high-mem
       require:
         - pulsar-qld-high-mem0
+  alphafold_test:
+    cores: 6
+    mem: 106
+    context:
+      partition: azuregpu1
+    params:
+      docker_enabled: true
+      docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000"
+    scheduling:
+      require:
+        - pulsar
+        - pulsar-azure-gpu

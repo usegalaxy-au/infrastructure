@@ -17,6 +17,7 @@
       systemd:
         name: galaxy
         state: restarted
+      listen: restart galaxy
   roles:
     - galaxyproject.repos
     - common
@@ -39,6 +40,7 @@
     - galaxyproject.cvmfs
     - gantsign.golang
     - cyverse-ansible.singularity
+    - dev-tiaas2
     - geerlingguy.docker
     - acl-on-startup
     - galaxyproject.gxadmin

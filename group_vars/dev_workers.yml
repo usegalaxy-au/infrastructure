@@ -15,6 +15,11 @@ shared_mounts:
       src: dev:/mnt/galaxy
       fstype: nfs
       state: mounted
+    - path: /mnt/test_mount
+      src: 115.146.87.37:/galaxy-backup-au
+      fstype: nfs
+      state: mounted
+
 
 # Interactive Tools
 docker_install_compose: false
@@ -22,3 +27,22 @@ docker_users:
   - "{{ galaxy_user.name }}"
 docker_daemon_options:
   data-root: /mnt/docker-data
+
+# cvmfs
+cvmfs_cache_base: /mnt/var/lib/cvmfs
+cvmfs_quota_limit: 5000
+
+# s3fs
+s3fs_cache_base: /mnt/var/lib/s3fs
+s3fs_ensure_diskfree: 90077
+
+s3fs:
+  access_key:
+  secret_key:
+  passwd_file: /etc/passwd-s3fs
+  buckets:
+    biorefdata:
+      mountpoint: /cvmfs/data.galaxyproject.org
+      prefix: /galaxy/v1/data.galaxyproject.org
+      options: "allow_other,use_cache={{ s3fs_cache_base }},max_stat_cache_size=100000,uid=33,gid=33,umask=002,url=https://s3.ap-southeast-2.amazonaws.com,endpoint=ap-southeast-2,public_bucket=1,enable_noobj_cache,no_check_certificate,kernel_cache,ensure_diskfree={{ s3fs_ensure_diskfree }}"
+

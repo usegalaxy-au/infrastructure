@@ -12,6 +12,12 @@ attached_volumes:
     path: /mnt
     fstype: ext4
 
+shared_mounts:
+  - path: /mnt/test_mount
+    src: 115.146.87.37:/galaxy-backup-au
+    fstype: nfs
+    state: mounted
+
 certbot_domains:
   - "{{ hostname }}"
   - "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
@@ -38,6 +44,7 @@ galaxy_dynamic_job_rules:
   - total_perspective_vortex/default_tool.yml
   - total_perspective_vortex/interactive_tools.yml
   - total_perspective_vortex/vortex_config.yml
+  - total_perspective_vortex/reservation_destinations.yml
   - readme.txt
 
 galaxy_systemd_mode: gravity
@@ -72,6 +79,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir}}/oidc_config.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/local_tool_conf_dev.xml"
     dest: "{{ galaxy_config_dir }}/local_tool_conf.xml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/additional_datatypes_conf.xml"
+    dest: "{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
 
 host_galaxy_config: # renamed from __galaxy_config
   gravity:
@@ -150,6 +159,8 @@ host_galaxy_config: # renamed from __galaxy_config
     tool_filters: ga_filters:hide_test_tools
     # TUS
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
+    terms_url: "https://site.usegalaxy.org.au/about#terms-of-service"
+    datatypes_config_file: "{{ galaxy_server_dir }}/lib/galaxy/config/sample/datatypes_conf.xml.sample,{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
@@ -184,8 +195,8 @@ gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 tiaas_repo: "https://github.com/neoformit/tiaas2"
 tiaas_galaxy_db_host: "dev-db.usegalaxy.org.au"
 tiaas_galaxy_db_port: "5432"
-tiaas_galaxy_db_user: "tiaas"
-tiaas_galaxy_db_pass: "{{ tiaas_galaxy_db_password }}"
+tiaas_galaxy_db_user: "tiaasadmin"
+tiaas_galaxy_db_pass: "{{ vault_dev_db_tiaasadmin_password }}"
 tiaas_info:
   owner: "Galaxy Australia Dev"
   owner_email: help@genome.edu.au
@@ -247,7 +258,10 @@ slurm_singularity_volumes_list:
   - "$job_directory:rw"
   - "$galaxy_root:ro"
   - "$tool_directory:ro"
-  - "$default_file_path:ro"
+  - "/mnt/galaxy/data:ro"
+  - "/mnt/galaxy/data-2:ro"
+  - "/mnt/galaxy/data-3:ro"
+  - "/mnt/test_mount:ro"
   - "/cvmfs/data.galaxyproject.org:ro"
 
 pulsar_singularity_volumes_list:
