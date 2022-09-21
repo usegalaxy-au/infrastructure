@@ -1,13 +1,12 @@
 handling:
-  processes:
-    main.job-handler.1:
-    main.job-handler.2:
+  assign:
+    - db-skip-locked
+  max_grab: 16
+  ready_window_size: 32
 runners:
   local:
     load: galaxy.jobs.runners.local:LocalJobRunner
     workers: 4
-  dynamic:
-    rules_module: dynamic_rules
   slurm:
     load: galaxy.jobs.runners.slurm:SlurmJobRunner
   pulsar_au_01:
