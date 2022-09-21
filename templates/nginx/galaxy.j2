@@ -12,6 +12,8 @@ server {
     uwsgi_buffer_size 16k;
     uwsgi_busy_buffers_size 24k;
 
+    {% if galaxy_commit_id = "release_22.01" %}
+
     # The most important location block, by default all requests are sent to uWSGI
     location / {
         # This is the backend to send the requests to.
@@ -19,6 +21,38 @@ server {
         uwsgi_param UWSGI_SCHEME $scheme;
         include uwsgi_params;
     }
+
+    location ~ ^/api/dataset_collections/([^/]+)/download/?$ {
+        proxy_buffering off;
+        uwsgi_pass 127.0.0.1:8080;
+        uwsgi_param UWSGI_SCHEME $scheme;
+        include uwsgi_params;
+    }
+
+    {% endif %}
+
+    {% if galaxy_commit_id != "release_22.01" %}
+
+    # The most important location block, by default all requests are sent to Gunicorn
+    location / {
+        proxy_pass         http://unix://{{ galaxy_mutable_config_dir }}/gunicorn.sock;
+        proxy_redirect     off;
+        proxy_set_header   Host              $host;
+        proxy_set_header   X-Real-IP         $remote_addr;
+        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+    }
+
+    location ~ ^/api/dataset_collections/([^/]+)/download/?$ {
+        proxy_buffering off;
+        proxy_pass http://unix://{{ galaxy_mutable_config_dir }}/gunicorn.sock;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+    }
+
+    {% endif %}
 
     # Static files can be more efficiently served by Nginx. Why send the
     # request to uWSGI which should be spending its time doing more useful
@@ -41,13 +75,6 @@ server {
         alias {{ galaxy_server_dir }}/config/plugins/$plug_type/;
         try_files $vis_d/${vis_d}_${vis_name}/static/$static_file
                   $vis_d/static/$static_file =404;
-    }
-
-    location ~ ^/api/dataset_collections/([^/]+)/download/?$ {
-        proxy_buffering off;
-        uwsgi_pass 127.0.0.1:8080;
-        uwsgi_param UWSGI_SCHEME $scheme;
-        include uwsgi_params;
     }
 
     location /_x_accel_redirect/ {
@@ -74,6 +101,8 @@ server {
         auth_basic "Restricted Content";
         auth_basic_user_file /etc/nginx/.htpasswd;
     }
+
+    
 
     location /tiaas {
         uwsgi_pass 127.0.0.1:5000;
