@@ -838,9 +838,9 @@ tools:
     rules:
     - if: 0.2 <= input_size < 4
       cores: 4
-    - if: 4 <= input_size < 20
+    - if: 4 <= input_size < 50
       cores: 8
-    - if: input_size >= 20
+    - if: input_size >= 50
       fail: Too much data, please don't use the FreeBayes for this
   toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/.*:
     cores: 2
