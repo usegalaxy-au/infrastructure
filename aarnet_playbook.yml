@@ -1,24 +1,24 @@
 - hosts: aarnet_galaxy_server
   become: true
   vars_files:
-      - group_vars/all.yml
-      - group_vars/aarnet.yml
-      - group_vars/VAULT
-      - group_vars/galaxyservers.yml
-      - group_vars/aarnet_slurm.yml
-      - host_vars/aarnet.usegalaxy.org.au.yml
-      - secret_group_vars/stats_server_vault
-      - secret_group_vars/ubuntu_maintenance_key
+    - group_vars/all.yml
+    - group_vars/aarnet.yml
+    - group_vars/VAULT
+    - group_vars/galaxyservers.yml
+    - group_vars/aarnet_slurm.yml
+    - host_vars/aarnet.usegalaxy.org.au.yml
+    - secret_group_vars/stats_server_vault
+    - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
-  handlers:
-    - name: Restart Galaxy
-      systemd:
-        name: galaxy
-        state: restarted
-      listen: restart galaxy
+  # handlers:
+  #   - name: Restart Galaxy
+  #     systemd:
+  #       name: galaxy
+  #       state: restarted
+  #     listen: restart galaxy
   roles:
     - galaxyproject.repos
     - common
