@@ -3,6 +3,7 @@ group_packages:
   - python3-psycopg2
   - libbz2-dev
   - liblzma-dev # 'libbz2-dev', 'liblzma-dev' have not been necessary for galaxy setup prior to ubuntu 20.04
+  - supervisor
 
 # Python 3 support
 pip_virtualenv_command: /usr/bin/python3 -m virtualenv # usegalaxy_eu.certbot, usegalaxy_eu.tiaas2, galaxyproject.galaxy
