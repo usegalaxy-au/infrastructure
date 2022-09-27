@@ -28,7 +28,7 @@ nginx_ssl_servers:
 interactive_tools_server_name: "usegalaxy.org.au"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_22.01
+galaxy_commit_id: release_22.05
 
 # total perspective vortex
 tpv_version: "1.2.0"
@@ -104,6 +104,10 @@ galaxy_dynamic_job_rules:
   - dynamic_rules/tool_destinations.yml
   - readme.txt
 
+galaxy_systemd_mode: gravity
+galaxy_systemd_env:
+  [DRMAA_LIBRARY_PATH="/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"]
+
 galaxy_tools_indices_dir: /mnt/tools
 galaxy_custom_indices_dir: /mnt/custom-indices
 galaxy_tmp_dir: /mnt/tmp
@@ -130,35 +134,30 @@ host_galaxy_config_templates:
     dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
 
 host_galaxy_config: # renamed from __galaxy_config
-  uwsgi: # todo: check desired dev settings for processes, threads, logging, mule, farm, look at how this is defined in prod galaxy.yml
-    socket: 127.0.0.1:8080
-    buffer-size: 16384
-    processes: 5
-    threads: 4
-    offload-threads: 2
-    static-map:
-      - /static/style={{ galaxy_server_dir }}/static/style/blue
-      - /static={{ galaxy_server_dir }}/static
-      - /favicon.ico={{ galaxy_server_dir }}/static/favicon.ico
-    static-safe: client/galaxy/images
-    master: true
-    virtualenv: "{{ galaxy_venv_dir }}"
-    pythonpath: "{{ galaxy_server_dir }}/lib"
-    module: galaxy.webapps.galaxy.buildapp:uwsgi_app()
-    thunder-lock: true
-    die-on-term: true
-    hook-master-start:
-      - unix_signal:2 gracefully_kill_them_all
-      - unix_signal:15 gracefully_kill_them_all
-    py-call-osafterfork: true
-    enable-threads: true
-    mule:
-      - lib/galaxy/main.py
-      - lib/galaxy/main.py
-      - lib/galaxy/main.py
-      - lib/galaxy/main.py
-      - lib/galaxy/main.py
-    farm: job-handlers:1,2,3,4,5
+  gravity:
+    galaxy_root: /mnt/galaxy/galaxy-app
+    app_server: gunicorn
+    gunicorn:
+      # listening options
+      bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+      # performance options
+      workers: 4
+      # Other options that will be passed to gunicorn
+      extra_args: '--forwarded-allow-ips="*"'
+      preload: true
+      environment:
+        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+    celery:
+      concurrency: 2
+      loglevel: DEBUG
+    handlers:
+      handler:
+        environment:
+          DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+        processes: 5
+        pools:
+          - job-handlers
+          - workflow-schedulers
 
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
