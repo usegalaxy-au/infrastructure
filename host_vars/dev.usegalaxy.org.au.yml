@@ -27,7 +27,7 @@ certbot_dns_credentials:
 dns-cloudflare-propagation-seconds: 60
 
 nginx_ssl_servers:
-  - galaxy-dev # This is galaxy-dev as the dev server is using the gunicorn socket stuff and not the uwsgi socket stuff..
+  - galaxy
   - galaxy-gie-proxy
 
 #gie proxy hostname
