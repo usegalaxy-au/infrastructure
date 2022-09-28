@@ -199,6 +199,6 @@ tiaas_show_advertising: false
 tiaas_retain_contact_consent: false
 
 # Templates to override web content:
-tiaas_templates_dir: files/tiaas/html
+tiaas_templates_dir: templates/tiaas/html
 # Static files referenced by above templates:
 tiaas_extra_static_dir: files/tiaas/static
