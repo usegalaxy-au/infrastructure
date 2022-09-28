@@ -300,6 +300,7 @@ slurm_roles: ["exec"]
 #Add slurm controllers hostname to hosts.
 add_hosts_head: yes
 add_hosts_workers: yes
+is_galaxy_head_node: yes  # flag for common role
 
 #TIaaS Config
 tiaas_dir: /opt/tiaas
