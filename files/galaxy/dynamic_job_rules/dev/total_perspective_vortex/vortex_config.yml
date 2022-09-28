@@ -6,8 +6,8 @@ tools:
     scheduling:
       accept:
         - pulsar
-        - reservation-pulsar
       prefer:
+        - reservation-pulsar
         - pulsar-reservation-g2-xlarge-A
     params:
       docker_enabled: true

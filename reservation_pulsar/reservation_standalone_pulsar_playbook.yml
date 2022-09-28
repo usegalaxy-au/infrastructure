@@ -22,17 +22,19 @@
     #     owner: "{{ pulsar_user.name }}"
     #     group: "{{ pulsar_user.name }}"
   roles:
-    # - common
-    # - insspb.hostname
-    # - geerlingguy.pip
-    # - galaxyproject.repos
-    # # - role: galaxyproject.miniconda  # leave miniconda out of it, this thing is meant to run docker only
-    # #   become: true
-    # #   become_user: "{{ pulsar_user.name }}"
-    # - galaxyproject.pulsar
-    # - mariadb
-    - role: galaxyproject.slurm
-      dir: '..'
+    - common
+    - mounts
+    - insspb.hostname
+    - geerlingguy.pip
+    - galaxyproject.repos
+    - galaxyproject.slurm
+    # - role: galaxyproject.miniconda  # leave miniconda out of it, this thing is meant to run docker only
+    #   become: true
+    #   become_user: "{{ pulsar_user.name }}"
+    - galaxyproject.pulsar
+    - mariadb
+    # - role: galaxyproject.slurm
+    #   dir: '..'
     - galaxyproject.cvmfs
     # - gantsign.golang  # leave singularity out of it, this thing is meant to run docker only
     # - cyverse-ansible.singularity

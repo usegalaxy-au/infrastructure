@@ -101,3 +101,9 @@ slurm_munge_key: files/keys/munge.key
 # # docker
 # docker_daemon_options:
 #   data-root: /mnt/docker-data  # uncomment if using a volume
+
+shared_mounts:
+  - src: 203.101.226.198:/data/alphafold_db
+    path: /data/alphafold_databases
+    fstype: nfs
+    state: mounted
