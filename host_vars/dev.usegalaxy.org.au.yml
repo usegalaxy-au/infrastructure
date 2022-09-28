@@ -133,7 +133,7 @@ host_galaxy_config: # renamed from __galaxy_config
   #     - lib/galaxy/main.py
   #   farm: job-handlers:1,2
   galaxy:
-    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},uwe@biocommons.org.au" # everyone is an admin on dev
+    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},uwe@biocommons.org.au,uwwint@gmail.com" # everyone is an admin on dev
     brand: "Australia Dev"
     database_connection: "postgresql://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
     id_secret: "{{ vault_dev_id_secret }}"
