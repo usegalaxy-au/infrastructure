@@ -36,8 +36,9 @@
 # TIaaS roles. Note official eu role is for production. github role is for dev.
 - src: usegalaxy_eu.tiaas2
   version: 0.0.9
-- src: https://github.com/neoformit/ansible-tiaas2/tree/tiaas-3
+- src: https://github.com/neoformit/ansible-tiaas2
   name: dev-tiaas2
+  version: tiaas-3
 
 - src: geerlingguy.docker
   version: 4.1.3
