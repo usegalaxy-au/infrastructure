@@ -54,3 +54,5 @@ integration-testing/venv
 
 #dev roles
 roles/dev-tiaas2
+
+roles/galaxyproject.s3fs
