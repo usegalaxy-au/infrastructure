@@ -205,10 +205,10 @@ tiaas_info:
 
 tiaas_other_config: |
   # Cam's mailtrap account
-  EMAIL_HOST = smtp.mailtrap.io
+  EMAIL_HOST = 'smtp.mailtrap.io'
   EMAIL_PORT = 2525
-  EMAIL_HOST_USER = 7ac4110c7f742c
-  EMAIL_HOST_PASSWORD = 256cd0d8c23ce3
+  EMAIL_HOST_USER = '7ac4110c7f742c'
+  EMAIL_HOST_PASSWORD = '{{ tiaas_email_password }}'
   EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
   EMAIL_TIMEOUT = 60
   TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
