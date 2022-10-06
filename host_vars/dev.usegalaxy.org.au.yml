@@ -192,7 +192,7 @@ db_address: "dev-db.usegalaxy.org.au"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 
 # TIaaS specific settings
-tiaas_repo: "https://github.com/neoformit/tiaas2"
+tiaas_repo: https://github.com/neoformit/tiaas2
 tiaas_galaxy_db_host: "dev-db.usegalaxy.org.au"
 tiaas_galaxy_db_port: "5432"
 tiaas_galaxy_db_user: "tiaasadmin"
@@ -200,8 +200,9 @@ tiaas_galaxy_db_pass: "{{ vault_dev_db_tiaasadmin_password }}"
 tiaas_info:
   owner: "Galaxy Australia Dev"
   owner_email: help@genome.edu.au
-  owner_site: "https://site.usegalaxy.org.au"
-  domain: "https://dev.usegalaxy.org.au"
+  owner_site: https://site.usegalaxy.org.au
+  domain: dev.usegalaxy.org.au
+  url: https://dev.usegalaxy.org.au
 
 tiaas_other_config: |
   # Cam's mailtrap account
