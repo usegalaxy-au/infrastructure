@@ -335,8 +335,10 @@ tools:
       fail: Too much data, please don't use the gubbins for this.
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
     rules:
-    - if: input_size >= 0.01
+    - if: 0.01 <= input_size < 10
       cores: 7
+    - if: input_size >= 10
+      cores: 16
   toolshed.g2.bx.psu.edu/repos/iuc/humann2/humann2/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/.*:
