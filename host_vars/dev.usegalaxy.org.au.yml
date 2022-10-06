@@ -206,7 +206,6 @@ tiaas_info:
   owner_email: help@genome.edu.au
   owner_site: https://site.usegalaxy.org.au
   domain: dev.usegalaxy.org.au
-  url: https://dev.usegalaxy.org.au
 
 tiaas_other_config: |
   # Cam's mailtrap account
