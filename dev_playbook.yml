@@ -48,7 +48,7 @@
     - pg-post-tasks
     - remote-pulsar-cron
     - galaxy-pg-cleanup
-    #- usegalaxy_eu.tiaas2
+    # - usegalaxy_eu.tiaas2
     - dev-tiaas2
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
