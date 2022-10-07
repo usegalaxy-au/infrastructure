@@ -163,7 +163,6 @@ host_galaxy_config: # renamed from __galaxy_config
     trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
     # TUS
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
-    terms_url: "https://site.usegalaxy.org.au/about#terms-of-service"
     datatypes_config_file: "{{ galaxy_server_dir }}/lib/galaxy/config/sample/datatypes_conf.xml.sample,{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
