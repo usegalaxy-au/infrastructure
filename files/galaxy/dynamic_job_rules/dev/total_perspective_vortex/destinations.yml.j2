@@ -85,7 +85,7 @@ destinations:
       require:
         - pulsar
         - pulsar-eu-gpu-alpha
-  pulsar-azure-0-std:  # TODO: this needs higher cores/mem for alphafold
+  pulsar-azure-0-std:
     cores: 120
     mem: 2000
     gpus: 1
@@ -97,7 +97,7 @@ destinations:
       require:
         - pulsar
         - pulsar-azure-0
-  pulsar-azure-1-std:  # TODO: this needs higher cores/mem for alphafold
+  pulsar-azure-1-std:
     cores: 24
     mem: 210
     gpus: 1
@@ -108,7 +108,7 @@ destinations:
       require:
         - pulsar
         - pulsar-azure-1
-  pulsar-azure-0-docker:  # TODO: this needs higher cores/mem for alphafold
+  pulsar-azure-0-docker:
     cores: 6
     mem: 107
     gpus: 1
