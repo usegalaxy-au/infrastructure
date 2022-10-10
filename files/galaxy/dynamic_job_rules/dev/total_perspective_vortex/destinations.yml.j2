@@ -29,8 +29,10 @@ destinations:
                 - type: explicit_singularity
                 - type: mulled_singularity
         env:
-          SINGULARITY_CACHEDIR: /mnt/pulsar/deps/singularity
-          SINGULARITY_TMPDIR: /mnt/pulsar/deps/singularity/tmp
+            - name: SINGULARITY_CACHEDIR
+              value: /mnt/pulsar/deps/singularity
+            - name: SINGULARITY_TMPDIR
+              value: /mnt/pulsar/deps/singularity/tmp
 
       - if: params.get('docker_enabled', False)
         params:
