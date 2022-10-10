@@ -1,7 +1,7 @@
 destinations:
   default:
     rules:
-      - if: params.get('singularity_enabled', False)
+      - if: params.get('singularity_enabled')
         params:
             singularity_default_container_id: "{{ singularity_default_container_id }}"  
       - if: params.get('docker_enabled')
@@ -12,7 +12,7 @@ destinations:
     params:
         nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
     rules:
-      - if: params.get('singularity_enabled', False)
+      - if: params.get('singularity_enabled')
         params:
             singularity_volumes: "{{ slurm_singularity_volumes }}"
       - if: params.get('docker_enabled')
@@ -22,7 +22,7 @@ destinations:
     params:
       submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
     rules:
-      - if: params.get('singularity_enabled', False)
+      - if: params.get('singularity_enabled')
         params:
             singularity_volumes: "{{ pulsar_singularity_volumes }}"
             container_resolvers: 
@@ -34,7 +34,7 @@ destinations:
             - name: SINGULARITY_TMPDIR
               value: /mnt/pulsar/deps/singularity/tmp
 
-      - if: params.get('docker_enabled', False)
+      - if: params.get('docker_enabled')
         params:
             docker_volumes: "{{ pulsar_docker_volumes }}"
             docker_set_user: '1000'
