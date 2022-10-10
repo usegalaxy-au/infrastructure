@@ -232,3 +232,7 @@ miniconda_conda_environments:
         packages:
         - mothur=1.36.1
         - readline=7.0 # added
+    __lofreq@2.1.5:
+        packages:
+        - lofreq=2.1.5
+        - samtools=1.15
