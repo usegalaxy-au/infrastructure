@@ -45,7 +45,6 @@ galaxy_dynamic_job_rules:
   - total_perspective_vortex/interactive_tools.yml
   - total_perspective_vortex/vortex_config.yml
   - total_perspective_vortex/reservation_destinations.yml
-  - total_perspective_vortex/destinations.yml.j2
   - readme.txt
 
 galaxy_systemd_mode: gravity
