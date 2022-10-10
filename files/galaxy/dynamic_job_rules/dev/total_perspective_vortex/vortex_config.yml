@@ -409,3 +409,83 @@ users:
         params:
           nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
           submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
+
+destinations:
+  slurm:
+    cores: 16
+    mem: 62.5
+    scheduling:
+      accept:
+        - slurm
+  pulsar_destination:
+    cores: 2
+    mem: 7.76
+    scheduling:
+      accept:
+        - dev-pulsar
+      require:
+        - pulsar
+  pulsar-nci-test:
+    cores: 16
+    mem: 48.19
+    scheduling:
+      accept:
+        - general
+        - pulsar-nci-test
+      require:
+        - pulsar
+  pulsar-eu-gpu-test:
+    cores: 40
+    mem: 107
+    scheduling:
+      accept:
+        - general
+      require:
+        - pulsar
+        - pulsar-eu-gpu-test
+  pulsar-eu-gpu-alpha:
+    cores: 40
+    mem: 107
+    gpus: 1
+    scheduling:
+      accept:
+        - general
+        - alphafold
+      require:
+        - pulsar
+        - pulsar-eu-gpu-alpha
+  pulsar-azure-0-std:  # TODO: this needs higher cores/mem for alphafold
+    cores: 120
+    mem: 2000
+    gpus: 1
+    scheduling:
+      accept:
+        - general
+        - alphafold
+        - offline
+      require:
+        - pulsar
+        - pulsar-azure-0
+  pulsar-azure-1-std:  # TODO: this needs higher cores/mem for alphafold
+    cores: 24
+    mem: 210
+    gpus: 1
+    scheduling:
+      accept:
+        - general
+        - alphafold
+      require:
+        - pulsar
+        - pulsar-azure-1
+  pulsar-azure-0-docker:  # TODO: this needs higher cores/mem for alphafold
+    cores: 6
+    mem: 107
+    gpus: 1
+    scheduling:
+      accept:
+        - general
+        - alphafold
+        - offline
+      require:
+        - pulsar
+        - pulsar-azure-docker
