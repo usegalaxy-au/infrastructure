@@ -37,7 +37,8 @@ destinations:
       - if: params.get('docker_enabled', False)
         params:
             docker_volumes: "{{ pulsar_docker_volumes }}"
-            docker_set_user: '1000'    
+            docker_set_user: '1000'
+    
   slurm:
     inherits: _slurm_destination
     cores: 16

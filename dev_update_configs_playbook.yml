@@ -16,7 +16,7 @@
       - vortex_config.yml
       - reservation_destinations.yml
     - tpv_templates:
-      - destinations.yml.j2
+      - destinations.yml
   handlers:
     - name: galaxy gravity restart
       become: True
