@@ -1,5 +1,6 @@
 destinations:
   pulsar-reservation-g2-xlarge-A:
+    inherits: _pulsar_destination
     cores: 60
     mem: 120
     gpus: 1
@@ -11,6 +12,7 @@ destinations:
         - alphafold
         - pulsar-reservation-g2-xlarge-A
   pulsar-reservation-g2-xlarge-B:
+    inherits: _pulsar_destination
     cores: 60
     mem: 120
     gpus: 1

@@ -97,6 +97,7 @@ execution:
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/interactive_tools.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/vortex_config.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/destinations.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/reservation_destinations.yml"
     dynamic_dtd:
       runner: dynamic
@@ -104,12 +105,6 @@ execution:
     slurm:
       runner: slurm
       nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
-      singularity_enabled: false
-      singularity_volumes: '{{ slurm_singularity_volumes }}'
-      singularity_default_container_id: '{{ singularity_default_container_id }}'
-      docker_enabled: false
-      docker_sudo: false
-      docker_volumes: '{{ slurm_docker_volumes }}'
     pulsar_destination:
       runner: pulsar_au_01
       jobs_directory: /mnt/pulsar/files/staging
@@ -122,21 +117,6 @@ execution:
       rewrite_parameters: 'true'
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7495"
-      docker_enabled: false
-      docker_sudo: false
-      docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_set_user: '1000'
-      singularity_enabled: false
-      singularity_volumes: '{{ pulsar_singularity_volumes }}'
-      singularity_default_container_id: '{{ singularity_default_container_id }}'
-      container_resolvers: 
-        - type: explicit_singularity
-        - type: mulled_singularity
-      env:
-        - name: SINGULARITY_CACHEDIR
-          value: /mnt/pulsar/deps/singularity
-        - name: SINGULARITY_TMPDIR
-          value: /mnt/pulsar/deps/singularity/tmp
     pulsar-nci-test:
       runner: pulsar_nci_test_runner
       jobs_directory: /mnt/pulsar/files/staging
@@ -149,21 +129,6 @@ execution:
       rewrite_parameters: 'true'
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
-      docker_enabled: false
-      docker_sudo: false
-      docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_set_user: '1000'
-      singularity_enabled: false
-      singularity_volumes: '{{ pulsar_singularity_volumes }}'
-      singularity_default_container_id: '{{ singularity_default_container_id }}'
-      container_resolvers: 
-        - type: explicit_singularity
-        - type: mulled_singularity
-      env:
-        - name: SINGULARITY_CACHEDIR
-          value: /mnt/pulsar/deps/singularity
-        - name: SINGULARITY_TMPDIR
-          value: /mnt/pulsar/deps/singularity/tmp
     interactive_local:
       runner: local
       docker_enabled: true
@@ -286,21 +251,6 @@ execution:
       rewrite_parameters: 'true'
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=60 --ntasks-per-node=60 --mem=122880"
-      docker_enabled: false
-      docker_sudo: false
-      docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_set_user: '1000'
-      # singularity_enabled: false  # TODO: having singularity variables causes docker jobs to fail, these need to be set in destinations
-      # singularity_volumes: '{{ pulsar_singularity_volumes }}'
-      # singularity_default_container_id: '{{ singularity_default_container_id }}'
-      # container_resolvers: 
-      #   - type: explicit_singularity
-      #   - type: mulled_singularity
-      # env:
-      #   - name: SINGULARITY_CACHEDIR
-      #     value: /mnt/pulsar/deps/singularity
-      #   - name: SINGULARITY_TMPDIR
-      #     value: /mnt/pulsar/deps/singularity/tmp
     pulsar-reservation-g2-xlarge-B:
       runner: pulsar_reservation_g2_xlarge_B_runner
       jobs_directory: /mnt/pulsar/files/staging
@@ -313,21 +263,6 @@ execution:
       rewrite_parameters: 'true'
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification:  "--nodes=1 --ntasks=60 --ntasks-per-node=60 --mem=122880"
-      docker_enabled: false
-      docker_sudo: false
-      docker_volumes: '{{ pulsar_docker_volumes }}'
-      docker_set_user: '1000'
-      # singularity_enabled: false
-      # singularity_volumes: '{{ pulsar_singularity_volumes }}'
-      # singularity_default_container_id: '{{ singularity_default_container_id }}'
-      # container_resolvers: 
-      #   - type: explicit_singularity
-      #   - type: mulled_singularity
-      # env:
-      #   - name: SINGULARITY_CACHEDIR
-      #     value: /mnt/pulsar/deps/singularity
-      #   - name: SINGULARITY_TMPDIR
-      #     value: /mnt/pulsar/deps/singularity/tmp
 
 limits:
 - type: anonymous_user_concurrent_jobs
