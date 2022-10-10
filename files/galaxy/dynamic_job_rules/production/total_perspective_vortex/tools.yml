@@ -896,6 +896,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+      reject:
+      - pulsar-QLD  # Temporary, until indexes are copied to pulsar-QLD
     rules:
     - if: 0.5 <= input_size < 15
       cores: 8
