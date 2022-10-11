@@ -1,4 +1,13 @@
 ---
+# filter list from user supplied env_names argument
+- name: Set conda_env_list (filtered)
+  set_fact:
+    conda_env_list: "{{ miniconda_conda_environments | dict2items | selectattr('key', 'in', env_names) }}"
+  when: env_names is defined
+- name: Set conda_env_list (unfiltered)
+  set_fact:
+    conda_env_list: "{{ miniconda_conda_environments | dict2items }}"
+  when: env_names is not defined
 # create and update tasks from galaxyproject.miniconda with mamba replacing conda as exec
 - name: Create conda envs
   command: >-
@@ -10,7 +19,7 @@
     {{ item.value.packages | join(' ') }}
   args:
     creates: "{{ miniconda_prefix ~ '/envs/' ~ item.key if not item.key.startswith('/') else item.key }}"
-  loop: "{{ miniconda_conda_environments | dict2items }}"
+  loop: "{{ conda_env_list }}"
 
 - name: Update conda envs
   command: >-
@@ -22,5 +31,5 @@
     {{ item.value.packages | join(' ') }}
   register: __miniconda_conda_install_output
   changed_when: "'All requested packages already installed' not in __miniconda_conda_install_output.stdout"
-  loop: "{{ miniconda_conda_environments | dict2items }}"
+  loop: "{{ conda_env_list }}"
   ignore_errors: true  # There will be an error if the folder exists and is not a conda environment.  If this is the case, manually remove the folder and try again

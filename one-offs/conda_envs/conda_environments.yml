@@ -1,5 +1,5 @@
 miniconda_conda_environments:
-    # mulled-v1-ec1b1a04f0a37159a466ffe7dde7f68e9afa6de806214f9fa9d35dc2310d5658:
+    mulled-v1-ec1b1a04f0a37159a466ffe7dde7f68e9afa6de806214f9fa9d35dc2310d5658:
         packages:
         - ivar=1.2.2
         - samtools=1.9
