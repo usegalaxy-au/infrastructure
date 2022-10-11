@@ -228,11 +228,13 @@ miniconda_conda_environments:
         packages:
         - samtools=1.8
         - openssl=1.0.2p # added
+    # toolshed.g2.bx.psu.edu/repos/iuc/mothur_hcluster/mothur_hcluster/1.36.1.0
     __mothur@1.36.1:
         packages:
         - mothur=1.36.1
         - readline=7.0 # added
+    # toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/2.1.5+galaxy2
     __lofreq@2.1.5:
         packages:
         - lofreq=2.1.5
-        - samtools=1.15
+        - samtools=1.15 # added
