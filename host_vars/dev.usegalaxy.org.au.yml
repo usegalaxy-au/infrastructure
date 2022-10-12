@@ -1,5 +1,7 @@
 # Specific settings for galaxy dev application/web server
 
+add_hosts_handlers: yes
+
 # Login override - checksum for Login.vue
 galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
 
@@ -73,6 +75,8 @@ host_galaxy_config_templates:
     dest: "{{ galaxy_config_dir}}/job_conf.yml"
   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
     dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
+  - src: "{{ galaxy_config_file_src_dir }}/config/web-gravity.yml"
+    dest: /opt/galaxy/web-gravity.yml
 
 host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
@@ -83,8 +87,7 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
-  - src: "{{ galaxy_config_file_src_dir }}/config/web-gravity.yml"
-    dest: /opt/galaxy/web-gravity.yml
+  
 
 host_galaxy_config: # renamed from __galaxy_config
   gravity: "!include /opt/galaxy/web-gravity.yml"

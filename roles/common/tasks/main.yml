@@ -23,7 +23,7 @@
 
 - name: Add external ips to hosts
   block:
-    - name: Add to head node to all worker's hosts files
+    - name: Add to head node to hosts files
       become: yes
       become_user: root
       lineinfile:
@@ -35,8 +35,21 @@
       when: add_hosts_head is defined and add_hosts_head == true
       with_items:
           "{{ head_nodes }}"
+    
+    - name: Add to handlers node to hosts files
+      become: yes
+      become_user: root
+      lineinfile:
+          path: "/etc/hosts"
+          #regexp: "{{ hostvars[item].ansible_host }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
+          line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
+          state: present
+          backup: yes
+      when: add_hosts_handlers is defined and add_hosts_handlers == true
+      with_items:
+          "{{ handlers_nodes }}"
 
-    - name: Add to worker nodes to head node's host file
+    - name: Add to worker nodes to host file
       become: yes
       become_user: root
       lineinfile:
@@ -49,7 +62,7 @@
       with_items:
           "{{ worker_nodes }}"
 
-    - name: Add Galaxy server to all worker's host files
+    - name: Add Galaxy server to host files
       become: yes
       become_user: root
       lineinfile:
@@ -77,6 +90,21 @@
       when: add_hosts_head is defined and add_hosts_head == true
       with_items:
           "{{ head_nodes }}"
+
+    - name: Add to handlers node to hosts files
+      become: yes
+      become_user: root
+      lineinfile:
+          path: "/etc/hosts"
+          #regexp: "{{ hostvars[item].ansible_host }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
+          #line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
+          line: "{{ hostvars[item].internal_ip }}\t{{ item }}" #Altered due to issues with internal network. Please put back once fixed
+          state: present
+          backup: yes
+      when: add_hosts_head is defined and add_hosts_head == true
+      with_items:
+          "{{ handler_nodes }}"
+
 
     - name: Add to worker nodes to head node's host file
       become: yes

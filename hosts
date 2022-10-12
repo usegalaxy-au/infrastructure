@@ -13,6 +13,9 @@ aarnet-db ansible_ssh_host=138.44.80.119 internal_ip=192.168.199.24
 [dev_galaxy_server]
 dev ansible_ssh_host=45.113.232.186
 
+[dev_handlers_server]
+dev-handlers ansible_ssh_host=115.146.93.217
+
 [staging_galaxy_server]
 staging ansible_ssh_host=115.146.84.166
 
