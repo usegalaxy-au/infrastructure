@@ -66,6 +66,8 @@ slurm_database_user_password: "{{ mariadb_password_slurm }}"
 slurm_database: 'slurm_acct_db'
 
 add_hosts_workers: yes
+add_hosts_handlers: yes
+add_hosts_galaxy: yes
 
 #Mariadb
 
