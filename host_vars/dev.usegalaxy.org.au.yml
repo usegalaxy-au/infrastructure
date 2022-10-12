@@ -4,7 +4,7 @@
 galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
 
 # total perspective vortex
-tpv_version: "1.2.0"
+tpv_version: "1.4.0"
 
 # variables for attaching mounted volume to application server
 attached_volumes:
@@ -83,57 +83,12 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/web-gravity.yml"
+    dest: /opt/galaxy/web-gravity.yml
 
 host_galaxy_config: # renamed from __galaxy_config
-  gravity:
-    galaxy_root: /mnt/galaxy/galaxy-app
-    app_server: gunicorn
-    gunicorn:
-      # listening options
-      bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
-      # performance options
-      workers: 2
-      # Other options that will be passed to gunicorn
-      extra_args: '--forwarded-allow-ips="*"'
-      preload: true
-      environment:
-        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-    celery:
-      concurrency: 2
-      loglevel: DEBUG
-    handlers:
-      handler:
-        processes: 3
-        pools:
-          - job-handlers
-          - workflow-schedulers
+  gravity: "!include /opt/galaxy/web-gravity.yml"
 
-  # uwsgi: # todo: check desired dev settings for processes, threads, logging, mule, farm, look at how this is defined in prod galaxy.yml
-  #   socket: 127.0.0.1:8080
-  #   buffer-size: 16384
-  #   processes: 5
-  #   threads: 4
-  #   offload-threads: 2
-  #   static-map:
-  #     - /static/style={{ galaxy_server_dir }}/static/style/blue
-  #     - /static={{ galaxy_server_dir }}/static
-  #     - /favicon.ico={{ galaxy_server_dir }}/static/favicon.ico
-  #   static-safe: client/galaxy/images
-  #   master: true
-  #   virtualenv: "{{ galaxy_venv_dir }}"
-  #   pythonpath: "{{ galaxy_server_dir }}/lib"
-  #   module: galaxy.webapps.galaxy.buildapp:uwsgi_app()
-  #   thunder-lock: true
-  #   die-on-term: true
-  #   hook-master-start:
-  #     - unix_signal:2 gracefully_kill_them_all
-  #     - unix_signal:15 gracefully_kill_them_all
-  #   py-call-osafterfork: true
-  #   enable-threads: true
-  #   mule:
-  #     - lib/galaxy/main.py
-  #     - lib/galaxy/main.py
-  #   farm: job-handlers:1,2
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},uwe@biocommons.org.au,uwwint@gmail.com" # everyone is an admin on dev
     brand: "Australia Dev"
