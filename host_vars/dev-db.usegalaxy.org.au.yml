@@ -1,4 +1,5 @@
 dev_galaxy_server_address: "{{ hostvars['dev']['ansible_ssh_host'] }}/32"
+dev_handler_server_address: "{{ hostvars['dev-handlers']['ansible_ssh_host'] }}/32"
 
 postgresql_conf:
   - max_connections: 50       # Decrease connection limit
@@ -6,6 +7,7 @@ postgresql_conf:
 
 postgresql_pg_hba_conf:
   - host all all "{{ dev_galaxy_server_address }}" md5 #The allowed connection to the database for the dev galaxy server.
+  - host all all "{{ dev_handler_server_address }}" md5 #The allowed connection to the database for the dev handlers server.
 
 postgresql_objects_users:
   - name: galaxy
