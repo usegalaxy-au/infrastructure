@@ -1,0 +1,23 @@
+---
+process_manager: systemd
+galaxy_root: /mnt/galaxy/galaxy-app
+app_server: gunicorn
+gunicorn:
+  # listening options
+  bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+  # performance options
+  workers: 2
+  # Other options that will be passed to gunicorn
+  extra_args: '--forwarded-allow-ips="*"'
+  preload: true
+  environment:
+    DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+celery:
+  concurrency: 2
+  loglevel: DEBUG
+handlers:
+  handler:
+    processes: 3
+    pools:
+      - job-handlers
+      - workflow-schedulers
