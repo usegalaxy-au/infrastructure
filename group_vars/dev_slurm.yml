@@ -4,7 +4,7 @@ auth_key_user: ubuntu
 head_nodes: "{{ groups['dev_slurm_head'] }}"
 worker_nodes: "{{ groups['dev_workers'] }}"
 galaxy_nodes: "{{ groups['dev_galaxy_server'] }}"
-handlers_nodes: "{{ groups['dev_handlers'] }}"
+handlers_nodes: "{{ groups['dev_handlers_server'] }}"
 
 add_galaxy_user: true #Adds the galaxy user to all machines that have slurm on them
 
