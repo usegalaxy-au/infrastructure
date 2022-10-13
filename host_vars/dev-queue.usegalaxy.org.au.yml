@@ -34,6 +34,9 @@ rabbitmq_users:
   - user: galaxy_reservation_g2_xlarge_B
     password: "{{ rabbitmq_password_galaxy_reservation_g2_xlarge_B }}"
     vhost: /pulsar/galaxy_reservation_g2_xlarge_B
+  - user: galaxy_queues
+    password: "{{ rabbitmq_password_galaxy }}"
+    vhost: /galaxy/galaxy_queues
 
 rabbitmq_vhosts:
   - galaxy
@@ -44,6 +47,7 @@ rabbitmq_vhosts:
   - /pulsar/galaxy_azure_1
   - /pulsar/galaxy_reservation_g2_xlarge_A
   - /pulsar/galaxy_reservation_g2_xlarge_B
+  - /galaxy/galaxy_queues
 
 rabbitmq_version: 3.10.5-1
 
