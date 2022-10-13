@@ -1,0 +1,111 @@
+- hosts: dev_handlers_server
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/dev.yml # machine_users overridden in this file
+    - group_vars/VAULT
+    - group_vars/galaxyservers.yml
+    - group_vars/dev_slurm.yml
+    - host_vars/dev-handlers.usegalaxy.org.au.yml
+    - secret_group_vars/ubuntu_maintenance_key
+    - secret_group_vars/stats_server_vault
+    - secret_group_vars/dev_secrets
+    - secret_group_vars/sentry_vault
+  # handlers:
+  #   - name: Restart Galaxy
+  #     systemd:
+  #       name: galaxy
+  #       state: restarted
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+    - name: create dir for gravity configuration
+      file:
+        state: directory
+        path: /opt/galaxy
+        owner: root
+        group: galaxy
+        mode: 0775
+  roles:
+    - galaxyproject.repos
+    - common
+    - mounts
+    #- install-tpv
+    #- galaxyproject.postgresql
+    #- role: natefoo.postgresql_objects
+      #become: true
+      #become_user: postgres
+    - geerlingguy.pip
+    - gantsign.golang
+    - cyverse-ansible.singularity
+    - galaxyproject.galaxy
+    #- role: galaxyproject.miniconda
+    #  become: true
+    #  become_user: galaxy
+    #- usegalaxy_eu.galaxy_systemd
+    #- nginx-upload-module
+    #- galaxyproject.nginx
+    #- galaxyproject.tusd
+    #- geerlingguy.nfs
+    - galaxyproject.slurm
+    # - galaxyproject.s3fs
+    - galaxyproject.cvmfs
+    - galaxyproject.gxadmin
+    #- pg-post-tasks
+    #- remote-pulsar-cron
+    #- galaxy-pg-cleanup
+    # - usegalaxy_eu.tiaas2
+    #- dev-tiaas2
+    #- geerlingguy.docker
+    #- usegalaxy_eu.gie_proxy
+    - dj-wasabi.telegraf
+    #- login-override
+  post_tasks:
+    # - name: Ensure object store paths exist
+    #   file:
+    #     state: directory
+    #     path: "{{ item }}"
+    #     owner: galaxy
+    #     group: galaxy
+    #   with_items:
+    #     - /mnt/galaxy/data
+    #     - /mnt/galaxy/data-2
+    #     - /mnt/galaxy/data-3
+    # - name: Make local_tool directory group-writable by machine users
+    #   file:
+    #     path: /mnt/galaxy/local_tools
+    #     owner: root
+    #     group: devs
+    #     mode: 0775
+    #     state: directory
+    # - name: Clone galaxy-local-tools
+    #   git:
+    #     repo: https://github.com/usegalaxy-au/galaxy-local-tools
+    #     dest: "{{ galaxy_server_dir }}/tools/galaxy-local-tools"
+    #     update: yes
+    # - name: Ensure data_fetch tmp directory exists
+    #   file:
+    #     path: "{{ galaxy_tmp_dir }}/data_fetch"
+    #     owner: "{{ galaxy_user.name }}"
+    #     group: "{{ galaxy_user.name }}"
+    #     state: directory
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa1
+    # - name: Workaround content-length header bug in webdav through forcible update to newer version
+    #   pip:
+    #     name: "webdavclient3@git+https://github.com/ezhov-evgeny/webdav-client-python-3@0f17fa7946e66f7963db367d0d6b2e7f940ebeb8"
+    #     state: forcereinstall
+    #     virtualenv: "{{ galaxy_venv_dir }}"
+    # - name: Reload exportfs
+    #   command: exportfs -ra
+    #   become: yes
+    #   become_user: root
+    # - name: set acl for galaxy user on docker.sock
+    #   acl:
+    #     path: /var/run/docker.sock
+    #     entity: "{{ galaxy_user.name }}"
+    #     etype: user
+    #     permissions: rw
+    #     state: present
