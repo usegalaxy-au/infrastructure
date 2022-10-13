@@ -18,7 +18,7 @@ tpv_version: "1.4.0"
 
 shared_mounts:
   - path: /mnt
-    src: dev.usegalaxy.org.au:/mnt
+    src: dev.usegalaxy.org.au:/mnt/galaxy
     fstype: nfs
     state: mounted
   - path: /mnt/test_mount
