@@ -11,11 +11,9 @@
     - secret_group_vars/stats_server_vault
     - secret_group_vars/dev_secrets
     - secret_group_vars/sentry_vault
-  # handlers:
-  #   - name: Restart Galaxy
-  #     systemd:
-  #       name: galaxy
-  #       state: restarted
+  handlers:
+    - name: Restart Galaxy
+      shell: "echo hi"
   pre_tasks:
     - name: Attach volume to instance
       include_role:
