@@ -1,7 +1,5 @@
 # Specific settings for galaxy dev application/web server
 
-add_hosts_handlers: yes
-
 # Login override - checksum for Login.vue
 galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
 
@@ -75,8 +73,6 @@ host_galaxy_config_templates:
     dest: "{{ galaxy_config_dir}}/job_conf.yml"
   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
     dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
-  - src: "{{ galaxy_config_file_src_dir }}/config/web-gravity.yml"
-    dest: /opt/galaxy/web-gravity.yml
 
 host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
@@ -88,9 +84,30 @@ host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
 
-
 host_galaxy_config: # renamed from __galaxy_config
-  gravity: "!include /opt/galaxy/web-gravity.yml"
+  gravity:
+    process_manager: systemd
+    galaxy_root: /mnt/galaxy/galaxy-app
+    app_server: gunicorn
+    gunicorn:
+      # listening options
+      bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+      # performance options
+      workers: 2
+      # Other options that will be passed to gunicorn
+      extra_args: '--forwarded-allow-ips="*"'
+      preload: true
+      environment:
+        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+    celery:
+      concurrency: 2
+      loglevel: DEBUG
+    handlers:
+      handler:
+        processes: 3
+        pools:
+          - job-handlers
+          - workflow-schedulers
 
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},uwe@biocommons.org.au,uwwint@gmail.com" # everyone is an admin on dev
@@ -153,8 +170,7 @@ db_address: "dev-db.usegalaxy.org.au"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 
 # TIaaS specific settings
-tiaas_repo: https://github.com/galaxyproject/tiaas2
-tiaas_version: main2  # New GalaxyAU version
+tiaas_repo: https://github.com/neoformit/tiaas2
 tiaas_galaxy_db_host: "dev-db.usegalaxy.org.au"
 tiaas_galaxy_db_port: "5432"
 tiaas_galaxy_db_user: "tiaasadmin"

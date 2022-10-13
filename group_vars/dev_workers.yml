@@ -2,6 +2,7 @@ slurm_roles: ['exec']
 
 add_hosts_head: yes
 add_hosts_galaxy: yes
+add_hosts_handlers: yes
 
 attached_volumes:
   - device: /dev/vdb

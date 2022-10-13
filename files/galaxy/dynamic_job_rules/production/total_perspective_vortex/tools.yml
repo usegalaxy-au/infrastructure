@@ -334,9 +334,17 @@ tools:
     - if: input_size >= 0.5
       fail: Too much data, please don't use the gubbins for this.
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
+    scheduling:
+      accept:
+      - pulsar
+      reject:
+      - pulsar-mel2
+      - pulsar-QLD
     rules:
-    - if: input_size >= 0.01
+    - if: 0.01 <= input_size < 10
       cores: 7
+    - if: input_size >= 10
+      cores: 32
   toolshed.g2.bx.psu.edu/repos/iuc/humann2/humann2/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/.*:
@@ -894,6 +902,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+      reject:
+      - pulsar-QLD  # Temporary, until indexes are copied to pulsar-QLD
     rules:
     - if: 0.5 <= input_size < 15
       cores: 8
