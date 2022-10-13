@@ -34,8 +34,8 @@
     - install-tpv
     #- galaxyproject.postgresql
     #- role: natefoo.postgresql_objects
-      become: true
-      become_user: postgres
+      #become: true
+      #become_user: postgres
     - geerlingguy.pip
     - gantsign.golang
     - cyverse-ansible.singularity
