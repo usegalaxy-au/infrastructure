@@ -26,7 +26,7 @@
         path: /opt/galaxy
         owner: root
         group: galaxy
-        mode: 0755
+        mode: 0775
   roles:
     - galaxyproject.repos
     - common
