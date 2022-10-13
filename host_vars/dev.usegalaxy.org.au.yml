@@ -52,6 +52,7 @@ galaxy_dynamic_job_rules:
 galaxy_systemd_mode: gravity
 galaxy_systemd_env:
   [DRMAA_LIBRARY_PATH="/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"]
+galaxy_gravity_state_dir: "/opt/galaxy"
 
 galaxy_tools_indices_dir: "{{ galaxy_root }}"
 galaxy_custom_indices_dir: "{{ galaxy_root }}/custom-indices"
