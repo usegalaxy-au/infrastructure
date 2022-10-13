@@ -18,7 +18,7 @@ tpv_version: "1.4.0"
 
 shared_mounts:
   - path: /mnt
-    src: dev:/mnt/galaxy
+    src: 45.113.232.186:/mnt/galaxy
     fstype: nfs
     state: mounted
   - path: /mnt/test_mount
