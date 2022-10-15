@@ -20,6 +20,9 @@ shared_mounts:
 pulsar_staging_dir: /mnt/tmp/files/staging
 pulsar_persistence_dir: /mnt/tmp/files/persistent_data
 
+# Set directory containing custom-indices data for pulsar-post-tasks role
+pulsar_custom_indices_src_dir: /mnt/tmp/custom-indices
+
 #Override the slurm roles - only install exec here as we have a dedicated queue server.
 #Slurm roles
 slurm_roles: ['exec']
