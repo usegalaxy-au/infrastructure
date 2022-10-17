@@ -101,7 +101,8 @@ host_galaxy_config: # renamed from __galaxy_config
   gravity:
     galaxy_root: /mnt/galaxy/galaxy-app
     # app_server: gunicorn
-    # gunicorn:
+    gunicorn:
+      enable: false
     #   # listening options
     #   bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
     #   # performance options

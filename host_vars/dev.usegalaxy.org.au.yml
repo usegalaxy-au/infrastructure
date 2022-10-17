@@ -105,7 +105,9 @@ host_galaxy_config: # renamed from __galaxy_config
       preload: true
       environment:
         DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-    # celery:
+    celery:
+      enable: false
+      enable_beat: false
     #   concurrency: 2
     #   loglevel: DEBUG
     # handlers:
