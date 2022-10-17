@@ -94,6 +94,7 @@ execution:
       function: map_tool_to_destination
       rules_module: tpv.rules
       tpv_config_files:
+        - https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/main/tools.yml
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/interactive_tools.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/vortex_config.yml"
