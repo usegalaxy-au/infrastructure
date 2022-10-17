@@ -61,6 +61,7 @@
     #- usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf
     #- login-override
+    - usegalaxy_eu.flower
   post_tasks:
     # - name: Ensure object store paths exist
     #   file:
