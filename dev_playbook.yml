@@ -26,33 +26,34 @@
         group: galaxy
         mode: 0644
   roles:
-    - galaxyproject.repos
-    - common
-    - mounts
-    - install-tpv
-    - galaxyproject.postgresql
-    - role: natefoo.postgresql_objects
-      become: true
-      become_user: postgres
-    - geerlingguy.pip
-    - gantsign.golang
-    - cyverse-ansible.singularity
-    - galaxyproject.galaxy
-    - role: galaxyproject.miniconda
-      become: true
-      become_user: galaxy
-    - usegalaxy_eu.galaxy_systemd
-    - nginx-upload-module
-    - galaxyproject.nginx
-    - galaxyproject.tusd
-    - geerlingguy.nfs
-    - galaxyproject.slurm
-    # - galaxyproject.s3fs
-    - galaxyproject.cvmfs
-    - galaxyproject.gxadmin
-    - pg-post-tasks
-    - remote-pulsar-cron
-    - galaxy-pg-cleanup
+    # - galaxyproject.repos
+    # - common
+    # - mounts
+    # - install-tpv
+    # - galaxyproject.postgresql
+    # - role: natefoo.postgresql_objects
+    #   become: true
+    #   become_user: postgres
+    # - geerlingguy.pip
+    # - gantsign.golang
+    # - cyverse-ansible.singularity
+    # - galaxyproject.galaxy
+    # - role: galaxyproject.miniconda
+    #   become: true
+    #   become_user: galaxy
+    # - usegalaxy_eu.galaxy_systemd
+    # - nginx-upload-module
+    # - galaxyproject.nginx
+    # - galaxyproject.tusd
+    # - geerlingguy.nfs
+    # - galaxyproject.slurm
+    # # - galaxyproject.s3fs
+    # - galaxyproject.cvmfs
+    # - galaxyproject.gxadmin
+    # - pg-post-tasks
+    # - remote-pulsar-cron
+    # - galaxy-pg-cleanup
+
     # - usegalaxy_eu.tiaas2
     - galaxyproject.tiaas2
     # - dev-tiaas2

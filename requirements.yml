@@ -40,7 +40,7 @@
 - src: usegalaxy_eu.tiaas2
   version: 0.0.9
 - src: galaxyproject.tiaas2
-  version: 2.1.0
+  version: 2.1.1
 # - src: https://github.com/neoformit/ansible-tiaas2
 #   name: dev-tiaas2
 #   version: tiaas-3
