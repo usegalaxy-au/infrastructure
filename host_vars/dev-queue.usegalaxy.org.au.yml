@@ -37,6 +37,10 @@ rabbitmq_users:
   - user: galaxy_queues
     password: "{{ rabbitmq_password_galaxy }}"
     vhost: /galaxy/galaxy_queues
+  - user: flower
+    password: "{{ rabbitmq_password_galaxy }}"
+    vhost: /galaxy/galaxy_queues
+    tags: administrator
 
 rabbitmq_vhosts:
   - galaxy
