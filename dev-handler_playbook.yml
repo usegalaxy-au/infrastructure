@@ -20,13 +20,13 @@
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
-    # - name: create dir for gravity configuration
-    #   file:
-    #     state: directory
-    #     path: /opt/galaxy
-    #     owner: root
-    #     group: galaxy
-    #     mode: 0775
+    - name: create dir for gravity configuration
+      file:
+        state: directory
+        path: /opt/galaxy
+        owner: root
+        group: galaxy
+        mode: 0775
   roles:
     - galaxyproject.repos
     - common
