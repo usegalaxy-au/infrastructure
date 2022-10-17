@@ -288,7 +288,7 @@ pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
 singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
 
 # Flower
-flower_python_version: python38
+flower_python_version: python3.8
 flower_app_dir: /mnt/galaxy
 flower_log_file: /var/log/flower
 flower_python_path: galaxy-app/lib
