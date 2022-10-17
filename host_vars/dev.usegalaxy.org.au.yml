@@ -122,6 +122,7 @@ host_galaxy_config: # renamed from __galaxy_config
     amqp_internal_connection: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_dev }}@dev-queue.usegalaxy.org.au:5671//galaxy/galaxy_queues?ssl=1"
     brand: "Australia Dev"
     database_connection: "postgresql://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
+    enable_celery_tasks: true
     id_secret: "{{ vault_dev_id_secret }}"
     file_path: "{{ galaxy_file_path }}"
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
