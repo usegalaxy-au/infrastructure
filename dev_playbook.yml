@@ -26,16 +26,16 @@
         path: /opt/galaxy
         owner: root
         group: galaxy
-        mode: 0644
+        mode: 0775
   roles:
     - galaxyproject.repos
     - common
     - mounts
     - install-tpv
-    - galaxyproject.postgresql
-    - role: natefoo.postgresql_objects
-      become: true
-      become_user: postgres
+    #- galaxyproject.postgresql
+    #- role: natefoo.postgresql_objects
+      #become: true
+      #become_user: postgres
     - geerlingguy.pip
     - gantsign.golang
     - cyverse-ansible.singularity
