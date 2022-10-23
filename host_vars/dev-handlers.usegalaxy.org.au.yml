@@ -1,5 +1,9 @@
 # Specific settings for galaxy dev application/web server
 
+add_hosts_galaxy: yes
+add_hosts_head: yes
+add_hosts_workers: yes
+
 # Login override - checksum for Login.vue
 galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
 
@@ -7,31 +11,35 @@ galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
 tpv_version: "1.4.0"
 
 # variables for attaching mounted volume to application server
-attached_volumes:
-  - device: /dev/vdb
-    path: /mnt
-    fstype: ext4
+# attached_volumes:
+#   - device: /dev/vdb
+#     path: /mnt
+#     fstype: ext4
 
 shared_mounts:
+  - path: /mnt/galaxy
+    src: 45.113.232.186:/mnt/galaxy
+    fstype: nfs
+    state: mounted
   - path: /mnt/test_mount
     src: 115.146.87.37:/galaxy-backup-au
     fstype: nfs
     state: mounted
 
-certbot_domains:
-  - "{{ hostname }}"
-  - "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
-certbot_dns_provider: cloudflare
-certbot_dns_credentials:
-  api_token: "{{ vault_dns_cloudflare_api_token }}"
-dns-cloudflare-propagation-seconds: 60
+# certbot_domains:
+#   - "{{ hostname }}"
+#   - "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
+# certbot_dns_provider: cloudflare
+# certbot_dns_credentials:
+#   api_token: "{{ vault_dns_cloudflare_api_token }}"
+# dns-cloudflare-propagation-seconds: 60
 
-nginx_ssl_servers:
-  - galaxy
-  - galaxy-gie-proxy
+# nginx_ssl_servers:
+#   - galaxy
+#   - galaxy-gie-proxy
 
-#gie proxy hostname
-interactive_tools_server_name: "{{ hostname }}"
+# #gie proxy hostname
+# interactive_tools_server_name: "{{ hostname }}"
 
 galaxy_db_user_password: "{{ vault_dev_db_user_password }}"
 
@@ -50,6 +58,7 @@ galaxy_dynamic_job_rules:
 galaxy_systemd_mode: gravity
 galaxy_systemd_env:
   [DRMAA_LIBRARY_PATH="/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"]
+galaxy_gravity_state_dir: "/opt/galaxy"
 
 galaxy_tools_indices_dir: "{{ galaxy_root }}"
 galaxy_custom_indices_dir: "{{ galaxy_root }}/custom-indices"
@@ -73,6 +82,8 @@ host_galaxy_config_templates:
     dest: "{{ galaxy_config_dir}}/job_conf.yml"
   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
     dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
+  - src: "{{ galaxy_config_file_src_dir }}/config/web-gravity.yml"
+    dest: /opt/galaxy/web-gravity.yml
 
 host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
@@ -83,34 +94,39 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+  
+galaxy_config_file: /opt/galaxy/galaxy.yml
 
 host_galaxy_config: # renamed from __galaxy_config
   gravity:
-    process_manager: systemd
     galaxy_root: /mnt/galaxy/galaxy-app
-    app_server: gunicorn
+    # app_server: gunicorn
     gunicorn:
-      # listening options
-      bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
-      # performance options
-      workers: 2
-      # Other options that will be passed to gunicorn
-      extra_args: '--forwarded-allow-ips="*"'
-      preload: true
-      environment:
-        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+      enable: false
+    #   # listening options
+    #   bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+    #   # performance options
+    #   workers: 2
+    #   # Other options that will be passed to gunicorn
+    #   extra_args: '--forwarded-allow-ips="*"'
+    #   preload: true
+    #   environment:
+    #     DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
     celery:
       concurrency: 2
       loglevel: DEBUG
     handlers:
       handler:
         processes: 3
+        environment:
+          DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
         pools:
           - job-handlers
           - workflow-schedulers
 
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},uwe@biocommons.org.au,uwwint@gmail.com" # everyone is an admin on dev
+    amqp_internal_connection: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_dev }}@dev-queue.usegalaxy.org.au:5671//galaxy/galaxy_queues?ssl=1"
     brand: "Australia Dev"
     database_connection: "postgresql://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
     id_secret: "{{ vault_dev_id_secret }}"
@@ -118,6 +134,7 @@ host_galaxy_config: # renamed from __galaxy_config
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     galaxy_infrastructure_url: "https://dev.usegalaxy.org.au"
     enable_oidc: true
+    enable_celery_tasks: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
@@ -155,8 +172,8 @@ tusd_instances:
       - "-hooks-http-forward-headers=X-Api-Key,Cookie"
 
 # NFS stuff
-nfs_exports:
-  - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
+#nfs_exports:
+#  - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
@@ -169,43 +186,43 @@ pg_db_password:
 db_address: "dev-db.usegalaxy.org.au"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 
-# TIaaS specific settings
-tiaas_repo: https://github.com/neoformit/tiaas2
-tiaas_galaxy_db_host: "dev-db.usegalaxy.org.au"
-tiaas_galaxy_db_port: "5432"
-tiaas_galaxy_db_user: "tiaasadmin"
-tiaas_galaxy_db_pass: "{{ vault_dev_db_tiaasadmin_password }}"
-tiaas_info:
-  owner: "Galaxy Australia Dev"
-  owner_email: help@genome.edu.au
-  owner_site: https://site.usegalaxy.org.au
-  domain: dev.usegalaxy.org.au
+# # TIaaS specific settings
+# tiaas_repo: https://github.com/neoformit/tiaas2
+# tiaas_galaxy_db_host: "dev-db.usegalaxy.org.au"
+# tiaas_galaxy_db_port: "5432"
+# tiaas_galaxy_db_user: "tiaasadmin"
+# tiaas_galaxy_db_pass: "{{ vault_dev_db_tiaasadmin_password }}"
+# tiaas_info:
+#   owner: "Galaxy Australia Dev"
+#   owner_email: help@genome.edu.au
+#   owner_site: https://site.usegalaxy.org.au
+#   domain: dev.usegalaxy.org.au
 
-tiaas_other_config: |
-  # Cam's mailtrap account
-  EMAIL_HOST = 'smtp.mailtrap.io'
-  EMAIL_PORT = 2525
-  EMAIL_HOST_USER = '7ac4110c7f742c'
-  EMAIL_HOST_PASSWORD = '{{ tiaas_email_password }}'
-  EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-  EMAIL_TIMEOUT = 60
-  TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
-  TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"
-  TIAAS_SEND_EMAIL_TO_REQUESTER = True
-  TIAAS_LATE_REQUEST_PREVENTION_DAYS = 7
+# tiaas_other_config: |
+#   # Cam's mailtrap account
+#   EMAIL_HOST = 'smtp.mailtrap.io'
+#   EMAIL_PORT = 2525
+#   EMAIL_HOST_USER = '7ac4110c7f742c'
+#   EMAIL_HOST_PASSWORD = '{{ tiaas_email_password }}'
+#   EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#   EMAIL_TIMEOUT = 60
+#   TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
+#   TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"
+#   TIAAS_SEND_EMAIL_TO_REQUESTER = True
+#   TIAAS_LATE_REQUEST_PREVENTION_DAYS = 7
 
-# Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
-tiaas_disassociate_training_roles:
-  hour: 9 # optional, defaults to 0
-  minute: 0 # optional, defaults to 0
+# # Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
+# tiaas_disassociate_training_roles:
+#   hour: 9 # optional, defaults to 0
+#   minute: 0 # optional, defaults to 0
 
-tiaas_show_advertising: false
-tiaas_retain_contact_consent: false
+# tiaas_show_advertising: false
+# tiaas_retain_contact_consent: false
 
-# Templates to override web content:
-tiaas_templates_dir: files/tiaas/html
-# Static files referenced by above templates:
-tiaas_extra_static_dir: files/tiaas/static
+# # Templates to override web content:
+# tiaas_templates_dir: files/tiaas/html
+# # Static files referenced by above templates:
+# tiaas_extra_static_dir: files/tiaas/static
 
 # AAF specific settings
 aaf_issuer_url: "{{ vault_aaf_issuer_url_dev }}"
@@ -270,3 +287,16 @@ slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
 pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
 
 singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
+
+# Flower
+flower_python_version: python3.8
+flower_app_dir: /mnt/galaxy
+flower_log_file: /var/log/flower
+flower_python_path: galaxy-app/lib
+flower_venv_dir: /mnt/galaxy/venv
+flower_app_name: galaxy.celery
+
+flower_persistent: true
+
+#flower_broker_api: "https://flower:{{ rabbitmq_password_flower }}@{{ rabbitmq_url }}/api/"
+flower_broker_url: "amqp://flower:{{ vault_rabbitmq_password_galaxy_dev }}@dev-queue.usegalaxy.org.au:5671//galaxy/galaxy_queues?ssl=true"
