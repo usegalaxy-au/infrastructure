@@ -101,7 +101,7 @@
           line: "{{ hostvars[item].internal_ip }}\t{{ item }}" #Altered due to issues with internal network. Please put back once fixed
           state: present
           backup: yes
-      when: add_hosts_head is defined and add_hosts_head == true
+      when: add_hosts_handlers is defined and add_hosts_handlers == true
       with_items:
           "{{ handler_nodes }}"
 
