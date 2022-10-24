@@ -235,7 +235,7 @@ tiaas_info:
   owner: "Galaxy Australia"
   owner_email: help@genome.edu.au
   owner_site: "https://site.usegalaxy.org.au"
-  domain: "https://usegalaxy.org.au"
+  domain: usegalaxy.org.au
 tiaas_other_config: |
   EMAIL_HOST="localhost"
   EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
