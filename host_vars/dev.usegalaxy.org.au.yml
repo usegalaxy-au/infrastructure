@@ -88,7 +88,7 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
-  
+
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
 host_galaxy_config: # renamed from __galaxy_config
@@ -182,7 +182,8 @@ db_address: "dev-db.usegalaxy.org.au"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 
 # TIaaS specific settings
-tiaas_repo: https://github.com/neoformit/tiaas2
+tiaas_repo: https://github.com/galaxyproject/tiaas2
+tiaas_version: main2  # New GalaxyAU version
 tiaas_galaxy_db_host: "dev-db.usegalaxy.org.au"
 tiaas_galaxy_db_port: "5432"
 tiaas_galaxy_db_user: "tiaasadmin"
