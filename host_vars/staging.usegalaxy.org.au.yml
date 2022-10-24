@@ -191,8 +191,8 @@ tiaas_galaxy_db_pass: "{{ vault_staging_db_tiaasadmin_password }}"
 tiaas_info:
   owner: "Galaxy Australia staging"
   owner_email: help@genome.edu.au
-  owner_site: "https://staging.usegalaxy.org.au"
-  domain: "staging.usegalaxy.org.au"
+  owner_site: "https://site.usegalaxy.org.au"
+  domain: "https://staging.usegalaxy.org.au"
 
 # Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
 tiaas_disassociate_training_roles:
