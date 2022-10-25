@@ -1280,7 +1280,7 @@ tools:
         - pulsar-high-mem1
         - pulsar-high-mem2
         - qld-pulsar-high-mem1
-        - qld-pulsar-high-mem2
+        - qld-pulsar-high-mem0
   toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
     cores: 120
     mem: 1922
