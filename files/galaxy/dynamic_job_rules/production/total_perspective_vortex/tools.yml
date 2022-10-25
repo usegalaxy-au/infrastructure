@@ -57,9 +57,9 @@ tools:
     cores: 16
     params:
       docker_enabled: true
-    scheduling:
-      accept:
-      - pulsar
+    # scheduling:  # TODO: fix bionano on pulsar
+    #   accept:
+    #   - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_nxn_clustering/.*:
     params:
       singularity_enabled: true
@@ -298,6 +298,9 @@ tools:
       cores: 2
     - if: input_size >= 0.01
       cores: 5
+  toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     cores: 1
   toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/.*:
@@ -331,9 +334,17 @@ tools:
     - if: input_size >= 0.5
       fail: Too much data, please don't use the gubbins for this.
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
+    scheduling:
+      accept:
+      - pulsar
+      reject:
+      - pulsar-mel2
+      - pulsar-QLD
     rules:
-    - if: input_size >= 0.01
+    - if: 0.01 <= input_size < 10
       cores: 7
+    - if: input_size >= 10
+      cores: 32
   toolshed.g2.bx.psu.edu/repos/iuc/humann2/humann2/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/.*:
@@ -770,7 +781,14 @@ tools:
       dependency_resolution: none
     rules:
     - if: 2 <= input_size
-      cores: 4    
+      cores: 4
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
+    cores: 12
+    params:
+      singularity_enabled: True
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/.*:
     cores: 2
     scheduling:
@@ -828,9 +846,9 @@ tools:
     rules:
     - if: 0.2 <= input_size < 4
       cores: 4
-    - if: 4 <= input_size < 20
+    - if: 4 <= input_size < 50
       cores: 8
-    - if: input_size >= 20
+    - if: input_size >= 50
       fail: Too much data, please don't use the FreeBayes for this
   toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/.*:
     cores: 2
@@ -884,6 +902,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+      reject:
+      - pulsar-QLD  # Temporary, until indexes are copied to pulsar-QLD
     rules:
     - if: 0.5 <= input_size < 15
       cores: 8
@@ -1256,6 +1276,11 @@ tools:
       scheduling:
         accept:
         - high-mem
+        reject: # only allow it to run on pulsar-qld-high-mem0
+        - pulsar-high-mem1
+        - pulsar-high-mem2
+        - qld-pulsar-high-mem1
+        - qld-pulsar-high-mem2
   toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
     cores: 120
     mem: 1922

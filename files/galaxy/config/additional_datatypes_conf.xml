@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!-- See /mnt/galaxy/galaxy-app/lib/galaxy/config/sample/datatypes_conf.xml.sample for main dataypes conf file -->
+<datatypes>
+  <registration converters_path="lib/galaxy/datatypes/converters" display_path="display_applications">
+    <datatype extension="no_unzip.zip" type="galaxy.datatypes.binary:CompressedArchive" subclass="true" display_in_upload="true"/>
+  </registration>
+</datatypes>

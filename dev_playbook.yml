@@ -13,21 +13,27 @@
     - secret_group_vars/sentry_vault
   handlers:
     - name: Restart Galaxy
-      systemd:
-        name: galaxy
-        state: restarted
+      shell: "echo hi"
   pre_tasks:
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
+    - name: create dir for gravity configuration
+      file:
+        state: directory
+        path: /opt/galaxy
+        owner: root
+        group: galaxy
+        mode: 0775
   roles:
     - galaxyproject.repos
     - common
+    - mounts
     - install-tpv
-    - galaxyproject.postgresql
-    - role: natefoo.postgresql_objects
-      become: true
-      become_user: postgres
+    # - galaxyproject.postgresql
+    # - role: natefoo.postgresql_objects
+    #   become: true
+    #   become_user: postgres
     - geerlingguy.pip
     - gantsign.golang
     - cyverse-ansible.singularity
@@ -41,13 +47,16 @@
     - galaxyproject.tusd
     - geerlingguy.nfs
     - galaxyproject.slurm
+    # - galaxyproject.s3fs
     - galaxyproject.cvmfs
     - galaxyproject.gxadmin
     - pg-post-tasks
     - remote-pulsar-cron
     - galaxy-pg-cleanup
-    #- usegalaxy_eu.tiaas2
-    - dev-tiaas2
+
+    # - usegalaxy_eu.tiaas2
+    - galaxyproject.tiaas2
+    # - dev-tiaas2
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf
@@ -84,6 +93,11 @@
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1
+    - name: Workaround content-length header bug in webdav through forcible update to newer version
+      pip:
+        name: "webdavclient3@git+https://github.com/ezhov-evgeny/webdav-client-python-3@0f17fa7946e66f7963db367d0d6b2e7f940ebeb8"
+        state: forcereinstall
+        virtualenv: "{{ galaxy_venv_dir }}"
     - name: Reload exportfs
       command: exportfs -ra
       become: yes

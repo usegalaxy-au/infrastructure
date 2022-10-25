@@ -14,17 +14,20 @@
       - default_tool.yml
       - interactive_tools.yml
       - vortex_config.yml
+      - reservation_destinations.yml
   handlers:
-    - name: Restart Galaxy
-      systemd:
-        name: galaxy
-        state: restarted
+    - name: galaxy gravity restart
+      become: True
+      become_user: galaxy
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
+      environment:
+        GRAVITY_STATE_DIR: "{{ galaxy_root }}/gravity"
   pre_tasks:
     - name: copy job_conf file
       template:
         src: "{{ galaxy_config_template_src_dir }}/config/dev_job_conf.yml.j2"
         dest: "{{ galaxy_config_dir }}/job_conf.yml"
-      notify: Restart Galaxy
+      notify: galaxy gravity restart
     - name: Copy tpv files to dev
       copy:
         src: "files/galaxy/dynamic_job_rules/dev/total_perspective_vortex/{{ item }}"

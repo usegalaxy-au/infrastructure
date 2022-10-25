@@ -1,23 +1,24 @@
 - hosts: aarnet_galaxy_server
   become: true
   vars_files:
-      - group_vars/all.yml
-      - group_vars/aarnet.yml
-      - group_vars/VAULT
-      - group_vars/galaxyservers.yml
-      - group_vars/aarnet_slurm.yml
-      - host_vars/aarnet.usegalaxy.org.au.yml
-      - secret_group_vars/stats_server_vault
-      - secret_group_vars/ubuntu_maintenance_key
+    - group_vars/all.yml
+    - group_vars/aarnet.yml
+    - group_vars/VAULT
+    - group_vars/galaxyservers.yml
+    - group_vars/aarnet_slurm.yml
+    - host_vars/aarnet.usegalaxy.org.au.yml
+    - secret_group_vars/stats_server_vault
+    - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
-  handlers:
-    - name: Restart Galaxy
-      systemd:
-        name: galaxy
-        state: restarted
+  # handlers:
+  #   - name: Restart Galaxy
+  #     systemd:
+  #       name: galaxy
+  #       state: restarted
+  #     listen: restart galaxy
   roles:
     - galaxyproject.repos
     - common
@@ -50,7 +51,8 @@
     - remote-pulsar-cron
     # - slg.galaxy_stats
     - galaxy-pg-cleanup
-    - usegalaxy_eu.tiaas2
+    - galaxyproject.tiaas2
+    # - usegalaxy_eu.tiaas2
   post_tasks:
     - name: Make local_tool directory group-writable by machine users
       file:
@@ -63,6 +65,11 @@
       package:
         name: slurm-drmaa1
         state: latest
+    - name: Workaround content-length header bug in webdav through forcible update to newer version
+      pip:
+        name: "webdavclient3@git+https://github.com/ezhov-evgeny/webdav-client-python-3@0f17fa7946e66f7963db367d0d6b2e7f940ebeb8"
+        state: forcereinstall
+        virtualenv: "{{ galaxy_venv_dir }}"
     - name: Reload exportfs
       command: exportfs -ra
       become: yes

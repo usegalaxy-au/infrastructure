@@ -10,3 +10,5 @@ hidden_tool_ids:
 - toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_download/4.3r.1
 - toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/4.3r.1
 - toolshed.g2.bx.psu.edu/repos/vlefort/phyml/phyml/*
+- toolshed.g2.bx.psu.edu/repos/bgruening/chemical_data_sources/jmoleditor/1.0.0
+- toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sra_pileup/*

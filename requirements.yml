@@ -1,5 +1,5 @@
 - name: galaxyproject.galaxy
-  version: 0.9.16
+  version: 0.10.5
 - name: galaxyproject.nginx
   version: 0.7.0
 - name: galaxyproject.postgresql
@@ -19,6 +19,9 @@
 - src: insspb.hostname
 #- src: galaxyproject.slurm - Waiting for a new release that sets up clustering for dbd properly
 #  version: 0.1.2
+- name: galaxyproject.s3fs
+  src: https://github.com/usegalaxy-au/ansible-s3fs
+  version: main
 - src: galaxyproject.cvmfs
   version: 0.2.14
 #- src: galaxyproject.repos - Waiting for a new release with Ubuntu >= 18.04
@@ -30,11 +33,17 @@
 - src: galaxyproject.gxadmin
   version: 0.0.8
 
-# TIaaS roles. Note official eu role is for production. github role is for dev.
+# TIaaS roles
+# - official galaxyproject role is for new production
+# - usegalaxy_eu role is for old production
+# - github role is for dev
 - src: usegalaxy_eu.tiaas2
   version: 0.0.9
-- src: https://github.com/neoformit/ansible-tiaas2
-  name: dev-tiaas2
+- src: galaxyproject.tiaas2
+  version: 2.1.1
+# - src: https://github.com/neoformit/ansible-tiaas2
+#   name: dev-tiaas2
+#   version: tiaas-3
 
 - src: geerlingguy.docker
   version: 4.1.3
@@ -52,3 +61,5 @@
   version: 2.6.3
 - name: galaxyproject.tusd
   version: 0.0.1
+- name: usegalaxy_eu.flower
+  version: 0.3.1-alpha
