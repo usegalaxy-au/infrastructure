@@ -268,6 +268,11 @@ tools:
     params:
       singularity_enabled: True
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
+    scheduling:
+       require:
+         - pulsar
+         - pulsar-nci-test
+    cores: 8
     params:
       singularity_enabled: True
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'

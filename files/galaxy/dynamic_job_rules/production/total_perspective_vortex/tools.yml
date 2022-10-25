@@ -1521,7 +1521,7 @@ tools:
 
   # test tools
   maxquant_test:
-    cores: 30
+    cores: 120
     mem: 480.5
     scheduling:
       accept:
