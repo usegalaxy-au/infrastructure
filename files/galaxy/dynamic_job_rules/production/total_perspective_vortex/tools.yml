@@ -1512,7 +1512,12 @@ tools:
     
   # cactus suite
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
-    cores: 16
+    cores: 60
+    mem: 961
+    scheduling:
+      accept:
+        - pulsar
+        - high-mem
     params:
       singularity_enabled: True
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
