@@ -85,7 +85,7 @@ miniconda_prefix: "{{ galaxy_conda_prefix }}"
 
 # Galaxy
 galaxy_manage_errordocs: yes
-galaxy_errordocs_dest: "/etc/nginx/errordocs"
+galaxy_errordocs_dest: "/etc/nginx/error"
 galaxy_errordocs_server_name: "{{ galaxy_config.galaxy.galaxy_infrastructure_url }}"
 
 galaxy_tool_config_files:
