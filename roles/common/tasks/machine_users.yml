@@ -40,7 +40,7 @@
       block: |
         gxctl() {
           export gctl_args="$@"
-          export GRAVITY_STATE_DIR={{ galaxy_root }}/gravity
+          export GRAVITY_STATE_DIR={{ galaxy_gravity_state_dir }}
  
           sudo -H -Eu {{ galaxy_user.name }} bash -c '{{ galaxy_venv_dir }}/bin/galaxyctl $gctl_args' 
         }
