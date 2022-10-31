@@ -265,6 +265,9 @@ tools:
     cores: 16
     context:
       partition: max_quant_w8
+  toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
+    params:
+      docker_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/barrnap/barrnap/.*:
     rules:
     - if: input_size >= 0.0003

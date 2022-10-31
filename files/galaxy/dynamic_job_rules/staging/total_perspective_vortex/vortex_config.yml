@@ -54,7 +54,10 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
     params:
-      singularity_enabled: True 
+      singularity_enabled: True
+  toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
+    params:
+      docker_enabled: true 
 
 destinations:
   slurm:
