@@ -23,7 +23,7 @@
   src: https://github.com/usegalaxy-au/ansible-s3fs
   version: main
 - src: galaxyproject.cvmfs
-  version: 0.2.14
+  version: 0.2.18
 #- src: galaxyproject.repos - Waiting for a new release with Ubuntu >= 18.04
 #  version: 0.0.1
 - src: galaxyproject.pulsar
