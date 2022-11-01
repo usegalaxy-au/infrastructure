@@ -169,6 +169,7 @@ execution:
       type: dtd
     interactive_pulsar:
       runner: pulsar_embedded
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       docker_enabled: true
       docker_volumes: $defaults
@@ -182,6 +183,7 @@ execution:
       submit_native_specification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760 --partition=interactive_tools"
     slurm:
       runner: slurm
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       nativeSpecification: --nodes=1 --ntasks=32 --ntasks-per-node=32 --mem=124160 --partition=main
       singularity_enabled: false
@@ -192,6 +194,7 @@ execution:
       docker_volumes: '{{ slurm_docker_volumes }}'
     slurm-training:
       runner: slurm
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       nativeSpecification: --nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=62080 --partition=training
       singularity_enabled: false
@@ -202,6 +205,7 @@ execution:
       docker_volumes: '{{ slurm_docker_volumes }}'
     pulsar-mel2:
       runner: pulsar_mel2_runner
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       default_file_action: remote_transfer
       outputs_to_working_directory: false
@@ -229,6 +233,7 @@ execution:
           value: /mnt/pulsar/deps/singularity/tmp
     pulsar-paw:
       runner: pulsar-paw_runner
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       default_file_action: remote_transfer
       outputs_to_working_directory: false
@@ -256,6 +261,7 @@ execution:
           value: /mnt/pulsar/deps/singularity/tmp
     pulsar-mel3:
       runner: pulsar-mel3_runner
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       default_file_action: remote_transfer
       outputs_to_working_directory: false
@@ -283,6 +289,7 @@ execution:
           value: /mnt/pulsar/deps/singularity/tmp
     pulsar-high-mem1:
       runner: pulsar-high-mem1_runner
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       default_file_action: remote_transfer
       outputs_to_working_directory: false
@@ -310,6 +317,7 @@ execution:
           value: /mnt/pulsar/deps/singularity/tmp
     pulsar-high-mem2:
       runner: pulsar-high-mem2_runner
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       default_file_action: remote_transfer
       outputs_to_working_directory: false
@@ -337,6 +345,7 @@ execution:
           value: /mnt/pulsar/deps/singularity/tmp
     pulsar-qld-high-mem0:
       runner: pulsar-qld-high-mem0_runner
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       default_file_action: remote_transfer
       outputs_to_working_directory: false
@@ -364,6 +373,7 @@ execution:
           value: /mnt/pulsar/deps/singularity/tmp
     pulsar-qld-high-mem1:
       runner: pulsar-qld-high-mem1_runner
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       default_file_action: remote_transfer
       outputs_to_working_directory: false
@@ -391,6 +401,7 @@ execution:
           value: /mnt/pulsar/deps/singularity/tmp
     pulsar-qld-high-mem2:
       runner: pulsar-qld-high-mem2_runner
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       default_file_action: remote_transfer
       outputs_to_working_directory: false
@@ -418,6 +429,7 @@ execution:
           value: /mnt/pulsar/deps/singularity/tmp
     pulsar-nci-training:
       runner: pulsar-nci-training_runner
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       default_file_action: remote_transfer
       outputs_to_working_directory: false
@@ -445,6 +457,7 @@ execution:
           value: /mnt/pulsar/deps/singularity/tmp
     pulsar-qld-blast:
       runner: pulsar-qld-blast_runner
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       default_file_action: remote_transfer
       outputs_to_working_directory: false
@@ -472,6 +485,7 @@ execution:
           value: /mnt/pulsar/deps/singularity/tmp
     pulsar-QLD:
       runner: pulsar-QLD_runner
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       default_file_action: remote_transfer
       outputs_to_working_directory: false
@@ -499,6 +513,7 @@ execution:
           value: /mnt/pulsar/deps/singularity/tmp
     pulsar-azure:
       runner: pulsar_azure_0_runner
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
@@ -511,6 +526,7 @@ execution:
       submit_native_specification: "--nodes=1 --ntasks=6 --ntasks-per-node=6 --mem=110000"
     pulsar-azure-gpu:
       runner: pulsar_azure_0_runner
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
@@ -527,6 +543,7 @@ execution:
       require_container: true
     pulsar-azure-1:
       runner: pulsar_azure_1_runner
+      tags: [registered_user_concurrent_jobs_10]
       tmp_dir: True
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
@@ -539,6 +556,7 @@ execution:
       submit_native_specification: "--nodes=1 --ntasks=24 --ntasks-per-node=24 --mem=212000"
     pulsar-azure-1-gpu:
       runner: pulsar_azure_1_runner
+      tags: [registered_user_concurrent_jobs_25]
       tmp_dir: True
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
@@ -567,8 +585,12 @@ tools:
 limits:
 - type: anonymous_user_concurrent_jobs
   value: 1
-- type: registered_user_concurrent_jobs
+- type: destination_user_concurrent_jobs
+  tag: registered_user_concurrent_jobs_10
   value: 10
+- type: destination_user_concurrent_jobs
+  tag: registered_user_concurrent_jobs_25
+  value: 25
 
 - type: destination_total_concurrent_jobs
   id: slurm
