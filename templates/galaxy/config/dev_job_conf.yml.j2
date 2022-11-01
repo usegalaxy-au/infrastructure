@@ -88,6 +88,7 @@ execution:
   environments:
     local:
       runner: local
+      tags: [registered_user_concurrent_jobs_1]
     tpv_dispatcher:
       runner: dynamic
       type: python
@@ -104,6 +105,7 @@ execution:
       type: dtd
     slurm:
       runner: slurm
+      tags: [registered_user_concurrent_jobs_6]
       nativeSpecification: "--nodes=1 --ntasks=2 --ntasks-per-node=2 --mem=7760"
       singularity_enabled: false
       singularity_volumes: '{{ slurm_singularity_volumes }}'
@@ -113,6 +115,7 @@ execution:
       docker_volumes: '{{ slurm_docker_volumes }}'
     pulsar_destination:
       runner: pulsar_au_01
+      tags: [registered_user_concurrent_jobs_1]
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
       remote_metadata: 'false'
@@ -140,6 +143,7 @@ execution:
           value: /mnt/pulsar/deps/singularity/tmp
     pulsar-nci-test:
       runner: pulsar_nci_test_runner
+      tags: [registered_user_concurrent_jobs_1]
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
       remote_metadata: 'false'
@@ -167,6 +171,7 @@ execution:
           value: /mnt/pulsar/deps/singularity/tmp
     interactive_local:
       runner: local
+      tags: [registered_user_concurrent_jobs_1]
       docker_enabled: true
       docker_volumes: $defaults
       docker_sudo: false
@@ -176,6 +181,7 @@ execution:
       docker_require_container: true
     interactive_pulsar:
       runner: pulsar_embedded
+      tags: [registered_user_concurrent_jobs_1]
       outputs_to_working_directory: false
       docker_enabled: true
       docker_volumes: $defaults
@@ -187,6 +193,7 @@ execution:
       container_monitor_result: callback
     pulsar-eu-gpu-test:
       runner: pulsar_eu_gpu
+      tags: [registered_user_concurrent_jobs_1]
       jobs_directory: /mnt/share/staging
       transport: curl
       remote_metadata: "false"
@@ -198,6 +205,7 @@ execution:
       submit_native_specification: "--nodes=1 --ntasks=16 --ntasks-per-node=16 --mem=49350"
     pulsar-eu-gpu-alpha:
       runner: pulsar_eu_gpu
+      tags: [registered_user_concurrent_jobs_1]
       jobs_directory: /mnt/share/staging
       transport: curl
       remote_metadata: "false"
@@ -212,6 +220,7 @@ execution:
       singularity_volumes: "$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro"
     pulsar-azure-0-std:
       runner: pulsar_azure_0_runner
+      tags: [registered_user_concurrent_jobs_1]
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
       remote_metadata: "false"
@@ -223,6 +232,7 @@ execution:
       submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32000"
     pulsar-azure-0-singularity:
       runner: pulsar_azure_0_runner
+      tags: [registered_user_concurrent_jobs_1]
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
       remote_metadata: "false"
@@ -248,6 +258,7 @@ execution:
           value: /data/alphafold_databases/singularity_tmp
     pulsar-azure-0-docker:
       runner: pulsar_azure_0_runner
+      tags: [registered_user_concurrent_jobs_1]
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
       remote_metadata: "false"
@@ -266,6 +277,7 @@ execution:
       docker_set_user: '1000'
     pulsar-azure-1-std:
       runner: pulsar_azure_1_runner
+      tags: [registered_user_concurrent_jobs_1]
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
       remote_metadata: "false"
@@ -277,6 +289,7 @@ execution:
       submit_native_specification: "--nodes=1 --ntasks=8 --ntasks-per-node=8 --mem=32000"
     pulsar-reservation-g2-xlarge-A:
       runner: pulsar_reservation_g2_xlarge_A_runner
+      tags: [registered_user_concurrent_jobs_1]
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
       remote_metadata: 'false'
@@ -304,6 +317,7 @@ execution:
       #     value: /mnt/pulsar/deps/singularity/tmp
     pulsar-reservation-g2-xlarge-B:
       runner: pulsar_reservation_g2_xlarge_B_runner
+      tags: [registered_user_concurrent_jobs_1]
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
       remote_metadata: 'false'
@@ -333,5 +347,9 @@ execution:
 limits:
 - type: anonymous_user_concurrent_jobs
   value: 1
-- type: registered_user_concurrent_jobs
-  value: 10
+- type: destination_user_concurrent_jobs
+  tag: registered_user_concurrent_jobs_1
+  value: 1
+- type: destination_user_concurrent_jobs
+  tag: registered_user_concurrent_jobs_6
+  value: 6
