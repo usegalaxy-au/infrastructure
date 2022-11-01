@@ -9,6 +9,8 @@ runners:
     workers: 4
   slurm:
     load: galaxy.jobs.runners.slurm:SlurmJobRunner
+    invalidjobexception_retries: 5
+    internalexception_retries: 5
   pulsar_rest:
     load: galaxy.jobs.runners.pulsar:PulsarRESTJobRunner
   pulsar_mel2_runner:

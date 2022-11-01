@@ -9,6 +9,8 @@ runners:
     workers: 4
   slurm:
     load: galaxy.jobs.runners.slurm:SlurmJobRunner
+    invalidjobexception_retries: 5
+    internalexception_retries: 5
   pulsar_embedded:
     load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
     pulsar_config: "{{ galaxy_config_dir }}/pulsar_app.yml"

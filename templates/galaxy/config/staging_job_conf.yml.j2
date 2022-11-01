@@ -9,6 +9,8 @@ runners:
     workers: 4
   slurm:
     load: galaxy.jobs.runners.slurm:SlurmJobRunner
+    invalidjobexception_retries: 5
+    internalexception_retries: 5
   pulsar_au_01:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     amqp_url: "pyamqp://galaxy_au:{{ vault_rabbitmq_password_galaxy_au_staging }}@staging-queue.usegalaxy.org.au:5671//pulsar/galaxy_au?ssl=1"
