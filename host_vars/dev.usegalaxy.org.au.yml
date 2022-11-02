@@ -94,7 +94,8 @@ galaxy_config_file: /opt/galaxy/galaxy.yml
 host_galaxy_config: # renamed from __galaxy_config
   gravity:
     galaxy_root: /mnt/galaxy/galaxy-app
-    app_server: /mnt/galaxy/venv/bin/gunicorn
+    app_server: gunicorn
+    virtualenv: /mnt/galaxy/venv
     gunicorn:
       # listening options
       bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
