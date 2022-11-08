@@ -244,6 +244,7 @@ tiaas_other_config: |
   TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"
   TIAAS_SEND_EMAIL_TO_REQUESTER = True
   TIAAS_LATE_REQUEST_PREVENTION_DAYS = 7
+  TIAAS_GDPR_AUTO_REDACT = False
 
 # Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
 tiaas_disassociate_training_roles:
