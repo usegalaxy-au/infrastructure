@@ -1284,6 +1284,11 @@ tools:
         - pulsar-high-mem2
         - qld-pulsar-high-mem1
         - qld-pulsar-high-mem0
+  toolshed.g2.bx.psu.edu/repos/iuc/purge_dups/purge_dups/.*:
+    cores: 8
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
     cores: 120
     mem: 1922
