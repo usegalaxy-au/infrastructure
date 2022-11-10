@@ -31,7 +31,7 @@
     - mounts
     - install-tpv
     # - galaxyproject.postgresql
-    # - role: natefoo.postgresql_objects
+    # - role: galaxyproject.postgresql_objects
     #   become: true
     #   become_user: postgres
     - geerlingguy.pip

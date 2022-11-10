@@ -62,6 +62,6 @@
         when: not data_dir.stat.exists
       - name: run postgresql objects role
         import_role:
-          name: natefoo.postgresql_objects
+          name: galaxyproject.postgresql_objects
         become: true
         become_user: postgres

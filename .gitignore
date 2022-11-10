@@ -29,7 +29,7 @@ roles/galaxyproject.tiaas2
 # roles/galaxyproject.repos/ # Commented out as Simon made a modification so ppa is added to ubuntu 20.04
 roles/geerlingguy.pip/
 roles/geerlingguy.nfs/
-roles/natefoo.postgresql_objects/
+roles/galaxyproject.postgresql_objects/
 roles/uchida.miniconda/
 roles/galaxyproject.miniconda
 roles/usegalaxy_eu.certbot/
