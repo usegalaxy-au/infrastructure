@@ -193,18 +193,18 @@ pulsar-QLD-w4 ansible_ssh_host=203.101.228.12
 pulsar-nci-training ansible_ssh_host=130.56.246.233 internal_ip=10.0.1.46
 
 [pulsar_nci_training_workers]
-pulsar-nci-training-w0 ansible_ssh_host=10.0.3.175 internal_ip=10.0.3.175
-pulsar-nci-training-w1 ansible_ssh_host=10.0.2.140 internal_ip=10.0.2.140
-pulsar-nci-training-w2 ansible_ssh_host=10.0.3.194 internal_ip=10.0.3.194
-pulsar-nci-training-w3 ansible_ssh_host=10.0.1.223 internal_ip=10.0.1.223
-pulsar-nci-training-w4 ansible_ssh_host=10.0.2.83 internal_ip=10.0.2.83
-pulsar-nci-training-w5 ansible_ssh_host=10.0.1.39 internal_ip=10.0.1.39
-pulsar-nci-training-w6 ansible_ssh_host=10.0.3.57 internal_ip=10.0.3.57
-pulsar-nci-training-w7 ansible_ssh_host=10.0.3.41 internal_ip=10.0.3.41
-pulsar-nci-training-w8 ansible_ssh_host=10.0.0.229 internal_ip=10.0.0.229
-pulsar-nci-training-w9 ansible_ssh_host=10.0.0.104 internal_ip=10.0.0.104
-pulsar-nci-training-w10 ansible_ssh_host=10.0.3.216 internal_ip=10.0.3.216
-pulsar-nci-training-w11 ansible_ssh_host=10.0.1.214 internal_ip=10.0.1.214
+pulsar-nci-training-w0 ansible_ssh_host=10.0.1.197 internal_ip=10.0.1.197
+pulsar-nci-training-w1 ansible_ssh_host=10.0.0.28 internal_ip=10.0.0.28
+# pulsar-nci-training-w2 ansible_ssh_host=10.0.3.167 internal_ip=10.0.3.167 # problem with volume: cannot be deleted nor attached
+pulsar-nci-training-w3 ansible_ssh_host=10.0.2.236 internal_ip=10.0.2.236
+pulsar-nci-training-w4 ansible_ssh_host=10.0.0.175 internal_ip=10.0.0.175
+pulsar-nci-training-w5 ansible_ssh_host=10.0.1.218 internal_ip=10.0.1.218
+pulsar-nci-training-w6 ansible_ssh_host=10.0.2.125 internal_ip=10.0.2.125
+pulsar-nci-training-w7 ansible_ssh_host=10.0.2.186 internal_ip=10.0.2.186
+pulsar-nci-training-w8 ansible_ssh_host=10.0.1.143 internal_ip=10.0.1.143
+pulsar-nci-training-w9 ansible_ssh_host=10.0.2.254 internal_ip=10.0.2.254
+pulsar-nci-training-w10 ansible_ssh_host=10.0.1.110 internal_ip=10.0.1.110
+pulsar-nci-training-w11 ansible_ssh_host=10.0.2.82 internal_ip=10.0.2.82
 
 [nvme]
 qld-nvme ansible_ssh_host=203.101.231.166
