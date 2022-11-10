@@ -62,6 +62,12 @@ server {
         expires 24h;
     }
 
+{% if galaxy_subsite_nginx_routes %}
+
+    {{ galaxy_subsite_nginx_routes }}
+
+{% else %}
+
     # In Galaxy instances started with run.sh, many config files are
     # automatically copied around. The welcome page is one of them. In
     # production, this step is skipped, so we will manually alias that.
@@ -69,6 +75,7 @@ server {
         alias {{ galaxy_server_dir }}/static/welcome.html;
         expires 24h;
     }
+{% endif %}
 
     # serve visualization and interactive environment plugin static content
     location ~ ^/plugins/(?<plug_type>[^/]+?)/((?<vis_d>[^/_]*)_?)?(?<vis_name>[^/]*?)/static/(?<static_file>.*?)$ {
