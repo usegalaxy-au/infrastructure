@@ -1282,8 +1282,8 @@ tools:
         reject: # only allow it to run on pulsar-qld-high-mem0
         - pulsar-high-mem1
         - pulsar-high-mem2
-        - qld-pulsar-high-mem1
-        - qld-pulsar-high-mem0
+        - pulsar-qld-high-mem1
+        - pulsar-qld-high-mem0
   toolshed.g2.bx.psu.edu/repos/iuc/purge_dups/purge_dups/.*:
     cores: 8
     scheduling:
