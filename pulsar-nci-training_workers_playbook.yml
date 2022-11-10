@@ -10,6 +10,13 @@
     - group_vars/VAULT
     - secret_group_vars/stats_server_vault
   pre_tasks:
+    - name: Remove cloudinit entry in fstab
+      # remove line '/dev/vdb	/mnt	auto	defaults,nofail,x-systemd.requires=cloud-init.service,comment=cloudconfig	0	2'
+      # because this is the same mount point as the one we need for the attached volume + pulsar nfs mount
+      lineinfile:
+        path: /etc/fstab
+        regexp: "\/dev\/vdb\\s+\/mnt.*"
+        state: absent
     - name: Create worker extra disk mount point on /mnt
       file:
           path: /mnt/tmpdisk

@@ -5,6 +5,13 @@
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
+    - name: Remove cloudinit entry in fstab.
+      # Remove line '/dev/vdb	/mnt	auto	defaults,nofail,x-systemd.requires=cloud-init.service,comment=cloudconfig	0	2'
+      # because this is the same mount point as the one we need for the attached volume + pulsar nfs mount
+      lineinfile:
+        path: /etc/fstab
+        regexp: "\/dev\/vdb\\s+\/mnt.*"
+        state: absent
     - name: Create pulsar deps path
       file:
         path: "{{ pulsar_dependencies_dir }}"
