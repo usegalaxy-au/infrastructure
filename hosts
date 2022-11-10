@@ -206,6 +206,9 @@ pulsar-nci-training-w9 ansible_ssh_host=10.0.2.254 internal_ip=10.0.2.254
 pulsar-nci-training-w10 ansible_ssh_host=10.0.1.110 internal_ip=10.0.1.110
 pulsar-nci-training-w11 ansible_ssh_host=10.0.2.82 internal_ip=10.0.2.82
 
+[pulsar_nci_training_ungrouped] # TODO: revive pulsar-nci-training-w2
+pulsar-nci-training-w2 ansible_ssh_host=10.0.3.167 internal_ip=10.0.3.167
+
 [nvme]
 qld-nvme ansible_ssh_host=203.101.231.166
 
