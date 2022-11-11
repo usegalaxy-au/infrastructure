@@ -18,7 +18,7 @@
       - insspb.hostname
       - geerlingguy.pip
       - galaxyproject.postgresql
-      - role: natefoo.postgresql_objects
+      - role: galaxyproject.postgresql_objects
         become: true
         become_user: postgres
       - dj-wasabi.telegraf
