@@ -184,7 +184,7 @@ gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 
 # TIaaS specific settings
 tiaas_repo: https://github.com/galaxyproject/tiaas2
-tiaas_version: main2  # New GalaxyAU version
+tiaas_version: main2 # New GalaxyAU version
 tiaas_galaxy_db_host: "dev-db.usegalaxy.org.au"
 tiaas_galaxy_db_port: "5432"
 tiaas_galaxy_db_user: "tiaasadmin"
@@ -285,3 +285,34 @@ slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
 pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
 
 singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
+
+# multisite stuff
+
+galaxy_subsite_base_domain: "dev.usegalaxy.org.au"
+galaxy_subsite_default_welcome: "https://site.usegalaxy.org.au"
+galaxy_subsite_dir: /mnt/galaxy/subsites
+#galaxy_subsite_base_css: '#masthead { background-color: #003399;}'
+galaxy_subsites:
+  - name: assembly # Accessible at test.usegalaxy.org
+    brand: Assembly
+    iframe: "https://site.usegalaxy.org.au/landing/assembly"
+    wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
+    custom_css: |
+      #masthead {
+          background: linear-gradient(to bottom,#e2453c 0,#e2453c 16%,#e07e39 16%,#e07e39 32%,#e5d667 32%,#e5d667 48%,#51b95b 48%,#51b95b 66%,#1e72b7 66%,#1e72b7 86%,#6f5ba7 86%) no-repeat;
+      }
+      #masthead .navbar-brand {
+        background: #3337;
+        height: 100%;
+        padding: 0.5em;
+        left: 0px;
+      }
+      #masthead .navbar-nav > li .nav-link {
+          color: white;
+      }
+      #masthead .navbar-nav > li {
+          background: #3337;
+      }
+      #masthead .navbar-nav > li.active {
+          background: #333e;
+      }
