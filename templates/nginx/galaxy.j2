@@ -62,7 +62,7 @@ server {
         expires 24h;
     }
 
-{% if galaxy_subsite_nginx_routes %}
+{% if galaxy_subsite_nginx_routes is defined %}
 
     {{ galaxy_subsite_nginx_routes }}
 
