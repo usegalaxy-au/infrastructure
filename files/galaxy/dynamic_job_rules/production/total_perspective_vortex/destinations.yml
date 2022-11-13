@@ -19,7 +19,6 @@ destinations:
     scheduling:
       accept:
         - pulsar-mel2
-        - training # Temporary reroute while training pulsar is offline
       require:
         - pulsar
   pulsar-paw:
@@ -94,7 +93,6 @@ destinations:
       require:
         - pulsar
         - training
-        - offline
   pulsar-qld-blast:
     cores: 60
     mem: 200
