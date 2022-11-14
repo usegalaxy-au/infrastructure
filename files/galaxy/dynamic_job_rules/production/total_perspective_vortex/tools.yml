@@ -1452,10 +1452,6 @@ tools:
     params:
       docker_enabled: true
       docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000"
-    scheduling:
-      require:
-        - pulsar
-        - pulsar-azure-gpu
     rules:
       - if: |
           user and 'Alphafold' in [role.name for role in user.all_roles() if not role.deleted] and not (
@@ -1463,10 +1459,18 @@ tools:
           )
         context:
           partition: azuregpu0
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-azure-gpu
       - if: |
           user and 'UoM_Vet_Alphafold' in [role.name for role in user.all_roles() if not role.deleted]
         context:
           partition: azuregpu1
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-azure-1-gpu
       - if: |
           not user or not any([
             role for role in user.all_roles() if (

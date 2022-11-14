@@ -543,21 +543,8 @@ execution:
       docker_set_user: '1000'
       docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
       require_container: true
-    pulsar-azure-1:
-      runner: pulsar_azure_1_runner
-      tags: [registered_user_concurrent_jobs_10]
-      tmp_dir: True
-      jobs_directory: /mnt/pulsar/files/staging
-      transport: curl
-      remote_metadata: "false"
-      default_file_action: remote_transfer
-      outputs_to_working_directory: false
-      dependency_resolution: remote
-      rewrite_parameters: "true"
-      persistence_directory: /mnt/pulsar/files/persisted_data
-      submit_native_specification: "--nodes=1 --ntasks=24 --ntasks-per-node=24 --mem=212000"
     pulsar-azure-1-gpu:
-      runner: pulsar_azure_1_runner
+      runner: pulsar_azure_0_runner
       tags: [registered_user_concurrent_jobs_25]
       tmp_dir: True
       jobs_directory: /mnt/pulsar/files/staging
