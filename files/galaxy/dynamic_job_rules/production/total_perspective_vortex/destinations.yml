@@ -111,29 +111,22 @@ destinations:
       require:
         - pulsar
   pulsar-azure:
-    cores: 6
-    mem: 106
+    cores: 24
+    mem: 209
     scheduling:
       require:
         - pulsar
         - pulsar-azure
   pulsar-azure-gpu:
-    cores: 6
-    mem: 106
+    cores: 24
+    mem: 209
     scheduling:
       require:
         - pulsar
         - pulsar-azure-gpu
-  pulsar-azure-1:
-    cores: 24
-    mem: 218
-    scheduling:
-      require:
-        - pulsar
-        - pulsar-azure-1
   pulsar-azure-1-gpu:
     cores: 24
-    mem: 218
+    mem: 209
     scheduling:
       require:
         - pulsar

@@ -1447,31 +1447,26 @@ tools:
 
   # alphafold
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
+    cores: 8
+    mem: 69
+    params:
+      docker_enabled: true
+      docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000"
     rules:
       - if: |
           user and 'Alphafold' in [role.name for role in user.all_roles() if not role.deleted] and not (
             'UoM_Vet_Alphafold' in [role.name for role in user.all_roles() if not role.deleted]
           )
-        cores: 6
-        mem: 106
         context:
-          partition: azuregpu1
-        params:
-          docker_enabled: true
-          docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000"
+          partition: azuregpu0
         scheduling:
           require:
             - pulsar
             - pulsar-azure-gpu
       - if: |
           user and 'UoM_Vet_Alphafold' in [role.name for role in user.all_roles() if not role.deleted]
-        cores: 8
-        mem: 69
         context:
           partition: azuregpu1
-        params:
-          docker_enabled: true
-          docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000"
         scheduling:
           require:
             - pulsar
