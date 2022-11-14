@@ -133,16 +133,6 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: True
     amqp_publish_retry_max_retries: 60
-  pulsar_azure_1_runner:
-    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    amqp_url: "pyamqp://galaxy_azure_1:{{ vault_rabbitmq_password_galaxy_azure_1_prod }}@aarnet-queue.usegalaxy.org.au:5671//pulsar/galaxy_azure_1?ssl=1"
-    galaxy_url: "https://{{ hostname }}"
-    manager: _default_
-    amqp_acknowledge: True
-    amqp_ack_republish_time: 1200
-    amqp_consumer_timeout: 2.0
-    amqp_publish_retry: True
-    amqp_publish_retry_max_retries: 60
   pulsar_embedded:
     load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
     pulsar_config: "{{ galaxy_config_dir }}/pulsar_app.yml"
