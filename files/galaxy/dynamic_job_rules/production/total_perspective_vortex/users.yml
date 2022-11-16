@@ -41,7 +41,7 @@ users:
             dependency_resolution: none
     jenkins_bot@usegalaxy.org.au:
       inherits: test_user
-      cores: 1
+      cores: test_cores
       mem: cores * 3.8
       params:
         nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=main"
