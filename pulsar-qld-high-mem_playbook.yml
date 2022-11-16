@@ -62,3 +62,17 @@
       become: yes
       become_user: root
       when: links.stat.islnk is defined and not links.stat.islnk
+    - name: limit processes spawned by slurm jobs on qld-pulsar-himem-2
+      #  limit number of slurm cgroup processes to prevent mothur forking to infinity
+      lineinfile:
+          path: /lib/systemd/system/slurmd.service
+          regexp: "^TasksMax="
+          line: "TasksMax=2000"
+      when: "{{ hostname.endswith('himem-2') }}"
+    - name: reload systemd manager configuration for changes to take effect
+      systemd:
+          state: restarted
+          daemon_reload: yes
+          name: slurmd
+      when: "{{ hostname.endswith('himem-2') }}"
+
