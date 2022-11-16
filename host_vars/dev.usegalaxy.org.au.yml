@@ -27,7 +27,7 @@ certbot_domains:
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_api_token }}"
-dns-cloudflare-propagation-seconds: 60
+dns_provider_propagation_seconds: 60
 
 nginx_ssl_servers:
   - galaxy
@@ -300,20 +300,70 @@ galaxy_subsites:
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
     custom_css: |
       #masthead {
-          background: linear-gradient(to bottom,#e2453c 0,#e2453c 16%,#e07e39 16%,#e07e39 32%,#e5d667 32%,#e5d667 48%,#51b95b 48%,#51b95b 66%,#1e72b7 66%,#1e72b7 86%,#6f5ba7 86%) no-repeat;
+          background: linear-gradient(20deg, rgb(7, 40, 98) 0%, rgb(69, 122, 184) 48%, rgba(165,204,210,0.9676562309265136) 74%, rgb(228, 195, 131) 92%, rgb(203, 119, 79) 100%);
       }
-      #masthead .navbar-brand {
-        background: #3337;
-        height: 100%;
-        padding: 0.5em;
-        left: 0px;
+      @keyframes fly-right-one {
+          0% {
+              transform: translateY(-2vh) translateX(-55vw) scale(0.5);
+          }
+          15% {
+              transform: translateY(0vh) translateX(-45vw) scale(0.4);
+          }
+          30% {
+              transform: translateY(-2vh) translateX(-25vw) scale(0.6);
+          }
+          45% {
+              transform: translateY(1vh) translateX(-5vw) scale(0.45);
+          }
+          60% {
+              transform: translateY(-2vh) translateX(16vw) scale(0.5);
+          }
+          75% {
+              transform: translateY(0vh) translateX(28vw) scale(0.45);
+          }
+          100% {
+              transform: translateY(-1vh) translateX(48vw) scale(0.45);
+          }
       }
-      #masthead .navbar-nav > li .nav-link {
-          color: white;
+      @keyframes fly-right-two {
+          0% {
+              transform: translateY(2vh) translateX(-55vw) scale(0.5);
+          }
+          25% {
+              transform: translateY(0vh) translateX(-35vw) scale(0.4);
+          }
+          50% {
+              transform: translateY(-2vh) translateX(-10vw) scale(0.6);
+          }
+          75% {
+              transform: translateY(1vh) translateX(19vw) scale(0.45);
+          }
+          100% {
+              transform: translateY(0.5vh) translateX(48vw) scale(0.45);
+          }
       }
-      #masthead .navbar-nav > li {
-          background: #3337;
+       @keyframes fly-cycle {
+           100% {
+               background-position: -900px 0;
+          }
       }
-      #masthead .navbar-nav > li.active {
-          background: #333e;
+      #masthead:before {
+      position: absolute;
+      content: "";
+      width: 88px;
+      height: 125px;
+      background-size: auto 100%;
+      animation: fly-cycle  1s steps(10) infinite, fly-right-one  9s linear infinite;
+      /* back-up alternative https://usegalaxy-eu.github.io/assets/media/bird-cells-new.svg */
+      background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/174479/bird-cells-new.svg);
+      }
+      #masthead:after {
+      position: absolute;
+      content: "";
+      width: 88px;
+      height: 125px;
+      background-size: auto 100%;
+      animation: fly-cycle  1s steps(10) infinite, fly-right-two 15s linear infinite;
+      /* back-up alternative https://usegalaxy-eu.github.io/assets/media/bird-cells-new.svg */
+      background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/174479/bird-cells-new.svg);
       }
