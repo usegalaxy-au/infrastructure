@@ -148,6 +148,8 @@ host_galaxy_config: # renamed from __galaxy_config
     watch_job_rules: true # important for total perspective vortex
     sentry_dsn: "{{ vault_sentry_dsn_dev }}"
     tool_filters: ga_filters:hide_test_tools
+    tool_section_filters: global_host_filters:per_host_tool_sections
+    tool_label_filters: global_host_filters:per_host_tool_labels
     #TRS - workflowhub
     trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
     # TUS
@@ -298,6 +300,13 @@ galaxy_subsites:
     brand: Assembly
     iframe: "https://site.usegalaxy.org.au/landing/assembly"
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
+    tool_sections:
+      - "hicexplorer"
+      - "plots"
+      - "assembly"
+      - "annotation"
+      - "phylogenetics"
+      - "multiple_alignments"
     custom_css: |
       #masthead {
           background: linear-gradient(20deg, rgb(7, 40, 98) 0%, rgb(69, 122, 184) 48%, rgba(165,204,210,0.9676562309265136) 74%, rgb(228, 195, 131) 92%, rgb(203, 119, 79) 100%);

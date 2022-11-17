@@ -8,6 +8,16 @@
   password: ${user.preferences['owncloud_account|password']}
   writable: true
 
+- type: webdav
+  id: griffith_owncloud
+  label: Griffith Owncloud
+  doc: Import your files from CloudStor. Configure access in User -> Preferences -> Manage Information
+  url: "https://research-storage.griffith.edu.au/owncloud"
+  root: "/remote.php/nonshib-webdav"
+  login: ${user.preferences['griffith_owncloud_account|username']}
+  password: ${user.preferences['griffith_owncloud_account|password']}
+  writable: true
+
 - type: dropbox
   id: dropbox
   label: Dropbox
