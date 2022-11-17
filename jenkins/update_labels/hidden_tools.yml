@@ -12,4 +12,3 @@ hidden_tool_ids:
 - toolshed.g2.bx.psu.edu/repos/vlefort/phyml/phyml/*
 - toolshed.g2.bx.psu.edu/repos/bgruening/chemical_data_sources/jmoleditor/1.0.0
 - toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sra_pileup/*
-- toolshed.g2.bx.psu.edu/repos/iuc/mothur_cluster_split/mothur_cluster_split/*
