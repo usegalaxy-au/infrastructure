@@ -1,0 +1,12 @@
+- hosts: pulsar_mel2_head
+  become: true
+  become_user: ubuntu
+  vars_files:
+    - ../../group_vars/all.yml
+    - ../../group_vars/pulsarservers.yml
+    - ../../group_vars/pulsar_mel2/pulsar-mel2.yml
+    - ../../host_vars/pulsar-mel2/pulsar-mel2.genome.edu.au.yml
+    - conda_environments.yml
+  tasks:
+    - name: Create and update conda envs
+      include_tasks: conda_create_update.yml
