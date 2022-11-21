@@ -12,12 +12,6 @@ preferences:
     owncloud_account:
         description: AARNet CloudStor Credentials
         inputs:
-            - name: server_url
-              label: Server URL
-              type: select
-              required: False
-              options:
-                  - ["https://cloudstor.aarnet.edu.au/plus/remote.php/webdav", "https://cloudstor.aarnet.edu.au/plus/remote.php/webdav"]
             - name: username
               label: Username
               type: text
@@ -29,12 +23,6 @@ preferences:
     griffith_owncloud_account:
         description: Griffith Research Space OwnCloud Credentials
         inputs:
-            - name: server_url
-              label: Server URL
-              type: select
-              required: False
-              options:
-                  - ["https://research-storage.griffith.edu.au/owncloud/remote.php/nonshib-webdav", "https://research-storage.griffith.edu.au/owncloud/remote.php/nonshib-webdav"]
             - name: username
               label: Username
               type: text
