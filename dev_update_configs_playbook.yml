@@ -1,4 +1,4 @@
-- hosts: dev_galaxy_server
+- hosts: dev_handlers_server
   become: true
   vars_files:
       - group_vars/all.yml
@@ -9,11 +9,6 @@
       - host_vars/dev.usegalaxy.org.au.yml
       - secret_group_vars/ubuntu_maintenance_key
       - secret_group_vars/dev_secrets
-  vars:
-    - tpv_files:
-      - default_tool.yml
-      - vortex_config.yml
-      - reservation_destinations.yml
   handlers:
     - name: galaxy gravity restart
       become: True
@@ -27,11 +22,24 @@
         src: "{{ galaxy_config_template_src_dir }}/config/dev_job_conf.yml.j2"
         dest: "{{ galaxy_config_dir }}/job_conf.yml"
       notify: galaxy gravity restart
-    - name: Copy tpv files to dev
+    - name: Install dynamic job rules (static) # dynamic job rules tasks copied from https://github.com/galaxyproject/ansible-galaxy/blob/main/tasks/static_setup.yml
       copy:
-        src: "files/galaxy/dynamic_job_rules/dev/total_perspective_vortex/{{ item }}"
-        dest: "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/{{ item }}"
-      with_items: "{{ tpv_files }}"
+        src: "{{ galaxy_dynamic_job_rules_src_dir }}/{{ item }}"
+        dest: "{{ galaxy_dynamic_job_rules_dir }}/{{ item }}"
+        mode: 0644
+      with_items: "{{ galaxy_dynamic_job_rules }}"
+      notify: galaxy gravity restart
+      when: not item.endswith(".j2")
+    - name: Install dynamic job rules (template)
+      template:
+        src: "{{ galaxy_dynamic_job_rules_src_dir }}/{{ item }}"
+        dest: "{{ galaxy_dynamic_job_rules_dir }}/{{ item | regex_replace(regex) }}"
+        mode: 0644
+      vars:
+        regex: '\.j2$'
+      with_items: "{{ galaxy_dynamic_job_rules }}"
+      notify: galaxy gravity restart
+      when: item.endswith(".j2")
     - name: "Copy local tool configuration file to dev"
       copy:
         src: "{{ galaxy_config_file_src_dir }}/config/local_tool_conf_dev.xml"
