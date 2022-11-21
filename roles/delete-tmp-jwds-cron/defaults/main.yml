@@ -1,0 +1,8 @@
+dt_user: ubuntu
+dt_home: "/home/{{ dt_user }}/delete_tmp_jwds"
+
+dt_jwd_base: '/mnt/tmp/job_working_directory'
+dt_tmp_jwd_keep_error_days: 14
+
+dt_remote_user: ubuntu
+dt_skip_cron_setup: false

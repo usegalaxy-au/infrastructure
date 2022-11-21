@@ -7,6 +7,7 @@
       - group_vars/nfs_servers.yml
       - host_vars/aarnet-job-nfs.usegalaxy.org.au.yml
       - secret_group_vars/stats_server_vault
+      - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
       - name: Attach volume to instance
         include_role:
