@@ -64,4 +64,4 @@
 - name: usegalaxy_eu.flower
   version: 0.3.1-alpha
 - name: usegalaxy_eu.galaxy_subdomains
-  version: 0.0.10
+  version: 0.0.11
