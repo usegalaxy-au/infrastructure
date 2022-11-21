@@ -505,17 +505,6 @@ execution:
       rewrite_parameters: "true"
       persistence_directory: /mnt/pulsar/files/persisted_data
       submit_native_specification: "--nodes=1 --ntasks=6 --ntasks-per-node=6 --mem=110000"
-tools:
-- id: interactive_tool_ethercalc
-  environment: interactive_pulsar
-- id: interactive_tool_rstudio
-  environment: interactive_pulsar
-- id: interactive_tool_jupyter_notebook
-  environment: interactive_pulsar
-- id: interactive_tool_phinch
-  environment: interactive_pulsar
-- id: interactive_tool_cellxgene
-  environment: interactive_pulsar
 limits:
 - type: anonymous_user_concurrent_jobs
   value: 1

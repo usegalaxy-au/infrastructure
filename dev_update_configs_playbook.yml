@@ -12,7 +12,6 @@
   vars:
     - tpv_files:
       - default_tool.yml
-      - interactive_tools.yml
       - vortex_config.yml
       - reservation_destinations.yml
   handlers:
