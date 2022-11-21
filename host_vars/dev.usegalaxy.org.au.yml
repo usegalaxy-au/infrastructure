@@ -89,6 +89,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/email_domain_blocklist.conf"
+    dest: "{{ galaxy_config_dir }}/email_domain_blocklist.conf"
 
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
@@ -157,7 +159,11 @@ host_galaxy_config: # renamed from __galaxy_config
     datatypes_config_file: "{{ galaxy_server_dir }}/lib/galaxy/config/sample/datatypes_conf.xml.sample,{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
     smtp_server: localhost
     error_email_to: <help@genome.edu.au> # error reports are disabled if no email is set
-    email_from: <galaxy-no-reply@dev.usegalaxy.org.au>
+    email_from: <galaxy-no-reply@usegalaxy.org.au>
+    blacklist_file: "{{galaxy_config_dir }}/email_domain_blocklist.conf"
+    user_activation_on: true
+    instance_resource_url: https://site.usegalaxy.org.au
+    activation_email: <activation-noreply@usegalaxy.org.au>
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
