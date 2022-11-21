@@ -550,17 +550,6 @@ execution:
       docker_set_user: '1000'
       docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
       require_container: true
-tools:
-- id: interactive_tool_ethercalc
-  environment: interactive_pulsar
-- id: interactive_tool_rstudio
-  environment: interactive_pulsar
-- id: interactive_tool_jupyter_notebook
-  environment: interactive_pulsar
-- id: interactive_tool_phinch
-  environment: interactive_pulsar
-- id: interactive_tool_cellxgene
-  environment: interactive_pulsar
 limits:
 - type: anonymous_user_concurrent_jobs
   value: 1
