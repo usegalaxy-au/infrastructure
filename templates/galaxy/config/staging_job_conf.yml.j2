@@ -89,15 +89,6 @@ execution:
       docker_set_user: ''
       require_container: true
       container_monitor_result: callback
-tools:
-- id: interactive_tool_ethercalc
-  environment: interactive_pulsar
-- id: interactive_tool_rstudio
-  environment: interactive_pulsar
-- id: interactive_tool_jupyter_notebook
-  environment: interactive_pulsar
-- id: interactive_tool_phinch
-  environment: interactive_pulsar
 limits:
 - type: anonymous_user_concurrent_jobs
   value: 1
