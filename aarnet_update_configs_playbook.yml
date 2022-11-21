@@ -22,7 +22,7 @@
       become_user: galaxy
       command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
       environment:
-        GRAVITY_STATE_DIR: "{{ galaxy_root }}/gravity"
+        GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
   tasks:
     - name: copy job_conf file
       template:

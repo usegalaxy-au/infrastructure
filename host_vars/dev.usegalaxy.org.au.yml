@@ -42,9 +42,7 @@ galaxy_db_user_password: "{{ vault_dev_db_user_password }}"
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/dev
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
-  - dynamic_rules/destination_mapper.py
-  - dynamic_rules/tool_destinations.yml
-  - total_perspective_vortex/default_tool.yml
+  - total_perspective_vortex/default_tool.yml.j2
   - total_perspective_vortex/vortex_config.yml
   - total_perspective_vortex/reservation_destinations.yml
   - readme.txt
