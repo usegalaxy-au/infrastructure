@@ -36,10 +36,20 @@ slurm_nodes:
     CPUs: 16
     RealMemory: 64419
     State: UNKNOWN
+  - name: pulsar-QLD-w5
+    NodeAddr: "{{ hostvars['pulsar-QLD-w5']['ansible_ssh_host'] }}"
+    CPUs: 16
+    RealMemory: 64419
+    State: UNKNOWN
+  - name: pulsar-QLD-w6
+    NodeAddr: "{{ hostvars['pulsar-QLD-w6']['ansible_ssh_host'] }}"
+    CPUs: 16
+    RealMemory: 64419
+    State: UNKNOWN
 
 slurm_partitions:
   - name: main
-    nodes: "pulsar-QLD-w0,pulsar-QLD-w1,pulsar-QLD-w2,pulsar-QLD-w3,pulsar-QLD-w4"
+    nodes: "pulsar-QLD-w0,pulsar-QLD-w1,pulsar-QLD-w2,pulsar-QLD-w3,pulsar-QLD-w4,pulsar-QLD-w5,pulsar-QLD-w6"
     Default: YES
     MaxTime: INFINITE
     State: UP

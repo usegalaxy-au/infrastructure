@@ -18,14 +18,14 @@
       group: ubuntu
       state: directory
       mode: 0750
-- name: Symlink custom indices directory
-  file:
-      src: "{{ pulsar_custom_indices_src_dir }}"
-      dest: "{{ pulsar_custom_indices_dir }}"
-      state: link
-  become: yes
-  become_user: ubuntu
-  when: pulsar_custom_indices_src_dir is defined
+# - name: Symlink custom indices directory
+#   file:
+#       src: "{{ pulsar_custom_indices_src_dir }}"
+#       dest: "{{ pulsar_custom_indices_dir }}"
+#       state: link
+#   become: yes
+#   become_user: ubuntu
+#   when: pulsar_custom_indices_src_dir is defined
 - name: create singularity cache dir
   file:
       path: "{{ pulsar_dependencies_dir }}/singularity"
