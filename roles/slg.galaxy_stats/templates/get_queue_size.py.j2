@@ -5,16 +5,20 @@ import argparse
 import datetime
 
 from influxdb import InfluxDBClient
-{% if add_queue_info %}
 import psycopg2
 import xml.etree.ElementTree as ET
-{% endif %}
-{% if add_utilisation_info %}
 import re
 import subprocess
-{% endif %}
 
-secrets = yaml.safe_load(open('{{ stats_dir }}/secret.yml', 'r'))
+add_queue_info = {{ add_queue_info is truthy }}
+add_utilisation_info = {{ add_utilisation_info is truthy }}
+stats_dry_run_only = {{ stats_dry_run_only is truthy }}
+
+sinfo_hostname = '{{ sinfo_hostname }}'
+secrets_file = '{{ stats_dir }}/secret.yml'
+job_conf_path = '{{ galaxy_config_dir }}/job_conf.yml'
+
+secrets = yaml.safe_load(open(secrets_file, 'r'))
 SALT = secrets['salt']
 TOP_USAGE_LIMIT = 30
 PGCONNS = secrets['pgconn']
@@ -25,17 +29,11 @@ time = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
-{% if add_queue_info %}
+
 def get_destinations(job_conf):
-    jc = ET.parse(job_conf)
-    root = jc.getroot()
-    destinations = []
-    for child in root:
-        if child.tag == "destinations":
-            for dest in child:
-                if dest.attrib['id'] != 'dynamic_dtd' and dest.attrib['id'] != 'gateway':
-                    destinations.append(dest.attrib['id'])
-    return destinations
+    with open(job_conf) as handle:
+        destinations = list(yaml.safe_load(handle).get('execution', {}).get('environments', []).keys())
+    return destinations 
 
 
 def queue_monitor_v2():
@@ -108,39 +106,37 @@ def collect(instance, dests):
     tags = {'state': 'running'}
     measurements.append(make_measurement('queue_agg', float(running), tags=tags))
     return measurements
-{% endif %}
 
-{% if add_utilisation_info %}
+
 def get_sinfo():
     total_cpus = 0
     cpus_allocated = 0
     m = []
     sout = subprocess.check_output(['sinfo']).decode('utf-8').split('\n')
     #eprint(sout)
-    for line in sout:
-        if line.startswith('{{ sinfo_line_startswith }}'):
-            capts = re.search(r"(\w+(-\w+)+)\s+(\d+)/\d+/\d+/(\d+)\s+(\w+)",line)
-            node = str(capts.groups()[0])
-            node_alloc = float(capts.groups()[1])
-            node_cpus = float(capts.groups()[2])
-            node_state = str(capts.groups()[3])
-            node_percent = node_alloc / node_cpus * 100.0
-            total_cpus += node_cpus
-            cpus_allocated += node_alloc
-            m.append({ 
-                'measurement': 'node_sinfo', 
-                'time': time, 
-                'fields': { 
-                    'node_alloc': node_alloc, 
-                    'node_cpus': node_cpus, 
-                    'node_percent': node_percent,
-                    'node_state': node_state
-                    },
-                'tags': {
-                    'host': '{{ sinfo_hostname }}',
-                    'node': node
-                    }
-                })
+    for line in sout[1:]: # skip header line
+        if not line: # skip empty lines
+            continue
+        node, alloc_info, node_state = re.split('\s+', line)
+        node_alloc = float(alloc_info.split('/')[0])
+        node_cpus = float(alloc_info.split('/')[3])
+        node_percent = node_alloc / node_cpus * 100.0
+        total_cpus += node_cpus
+        cpus_allocated += node_alloc
+        m.append({ 
+            'measurement': 'node_sinfo', 
+            'time': time, 
+            'fields': { 
+                'node_alloc': node_alloc, 
+                'node_cpus': node_cpus, 
+                'node_percent': node_percent,
+                'node_state': node_state
+                },
+            'tags': {
+                'host': sinfo_hostname,
+                'node': node
+                }
+            })
     percent = cpus_allocated / total_cpus * 100.0
     m.append({
         'measurement': 'sinfo',
@@ -151,11 +147,11 @@ def get_sinfo():
             'percent_allocated': percent
         },
         'tags': {
-            'host': '{{ sinfo_hostname }}'
+            'host': sinfo_hostname
         }
     })
     return m
-{% endif %}
+
 
 def dump(instance, points):
     client = InfluxDBClient(**secrets['influxdb'])
@@ -165,18 +161,24 @@ def dump(instance, points):
 
 def main():
     parser = argparse.ArgumentParser(description="Translate Galaxy DB stats from PostgreSQL to InfluxDB")
-    {% if add_queue_info %}
-    parser.add_argument('instance', default='main', help="Galaxy instance")
-    parser.add_argument('job_conf', default="{{ galaxy_config_dir }}/job_conf.xml", help="The Galaxy Job Conf file")
-    args = parser.parse_args()
-    destinations = get_destinations(args.job_conf)
-    points = collect(args.instance,destinations)
-    dump(args.instance, points)
-    {% endif %}
-    {% if add_utilisation_info %}
-    sinfo = get_sinfo()
-    dump(args.instance, sinfo)
-    {% endif %}
+    parser.add_argument('-d', '--dry_run', action='store_true', help="Print to screen, do not post to influx")
+    if add_queue_info:
+        parser.add_argument('instance', default='main', help="Galaxy instance")
+        parser.add_argument('job_conf', default=job_conf_path, help="The Galaxy Job Conf file")
+        args = parser.parse_args()
+        destinations = get_destinations(args.job_conf)
+        points = collect(args.instance, destinations)
+        if not (args.dry_run or stats_dry_run_only):
+            dump(args.instance, points)
+        else:
+            print(points)
+    if add_utilisation_info:
+        args = parser.parse_args()
+        sinfo = get_sinfo()
+        if not (args.dry_run or stats_dry_run_only):
+            dump(args.instance, sinfo)
+        else:
+            print(sinfo)
 
 
 if __name__ == '__main__':
