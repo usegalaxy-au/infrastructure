@@ -115,7 +115,6 @@ miniconda_prefix: "{{ pulsar_conda_prefix }}"
 pulsar_custom_indices_dir: /mnt/custom-indices
 
 #Stats collection
-sinfo_line_startswith: "p"
 add_utilisation_info: true
 stats_dir: /home/ubuntu/stats_collection
 

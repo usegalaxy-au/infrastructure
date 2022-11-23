@@ -214,16 +214,15 @@ db_address: "{{ hostvars['aarnet-db']['internal_ip'] }}"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 
 # vars for stats_collection
-stats_dir: /home/ubuntu/stats_collection/
+stats_dir: /home/ubuntu/stats_collection
 db_server: "{{ hostvars['aarnet-db']['internal_ip'] }}"
 influx_url: "stats.usegalaxy.org.au"
 db_password: "{{ galaxy_db_user_password }}"
 influx_salt: "{{ prod_queue_size_salt }}"
-sinfo_line_startswith: a
-add_daily_stats: true #change this when aarnet is usegalaxy.org.au
+add_daily_stats: true
 add_monthly_stats: true
 add_utilisation_info: true
-add_queue_info: true #Change this when aarnet is usegalaxy.org.au
+add_queue_info: true
 
 #Vars for TIaaS
 tiaas_galaxy_db_host: "aarnet-db.usegalaxy.org.au"

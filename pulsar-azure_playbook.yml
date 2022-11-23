@@ -12,18 +12,18 @@
   #     include_role:
   #       name: attached-volumes
   roles:
-    - common
-    - insspb.hostname
-    - geerlingguy.pip
-    - galaxyproject.repos
-    - role: galaxyproject.miniconda
-      become: true
-      become_user: "{{ pulsar_user.name }}"
+    # - common
+    # - insspb.hostname
+    # - geerlingguy.pip
+    # - galaxyproject.repos
+    # - role: galaxyproject.miniconda
+    #   become: true
+    #   become_user: "{{ pulsar_user.name }}"
     - galaxyproject.pulsar
     # - mariadb
     # - galaxyproject.slurm
-    - galaxyproject.cvmfs
-    - dj-wasabi.telegraf
-    - pulsar-post-tasks
+    # - galaxyproject.cvmfs
+    # - dj-wasabi.telegraf
+    # - pulsar-post-tasks
     # - slurm-post-tasks
-    # - slg.galaxy_stats
+    - slg.galaxy_stats
