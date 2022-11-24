@@ -117,7 +117,7 @@ machine_users:
 
     # TODO: add task to remove alumni accounts (GH, TC, NR)
 
-    # accounts to be removed
+    # no longer active accounts - add to remove_machine_users below
     # - name: grace
     #   roles:
     #     - sudo
@@ -129,5 +129,10 @@ machine_users:
     #     - galaxy_admin
     #   key: files/keys/nick.pub
     #   email: "{{ nick_email }}"
+
+# accounts to be removed
+remove_machine_users:
+    - "grace"
+    - "nick"
 
 

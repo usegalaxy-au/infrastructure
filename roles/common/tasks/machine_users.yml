@@ -15,6 +15,13 @@
       groups: devs
       append: true
     with_items: "{{ machine_users }}"
+  - name: "Remove old machine user accounts"
+    user:
+      name: "{{ item }}"
+      state: "absent"
+      remove: yes 
+      force: yes 
+    with_items: "{{ remove_machine_users }}"
   - name: Add some env_vars to .bashrcs
     blockinfile:
       path: "/home/{{ item.name }}/.bashrc"
