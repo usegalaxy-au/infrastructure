@@ -115,8 +115,6 @@ machine_users:
       key: files/keys/anna.pub
       email: "{{ anna_email }}"
 
-    # TODO: add task to remove alumni accounts (GH, TC, NR)
-
     # no longer active accounts - add to remove_machine_users below
     # - name: grace
     #   roles:
