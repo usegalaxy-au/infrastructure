@@ -10,6 +10,7 @@
   - name: Add machine users
     user:
       name: "{{ item.name }}"
+      uid: "{{ item.uid }}"
       shell: /bin/bash
       groups: devs
       append: true
