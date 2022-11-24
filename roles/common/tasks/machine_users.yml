@@ -7,6 +7,7 @@
     group:
       name: devs
       state: present
+
   - name: Add machine users
     user:
       name: "{{ item.name }}"
@@ -15,6 +16,25 @@
       groups: devs
       append: true
     with_items: "{{ machine_users }}"
+
+  # note: this assumes all VMs run Ubuntu - if not, then need to define a var containing OS-specific group
+  - name: "Allow members of sudo group to sudo without a password"
+    lineinfile:
+      dest: "/etc/sudoers"
+      regexp: "^%sudo"
+      line: "%sudo ALL=(ALL) NOPASSWD: ALL"
+      state: "present"
+      validate: /usr/sbin/visudo -cf %s
+
+  # note: this assumes all VMs run Ubuntu - if not, then need to define a var containing OS-specific group
+  - name: "Add machine users with 'sudo' role to Ubuntu sudo group"
+    user:
+      name: "{{ item.name }}"
+      groups:
+      - sudo
+      append: yes
+    with_items: "{{ machine_users | selectattr('roles', 'contains', 'sudo') | list }}"
+
   - name: "Remove old machine user accounts"
     user:
       name: "{{ item }}"
@@ -22,6 +42,7 @@
       remove: yes 
       force: yes 
     with_items: "{{ remove_machine_users }}"
+
   - name: Add some env_vars to .bashrcs
     blockinfile:
       path: "/home/{{ item.name }}/.bashrc"
@@ -30,18 +51,33 @@
       marker: "# {mark} MANAGED BY ANSIBLE - DO NOT MODIFY"
     with_items: "{{ machine_users + [{'name': 'ubuntu'}] }}"
     when: bashrc_env is defined
+
   - name: Add SSH keys for users
     authorized_key:
       user: "{{ item.name }}"
       key: "{{ lookup('file', item.key) }}"
       state: present
     with_items: "{{ machine_users }}"
-  - name: Add sudo users
-    copy:
-      dest: "/etc/sudoers.d/{{ item.name }}"
-      content: "{{ item.name }}  ALL=(ALL)  NOPASSWD: ALL"
-      validate: /usr/sbin/visudo -cf %s
-    with_items: "{{ machine_users | selectattr('roles', 'contains', 'sudo') | list }}"
+
+# DEPRECATED
+#  - name: Add sudo users
+#    copy:
+#      dest: "/etc/sudoers.d/{{ item.name }}"
+#      content: "{{ item.name }}  ALL=(ALL)  NOPASSWD: ALL"
+#      validate: /usr/sbin/visudo -cf %s
+#    with_items: "{{ machine_users | selectattr('roles', 'contains', 'sudo') | list }}"
+  # FIX for deprecated code above - can be removed when no user files remain in /etc/sudoers.d/
+  - name: "delete /etc/sudoers.d/username files for removed machine users"
+    file:
+      path: "/etc/sudoers.d/{{ item.name }}"
+      state: absent
+    with_items: "{{ remove_machine_users }}"
+  - name: "delete /etc/sudoers.d/username files for current machine users"
+    file:
+      path: "/etc/sudoers.d/{{ item.name }}"
+      state: absent
+    with_items: "{{ remove_machine_users }}"
+
   - name: Add bash function gxctl for sudo users only
     blockinfile:
       path: "/home/{{ item.name }}/.bashrc"
