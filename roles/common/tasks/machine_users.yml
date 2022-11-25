@@ -69,14 +69,14 @@
   # FIX for deprecated code above - can be removed when no user files remain in /etc/sudoers.d/
   - name: "delete /etc/sudoers.d/username files for removed machine users"
     file:
-      path: "/etc/sudoers.d/{{ item.name }}"
+      path: "/etc/sudoers.d/{{ item }}"
       state: absent
     with_items: "{{ remove_machine_users }}"
   - name: "delete /etc/sudoers.d/username files for current machine users"
     file:
       path: "/etc/sudoers.d/{{ item.name }}"
       state: absent
-    with_items: "{{ remove_machine_users }}"
+    with_items: "{{ machine_users }}"
 
   - name: Add bash function gxctl for sudo users only
     blockinfile:
