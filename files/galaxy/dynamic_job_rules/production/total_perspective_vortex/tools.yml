@@ -583,22 +583,35 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/roary/roary/.*:
     cores: 7
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_cluster_reduce_dimension/scanpy_cluster_reduce_dimension/.*:
+    params:
+      singularity_enabled: True
     rules:
     - if: input_size >= 0.5
       cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_filter/scanpy_filter/.*:
+    params:
+      singularity_enabled: True
     rules:
     - if: input_size >= 0.5
       cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_inspect/scanpy_inspect/.*:
+    params:
+      singularity_enabled: True
     rules:
     - if: input_size >= 0.5
       cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_normalize/scanpy_normalize/.*:
+    params:
+      singularity_enabled: True
     rules:
     - if: input_size >= 1
       cores: 2
+  toolshed.g2.bx.psu.edu/repos/iuc/scanpy_plot/scanpy_plot/.*:
+    params:
+      singularity_enabled: True
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/scanpy_remove_confounders/.*:
+    params:
+      singularity_enabled: True
     rules:
     - if: 0.05 <= input_size < 0.5
       cores: 5
