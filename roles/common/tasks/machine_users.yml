@@ -3,6 +3,15 @@
   become: true
   become_user: root
   block:
+
+  - name: Backup passwd and group files in case UID or GID are modified
+    copy:
+      src: "/etc/{{ item }}"
+      dest: "/etc/{{ item }}.{{ ansible_date_time.date }}"
+    loop:
+      - passwd
+      - group
+
   - name: Ensure group "devs" exists
     group:
       name: devs
@@ -18,14 +27,14 @@
     with_items: "{{ machine_users }}"
 
   # NOTE: this is required in case a user's UID changes - ansible may not update the GID
-  - name: "Ensure user's group exists with correct gid"
+  - name: Ensure user's group exists with correct gid
     group:
       name: "{{ item.name }}"
       gid: "{{ item.uid }}"
       state: present
     with_items: "{{ machine_users }}"
 
-  - name: "Ensure that if there was a change of user's uid/gid then all contents of home directory are chowned"
+  - name: Ensure that if there was a change of user's uid/gid then all contents of home directory are chowned
     file:
       dest: "/home/{{ item.name }}"
       owner: "{{ item.name }}"
@@ -34,7 +43,7 @@
     with_items: "{{ machine_users }}"
 
   # note: this assumes all VMs run Ubuntu - if not, then need to define a var containing OS-specific group
-  - name: "Allow members of sudo group to sudo without a password"
+  - name: Allow members of sudo group to sudo without a password
     lineinfile:
       dest: "/etc/sudoers"
       regexp: "^%sudo"
@@ -43,7 +52,7 @@
       validate: /usr/sbin/visudo -cf %s
 
   # note: this assumes all VMs run Ubuntu - if not, then need to define a var containing OS-specific group
-  - name: "Add machine users with 'sudo' role to Ubuntu sudo group"
+  - name: Add machine users with 'sudo' role to Ubuntu sudo group
     user:
       name: "{{ item.name }}"
       groups:
@@ -51,7 +60,7 @@
       append: yes
     with_items: "{{ machine_users | selectattr('roles', 'contains', 'sudo') | list }}"
 
-  - name: "Remove old machine user accounts"
+  - name: Remove old machine user accounts
     user:
       name: "{{ item }}"
       state: "absent"
@@ -83,12 +92,12 @@
 #      validate: /usr/sbin/visudo -cf %s
 #    with_items: "{{ machine_users | selectattr('roles', 'contains', 'sudo') | list }}"
   # FIX for deprecated code above - can be removed when no user files remain in /etc/sudoers.d/
-  - name: "delete /etc/sudoers.d/username files for removed machine users"
+  - name: delete /etc/sudoers.d/username files for removed machine users
     file:
       path: "/etc/sudoers.d/{{ item }}"
       state: absent
     with_items: "{{ remove_machine_users }}"
-  - name: "delete /etc/sudoers.d/username files for current machine users"
+  - name: delete /etc/sudoers.d/username files for current machine users
     file:
       path: "/etc/sudoers.d/{{ item.name }}"
       state: absent
