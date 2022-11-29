@@ -214,24 +214,9 @@ pulsar-nci-training-w2 ansible_ssh_host=10.0.3.167 internal_ip=10.0.3.167
 [nvme]
 qld-nvme ansible_ssh_host=203.101.231.166
 
-
 [build_machines]
 nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249
 aarnet-backup ansible_ssh_host=138.44.80.22 internal_ip=192.168.199.12
-
-##### DR environment at Qriscloud
-#[qld-dr]
-#qld-dr-head ansible_ssh_host=203.101.225.247
-#qld-dr-queue ansible_ssh_host=203.101.227.169
-#qld-dr-job-nfs ansible_ssh_host=203.101.229.199
-#qld-dr-db ansible_ssh_host=203.101.227.89
-#qld-dr-w0 ansible_ssh_host=203.101.228.51
-#qld-dr-w1 ansible_ssh_host=203.101.227.144
-#qld-dr-w2 ansible_ssh_host=203.101.229.95
-
-##### Pulsar EU GPU (test machine for Alphafold)
-[GPU-pulsars]
-pulsar_EU_GPU ansible_ssh_host=132.230.223.54 ansible_user=centos
 
 ##### Pulsar Azure
 [pulsar_azure_0_head]
@@ -248,9 +233,6 @@ cvmfs1-mel0.gvl.org.au ansible_user=ec2-user ansible_ssh_host=115.146.85.207
 [cvmfslocalproxies]
 cvmfsp-mel.gvl.org.au ansible_ssh_host=115.146.87.203
 cvmfsp-paw.gvl.org.au ansible_ssh_host=146.118.70.86 internal_ip=192.168.0.131
-
-[testdbservers]
-test-db-server ansible_ssh_host=115.146.94.248
 
 [galactic_radio_telescope]
 telescope ansible_ssh_host=115.146.86.144
