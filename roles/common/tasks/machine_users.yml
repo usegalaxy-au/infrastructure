@@ -12,6 +12,15 @@
       - passwd
       - group
 
+  # FIX for deprecated code that added user files in /etc/sudoers.d/ - can be removed in future
+  - name: delete /etc/sudoers.d/username files for machine users
+    file:
+      path: "/etc/sudoers.d/{{ item.name }}"
+      state: absent
+    with_items:
+      - "{{ remove_machine_users }}"
+      - "{{ machine_users }}"
+
   - name: Ensure group "devs" exists
     group:
       name: devs
@@ -62,7 +71,7 @@
 
   - name: Remove old machine user accounts
     user:
-      name: "{{ item }}"
+      name: "{{ item.name }}"
       state: "absent"
       remove: yes 
       force: yes 
@@ -91,17 +100,6 @@
 #      content: "{{ item.name }}  ALL=(ALL)  NOPASSWD: ALL"
 #      validate: /usr/sbin/visudo -cf %s
 #    with_items: "{{ machine_users | selectattr('roles', 'contains', 'sudo') | list }}"
-  # FIX for deprecated code above - can be removed when no user files remain in /etc/sudoers.d/
-  - name: delete /etc/sudoers.d/username files for removed machine users
-    file:
-      path: "/etc/sudoers.d/{{ item }}"
-      state: absent
-    with_items: "{{ remove_machine_users }}"
-  - name: delete /etc/sudoers.d/username files for current machine users
-    file:
-      path: "/etc/sudoers.d/{{ item.name }}"
-      state: absent
-    with_items: "{{ machine_users }}"
 
   - name: Add bash function gxctl for sudo users only
     blockinfile:

@@ -115,22 +115,19 @@ machine_users:
       key: files/keys/anna.pub
       email: "{{ anna_email }}"
 
-    # no longer active accounts - add to remove_machine_users below
-    # - name: grace
-    #   roles:
-    #     - sudo
-    #   key: files/keys/grace.pub
-    #   email: "{{ grace_email }}"
-    # - name: nick
-    #   roles:
-    #     - sudo
-    #     - galaxy_admin
-    #   key: files/keys/nick.pub
-    #   email: "{{ nick_email }}"
 
-# accounts to be removed
+# no longer active accounts to be removed - only name field is required
 remove_machine_users:
-    - "grace"
-    - "nick"
+    - name: grace
+    # roles:
+    #   - sudo
+    # key: files/keys/grace.pub
+    # email: "{{ grace_email }}"
+    - name: nick
+    # roles:
+    #   - sudo
+    #   - galaxy_admin
+    # key: files/keys/nick.pub
+    # email: "{{ nick_email }}"
 
 
