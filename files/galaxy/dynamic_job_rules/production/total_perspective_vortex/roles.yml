@@ -34,7 +34,7 @@ roles:
         for ent in filter(lambda x: isinstance(x, Tool), entities):
             value = list(ent.tags.filter(tag_value='pulsar-training-large'))
         value
-      cores: 8
+      cores: 16
       mem: cores * 2.9  # ratio for pulsar-nci-training
       scheduling:
         require:
