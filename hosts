@@ -235,7 +235,7 @@ pulsar_EU_GPU ansible_ssh_host=132.230.223.54 ansible_user=centos
 
 ##### Pulsar Azure
 [pulsar_azure_0_head]
-pulsar-azure-0 ansible_ssh_host=68.218.86.143
+pulsar-azure-0 ansible_ssh_host=20.53.243.154
 
 ##### Stats server
 [stats_servers]
