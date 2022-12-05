@@ -89,6 +89,7 @@ destinations:
       require:
         - pulsar
         - high-mem
+        - offline
   pulsar-nci-training:
     cores: 16
     mem: 47.07
