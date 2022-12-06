@@ -67,7 +67,7 @@
       lineinfile:
           path: /lib/systemd/system/slurmd.service
           regexp: "^TasksMax="
-          line: "TasksMax=2000"
+          line: "TasksMax=5000"
       when: "{{ inventory_hostname.endswith('himem-2') }}"
     - name: reload systemd manager configuration for changes to take effect
       systemd:
