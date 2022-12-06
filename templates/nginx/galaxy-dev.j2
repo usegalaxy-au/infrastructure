@@ -20,6 +20,8 @@ server {
         proxy_set_header   X-Real-IP         $remote_addr;
         proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header   X-Forwarded-Proto $scheme;
+        
+        add_header X-Clacks-Overhead 'GNU James Taylor (@jxtx) Simon Gladman (@slugger70)';
     }
 
     # Static files can be more efficiently served by Nginx. Why send the
