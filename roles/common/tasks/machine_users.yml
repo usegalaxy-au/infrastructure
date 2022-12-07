@@ -17,9 +17,7 @@
     file:
       path: "/etc/sudoers.d/{{ item.name }}"
       state: absent
-    with_items:
-      - "{{ remove_machine_users }}"
-      - "{{ machine_users }}"
+    with_items: "{{ remove_machine_users + machine_users }}"
 
   - name: Ensure group "devs" exists
     group:
