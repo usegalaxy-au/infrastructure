@@ -30,7 +30,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel3-w2" {
 resource "openstack_compute_instance_v2" "pulsar-mel3-w3" {
   name            = "pulsar-mel3-w3"
   image_id        = "f8b79936-6616-4a22-b55d-0d0a1d27bceb"
-  flavor_name     = "c3.xxlarge"
+  flavor_name     = "r3.xxlarge"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
   availability_zone = "melbourne-qh2"
@@ -39,7 +39,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel3-w3" {
 resource "openstack_compute_instance_v2" "pulsar-mel3-w4" {
   name            = "pulsar-mel3-w4"
   image_id        = "f8b79936-6616-4a22-b55d-0d0a1d27bceb"
-  flavor_name     = "c3.xxlarge"
+  flavor_name     = "r3.xxlarge"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
   availability_zone = "melbourne-qh2"
