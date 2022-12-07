@@ -64,8 +64,4 @@
 - name: usegalaxy_eu.flower
   version: 0.3.1-alpha
 - name: usegalaxy_eu.galaxy_subdomains
-  # version: 0.0.12
-  # temporarily switched to CB's fork because released version is broken
-  # should be fine to switch back from version 0.0.13 onwards
-  src: https://github.com/cat-bro/ansible-galaxy-subdomains
-  version: 9f4d0185f018ea1e6ca176cb36c7027408f524ac
+  version: 0.0.13
