@@ -20,7 +20,7 @@ pulsar_rabbit_vhost: "/pulsar/galaxy_paw"
 pulsar_conda_exec: "mamba"  # Use mamba as replacement for conda
 
 attached_volumes:
-  - device: /dev/sdc
+  - device: /dev/sdb
     path: /mnt
     fstype: ext4
 
