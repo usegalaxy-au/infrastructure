@@ -6,7 +6,9 @@ add_hosts_handlers: yes
 galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
 
 # total perspective vortex
-tpv_version: "1.4.0"
+# tpv_version: "1.4.0"
+tpv_repo: https://github.com/usegalaxy-au/total-perspective-vortex
+tpv_commit_id: b22bd42f8fac30f36e39c0dcfc101d6e2d96010d
 
 # variables for attaching mounted volume to application server
 attached_volumes:
@@ -44,7 +46,7 @@ galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
   - total_perspective_vortex/default_tool.yml.j2
   - total_perspective_vortex/vortex_config.yml
-  - total_perspective_vortex/reservation_destinations.yml
+  - total_perspective_vortex/destinations.yml.j2
   - readme.txt
 
 galaxy_systemd_mode: gravity

@@ -1,0 +1,161 @@
+destinations:
+  default:
+    runner: slurm # abstract: this runner will be overridden
+    max_accepted_cores: 0 # abstract: no jobs will run at this destination
+    max_accepted_mem: 0 # abstract: no jobs will run at this destination
+    tags:
+      - registered_user_concurrent_jobs_20
+    rules:
+      - if: params.get('singularity_enabled', False)
+        params:
+            singularity_default_container_id: "{{ singularity_default_container_id }}"  
+      - if: params.get('docker_enabled')
+        params:
+            docker_memory: '{mem}G'
+            docker_sudo: false
+  _slurm_destination:
+    inherits: default
+    params:
+        nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
+    rules:
+      - if: params.get('singularity_enabled', False)
+        params:
+            singularity_volumes: "{{ slurm_singularity_volumes }}"
+      - if: params.get('docker_enabled')
+        params:
+            docker_volumes: "{{ slurm_docker_volumes }}"
+  _pulsar_destination:
+    inherits: default
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
+      jobs_directory: /mnt/pulsar/files/staging # TODO: this could be a variable
+      transport: curl
+      remote_metadata: 'false'
+      # metadata_strategy: 'extended' # TODO: this may work in future with remote_metadata set to true and galaxy venv on pulsar
+      default_file_action: remote_transfer
+      outputs_to_working_directory: false
+      dependency_resolution: remote
+      rewrite_parameters: 'true'
+      persistence_directory: /mnt/pulsar/files/persisted_data # TODO: this could be a variable
+
+    rules:
+      - if: params.get('singularity_enabled', False)
+        params:
+            singularity_volumes: "{{ pulsar_singularity_volumes }}"
+            container_resolvers: 
+                - type: explicit_singularity
+                - type: mulled_singularity
+        env:
+          SINGULARITY_CACHEDIR: /mnt/pulsar/deps/singularity
+          SINGULARITY_TMPDIR: /mnt/pulsar/deps/singularity/tmp
+
+      - if: params.get('docker_enabled', False)
+        params:
+            docker_volumes: "{{ pulsar_docker_volumes }}"
+            docker_set_user: '1000'    
+  slurm:
+    inherits: _slurm_destination
+    tags:
+      - registered_user_concurrent_jobs_40
+    max_accepted_cores: 16
+    max_accepted_mem: 62.5
+    scheduling:
+      accept:
+        - slurm
+  interactive_local:
+    inherits: default
+    runner: local
+    tags:
+      - registered_user_concurrent_jobs_20
+    max_accepted_cores: 2
+    max_accepted_mem: 4
+    params:
+      docker_enabled: true
+      docker_volumes: $defaults
+      docker_net: bridge
+      docker_auto_rm: true
+      docker_set_user: ''
+      docker_require_container: true
+  interactive_pulsar:
+    inherits: interactive_local
+    runner: pulsar_embedded
+    tags:
+      - registered_user_concurrent_jobs_20
+    max_accepted_cores: 8
+    max_accepted_mem: 32
+    params:
+      outputs_to_working_directory: false
+      container_monitor_result: callback
+  pulsar_destination:
+    inherits: _pulsar_destination
+    runner: pulsar_au_01
+    tags:
+      - registered_user_concurrent_jobs_20
+    max_accepted_cores: 2
+    max_accepted_mem: 7.76
+    scheduling:
+      accept:
+        - dev-pulsar
+      require:
+        - pulsar
+  pulsar-nci-test:
+    inherits: _pulsar_destination
+    runner: pulsar_nci_test_runner
+    tags:
+      - registered_user_concurrent_jobs_20
+    max_accepted_cores: 16
+    max_accepted_mem: 48.19
+    scheduling:
+      accept:
+        - general
+        - pulsar-nci-test
+      require:
+        - pulsar
+  pulsar-azure-0-std: # TODO: make sure all params needed for alphafold are set on tool
+    inherits: _pulsar_destination
+    runner: pulsar_azure_0_runner
+    tags:
+      - registered_user_concurrent_jobs_20
+    max_accepted_cores: 24
+    max_accepted_mem: 209
+    max_accepted_gpus: 1
+    scheduling:
+      accept:
+        - general
+        - alphafold
+        - offline
+      require:
+        - pulsar
+        - pulsar-azure-0
+  pulsar-reservation-g2-xlarge-A:
+    inherits: _pulsar_destination
+    runner: pulsar_reservation_g2_xlarge_B_runner
+    tags:
+      - registered_user_concurrent_jobs_20
+    max_accepted_cores: 60
+    max_accepted_mem: 120
+    max_accepted_gpus: 1
+    scheduling:
+      require:
+        - pulsar
+        - reservation-pulsar
+        - offline
+      accept:
+        - alphafold
+        - pulsar-reservation-g2-xlarge-A
+  pulsar-reservation-g2-xlarge-B:
+    inherits: _pulsar_destination
+    runner: pulsar_reservation_g2_xlarge_B_runner
+    tags:
+      - registered_user_concurrent_jobs_20
+    max_accepted_cores: 60
+    max_accepted_mem: 120
+    max_accepted_gpus: 1
+    scheduling:
+      require:
+        - pulsar
+        - reservation-pulsar
+        - offline
+      accept:
+        - alphafold
+        - pulsar-reservation-g2-xlarge-B
