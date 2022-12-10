@@ -14,6 +14,7 @@ destinations:
             docker_sudo: false
   _slurm_destination:
     inherits: default
+    abstract: true
     params:
         nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
     rules:
