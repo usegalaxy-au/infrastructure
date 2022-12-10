@@ -8,10 +8,6 @@ tools:  # test template variable for galaxy_root here {{ galaxy_root }}
     env: {}
     context:
       partition: main
-    params:
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
-      docker_memory: '{mem}G'
     scheduling:
       reject:
         - offline
