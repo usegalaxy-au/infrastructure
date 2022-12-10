@@ -26,6 +26,7 @@ destinations:
             docker_volumes: "{{ slurm_docker_volumes }}"
   _pulsar_destination:
     inherits: default
+    abstract: true
     params:
       submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
       jobs_directory: /mnt/pulsar/files/staging # TODO: this could be a variable
