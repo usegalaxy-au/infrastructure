@@ -6,7 +6,7 @@ destinations:
     tags:
       - registered_user_concurrent_jobs_20
     rules:
-      - if: params.get('singularity_enabled', False)
+      - if: params.get('singularity_enabled') # TODO: check that this is boolean and not string
         params:
             singularity_default_container_id: "{{ singularity_default_container_id }}"  
       - if: params.get('docker_enabled')
@@ -18,7 +18,7 @@ destinations:
     params:
         nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
     rules:
-      - if: params.get('singularity_enabled', False)
+      - if: params.get('singularity_enabled')
         params:
             singularity_volumes: "{{ slurm_singularity_volumes }}"
       - if: params.get('docker_enabled')
@@ -39,7 +39,7 @@ destinations:
       persistence_directory: /mnt/pulsar/files/persisted_data # TODO: this could be a variable
 
     rules:
-      - if: params.get('singularity_enabled', False)
+      - if: params.get('singularity_enabled')
         params:
             singularity_volumes: "{{ pulsar_singularity_volumes }}"
             container_resolvers: 
@@ -49,7 +49,7 @@ destinations:
           SINGULARITY_CACHEDIR: /mnt/pulsar/deps/singularity
           SINGULARITY_TMPDIR: /mnt/pulsar/deps/singularity/tmp
 
-      - if: params.get('docker_enabled', False)
+      - if: params.get('docker_enabled')
         params:
             docker_volumes: "{{ pulsar_docker_volumes }}"
             docker_set_user: '1000'    
