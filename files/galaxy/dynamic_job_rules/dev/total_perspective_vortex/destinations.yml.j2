@@ -1,8 +1,7 @@
 destinations:
   default:
     runner: slurm # abstract: this runner will be overridden
-    max_accepted_cores: 0 # abstract: no jobs will run at this destination
-    max_accepted_mem: 0 # abstract: no jobs will run at this destination
+    abstract: true
     tags:
       - registered_user_concurrent_jobs_20
     rules:
