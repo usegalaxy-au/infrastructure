@@ -17,7 +17,7 @@ certbot_domains:
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_api_token }}"
-dns_provider_propagation_seconds: 60
+certbot_dns_provider_propagation_seconds: 60
 
 nginx_ssl_servers:
   - galaxy
