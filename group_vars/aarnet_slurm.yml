@@ -48,6 +48,16 @@ slurm_nodes:
     CPUs: 16
     RealMemory: 62815
     State: UNKNOWN
+  - name: aarnet-w9
+    NodeAddr: "{{ hostvars['aarnet-w9']['internal_ip'] }}"
+    CPUs: 32
+    RealMemory: 125812
+    State: UNKNOWN
+  - name: aarnet-w10
+    NodeAddr: "{{ hostvars['aarnet-w10']['internal_ip'] }}"
+    CPUs: 32
+    RealMemory: 125812
+    State: UNKNOWN
   - name: aarnet-queue
     NodeAddr: "{{ hostvars['aarnet-queue']['internal_ip'] }}"
     CPUs: 4
@@ -61,7 +71,7 @@ slurm_nodes:
 
 slurm_partitions:
   - name: main
-    nodes: "aarnet-w1,aarnet-w2,aarnet-w3,aarnet-w4,aarnet-w5,aarnet-w6,aarnet-w8"
+    nodes: "aarnet-w1,aarnet-w2,aarnet-w3,aarnet-w4,aarnet-w5,aarnet-w6,aarnet-w8,aarnet-w9,aarnet-w10"
     Default: YES
     State: UP
   - name: training
