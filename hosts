@@ -97,6 +97,8 @@ aarnet-w5 ansible_ssh_host=192.168.199.126 internal_ip=192.168.199.126
 aarnet-w6 ansible_ssh_host=192.168.199.228 internal_ip=192.168.199.228
 aarnet-w7 ansible_ssh_host=192.168.199.82 internal_ip=192.168.199.82
 aarnet-w8 ansible_ssh_host=192.168.199.156 internal_ip=192.168.199.156
+aarnet-w9 ansible_ssh_host=192.168.199.83 internal_ip=192.168.199.83
+aarnet-w10 ansible_ssh_host=192.168.199.212 internal_ip=192.168.199.212
 
 [backupservers]
 pawsey-backup ansible_ssh_host=146.118.68.123 internal_ip=192.168.0.96

@@ -48,6 +48,16 @@ slurm_nodes:
     CPUs: 16
     RealMemory: 62815
     State: UNKNOWN
+  - name: aarnet-w9
+    NodeAddr: "{{ hostvars['aarnet-w9']['internal_ip'] }}"
+    CPUs: 32
+    RealMemory: 125812
+    State: UNKNOWN
+  - name: aarnet-w10
+    NodeAddr: "{{ hostvars['aarnet-w10']['internal_ip'] }}"
+    CPUs: 32
+    RealMemory: 125812
+    State: UNKNOWN
   - name: aarnet-queue
     NodeAddr: "{{ hostvars['aarnet-queue']['internal_ip'] }}"
     CPUs: 4
