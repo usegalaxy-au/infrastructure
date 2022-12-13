@@ -60,9 +60,8 @@ tools:
             - pulsar-azure-0
         cores: 4
         mem: 15
-        params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
+        context:
+          partition: small
       - if: user.email == "pulsar_azure_0@genome.edu.au" and input_size >= 10
         scheduling:
           require:
@@ -70,10 +69,8 @@ tools:
             - pulsar-azure-0
         cores: 16
         mem: 60.8
-        params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=medium"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=medium"
-
+        context:
+          partition: medium
 
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     scheduling:
@@ -108,9 +105,8 @@ tools:
       - if: user.email == "pulsar_azure_0@genome.edu.au"
         cores: 120
         mem: 1900
-        params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=special"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=special"
+        context:
+          partition: special
 
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     scheduling:
@@ -195,18 +191,16 @@ tools:
             - pulsar-azure-0
         cores: 4
         mem: 15
-        params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
+        context:
+          partition: small
       - if: user.email == "pulsar_azure_0@genome.edu.au" and input_size >= 0.1
         scheduling:
           require:
             - pulsar-azure-0
         cores: 32
         mem: 121.6
-        params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=large"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=large"
+        context:
+          partition: large
 
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     scheduling:
@@ -417,6 +411,5 @@ users:
             - pulsar-azure-docker
         cores: 6
         mem: 105
-        params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
+        context:
+          partition: azuregpu0 # azuregpu0 since azuregpu1 targets vet school subscription
