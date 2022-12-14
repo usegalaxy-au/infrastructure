@@ -18,6 +18,16 @@ resource "openstack_compute_instance_v2" "dev" {
   availability_zone = "melbourne-qh2-uom"
 }
 
+# job handlers server (imported 2022-12-07)
+resource "openstack_compute_instance_v2" "dev-handlers" {
+    name              = "dev-handlers-new"
+    image_id          = "356ff1ed-5960-4ac2-96a1-0c0198e6a999"
+    flavor_name       = "uom.general.4c16g"
+    key_pair          = "galaxy-australia"
+    security_groups   = ["SSH", "Web-Services", "default"]
+    availability_zone = "melbourne-qh2-uom"
+}
+
 # slurm / rabbitMQ
 resource "openstack_compute_instance_v2" "dev-queue" {
   name            = "dev-queue"
