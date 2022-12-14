@@ -318,9 +318,16 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/.*:
     cores: 3
   toolshed.g2.bx.psu.edu/repos/iuc/dexseq/dexseq/.*:
+    params:
+      singularity_enabled: true
     cores: 9
   toolshed.g2.bx.psu.edu/repos/iuc/dexseq/dexseq_count/.*:
+    params:
+      singularity_enabled: true
     cores: 5
+  toolshed.g2.bx.psu.edu/repos/iuc/dexseq/plotdexseq/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/edger/edger/.*:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
