@@ -1299,6 +1299,8 @@ tools:
       scheduling:
         accept:
         - high-mem
+        reject: # don't allow it to run on pulsar-qld-high-mem2
+        - pulsar-qld-high-mem2
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_cluster_split/mothur_cluster_split/.*:
     cores: 1
     scheduling:
