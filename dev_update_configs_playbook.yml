@@ -1,4 +1,4 @@
-- hosts: dev_handlers_server
+- hosts: dev_galaxy_server
   become: true
   vars_files:
       - group_vars/all.yml
@@ -10,12 +10,15 @@
       - secret_group_vars/ubuntu_maintenance_key
       - secret_group_vars/dev_secrets
   handlers:
-    - name: galaxy gravity restart
-      become: True
-      become_user: galaxy
-      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
-      environment:
-        GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
+  - name: galaxy gravity restart
+    debug:
+      msg: "restart it yrslf"
+    # - name: galaxy gravity restart
+    #   become: True
+    #   become_user: galaxy
+    #   command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
+    #   environment:
+    #     GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
   pre_tasks:
     - name: copy job_conf file
       template:

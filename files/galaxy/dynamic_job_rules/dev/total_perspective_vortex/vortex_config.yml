@@ -275,7 +275,6 @@ tools:
     cores: 8
     params:
       singularity_enabled: True
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
     # context:
     #   minimum_singularity_version: 5.0.0+galaxy0  # not working, ref https://github.com/galaxyproject/total-perspective-vortex/pull/32
@@ -346,7 +345,7 @@ users:
       - if: |
           'hifiadapterfilt' in tool.id
         cores: 16
-        mem: cores * 3.8
+        mem: cores * 2.5
   pulsar_user@usegalaxy.org.au:
     inherits: test_user
     rules:
