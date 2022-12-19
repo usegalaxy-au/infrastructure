@@ -1590,3 +1590,8 @@ tools:
       require:
         - pulsar
         - pulsar-azure-gpu
+  gtdbtk_classify_wf_test:
+    cores:
+      16
+    mem:
+      60
