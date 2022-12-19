@@ -1584,7 +1584,7 @@ tools:
       require:
         - pulsar
         - pulsar-azure-gpu
-  testtoolshed.g2.bx.psu.edu/repos/galaxy-australia/gtdbtk/gtdbtk/gtdbtk_classify_wf_test:
+  gtdbtk_classify_wf_test:
     cores:
       16
     mem:
