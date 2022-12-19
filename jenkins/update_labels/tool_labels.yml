@@ -13,5 +13,3 @@ training-only:
 - toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/velvetoptimiser/*
 'Restricted Access':
 - toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/*
-test:
-- testtoolshed.g2.bx.psu.edu/repos/galaxy-australia/gtdbtk/gtdbtk/*
