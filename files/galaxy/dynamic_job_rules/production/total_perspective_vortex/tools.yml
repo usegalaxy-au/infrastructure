@@ -1545,7 +1545,10 @@ tools:
     cores: 5
   .*data_manager_cat.*:
     cores: 5
-    
+  .*data_manager_gtdbtk_installer.*:
+    cores: 5
+    singularity_enabled: true
+
   # cactus suite
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
     context:
