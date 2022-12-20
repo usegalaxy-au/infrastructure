@@ -1551,7 +1551,7 @@ tools:
     cores: 5
   .*data_manager_cat.*:
     cores: 5
-  .*data_manager_gtdbtk_installer.*:
+  .*data_manager_gtdbtk_database_installer.*:
     cores: 5
     params:
       singularity_enabled: true
