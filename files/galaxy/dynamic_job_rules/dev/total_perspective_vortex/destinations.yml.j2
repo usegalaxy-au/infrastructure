@@ -13,6 +13,10 @@ destinations:
     #     params:
     #         docker_memory: '{mem}G'
     #         docker_sudo: false
+    scheduling:
+      accept:
+        - docker # to satisfy tools in shared db that have require: docker
+        - singularity # to satisfy tools in shared db that have require: singularity
   _slurm_destination:
     abstract: true
     params:
