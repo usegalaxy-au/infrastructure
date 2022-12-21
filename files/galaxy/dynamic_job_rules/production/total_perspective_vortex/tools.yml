@@ -346,6 +346,10 @@ tools:
     cores: 2
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_point/ggplot2_point/.*:
     cores: 1
+  toolshed.g2.bx.psu.edu/repos/iuc/gtdbtk_classify_wf/gtdbtk_classify_wf/.*:
+    cores: 32
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/gubbins/gubbins/.*:
     cores: 5
     scheduling:
@@ -700,6 +704,9 @@ tools:
       cores: 5
     - if: input_size >= 2
       cores: 7
+  toolshed.g2.bx.psu.edu/repos/thanhlv/clinker/clinker/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/wolma/mimodd_aln/mimodd_align/.*:
     rules:
     - if: input_size >= 0.01
