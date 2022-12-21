@@ -8,14 +8,17 @@ tools:  # test template variable for galaxy_root here {{ galaxy_root }}
     env: {}
     context:
       partition: main
-    params:
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
-      docker_memory: '{mem}G'
     scheduling:
       reject:
         - offline
-    rules: []
+    rules:
+    - id: default_destination_debug_rule
+      if: 1 == 1
+      execute: |
+        log.debug("********** PRINTING ENTITY CORES AND MEM")
+        log.debug(f'cores: {str(entity.cores)}')
+        log.debug(f'mem: {str(entity.mem)}')
+
     rank: |
       final_destinations = helpers.weighted_random_sampling(candidate_destinations)
       final_destinations

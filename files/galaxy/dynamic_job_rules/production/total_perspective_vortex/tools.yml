@@ -243,6 +243,8 @@ tools:
       accept:
       - pulsar
     cores: 5
+  toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
+    cores: 8
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_predict/funannotate_predict/.*:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
@@ -260,6 +262,8 @@ tools:
       cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/.*:
     cores: 2
+  toolshed.g2.bx.psu.edu/repos/iuc/vcf2maf/vcf2maf/.*:
+    cores: 6
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper/.*:
     cores: 6
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
@@ -1082,7 +1086,7 @@ tools:
         accept:
         - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
-    cores: 8
+    cores: 12
     scheduling:
       accept:
       - pulsar
@@ -1299,6 +1303,8 @@ tools:
       scheduling:
         accept:
         - high-mem
+        reject: # don't allow it to run on pulsar-qld-high-mem2
+        - pulsar-qld-high-mem2
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_cluster_split/mothur_cluster_split/.*:
     cores: 1
     scheduling:
@@ -1545,7 +1551,11 @@ tools:
     cores: 5
   .*data_manager_cat.*:
     cores: 5
-    
+  .*data_manager_gtdbtk_database_installer.*:
+    cores: 5
+    params:
+      singularity_enabled: true
+
   # cactus suite
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
     context:
@@ -1584,3 +1594,8 @@ tools:
       require:
         - pulsar
         - pulsar-azure-gpu
+  gtdbtk_classify_wf_test:
+    cores:
+      16
+    mem:
+      60

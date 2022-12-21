@@ -60,9 +60,8 @@ tools:
             - pulsar-azure-0
         cores: 4
         mem: 15
-        params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
+        context:
+          partition: small
       - if: user.email == "pulsar_azure_0@genome.edu.au" and input_size >= 10
         scheduling:
           require:
@@ -70,10 +69,8 @@ tools:
             - pulsar-azure-0
         cores: 16
         mem: 60.8
-        params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=medium"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=medium"
-
+        context:
+          partition: medium
 
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     scheduling:
@@ -108,9 +105,8 @@ tools:
       - if: user.email == "pulsar_azure_0@genome.edu.au"
         cores: 120
         mem: 1900
-        params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=special"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=special"
+        context:
+          partition: special
 
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     scheduling:
@@ -195,18 +191,16 @@ tools:
             - pulsar-azure-0
         cores: 4
         mem: 15
-        params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=small"
+        context:
+          partition: small
       - if: user.email == "pulsar_azure_0@genome.edu.au" and input_size >= 0.1
         scheduling:
           require:
             - pulsar-azure-0
         cores: 32
         mem: 121.6
-        params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=large"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=large"
+        context:
+          partition: large
 
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     scheduling:
@@ -281,16 +275,6 @@ tools:
     cores: 8
     params:
       singularity_enabled: True
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
-    rules:
-      - if: user.email == 'star@email.com'
-        cores: 8
-      - if: user.email != 'star@email.com'
-        cores: 8
-        scheduling:
-          require:
-            - pulsar
-            - pulsar-nci-test
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
     # context:
     #   minimum_singularity_version: 5.0.0+galaxy0  # not working, ref https://github.com/galaxyproject/total-perspective-vortex/pull/32
@@ -357,6 +341,11 @@ users:
           partition: s3fs
   star@email.com:
     inherits: test_user
+    rules:
+      - if: |
+          'hifiadapterfilt' in tool.id
+        cores: 16
+        mem: cores * 2.5
   pulsar_user@usegalaxy.org.au:
     inherits: test_user
     rules:
@@ -382,7 +371,7 @@ users:
             - pulsar-eu-gpu-alpha
   jenkins_bot@usegalaxy.org.au:
     inherits: test_user
-    cores: 1
+    max_cores: 1
     scheduling:
       require:
         - slurm
@@ -417,92 +406,5 @@ users:
             - pulsar-azure-docker
         cores: 6
         mem: 105
-        params:
-          nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
-          submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=azuregpu1"
-
-destinations:
-  slurm:
-    cores: 16
-    mem: 62.5
-    scheduling:
-      accept:
-        - slurm
-  interactive_local:
-    cores: 2
-    mem: 8
-    scheduling:
-      require:
-        - interactive_local
-  pulsar_destination:
-    cores: 2
-    mem: 7.76
-    scheduling:
-      accept:
-        - dev-pulsar
-      require:
-        - pulsar
-  pulsar-nci-test:
-    cores: 16
-    mem: 48.19
-    scheduling:
-      accept:
-        - general
-        - pulsar-nci-test
-      require:
-        - pulsar
-  pulsar-eu-gpu-test:
-    cores: 40
-    mem: 107
-    scheduling:
-      accept:
-        - general
-      require:
-        - pulsar
-        - pulsar-eu-gpu-test
-  pulsar-eu-gpu-alpha:
-    cores: 40
-    mem: 107
-    gpus: 1
-    scheduling:
-      accept:
-        - general
-        - alphafold
-      require:
-        - pulsar
-        - pulsar-eu-gpu-alpha
-  pulsar-azure-0-std:  # TODO: this needs higher cores/mem for alphafold
-    cores: 120
-    mem: 2000
-    gpus: 1
-    scheduling:
-      accept:
-        - general
-        - alphafold
-        - offline
-      require:
-        - pulsar
-        - pulsar-azure-0
-  pulsar-azure-1-std:  # TODO: this needs higher cores/mem for alphafold
-    cores: 24
-    mem: 210
-    gpus: 1
-    scheduling:
-      accept:
-        - general
-        - alphafold
-      require:
-        - pulsar
-        - pulsar-azure-1
-  pulsar-azure-0-docker:  # TODO: this needs higher cores/mem for alphafold
-    cores: 6
-    mem: 107
-    gpus: 1
-    scheduling:
-      accept:
-        - general
-        - alphafold
-        - offline
-      require:
-        - pulsar
-        - pulsar-azure-docker
+        context:
+          partition: azuregpu0 # azuregpu0 since azuregpu1 targets vet school subscription
