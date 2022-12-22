@@ -245,6 +245,8 @@ tools:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
     cores: 8
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_predict/funannotate_predict/.*:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
