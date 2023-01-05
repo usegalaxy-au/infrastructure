@@ -287,8 +287,7 @@ tools:
           singularity_enabled: true
           dependency_resolution: none
   metawrapmg_binning:
-    cores: 16  
-
+    cores: 16
 
 users:
   default: {}
