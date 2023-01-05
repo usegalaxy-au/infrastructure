@@ -287,7 +287,11 @@ tools:
           singularity_enabled: true
           dependency_resolution: none
   metawrapmg_binning:
-    cores: 16  
+    scheduling:
+      accept:
+        - pulsar
+    cores: 16
+    mem: 64
 
 
 users:
