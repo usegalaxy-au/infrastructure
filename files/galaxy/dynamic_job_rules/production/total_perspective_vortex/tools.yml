@@ -1608,3 +1608,9 @@ tools:
       16
     mem:
       60
+  metawrapmg_binning:
+    scheduling:
+      accept:
+        - pulsar
+    cores: 16
+    mem: 64
