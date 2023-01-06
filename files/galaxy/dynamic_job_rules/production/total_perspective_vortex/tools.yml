@@ -1610,7 +1610,7 @@ tools:
       60
   metawrapmg_binning:
     scheduling:
-      accept:
+      require:
         - pulsar
     cores: 16
     mem: 64
