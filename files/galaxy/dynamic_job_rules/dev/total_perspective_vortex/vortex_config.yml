@@ -34,8 +34,8 @@ tools:
         - pulsar
     cores: 8
     mem: 30.39
-  #   env:
-  #     MAKER_MPI: 1
+    env:
+      MAKER_MPI: 1
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_callvariants/bbtools_callvariants/.*:
     scheduling:
       accept:
