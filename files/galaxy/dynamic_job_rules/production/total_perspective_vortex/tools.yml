@@ -1589,7 +1589,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
     params:
       singularity_enabled: True
-
+  
+  # hifiasm_meta
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiasm_meta/hifiasm_meta/.*:
+    cores: 16
+    params:
+      singularity_enabled: True
+  
   # test tools
   maxquant_test:
     cores: 120
