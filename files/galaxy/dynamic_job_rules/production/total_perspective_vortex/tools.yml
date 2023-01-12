@@ -1488,13 +1488,15 @@ tools:
     cores: 30
     mem: 480.5
   toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
+    cores: 8
+    mem: 30.39
+    params:
+      singularity_enabled: true
+    env:
+      MAKER_MPI: "1"
     # scheduling:
     #   accept:
     #     - pulsar  # Confirm this is working first
-    cores: 8
-    mem: 30.39
-    env:
-      MAKER_MPI: "1"
 
   # alphafold
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
