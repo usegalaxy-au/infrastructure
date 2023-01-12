@@ -2,6 +2,7 @@
 
 # legacy_file_mounts_available: set to true if /mnt/files, /mnt/files2 should be in the object store
 legacy_file_mounts_available: True # assume true unless set to false
+pawsey_file_mounts_available: True # assume true unless set to false
 
 # variables for attaching mounted volume to application server
 attached_volumes:
@@ -373,15 +374,15 @@ slurm_singularity_volumes_list_restricted:
   - /mnt/user-data-6:ro
   - /mnt/user-data-5:ro
   - /mnt/user-data-4:ro
-  - /mnt/user-data-3:ro
-  - /mnt/user-data-2:ro
   - /mnt/user-data:ro
   - /mnt/custom-indices:ro
   - /cvmfs/data.galaxyproject.org:ro
 
 legacy_singularity_volumes_list: "{{ ['/mnt/files:ro', '/mnt/files2:ro'] if legacy_file_mounts_available|d(True) else [] }}"
 
-slurm_singularity_volumes_list: "{{ slurm_singularity_volumes_list_restricted + legacy_singularity_volumes_list }}"
+pawsey_singularity_volumes_list: "{{ ['/mnt/user-data-2:ro', '/mnt/user-data-3:ro'] if pawsey_file_mounts_available|d(True) else [] }}"
+
+slurm_singularity_volumes_list: "{{ slurm_singularity_volumes_list_restricted + legacy_singularity_volumes_list + pawsey_singularity_volumes_list }}"
 
 pulsar_singularity_volumes_list:
   - $job_directory:rw
