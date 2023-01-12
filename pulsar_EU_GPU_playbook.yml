@@ -1,8 +1,0 @@
-- hosts: pulsar_EU_GPU
-  become: true
-  vars_files:
-    - group_vars/VAULT
-    - host_vars/pulsar_EU_GPU.yml
-  roles:
-    #- galaxyproject.repos
-    - galaxyproject.slurm
