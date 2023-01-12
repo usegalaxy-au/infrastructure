@@ -10,17 +10,17 @@
         <backend id="perthNFS1" type="disk" order="2">
             <files_dir path="/mnt/user-data" />
         </backend>
+        <backend id="perthNFS4" type="disk" order="3">
+            <files_dir path="/mnt/user-data-4" />
+        </backend>
 {% if pawsey_file_mounts_available|d(True) %}
-        <backend id="perthNFS2" type="disk" order="3">
+        <backend id="perthNFS2" type="disk" order="4">
             <files_dir path="/mnt/user-data-2" />
         </backend>
-        <backend id="perthNFS3" type="disk" order="4">
+        <backend id="perthNFS3" type="disk" order="5">
             <files_dir path="/mnt/user-data-3" />
         </backend>
 {% endif %}
-        <backend id="perthNFS4" type="disk" order="5">
-            <files_dir path="/mnt/user-data-4" />
-        </backend>
 {% if legacy_file_mounts_available|d(True) %}
         <backend id="GPFS" type="disk" order="6">
             <files_dir path="/mnt/files" />
