@@ -1592,10 +1592,10 @@ tools:
       require:
         - pulsar-qld-high-mem0
   alphafold_test:
-    cores: 6
-    mem: 106
+    cores: 8
+    mem: 69
     context:
-      partition: azuregpu1
+      partition: azuregpu0
     params:
       docker_enabled: true
       docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000"
