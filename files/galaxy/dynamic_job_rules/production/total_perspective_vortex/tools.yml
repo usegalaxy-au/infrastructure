@@ -1145,7 +1145,7 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - if: 0.2 <= input_size < 2
+    - if: 0.05 <= input_size < 2
       cores: 8
     - if: input_size >= 2
       cores: 16
