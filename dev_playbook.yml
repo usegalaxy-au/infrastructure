@@ -25,6 +25,13 @@
         owner: root
         group: galaxy
         mode: 0775
+    - name: create dir for galaxy's singularity cache
+      file:
+        state: directory
+        path: "{{ galaxy_user_singularity_cachedir }}"
+        owner: galaxy
+        group: galaxy
+        mode: 0700
   roles:
     - galaxyproject.repos
     - common
