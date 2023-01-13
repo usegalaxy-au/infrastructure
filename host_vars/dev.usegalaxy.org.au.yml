@@ -40,6 +40,10 @@ interactive_tools_server_name: "{{ hostname }}"
 
 galaxy_db_user_password: "{{ vault_dev_db_user_password }}"
 
+# singularity cache of galaxy user (this defaults to /home/galaxy/.singularity). Not to be confused with cache directory for built sif files in galaxy_config.galaxy.container_resolvers_conf
+galaxy_user_singularity_cachedir: /mnt/singularity_data
+galaxy_user_singularity_tmpdir: "{{ galaxy_user_singularity_cachedir }}/tmp"
+
 # ansible-galaxy
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/dev
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
@@ -108,6 +112,8 @@ host_galaxy_config: # renamed from __galaxy_config
       preload: true
       environment:
         DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
     celery:
       enable: false
       enable_beat: false
