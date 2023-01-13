@@ -7,6 +7,10 @@ add_hosts_workers: yes
 # Login override - checksum for Login.vue
 galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
 
+# get rid of this when rebasing the dedup dev vars PR, it can be inherited from the other file
+galaxy_user_singularity_cachedir: /mnt/singularity_data
+galaxy_user_singularity_tmpdir: "{{ galaxy_user_singularity_cachedir }}/tmp"
+
 # total perspective vortex
 tpv_version: "1.4.0"
 
@@ -117,6 +121,8 @@ host_galaxy_config: # renamed from __galaxy_config
         processes: 3
         environment:
           DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+          SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"  # when rebasing dedup dev vars pr, keep this
+          SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"  # when rebasing dedup dev vars pr, keep this
         pools:
           - job-handlers
           - workflow-schedulers
