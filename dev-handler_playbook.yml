@@ -11,11 +11,13 @@
     - secret_group_vars/stats_server_vault
     - secret_group_vars/dev_secrets
     - secret_group_vars/sentry_vault
-  # handlers:
-  #   - name: Restart Galaxy
-  #     systemd:
-  #       name: galaxy
-  #       state: restarted
+  handlers:
+    - name: galaxy gravity restart
+      become: True
+      become_user: galaxy
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
+      environment:
+        GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -27,6 +29,13 @@
         owner: root
         group: galaxy
         mode: 0775
+    - name: create dir for galaxy's singularity cache # this is still on the root disk, it's a test of moving the singularity cache
+      file:
+        state: directory
+        path: "{{ galaxy_user_singularity_cachedir }}"
+        owner: galaxy
+        group: galaxy
+        mode: 0700
   roles:
     - galaxyproject.repos
     - common
@@ -62,51 +71,21 @@
     - dj-wasabi.telegraf
     #- login-override
     - usegalaxy_eu.flower
+    - acl-on-startup
   post_tasks:
-    # - name: Ensure object store paths exist
-    #   file:
-    #     state: directory
-    #     path: "{{ item }}"
-    #     owner: galaxy
-    #     group: galaxy
-    #   with_items:
-    #     - /mnt/galaxy/data
-    #     - /mnt/galaxy/data-2
-    #     - /mnt/galaxy/data-3
-    # - name: Make local_tool directory group-writable by machine users
-    #   file:
-    #     path: /mnt/galaxy/local_tools
-    #     owner: root
-    #     group: devs
-    #     mode: 0775
-    #     state: directory
-    # - name: Clone galaxy-local-tools
-    #   git:
-    #     repo: https://github.com/usegalaxy-au/galaxy-local-tools
-    #     dest: "{{ galaxy_server_dir }}/tools/galaxy-local-tools"
-    #     update: yes
-    # - name: Ensure data_fetch tmp directory exists
-    #   file:
-    #     path: "{{ galaxy_tmp_dir }}/data_fetch"
-    #     owner: "{{ galaxy_user.name }}"
-    #     group: "{{ galaxy_user.name }}"
-    #     state: directory
+    - name: Make local_tool directory group-writable by machine users
+      file:
+        path: /mnt/galaxy/local_tools
+        owner: root
+        group: devs
+        mode: 0775
+        state: directory
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1
-    # - name: Workaround content-length header bug in webdav through forcible update to newer version
-    #   pip:
-    #     name: "webdavclient3@git+https://github.com/ezhov-evgeny/webdav-client-python-3@0f17fa7946e66f7963db367d0d6b2e7f940ebeb8"
-    #     state: forcereinstall
-    #     virtualenv: "{{ galaxy_venv_dir }}"
-    # - name: Reload exportfs
-    #   command: exportfs -ra
-    #   become: yes
-    #   become_user: root
-    # - name: set acl for galaxy user on docker.sock
-    #   acl:
-    #     path: /var/run/docker.sock
-    #     entity: "{{ galaxy_user.name }}"
-    #     etype: user
-    #     permissions: rw
-    #     state: present
+    - name: Workaround content-length header bug in webdav through forcible update to newer version
+      pip:
+        name: "webdavclient3@git+https://github.com/ezhov-evgeny/webdav-client-python-3@0f17fa7946e66f7963db367d0d6b2e7f940ebeb8"
+        state: forcereinstall
+        virtualenv: "{{ galaxy_venv_dir }}"
+
