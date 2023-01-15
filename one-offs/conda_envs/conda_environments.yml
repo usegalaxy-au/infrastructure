@@ -238,3 +238,8 @@ miniconda_conda_environments:
         packages:
         - lofreq=2.1.5
         - samtools=1.15 # added
+    # toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.3
+    __samtools@0.1.16:
+        packages:
+        - samtools=0.1.16
+        - ncurses=5.9 # added
