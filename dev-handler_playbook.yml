@@ -6,6 +6,7 @@
     - group_vars/VAULT
     - group_vars/galaxyservers.yml
     - group_vars/dev_slurm.yml
+    - host_vars/dev.usegalaxy.org.au.yml
     - host_vars/dev-handlers.usegalaxy.org.au.yml
     - secret_group_vars/ubuntu_maintenance_key
     - secret_group_vars/stats_server_vault
