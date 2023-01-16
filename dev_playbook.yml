@@ -70,6 +70,7 @@
     - usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf
     #- login-override
+    - acl-on-startup
   post_tasks:
     - name: Ensure object store paths exist
       file:

@@ -97,36 +97,28 @@ host_galaxy_config_files:
 
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
+host_galaxy_config_gravity:
+  galaxy_root: "{{ galaxy_server_dir }}"
+  app_server: gunicorn
+  virtualenv: "{{ galaxy_venv_dir }}"
+  gunicorn:
+    # listening options
+    bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+    # performance options
+    workers: 2
+    # Other options that will be passed to gunicorn
+    extra_args: '--forwarded-allow-ips="*"'
+    preload: true
+    environment:
+      DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+      SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+      SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+  celery:
+    enable: false
+    enable_beat: false
+
 host_galaxy_config: # renamed from __galaxy_config
-  gravity:
-    galaxy_root: /mnt/galaxy/galaxy-app
-    app_server: gunicorn
-    virtualenv: /mnt/galaxy/venv
-    gunicorn:
-      # listening options
-      bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
-      # performance options
-      workers: 2
-      # Other options that will be passed to gunicorn
-      extra_args: '--forwarded-allow-ips="*"'
-      preload: true
-      environment:
-        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
-        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
-    celery:
-      enable: false
-      enable_beat: false
-    #   concurrency: 2
-    #   loglevel: DEBUG
-    # handlers:
-    #   handler:
-    #     processes: 3
-    #     environment:
-    #       DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-    #     pools:
-    #       - job-handlers
-    #       - workflow-schedulers
+  gravity: "{{ host_galaxy_config_gravity }}"
 
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},uwe@biocommons.org.au,uwwint@gmail.com" # everyone is an admin on dev

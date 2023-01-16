@@ -1,302 +1,48 @@
-# Specific settings for galaxy dev application/web server
+# Specific settings for galaxy dev job handlers server
 
 add_hosts_galaxy: yes
 add_hosts_head: yes
 add_hosts_workers: yes
+add_hosts_handlers: no
 
-# Login override - checksum for Login.vue
-galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
-
-# get rid of this when rebasing the dedup dev vars PR, it can be inherited from the other file
-galaxy_user_singularity_cachedir: /mnt/singularity_data
-galaxy_user_singularity_tmpdir: "{{ galaxy_user_singularity_cachedir }}/tmp"
-
-# total perspective vortex
-tpv_version: "1.4.0"
-
-# variables for attaching mounted volume to application server
-# attached_volumes:
-#   - device: /dev/vdb
-#     path: /mnt
-#     fstype: ext4
+attached_volumes: []
 
 shared_mounts:
   - path: /mnt/galaxy
-    src: 45.113.232.186:/mnt/galaxy
+    src: "{{ hostvars['dev']['ansible_ssh_host'] }}:/mnt/galaxy"
     fstype: nfs
     state: mounted
   - path: /mnt/test_mount
     src: 115.146.87.37:/galaxy-backup-au
     fstype: nfs
     state: mounted
-
-# certbot_domains:
-#   - "{{ hostname }}"
-#   - "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
-# certbot_dns_provider: cloudflare
-# certbot_dns_credentials:
-#   api_token: "{{ vault_dns_cloudflare_api_token }}"
-# dns-cloudflare-propagation-seconds: 60
-
-# nginx_ssl_servers:
-#   - galaxy
-#   - galaxy-gie-proxy
-
-# #gie proxy hostname
-# interactive_tools_server_name: "{{ hostname }}"
-
-galaxy_db_user_password: "{{ vault_dev_db_user_password }}"
-
-# ansible-galaxy
-galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/dev
-galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
-galaxy_dynamic_job_rules:
-  - total_perspective_vortex/default_tool.yml.j2
-  - total_perspective_vortex/vortex_config.yml
-  - total_perspective_vortex/reservation_destinations.yml
-  - readme.txt
-
-galaxy_systemd_mode: gravity
-galaxy_systemd_env:
-  [DRMAA_LIBRARY_PATH="/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"]
-galaxy_gravity_state_dir: "/opt/galaxy"
-
-galaxy_tools_indices_dir: "{{ galaxy_root }}"
-galaxy_custom_indices_dir: "{{ galaxy_root }}/custom-indices"
-galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
-galaxy_tus_upload_store: "{{ galaxy_tmp_dir }}/tus"
-
-galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_22.05
-
-galaxy_file_path: "{{ galaxy_root }}/data-3"
-nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
-nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
-nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
-
-host_galaxy_config_templates:
-  - src: "{{ galaxy_config_template_src_dir }}/config/dev_object_store_conf.xml.j2"
-    dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
-  - src: "{{ galaxy_config_template_src_dir }}/config/oidc_backends_config.xml.j2"
-    dest: "{{ galaxy_config_dir}}/oidc_backends_config.xml"
-  - src: "{{ galaxy_config_template_src_dir }}/config/dev_job_conf.yml.j2"
-    dest: "{{ galaxy_config_dir}}/job_conf.yml"
-  - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
-    dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
-  - src: "{{ galaxy_config_file_src_dir }}/config/web-gravity.yml"
-    dest: /opt/galaxy/web-gravity.yml
-
-host_galaxy_config_files:
-  - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
-    dest: "{{ galaxy_config_dir}}/oidc_config.xml"
-  - src: "{{ galaxy_config_file_src_dir }}/config/local_tool_conf_dev.xml"
-    dest: "{{ galaxy_config_dir }}/local_tool_conf.xml"
-  - src: "{{ galaxy_config_file_src_dir }}/config/additional_datatypes_conf.xml"
-    dest: "{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
-  - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
-    dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
   
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
-host_galaxy_config: # renamed from __galaxy_config
-  gravity:
-    galaxy_root: /mnt/galaxy/galaxy-app
-    # app_server: gunicorn
-    gunicorn:
-      enable: false
-    #   # listening options
-    #   bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
-    #   # performance options
-    #   workers: 2
-    #   # Other options that will be passed to gunicorn
-    #   extra_args: '--forwarded-allow-ips="*"'
-    #   preload: true
-    #   environment:
-    #     DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-    celery:
-      concurrency: 2
-      loglevel: DEBUG
-    handlers:
-      handler:
-        processes: 3
-        environment:
-          DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-          SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"  # when rebasing dedup dev vars pr, keep this
-          SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"  # when rebasing dedup dev vars pr, keep this
-        pools:
-          - job-handlers
-          - workflow-schedulers
+# galaxy role applied to dev-handlers machine is only needed for gravity and the galaxy config files. Skip other tasks
+galaxy_manage_paths: false
+galaxy_manage_clone: false
+galaxy_fetch_dependencies: false
+galaxy_manage_mutable_setup: false
+galaxy_build_client: false
 
-  galaxy:
-    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},uwe@biocommons.org.au,uwwint@gmail.com" # everyone is an admin on dev
-    amqp_internal_connection: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_dev }}@dev-queue.usegalaxy.org.au:5671//galaxy/galaxy_queues?ssl=1"
-    brand: "Australia Dev"
-    database_connection: "postgresql://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
-    id_secret: "{{ vault_dev_id_secret }}"
-    file_path: "{{ galaxy_file_path }}"
-    object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
-    galaxy_infrastructure_url: "https://dev.usegalaxy.org.au"
-    enable_oidc: true
-    enable_celery_tasks: true
-    oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
-    oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
-    nginx_upload_store: "{{ nginx_upload_store_dir }}"
-    nginx_upload_path: "/_upload"
-    nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
-    nginx_upload_job_files_path: "/_job_files"
-    interactivetools_enable: true
-    interactivetools_map: "{{ gie_proxy_sessions_path }}"
-    cleanup_job: never
-    job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
-    show_welcome_with_login: false
-    enable_mulled_containers: true
-    enable_beta_containers_interface: true
-    watch_job_rules: true # important for total perspective vortex
-    sentry_dsn: "{{ vault_sentry_dsn_dev }}"
-    tool_filters: ga_filters:hide_test_tools
-    #TRS - workflowhub
-    trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
-    # TUS
-    tus_upload_store: "{{ galaxy_tus_upload_store }}"
-    datatypes_config_file: "{{ galaxy_server_dir }}/lib/galaxy/config/sample/datatypes_conf.xml.sample,{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
-    smtp_server: localhost
-    error_email_to: <help@genome.edu.au> # error reports are disabled if no email is set
-    email_from: <galaxy-no-reply@dev.usegalaxy.org.au>
-    blacklist_file: "{{galaxy_config_dir }}/email_domain_blocklist.conf"
-    user_activation_on: true
-    instance_resource_url: https://site.usegalaxy.org.au
-    activation_email: <activation-noreply@usegalaxy.org.au>
-
-galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
-
-# TUS
-tusd_instances:
-  - name: main
-    user: "{{ galaxy_user.name }}"
-    group: "galaxy"
-    args:
-      - "-host=localhost"
-      - "-port={{ galaxy_tusd_port }}"
-      - "-upload-dir={{ galaxy_tus_upload_store }}"
-      - "-hooks-http=https://{{ hostname }}/api/upload/hooks"
-      - "-hooks-http-forward-headers=X-Api-Key,Cookie"
-
-# NFS stuff
-#nfs_exports:
-#  - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
-
-# cvmfs
-cvmfs_cache_base: /mnt/var/lib/cvmfs
-
-# vars for setting up .pgpass
-pg_db_password:
-  galaxy: "{{ vault_dev_db_user_password }}"
-  reader: "{{ vault_dev_db_reader_password }}"
-  tiaasadmin: "{{ vault_dev_db_tiaasadmin_password }}"
-db_address: "dev-db.usegalaxy.org.au"
-gxadmin_ubuntu_config_dir: /home/ubuntu/.config
-
-# # TIaaS specific settings
-# tiaas_repo: https://github.com/neoformit/tiaas2
-# tiaas_galaxy_db_host: "dev-db.usegalaxy.org.au"
-# tiaas_galaxy_db_port: "5432"
-# tiaas_galaxy_db_user: "tiaasadmin"
-# tiaas_galaxy_db_pass: "{{ vault_dev_db_tiaasadmin_password }}"
-# tiaas_info:
-#   owner: "Galaxy Australia Dev"
-#   owner_email: help@genome.edu.au
-#   owner_site: https://site.usegalaxy.org.au
-#   domain: dev.usegalaxy.org.au
-
-# tiaas_other_config: |
-#   # Cam's mailtrap account
-#   EMAIL_HOST = 'smtp.mailtrap.io'
-#   EMAIL_PORT = 2525
-#   EMAIL_HOST_USER = '7ac4110c7f742c'
-#   EMAIL_HOST_PASSWORD = '{{ tiaas_email_password }}'
-#   EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#   EMAIL_TIMEOUT = 60
-#   TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
-#   TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"
-#   TIAAS_SEND_EMAIL_TO_REQUESTER = True
-#   TIAAS_LATE_REQUEST_PREVENTION_DAYS = 7
-
-# # Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
-# tiaas_disassociate_training_roles:
-#   hour: 9 # optional, defaults to 0
-#   minute: 0 # optional, defaults to 0
-
-# tiaas_show_advertising: false
-# tiaas_retain_contact_consent: false
-
-# # Templates to override web content:
-# tiaas_templates_dir: files/tiaas/html
-# # Static files referenced by above templates:
-# tiaas_extra_static_dir: files/tiaas/static
-
-# AAF specific settings
-aaf_issuer_url: "{{ vault_aaf_issuer_url_dev }}"
-aaf_client_id: "{{ vault_aaf_client_id_dev }}"
-aaf_client_secret: "{{ vault_aaf_client_secret_dev }}"
-
-# Other OIDC providers
-extra_oidc_providers:
-  - provider: CILogon
-    url: https://cilogon.org/authorize
-    client_id: "{{ vault_dev_cilogon_client }}"
-    client_secret: "{{ vault_dev_cilogon_secret }}"
-    redirect_uri: https://dev.usegalaxy.org.au/authnz/cilogon/callback
-    realm: master
-
-# remote-pulsar-cron variables
-rpc_skip_cron_setup: false
-rpc_db_connection_string: "postgres://reader:{{ vault_dev_db_reader_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
-
-rpc_pulsar_machines:
-  - pulsar_name: dev-pulsar
-    pulsar_ip_address: "{{ hostvars['dev-pulsar']['ansible_ssh_host'] }}"
-    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
-    delete_jwds: true
-    keep_error_days: 7
-    cron_hour: "07"
-    cron_minute: "32"
-
-extra_keys:
-  - id: ubuntu_maintenance_key
-    type: private
-
-# Docker
-docker_users:
-  - "{{ galaxy_user.name }}"
-docker_daemon_options:
-  data-root: /mnt/docker-data
-
-# Singularity and docker volumes
-slurm_singularity_volumes_list:
-  - "$job_directory:rw"
-  - "$galaxy_root:ro"
-  - "$tool_directory:ro"
-  - "/mnt/galaxy/data:ro"
-  - "/mnt/galaxy/data-2:ro"
-  - "/mnt/galaxy/data-3:ro"
-  - "/mnt/test_mount:ro"
-  - "/cvmfs/data.galaxyproject.org:ro"
-
-pulsar_singularity_volumes_list:
-  - "$job_directory:rw"
-  - "$tool_directory:ro"
-  - "/cvmfs/data.galaxyproject.org:ro"
-
-slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
-pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
-
-# comma separated strings for the job conf
-slurm_singularity_volumes: "{{ slurm_singularity_volumes_list | join(',') }}"
-pulsar_singularity_volumes: "{{ pulsar_singularity_volumes_list | join(',') }}"
-slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
-pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
-
-singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
+host_galaxy_config_gravity:  # overridden from entry in dev.usegalaxy.org.au
+  galaxy_root: "{{ galaxy_server_dir }}"
+  gunicorn:
+    enable: false
+  celery:
+    concurrency: 2
+    loglevel: DEBUG
+  handlers:
+    handler:
+      processes: 3
+      environment:
+        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+      pools:
+        - job-handlers
+        - workflow-schedulers
 
 # Flower
 flower_python_version: python3.8
