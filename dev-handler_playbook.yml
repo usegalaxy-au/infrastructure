@@ -20,9 +20,6 @@
       environment:
         GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
   pre_tasks:
-    - name: Attach volume to instance
-      include_role:
-        name: attached-volumes
     - name: create dir for gravity configuration
       file:
         state: directory
@@ -84,9 +81,4 @@
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1
-    - name: Workaround content-length header bug in webdav through forcible update to newer version
-      pip:
-        name: "webdavclient3@git+https://github.com/ezhov-evgeny/webdav-client-python-3@0f17fa7946e66f7963db367d0d6b2e7f940ebeb8"
-        state: forcereinstall
-        virtualenv: "{{ galaxy_venv_dir }}"
 

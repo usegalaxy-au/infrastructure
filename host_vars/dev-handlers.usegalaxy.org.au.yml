@@ -5,6 +5,8 @@ add_hosts_head: yes
 add_hosts_workers: yes
 add_hosts_handlers: no
 
+attached_volumes: []
+
 shared_mounts:
   - path: /mnt/galaxy
     src: "{{ hostvars['dev']['ansible_ssh_host'] }}:/mnt/galaxy"
@@ -16,6 +18,13 @@ shared_mounts:
     state: mounted
   
 galaxy_config_file: /opt/galaxy/galaxy.yml
+
+# galaxy role applied to dev-handlers machine is only needed for gravity and the galaxy config files. Skip other tasks
+galaxy_manage_paths: false
+galaxy_manage_clone: false
+galaxy_fetch_dependencies: false
+galaxy_manage_mutable_setup: false
+galaxy_build_client: false
 
 host_galaxy_config_gravity:  # overridden from entry in dev.usegalaxy.org.au
   galaxy_root: "{{ galaxy_server_dir }}"
