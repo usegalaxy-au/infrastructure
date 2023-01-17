@@ -60,7 +60,10 @@ tools:
       singularity_enabled: True
   toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
     params:
-      docker_enabled: true 
+      docker_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy.*:
+    params:
+      singularity_enabled: True
 
 destinations:
   slurm:

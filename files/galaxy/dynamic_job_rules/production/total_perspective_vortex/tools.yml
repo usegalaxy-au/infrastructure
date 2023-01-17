@@ -634,6 +634,9 @@ tools:
       cores: 5
     - if: input_size >= 0.5
       cores: 9
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy.*:
+    params:
+      singularity_enabled: True
   toolshed.g2.bx.psu.edu/repos/iuc/shovill/shovill/.*:
     scheduling:
       accept:
@@ -1589,13 +1592,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
     params:
       singularity_enabled: True
-  
+
   # hifiasm_meta
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiasm_meta/hifiasm_meta/.*:
     cores: 16
     params:
       singularity_enabled: True
-  
+
   # test tools
   maxquant_test:
     cores: 120
