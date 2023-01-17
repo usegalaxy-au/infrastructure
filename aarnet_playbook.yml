@@ -9,16 +9,27 @@
     - host_vars/aarnet.usegalaxy.org.au.yml
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ubuntu_maintenance_key
+  handlers:
+    - name: galaxy gravity restart
+      become: True
+      become_user: galaxy
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful" # results in restart of gunicorn, 502 page for ~3 minutes
+      environment:
+        GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
   pre_tasks:
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
-  # handlers:
-  #   - name: Restart Galaxy
-  #     systemd:
-  #       name: galaxy
-  #       state: restarted
-  #     listen: restart galaxy
+    - name: create dir for galaxy's singularity cache
+      file:
+        state: directory
+        path: "{{ item }}"
+        owner: galaxy
+        group: galaxy
+        mode: 0700
+      with_items:
+        - "{{ galaxy_user_singularity_cachedir }}"
+        - "{{ galaxy_user_singularity_tmpdir }}"
   roles:
     - galaxyproject.repos
     - common

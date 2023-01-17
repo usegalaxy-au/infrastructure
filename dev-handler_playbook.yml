@@ -30,10 +30,13 @@
     - name: create dir for galaxy's singularity cache # this is still on the root disk, it's a test of moving the singularity cache
       file:
         state: directory
-        path: "{{ galaxy_user_singularity_cachedir }}"
+        path: "{{ item }}"
         owner: galaxy
         group: galaxy
         mode: 0700
+      with_items:
+        - "{{ galaxy_user_singularity_cachedir }}"
+        - "{{ galaxy_user_singularity_tmpdir }}"
   roles:
     - galaxyproject.repos
     - common

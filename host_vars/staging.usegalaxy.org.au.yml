@@ -86,6 +86,8 @@ host_galaxy_config: # renamed from __galaxy_config
       preload: true
       environment:
         DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
     celery:
       concurrency: 2
       loglevel: DEBUG
@@ -93,6 +95,8 @@ host_galaxy_config: # renamed from __galaxy_config
       handler:
         environment:
           DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+          SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+          SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
         processes: 3
         pools:
           - job-handlers
