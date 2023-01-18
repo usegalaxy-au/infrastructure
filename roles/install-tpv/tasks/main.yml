@@ -1,7 +1,7 @@
 ---
 - name: Install Total Perspective Vortex
   pip:
-    name: "total-perspective-vortex=={{ tpv_version }}}"
+    name: "total-perspective-vortex=={{ tpv_version }}"
     virtualenv: "{{ galaxy_venv_dir }}"
   when: tpv_version is defined
 - name: Install Total Perspective Vortex (from git commit)
