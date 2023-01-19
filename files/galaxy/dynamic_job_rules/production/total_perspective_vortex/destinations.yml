@@ -34,7 +34,6 @@ destinations:
       require:
         - pulsar-paw
         - pulsar
-        - offline
   pulsar-mel3:
     cores: 32
     mem: 122.86
