@@ -81,8 +81,8 @@ destinations:
     inherits: _slurm_destination
     tags:
       - registered_user_concurrent_jobs_40
-    max_accepted_cores: 16
-    max_accepted_mem: 62.5
+    max_cores: 16
+    max_mem: 62.5
     scheduling:
       accept:
         - slurm
@@ -91,7 +91,7 @@ destinations:
     tags:
       - registered_user_concurrent_jobs_20
     max_accepted_cores: 2
-    max_accepted_mem: 4
+    max_accepted_mem: 8
     params:
       docker_enabled: true
       docker_volumes: $defaults
@@ -135,8 +135,8 @@ destinations:
     runner: pulsar_nci_test_runner
     tags:
       - registered_user_concurrent_jobs_20
-    max_accepted_cores: 16
-    max_accepted_mem: 48.19
+    max_cores: 16
+    max_mem: 48.19
     scheduling:
       accept:
         - general
