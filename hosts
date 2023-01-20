@@ -222,7 +222,7 @@ aarnet-backup ansible_ssh_host=138.44.80.22 internal_ip=192.168.199.12
 
 ##### Pulsar Azure
 [pulsar_azure_0_head]
-pulsar-azure-0 ansible_ssh_host=20.5.207.163
+pulsar-azure-0 ansible_ssh_host=20.28.206.42
 
 ##### Stats server
 [stats_servers]
