@@ -80,7 +80,7 @@ machine_users:
         - galaxy_admin
       key: files/keys/igor.pub
       email: "{{ igor_email }}"
-   - name: gareth
+    - name: gareth
       uid: 7102
       roles:
         - galaxy_admin
