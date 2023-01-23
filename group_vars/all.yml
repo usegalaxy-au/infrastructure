@@ -3,90 +3,119 @@ hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
 
 #List of users to install and setup /homes for
 machine_users:
-    - name: simon
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/simon.pub
-      email: "{{ simon_email }}"
-    - name: nick
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/nick.pub
-      email: "{{ nick_email }}"
-    - name: cat
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/catherine.pub
-      email: "{{ cat_email }}"
-    - name: igor
-      roles:
-        - tiaas_admin
-        - galaxy_admin
-      key: files/keys/igor.pub
-      email: "{{ igor_email }}"
-    - name: mike
-      roles:
-        - galaxy_admin
-      key: files/keys/mike.pub
-      email: "{{ mike_email }}"
-    - name: gareth
-      roles:
-        - galaxy_admin
-      key: files/keys/gareth.pub
-      email: "{{ gareth_email }}"
+    # special users range
     - name: jenkins_bot
+      uid: 7000
       roles:
         - sudo
         - galaxy_admin
       key: files/keys/jenkins_bot.pub
       email: "{{ jenkins_bot_email }}" # this is not a real email address and will cause issues if validation is required
+
+    # special agent 007
+    - name: simon
+      uid: 7007
+      roles:
+        - sudo
+        - galaxy_admin
+      key: files/keys/simon.pub
+      email: "{{ simon_email }}"
+
+    # infrastructure team
+    - name: justin
+      uid: 7011
+      roles:
+        - sudo
+        - galaxy_admin
+      key: files/keys/justin.pub
+      email: "{{ justin_email }}"
+    - name: cat
+      uid: 7012
+      roles:
+        - sudo
+        - galaxy_admin
+      key: files/keys/catherine.pub
+      email: "{{ cat_email }}"
     - name: nuwan
+      uid: 7013
       roles:
         - sudo
         - galaxy_admin
       key: files/keys/nuwan.pub
       galaxy_admin: true
       email: "{{ nuwan_email }}"
-    - name: justin
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/justin.pub
-      email: "{{ justin_email }}"
-    # - name: grace  # TODO: add task to remove alumni accounts (GH, TC)
-    #   roles:
-    #     - sudo
-    #   key: files/keys/grace.pub
-    #   email: "{{ grace_email }}"
-    - name: cameron
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/cameron.pub
-      email: "{{ cameron_email }}"
-    - name: anna
-      roles:
-        - tiaas_admin
-      key: files/keys/anna.pub
-      email: "{{ anna_email }}"
-    - name: tom
-      roles: []
-      key: files/keys/tom.pub
-      email: "{{ tom_email }}"
     - name: gavin
+      uid: 7014
       roles:
         - sudo
         - galaxy_admin
       key: files/keys/gavin.pub
       email: "{{ gavin_email }}"
     - name: ollie
+      uid: 7015
       roles:
         - sudo
       key: files/keys/ollie.pub
       email: "{{ ollie_email }}"
+ 
+    # user support team
+    - name: igor
+      uid: 7101
+      roles:
+        - tiaas_admin
+        - galaxy_admin
+      key: files/keys/igor.pub
+      email: "{{ igor_email }}"
+    - name: gareth
+      uid: 7102
+      roles:
+        - galaxy_admin
+      key: files/keys/gareth.pub
+      email: "{{ gareth_email }}"
+ 
+    # tools team
+    - name: mike
+      uid: 7201
+      roles:
+        - galaxy_admin
+      key: files/keys/mike.pub
+      email: "{{ mike_email }}"
+    - name: cameron
+      uid: 7202
+      roles:
+        - sudo
+        - galaxy_admin
+      key: files/keys/cameron.pub
+      email: "{{ cameron_email }}"
+    - name: tom
+      uid: 7203
+      roles: []
+      key: files/keys/tom.pub
+      email: "{{ tom_email }}"
+
+    # other
+    - name: anna
+      uid: 7301
+      roles:
+        - tiaas_admin
+      key: files/keys/anna.pub
+      email: "{{ anna_email }}"
+
+
+# no longer active accounts to be removed - only name field is required
+remove_machine_users:
+    - name: grace
+    # roles:
+    #   - sudo
+    # key: files/keys/grace.pub
+    # email: "{{ grace_email }}"
+    - name: nick
+    # roles:
+    #   - sudo
+    #   - galaxy_admin
+    # key: files/keys/nick.pub
+    # email: "{{ nick_email }}"
+
 
 galaxy_user:
   name: galaxy
