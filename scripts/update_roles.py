@@ -30,7 +30,6 @@ with open('requirements.yml') as handle:
 for r in requirements:
     try:
         name = r.get('name', r.get('src'))
-        print(name)
         if not name:
             raise Exception(f'Could not find role {name} in yaml entry')
         required_version = r.get('version')
@@ -66,7 +65,6 @@ if roles_to_update:
         '--force',
     ])
     print('\n' + '\n'.join(o.decode('utf8').split('\n')))
+    os.remove(output_file)
 else:
     print('No updates necessary')
-
-os.remove(output_file)
