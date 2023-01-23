@@ -115,6 +115,7 @@ remove_machine_users:
     #   - galaxy_admin
     # key: files/keys/nick.pub
     # email: "{{ nick_email }}"
+    - name: thom
 
 
 galaxy_user:
