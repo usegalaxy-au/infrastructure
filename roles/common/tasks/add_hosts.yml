@@ -1,0 +1,59 @@
+---
+
+- name: Set ip_field fact
+  set_fact:
+    ip_field: "{{ use_internal_ips|d(false) | ternary('internal_ip', 'ansible_ssh_host') }}"
+
+- name: Add IPs to hosts
+  block:
+    - name: "Add {{ ip_field }} to {{ hosts_filename }} for slurm head node"
+      become: yes
+      become_user: root
+      lineinfile:
+          path: "{{ hosts_filename }}"
+          regexp: "^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+\t{{ item }}.*"
+          line: "{{ hostvars[item][ip_field] }}\t{{ item }}"
+          state: present
+          backup: yes
+      when: add_hosts_head is defined and add_hosts_head == true
+      with_items:
+          "{{ head_nodes }}"
+    
+    - name: "Add {{ ip_field }} to {{ hosts_filename }} for handlers node"
+      become: yes
+      become_user: root
+      lineinfile:
+          path: "{{ hosts_filename }}"
+          regexp: "^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+\t{{ item }}.*"
+          line: "{{ hostvars[item][ip_field] }}\t{{ item }}"
+          state: present
+          backup: yes
+      when: add_hosts_handlers is defined and add_hosts_handlers == true
+      with_items:
+          "{{ handlers_nodes }}"
+
+    - name: "Add {{ ip_field }} to {{ hosts_filename }} for worker nodes"
+      become: yes
+      become_user: root
+      lineinfile:
+          path: "{{ hosts_filename }}"
+          regexp: "^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+\t{{ item }}.*"
+          line: "{{ hostvars[item][ip_field] }}\t{{ item }}"
+          state: present
+          backup: yes
+      when: add_hosts_workers is defined and add_hosts_workers == true
+      with_items:
+          "{{ worker_nodes }}"
+
+    - name: "Add {{ ip_field }} to {{ hosts_filename }} for Galaxy server"
+      become: yes
+      become_user: root
+      lineinfile:
+          path: "{{ hosts_filename }}"
+          regexp: "^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+\t{{ item }}.*"
+          line: "{{ hostvars[item][ip_field] }}\t{{ item }}"
+          state: present
+          backup: yes
+      when: add_hosts_galaxy is defined and add_hosts_galaxy == true
+      with_items:
+          "{{ galaxy_nodes }}"

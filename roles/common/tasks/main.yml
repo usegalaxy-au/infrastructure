@@ -1,4 +1,10 @@
 ---
+- name: Add hosts to hosts template file
+  import_tasks: add_hosts.yml
+  vars:
+    hosts_filename: "{{ hosts_template_file }}"
+  when: hosts_template_file is defined
+
 - name: Update the apt repos and base OS
   apt:
       upgrade: dist
@@ -21,117 +27,10 @@
   become_user: root
   when: group_packages is defined
 
-- name: Add external ips to hosts
-  block:
-    - name: Add to head node to hosts files
-      become: yes
-      become_user: root
-      lineinfile:
-          path: "/etc/hosts"
-          #regexp: "{{ hostvars[item].ansible_host }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
-          line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
-          state: present
-          backup: yes
-      when: add_hosts_head is defined and add_hosts_head == true
-      with_items:
-          "{{ head_nodes }}"
-    
-    - name: Add to handlers node to hosts files
-      become: yes
-      become_user: root
-      lineinfile:
-          path: "/etc/hosts"
-          #regexp: "{{ hostvars[item].ansible_host }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
-          line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
-          state: present
-          backup: yes
-      when: add_hosts_handlers is defined and add_hosts_handlers == true
-      with_items:
-          "{{ handlers_nodes }}"
-
-    - name: Add to worker nodes to host file
-      become: yes
-      become_user: root
-      lineinfile:
-          path: "/etc/hosts"
-          #regexp: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
-          line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
-          state: present
-          backup: yes
-      when: add_hosts_workers is defined and add_hosts_workers == true
-      with_items:
-          "{{ worker_nodes }}"
-
-    - name: Add Galaxy server to host files
-      become: yes
-      become_user: root
-      lineinfile:
-          path: "/etc/hosts"
-          line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
-          state: present
-          backup: yes
-      when: add_hosts_galaxy is defined and add_hosts_galaxy == true
-      with_items:
-          "{{ galaxy_nodes }}"
-  when: use_internal_ips is not defined or use_internal_ips == false
-
-- name: Add internal ips to hosts
-  block:
-    - name: Add to head node to all worker's hosts files
-      become: yes
-      become_user: root
-      lineinfile:
-          path: "/etc/hosts"
-          #regexp: "{{ hostvars[item].ansible_host }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
-          #line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
-          line: "{{ hostvars[item].internal_ip }}\t{{ item }}" #Altered due to issues with internal network. Please put back once fixed
-          state: present
-          backup: yes
-      when: add_hosts_head is defined and add_hosts_head == true
-      with_items:
-          "{{ head_nodes }}"
-
-    - name: Add to handlers node to hosts files
-      become: yes
-      become_user: root
-      lineinfile:
-          path: "/etc/hosts"
-          #regexp: "{{ hostvars[item].ansible_host }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
-          #line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
-          line: "{{ hostvars[item].internal_ip }}\t{{ item }}" #Altered due to issues with internal network. Please put back once fixed
-          state: present
-          backup: yes
-      when: add_hosts_handlers is defined and add_hosts_handlers == true
-      with_items:
-          "{{ handler_nodes }}"
-
-
-    - name: Add to worker nodes to head node's host file
-      become: yes
-      become_user: root
-      lineinfile:
-          path: "/etc/hosts"
-          #regexp: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
-          line: "{{ hostvars[item].internal_ip }}\t{{ item }}"
-          state: present
-          backup: yes
-      when: add_hosts_workers is defined and add_hosts_workers == true
-      with_items:
-          "{{ worker_nodes }}"
-
-    - name: Add Galaxy server to all worker's host files
-      become: yes
-      become_user: root
-      lineinfile:
-          path: "/etc/hosts"
-          #line: "{{ hostvars[item].ansible_ssh_host }}\t{{ item }}"
-          line: "{{ hostvars[item].internal_ip }}\t{{ item }}" #Altered due to issues with internal network. Please put back once fixed.
-          state: present
-          backup: yes
-      when: add_hosts_galaxy is defined and add_hosts_galaxy == true
-      with_items:
-          "{{ galaxy_nodes }}"
-  when: use_internal_ips is defined and use_internal_ips == true
+- name: Add hosts to /etc/hosts
+  import_tasks: add_hosts.yml
+  vars:
+    hosts_filename: "/etc/hosts"
 
 - name: Add Galaxy group to relevant machines
   become: yes

@@ -3,6 +3,9 @@ galaxy_gid: 10010
 
 use_internal_ips: true
 
+# cloud-init template for /etc/hosts
+hosts_template_file: "/etc/cloud/templates/hosts.debian.tmpl"
+
 influx_url: stats.usegalaxy.org.au
 grafana_server_url: "https://{{ influx_url }}:8086"
 
