@@ -10,6 +10,10 @@ tpv_version: "2.0.1"
 # tpv_repo: https://github.com/usegalaxy-au/total-perspective-vortex
 # tpv_commit_id: d8e336b1cc889237c155d0ad318051c36e5636e6
 
+# workaround to maintain correct tpv version (release_22.05)
+galaxy_additional_venv_packages: |
+  {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
+
 # variables for attaching mounted volume to application server
 attached_volumes:
   - device: /dev/vdb
