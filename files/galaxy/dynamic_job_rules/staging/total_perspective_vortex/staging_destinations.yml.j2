@@ -56,19 +56,15 @@ destinations:
             docker_sudo: false
   
   slurm:
+    inherits: _slurm_destination
     max_cores: 4
     max_mem: 15.5
     scheduling:
       accept:
         - pulsar
         - slurm
-  interactive_pulsar:
-    max_allowed_cores: 4
-    max_allowed_mem: 15.5
-    scheduling:
-      require:
-        - interactive_pulsar  
   pulsar:
+    inherits: _pulsar_destination
     max_cores: 4
     max_mem: 7.77
     scheduling:
@@ -76,3 +72,20 @@ destinations:
         - staging-pulsar
       require:
         - pulsar
+  interactive_pulsar:
+    runner: pulsar_embedded
+    params:
+      outputs_to_working_directory: false
+      docker_enabled: true
+      docker_volumes: $defaults
+      docker_sudo: false
+      docker_net: bridge
+      docker_auto_rm: true
+      docker_set_user: ''
+      require_container: true
+      container_monitor_result: callback
+    max_allowed_cores: 4
+    max_allowed_mem: 15.5
+    scheduling:
+      require:
+        - interactive_pulsar  

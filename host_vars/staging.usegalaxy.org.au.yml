@@ -41,7 +41,7 @@ galaxy_commit_id: release_22.05
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/staging
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
-  - total_perspective_vortex/production_tools.yml
+  - total_perspective_vortex/tools.yml
   - total_perspective_vortex/staging_vortex_config.yml
   - total_perspective_vortex/staging_destinations.yml.j2
   - readme.txt
