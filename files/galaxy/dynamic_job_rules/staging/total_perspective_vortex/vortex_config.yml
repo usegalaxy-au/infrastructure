@@ -22,72 +22,49 @@ tools:
     scheduling:
       require:
         - interactive_pulsar
-  toolshed.g2.bx.psu.edu/repos/iuc/fastqe/fastqe/.*:
-    cores: 2
-  toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
-    params:
-      docker_enabled: true
-  toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina/docking/.*:
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_nxn_clustering/.*:
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_mol2fps/.*:
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_sdf2fps/.*:
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_butina_clustering/.*:
-    params:
-      singularity_enabled: true
-  # cactus suite
-  toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
-    params:
-      singularity_enabled: True
-  toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
-    params:
-      singularity_enabled: True
-  toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/.*:
-    params:
-      singularity_enabled: True
-  toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
-    params:
-      singularity_enabled: True
-  toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
-    params:
-      docker_enabled: true
-  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy.*:
-    params:
-      singularity_enabled: True
+  # toolshed.g2.bx.psu.edu/repos/iuc/fastqe/fastqe/.*:
+  #   cores: 2
+  # toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
+  #   params:
+  #     docker_enabled: true
+  # toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina/docking/.*:
+  #   params:
+  #     singularity_enabled: true
+  # toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_nxn_clustering/.*:
+  #   params:
+  #     singularity_enabled: true
+  # toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_mol2fps/.*:
+  #   params:
+  #     singularity_enabled: true
+  # toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_sdf2fps/.*:
+  #   params:
+  #     singularity_enabled: true
+  # toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_butina_clustering/.*:
+  #   params:
+  #     singularity_enabled: true
+  # # cactus suite
+  # toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
+  #   params:
+  #     singularity_enabled: True
+  # toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
+  #   params:
+  #     singularity_enabled: True
+  # toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/.*:
+  #   params:
+  #     singularity_enabled: True
+  # toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
+  #   params:
+  #     singularity_enabled: true
+  # toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
+  #   params:
+  #     singularity_enabled: True
+  # toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
+  #   params:
+  #     docker_enabled: true
+  # toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy.*:
+  #   params:
+  #     singularity_enabled: True
 
-destinations:
-  slurm:
-    cores: 4
-    mem: 15.5
-    scheduling:
-      accept:
-        - pulsar
-        - slurm
-  interactive_pulsar:
-    cores: 4
-    mem: 15.5
-    scheduling:
-      require:
-        - interactive_pulsar
-  
-  pulsar:
-    cores: 4
-    mem: 7.77
-    scheduling:
-      accept:
-        - staging-pulsar
-      require:
-        - pulsar
 
 users:
   test_user:
