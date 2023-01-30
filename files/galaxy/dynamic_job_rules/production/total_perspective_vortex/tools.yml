@@ -1508,6 +1508,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     cores: 8
     mem: 69
+    gpus: 1
     params:
       docker_enabled: true
     rules:

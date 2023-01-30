@@ -32,7 +32,11 @@ galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_22.05
 
 # total perspective vortex
-tpv_version: "1.4.1"
+tpv_version: "2.0.1"
+
+# workaround to maintain correct tpv version (release_22.05)
+galaxy_additional_venv_packages: |
+  {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
 
 # Mounts for various connections:
 shared_mounts: # TODO: /mnt/custom-indices from aarnet-misc-nfs
@@ -104,12 +108,10 @@ galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/production
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
   - total_perspective_vortex/tools.yml
-  - total_perspective_vortex/destinations.yml
+  - total_perspective_vortex/destinations.yml.j2
   - total_perspective_vortex/users.yml
   - total_perspective_vortex/roles.yml
-  # - total_perspective_vortex/default_tool.yml.j2 # a future version of galaxyproject.galaxy will allow listing templates here
-  - dynamic_rules/destination_mapper.py # TODO: get dynamic_rules out of job conf files
-  - dynamic_rules/tool_destinations.yml
+  - total_perspective_vortex/default_tool.yml.j2
   - readme.txt
 
 galaxy_systemd_mode: gravity
@@ -138,8 +140,6 @@ host_galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
   - src: "{{ galaxy_config_template_src_dir }}/config/aarnet_job_conf.yml.j2"
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
-  - src: "{{ galaxy_dynamic_job_rules_src_dir }}/total_perspective_vortex/default_tool.yml.j2"
-    dest: "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2" ## File cannot be created at dest on first run of playbook
     dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
 
