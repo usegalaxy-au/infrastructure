@@ -5,6 +5,5 @@
         <tool file="/mnt/galaxy/local_tools/maxquant/maxquant.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/alphafold-test/alphafold.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/gtdbtk/gtdbtk_classify_wf.xml" labels="test"/>
-        <tool file="/mnt/galaxy/local_tools/metawrapmg/metawrapmg_binning.xml" labels="test"/>
     </section>
 </toolbox>
