@@ -1602,7 +1602,7 @@ tools:
   # metawrap suite
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/metawrapmg_binning/metawrapmg_binning/.*:
     scheduling:
-      require:
+      prefer:
         - pulsar
     cores: 16
     mem: 64
