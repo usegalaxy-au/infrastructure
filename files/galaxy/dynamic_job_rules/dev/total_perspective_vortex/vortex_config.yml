@@ -286,8 +286,6 @@ tools:
         params:
           singularity_enabled: true
           dependency_resolution: none
-  metawrapmg_binning:
-    cores: 16
 
 users:
   test_user:
