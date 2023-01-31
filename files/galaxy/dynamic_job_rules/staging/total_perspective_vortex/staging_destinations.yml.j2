@@ -1,0 +1,92 @@
+destinations:
+  default:
+    runner: slurm
+    abstract: true
+    scheduling:
+      accept:
+        - docker # to satisfy tools in shared db that have require: docker
+        - singularity # to satisfy tools in shared db that have require: singularity
+        - high-mem # accept jobs with high-mem tag from production configuration
+  _slurm_destination:
+    abstract: true
+    params:
+        nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
+    rules:
+      - id: slurm_destination_singularity_rule
+        if: entity.params.get('singularity_enabled')
+        params:
+            singularity_volumes: "{{ slurm_singularity_volumes }}"
+            singularity_default_container_id: "{{ singularity_default_container_id }}"
+      - id: slurm_destination_docker_rule
+        if: entity.params.get('docker_enabled')
+        params:
+            docker_volumes: "{{ slurm_docker_volumes }}"
+            docker_memory: '{mem}G'
+            docker_sudo: false
+  _pulsar_destination:
+    abstract: true
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
+      jobs_directory: /mnt/pulsar/files/staging
+      transport: curl
+      remote_metadata: 'false'
+      default_file_action: remote_transfer
+      outputs_to_working_directory: false
+      dependency_resolution: remote
+      rewrite_parameters: 'true'
+      persistence_directory: /mnt/pulsar/files/persisted_data
+    rules:
+      - id: pulsar_destination_singularity_rule
+        if: entity.params.get('singularity_enabled')
+        params:
+            singularity_volumes: "{{ pulsar_singularity_volumes }}"
+            container_resolvers: 
+                - type: explicit_singularity
+                - type: mulled_singularity
+            singularity_default_container_id: "{{ singularity_default_container_id }}"
+        env:
+          SINGULARITY_CACHEDIR: /mnt/pulsar/deps/singularity
+          SINGULARITY_TMPDIR: /mnt/pulsar/deps/singularity/tmp
+
+      - id: pulsar_destination_docker_rule
+        if: entity.params.get('docker_enabled')
+        params:
+            docker_volumes: "{{ pulsar_docker_volumes }}"
+            docker_set_user: '1000'
+            docker_memory: '{mem}G'
+            docker_sudo: false
+  
+  slurm:
+    inherits: _slurm_destination
+    max_cores: 4
+    max_mem: 15.2
+    scheduling:
+      accept:
+        - pulsar
+        - slurm
+  pulsar:
+    inherits: _pulsar_destination
+    max_cores: 2
+    max_mem: 7.77
+    scheduling:
+      accept:
+        - staging-pulsar
+      require:
+        - pulsar
+  interactive_pulsar:
+    runner: pulsar_embedded
+    params:
+      outputs_to_working_directory: false
+      docker_enabled: true
+      docker_volumes: $defaults
+      docker_sudo: false
+      docker_net: bridge
+      docker_auto_rm: true
+      docker_set_user: ''
+      require_container: true
+      container_monitor_result: callback
+    max_allowed_cores: 4
+    max_allowed_mem: 15.2
+    scheduling:
+      require:
+        - interactive_pulsar  

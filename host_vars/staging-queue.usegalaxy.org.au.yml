@@ -21,7 +21,7 @@ rabbitmq_vhosts:
   - galaxy
   - /pulsar/galaxy_au
 
-rabbitmq_version: 3.9.7-1
+rabbitmq_version: 3.10.6-1
 
 rabbitmq_password_admin: "{{ vault_rabbitmq_password_admin_staging }}"
 rabbitmq_password_telegraf: "{{ vault_rabbitmq_password_telegraf_staging }}"

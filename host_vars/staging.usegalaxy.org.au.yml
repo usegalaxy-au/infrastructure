@@ -7,7 +7,11 @@ attached_volumes:
     fstype: ext4
 
 # total perspective vortex
-tpv_version: "1.2.0"
+tpv_version: "2.0.1"
+
+# workaround to maintain correct tpv version (release_22.05)
+galaxy_additional_venv_packages: |
+  {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
 
 certbot_domains:
   - "{{ hostname }}"
@@ -37,9 +41,9 @@ galaxy_commit_id: release_22.05
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/staging
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
-  - dynamic_rules/destination_mapper.py
-  - dynamic_rules/tool_destinations.yml
-  - total_perspective_vortex/vortex_config.yml
+  - total_perspective_vortex/staging_tools.yml  # symlink to production tools.yml
+  - total_perspective_vortex/staging_vortex_config.yml
+  - total_perspective_vortex/staging_destinations.yml.j2
   - readme.txt
 
 galaxy_systemd_mode: gravity

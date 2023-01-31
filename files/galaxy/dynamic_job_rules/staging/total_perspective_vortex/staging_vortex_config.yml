@@ -1,0 +1,45 @@
+global:
+  default_inherits: default
+
+tools:
+  default:
+    cores: 1
+    mem: cores * 3.8
+    env: {}
+    context:
+      partition: main
+      test_cores: 1
+    scheduling:
+      reject:
+        - offline
+    rules: []
+    rank: |
+      final_destinations = helpers.weighted_random_sampling(candidate_destinations)
+      final_destinations
+  interactive_tool_.*:
+    cores: 2
+    scheduling:
+      require:
+        - interactive_pulsar
+
+users:
+  test_user:
+    rules:
+      - id: singularity_test_user_rule
+        if: |
+          enable_singularity = False
+          if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+            try:
+              enable_singularity = 'singularity' in [hta.user_tname for hta in job.history.tags]
+            except:
+              pass
+          enable_singularity
+        params:
+          singularity_enabled: True
+  jenkins_bot@usegalaxy.org.au:
+    inherits: test_user
+    max_cores: test_cores
+    max_mem: max_cores * 3.8
+    scheduling:
+      require:
+        - slurm
