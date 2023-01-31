@@ -12,7 +12,7 @@ slurm_nodes:
     - name: staging-w1
       NodeAddr: "{{ hostvars['staging-w1']['ansible_ssh_host'] }}"
       CPUs: 4
-      RealMemory: 7780
+      RealMemory: 15580
       State: UNKNOWN
     - name: staging-queue
       NodeAddr: "{{ hostvars['staging-queue']['ansible_ssh_host'] }}"

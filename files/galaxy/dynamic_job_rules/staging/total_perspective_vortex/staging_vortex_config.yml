@@ -6,10 +6,9 @@ tools:
     cores: 1
     mem: cores * 3.8
     env: {}
-    params:
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)}"
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)}"
-      docker_memory: '{mem}G'
+    context:
+      partition: main
+      test_cores: 1
     scheduling:
       reject:
         - offline
@@ -39,8 +38,8 @@ users:
           singularity_enabled: True
   jenkins_bot@usegalaxy.org.au:
     inherits: test_user
-    max_cores: 1
-    max_mem: 3.8
+    max_cores: test_cores
+    max_mem: max_cores * 3.8
     scheduling:
       require:
         - slurm

@@ -6,6 +6,7 @@ destinations:
       accept:
         - docker # to satisfy tools in shared db that have require: docker
         - singularity # to satisfy tools in shared db that have require: singularity
+        - high-mem # accept jobs with high-mem tag from production configuration
   _slurm_destination:
     abstract: true
     params:
@@ -58,14 +59,14 @@ destinations:
   slurm:
     inherits: _slurm_destination
     max_cores: 4
-    max_mem: 15.5
+    max_mem: 15.2
     scheduling:
       accept:
         - pulsar
         - slurm
   pulsar:
     inherits: _pulsar_destination
-    max_cores: 4
+    max_cores: 2
     max_mem: 7.77
     scheduling:
       accept:
@@ -85,7 +86,7 @@ destinations:
       require_container: true
       container_monitor_result: callback
     max_allowed_cores: 4
-    max_allowed_mem: 15.5
+    max_allowed_mem: 15.2
     scheduling:
       require:
         - interactive_pulsar  
