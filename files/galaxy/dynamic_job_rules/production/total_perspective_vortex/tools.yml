@@ -1601,6 +1601,8 @@ tools:
 
   # metawrap suite
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/metawrapmg_binning/metawrapmg_binning/.*:
+    context:
+      test_cores: 10
     scheduling:
       prefer:
         - pulsar
