@@ -5,6 +5,11 @@
     hosts_filename: "{{ hosts_template_file }}"
   when: hosts_template_file is defined
 
+- name: Add Influx apt repository key (pre ubuntu 22.04)
+  ansible.builtin.apt_key:
+    url: https://repos.influxdata.com/influxdata-archive_compat.key
+    state: present
+
 - name: Update the apt repos and base OS
   apt:
       upgrade: dist
