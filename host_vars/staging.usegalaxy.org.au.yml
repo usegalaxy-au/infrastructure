@@ -80,6 +80,7 @@ host_galaxy_config: # renamed from __galaxy_config
   gravity:
     galaxy_root: /mnt/galaxy/galaxy-app
     app_server: gunicorn
+    virtualenv: "{{ galaxy_venv_dir }}"
     gunicorn:
       # listening options
       bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
@@ -89,6 +90,7 @@ host_galaxy_config: # renamed from __galaxy_config
       extra_args: '--forwarded-allow-ips="*"'
       preload: true
       environment:
+        VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
         DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
         SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
         SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
