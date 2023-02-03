@@ -1454,7 +1454,8 @@ tools:
         - pulsar-paw
   toolshed.g2.bx.psu.edu/repos/iuc/spades_biosyntheticspades/spades_biosyntheticspades/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
-
+  toolshed.g2.bx.psu.edu/repos/iuc/umi_tools_dedup/umi_tools_dedup/.*:
+    cores: 16
   # Stacks 2 tools
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_clonefilter/stacks2_clonefilter/.*:
     cores: 2
