@@ -1540,12 +1540,12 @@ tools:
     inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*
     params:
       docker_run_extra_arguments: |
-      --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data/alphafold_databases/v2.1
+      --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data/v2.1
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/2.3.*:
     inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*
     params:
       docker_run_extra_arguments: |
-      --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data/alphafold_databases/v2.3
+      --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data/v2.3
 
   # Peptide shaker and other galaxyP tools
   toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker/.*:
@@ -1639,7 +1639,8 @@ tools:
       partition: azuregpu0
     params:
       docker_enabled: true
-      docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000"
+      docker_run_extra_arguments: |
+      --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data/v2.3
     scheduling:
       require:
         - pulsar
