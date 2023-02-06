@@ -270,16 +270,18 @@ tools:
     cores: 6
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
     cores: 16
-    context:
-      partition: max_quant_w8
+    rules:
+    - if: |
+        user_limit = 2
+        total_limit = 4
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit or helpers.concurrent_job_count_for_tool(app, tool) >= total_limit
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant_mqpar/.*:
     cores: 16
-    context:
-      partition: max_quant_w8
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant_mqpar/maxquant_mqpar/.*:
     cores: 16
-    context:
-      partition: max_quant_w8
   toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
     params:
       docker_enabled: true
