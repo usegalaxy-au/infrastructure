@@ -28,6 +28,7 @@ galaxy_build_client: false
 
 host_galaxy_config_gravity:  # overridden from entry in dev.usegalaxy.org.au
   galaxy_root: "{{ galaxy_server_dir }}"
+  virtualenv: "{{ galaxy_venv_dir }}"
   gunicorn:
     enable: false
   celery:
