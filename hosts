@@ -199,7 +199,7 @@ pulsar-nci-training ansible_ssh_host=130.56.246.233 internal_ip=10.0.1.46
 [pulsar_nci_training_workers]
 pulsar-nci-training-w0 ansible_ssh_host=10.0.1.197 internal_ip=10.0.1.197
 pulsar-nci-training-w1 ansible_ssh_host=10.0.0.28 internal_ip=10.0.0.28
-# pulsar-nci-training-w2 ansible_ssh_host=10.0.3.167 internal_ip=10.0.3.167 # problem with volume: cannot be deleted nor attached
+pulsar-nci-training-w2 ansible_ssh_host=10.0.3.167 internal_ip=10.0.3.167
 pulsar-nci-training-w3 ansible_ssh_host=10.0.2.236 internal_ip=10.0.2.236
 pulsar-nci-training-w4 ansible_ssh_host=10.0.0.175 internal_ip=10.0.0.175
 pulsar-nci-training-w5 ansible_ssh_host=10.0.1.218 internal_ip=10.0.1.218
@@ -209,9 +209,6 @@ pulsar-nci-training-w8 ansible_ssh_host=10.0.1.143 internal_ip=10.0.1.143
 pulsar-nci-training-w9 ansible_ssh_host=10.0.2.254 internal_ip=10.0.2.254
 pulsar-nci-training-w10 ansible_ssh_host=10.0.1.110 internal_ip=10.0.1.110
 pulsar-nci-training-w11 ansible_ssh_host=10.0.2.82 internal_ip=10.0.2.82
-
-[pulsar_nci_training_ungrouped] # TODO: revive pulsar-nci-training-w2
-pulsar-nci-training-w2 ansible_ssh_host=10.0.3.167 internal_ip=10.0.3.167
 
 [nvme]
 qld-nvme ansible_ssh_host=203.101.231.166
