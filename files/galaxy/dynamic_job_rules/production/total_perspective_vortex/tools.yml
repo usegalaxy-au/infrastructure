@@ -40,6 +40,8 @@ tools:
       nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=interactive_tools"
       submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=interactive_tools"
     scheduling:
+      accept:
+        - training-exempt
       require:
         - interactive_pulsar
 
@@ -1518,6 +1520,8 @@ tools:
         context:
           partition: azuregpu0
         scheduling:
+          accept:
+            - training-exempt
           require:
             - pulsar
             - pulsar-azure-gpu
@@ -1639,6 +1643,8 @@ tools:
       docker_enabled: true
       docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data/v2.3
     scheduling:
+      accept:
+        - training-exempt
       require:
         - pulsar
         - pulsar-azure-gpu
