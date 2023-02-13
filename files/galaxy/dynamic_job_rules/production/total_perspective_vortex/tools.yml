@@ -1620,6 +1620,27 @@ tools:
     params:
       singularity_enabled: True
 
+  # protk tools
+  toolshed.g2.bx.psu.edu/repos/iracooke/protk-galaxytools/.*:
+    cores: 1
+    params:
+      singularity_enabled: True
+
+  toolshed.g2.bx.psu.edu/repos/iracooke/protk_proteogenomics/.*:
+    cores: 1
+    params:
+      singularity_enabled: True
+
+  toolshed.g2.bx.psu.edu/repos/iracooke/tpp_prophets/.*:
+    cores: 1
+    params:
+      singularity_enabled: True
+
+  toolshed.g2.bx.psu.edu/repos/iracooke/xtandem/.*:
+    cores: 1
+    params:
+      singularity_enabled: True
+
   # test tools
   maxquant_test:
     cores: 120
