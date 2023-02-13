@@ -4,7 +4,8 @@ tools:
     params:
       tmp_dir: True
     rules:
-    - if: |
+    - id: rule_data_fetch_limit_concurrency
+      if: |
         user_limit = 4
         total_limit = 10
         helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit or helpers.concurrent_job_count_for_tool(app, tool) >= total_limit
@@ -401,7 +402,8 @@ tools:
         - pulsar-QLD
     cores: 16
     rules:
-    - if: |
+    - id: ruke_kraken_limit_concurrency
+      if: |
         user_limit = 2
         helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit
       execute: |
@@ -1206,7 +1208,8 @@ tools:
     rules:
     - if: input_size >= 0.5
       fail: Too much data, please don't use MAFFT for this.
-    - if: |
+    - id: rule_mafft_limit_concurrency
+      if: |
         helpers.concurrent_job_count_for_tool(app, tool, user) >= 2  # concurrent jobs per user
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
@@ -1480,7 +1483,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_ustacks/stacks2_ustacks/.*:
     cores: 16
     rules:
-    - if: |
+    - id: rule_stacks2_ustacks_limit_concurrency
+      if: |
         helpers.concurrent_job_count_for_tool(app, tool, user) >= 3  # concurrent jobs per user
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
