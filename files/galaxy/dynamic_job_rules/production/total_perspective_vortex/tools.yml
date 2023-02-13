@@ -402,7 +402,7 @@ tools:
         - pulsar-QLD
     cores: 16
     rules:
-    - id: ruke_kraken_limit_concurrency
+    - id: rule_kraken2_limit_concurrency
       if: |
         user_limit = 2
         helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit
