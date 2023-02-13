@@ -177,7 +177,7 @@ tools:
           accept:
             - pulsar
           require:
-            - pulsar-qld-blast
+            - pulsar-blast
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
     cores: 5
     rules:
@@ -189,7 +189,7 @@ tools:
           accept:
             - pulsar
           require:
-            - pulsar-qld-blast
+            - pulsar-blast
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
     cores: 16
     rules:
@@ -201,7 +201,7 @@ tools:
           accept:
             - pulsar
           require:
-            - pulsar-qld-blast
+            - pulsar-blast
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_makeblastdb/.*:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/.*:
@@ -214,7 +214,7 @@ tools:
         scheduling:
           accept:
             - pulsar
-          require: pulsar-qld-blast
+          require: pulsar-blast
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastx_wrapper/.*:
     cores: 16
     rules:
@@ -226,7 +226,7 @@ tools:
           accept:
             - pulsar
           require:
-            - pulsar-qld-blast
+            - pulsar-blast
   toolshed.g2.bx.psu.edu/repos/devteam/picard/.*:
     scheduling:
       accept:
