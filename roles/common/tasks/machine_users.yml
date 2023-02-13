@@ -107,7 +107,7 @@
           export gctl_args="$@"
           export GRAVITY_STATE_DIR={{ galaxy_gravity_state_dir }}
  
-          sudo -H -Eu {{ galaxy_user.name }} bash -c '{{ galaxy_venv_dir }}/bin/galaxyctl $gctl_args' 
+          sudo -H -Eu {{ galaxy_user.name }} bash -c '. {{ galaxy_venv_dir }}/bin/activate && {{ galaxy_venv_dir }}/bin/galaxyctl $gctl_args' 
         }
       marker: "# {mark} MANAGED BY ANSIBLE - DO NOT MODIFY (gxctl)"
     with_items: "{{ machine_users | selectattr('roles', 'contains', 'sudo') | list + [{'name': 'ubuntu'}] }}"
