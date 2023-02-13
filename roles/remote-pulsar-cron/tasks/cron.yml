@@ -14,6 +14,7 @@
     - pulsar_staging_dir: "{{ rpc_pulsar.pulsar_staging_dir|d(rpc_pulsar_staging_dir) }}"
     - keep_error_days: "{{ rpc_pulsar.keep_error_days|d(rpc_default_keep_error_days) }}"
     - dry_run: "{{ not rpc_pulsar.delete_jwds|d(false) }}"
+    - remote_user: "{{ rpc_pulsar.remote_user|d(rpc_remote_user) }}"
 - name: Set up cron jobs
   block:
     - name: Look for ssh key

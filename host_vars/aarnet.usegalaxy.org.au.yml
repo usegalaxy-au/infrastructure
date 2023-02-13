@@ -364,6 +364,7 @@ rpc_pulsar_machines:
     keep_error_days: 7
     cron_hour: "18"
     cron_minute: "50"
+    remote_user: hpcuser
 
 extra_keys:
   - id: ubuntu_maintenance_key
