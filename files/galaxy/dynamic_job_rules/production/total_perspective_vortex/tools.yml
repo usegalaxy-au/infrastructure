@@ -1621,25 +1621,23 @@ tools:
       singularity_enabled: True
 
   # protk tools
-  toolshed.g2.bx.psu.edu/repos/iracooke/protk-galaxytools/.*:
-    cores: 1
-    params:
-      singularity_enabled: True
-
   toolshed.g2.bx.psu.edu/repos/iracooke/protk_proteogenomics/.*:
     cores: 1
     params:
       singularity_enabled: True
+      singularity_run_extra_arguments: '--writable-tmpfs'
 
   toolshed.g2.bx.psu.edu/repos/iracooke/tpp_prophets/.*:
     cores: 1
     params:
       singularity_enabled: True
+      singularity_run_extra_arguments: '--writable-tmpfs'
 
   toolshed.g2.bx.psu.edu/repos/iracooke/xtandem/.*:
     cores: 1
     params:
       singularity_enabled: True
+      singularity_run_extra_arguments: '--writable-tmpfs'
 
   # test tools
   maxquant_test:
