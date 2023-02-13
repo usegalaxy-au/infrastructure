@@ -15,7 +15,8 @@ DEV_RELEVANT_FILES_UPDATED=$(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMM
 # check staging files
 STAGING_JOB_CONF_PATH="templates/galaxy/config/staging_job_conf.yml.j2"
 STAGING_TPV_FILE_PATH="files/galaxy/dynamic_job_rules/staging/total_perspective_vortex"
-STAGING_RELEVANT_FILES_UPDATED=$(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep -E "$STAGING_TPV_FILE_PATH|$STAGING_JOB_CONF_PATH")
+STAGING_TPV_TOOLS_PATH="files/galaxy/dynamic_job_rules/production/total_perspective_vortex/tools.yml"
+STAGING_RELEVANT_FILES_UPDATED=$(git diff --name-only $GIT_PREVIOUS_COMMIT $GIT_COMMIT | cat | grep -E "$STAGING_TPV_FILE_PATH|$STAGING_TPV_TOOLS_PATH|$STAGING_JOB_CONF_PATH")
 
 
 if [ ! "$PROD_TPV_UPDATED" ] && [ ! "$DEV_RELEVANT_FILES_UPDATED" ] && [ ! "$STAGING_RELEVANT_FILES_UPDATED" ]; then
