@@ -1643,6 +1643,11 @@ tools:
       singularity_enabled: True
       singularity_run_extra_arguments: '--writable-tmpfs'
 
+  # chemfp
+  toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/.*:
+    params:
+      singularity_enabled: True
+
   # test tools
   maxquant_test:
     cores: 120
