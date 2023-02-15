@@ -88,6 +88,9 @@ galaxy_user_singularity_cachedir: /mnt/singularity_data
 galaxy_user_singularity_tmpdir: "{{ galaxy_user_singularity_cachedir }}/tmp"
 
 # Galaxy
+galaxy_manage_errordocs: yes
+galaxy_errordocs_dest: "/etc/nginx/error"
+galaxy_errordocs_server_name: "{{ galaxy_config.galaxy.galaxy_infrastructure_url }}"
 
 galaxy_tool_config_files:
   - "{{ galaxy_config_dir }}/tool_conf.xml"
@@ -113,6 +116,7 @@ galaxy_mutable_data_dir: "{{ galaxy_root }}"
 galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_conda_prefix: "{{ galaxy_tools_indices_dir }}/tool_dependencies/_conda"
 galaxy_conda_exec: mamba
+
 
 #########################################
 # group_galaxy_config contains variables for galaxy_config that can be overridden by variables in host_galaxy_config (defined in host_vars)
