@@ -32,7 +32,7 @@ galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_22.05
 
 # total perspective vortex
-tpv_version: "1.2.0"
+tpv_version: "1.4.1"
 
 # Mounts for various connections:
 shared_mounts: # TODO: /mnt/custom-indices from aarnet-misc-nfs
@@ -364,6 +364,7 @@ rpc_pulsar_machines:
     keep_error_days: 7
     cron_hour: "18"
     cron_minute: "50"
+    remote_user: hpcuser
 
 extra_keys:
   - id: ubuntu_maintenance_key
