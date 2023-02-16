@@ -1670,4 +1670,5 @@ tools:
       16
     mem:
       60
-  
+    params:
+      singularity_enabled: true
