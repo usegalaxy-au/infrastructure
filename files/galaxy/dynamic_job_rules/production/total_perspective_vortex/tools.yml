@@ -1652,7 +1652,7 @@ tools:
         - pulsar
         - high-mem
       require:
-        - pulsar-qld-high-mem0
+        - pulsar-qld-high-mem1
   alphafold_test:
     cores: 8
     mem: 69
