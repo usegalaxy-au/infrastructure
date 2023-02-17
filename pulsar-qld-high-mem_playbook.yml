@@ -75,4 +75,8 @@
           daemon_reload: yes
           name: slurmd
       when: "{{ inventory_hostname.endswith('himem-2') }}"
+    - name: Update max_map_count to 1,000,000 for maxquant on himem-1
+      command:
+        cmd: sysctl -w vm.max_map_count=1000000
+      when: "{{ inventory_hostname.endswith('himem-1') }}"
 
