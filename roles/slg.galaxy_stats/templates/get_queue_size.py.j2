@@ -155,17 +155,16 @@ def get_sinfo():
 
 def dump(instance, points):
     client = InfluxDBClient(**secrets['influxdb'])
-    client.create_database(secrets['influxdb']['database'])
     client.write_points(points)
 
 
 def main():
     parser = argparse.ArgumentParser(description="Translate Galaxy DB stats from PostgreSQL to InfluxDB")
     parser.add_argument('-d', '--dry_run', action='store_true', help="Print to screen, do not post to influx")
+    parser.add_argument('-i', '--instance', default='main', help="Galaxy instance")
+    parser.add_argument('-j', '--job_conf', default=job_conf_path, help="The Galaxy Job Conf file")
+    args = parser.parse_args()
     if add_queue_info:
-        parser.add_argument('instance', default='main', help="Galaxy instance")
-        parser.add_argument('job_conf', default=job_conf_path, help="The Galaxy Job Conf file")
-        args = parser.parse_args()
         destinations = get_destinations(args.job_conf)
         points = collect(args.instance, destinations)
         if not (args.dry_run or stats_dry_run_only):
@@ -173,7 +172,6 @@ def main():
         else:
             print(points)
     if add_utilisation_info:
-        args = parser.parse_args()
         sinfo = get_sinfo()
         if not (args.dry_run or stats_dry_run_only):
             dump(args.instance, sinfo)
