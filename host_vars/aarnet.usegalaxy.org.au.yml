@@ -227,9 +227,12 @@ gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 
 # vars for stats_collection
 stats_dir: /home/ubuntu/stats_collection
+stats_instance: main
 db_server: "{{ hostvars['aarnet-db']['internal_ip'] }}"
+db_user: reader
 influx_url: "stats.usegalaxy.org.au"
-db_password: "{{ galaxy_db_user_password }}"
+influx_db_stats: "GA_server"
+db_password: "{{ vault_aarnet_db_reader_password }}"
 influx_salt: "{{ prod_queue_size_salt }}"
 add_daily_stats: true
 add_monthly_stats: true
@@ -276,7 +279,7 @@ aaf_client_secret: "{{ vault_aaf_client_secret_prod }}"
 
 # remote-pulsar-cron variables
 rpc_skip_cron_setup: false
-rpc_db_connection_string: "postgres://reader:{{ vault_aarnet_db_reader_password }}@aarnet-db.usegalaxy.org.au:5432/galaxy"
+rpc_db_connection_string: "postgres://reader:{{ vault_aarnet_db_reader_password }}@{{ hostvars['aarnet-db']['internal_ip'] }}:5432/galaxy"
 
 rpc_pulsar_machines:
   - pulsar_name: pulsar-mel3
