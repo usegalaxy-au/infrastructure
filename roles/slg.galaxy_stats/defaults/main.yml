@@ -1,10 +1,13 @@
+#User running stats collection
+stats_collection_user: ubuntu
+
 #Directory to copy the scripts to
 stats_dir: ~/stats_collection
 
 #Script settings
 add_daily_stats: false
 add_monthly_stats: false
-add_utilisation_info: true
+add_utilisation_info: false
 add_queue_info: false
 
 #Virtualenv
@@ -20,11 +23,7 @@ influx_db_stats: "stats-db"
 db_server: localhost
 database: galaxy
 db_user: galaxy
-db_port: 5432
-db_password: ""
-
-#db connection string
-connection_string: "postgres://{{ db_user }}:{{ db_password }}@{{ db_server }}:{{ db_port }}/{{ database }}"
+db_port: 5432 
 
 # Galaxy settings
 galaxy_root: /mnt/galaxy/galaxy-app/

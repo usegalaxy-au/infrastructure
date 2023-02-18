@@ -5,6 +5,7 @@ export PGHOST={{ db_server }}
 export PGDATABASE={{ database }}
 export PGUSER={{ db_user }}
 export PGPORT={{ db_port }}
+export PGPASSWORD={{ db_password }}
 
 # [SLG 04-02-2019] Added some environment vars for gxadmin
 export GALAXY_ROOT="{{ galaxy_root }}"
@@ -21,13 +22,13 @@ fi
 
 echo "Running gxadmin slurp"
 
-gxadmin meta slurp-upto $(date --date="1 day ago" +%Y-%m-%d) > upto_slurp.txt
+/usr/local/bin/gxadmin meta slurp-upto $(date --date="1 day ago" +%Y-%m-%d) > upto_slurp.txt
 
 myfilesize=$(stat --format=%s "upto_slurp.txt")
 echo "$myfilesize"
 
 echo "sending slurp to influx"
 
-curl --silent -XPOST "http://${INFLUX_URL}/write?db=${INFLUX_DB}" --data-binary @upto_slurp.txt
+curl --silent -XPOST "https://${INFLUX_URL}/write?db=${INFLUX_DB}" --header "Authorization: Token node:{{ vault_influx_node_password }}" --data-binary @upto_slurp.txt
 
 echo "done"
