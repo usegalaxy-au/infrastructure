@@ -61,10 +61,9 @@
     - pg-post-tasks
     - remote-pulsar-cron
     - delete-tmp-jwds-cron
-    # - slg.galaxy_stats
+    - slg.galaxy_stats
     - galaxy-pg-cleanup
     - galaxyproject.tiaas2
-    # - usegalaxy_eu.tiaas2
   post_tasks:
     - name: Make local_tool directory group-writable by machine users
       file:
