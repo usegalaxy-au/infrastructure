@@ -40,7 +40,6 @@ destinations:
     scheduling:
       accept:
         - pulsar-mel3
-        - pulsar-blast # temporary, while pulsar-qld-blast is offline
       require:
         - pulsar
   pulsar-high-mem1:
@@ -71,7 +70,6 @@ destinations:
       require:
         - pulsar
         - high-mem
-        - offline
   pulsar-qld-high-mem1:
     cores: 240
     mem: 3845.07
@@ -96,7 +94,7 @@ destinations:
     scheduling:
       accept:
         - pulsar-nci-training
-        - pulsar-qld-blast # allow training jobs with require: pulsar-qld-blast to run here
+        - pulsar-blast # allow training jobs with require: pulsar-qld-blast to run here
         - high-mem
       require:
         - pulsar
@@ -107,11 +105,9 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-blast
-        - pulsar-blast
       require:
         - pulsar
-        - pulsar-qld-blast
-        - offline
+        - pulsar-blast
   pulsar-QLD:
     cores: 16
     mem: 62.72

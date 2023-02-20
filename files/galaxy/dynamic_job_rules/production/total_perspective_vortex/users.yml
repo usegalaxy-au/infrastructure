@@ -159,6 +159,7 @@ users:
             accept:
               - pulsar
               - offline
+              - pulsar-blast
             require:
               - pulsar-qld-blast
     pqld@genome.edu.au:
