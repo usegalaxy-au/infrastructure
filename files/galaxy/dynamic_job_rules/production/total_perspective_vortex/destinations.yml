@@ -116,7 +116,6 @@ destinations:
         - pulsar-QLD
       require:
         - pulsar
-        - offline
   pulsar-azure:
     cores: 24
     mem: 209
