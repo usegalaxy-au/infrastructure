@@ -78,10 +78,6 @@ slurm_partitions:
     nodes: "aarnet-w7,aarnet-w5,aarnet-w4,aarnet-w8"
     Default: NO
     State: UP
-  - name: max_quant_w8
-    nodes: "aarnet-w8"
-    Default: NO
-    State: UP
   - name: interactive_tools
     nodes: "aarnet-w4,aarnet-w5"
     Default: NO
