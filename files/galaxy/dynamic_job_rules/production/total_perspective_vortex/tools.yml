@@ -694,6 +694,8 @@ tools:
       cores: 9
   toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/.*:
     cores: 5
+  toolshed.g2.bx.psu.edu/repos/mbernt/maxbin2/maxbin2/.*: # note delete this entry when shared-db is in use
+    cores: 12
   toolshed.g2.bx.psu.edu/repos/pjbriggs/macs21/macs2_1_peakcalling/.*:
     cores: 9
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/.*:
