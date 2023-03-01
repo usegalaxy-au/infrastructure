@@ -22,6 +22,7 @@
           - "{{ galaxy_nfs_user_data_4_dir }}"
           - "{{ galaxy_nfs_user_data_5_dir }}"
           - "{{ galaxy_nfs_user_data_6_dir }}"
+          - "{{ galaxy_nfs_user_data_7_dir }}"
 
   roles:
       - common
@@ -42,6 +43,7 @@
           - "{{ galaxy_nfs_user_data_4_dir }}"
           - "{{ galaxy_nfs_user_data_5_dir }}"
           - "{{ galaxy_nfs_user_data_6_dir }}"
+          - "{{ galaxy_nfs_user_data_7_dir }}"
       - name: Reload exportfs
         command: exportfs -ra
         become: yes
