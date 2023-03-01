@@ -394,6 +394,7 @@ slurm_singularity_volumes_list_restricted:
   - $job_directory:rw
   - $galaxy_root:ro
   - $tool_directory:ro
+  - /mnt/user-data-7:ro
   - /mnt/user-data-6:ro
   - /mnt/user-data-5:ro
   - /mnt/user-data-4:ro
