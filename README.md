@@ -113,5 +113,3 @@ The documentation/instructions for the Galaxy Australia implementation of Galaxy
 
 | [![melbourne_bioinformatics_logo.png](images/melbourne_bio.png)](https://melbournebioinformatics.org.au) | [![QFAB_logo_2020.png](images/QFAB_logo_2020.png)](https://www.qcif.edu.au/services/bioinformatics/) |
 |-|-|
-
-
