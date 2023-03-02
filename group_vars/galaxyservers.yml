@@ -9,6 +9,8 @@ group_packages:
 pip_virtualenv_command: /usr/bin/python3 -m virtualenv # usegalaxy_eu.certbot, usegalaxy_eu.tiaas2, galaxyproject.galaxy
 certbot_virtualenv_package_name: python3-virtualenv # usegalaxy_eu.certbot
 
+gxadmin_commit: 284f6dbcb22f15634287072d93c567b0195975d3
+
 # Postgres
 postgresql_objects_users:
   - name: galaxy

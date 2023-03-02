@@ -1,11 +1,11 @@
 #!/usr/bin/env bash -l
 
 # [SLG 05-12-2018] Added some psql environment variables
-export PGHOST={{ db_server }}
-export PGDATABASE={{ database }}
-export PGUSER={{ db_user }}
-export PGPORT={{ db_port }}
-export PGPASSWORD={{ db_password }}
+export PGHOST={{ stats_db_server }}
+export PGDATABASE={{ stats_database }}
+export PGUSER={{ stats_db_user }}
+export PGPORT={{ stats_db_port }}
+export PGPASSWORD={{ stats_db_password }}
 
 # [SLG 04-02-2019] Added some environment vars for gxadmin
 export GALAXY_ROOT="{{ galaxy_root }}"

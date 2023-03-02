@@ -233,11 +233,11 @@ gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 stats_dir: /home/ubuntu/stats_collection
 stats_instance: main
 sinfo_hostname: 'Galaxy-Main'
-db_server: "{{ hostvars['aarnet-db']['internal_ip'] }}"
-db_user: reader
+stats_db_server: "{{ hostvars['aarnet-db']['internal_ip'] }}"
+stats_db_user: reader
 influx_url: "stats.usegalaxy.org.au"
 influx_db_stats: "GA_server"
-db_password: "{{ vault_aarnet_db_reader_password }}"
+stats_db_password: "{{ vault_aarnet_db_reader_password }}"
 influx_salt: "{{ prod_queue_size_salt }}"
 add_daily_stats: true
 add_monthly_stats: true
