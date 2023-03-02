@@ -41,12 +41,13 @@
       state: present
     with_items: "{{ machine_users }}"
 
-  - name: Ensure that if there was a change of user's uid/gid then all contents of home directory are chowned
+  - name: Ensure that if there was a change of user's uid/gid then all contents of home directory are chowned - don't follow symlinks
     file:
       dest: "/home/{{ item.name }}"
       owner: "{{ item.name }}"
       group: "{{ item.name }}"
       recurse: yes
+      follow: false
     with_items: "{{ machine_users }}"
 
   # note: this assumes all VMs run Ubuntu - if not, then need to define a var containing OS-specific group
