@@ -20,10 +20,10 @@ influx_db_queue: "queue-db"
 influx_db_stats: "stats-db"
 
 #Galaxy Database settings
-db_server: localhost
-database: galaxy
-db_user: galaxy
-db_port: 5432 
+stats_db_server: localhost
+stats_database: galaxy
+stats_db_user: galaxy
+stats_db_port: 5432 
 
 # Galaxy settings
 galaxy_root: /mnt/galaxy/galaxy-app/
