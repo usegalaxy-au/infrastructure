@@ -37,9 +37,8 @@ tools:
 
   interactive_tool_.*:
     cores: 2
-    params:
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=interactive_tools"
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=interactive_tools"
+    context:
+      partition: interactive_tools
     scheduling:
       require:
         - interactive_pulsar
