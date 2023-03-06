@@ -86,13 +86,14 @@ destinations:
     scheduling:
       accept:
         - slurm
-  interactive_local:
-    runner: local
+  interactive_pulsar:
+    runner: pulsar_embedded
     tags:
       - registered_user_concurrent_jobs_20
-    max_accepted_cores: 2
-    max_accepted_mem: 8
+    max_accepted_cores: 8
+    max_accepted_mem: 32
     params:
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
       docker_enabled: true
       docker_volumes: $defaults
       docker_net: bridge
@@ -101,18 +102,6 @@ destinations:
       docker_require_container: true
       docker_memory: '{mem}G' # default dest
       docker_sudo: false # default dest
-    scheduling:
-      require:
-        - interactive_local
-  interactive_pulsar:
-    inherits: interactive_local
-    runner: pulsar_embedded
-    tags:
-      - registered_user_concurrent_jobs_20
-    max_accepted_cores: 8
-    max_accepted_mem: 32
-    params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
       outputs_to_working_directory: false
       container_monitor_result: callback
     scheduling:

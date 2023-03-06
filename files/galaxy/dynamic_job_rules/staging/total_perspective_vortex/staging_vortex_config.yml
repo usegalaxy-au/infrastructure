@@ -17,10 +17,8 @@ tools:
       final_destinations = helpers.weighted_random_sampling(candidate_destinations)
       final_destinations
   interactive_tool_.*:
-    cores: 2
-    scheduling:
-      require:
-        - interactive_pulsar
+    context:
+      partition: main
 
 users:
   test_user:
