@@ -12,7 +12,7 @@ roles:
         for ent in filter(lambda x: isinstance(x, Tool), entities):  # there should be exactly one of these
             value = (
               all([ent.tags.filter(tag_value=tag_name) for tag_name in include_tags])
-              and none([ent.tags.filter(tag_value=tag_name) for tag_name in exclude_tags])
+              and not any([ent.tags.filter(tag_value=tag_name) for tag_name in exclude_tags])
             )
         value
       cores: 2
@@ -30,7 +30,7 @@ roles:
         for ent in filter(lambda x: isinstance(x, Tool), entities):
             value = (
               all([ent.tags.filter(tag_value=tag_name) for tag_name in include_tags])
-              and none([ent.tags.filter(tag_value=tag_name) for tag_name in exclude_tags])
+              and not any([ent.tags.filter(tag_value=tag_name) for tag_name in exclude_tags])
             )
         value
       cores: 4
@@ -46,7 +46,7 @@ roles:
         for ent in filter(lambda x: isinstance(x, Tool), entities):
             value = (
               all([ent.tags.filter(tag_value=tag_name) for tag_name in include_tags])
-              and none([ent.tags.filter(tag_value=tag_name) for tag_name in exclude_tags])
+              and not any([ent.tags.filter(tag_value=tag_name) for tag_name in exclude_tags])
             )
         value
       cores: 16
