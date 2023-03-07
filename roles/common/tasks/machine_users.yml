@@ -4,14 +4,6 @@
   become_user: root
   block:
 
-  - name: Backup passwd and group files in case UID or GID are modified
-    copy:
-      src: "/etc/{{ item }}"
-      dest: "/etc/{{ item }}.{{ ansible_date_time.date }}"
-    loop:
-      - passwd
-      - group
-
   # FIX for deprecated code that added user files in /etc/sudoers.d/ - can be removed in future
   - name: delete /etc/sudoers.d/username files for machine users
     file:
@@ -39,14 +31,6 @@
       name: "{{ item.name }}"
       gid: "{{ item.uid }}"
       state: present
-    with_items: "{{ machine_users }}"
-
-  - name: Ensure that if there was a change of user's uid/gid then all contents of home directory are chowned
-    file:
-      dest: "/home/{{ item.name }}"
-      owner: "{{ item.name }}"
-      group: "{{ item.name }}"
-      recurse: yes
     with_items: "{{ machine_users }}"
 
   # note: this assumes all VMs run Ubuntu - if not, then need to define a var containing OS-specific group
