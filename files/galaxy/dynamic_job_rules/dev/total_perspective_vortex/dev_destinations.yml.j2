@@ -59,7 +59,6 @@ destinations:
         env:
           SINGULARITY_CACHEDIR: /mnt/pulsar/deps/singularity
           SINGULARITY_TMPDIR: /mnt/pulsar/deps/singularity/tmp
-
       - id: pulsar_destination_docker_rule
         if: entity.params.get('docker_enabled')
         params:
@@ -79,8 +78,7 @@ destinations:
   
   slurm:
     inherits: _slurm_destination
-    tags:
-      - registered_user_concurrent_jobs_40
+    tags: {{ job_conf_limits.environments['slurm'].tags }}
     max_cores: 16
     max_mem: 62.5
     scheduling:
@@ -88,8 +86,7 @@ destinations:
         - slurm
   interactive_pulsar:
     runner: pulsar_embedded
-    tags:
-      - registered_user_concurrent_jobs_20
+    tags: {{ job_conf_limits.environments['interactive_pulsar'].tags }}
     max_accepted_cores: 8
     max_accepted_mem: 32
     params:
@@ -110,8 +107,7 @@ destinations:
   pulsar_destination:
     inherits: _pulsar_destination
     runner: pulsar_au_01
-    tags:
-      - registered_user_concurrent_jobs_20
+    tags: {{ job_conf_limits.environments['pulsar_destination'].tags }}
     max_accepted_cores: 2
     max_accepted_mem: 7.76
     scheduling:
@@ -122,8 +118,7 @@ destinations:
   pulsar-nci-test:
     inherits: _pulsar_destination
     runner: pulsar_nci_test_runner
-    tags:
-      - registered_user_concurrent_jobs_20
+    tags: {{ job_conf_limits.environments['pulsar-nci-test'].tags }}
     max_cores: 16
     max_mem: 48.19
     scheduling:
@@ -135,8 +130,7 @@ destinations:
   pulsar-azure-0-std: # TODO: make sure all params needed for alphafold are set on tool
     inherits: _pulsar_destination
     runner: pulsar_azure_0_runner
-    tags:
-      - registered_user_concurrent_jobs_20
+    tags: {{ job_conf_limits.environments['pulsar-azure-0-std'].tags }}
     max_accepted_cores: 24
     max_accepted_mem: 209
     max_accepted_gpus: 1
@@ -151,8 +145,7 @@ destinations:
   pulsar-reservation-g2-xlarge-A:
     inherits: _pulsar_destination
     runner: pulsar_reservation_g2_xlarge_B_runner
-    tags:
-      - registered_user_concurrent_jobs_20
+    tags: {{ job_conf_limits.environments['pulsar-reservation-g2-xlarge-A'].tags }}
     max_accepted_cores: 60
     max_accepted_mem: 120
     max_accepted_gpus: 1
@@ -167,8 +160,7 @@ destinations:
   pulsar-reservation-g2-xlarge-B:
     inherits: _pulsar_destination
     runner: pulsar_reservation_g2_xlarge_B_runner
-    tags:
-      - registered_user_concurrent_jobs_20
+    tags: {{ job_conf_limits.environments['pulsar-reservation-g2-xlarge-B'].tags }}
     max_accepted_cores: 60
     max_accepted_mem: 120
     max_accepted_gpus: 1

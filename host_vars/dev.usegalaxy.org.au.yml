@@ -262,6 +262,44 @@ extra_keys:
   - id: ubuntu_maintenance_key
     type: private
 
+# Job conf limits (defined here to be available to job conf and tpv)
+job_conf_limits:
+  environments:
+    slurm:
+      tags:
+        - registered_user_concurrent_jobs_20
+    interactive_pulsar:
+      tags:
+        - registered_user_concurrent_jobs_20
+    pulsar_destination:
+      tags:
+        - registered_user_concurrent_jobs_20
+    pulsar-nci-test:
+      tags:
+        - registered_user_concurrent_jobs_1
+    pulsar-azure-0-std:
+      tags:
+        - registered_user_concurrent_jobs_20
+    pulsar-reservation-g2-xlarge-A:
+      tags:
+        - registered_user_concurrent_jobs_20
+    pulsar-reservation-g2-xlarge-B:
+      tags:
+        - registered_user_concurrent_jobs_20
+  limits:
+  - type: anonymous_user_concurrent_jobs
+    value: 1
+  - type: destination_user_concurrent_jobs
+    tag: registered_user_concurrent_jobs_20
+    value: 20
+  - type: destination_user_concurrent_jobs
+    tag: registered_user_concurrent_jobs_40
+    value: 40
+  - type: destination_user_concurrent_jobs
+    tag: registered_user_concurrent_jobs_1
+    value: 1
+
+
 # Docker
 docker_users:
   - "{{ galaxy_user.name }}"
