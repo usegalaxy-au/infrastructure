@@ -1511,6 +1511,7 @@ tools:
     gpus: 1
     params:
       docker_enabled: true
+      docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
     rules:
       - if: |
           user and 'Alphafold' in [role.name for role in user.all_roles() if not role.deleted] and not (

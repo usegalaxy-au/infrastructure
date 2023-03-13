@@ -83,8 +83,9 @@ destinations:
     runner: pulsar_embedded
     tags: [registered_user_concurrent_jobs_10]
     params:
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
       docker_enabled: true
-      docker_volumes: $defaults
+      docker_volumes: "{{ slurm_docker_volumes }}"
       docker_sudo: false
       docker_net: bridge
       docker_auto_rm: true
