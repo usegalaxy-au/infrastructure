@@ -276,7 +276,7 @@ job_conf_limits:
         - registered_user_concurrent_jobs_20
     pulsar-nci-test:
       tags:
-        - registered_user_concurrent_jobs_1
+        - registered_user_concurrent_jobs_10
     pulsar-azure-0-std:
       tags:
         - registered_user_concurrent_jobs_20
@@ -296,8 +296,8 @@ job_conf_limits:
     tag: registered_user_concurrent_jobs_40
     value: 40
   - type: destination_user_concurrent_jobs
-    tag: registered_user_concurrent_jobs_1
-    value: 1
+    tag: registered_user_concurrent_jobs_10
+    value: 10
 
 
 # Docker
