@@ -103,13 +103,11 @@ execution:
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/dev_default_tool.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/dev_vortex_config.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/dev_destinations.yml"
-
+{% if job_conf_limits %}
+{% for env in job_conf_limits.environments|d({}) %}
+    {{ env }}:
+      tags: {{ job_conf_limits.environments[env].tags }}
+{% endfor %}
 limits:
-- type: anonymous_user_concurrent_jobs
-  value: 1
-- type: destination_user_concurrent_jobs
-  tag: registered_user_concurrent_jobs_20
-  value: 20
-- type: destination_user_concurrent_jobs
-  tag: registered_user_concurrent_jobs_40
-  value: 40
+{{ job_conf_limits.limits | to_nice_yaml }}
+{% endif %}
