@@ -131,7 +131,7 @@ galaxy_conda_exec: mamba
 group_galaxy_config:
   galaxy:
     check_migrate_tools: false
-    log_level: TRACE
+    log_level: DEBUG
     new_file_path: "{{ galaxy_tmp_dir }}"
     job_working_directory: "{{ galaxy_tmp_dir }}/job_working_directory"
     allow_user_impersonation: true
