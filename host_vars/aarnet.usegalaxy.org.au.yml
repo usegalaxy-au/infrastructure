@@ -389,6 +389,147 @@ docker_users:
 docker_daemon_options:
   data-root: /mnt/docker-data
 
+# Job conf limits (defined here to be available to job conf and tpv)
+job_conf_limits:
+  environments:
+    interactive_pulsar:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-QLD:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-azure:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-azure-1-gpu:
+      tags:
+      - registered_user_concurrent_jobs_25
+    pulsar-azure-gpu:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-high-mem1:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-high-mem2:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-mel2:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-mel3:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-nci-training:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-paw:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-qld-blast:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-qld-high-mem0:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-qld-high-mem1:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-qld-high-mem2:
+      tags:
+      - registered_user_concurrent_jobs_10
+    slurm:
+      tags:
+      - registered_user_concurrent_jobs_10
+    slurm-training:
+      tags:
+      - registered_user_concurrent_jobs_10
+  limits:
+  - type: anonymous_user_concurrent_jobs
+    value: 1
+  - type: destination_user_concurrent_jobs
+    tag: registered_user_concurrent_jobs_10
+    value: 10
+  - type: destination_user_concurrent_jobs
+    tag: registered_user_concurrent_jobs_25
+    value: 25
+
+  - type: destination_total_concurrent_jobs
+    id: slurm
+    value: 55
+  - type: destination_user_concurrent_jobs
+    id: slurm
+    value: 5
+
+  - type: destination_total_concurrent_jobs
+    id: slurm-training
+    value: 28
+  - type: destination_user_concurrent_jobs
+    id: slurm-training
+    value: 4
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-mel2
+    value: 20
+  - type: destination_user_concurrent_jobs
+    id: pulsar-mel2
+    value: 5
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-mel3
+    value: 20
+  - type: destination_user_concurrent_jobs
+    id: pulsar-mel3
+    value: 5
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-paw
+    value: 10
+
+  - type: destination_user_concurrent_jobs
+    id: pulsar-nci-training
+    value: 3
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-high-mem1
+    value: 4
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-high-mem2
+    value: 4
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-qld-high-mem0
+    value: 6
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-qld-high-mem1
+    value: 6
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-qld-high-mem2
+    value: 6
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-QLD
+    value: 20
+  - type: destination_user_concurrent_jobs
+    id: pulsar-QLD
+    value: 5
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-azure
+    value: 4
+  - type: destination_user_concurrent_jobs
+    id: pulsar-azure
+    value: 1
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-azure-gpu
+    value: 8
+  - type: destination_user_concurrent_jobs
+    id: pulsar-azure-gpu
+    value: 2
+
 # Singularity and docker volumes
 slurm_singularity_volumes_list_restricted:
   - $job_directory:rw

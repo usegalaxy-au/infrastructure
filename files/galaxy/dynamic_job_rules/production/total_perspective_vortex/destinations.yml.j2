@@ -62,7 +62,7 @@ destinations:
     runner: slurm
     max_allowed_cores: 32
     max_allowed_mem: 121.25
-    tags: [registered_user_concurrent_jobs_10]  # TODO: check on dev that tags still work
+    tags: {{ job_conf_limits.environments['slurm'].tags }}
     scheduling:
       accept:
         - slurm
@@ -71,7 +71,7 @@ destinations:
     runner: slurm
     max_allowed_cores: 32
     max_allowed_mem: 121.25
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['slurm-training'].tags }}
     scheduling:
       accept:
         - slurm
@@ -81,7 +81,7 @@ destinations:
     max_allowed_cores: 32
     max_allowed_mem: 121.25
     runner: pulsar_embedded
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['interactive_pulsar'].tags }}
     params:
       submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
       docker_enabled: true
@@ -100,7 +100,7 @@ destinations:
     runner: pulsar_mel2_runner
     max_allowed_cores: 8
     max_allowed_mem: 31.36
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['pulsar-mel2'].tags }}
     scheduling:
       accept:
         - pulsar-mel2
@@ -110,7 +110,7 @@ destinations:
     runner: pulsar-paw_runner
     max_allowed_cores: 8
     max_allowed_mem: 31.36
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['pulsar-paw'].tags }}
     scheduling:
       require:
         - pulsar-paw
@@ -119,7 +119,7 @@ destinations:
     runner: pulsar-mel3_runner
     max_allowed_cores: 32
     max_allowed_mem: 122.86
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['pulsar-mel3'].tags }}
     scheduling:
       accept:
         - pulsar-mel3
@@ -129,7 +129,7 @@ destinations:
     runner: pulsar-high-mem1_runner
     max_allowed_cores: 126
     max_allowed_mem: 3845.1
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['pulsar-high-mem1'].tags }}
     scheduling:
       accept:
         - pulsar-high-mem1
@@ -141,7 +141,7 @@ destinations:
     runner: pulsar-high-mem2_runner
     max_allowed_cores: 126
     max_allowed_mem: 1922.49
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['pulsar-high-mem2'].tags }}
     scheduling:
       accept:
         - pulsar-high-mem2
@@ -153,7 +153,7 @@ destinations:
     runner: pulsar-qld-high-mem0_runner
     max_allowed_cores: 240
     max_allowed_mem: 3845.07
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['pulsar-qld-high-mem0'].tags }}
     scheduling:
       accept:
         - pulsar-qld-high-mem0
@@ -164,7 +164,7 @@ destinations:
     runner: pulsar-qld-high-mem1_runner
     max_allowed_cores: 240
     max_allowed_mem: 3845.07
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['pulsar-qld-high-mem1'].tags }}
     scheduling:
       accept:
         - pulsar-qld-high-mem1
@@ -175,7 +175,7 @@ destinations:
     runner: pulsar-qld-high-mem2_runner
     max_allowed_cores: 240
     max_allowed_mem: 3845.07
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['pulsar-qld-high-mem2'].tags }}
     scheduling:
       accept:
         - pulsar-qld-high-mem2
@@ -186,7 +186,7 @@ destinations:
     runner: pulsar-nci-training_runner
     max_allowed_cores: 16
     max_allowed_mem: 47.07
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['pulsar-nci-training'].tags }}
     scheduling:
       accept:
         - pulsar-nci-training
@@ -199,7 +199,7 @@ destinations:
     runner: pulsar-qld-blast_runner
     max_allowed_cores: 60
     max_allowed_mem: 200
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['pulsar-qld-blast'].tags }}
     scheduling:
       accept:
         - pulsar-qld-blast
@@ -210,7 +210,7 @@ destinations:
     runner: pulsar-QLD_runner
     max_allowed_cores: 16
     max_allowed_mem: 62.72
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['pulsar-QLD'].tags }}
     params:
       jobs_directory: /mnt/tmp/files/staging
       persistence_directory: /mnt/tmp/files/persisted_data
@@ -223,7 +223,7 @@ destinations:
     runner: pulsar_azure_0_runner
     max_allowed_cores: 24
     max_allowed_mem: 209
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['pulsar-azure'].tags }}
     scheduling:
       require:
         - pulsar
@@ -233,7 +233,7 @@ destinations:
     max_allowed_cores: 24
     max_allowed_mem: 209
     max_allowed_gpus: 1
-    tags: [registered_user_concurrent_jobs_10]
+    tags: {{ job_conf_limits.environments['pulsar-azure-gpu'].tags }}
     scheduling:
       require:
         - pulsar
@@ -243,7 +243,7 @@ destinations:
     max_allowed_cores: 24
     max_allowed_mem: 209
     max_allowed_gpus: 1
-    tags: [registered_user_concurrent_jobs_25]
+    tags: {{ job_conf_limits.environments['pulsar-azure-1-gpu'].tags }}
     scheduling:
       require:
         - pulsar

@@ -156,91 +156,12 @@ execution:
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/users.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/roles.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/destinations.yml"
-
+{% if job_conf_limits %}
+{% for env in job_conf_limits.environments|d({}) %}
+    {{ env }}:
+      tags: {{ job_conf_limits.environments[env].tags }}
+{% endfor %}
 limits:
-- type: anonymous_user_concurrent_jobs
-  value: 1
-- type: destination_user_concurrent_jobs
-  tag: registered_user_concurrent_jobs_10
-  value: 10
-- type: destination_user_concurrent_jobs
-  tag: registered_user_concurrent_jobs_25
-  value: 25
-
-- type: destination_total_concurrent_jobs
-  id: slurm
-  value: 55
-- type: destination_user_concurrent_jobs
-  id: slurm
-  value: 5
-
-- type: destination_total_concurrent_jobs
-  id: slurm-training
-  value: 28
-- type: destination_user_concurrent_jobs
-  id: slurm-training
-  value: 4
-
-- type: destination_total_concurrent_jobs
-  id: pulsar-mel2
-  value: 20
-- type: destination_user_concurrent_jobs
-  id: pulsar-mel2
-  value: 5
-
-- type: destination_total_concurrent_jobs
-  id: pulsar-mel3
-  value: 20
-- type: destination_user_concurrent_jobs
-  id: pulsar-mel3
-  value: 5
-
-- type: destination_total_concurrent_jobs
-  id: pulsar-paw
-  value: 10
-
-- type: destination_user_concurrent_jobs
-  id: pulsar-nci-training
-  value: 3
-
-- type: destination_total_concurrent_jobs
-  id: pulsar-high-mem1
-  value: 4
-
-- type: destination_total_concurrent_jobs
-  id: pulsar-high-mem2
-  value: 4
-
-- type: destination_total_concurrent_jobs
-  id: pulsar-qld-high-mem0
-  value: 6
-
-- type: destination_total_concurrent_jobs
-  id: pulsar-qld-high-mem1
-  value: 6
-
-- type: destination_total_concurrent_jobs
-  id: pulsar-qld-high-mem2
-  value: 6
-
-- type: destination_total_concurrent_jobs
-  id: pulsar-QLD
-  value: 20
-- type: destination_user_concurrent_jobs
-  id: pulsar-QLD
-  value: 5
-
-- type: destination_total_concurrent_jobs
-  id: pulsar-azure
-  value: 4
-- type: destination_user_concurrent_jobs
-  id: pulsar-azure
-  value: 1
-
-- type: destination_total_concurrent_jobs
-  id: pulsar-azure-gpu
-  value: 8
-- type: destination_user_concurrent_jobs
-  id: pulsar-azure-gpu
-  value: 2
+{{ job_conf_limits.limits | to_nice_yaml }}
+{% endif %}
 
