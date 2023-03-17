@@ -693,6 +693,11 @@ tools:
       cores: 5
     - if: input_size >= 3
       cores: 9
+  toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/.*: # slurm only: some output files are not transferred from pulsar
+    cores: 1
+    rules:
+    - if: input_size >= 1
+      cores: 16
   toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/.*:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/mbernt/maxbin2/maxbin2/.*: # note delete this entry when shared-db is in use
@@ -1354,18 +1359,6 @@ tools:
       - pulsar
       - high-mem
       - pulsar-training-large
-  toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/.*:
-    cores: 1
-    scheduling:
-      accept:
-      - pulsar
-    rules:
-    - if: input_size >= 1
-      cores: 60
-      mem: 961
-      scheduling:
-        accept:
-        - high-mem
   toolshed.g2.bx.psu.edu/repos/iuc/raven/raven/.*:
     cores: 2
     scheduling:
