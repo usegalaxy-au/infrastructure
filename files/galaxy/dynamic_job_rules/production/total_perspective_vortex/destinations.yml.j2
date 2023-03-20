@@ -129,59 +129,59 @@ destinations:
     runner: pulsar-high-mem1_runner
     max_allowed_cores: 126
     max_allowed_mem: 3845.1
+    min_allowed_mem: 62.51
     tags: {{ job_conf_limits.environments['pulsar-high-mem1'].tags }}
     scheduling:
       accept:
         - pulsar-high-mem1
       require:
         - pulsar
-        - high-mem
         - offline
   pulsar-high-mem2:
     runner: pulsar-high-mem2_runner
     max_allowed_cores: 126
     max_allowed_mem: 1922.49
+    min_allowed_mem: 62.51
     tags: {{ job_conf_limits.environments['pulsar-high-mem2'].tags }}
     scheduling:
       accept:
         - pulsar-high-mem2
       require:
         - pulsar
-        - high-mem
         - offline
   pulsar-qld-high-mem0:
     runner: pulsar-qld-high-mem0_runner
     max_allowed_cores: 240
     max_allowed_mem: 3845.07
+    min_allowed_mem: 62.51
     tags: {{ job_conf_limits.environments['pulsar-qld-high-mem0'].tags }}
     scheduling:
       accept:
         - pulsar-qld-high-mem0
       require:
         - pulsar
-        - high-mem
   pulsar-qld-high-mem1:
     runner: pulsar-qld-high-mem1_runner
     max_allowed_cores: 240
     max_allowed_mem: 3845.07
+    min_allowed_mem: 62.51
     tags: {{ job_conf_limits.environments['pulsar-qld-high-mem1'].tags }}
     scheduling:
       accept:
         - pulsar-qld-high-mem1
       require:
         - pulsar
-        - high-mem
   pulsar-qld-high-mem2:
     runner: pulsar-qld-high-mem2_runner
     max_allowed_cores: 240
     max_allowed_mem: 3845.07
+    min_allowed_mem: 62.51
     tags: {{ job_conf_limits.environments['pulsar-qld-high-mem2'].tags }}
     scheduling:
       accept:
         - pulsar-qld-high-mem2
       require:
         - pulsar
-        - high-mem
   pulsar-nci-training:
     runner: pulsar-nci-training_runner
     max_allowed_cores: 16
@@ -191,7 +191,6 @@ destinations:
       accept:
         - pulsar-nci-training
         - pulsar-qld-blast # allow training jobs with require: pulsar-qld-blast to run here
-        - high-mem
       require:
         - pulsar
         - training
