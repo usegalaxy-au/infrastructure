@@ -1,7 +1,8 @@
 roles:
   training.*:
     rules:
-    - if: |
+    - id: slurm_training_rule
+      if: |
         include_tags = []
         exclude_tags = ['pulsar', 'training-exempt']
 
@@ -21,7 +22,8 @@ roles:
         require:
           - slurm
           - training
-    - if: |
+    - id: pulsar_training_rule
+      if: |
         include_tags = ['pulsar']
         exclude_tags = ['pulsar-training-large', 'training-exempt']
 
@@ -39,7 +41,8 @@ roles:
         require:
           - pulsar  # require pulsar and training: only one place to go
           - training
-    - if: |
+    - id: pulsar_training_large_rule
+      if: |
         include_tags = ['pulsar-training-large']
         exclude_tags = ['training-exempt']
 
