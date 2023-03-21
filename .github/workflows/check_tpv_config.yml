@@ -31,26 +31,68 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install total-perspective-vortex==$TPV_VERSION pyyaml galaxy-data
+        pip install total-perspective-vortex==$TPV_VERSION pyyaml galaxy-app
       env:
-        TPV_VERSION: '1.2.0'
-    # Run check files script
-    - name: Check vortex destination ids against job conf environment ids (aarnet)
+        TPV_VERSION: '2.1.0'
+    - name: Check TPV files and job conf
       env:
         SETTING: github
-      run: |
-        import yaml
-        with open('templates/galaxy/config/aarnet_job_conf.yml.j2') as handle:
-            job_conf_destinations = yaml.safe_load(handle).get('execution', {}).get('environments', [])
-        with open('files/galaxy/dynamic_job_rules/production/total_perspective_vortex/destinations.yml') as handle:
-            vortex_destinations = yaml.safe_load(handle).get('destinations', [])
-        for vd in vortex_destinations:
-            try:
-                job_conf_env = job_conf_destinations[vd]
-            except KeyError as e:
-                raise Exception(f'Destination id {vd} not found in job config file')        
       shell: python
-    - name: Run tpv lint on all vortex config files
-      env:
-        SETTING: github
-      run: for f in files/galaxy/dynamic_job_rules/production/total_perspective_vortex/*; do tpv lint $f; done
+      run: |
+        import re
+        import subprocess
+        import os
+        import shutil
+
+        working_dir = '.github/workflows/check_tpv_config'
+        hosts_file = os.path.join(working_dir, 'hosts')
+        playbook_file = os.path.join(working_dir, 'template_playbook.yml')
+        files_dir = os.path.join(working_dir, 'files')
+        templates_dir = os.path.join(working_dir, 'templates')
+        os.mkdir(files_dir)
+        os.mkdir(templates_dir)
+
+        tpv_dir = 'files/galaxy/dynamic_job_rules/production/total_perspective_vortex'
+        tpv_config_files = [os.path.join(tpv_dir, f) for f in os.listdir(tpv_dir)]
+        job_conf_template = 'templates/galaxy/config/aarnet_job_conf.yml.j2'
+        tpv_files = []
+
+        replace_patterns = ['\{\{\s?vault_\w+\s?\}\}', '\{\{\s?hostname\s?\}\}']
+
+        with open('.vault_pass.txt', 'w') as password_file:
+          password_file.write('FalsePassword')
+
+        def template_file(fname):
+          output_fname = fname.replace(templates_dir, files_dir).replace('.j2', '')
+          extra_vars = f'src={fname.replace(templates_dir+"/", "")} dest={os.path.realpath(output_fname)}'
+          ansible_command = f'ansible-playbook -i {hosts_file} {playbook_file} --extra-vars \'{extra_vars}\''
+          try:
+            subprocess.check_output(ansible_command, shell=True)
+          except subprocess.CalledProcessError as e:
+            print(e.output)
+            raise Exception('Failed to template {os.path.basename(fname)}')
+          return output_fname
+
+        def sanitize_text(fname):
+          with open(fname) as handle:
+            text = handle.read()
+            for rp in replace_patterns:
+              text = re.sub(rp, 'text_replaced', text)
+          with open(fname, 'w') as handle:
+            handle.write(text)
+
+        for t in tpv_config_files + [job_conf_template]:
+          if t.endswith('.yml'):
+            test_fname = os.path.join(files_dir, os.path.basename(t))
+            shutil.copy(t, test_fname)
+            tpv_files.append(test_fname)
+          elif t.endswith('.yml.j2'):
+            test_fname = os.path.join(templates_dir, os.path.basename(t))
+            shutil.copy(t, test_fname)
+            sanitize_text(test_fname)
+            templated_file = template_file(test_fname)
+            if 'tpv_dir' in t:
+              tpv_files.append(templated_file)
+
+        for t in tpv_files:
+          subprocess.check_output(f'tpv lint {t}', shell=True)
