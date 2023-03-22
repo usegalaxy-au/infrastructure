@@ -151,7 +151,7 @@ group_galaxy_config:
     load_tool_shed_datatypes: false # Recommended by @Marius as __DATA_FETCH__ tool was stalling.
 
     static_enabled: true
-    show_welcome_with_login: true
+    show_welcome_with_login: false
     error_email_to: <help@genome.edu.au> # error reports are disabled if no email is set
     email_from: <galaxy-no-reply@usegalaxy.org.au>
     support_url: "{{ galaxy_australia_website }}/help"
