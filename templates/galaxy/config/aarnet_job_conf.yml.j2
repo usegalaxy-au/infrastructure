@@ -150,7 +150,7 @@ execution:
       rules_module: tpv.rules
       tpv_config_files:
         # shared db commented out until rules are updated to accommodate it (rank function, high-mem tag)
-        # - https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/main/tools.yml
+        - https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/main/tools.yml
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/tools.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/users.yml"
