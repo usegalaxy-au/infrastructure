@@ -74,6 +74,8 @@ jobs:
           return output_fname
 
         def sanitize_text(fname):
+          """Replaces any references to vault variables with a constant string as the
+               vault is not decrypted during tests"""
           with open(fname) as handle:
             text = handle.read()
             for rp in replace_patterns:
