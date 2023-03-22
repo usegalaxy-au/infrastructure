@@ -39,6 +39,8 @@ jobs:
         SETTING: github
       shell: python
       run: |
+        """This code uses ansible to template out the jinja templates for tpv configs and job config,
+              then runs the tpv linter on the resultant files."""
         import re
         import subprocess
         import os
