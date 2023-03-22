@@ -5,15 +5,7 @@ roles:
       if: |
         include_tags = []
         exclude_tags = ['pulsar', 'training-exempt']
-
-        def tag_values_match(entity, match_tag_values=[], exclude_tag_values=[]):
-          return (
-              all([any(entity.tpv_tags.filter(tag_value=tag_value)) for tag_value in match_tag_values])
-              and not any([any(entity.tpv_tags.filter(tag_value=tag_value)) for tag_value in exclude_tag_values])
-          )
-
-        tag_values_match(entity, include_tags, exclude_tags)
-        # helpers.tag_values_match(entity, include_tags, exclude_tags)
+        helpers.tag_values_match(entity, include_tags, exclude_tags)
       cores: 2
       mem: cores * 3.8  # TODO check multiplier
       context:
@@ -26,15 +18,7 @@ roles:
       if: |
         include_tags = ['pulsar']
         exclude_tags = ['pulsar-training-large', 'training-exempt']
-
-        def tag_values_match(entity, match_tag_values=[], exclude_tag_values=[]):
-          return (
-              all([any(entity.tpv_tags.filter(tag_value=tag_value)) for tag_value in match_tag_values])
-              and not any([any(entity.tpv_tags.filter(tag_value=tag_value)) for tag_value in exclude_tag_values])
-          )
-
-        tag_values_match(entity, include_tags, exclude_tags)
-        # helpers.tag_values_match(entity, include_tags, exclude_tags)
+        helpers.tag_values_match(entity, include_tags, exclude_tags)
       cores: 4
       mem: cores * 2.9  # ratio for pulsar-nci-training
       scheduling:
@@ -45,15 +29,7 @@ roles:
       if: |
         include_tags = ['pulsar-training-large']
         exclude_tags = ['training-exempt']
-
-        def tag_values_match(entity, match_tag_values=[], exclude_tag_values=[]):
-          return (
-              all([any(entity.tpv_tags.filter(tag_value=tag_value)) for tag_value in match_tag_values])
-              and not any([any(entity.tpv_tags.filter(tag_value=tag_value)) for tag_value in exclude_tag_values])
-          )
-
-        tag_values_match(entity, include_tags, exclude_tags)
-        # helpers.tag_values_match(entity, include_tags, exclude_tags)
+        helpers.tag_values_match(entity, include_tags, exclude_tags)
       cores: 16
       mem: cores * 2.9  # ratio for pulsar-nci-training
       scheduling:
