@@ -791,6 +791,13 @@ tools:
       accept:
       - pulsar
     rules:
+    - if: |
+        import packaging.version
+        minimum_singularity_version = '5.0.0+galaxy0'
+        packaging.version.parse(tool.version) >= packaging.version.parse(minimum_singularity_version)
+      params:
+        dependency_resolution: none
+        singularity_enabled: true
     - id: busco_small_input_rule
       if: input_size < 0.05
       cores: 2
@@ -2045,6 +2052,12 @@ tools:
       prefer:
       - pulsar
     rules:
+    - id: rule_mafft_limit_concurrency
+      if: |
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 2  # concurrent jobs per user
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
     - id: rbc_mafft_fail_rule
       if: input_size >= 0.5
       fail: Too much data, please don't use MAFFT for this.
