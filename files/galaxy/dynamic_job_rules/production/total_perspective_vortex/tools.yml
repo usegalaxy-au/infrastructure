@@ -595,6 +595,8 @@ tools:
       context:
         partition: azuregpu0
       scheduling:
+        accept:
+        - training-exempt
         require:
         - pulsar
         - pulsar-azure-gpu
@@ -2201,6 +2203,8 @@ tools:
     cores: 2
     mem: 7.6
     scheduling:
+      accept:
+      - training-exempt
       require:
       - interactive_pulsar
   join1:
