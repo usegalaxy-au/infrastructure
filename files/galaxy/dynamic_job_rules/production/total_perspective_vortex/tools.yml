@@ -12,10 +12,10 @@ tools:
     mem: 7.6
   testtoolshed.g2.bx.psu.edu/repos/simon-gladman/phyloseq_filter/biom_filter/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
   testtoolshed.g2.bx.psu.edu/repos/simon-gladman/phyloseq_ordination_plot/phyloseq_ordinate/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
   toolshed.g2.bx.psu.edu/repos/artbio/repenrich/repenrich/.*:
     cores: 8
     mem: 30.7
@@ -51,7 +51,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     params:
       docker_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/canu/canu/.*:
@@ -89,7 +89,7 @@ tools:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     scheduling:
       accept:
       - pulsar
@@ -112,7 +112,7 @@ tools:
       mem: 7.6
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_heatmap/deeptools_plot_heatmap/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: deeptools_plot_heatmap_small_input_rule
       if: input_size < 0.3
@@ -139,7 +139,7 @@ tools:
     - id: flye_medium2_input_rule
       if: 0.5 <= input_size < 10
       cores: 16
-      mem: 61.5
+      mem: 61.4
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     cores: 120
     mem: 1922
@@ -190,13 +190,13 @@ tools:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/.*:
     cores: 1
     mem: 3.8
   toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     rules:
     - id: trim_galore_small_input_rule
       if: input_size < 0.02
@@ -301,7 +301,7 @@ tools:
     - id: clustalw_medium_input_rule
       if: 0.0003 <= input_size < 0.002
       cores: 5
-      mem: 19.2
+      mem: 19.1
     - id: clustalw_fail_rule
       if: input_size >= 0.04
       fail: Too much data, please don't use the clustalw for this.
@@ -320,7 +320,7 @@ tools:
       mem: 15.3
   toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     scheduling:
       accept:
       - pulsar
@@ -343,7 +343,7 @@ tools:
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/devteam/cuffnorm/cuffnorm/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     scheduling:
       accept:
       - pulsar
@@ -433,13 +433,13 @@ tools:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     scheduling:
       accept:
       - pulsar
@@ -455,7 +455,7 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     rules:
     - if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
@@ -468,7 +468,7 @@ tools:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     rules:
     - if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
@@ -481,7 +481,7 @@ tools:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     rules:
     - if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
@@ -494,10 +494,10 @@ tools:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_makeblastdb/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     rules:
     - if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
@@ -509,7 +509,7 @@ tools:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastx_wrapper/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     rules:
     - if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
@@ -538,7 +538,7 @@ tools:
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     scheduling:
       accept:
       - pulsar
@@ -566,7 +566,7 @@ tools:
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     rules:
     - id: velvetg_small_input_rule
       if: input_size < 0.1
@@ -644,7 +644,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
     cores: 12
-    mem: 46.1
+    mem: 46.0
     params:
       singularity_enabled: true
     scheduling:
@@ -652,7 +652,7 @@ tools:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiasm_meta/hifiasm_meta/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/metawrapmg_binning/metawrapmg_binning/.*:
@@ -670,7 +670,7 @@ tools:
     mem: 23.0
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     rules:
     - if: |
         user_limit = 2
@@ -681,10 +681,10 @@ tools:
         raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant_mqpar/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant_mqpar/maxquant_mqpar/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
   toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
     cores: 1
     mem: 3.8
@@ -692,7 +692,7 @@ tools:
       docker_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     env:
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
   toolshed.g2.bx.psu.edu/repos/iracooke/protk_proteogenomics/.*:
@@ -743,7 +743,7 @@ tools:
     - id: abyss-pe_medium_input_rule
       if: 0.002 <= input_size < 5
       cores: 16
-      mem: 61.5
+      mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
     cores: 8
     mem: 30.7
@@ -759,7 +759,7 @@ tools:
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/bcftools_mpileup/bcftools_mpileup/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: bcftools_mpileup_small_input_rule
       if: input_size < 0.5
@@ -768,7 +768,7 @@ tools:
     - id: bcftools_mpileup_medium_input_rule
       if: 0.5 <= input_size < 10
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/bcftools_norm/bcftools_norm/.*:
     cores: 2
     mem: 7.6
@@ -842,7 +842,7 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/cat_bins/cat_bins/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
     cores: 1
     mem: 3.8
@@ -856,7 +856,7 @@ tools:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_bundlelinks/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     scheduling:
       accept:
       - pulsar
@@ -882,7 +882,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dexseq/dexseq_count/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dexseq/plotdexseq/.*:
@@ -892,7 +892,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/edger/edger/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/exonerate/exonerate/.*:
     cores: 30
     mem: 480.5
@@ -909,10 +909,10 @@ tools:
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_predict/funannotate_predict/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/.*:
     cores: 8
     mem: 30.7
@@ -932,12 +932,12 @@ tools:
     mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/gtdbtk_classify_wf/gtdbtk_classify_wf/.*:
     cores: 32
-    mem: 123.0
+    mem: 122.8
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/gubbins/gubbins/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     scheduling:
       accept:
       - pulsar
@@ -945,7 +945,7 @@ tools:
     - id: gubbins_small_input_rule
       if: input_size < 0.0005
       cores: 5
-      mem: 19.2
+      mem: 19.1
     - id: gubbins_fail_rule
       if: input_size >= 0.5
       fail: Too much data, please don't use the gubbins for this.
@@ -968,7 +968,7 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
     cores: 32
-    mem: 123.0
+    mem: 122.8
     scheduling:
       accept:
       - pulsar
@@ -983,14 +983,14 @@ tools:
     - id: humann_medium_input_rule
       if: 0.01 <= input_size < 10
       cores: 7
-      mem: 26.9
+      mem: 26.8
   toolshed.g2.bx.psu.edu/repos/iuc/humann2/humann2/.*:
     cores: 1
     mem: 3.8
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_gard/hyphy_gard/.*:
     cores: 120
     mem: 1922
@@ -1005,13 +1005,13 @@ tools:
       mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/iqtree/iqtree/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     scheduling:
       accept:
       - pulsar
     rules:
     - id: iqtree_small_input_rule
-      if: input_size < 2
+      if: input_size < 0.000002
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_consensus/ivar_consensus/.*:
@@ -1054,7 +1054,7 @@ tools:
       mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     rules:
     - id: kallisto_quant_small_input_rule
       if: input_size < 0.1
@@ -1074,10 +1074,10 @@ tools:
     - id: khmer_abundance_distribution_single_medium_input_rule
       if: 0.1 <= input_size < 0.5
       cores: 16
-      mem: 61.5
+      mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     scheduling:
       accept:
       - pulsar
@@ -1094,10 +1094,10 @@ tools:
         raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_filter/lofreq_filter/.*:
     cores: 4
     mem: 15.3
@@ -1119,7 +1119,7 @@ tools:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgdiff/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     scheduling:
       accept:
       - pulsar
@@ -1161,7 +1161,7 @@ tools:
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     scheduling:
       accept:
       - pulsar
@@ -1173,7 +1173,7 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/merqury/merqury/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     rules:
     - id: merqury_small_input_rule
       if: input_size < 0.001
@@ -1194,10 +1194,10 @@ tools:
     - id: meryl_medium_input_rule
       if: 0.001 <= input_size < 5
       cores: 16
-      mem: 61.5
+      mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     rules:
     - id: metaphlan_small_input_rule
       if: input_size < 0.5
@@ -1206,7 +1206,7 @@ tools:
     - id: metaphlan_medium_input_rule
       if: 0.5 <= input_size < 10
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/.*:
     cores: 120
     mem: 1922
@@ -1225,10 +1225,10 @@ tools:
     - id: minimap2_medium2_input_rule
       if: 5 <= input_size < 20
       cores: 16
-      mem: 61.5
+      mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_align_seqs/mothur_align_seqs/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_align_seqs_small_input_rule
       if: input_size < 0.02
@@ -1237,10 +1237,10 @@ tools:
     - id: mothur_align_seqs_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_vsearch/mothur_chimera_vsearch/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_chimera_vsearch_small_input_rule
       if: input_size < 0.02
@@ -1249,10 +1249,10 @@ tools:
     - id: mothur_chimera_vsearch_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_classify_otu/mothur_classify_otu/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_classify_otu_small_input_rule
       if: input_size < 0.02
@@ -1261,10 +1261,10 @@ tools:
     - id: mothur_classify_otu_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_classify_seqs/mothur_classify_seqs/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_classify_seqs_small_input_rule
       if: input_size < 0.02
@@ -1273,7 +1273,7 @@ tools:
     - id: mothur_classify_seqs_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_cluster_split/mothur_cluster_split/.*:
     cores: 60
     mem: 961
@@ -1288,7 +1288,7 @@ tools:
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_count_seqs/mothur_count_seqs/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_count_seqs_small_input_rule
       if: input_size < 0.02
@@ -1297,10 +1297,10 @@ tools:
     - id: mothur_count_seqs_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_dist_shared/mothur_dist_shared/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_dist_shared_small_input_rule
       if: input_size < 0.002
@@ -1309,10 +1309,10 @@ tools:
     - id: mothur_dist_shared_medium_input_rule
       if: 0.002 <= input_size < 0.005
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_filter_seqs/mothur_filter_seqs/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_filter_seqs_small_input_rule
       if: input_size < 0.02
@@ -1321,10 +1321,10 @@ tools:
     - id: mothur_filter_seqs_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_contigs/mothur_make_contigs/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_make_contigs_small_input_rule
       if: input_size < 0.02
@@ -1333,10 +1333,10 @@ tools:
     - id: mothur_make_contigs_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_group/mothur_make_group/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_make_group_small_input_rule
       if: input_size < 0.02
@@ -1345,10 +1345,10 @@ tools:
     - id: mothur_make_group_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_shared/mothur_make_shared/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_make_shared_small_input_rule
       if: input_size < 0.02
@@ -1357,10 +1357,10 @@ tools:
     - id: mothur_make_shared_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_merge_files/mothur_merge_files/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_merge_files_small_input_rule
       if: input_size < 0.02
@@ -1369,10 +1369,10 @@ tools:
     - id: mothur_merge_files_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_pre_cluster/mothur_pre_cluster/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_pre_cluster_small_input_rule
       if: input_size < 0.02
@@ -1381,10 +1381,10 @@ tools:
     - id: mothur_pre_cluster_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_screen_seqs/mothur_screen_seqs/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_screen_seqs_small_input_rule
       if: input_size < 0.02
@@ -1393,10 +1393,10 @@ tools:
     - id: mothur_screen_seqs_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_summary_seqs/mothur_summary_seqs/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_summary_seqs_small_input_rule
       if: input_size < 0.02
@@ -1405,10 +1405,10 @@ tools:
     - id: mothur_summary_seqs_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_taxonomy_to_krona/mothur_taxonomy_to_krona/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_taxonomy_to_krona_small_input_rule
       if: input_size < 0.02
@@ -1417,10 +1417,10 @@ tools:
     - id: mothur_taxonomy_to_krona_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_unique_seqs/mothur_unique_seqs/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: mothur_unique_seqs_small_input_rule
       if: input_size < 0.02
@@ -1429,13 +1429,13 @@ tools:
     - id: mothur_unique_seqs_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     scheduling:
       accept:
       - pulsar
@@ -1449,7 +1449,7 @@ tools:
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/novoplasty/novoplasty/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     rules:
     - id: novoplasty_small_input_rule
       if: input_size < 0.2
@@ -1458,10 +1458,10 @@ tools:
     - id: novoplasty_medium_input_rule
       if: 0.2 <= input_size < 6
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/pear/iuc_pear/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     scheduling:
       accept:
       - pulsar
@@ -1473,7 +1473,7 @@ tools:
     - id: iuc_pear_medium_input_rule
       if: 0.015 <= input_size < 1
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
     cores: 120
     mem: 1922
@@ -1483,7 +1483,7 @@ tools:
       - pulsar-training-large
   toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     env:
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     scheduling:
@@ -1561,10 +1561,10 @@ tools:
     - id: qualimap_bamqc_medium_input_rule
       if: 0.2 <= input_size < 30
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     rules:
     - id: quast_small_input_rule
       if: input_size < 1
@@ -1585,7 +1585,7 @@ tools:
     - id: raven_medium_input_rule
       if: 0.002 <= input_size < 5
       cores: 16
-      mem: 61.5
+      mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/raxml/raxml/.*:
     cores: 120
     mem: 1922
@@ -1600,10 +1600,10 @@ tools:
     - id: raxml_medium_input_rule
       if: 0.0005 <= input_size < 0.1
       cores: 16
-      mem: 61.5
+      mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
     cores: 12
-    mem: 46.1
+    mem: 46.0
     scheduling:
       accept:
       - pulsar
@@ -1617,10 +1617,10 @@ tools:
     inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
   toolshed.g2.bx.psu.edu/repos/iuc/roary/roary/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_cluster_reduce_dimension/scanpy_cluster_reduce_dimension/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     params:
       singularity_enabled: true
     rules:
@@ -1640,7 +1640,7 @@ tools:
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_inspect/scanpy_inspect/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     params:
       singularity_enabled: true
     rules:
@@ -1676,7 +1676,7 @@ tools:
     - id: scanpy_remove_confounders_medium_input_rule
       if: 0.05 <= input_size < 0.5
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_seq/.*:
     cores: 120
     mem: 1922
@@ -1707,10 +1707,10 @@ tools:
     - id: shasta_medium_input_rule
       if: 0.002 <= input_size < 5
       cores: 16
-      mem: 61.5
+      mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/shovill/shovill/.*:
     cores: 10
-    mem: 38.4
+    mem: 38.3
     scheduling:
       accept:
       - pulsar
@@ -1784,13 +1784,13 @@ tools:
     mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_cstacks/stacks2_cstacks/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_denovomap/stacks2_denovomap/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_gstacks/stacks2_gstacks/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_kmerfilter/stacks2_kmerfilter/.*:
     cores: 2
     mem: 7.6
@@ -1805,10 +1805,10 @@ tools:
     mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_sstacks/stacks2_sstacks/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_ustacks/stacks2_ustacks/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     rules:
     - id: rule_stacks2_ustacks_limit_concurrency
       if: |
@@ -1818,7 +1818,7 @@ tools:
         raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     rules:
     - id: stringtie_small_input_rule
       if: input_size < 0.2
@@ -1864,10 +1864,10 @@ tools:
     - id: trycycler_cluster_medium_input_rule
       if: 0.2 <= input_size < 3
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_consensus/trycycler_consensus/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     scheduling:
       accept:
       - pulsar
@@ -1892,7 +1892,7 @@ tools:
     - id: trycycler_partition_medium_input_rule
       if: 0.2 <= input_size < 3
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_reconcile_msa/trycycler_reconcile_msa/.*:
     cores: 9
     mem: 34.5
@@ -1904,7 +1904,7 @@ tools:
     - id: trycycler_reconcile_msa_medium_input_rule
       if: 0.2 <= input_size < 3
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_subsample/trycycler_subsample/.*:
     cores: 9
     mem: 34.5
@@ -1916,13 +1916,13 @@ tools:
     - id: trycycler_subsample_medium_input_rule
       if: 0.2 <= input_size < 3
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/umi_tools_dedup/umi_tools_dedup/.*:
     cores: 2
     mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     scheduling:
       accept:
       - pulsar
@@ -1941,7 +1941,7 @@ tools:
     mem: 23.0
   toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     cores: 8
     mem: 30.7
@@ -1959,7 +1959,7 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/mbernt/maxbin2/maxbin2/.*:
     cores: 12
-    mem: 46.1
+    mem: 46.0
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_RPKM_saturation/.*:
     cores: 8
     mem: 30.7
@@ -1991,7 +1991,7 @@ tools:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/nml/metaspades/metaspades/.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
     scheduling:
       accept:
       - pulsar
@@ -2063,7 +2063,7 @@ tools:
       fail: Too much data, please don't use MAFFT for this.
   toolshed.g2.bx.psu.edu/repos/saskia-hiltemann/krona_text/krona-text/.*:
     cores: 7
-    mem: 26.9
+    mem: 26.8
     rules:
     - id: krona-text_small_input_rule
       if: input_size < 0.02
@@ -2072,7 +2072,7 @@ tools:
     - id: krona-text_medium_input_rule
       if: 0.02 <= input_size < 2
       cores: 5
-      mem: 19.2
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/velvetoptimiser/.*:
     cores: 4
     mem: 15.3
@@ -2095,7 +2095,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/wolma/mimodd_aln/mimodd_align/.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     rules:
     - id: mimodd_align_small_input_rule
       if: input_size < 0.01
@@ -2103,54 +2103,54 @@ tools:
       mem: 3.8
   .*bowtie2_index_builder_data_manager.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
   .*bwa_mem_index_builder_data_manager.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
   .*bwameth_index_builder_data_manager.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   .*data_manager.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   .*data_manager_cat.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   .*data_manager_diamond_database_builder.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   .*data_manager_eggnog_mapper_abspath.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   .*data_manager_funannotate.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   .*data_manager_gtdbtk_database_installer.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     params:
       singularity_enabled: true
   .*data_manager_humann2_database_downloader.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   .*data_manager_humann_database_downloader.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   .*data_manager_interproscan.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   .*hisat2_index_builder_data_manager.*:
     cores: 5
-    mem: 19.2
+    mem: 19.1
   .*kraken2_build_database.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
   .*rna_star_index_builder_data_manager.*:
     cores: 32
-    mem: 123.0
+    mem: 122.8
   .*twobit_builder_data_manager.*:
     cores: 16
-    mem: 61.5
+    mem: 61.4
   Cut1:
     cores: 1
     mem: 3.8
@@ -2205,7 +2205,7 @@ tools:
       - interactive_pulsar
   join1:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     rules:
     - id: join1_small_input_rule
       if: input_size < 10
@@ -2229,7 +2229,7 @@ tools:
       mem: 3.8
   wig_to_bigWig:
     cores: 5
-    mem: 19.2
+    mem: 19.1
     rules:
     - id: wig_to_bigWig_small_input_rule
       if: input_size < 1
