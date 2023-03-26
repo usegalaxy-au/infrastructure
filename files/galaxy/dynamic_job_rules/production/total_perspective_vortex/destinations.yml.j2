@@ -61,7 +61,7 @@ destinations:
     inherits: _slurm_destination
     runner: slurm
     max_accepted_cores: 32
-    max_accepted_mem: 121.25
+    max_accepted_mem: 122.86
     tags: {{ job_conf_limits.environments['slurm'].tags }}
     scheduling:
       accept:
@@ -70,7 +70,7 @@ destinations:
     inherits: _slurm_destination
     runner: slurm
     max_accepted_cores: 32
-    max_accepted_mem: 121.25
+    max_accepted_mem: 122.86
     tags: {{ job_conf_limits.environments['slurm-training'].tags }}
     scheduling:
       accept:
@@ -79,7 +79,7 @@ destinations:
         - training
   interactive_pulsar:
     max_accepted_cores: 32
-    max_accepted_mem: 121.25
+    max_accepted_mem: 122.86
     runner: pulsar_embedded
     tags: {{ job_conf_limits.environments['interactive_pulsar'].tags }}
     params:
@@ -100,7 +100,7 @@ destinations:
     inherits: _pulsar_destination
     runner: pulsar_mel2_runner
     max_accepted_cores: 8
-    max_accepted_mem: 31.36
+    max_accepted_mem: 31.45
     tags: {{ job_conf_limits.environments['pulsar-mel2'].tags }}
     scheduling:
       accept:
@@ -111,7 +111,7 @@ destinations:
     inherits: _pulsar_destination
     runner: pulsar-paw_runner
     max_accepted_cores: 8
-    max_accepted_mem: 31.36
+    max_accepted_mem: 31.45
     tags: {{ job_conf_limits.environments['pulsar-paw'].tags }}
     scheduling:
       require:
