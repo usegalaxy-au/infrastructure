@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  vars_files:
+  - ../../../group_vars/aarnet.yml
+  - ../../../group_vars/galaxyservers.yml
+  - ../../../host_vars/aarnet.usegalaxy.org.au.yml
+  tasks:
+  - name: Template file
+    template:
+      src: "{{ src }}"
+      dest: "{{ dest }}"

@@ -8,16 +8,12 @@ tools:
     env: {}
     context:
       partition: main
-      test_cores: 1
-    params:
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
-      docker_memory: '{mem}G'
+      test_cores: 1  # TODO: test_mem?
     scheduling:
       reject:
         - offline
     rules: []
-    rank: |
+    rank: |  # TODO: rank function needs overhaul to consider memory
       import requests
       import random
       grafana_destinations = {  # dict of destinations where the key from the stats api call differs from the destination id

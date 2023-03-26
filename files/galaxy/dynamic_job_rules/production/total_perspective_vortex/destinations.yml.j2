@@ -1,0 +1,263 @@
+destinations:
+  default:
+    runner: slurm
+    abstract: true
+    params:
+      tmp_dir: True  # TODO: check that this works
+    scheduling:
+      accept:
+        - docker # to satisfy tools in shared db that have require: docker
+        - singularity # to satisfy tools in shared db that have require: singularity
+  _slurm_destination:
+    abstract: true
+    params:
+        nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
+    rules:
+      - id: slurm_destination_singularity_rule
+        if: entity.params.get('singularity_enabled')
+        params:
+            singularity_volumes: "{{ slurm_singularity_volumes }}"
+            singularity_default_container_id: "{{ singularity_default_container_id }}"
+      - id: slurm_destination_docker_rule
+        if: entity.params.get('docker_enabled')
+        params:
+            docker_volumes: "{{ slurm_docker_volumes }}"
+            docker_memory: '{mem}G'  # TODO: here and in _pulsar_destination, int or round to stop this from ever being 3.79999999999996
+            docker_sudo: false
+  _pulsar_destination:
+    abstract: true
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
+      jobs_directory: /mnt/pulsar/files/staging
+      transport: curl
+      remote_metadata: 'false'
+      default_file_action: remote_transfer
+      outputs_to_working_directory: false
+      dependency_resolution: remote
+      rewrite_parameters: 'true'
+      persistence_directory: /mnt/pulsar/files/persisted_data
+    rules:
+      - id: pulsar_destination_singularity_rule
+        if: entity.params.get('singularity_enabled')  # TODO: check that this is not truthy when singularity_enabled: False is set
+        params:
+            singularity_volumes: "{{ pulsar_singularity_volumes }}"
+            container_resolvers: 
+                - type: explicit_singularity
+                - type: mulled_singularity
+            singularity_default_container_id: "{{ singularity_default_container_id }}"
+        env:
+          SINGULARITY_CACHEDIR: /mnt/pulsar/deps/singularity
+          SINGULARITY_TMPDIR: /mnt/pulsar/deps/singularity/tmp
+
+      - id: pulsar_destination_docker_rule
+        if: entity.params.get('docker_enabled')
+        params:
+            docker_volumes: "{{ pulsar_docker_volumes }}"
+            docker_set_user: '1000'
+            docker_memory: '{mem}G'
+            docker_sudo: false
+
+  slurm:
+    inherits: _slurm_destination
+    runner: slurm
+    max_accepted_cores: 32
+    max_accepted_mem: 122.86
+    tags: {{ job_conf_limits.environments['slurm'].tags }}
+    scheduling:
+      accept:
+        - slurm
+  slurm-training:
+    inherits: _slurm_destination
+    runner: slurm
+    max_accepted_cores: 32
+    max_accepted_mem: 122.86
+    tags: {{ job_conf_limits.environments['slurm-training'].tags }}
+    scheduling:
+      accept:
+        - slurm
+      require:
+        - training
+  interactive_pulsar:
+    max_accepted_cores: 32
+    max_accepted_mem: 122.86
+    runner: pulsar_embedded
+    tags: {{ job_conf_limits.environments['interactive_pulsar'].tags }}
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
+      docker_enabled: true
+      docker_volumes: "{{ slurm_docker_volumes }}"
+      docker_sudo: false
+      docker_net: bridge
+      docker_auto_rm: true
+      docker_set_user: ''
+      require_container: true
+      outputs_to_working_directory: false
+      container_monitor_result: callback
+    scheduling:
+      require:
+        - interactive_pulsar
+  pulsar-mel2:
+    inherits: _pulsar_destination
+    runner: pulsar_mel2_runner
+    max_accepted_cores: 8
+    max_accepted_mem: 31.45
+    tags: {{ job_conf_limits.environments['pulsar-mel2'].tags }}
+    scheduling:
+      accept:
+        - pulsar-mel2
+      require:
+        - pulsar
+  pulsar-paw:
+    inherits: _pulsar_destination
+    runner: pulsar-paw_runner
+    max_accepted_cores: 8
+    max_accepted_mem: 31.45
+    tags: {{ job_conf_limits.environments['pulsar-paw'].tags }}
+    scheduling:
+      require:
+        - pulsar-paw
+        - pulsar
+  pulsar-mel3:
+    inherits: _pulsar_destination
+    runner: pulsar-mel3_runner
+    max_accepted_cores: 32
+    max_accepted_mem: 122.86
+    tags: {{ job_conf_limits.environments['pulsar-mel3'].tags }}
+    scheduling:
+      accept:
+        - pulsar-mel3
+      require:
+        - pulsar
+  pulsar-high-mem1:
+    inherits: _pulsar_destination
+    runner: pulsar-high-mem1_runner
+    max_accepted_cores: 126
+    max_accepted_mem: 3845.1
+    min_accepted_mem: 62.51
+    tags: {{ job_conf_limits.environments['pulsar-high-mem1'].tags }}
+    scheduling:
+      accept:
+        - pulsar-high-mem1
+      require:
+        - pulsar
+        - offline
+  pulsar-high-mem2:
+    inherits: _pulsar_destination
+    runner: pulsar-high-mem2_runner
+    max_accepted_cores: 126
+    max_accepted_mem: 1922.49
+    min_accepted_mem: 62.51
+    tags: {{ job_conf_limits.environments['pulsar-high-mem2'].tags }}
+    scheduling:
+      accept:
+        - pulsar-high-mem2
+      require:
+        - pulsar
+        - offline
+  pulsar-qld-high-mem0:
+    inherits: _pulsar_destination
+    runner: pulsar-qld-high-mem0_runner
+    max_accepted_cores: 240
+    max_accepted_mem: 3845.07
+    min_accepted_mem: 62.51
+    tags: {{ job_conf_limits.environments['pulsar-qld-high-mem0'].tags }}
+    scheduling:
+      accept:
+        - pulsar-qld-high-mem0
+      require:
+        - pulsar
+  pulsar-qld-high-mem1:
+    inherits: _pulsar_destination
+    runner: pulsar-qld-high-mem1_runner
+    max_accepted_cores: 240
+    max_accepted_mem: 3845.07
+    min_accepted_mem: 62.51
+    tags: {{ job_conf_limits.environments['pulsar-qld-high-mem1'].tags }}
+    scheduling:
+      accept:
+        - pulsar-qld-high-mem1
+      require:
+        - pulsar
+  pulsar-qld-high-mem2:
+    inherits: _pulsar_destination
+    runner: pulsar-qld-high-mem2_runner
+    max_accepted_cores: 240
+    max_accepted_mem: 3845.07
+    min_accepted_mem: 62.51
+    tags: {{ job_conf_limits.environments['pulsar-qld-high-mem2'].tags }}
+    scheduling:
+      accept:
+        - pulsar-qld-high-mem2
+      require:
+        - pulsar
+  pulsar-nci-training:
+    inherits: _pulsar_destination
+    runner: pulsar-nci-training_runner
+    max_accepted_cores: 16
+    max_accepted_mem: 47.07
+    tags: {{ job_conf_limits.environments['pulsar-nci-training'].tags }}
+    scheduling:
+      accept:
+        - pulsar-nci-training
+        - pulsar-qld-blast # allow training jobs with require: pulsar-qld-blast to run here
+      require:
+        - pulsar
+        - training
+  pulsar-qld-blast:
+    inherits: _pulsar_destination
+    runner: pulsar-qld-blast_runner
+    max_accepted_cores: 60
+    max_accepted_mem: 200
+    tags: {{ job_conf_limits.environments['pulsar-qld-blast'].tags }}
+    scheduling:
+      accept:
+        - pulsar-qld-blast
+      require:
+        - pulsar
+        - pulsar-qld-blast
+  pulsar-QLD:
+    inherits: _pulsar_destination
+    runner: pulsar-QLD_runner
+    max_accepted_cores: 16
+    max_accepted_mem: 62.72
+    tags: {{ job_conf_limits.environments['pulsar-QLD'].tags }}
+    params:
+      jobs_directory: /mnt/tmp/files/staging
+      persistence_directory: /mnt/tmp/files/persisted_data
+    scheduling:
+      accept:
+        - pulsar-QLD
+      require:
+        - pulsar
+  pulsar-azure:
+    inherits: _pulsar_destination
+    runner: pulsar_azure_0_runner
+    max_accepted_cores: 24
+    max_accepted_mem: 209
+    tags: {{ job_conf_limits.environments['pulsar-azure'].tags }}
+    scheduling:
+      require:
+        - pulsar
+        - pulsar-azure
+  pulsar-azure-gpu:
+    inherits: _pulsar_destination
+    runner: pulsar_azure_0_runner
+    max_accepted_cores: 24
+    max_accepted_mem: 209
+    max_accepted_gpus: 1
+    tags: {{ job_conf_limits.environments['pulsar-azure-gpu'].tags }}
+    scheduling:
+      require:
+        - pulsar
+        - pulsar-azure-gpu
+  pulsar-azure-1-gpu:
+    inherits: _pulsar_destination
+    runner: pulsar_azure_0_runner
+    max_accepted_cores: 24
+    max_accepted_mem: 209
+    max_accepted_gpus: 1
+    tags: {{ job_conf_limits.environments['pulsar-azure-1-gpu'].tags }}
+    scheduling:
+      require:
+        - pulsar
+        - pulsar-azure-1-gpu
