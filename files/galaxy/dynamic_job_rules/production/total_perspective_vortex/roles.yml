@@ -6,8 +6,8 @@ roles:
         include_tags = []
         exclude_tags = ['pulsar', 'training-exempt']
         helpers.tag_values_match(entity, include_tags, exclude_tags)
-      cores: 2
-      mem: cores * 3.8  # TODO check multiplier
+      max_cores: 2
+      max_mem: max_cores * 3.8  # TODO check multiplier
       context:
         partition: training
       scheduling:
@@ -19,8 +19,8 @@ roles:
         include_tags = ['pulsar']
         exclude_tags = ['pulsar-training-large', 'training-exempt']
         helpers.tag_values_match(entity, include_tags, exclude_tags)
-      cores: 4
-      mem: cores * 2.9  # ratio for pulsar-nci-training
+      max_cores: 4
+      max_mem: max_cores * 2.9  # ratio for pulsar-nci-training
       scheduling:
         require:
           - pulsar  # require pulsar and training: only one place to go
@@ -30,8 +30,8 @@ roles:
         include_tags = ['pulsar-training-large']
         exclude_tags = ['training-exempt']
         helpers.tag_values_match(entity, include_tags, exclude_tags)
-      cores: 16
-      mem: cores * 2.9  # ratio for pulsar-nci-training
+      max_cores: 16
+      max_mem: max_cores * 2.9  # ratio for pulsar-nci-training
       scheduling:
         require:
           - pulsar  # require pulsar and training: only one place to go
