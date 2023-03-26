@@ -245,6 +245,8 @@ destinations:
     max_accepted_cores: 24
     max_accepted_mem: 209
     max_accepted_gpus: 1
+    params:
+      docker_volumes: $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro
     tags: {{ job_conf_limits.environments['pulsar-azure-gpu'].tags }}
     scheduling:
       require:
@@ -256,6 +258,8 @@ destinations:
     max_accepted_cores: 24
     max_accepted_mem: 209
     max_accepted_gpus: 1
+    params:
+      docker_volumes: $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro
     tags: {{ job_conf_limits.environments['pulsar-azure-1-gpu'].tags }}
     scheduling:
       require:
