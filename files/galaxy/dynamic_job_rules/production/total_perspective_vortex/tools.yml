@@ -437,6 +437,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/.*:
     cores: 5
     mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/.*:
+    cores: 1
+    mem: 3.8
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/.*:
     cores: 16
     mem: 61.4
