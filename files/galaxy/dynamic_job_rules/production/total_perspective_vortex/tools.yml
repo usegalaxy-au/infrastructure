@@ -118,6 +118,10 @@ tools:
       if: input_size < 0.3
       cores: 3
       mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/.*:
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     context:
       test_cores: 2
@@ -140,6 +144,12 @@ tools:
       if: 0.5 <= input_size < 10
       cores: 16
       mem: 61.4
+  toolshed.g2.bx.psu.edu/repos/bgruening/hicexplorer_hicbuildmatrix/hicexplorer_hicbuildmatrix/.*:
+    cores: 10
+    mem: 38.3
+  toolshed.g2.bx.psu.edu/repos/bgruening/hicexplorer_hicpca/hicexplorer_hicpca/.*:
+    cores: 10
+    mem: 38.3
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     cores: 120
     mem: 1922
@@ -206,6 +216,14 @@ tools:
       if: 0.02 <= input_size < 0.2
       cores: 3
       mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_rmsd/bio3d_rmsd/.*:
+    scheduling:
+      accept:
+      - pulsar
+  toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_rmsf/bio3d_rmsf/.*:
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     cores: 8
     mem: 30.7
@@ -600,11 +618,11 @@ tools:
       context:
         partition: azuregpu0
       scheduling:
-        accept:
-        - training-exempt
         require:
         - pulsar
         - pulsar-azure-gpu
+        accept:
+        - training-exempt
     - if: |
         user and 'UoM_Vet_Alphafold' in [role.name for role in user.all_roles() if not role.deleted]
       context:
@@ -668,9 +686,38 @@ tools:
     scheduling:
       prefer:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/galaxyp/cardinal_classification/cardinal_classification/.*:
+    scheduling:
+      accept:
+      - pulsar
+  toolshed.g2.bx.psu.edu/repos/galaxyp/cardinal_combine/cardinal_combine/.*:
+    mem: 61.4
+  toolshed.g2.bx.psu.edu/repos/galaxyp/cardinal_data_exporter/cardinal_data_exporter/.*:
+    scheduling:
+      accept:
+      - pulsar
+  toolshed.g2.bx.psu.edu/repos/galaxyp/cardinal_preprocessing/cardinal_preprocessing/.*:
+    cores: 4
+    mem: 80
+  toolshed.g2.bx.psu.edu/repos/galaxyp/cardinal_quality_report/cardinal_quality_report/.*:
+    scheduling:
+      accept:
+      - pulsar
+  toolshed.g2.bx.psu.edu/repos/galaxyp/cardinal_segmentations/cardinal_segmentations/.*:
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper/.*:
     cores: 6
     mem: 23.0
+  toolshed.g2.bx.psu.edu/repos/galaxyp/flashlfq/flashlfq/.*:
+    scheduling:
+      accept:
+      - pulsar
+  toolshed.g2.bx.psu.edu/repos/galaxyp/maldi_quant_peak_detection/maldi_quant_peak_detection/.*:
+    mem: 92
+  toolshed.g2.bx.psu.edu/repos/galaxyp/maldi_quant_preprocessing/maldi_quant_preprocessing/.*:
+    mem: 92
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
     cores: 16
     mem: 61.4
@@ -693,11 +740,17 @@ tools:
     mem: 3.8
     params:
       docker_enabled: true
+  toolshed.g2.bx.psu.edu/repos/galaxyp/openms_openswathworkflow/OpenSwathWorkflow/.*:
+    mem: 61.4
   toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker/.*:
     cores: 7
     mem: 26.8
     env:
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+  toolshed.g2.bx.psu.edu/repos/galaxyp/pyprophet_score/pyprophet_score/.*:
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iracooke/protk_proteogenomics/.*:
     cores: 1
     mem: 3.8
@@ -747,6 +800,10 @@ tools:
       if: 0.002 <= input_size < 5
       cores: 16
       mem: 61.4
+  toolshed.g2.bx.psu.edu/repos/iuc/anndata_import/anndata_import/.*:
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
     cores: 8
     mem: 30.7
@@ -1323,6 +1380,10 @@ tools:
       if: 0.02 <= input_size < 2
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_biom/mothur_make_biom/.*:
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_contigs/mothur_make_contigs/.*:
     cores: 7
     mem: 26.8
@@ -1926,6 +1987,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/vcf2maf/vcf2maf/.*:
     cores: 6
     mem: 23.0
+  toolshed.g2.bx.psu.edu/repos/iuc/yahs/yahs/.*:
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/.*:
     cores: 5
     mem: 19.1
@@ -2188,10 +2253,10 @@ tools:
     cores: 2
     mem: 7.6
     scheduling:
-      accept:
-      - training-exempt
       require:
       - interactive_pulsar
+      accept:
+      - training-exempt
   join1:
     cores: 5
     mem: 19.1
