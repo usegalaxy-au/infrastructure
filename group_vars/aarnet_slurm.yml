@@ -75,7 +75,7 @@ slurm_partitions:
     Default: YES
     State: UP
   - name: training
-    nodes: "aarnet-w7,aarnet-w5,aarnet-w4,aarnet-w8"
+    nodes: "aarnet-w7,aarnet-w5,aarnet-w4,aarnet-w8,aarnet-w10"
     Default: NO
     State: UP
   - name: interactive_tools
