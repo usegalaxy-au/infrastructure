@@ -850,6 +850,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+      reject:
+      - pulsar-qld-high-mem2
     rules:
     - if: |
         import packaging.version
