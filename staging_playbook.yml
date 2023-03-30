@@ -76,10 +76,3 @@
       command: exportfs -ra
       become: yes
       become_user: root
-    - name: set acl for galaxy user on docker.sock
-      acl:
-        path: /var/run/docker.sock
-        entity: "{{ galaxy_user.name }}"
-        etype: user
-        permissions: rw
-        state: present
