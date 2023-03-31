@@ -638,6 +638,7 @@ tools:
         )])
       fail: |
         This tool is currently being beta-tested on GPUs and your account has not been given access. Contact help@genome.edu.au if you think this is in error.
+
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/2.1.*:
     params:
       docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env
@@ -647,7 +648,15 @@ tools:
     params:
       docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env
         ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data/v2.3
+    rules:
+      - if: |
+          import packaging.version
+          min_version = '2.3.1+galaxy2'
+          packaging.version.parse(tool.version) >= packaging.version.parse(min_version)
+        params:
+          docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data
     inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*
+
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
     context:
       test_cores: 4
