@@ -35,7 +35,7 @@ slurm_partitions:
 slurm_config:
     #SlurmDBd includes
     AccountingStorageType: accounting_storage/slurmdbd
-    AccountingStorageHost: localhost
+    AccountingStorageHost: "{% if ansible_hostname == 'staging-queue' %}localhost{% else %}staging-queue{% endif %}"
     JobAcctGatherType: jobacct_gather/linux
     ControlMachine: staging-queue
     SlurmctldPidFile: /run/slurmctld.pid
