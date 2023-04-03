@@ -1681,6 +1681,13 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+    rules:
+    - id: rule_rna_star_limit_concurrency
+      if: |
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 3  # concurrent jobs per user
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/rna_starsolo/.*:
     cores: 9
     mem: 34.5
