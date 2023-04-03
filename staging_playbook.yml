@@ -59,11 +59,15 @@
     - dj-wasabi.telegraf
     - pg-post-tasks
   post_tasks:
-    - name: Clone galaxy-local-tools
-      git:
-        repo: https://github.com/usegalaxy-au/galaxy-local-tools
-        dest: "{{ galaxy_server_dir }}/tools/galaxy-local-tools"
-        update: yes
+    - name: Ensure object store paths exist
+      file:
+        state: directory
+        path: "{{ item }}"
+        owner: galaxy
+        group: galaxy
+      with_items:
+        - /mnt/galaxy/data
+        - /mnt/galaxy/data-2
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1
