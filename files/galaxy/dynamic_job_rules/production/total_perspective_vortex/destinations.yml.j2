@@ -2,8 +2,8 @@ destinations:
   default:
     runner: slurm
     abstract: true
-    params:
-      tmp_dir: True  # TODO: check that this works
+    # params: # commented out 3/4/23 to check whether this helps with load on nfs
+    #   tmp_dir: True  # TODO: check that this works
     scheduling:
       accept:
         - docker # to satisfy tools in shared db that have require: docker
