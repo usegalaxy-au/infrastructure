@@ -517,6 +517,13 @@ job_conf_limits:
     value: 5
 
   - type: destination_total_concurrent_jobs
+    id: pulsar-qld-blast
+    value: 6
+  - type: destination_user_concurrent_jobs
+    id: pulsar-qld-blast
+    value: 2
+
+  - type: destination_total_concurrent_jobs
     id: pulsar-azure
     value: 4
   - type: destination_user_concurrent_jobs
