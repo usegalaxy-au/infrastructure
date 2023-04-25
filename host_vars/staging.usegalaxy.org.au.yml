@@ -36,7 +36,7 @@ nfs_exports:
 
 # ansible-galaxy
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_22.05
+galaxy_commit_id: release_23.0
 
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/staging
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
