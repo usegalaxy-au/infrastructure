@@ -36,3 +36,7 @@ install-roles:
 
 update-roles:
 	python scripts/update_roles.py
+
+ansible-find-upgrades:
+	python scripts/ansible-find-upgrades.py
+	
