@@ -735,6 +735,7 @@ tools:
       - pulsar
       reject:
       - pulsar-QLD
+      - pulsar-mel2
   toolshed.g2.bx.psu.edu/repos/galaxyp/flashlfq/flashlfq/.*:
     scheduling:
       accept:
