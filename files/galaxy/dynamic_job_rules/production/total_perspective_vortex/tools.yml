@@ -730,6 +730,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper/.*:
     cores: 6
     mem: 23.0
+    scheduling:
+      accept:
+      - pulsar
+      reject:
+      - pulsar-QLD
   toolshed.g2.bx.psu.edu/repos/galaxyp/flashlfq/flashlfq/.*:
     scheduling:
       accept:
