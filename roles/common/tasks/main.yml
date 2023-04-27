@@ -55,6 +55,14 @@
       shell: /bin/bash
   when: add_galaxy_user is defined and add_galaxy_user == true
 
+- name: Add GALAXY_CONFIG_FILE env var to galaxy user's .bashrc
+  lineinfile:
+      line: "export GALAXY_CONFIG_FILE={{ galaxy_config_file }}"
+      path: /home/galaxy/.bashrc
+      owner: galaxy
+      group: galaxy
+  when: galaxy_config_file is defined
+
 - name: Add ssl key if required
   include_tasks: ssl_key.yml
   when: create_ssh_key is defined and create_ssh_key == true
