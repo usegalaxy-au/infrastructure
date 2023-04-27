@@ -201,6 +201,17 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:
     cores: 5
     mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/.*:
+    cores: 4
+    mem: 15.3
+    rules:
+    - id: sailfish_small_input_rule
+      if: input_size < 0.2
+      cores: 1
+      mem: 3.8
+    scheduling:
+      accept:
+      - pulsar    
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/.*:
     cores: 1
     mem: 3.8
