@@ -15,12 +15,14 @@
       command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
       environment:
         GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
+        GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
     - name: galaxy handler restart
       become: True
       become_user: galaxy
       command: "{{ galaxy_venv_dir }}/bin/galaxyctl handler_0 handler_1 handler_2 handler_3 handler_4"
       environment:
         GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
+        GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
   tasks:
     - name: copy job_conf file
       template:
