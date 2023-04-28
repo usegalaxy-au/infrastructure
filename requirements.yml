@@ -1,7 +1,7 @@
 - name: galaxyproject.galaxy
-  version: 0.10.5
+  version: 0.10.15
 - name: galaxyproject.nginx
-  version: 0.7.0
+  version: 0.7.1
 - name: galaxyproject.postgresql
   version: 1.0.3
 - name: galaxyproject.postgresql_objects
@@ -11,9 +11,9 @@
 - name: geerlingguy.nfs
   version: 1.6.0
 - src: usegalaxy_eu.galaxy_systemd
-  version: 0.1.2
+  version: 2.1.0
 - src: usegalaxy_eu.certbot
-  version: 0.1.7
+  version: 0.1.11
 #- src: jasonroyle.rabbitmq - Had to modify download URL for rabbitMQ
 #  version: 0.0.4
 - src: insspb.hostname
@@ -23,7 +23,7 @@
   src: https://github.com/usegalaxy-au/ansible-s3fs
   version: main
 - src: galaxyproject.cvmfs
-  version: 0.2.18
+  version: 0.2.21
 #- src: galaxyproject.repos - Waiting for a new release with Ubuntu >= 18.04
 #  version: 0.0.1
 - src: galaxyproject.pulsar
@@ -31,7 +31,7 @@
 - src: dj-wasabi.telegraf
   version: 0.13.0
 - src: galaxyproject.gxadmin
-  version: 0.0.8
+  version: 0.0.12
 
 # TIaaS roles
 # - official galaxyproject role is for new production
@@ -40,7 +40,7 @@
 - src: usegalaxy_eu.tiaas2
   version: 0.0.9
 - src: galaxyproject.tiaas2
-  version: 2.1.2
+  version: 2.1.5
 # - src: https://github.com/neoformit/ansible-tiaas2
 #   name: dev-tiaas2
 #   version: tiaas-3
