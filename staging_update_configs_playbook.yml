@@ -15,6 +15,7 @@
       command: "{{ galaxy_venv_dir }}/bin/galaxyctl restart handler_0 handler_1 handler_2"
       environment:
         GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
+        GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
   pre_tasks:
     - name: copy job_conf file
       template:
