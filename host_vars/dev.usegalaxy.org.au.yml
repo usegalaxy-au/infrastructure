@@ -342,7 +342,7 @@ galaxy_subsite_dir: /mnt/galaxy/subsites
 galaxy_subsites:
   - name: genome # Accessible at test.usegalaxy.org
     brand: Genome
-    iframe: "https://site.usegalaxy.org.au/landing/genome"
+    iframe: "https://dev-site.usegalaxy.org.au/landing/genome"
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
     tool_sections:
       - "hicexplorer"
