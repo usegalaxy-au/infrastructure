@@ -15,6 +15,7 @@
       command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
       environment:
         GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
+        GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -59,11 +60,15 @@
     - dj-wasabi.telegraf
     - pg-post-tasks
   post_tasks:
-    - name: Clone galaxy-local-tools
-      git:
-        repo: https://github.com/usegalaxy-au/galaxy-local-tools
-        dest: "{{ galaxy_server_dir }}/tools/galaxy-local-tools"
-        update: yes
+    - name: Ensure object store paths exist
+      file:
+        state: directory
+        path: "{{ item }}"
+        owner: galaxy
+        group: galaxy
+      with_items:
+        - /mnt/galaxy/data
+        - /mnt/galaxy/data-2
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1
@@ -76,10 +81,3 @@
       command: exportfs -ra
       become: yes
       become_user: root
-    - name: set acl for galaxy user on docker.sock
-      acl:
-        path: /var/run/docker.sock
-        entity: "{{ galaxy_user.name }}"
-        etype: user
-        permissions: rw
-        state: present

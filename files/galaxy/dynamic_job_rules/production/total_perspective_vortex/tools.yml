@@ -201,6 +201,17 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:
     cores: 5
     mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/.*:
+    cores: 4
+    mem: 15.3
+    rules:
+    - id: sailfish_small_input_rule
+      if: input_size < 0.2
+      cores: 1
+      mem: 3.8
+    scheduling:
+      accept:
+      - pulsar    
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/.*:
     cores: 1
     mem: 3.8
@@ -719,6 +730,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper/.*:
     cores: 6
     mem: 23.0
+    scheduling:
+      accept:
+      - pulsar
+      reject:
+      - pulsar-QLD
+      - pulsar-mel2
   toolshed.g2.bx.psu.edu/repos/galaxyp/flashlfq/flashlfq/.*:
     scheduling:
       accept:
@@ -1681,6 +1698,13 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+    rules:
+    - id: rule_rna_star_limit_concurrency
+      if: |
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 3  # concurrent jobs per user
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/rna_starsolo/.*:
     cores: 9
     mem: 34.5
@@ -2096,6 +2120,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/.*:
     cores: 3
     mem: 11.5
+    env:
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     scheduling:
       accept:
       - pulsar

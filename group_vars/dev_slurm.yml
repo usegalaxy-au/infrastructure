@@ -56,7 +56,7 @@ slurm_partitions:
 slurm_config:
     #SlurmDBd includes
     AccountingStorageType: accounting_storage/slurmdbd
-    AccountingStorageHost: localhost
+    AccountingStorageHost: "{% if ansible_hostname == 'dev-queue' %}localhost{% else %}dev-queue{% endif %}"
     JobAcctGatherType: jobacct_gather/linux
     ControlMachine: dev-queue
     SlurmctldPidFile: /run/slurmctld.pid

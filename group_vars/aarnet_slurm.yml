@@ -87,7 +87,7 @@ slurm_partitions:
 slurm_config:
   #SlurmDBd includes
   AccountingStorageType: accounting_storage/slurmdbd
-  AccountingStorageHost: localhost
+  AccountingStorageHost: "{% if ansible_hostname == 'aarnet-queue' %}localhost{% else %}aarnet-queue{% endif %}"
   JobAcctGatherType: jobacct_gather/linux
   ControlMachine: aarnet-queue
   SlurmctldPidFile: /run/slurmctld.pid

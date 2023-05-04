@@ -2,8 +2,8 @@ destinations:
   default:
     runner: slurm
     abstract: true
-    params:
-      tmp_dir: True  # TODO: check that this works
+    # params: # commented out 3/4/23 to check whether this helps with load on nfs
+    #   tmp_dir: True  # TODO: check that this works
     scheduling:
       accept:
         - docker # to satisfy tools in shared db that have require: docker
@@ -153,7 +153,6 @@ destinations:
         - pulsar-high-mem2
       require:
         - pulsar
-        - offline
   pulsar-qld-high-mem0:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem0_runner
@@ -199,7 +198,7 @@ destinations:
     scheduling:
       accept:
         - pulsar-nci-training
-        - pulsar-qld-blast # allow training jobs with require: pulsar-qld-blast to run here
+        - pulsar-blast # allow training jobs with require: pulsar-blast to run here
       require:
         - pulsar
         - training
@@ -214,7 +213,7 @@ destinations:
         - pulsar-qld-blast
       require:
         - pulsar
-        - pulsar-qld-blast
+        - pulsar-blast
   pulsar-QLD:
     inherits: _pulsar_destination
     runner: pulsar-QLD_runner
