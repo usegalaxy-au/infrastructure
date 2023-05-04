@@ -19,6 +19,13 @@
       environment:
         GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
         GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
+    - name: galaxyctl update
+      become: True
+      become_user: galaxy
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl update"
+      environment:
+        GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
+        GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
   pre_tasks:
     - name: Attach volume to instance
       include_role:
