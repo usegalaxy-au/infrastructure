@@ -103,11 +103,12 @@
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1
-    - name: Workaround content-length header bug in webdav through forcible update to newer version
-      pip:
-        name: "webdavclient3@git+https://github.com/ezhov-evgeny/webdav-client-python-3@0f17fa7946e66f7963db367d0d6b2e7f940ebeb8"
-        state: forcereinstall
-        virtualenv: "{{ galaxy_venv_dir }}"
+    # This does not work with release_23.0 because it results in bad combinations of package versions in the galaxy_venv 
+    # - name: Workaround content-length header bug in webdav through forcible update to newer version
+    #   pip:
+    #     name: "webdavclient3@git+https://github.com/ezhov-evgeny/webdav-client-python-3@0f17fa7946e66f7963db367d0d6b2e7f940ebeb8"
+    #     state: forcereinstall
+    #     virtualenv: "{{ galaxy_venv_dir }}"
     - name: Reload exportfs
       command: exportfs -ra
       become: yes
