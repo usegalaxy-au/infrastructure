@@ -2310,6 +2310,9 @@ tools:
       - pulsar-qld-high-mem1
       accept:
       - pulsar
+  sort1:
+    params:
+      tmp_dir: true
   tabular_to_csv:
     cores: 3
     mem: 11.5
