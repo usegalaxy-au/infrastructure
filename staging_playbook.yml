@@ -72,10 +72,14 @@
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1
+    - name: Uninstall the existing web-dav-client
+      pip:
+        name: "webdavclient3"
+        virtualenv: "{{ galaxy_venv_dir }}"
+        state: absent
     - name: Workaround content-length header bug in webdav through forcible update to newer version
       pip:
         name: "webdavclient3@git+https://github.com/ezhov-evgeny/webdav-client-python-3@0f17fa7946e66f7963db367d0d6b2e7f940ebeb8"
-        state: forcereinstall
         virtualenv: "{{ galaxy_venv_dir }}"
     - name: Reload exportfs
       command: exportfs -ra
