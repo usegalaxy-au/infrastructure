@@ -692,3 +692,22 @@ local_query-queue() { ##? [--all] [--seconds] [--since-update]: Detailed overvie
 			$time_column_name desc
 	EOF
 }
+
+local_query-galaxy-session-user(){ ## [username]: Query user session information
+    handle_help "$@" <<-EOF
+        Find session information about the given user, specified by username
+
+        $ gxadmin local query-galaxy-session-user username
+EOF
+
+    if (( $# > 0 )); then
+        read -r -d '' QUERY <<-EOF
+            SELECT *
+            FROM galaxy_session
+            LEFT JOIN galaxy_user AS galaxy_session_user
+            ON galaxy_session.user_id = galaxy_session_user.id
+            WHERE galaxy_session_user.username = '$1';
+EOF
+    fi
+}
+
