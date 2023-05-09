@@ -59,6 +59,7 @@
     - usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf
     - pg-post-tasks
+    - postfix-mail-relay
   post_tasks:
     - name: Ensure object store paths exist
       file:
