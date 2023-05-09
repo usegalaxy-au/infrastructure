@@ -195,6 +195,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/.*:
     cores: 8
     mem: 30.7
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -264,6 +266,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/csbl/repeatmodeler/repeatmodeler/.*:
     cores: 8
     mem: 30.7
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
