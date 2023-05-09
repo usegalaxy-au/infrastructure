@@ -1,0 +1,48 @@
+---
+- name: "Install postfix and mailutils"
+  apt:
+    pkg:
+      - mailutils
+      - postfix
+    state: "present"
+    update_cache: yes
+
+- name: "define some smtp and TLS settings in postfix config"
+  blockinfile:
+    path: /etc/postfix/main.cf
+    backup: yes
+    block: |
+      smtp_sasl_auth_enable = yes
+      smtp_sasl_security_options = noanonymous 
+      smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd_smtp2go
+      smtp_use_tls = yes 
+      smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+      default_transport = smtp 
+      relay_transport = smtp
+    marker: "# {mark} MANAGED BY ANSIBLE - DO NOT MODIFY"
+
+- name: "make changes to default postfix config for Galaxy"
+  lineinfile:
+    path: /etc/postfix/main.cf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+  - { regexp: '^#myorigin', line: 'myorigin = /etc/mailname' }
+  - { regexp: '^append_dot_mydomain = no', line: 'append_dot_mydomain = yes' }
+  - { regexp: '^inet_interfaces =', line: 'inet_interfaces = loopback-only' }
+  - { regexp: '^myhostname =', line: "myhostname = {{ postfix_host_domain }}" }
+  - { regexp: '^mydestination =', line: "mydestination = $myhostname, {{ postfix_host_domain }}, {{ postfix_hostname }}.novalocal, localhost.novalocal, localhost"  }
+  - { regexp: '^relayhost =', line: "relayhost = [{{ postfix_relay_host }}]:{{ postfix_relay_port }}" }
+
+# after postfix is configured, restart and enable postfix service
+- name: "Restart postfix service"
+  systemd:
+    name: "postfix"
+    state: "restarted"
+
+- name: "Enable postfix service" 
+  systemd:
+    name: "postfix"
+    state: "started"
+    enabled: yes
+
