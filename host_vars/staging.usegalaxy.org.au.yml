@@ -219,3 +219,8 @@ tiaas_retain_contact_consent: false
 tiaas_templates_dir: files/tiaas/html
 # Static files referenced by above templates:
 tiaas_extra_static_dir: files/tiaas/static
+
+# host-specific settings for postfix config
+postfix_host_domain: "staging.usegalaxy.org.au"
+postfix_hostname: "staging"
+

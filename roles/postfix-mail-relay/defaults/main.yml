@@ -1,0 +1,4 @@
+---
+postfix_relay_host: "mail.smtp2go.com"
+postfix_relay_port: "2525"
+
