@@ -27,12 +27,18 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   with_items:
-  - { regexp: '^#myorigin', line: 'myorigin = /etc/mailname' }
-  - { regexp: '^append_dot_mydomain = no', line: 'append_dot_mydomain = yes' }
-  - { regexp: '^inet_interfaces =', line: 'inet_interfaces = loopback-only' }
-  - { regexp: '^myhostname =', line: "myhostname = {{ postfix_host_domain }}" }
-  - { regexp: '^mydestination =', line: "mydestination = $myhostname, {{ postfix_host_domain }}, {{ postfix_hostname }}.novalocal, localhost.novalocal, localhost"  }
-  - { regexp: '^relayhost =', line: "relayhost = [{{ postfix_relay_host }}]:{{ postfix_relay_port }}" }
+  - regexp: '^#myorigin'
+    line: 'myorigin = /etc/mailname'
+  - regexp: '^append_dot_mydomain = no'
+    line: 'append_dot_mydomain = yes'
+  - regexp: '^inet_interfaces ='
+    line: 'inet_interfaces = loopback-only'
+  - regexp: '^myhostname ='
+    line: "myhostname = {{ postfix_host_domain }}"
+  - regexp: '^mydestination ='
+    line: "mydestination = $myhostname, {{ postfix_host_domain }}, {{ postfix_hostname }}.novalocal, localhost.novalocal, localhost"
+  - regexp: '^relayhost ='
+    line: "relayhost = [{{ postfix_relay_host }}]:{{ postfix_relay_port }}"
 
 # after postfix is configured, restart and enable postfix service
 - name: "Restart postfix service"
