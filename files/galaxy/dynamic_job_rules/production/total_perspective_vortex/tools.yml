@@ -2266,6 +2266,9 @@ tools:
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
+  __IMPORT_HISTORY__:
+    params:
+      tmp_dir: true
   alphafold_test:
     context:
       partition: azuregpu0
