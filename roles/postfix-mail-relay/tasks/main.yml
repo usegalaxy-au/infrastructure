@@ -14,7 +14,7 @@
     block: |
       smtp_sasl_auth_enable = yes
       smtp_sasl_security_options = noanonymous 
-      smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd_smtp2go
+      smtp_sasl_password_maps = hash:/etc/postfix/{{ postfix_sasl_passwd_file }}
       smtp_use_tls = yes 
       smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
       default_transport = smtp 
@@ -40,12 +40,26 @@
   - regexp: '^relayhost ='
     line: "relayhost = [{{ postfix_relay_host }}]:{{ postfix_relay_port }}"
 
-# after postfix is configured, restart and enable postfix service
+- name: "Copy sasl_passwd file into /etc/postfix readable by root only"
+  template:
+    src: "sasl_passwd.j2"
+    dest: "/etc/postfix/{{ postfix_sasl_passwd_file }}"
+    force: yes 
+    backup: no
+    owner: root
+    group: root
+    mode: "0600"
+
+- name: "Generate the sasl password hash file from {{ postfix_sasl_passwd_file }}"
+  command: "postmap /etc/postfix/{{ postfix_sasl_passwd_file }}"
+
+# after postfix is configured and smtp_sasl_password_maps has been generated restart postfix
 - name: "Restart postfix service"
   systemd:
     name: "postfix"
     state: "restarted"
 
+# ensure postfix is enabled at startup
 - name: "Enable postfix service" 
   systemd:
     name: "postfix"
