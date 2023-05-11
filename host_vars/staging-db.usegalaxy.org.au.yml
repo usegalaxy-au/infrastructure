@@ -1,7 +1,7 @@
 staging_galaxy_server_address: "{{ hostvars['staging']['ansible_ssh_host'] }}/32"
 
 postgresql_conf:
-  - max_connections: 60       # 5/5/23: increased from 50 to 60
+  - max_connections: 80       # 5/5/23: increased from 50 to 60 # 11/5/23 increased from 60 to 80
   - listen_addresses: "'*'"   # Allow remote connections
 
 postgresql_pg_hba_conf:
