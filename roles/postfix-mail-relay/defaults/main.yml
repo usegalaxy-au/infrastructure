@@ -1,4 +1,5 @@
 ---
 postfix_relay_host: "mail.smtp2go.com"
 postfix_relay_port: "2525"
+postfix_sasl_passwd_file: "sasl_passwd_smtp2go"
 
