@@ -13,6 +13,8 @@ tpv_version: "2.2.2"
 galaxy_additional_venv_packages: |
   {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
 
+# {{ tpv_version is defined | ternary(['fs.dropboxfs==0.2.2.post2', 'total-perspective-vortex==' + tpv_version|d('X')], ['fs.dropboxfs==0.2.2.post2']) }}
+
 certbot_domains:
   - "{{ hostname }}"
   - "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
@@ -132,7 +134,7 @@ host_galaxy_config: # renamed from __galaxy_config
     watch_job_rules: true # important for total perspective vortex
     enable_mulled_containers: true
     enable_beta_containers_interface: true
-    tool_filters: ga_filters:hide_test_tools
+    tool_filters: ga_filters:hide_test_tools,ga_filters:restrict_interactive_tools
     #TRS - workflowhub
     trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
     # TUS

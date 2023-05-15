@@ -146,7 +146,7 @@ host_galaxy_config: # renamed from __galaxy_config
     enable_beta_containers_interface: true
     watch_job_rules: true # important for total perspective vortex
     sentry_dsn: "{{ vault_sentry_dsn_dev }}"
-    tool_filters: ga_filters:hide_test_tools
+    tool_filters: ga_filters:hide_test_tools,ga_filters:restrict_interactive_tools
     tool_section_filters: global_host_filters:per_host_tool_sections
     tool_label_filters: global_host_filters:per_host_tool_labels
     #TRS - workflowhub
