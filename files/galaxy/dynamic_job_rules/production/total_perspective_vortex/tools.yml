@@ -2301,6 +2301,22 @@ tools:
       - interactive_pulsar
       accept:
       - training-exempt
+    interactive_tool_jupyter_notebook:
+      inherits: interactive_tool_.*
+      rules:
+        - if: |
+            not user or not any(
+              [True for r in user.all_roles() if not r.deleted and (r.name == 'trusted_for_ITs' or r.name.startswith('training'))]
+            )
+          fail: "Interactive tool jupyter not available for user"
+    interactive_tool_rstudio:
+      inherits: interactive_tool_.*
+      rules:
+        - if: |
+            not user or not any(
+              [True for r in user.all_roles() if not r.deleted and (r.name == 'trusted_for_ITs' or r.name.startswith('training'))]
+            )
+          fail: "Interactive tool rstudio not available for user"
   join1:
     cores: 5
     mem: 19.1
