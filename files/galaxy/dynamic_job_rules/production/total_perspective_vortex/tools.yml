@@ -165,6 +165,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/interproscan/interproscan/.*:
     cores: 8
     mem: 30.7
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_eventalign/nanopolish_eventalign/.*:
     cores: 3
     mem: 11.5
