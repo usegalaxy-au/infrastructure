@@ -32,7 +32,7 @@ galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_22.05
 
 # total perspective vortex
-tpv_version: "2.2.2"
+tpv_version: "2.2.3"
 
 # workaround to maintain correct tpv version (release_22.05)
 galaxy_additional_venv_packages: |
