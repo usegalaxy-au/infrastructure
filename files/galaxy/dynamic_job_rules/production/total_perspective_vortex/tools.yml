@@ -1144,6 +1144,9 @@ tools:
       if: input_size < 0.1
       cores: 2
       mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/iuc/jvarkit_wgscoverageplotter/jvarkit_wgscoverageplotter/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/.*:
     cores: 5
     mem: 19.1
@@ -1184,6 +1187,9 @@ tools:
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
+  toolshed.g2.bx.psu.edu/repos/iuc/krakentools_kreport2krona/krakentools_kreport2krona/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/.*:
     cores: 7
     mem: 26.8
@@ -1590,6 +1596,9 @@ tools:
       if: input_size < 4
       cores: 9
       mem: 34.5
+  toolshed.g2.bx.psu.edu/repos/iuc/plasflow/PlasFlow/.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
     cores: 9
     mem: 34.5
@@ -2120,6 +2129,9 @@ tools:
     - id: spades_fail_rule
       if: input_size >= 20
       fail: Too much data, please don't use Spades for this
+  toolshed.g2.bx.psu.edu/repos/peterjc/sample_seqs/sample_seqs/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/pjbriggs/macs21/macs2_1_peakcalling/.*:
     cores: 9
     mem: 34.5
