@@ -144,18 +144,6 @@ host_galaxy_config: # renamed from __galaxy_config
     # TUS
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
 
-# # TUS # it will be done without this? CB 18/5/23
-# tusd_instances:
-#   - name: main
-#     user: "{{ galaxy_user.name }}"
-#     group: "galaxy"
-#     args:
-#       - "-host=localhost"
-#       - "-port={{ galaxy_tusd_port }}"
-#       - "-upload-dir={{ galaxy_tus_upload_store }}"
-#       - "-hooks-http=https://{{ hostname }}/api/upload/hooks"
-#       - "-hooks-http-forward-headers=X-Api-Key,Cookie"
-
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 
