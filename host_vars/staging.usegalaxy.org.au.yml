@@ -68,7 +68,7 @@ host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/staging_job_conf.yml.j2"
     dest: "{{ galaxy_config_dir}}/job_conf.yml"
   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
-    dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
+    dest: "{{ galaxy_server_dir }}/lib/galaxy/tool_util/toolbox/filters/ga_filters.py"
 
 host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
@@ -80,7 +80,9 @@ galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
 host_galaxy_config: # renamed from __galaxy_config
   gravity:
-    galaxy_root: /mnt/galaxy/galaxy-app
+    process_manager: systemd
+    galaxy_root: "{{ galaxy_server_dir }}"
+    galaxy_user: "{{ galaxy_user.name }}"
     app_server: gunicorn
     virtualenv: "{{ galaxy_venv_dir }}"
     gunicorn:
@@ -109,6 +111,10 @@ host_galaxy_config: # renamed from __galaxy_config
         pools:
           - job-handlers
           - workflow-schedulers
+    tusd:
+      enable: true
+      tusd_path: /usr/local/sbin/tusd
+      upload_dir: "{{ galaxy_tus_upload_store }}"
 
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }}"
@@ -138,17 +144,17 @@ host_galaxy_config: # renamed from __galaxy_config
     # TUS
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
 
-# TUS
-tusd_instances:
-  - name: main
-    user: "{{ galaxy_user.name }}"
-    group: "galaxy"
-    args:
-      - "-host=localhost"
-      - "-port={{ galaxy_tusd_port }}"
-      - "-upload-dir={{ galaxy_tus_upload_store }}"
-      - "-hooks-http=https://{{ hostname }}/api/upload/hooks"
-      - "-hooks-http-forward-headers=X-Api-Key,Cookie"
+# # TUS # it will be done without this? CB 18/5/23
+# tusd_instances:
+#   - name: main
+#     user: "{{ galaxy_user.name }}"
+#     group: "galaxy"
+#     args:
+#       - "-host=localhost"
+#       - "-port={{ galaxy_tusd_port }}"
+#       - "-upload-dir={{ galaxy_tus_upload_store }}"
+#       - "-hooks-http=https://{{ hostname }}/api/upload/hooks"
+#       - "-hooks-http-forward-headers=X-Api-Key,Cookie"
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs

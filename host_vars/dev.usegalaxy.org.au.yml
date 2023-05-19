@@ -79,7 +79,7 @@ host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/dev_job_conf.yml.j2"
     dest: "{{ galaxy_config_dir}}/job_conf.yml"
   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
-    dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
+    dest: "{{ galaxy_server_dir }}/lib/galaxy/tool_util/toolbox/filters/ga_filters.py"
   - src: "{{ galaxy_config_file_src_dir }}/config/web-gravity.yml"
     dest: /opt/galaxy/web-gravity.yml
 
