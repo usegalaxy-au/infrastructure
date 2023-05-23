@@ -1839,6 +1839,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/.*:
     cores: 4
     mem: 15.3
+    params:
+      tmp_dir: true
     scheduling:
       accept:
       - pulsar
