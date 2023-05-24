@@ -16,6 +16,6 @@
 	<tool file="/mnt/galaxy/local_tools/kmc/kmc_tools_transform.xml" />
     </section>
     <section id="interactivetools" name="Interactive Tools">
-        <tool file="/mnt/galaxy/local_tools/glt_tom/tools/interactivetool_lfqanalyst/lfq-analyst.xml" />
+        <tool file="/mnt/galaxy/local_tools/glt_tom/tools/interactivetool_lfqanalyst/interactivetool_lfqanalyst.xml" />
     </section>
 </toolbox>
