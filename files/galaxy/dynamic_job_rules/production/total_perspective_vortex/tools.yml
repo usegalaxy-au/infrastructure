@@ -1176,7 +1176,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      - pulsar-training-large
+      - training-exempt
       reject:
       - pulsar-QLD
     rules:
