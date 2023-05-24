@@ -1561,6 +1561,9 @@ tools:
       if: 0.2 <= input_size < 6
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/pathview/pathview/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/pear/iuc_pear/.*:
     cores: 7
     mem: 26.8
