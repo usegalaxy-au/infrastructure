@@ -1591,6 +1591,45 @@ tools:
       if: 0.015 <= input_size < 1
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust_categorize/picrust_categorize/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust_compare_biom/picrust_compare_biom/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust_format_tree_and_trait_table/picrust_format_tree_and_trait_table/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust_metagenome_contributions/picrust_metagenome_contributions/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust_normalize_by_copy_number/picrust_normalize_by_copy_number/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust_predict_metagenomes/picrust_predict_metagenomes/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_add_descriptions/picrust2_add_descriptions/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_hsp/picrust2_hsp/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_metagenome_pipeline/picrust2_metagenome_pipeline/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_pathway_pipeline/picrust2_pathway_pipeline/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_pipeline/picrust2_pipeline/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_place_seqs/picrust2_place_seqs/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_shuffle_predictions/picrust2_shuffle_predictions/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
     cores: 120
     mem: 1922
