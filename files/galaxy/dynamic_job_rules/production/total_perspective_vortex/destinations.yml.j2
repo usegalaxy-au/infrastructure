@@ -38,13 +38,14 @@ destinations:
       persistence_directory: /mnt/pulsar/files/persisted_data
     rules:
       - id: pulsar_destination_singularity_rule
-        if: entity.params.get('singularity_enabled')  # TODO: check that this is not truthy when singularity_enabled: False is set
+        if: entity.params.get('singularity_enabled')
         params:
             singularity_volumes: "{{ pulsar_singularity_volumes }}"
             container_resolvers: 
                 - type: explicit_singularity
                 - type: mulled_singularity
             singularity_default_container_id: "{{ singularity_default_container_id }}"
+            dependency_resolution: none
         env:
           SINGULARITY_CACHEDIR: /mnt/pulsar/deps/singularity
           SINGULARITY_TMPDIR: /mnt/pulsar/deps/singularity/tmp
