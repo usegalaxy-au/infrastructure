@@ -635,6 +635,7 @@ tools:
     cores: 8
     mem: 69
     params:
+      tmp_dir: true
       docker_enabled: true
       docker_volumes: $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro
     rules:
