@@ -2352,7 +2352,7 @@ tools:
     params:
       docker_enabled: true
       docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env
-        ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data/v2.3
+        ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data
     scheduling:
       require:
       - pulsar
