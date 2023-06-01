@@ -10,6 +10,8 @@
         <tool file="/mnt/galaxy/local_tools/glt_tom/tools/pbmm2/pbmm2.xml" />
         <tool file="/mnt/galaxy/local_tools/glt_tom/tools/pbccs/pbccs.xml" />
         <tool file="/mnt/galaxy/local_tools/maxquant/maxquant.xml" />
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh.xml" />
+        <tool file="/mnt/galaxy/local_tools/cellranger/cellranger.xml" />
         <tool file="/mnt/galaxy/local_tools/kmc/kmc.xml" />
         <tool file="/mnt/galaxy/local_tools/kmc/kmc_tools_filter.xml" />
 	<tool file="/mnt/galaxy/local_tools/kmc/kmc_tools_simple.xml" />
