@@ -234,6 +234,10 @@ tools:
       singularity_volumes: '$defaults,/cvmfs:ro'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
   cellranger:
+    scheduling:
+       require:
+         - pulsar
+         - pulsar-nci-test
     cores: 4
     params:
       singularity_enabled: True
