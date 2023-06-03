@@ -61,6 +61,9 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+  toolshed.g2.bx.psu.edu/repos/bgruening/cpat/cpat/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_butina_clustering/.*:
     cores: 1
     mem: 3.8
@@ -187,6 +190,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_variants/nanopolish_variants/.*:
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/bgruening/pfamscan/pfamscan/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/racon/racon/.*:
     cores: 120
     mem: 1922
@@ -1119,6 +1125,9 @@ tools:
       if: input_size < 0.000002
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/isoformswitchanalyzer/isoformswitchanalyzer/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_consensus/ivar_consensus/.*:
     cores: 8
     mem: 30.7
