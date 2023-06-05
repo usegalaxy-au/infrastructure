@@ -237,12 +237,14 @@ tools:
     scheduling:
        require:
          - pulsar
-         - pulsar-nci-test
     cores: 4
     params:
       singularity_enabled: True
       singularity_volumes: '$defaults,/cvmfs:ro'
   fgenesh:
+    scheduling:
+       require:
+         - pulsar
     cores: 4
     params:
       singularity_enabled: True
