@@ -221,6 +221,9 @@ aarnet-backup ansible_ssh_host=138.44.80.22 internal_ip=192.168.199.12
 [pulsar_azure_0_head]
 pulsar-azure-0 ansible_ssh_host=20.28.206.42
 
+[pulsar_azure_workers]  # excluding cyclecloud workers
+pulsar-azure-w1 ansible_ssh_host=20.211.22.132 # D96-1
+
 ##### Stats server
 [stats_servers]
 stats.usegalaxy.org.au ansible_ssh_host=115.146.84.128

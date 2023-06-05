@@ -1,3 +1,4 @@
+---
 - name: pulsar azure worker playbook
   hosts: pulsar_azure_workers
   become: yes
@@ -9,3 +10,9 @@
     - insspb.hostname
     - galaxyproject.repos
     - galaxyproject.cvmfs
+
+# To do:
+#  - galaxyproject.slurm role and slurm configuration on pulsar-azure-0 also
+#  - shared_mounts: /mnt/pulsar
+#  - security groups so that this VM can communicate with others in the network.
+#    Also check that it is in the same network as pulsar-azure-0
