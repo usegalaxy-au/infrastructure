@@ -115,6 +115,8 @@ host_galaxy_config: # renamed from __galaxy_config
       enable: true
       tusd_path: /usr/local/sbin/tusd
       upload_dir: "{{ galaxy_tus_upload_store }}"
+    reports:
+      enable: true
 
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }}"

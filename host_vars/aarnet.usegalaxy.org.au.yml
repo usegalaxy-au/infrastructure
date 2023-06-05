@@ -172,7 +172,8 @@ host_galaxy_config: # renamed from __galaxy_config
         pools:
           - job-handlers
           - workflow-schedulers
-
+    reports:
+      enable: true
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
     brand: "Australia"
