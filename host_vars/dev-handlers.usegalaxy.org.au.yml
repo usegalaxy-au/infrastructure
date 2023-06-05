@@ -44,6 +44,8 @@ host_galaxy_config_gravity:  # overridden from entry in dev.usegalaxy.org.au
       pools:
         - job-handlers
         - workflow-schedulers
+  reports:
+    enable: true
 
 # Flower
 flower_python_version: python3.8
