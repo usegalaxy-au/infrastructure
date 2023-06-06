@@ -837,7 +837,7 @@ tools:
       mem: 15.3
   toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
     cores: 20
-    mem: 200
+    mem: 320
     params:
       singularity_enabled: true
     scheduling:
