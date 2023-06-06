@@ -172,8 +172,11 @@ host_galaxy_config: # renamed from __galaxy_config
         pools:
           - job-handlers
           - workflow-schedulers
-    reports:
-      enable: true
+    # reports: # uncomment with release_23.0 + systemd
+    #   enable: true
+    #   url_prefix: /reports
+    #   bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
+    #   config_file: "{{ galaxy_config_dir }}/reports.yml"
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
     brand: "Australia"

@@ -27,7 +27,10 @@ galaxy_manage_mutable_setup: false
 galaxy_build_client: false
 
 host_galaxy_config_gravity:  # overridden from entry in dev.usegalaxy.org.au
+  process_manager: systemd
   galaxy_root: "{{ galaxy_server_dir }}"
+  galaxy_user: "{{ galaxy_user.name }}"
+  app_server: gunicorn
   virtualenv: "{{ galaxy_venv_dir }}"
   gunicorn:
     enable: false
@@ -44,8 +47,6 @@ host_galaxy_config_gravity:  # overridden from entry in dev.usegalaxy.org.au
       pools:
         - job-handlers
         - workflow-schedulers
-  reports:
-    enable: true
 
 # Flower
 flower_python_version: python3.8

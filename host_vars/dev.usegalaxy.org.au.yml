@@ -42,6 +42,10 @@ nginx_ssl_servers:
 #gie proxy hostname
 interactive_tools_server_name: "{{ hostname }}"
 
+# singularity cache of galaxy user (overridden from galaxyservers entry)
+galaxy_user_singularity_cachedir: /mnt/galaxy/singularity_data
+galaxy_user_singularity_tmpdir: "{{ galaxy_user_singularity_cachedir }}/tmp"
+
 galaxy_db_user_password: "{{ vault_dev_db_user_password }}"
 
 # ansible-galaxy
@@ -98,7 +102,9 @@ host_galaxy_config_files:
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
 host_galaxy_config_gravity:
+  process_manager: systemd
   galaxy_root: "{{ galaxy_server_dir }}"
+  galaxy_user: "{{ galaxy_user.name }}"
   app_server: gunicorn
   virtualenv: "{{ galaxy_venv_dir }}"
   gunicorn:
@@ -118,6 +124,13 @@ host_galaxy_config_gravity:
     enable_beat: false
   reports:
     enable: true
+    url_prefix: /reports
+    bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
+    config_file: "{{ galaxy_config_dir }}/reports.yml"
+  tusd:
+    enable: true
+    tusd_path: /usr/local/sbin/tusd
+    upload_dir: "{{ galaxy_tus_upload_store }}"
 
 host_galaxy_config: # renamed from __galaxy_config
   gravity: "{{ host_galaxy_config_gravity }}"
@@ -165,18 +178,6 @@ host_galaxy_config: # renamed from __galaxy_config
     activation_email: <activation-noreply@usegalaxy.org.au>
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
-
-# TUS
-tusd_instances:
-  - name: main
-    user: "{{ galaxy_user.name }}"
-    group: "galaxy"
-    args:
-      - "-host=localhost"
-      - "-port={{ galaxy_tusd_port }}"
-      - "-upload-dir={{ galaxy_tus_upload_store }}"
-      - "-hooks-http=https://{{ hostname }}/api/upload/hooks"
-      - "-hooks-http-forward-headers=X-Api-Key,Cookie"
 
 # NFS stuff
 nfs_exports:
