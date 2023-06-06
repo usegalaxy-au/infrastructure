@@ -105,13 +105,11 @@ server {
         alias {{ galaxy_server_dir }}/static/favicon.ico;
     }
 
-    location /reports/ {
-        uwsgi_pass           127.0.0.1:9001;
-        uwsgi_param          UWSGI_SCHEME $scheme;
-        include              uwsgi_params;
-        auth_basic "Restricted Content";
-        auth_basic_user_file /etc/nginx/.htpasswd;
-    }
+{% if galaxy_config.gravity.reports is defined %}
+       location /reports/ {
+               proxy_pass http://{{ galaxy_config.gravity.reports.bind }}:/;
+       }
+{% endif %}
 
     location /tiaas {
         proxy_pass            http://unix:/run/tiaas.sock;
