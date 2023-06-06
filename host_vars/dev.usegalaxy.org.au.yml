@@ -42,6 +42,10 @@ nginx_ssl_servers:
 #gie proxy hostname
 interactive_tools_server_name: "{{ hostname }}"
 
+# singularity cache of galaxy user (overridden from galaxyservers entry)
+galaxy_user_singularity_cachedir: /mnt/galaxy/singularity_data
+galaxy_user_singularity_tmpdir: "{{ galaxy_user_singularity_cachedir }}/tmp"
+
 galaxy_db_user_password: "{{ vault_dev_db_user_password }}"
 
 # ansible-galaxy

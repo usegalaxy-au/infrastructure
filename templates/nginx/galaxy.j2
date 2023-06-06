@@ -106,9 +106,11 @@ server {
     }
 
 {% if galaxy_config.gravity.reports is defined %}
-       location /reports/ {
-               proxy_pass http://{{ galaxy_config.gravity.reports.bind }}:/;
-       }
+    location /reports/ {
+        proxy_pass http://{{ galaxy_config.gravity.reports.bind }}:/;
+        auth_basic "Restricted Content";
+        auth_basic_user_file /etc/nginx/.htpasswd;
+    }
 {% endif %}
 
     location /tiaas {

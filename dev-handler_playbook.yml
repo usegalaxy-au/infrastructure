@@ -42,11 +42,10 @@
     - role: galaxyproject.miniconda
       become: true
       become_user: galaxy
-    - usegalaxy_eu.galaxy_systemd
+    # - usegalaxy_eu.galaxy_systemd
     - nginx-upload-module # depends on nginx conf file, why does this go before nginx?
     - galaxyproject.nginx
     - galaxyproject.tusd
-    - geerlingguy.nfs
     - galaxyproject.slurm
     # - galaxyproject.s3fs
     - galaxyproject.cvmfs
