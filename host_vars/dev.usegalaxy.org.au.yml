@@ -175,18 +175,6 @@ host_galaxy_config: # renamed from __galaxy_config
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
-# # TUS
-# tusd_instances:
-#   - name: main
-#     user: "{{ galaxy_user.name }}"
-#     group: "galaxy"
-#     args:
-#       - "-host=localhost"
-#       - "-port={{ galaxy_tusd_port }}"
-#       - "-upload-dir={{ galaxy_tus_upload_store }}"
-#       - "-hooks-http=https://{{ hostname }}/api/upload/hooks"
-#       - "-hooks-http-forward-headers=X-Api-Key,Cookie"
-
 # NFS stuff
 nfs_exports:
   - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
