@@ -1,6 +1,0 @@
-- hosts: pawsey_group
-  become: true
-  vars_files:
-      - group_vars/pawsey.yml
-  roles:
-    - dj-wasabi.telegraf

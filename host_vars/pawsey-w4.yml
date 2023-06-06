@@ -1,5 +1,0 @@
-attached_volumes:
-  - device: /dev/vdc
-    path: /mnt
-    fstype: ext4
-    partition: 1
