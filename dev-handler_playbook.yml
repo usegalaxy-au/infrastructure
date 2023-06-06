@@ -12,14 +12,6 @@
     - secret_group_vars/stats_server_vault
     - secret_group_vars/dev_secrets
     - secret_group_vars/sentry_vault
-  handlers:
-    - name: galaxy gravity restart
-      become: True
-      become_user: galaxy
-      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
-      environment:
-        GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
-        GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
   pre_tasks:
     - name: create dir for gravity configuration
       file:
@@ -42,34 +34,26 @@
     - galaxyproject.repos
     - common
     - mounts
-    #- install-tpv
-    #- galaxyproject.postgresql
-    #- role: galaxyproject.postgresql_objects
-      #become: true
-      #become_user: postgres
+    # - install-tpv
     - geerlingguy.pip
     - gantsign.golang
     - cyverse-ansible.singularity
     - galaxyproject.galaxy
-    #- role: galaxyproject.miniconda
-    #  become: true
-    #  become_user: galaxy
-    #- usegalaxy_eu.galaxy_systemd
-    #- nginx-upload-module
-    #- galaxyproject.nginx
-    #- galaxyproject.tusd
-    #- geerlingguy.nfs
+    - role: galaxyproject.miniconda
+      become: true
+      become_user: galaxy
+    - usegalaxy_eu.galaxy_systemd
+    - nginx-upload-module # depends on nginx conf file, why does this go before nginx?
+    - galaxyproject.nginx
+    - galaxyproject.tusd
+    - geerlingguy.nfs
     - galaxyproject.slurm
     # - galaxyproject.s3fs
     - galaxyproject.cvmfs
     - galaxyproject.gxadmin
-    #- pg-post-tasks
-    #- remote-pulsar-cron
-    #- galaxy-pg-cleanup
-    # - usegalaxy_eu.tiaas2
-    #- dev-tiaas2
-    #- geerlingguy.docker
-    #- usegalaxy_eu.gie_proxy
+    - pg-post-tasks
+    - geerlingguy.docker
+    - usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf
     #- login-override
     - usegalaxy_eu.flower

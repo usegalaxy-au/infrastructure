@@ -98,7 +98,9 @@ host_galaxy_config_files:
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
 host_galaxy_config_gravity:
+  process_manager: systemd
   galaxy_root: "{{ galaxy_server_dir }}"
+  galaxy_user: "{{ galaxy_user.name }}"
   app_server: gunicorn
   virtualenv: "{{ galaxy_venv_dir }}"
   gunicorn:
@@ -118,6 +120,10 @@ host_galaxy_config_gravity:
     enable_beat: false
   reports:
     enable: true
+  tusd:
+    enable: true
+    tusd_path: /usr/local/sbin/tusd
+    upload_dir: "{{ galaxy_tus_upload_store }}"
 
 host_galaxy_config: # renamed from __galaxy_config
   gravity: "{{ host_galaxy_config_gravity }}"
@@ -166,17 +172,17 @@ host_galaxy_config: # renamed from __galaxy_config
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
-# TUS
-tusd_instances:
-  - name: main
-    user: "{{ galaxy_user.name }}"
-    group: "galaxy"
-    args:
-      - "-host=localhost"
-      - "-port={{ galaxy_tusd_port }}"
-      - "-upload-dir={{ galaxy_tus_upload_store }}"
-      - "-hooks-http=https://{{ hostname }}/api/upload/hooks"
-      - "-hooks-http-forward-headers=X-Api-Key,Cookie"
+# # TUS
+# tusd_instances:
+#   - name: main
+#     user: "{{ galaxy_user.name }}"
+#     group: "galaxy"
+#     args:
+#       - "-host=localhost"
+#       - "-port={{ galaxy_tusd_port }}"
+#       - "-upload-dir={{ galaxy_tus_upload_store }}"
+#       - "-hooks-http=https://{{ hostname }}/api/upload/hooks"
+#       - "-hooks-http-forward-headers=X-Api-Key,Cookie"
 
 # NFS stuff
 nfs_exports:
