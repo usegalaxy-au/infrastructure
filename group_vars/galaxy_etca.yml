@@ -1,0 +1,24 @@
+galaxy_uid: 10010
+galaxy_gid: 10010
+
+use_internal_ips: true
+
+influx_url: stats.usegalaxy.org.au
+grafana_server_url: "https://{{ influx_url }}:8086"
+
+# Todo: create influx tables before setting up telegraf
+# # Monitoring
+# telegraf_agent_output:
+#   - type: influxdb
+#     config:
+#       - urls = ["{{ grafana_server_url }}"]
+#       - database = "galaxy" # yikes
+#       - precision = "s"
+#       - username = "node"
+#       - password = "{{ vault_influx_node_password }}"
+
+# dbservers and galaxyservers
+galaxy_db_user_password: "{{ vault_galaxy_db_user_password }}"
+galaxy_db_reader_password: "{{ vault_galaxy_db_reader_password }}"
+galaxy_db_tiaasadmin_password: "{{ vault_galaxy_db_tiaasadmin_password }}"
+galaxy_db_tiaas_password: "{{ vault_galaxy_db_tiaas_password }}"
