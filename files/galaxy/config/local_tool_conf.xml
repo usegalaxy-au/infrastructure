@@ -6,4 +6,7 @@
         <tool file="/mnt/galaxy/local_tools/alphafold-test/alphafold.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/gtdbtk/gtdbtk_classify_wf.xml" labels="test"/>
     </section>
+    <section id="interactivetools" name="Interactive Tools">
+        <tool file="/mnt/galaxy/local_tools/lfqanalyst/interactivetool_lfqanalyst.xml" labels="test"/>
+    </section>
 </toolbox>
