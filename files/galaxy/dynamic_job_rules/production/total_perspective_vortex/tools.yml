@@ -33,6 +33,12 @@ tools:
       if: input_size < 0.1
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/bgruening/antismash/antismash/.*:
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/augustus/augustus/.*:
     cores: 8
     mem: 30.7
@@ -836,8 +842,10 @@ tools:
       cores: 4
       mem: 15.3
   toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
-    cores: 120
-    mem: 1922
+    cores: 20
+    mem: 320
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -896,8 +904,8 @@ tools:
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/[^3].*:
-    cores: 60
-    mem: 961
+    cores: 16
+    mem: 150
     scheduling:
       accept:
       - pulsar
@@ -935,8 +943,8 @@ tools:
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/.*:
-    cores: 60
-    mem: 961
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1103,8 +1111,10 @@ tools:
     cores: 16
     mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_gard/hyphy_gard/.*:
-    cores: 120
-    mem: 1922
+    cores: 20
+    mem: 200
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1178,8 +1188,8 @@ tools:
       cores: 2
       mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/khmer_abundance_distribution_single/khmer_abundance_distribution_single/.*:
-    cores: 120
-    mem: 1922
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1194,7 +1204,9 @@ tools:
       mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     cores: 16
-    mem: 61.4
+    mem: 200
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1254,8 +1266,10 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus_pipeline/medaka_consensus_pipeline/.*:
-    cores: 120
-    mem: 1922
+    cores: 20
+    mem: 200
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1328,8 +1342,10 @@ tools:
       cores: 5
       mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/.*:
-    cores: 120
-    mem: 1922
+    cores: 30
+    mem: 480.5
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1740,8 +1756,10 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/raven/raven/.*:
-    cores: 120
-    mem: 1922
+    cores: 20
+    mem: 200
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1852,8 +1870,8 @@ tools:
       cores: 5
       mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_seq/.*:
-    cores: 120
-    mem: 1922
+    cores: 20
+    mem: 200
     scheduling:
       accept:
       - pulsar
@@ -1867,8 +1885,10 @@ tools:
       cores: 4
       mem: 15.3
   toolshed.g2.bx.psu.edu/repos/iuc/shasta/shasta/.*:
-    cores: 120
-    mem: 1922
+    cores: 20
+    mem: 200
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
