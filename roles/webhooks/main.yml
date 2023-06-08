@@ -1,0 +1,9 @@
+# Copy local webhooks into webhooks folder
+- name: copy webhook plugins
+  copy:
+    src: "{{ webhook_plugins_src_dir }}"
+    dest: "{{ webhook_plugins_dest_dir }}"
+    owner: root
+    group: root
+    mode: 0755
+  notify: restart galaxy
