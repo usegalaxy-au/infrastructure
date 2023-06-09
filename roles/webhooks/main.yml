@@ -1,9 +1,11 @@
 # Copy local webhooks into webhooks folder
 - name: copy webhook plugins
   copy:
-    src: "{{ webhook_plugins_src_dir }}"
-    dest: "{{ webhook_plugins_dest_dir }}"
+    src: "{{ webhook_plugins_src_dir }}/{{ item }}"
+    dest: "{{ webhook_plugins_dest_dir }}/{{ item }}"
     owner: root
     group: root
     mode: 0755
+  loop: "{{ webhook_plugins }}"
+  when: webhook_plugins is not None
   notify: restart galaxy
