@@ -6,13 +6,15 @@ tooltip: Switch sites
 function: >
   const SUBDOMAINS = [
     {
-      name: 'Base site',
-      url: 'https://usegalaxy.org.au',
+      label: "Base site",
+      url: "https://{{ galaxy_subsite_base_domain }}",
     },
+    {% for subdomain in galaxy_subsites %}
     {
-      name: 'Genomes lab',
-      url: 'https://genome.usegalaxy.org.au',
+      label: "{{ subdomain.brand }}",
+      url: "https://{{ subdomain.name }}.{{ galaxy_subsite_base_domain }}",
     },
+    {% endfor %}
   ];
 
   function getDropdown() {
@@ -28,9 +30,9 @@ function: >
 
     console.log("Call: showDomainSwitcher()");
     const listItems = SUBDOMAINS
-      .filter( site => site.url !== window.location.origin )
+      .filter( site => site.url.strip('/') !== window.location.origin )
       .map(site => `<li>
-        <a class="dropdown-item" role="menuitem" href="${site.url}">${site.name}</a>
+        <a class="dropdown-item" role="menuitem" href="${site.url}">${site.label}</a>
       </li>`);
     let ul = document.createElement('ul');
     ul.className = "dropdown-menu show";
