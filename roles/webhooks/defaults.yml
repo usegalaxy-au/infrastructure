@@ -1,2 +1,2 @@
 webhook_plugins_src_dir: "galaxy/webhooks"
-webhook_plugins_dest_dir: "{{ galaxy_config_dir }}/plugins/webhooks"
+webhook_plugins_dest_dir: "{{ galaxy_server_dir }}/config/plugins/webhooks"
