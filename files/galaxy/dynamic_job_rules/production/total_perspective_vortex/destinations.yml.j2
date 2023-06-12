@@ -253,7 +253,7 @@ destinations:
     rules:
       - id: pulsar_destination_docker_rule
         params:
-            docker_volumes: $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro
+            docker_volumes: $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro,/mnt/tmp:/tmp:rw
             docker_set_user: '1000'
             docker_memory: '{mem}G'
             docker_sudo: false
