@@ -69,6 +69,7 @@
     - postfix-mail-relay
     #- login-override
     - acl-on-startup
+    - webhooks
   post_tasks:
     - name: Ensure object store paths exist
       file:

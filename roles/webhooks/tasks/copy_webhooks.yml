@@ -1,0 +1,17 @@
+- name: create webhook directories
+  file:
+    path: "{{ webhook_plugins_dest_dir }}/{{ webhook_name }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: template webhook files
+  template:
+    src: "{{ item }}"
+    dest: "{{ webhook_plugins_dest_dir }}/{{ webhook_name }}/{{ item | basename | regex_replace('\\.j2$', '') }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_fileglob:
+    - "{{ webhook_plugins_src_dir }}/{{ webhook_name }}/*"

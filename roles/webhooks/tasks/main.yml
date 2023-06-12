@@ -1,0 +1,22 @@
+# Copy local webhooks into webhooks folder
+- name: copy webhooks to Galaxy plugins directory
+  include_tasks: copy_webhooks.yml
+  loop: "{{ webhook_plugins }}"
+  loop_control:
+    loop_var: webhook_name
+
+- name: collect existing webhook directories
+  # find:
+  #   paths: "{{ webhook_plugins_dest_dir }}"
+  #   file_type: directory
+  shell: ls -1 {{ webhook_plugins_dest_dir }}
+  register: existing_webhook_plugin_dirs
+
+- debug: var=existing_webhook_plugin_dirs
+
+- name: remove old webhook directories
+  file:
+    path: "{{ webhook_plugins_dest_dir }}/{{ item }}"
+    state: absent
+  with_items: "{{ existing_webhook_plugin_dirs.stdout_lines }}"
+  when: "item not in webhook_plugins"
