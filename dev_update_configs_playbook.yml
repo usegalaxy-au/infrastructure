@@ -12,25 +12,21 @@
       - secret_group_vars/dev_secrets
   handlers:
     - name: galaxy gravity restart
-      become: True
-      become_user: galaxy
-      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
-      environment:
-        GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
-        GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}" 
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl -c {{ galaxy_config_file }} graceful"
+      listen: "restart galaxy"
   pre_tasks:
     - name: copy job_conf file
       template:
         src: "{{ galaxy_config_template_src_dir }}/config/dev_job_conf.yml.j2"
         dest: "{{ galaxy_config_dir }}/job_conf.yml"
-      notify: galaxy gravity restart
+      notify: restart galaxy
     - name: Install dynamic job rules (static) # dynamic job rules tasks copied from https://github.com/galaxyproject/ansible-galaxy/blob/main/tasks/static_setup.yml
       copy:
         src: "{{ galaxy_dynamic_job_rules_src_dir }}/{{ item }}"
         dest: "{{ galaxy_dynamic_job_rules_dir }}/{{ item }}"
         mode: 0644
       with_items: "{{ galaxy_dynamic_job_rules }}"
-      notify: galaxy gravity restart
+      notify: restart galaxy
       when: not item.endswith(".j2")
     - name: Install dynamic job rules (template)
       template:
@@ -40,7 +36,7 @@
       vars:
         regex: '\.j2$'
       with_items: "{{ galaxy_dynamic_job_rules }}"
-      notify: galaxy gravity restart
+      notify: restart galaxy
       when: item.endswith(".j2")
     - name: "Copy local tool configuration file to dev"
       copy:
