@@ -126,6 +126,9 @@ retention_policy_dbs:
 
 ###### Grafana
 
+# set version (currently installed version on Ubuntu 20.04.5 LTS) so doesn't update Grafana when role is executed again
+grafana_version: "9.1.2"
+
 # Grafana General
 grafana_data_dir: /mnt/grafana_data
 grafana_instance: "{{ hostname }}"
@@ -134,6 +137,7 @@ grafana_url: "https://{{ hostname }}"
 grafana_server:
     domain: "{{ hostname }}"
     root_url: "https://%(domain)s/"
+
 
 grafana_users:
   default_theme: "dark"
