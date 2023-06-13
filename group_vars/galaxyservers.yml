@@ -22,7 +22,6 @@ postgresql_objects_databases:
 # systemd
 galaxy_systemd_mode: mule
 galaxy_zergpool_listen_addr: 127.0.0.1:8080
-galaxy_restart_handler_name: "Restart Galaxy"
 galaxy_systemd_zergling_env: DRMAA_LIBRARY_PATH="/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
 galaxy_systemd_reports: true
 galaxy_config_perms: 0644
