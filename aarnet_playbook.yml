@@ -9,13 +9,6 @@
     - host_vars/aarnet.usegalaxy.org.au.yml
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ubuntu_maintenance_key
-  handlers:
-    - name: galaxy gravity restart
-      become: True
-      become_user: galaxy
-      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful" # results in restart of gunicorn, 502 page for ~3 minutes
-      environment:
-        GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -44,7 +37,6 @@
     - role: galaxyproject.miniconda
       become: true
       become_user: galaxy
-    # - usegalaxy_eu.galaxy_systemd
     # - usegalaxy_eu.galaxy_subdomains
     - nginx-upload-module
     - galaxyproject.nginx
