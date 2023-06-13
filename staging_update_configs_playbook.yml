@@ -9,13 +9,9 @@
       - host_vars/staging.usegalaxy.org.au.yml
       - secret_group_vars/ubuntu_maintenance_key
   handlers:
-    - name: restart handlers
-      become: True
-      become_user: galaxy
-      command: "{{ galaxy_venv_dir }}/bin/galaxyctl restart handler_0 handler_1 handler_2"
-      environment:
-        GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
-        GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
+    - name: galaxy gravity restart handlers
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl -c {{ galaxy_config_file }} restart handler"
+      listen: "restart handlers"
   pre_tasks:
     - name: copy job_conf file
       template:
