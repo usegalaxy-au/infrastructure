@@ -64,6 +64,7 @@
     - slg.galaxy_stats
     - galaxy-pg-cleanup
     - galaxyproject.tiaas2
+    - webhooks
   post_tasks:
     - name: Make local_tool directory group-writable by machine users
       file:
