@@ -66,6 +66,7 @@
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf
+    - postfix-mail-relay
     #- login-override
     - acl-on-startup
     - webhooks

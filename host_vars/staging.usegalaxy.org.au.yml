@@ -117,6 +117,9 @@ host_galaxy_config: # renamed from __galaxy_config
       upload_dir: "{{ galaxy_tus_upload_store }}"
     reports:
       enable: true
+      url_prefix: /reports
+      bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
+      config_file: "{{ galaxy_config_dir }}/reports.yml"
 
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }}"

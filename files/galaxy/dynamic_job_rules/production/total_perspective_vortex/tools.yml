@@ -1090,12 +1090,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
     cores: 32
     mem: 122.8
-    scheduling:
-      accept:
-      - pulsar
-      reject:
-      - pulsar-mel2
-      - pulsar-QLD
+    # scheduling:
+    #   accept:
+    #   - pulsar
+    #   reject:
+    #   - pulsar-mel2
+    #   - pulsar-QLD
     rules:
     - id: humann_small_input_rule
       if: input_size < 0.01
