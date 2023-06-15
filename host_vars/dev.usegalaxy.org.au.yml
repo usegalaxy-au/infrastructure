@@ -176,6 +176,7 @@ host_galaxy_config: # renamed from __galaxy_config
     user_activation_on: true
     instance_resource_url: https://site.usegalaxy.org.au
     activation_email: <activation-noreply@usegalaxy.org.au>
+    themes_config_file: "{{ galaxy_config_dir }}/themes_conf.yml" # TODO: switch this on in galaxyservers.yml and it won't be needed here
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
