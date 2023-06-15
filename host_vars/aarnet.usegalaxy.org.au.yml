@@ -581,3 +581,29 @@ dt_cron_hour: "20"
 dt_cron_minute: "00"
 dt_skip_cron_setup: true
 dt_connection_string: "postgres://reader:{{ vault_aarnet_db_reader_password }}@aarnet-db.usegalaxy.org.au:5432/galaxy"
+
+galaxy_subsite_base_domain: "usegalaxy.org.au"
+galaxy_subsite_default_welcome: "https://site.usegalaxy.org.au"
+galaxy_subsite_dir: /mnt/galaxy/subsites
+galaxy_subsites:
+  - name: genome
+    brand: Genomes lab
+    iframe: "https://site.usegalaxy.org.au/landing/genome"
+    wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
+    tool_sections:
+      - "hicexplorer"
+      - "plots"
+      - "assembly"
+      - "annotation"
+      - "phylogenetics"
+      - "multiple_alignments"
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #2c3067;
+      }
+      #masthead {
+        background: #3a3e87;
+      }
+
+webhook_plugins:
+  - subdomain_switcher
