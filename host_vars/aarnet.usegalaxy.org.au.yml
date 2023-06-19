@@ -16,6 +16,7 @@ certbot_domains:
   - "usegalaxy.org.au"
   - "www.usegalaxy.org.au"
   - "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
+  # - "genome.{{ hostname }}"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_api_token }}"
@@ -206,6 +207,9 @@ host_galaxy_config: # renamed from __galaxy_config
     trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
     # TUS
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
+    # For subdomains
+    # tool_section_filters: global_host_filters:per_host_tool_sections
+    # tool_label_filters: global_host_filters:per_host_tool_labels
 
 # TUS
 tusd_instances:
@@ -582,6 +586,7 @@ dt_cron_minute: "00"
 dt_skip_cron_setup: true
 dt_connection_string: "postgres://reader:{{ vault_aarnet_db_reader_password }}@aarnet-db.usegalaxy.org.au:5432/galaxy"
 
+# Subdomains
 galaxy_subsite_base_domain: "usegalaxy.org.au"
 galaxy_subsite_default_welcome: "https://site.usegalaxy.org.au"
 galaxy_subsite_dir: /mnt/galaxy/subsites

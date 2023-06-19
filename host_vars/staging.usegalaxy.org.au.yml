@@ -16,6 +16,7 @@ galaxy_additional_venv_packages: |
 certbot_domains:
   - "{{ hostname }}"
   - "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
+  - "genome.{{ hostname }}"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_api_token }}"
@@ -148,6 +149,9 @@ host_galaxy_config: # renamed from __galaxy_config
     trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
     # TUS
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
+    # For subdomains
+    tool_section_filters: global_host_filters:per_host_tool_sections
+    tool_label_filters: global_host_filters:per_host_tool_labels
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
@@ -225,3 +229,29 @@ postfix_hostname: "staging"
 smtp_login: "{{ vault_smtp_login_staging }}"
 smtp_password: "{{ vault_smtp_password_staging }}"
 
+# subdomains
+galaxy_subsite_base_domain: "staging.usegalaxy.org.au"
+galaxy_subsite_default_welcome: "https://site.usegalaxy.org.au"
+galaxy_subsite_dir: /mnt/galaxy/subsites
+galaxy_subsites:
+  - name: genome
+    brand: Genomes lab
+    iframe: "https://site.usegalaxy.org.au/landing/genome"
+    wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
+    tool_sections:
+      - "hicexplorer"
+      - "plots"
+      - "assembly"
+      - "annotation"
+      - "phylogenetics"
+      - "multiple_alignments"
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #2c3067;
+      }
+      #masthead {
+        background: #3a3e87;
+      }
+
+webhook_plugins:
+  - subdomain_switcher
