@@ -28,7 +28,6 @@ function: >
       return;
     }
 
-    console.log("Call: showDomainSwitcher()");
     const listItems = SUBDOMAINS
       .filter( site => site.url.strip('/') !== window.location.origin )
       .map(site => `<li>
