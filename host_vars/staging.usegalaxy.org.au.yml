@@ -254,4 +254,7 @@ galaxy_subsites:
       }
 
 webhook_plugins:
+  - demo
+  - gtn
+  - news
   - subdomain_switcher
