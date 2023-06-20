@@ -178,6 +178,13 @@ host_galaxy_config: # renamed from __galaxy_config
       enable: true
       tusd_path: /usr/local/sbin/tusd
       upload_dir: "{{ galaxy_tus_upload_store }}"
+    gx_it_proxy:
+      enable: true
+      version: '>=0.0.5'  # default from galaxy.yml.sample
+      ip: "{{ gie_proxy_ip }}"
+      port: "{{ gie_proxy_port }}"
+      sessions: "{{ gie_proxy_sessions_path }}"
+      verbose: true
     reports:
       enable: true
       url_prefix: /reports
