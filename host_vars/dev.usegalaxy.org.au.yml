@@ -119,6 +119,13 @@ host_galaxy_config_gravity:
       DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
       SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
       SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+  gx_it_proxy:
+    enable: true
+    version: '>=0.0.5'  # default from galaxy.yml.sample
+    ip: "{{ gie_proxy_ip }}"
+    port: "{{ gie_proxy_port }}"
+    sessions: "{{ gie_proxy_sessions_path }}"
+    verbose: true
   celery:
     enable: false
     enable_beat: false

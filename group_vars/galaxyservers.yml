@@ -333,6 +333,9 @@ docker_install_compose: false
 docker_users:
   - "{{ galaxy_user.name }}"
 
+gie_proxy_ip: 127.0.0.1
+gie_proxy_port: 8000
+# all gie variables below can be removed if galaxy-gie-proxy role is no longer being run
 gie_proxy_dir: "{{ galaxy_root }}/gie-proxy/proxy"
 gie_proxy_git_version: main
 gie_proxy_setup_nodejs: nodeenv
