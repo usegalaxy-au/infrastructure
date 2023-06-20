@@ -6,13 +6,8 @@
     loop_var: webhook_name
 
 - name: collect existing webhook directories
-  # find:
-  #   paths: "{{ webhook_plugins_dest_dir }}"
-  #   file_type: directory
   shell: ls -1 {{ webhook_plugins_dest_dir }}
   register: existing_webhook_plugin_dirs
-
-- debug: var=existing_webhook_plugin_dirs
 
 - name: remove old webhook directories
   file:
