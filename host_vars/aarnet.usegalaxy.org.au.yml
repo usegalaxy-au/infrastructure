@@ -30,7 +30,7 @@ nginx_ssl_servers:
 interactive_tools_server_name: "usegalaxy.org.au"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_22.05
+galaxy_commit_id: release_23.0
 
 # total perspective vortex
 tpv_version: "2.2.3"
@@ -138,12 +138,13 @@ host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/aarnet_job_conf.yml.j2"
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2" ## File cannot be created at dest on first run of playbook
-    dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py" # TODO: release_23.0 use other path
-    # dest: "{{ galaxy_server_dir }}/lib/galaxy/tool_util/toolbox/filters/ga_filters.py" # TODO: release_23.0 use this path
+    dest: "{{ galaxy_server_dir }}/lib/galaxy/tool_util/toolbox/filters/ga_filters.py"
 
 host_galaxy_config: # renamed from __galaxy_config
   gravity:
-    galaxy_root: /mnt/galaxy/galaxy-app
+    process_manager: systemd
+    galaxy_root: "{{ galaxy_server_dir }}"
+    galaxy_user: "{{ galaxy_user.name }}"
     app_server: gunicorn
     virtualenv: "{{ galaxy_venv_dir }}"
     gunicorn:
@@ -173,11 +174,22 @@ host_galaxy_config: # renamed from __galaxy_config
         pools:
           - job-handlers
           - workflow-schedulers
-    # reports: # uncomment with release_23.0 + systemd
-    #   enable: true
-    #   url_prefix: /reports
-    #   bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
-    #   config_file: "{{ galaxy_config_dir }}/reports.yml"
+    tusd:
+      enable: true
+      tusd_path: /usr/local/sbin/tusd
+      upload_dir: "{{ galaxy_tus_upload_store }}"
+    gx_it_proxy:
+      enable: true
+      version: '>=0.0.5'  # default from galaxy.yml.sample
+      ip: "{{ gie_proxy_ip }}"
+      port: "{{ gie_proxy_port }}"
+      sessions: "{{ gie_proxy_sessions_path }}"
+      verbose: true
+    reports:
+      enable: true
+      url_prefix: /reports
+      bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
+      config_file: "{{ galaxy_config_dir }}/reports.yml"
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
     brand: "Australia"
@@ -210,18 +222,6 @@ host_galaxy_config: # renamed from __galaxy_config
     # For subdomains
     # tool_section_filters: global_host_filters:per_host_tool_sections
     # tool_label_filters: global_host_filters:per_host_tool_labels
-
-# TUS
-tusd_instances:
-  - name: main
-    user: "{{ galaxy_user.name }}"
-    group: "galaxy"
-    args:
-      - "-host=localhost"
-      - "-port={{ galaxy_tusd_port }}"
-      - "-upload-dir={{ galaxy_tus_upload_store }}"
-      - "-hooks-http=https://{{ hostname }}/api/upload/hooks"
-      - "-hooks-http-forward-headers=X-Api-Key,Cookie"
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs

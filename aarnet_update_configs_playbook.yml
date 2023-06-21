@@ -9,39 +9,31 @@
       - host_vars/aarnet.usegalaxy.org.au.yml
       - secret_group_vars/stats_server_vault
   handlers:
+    - name: galaxy gravity restart handlers
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl -c {{ galaxy_config_file }} restart handler"
+      listen: "restart handlers"
     - name: galaxy gravity restart
-      become: True
-      become_user: galaxy
-      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
-      environment:
-        GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
-        GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
-    - name: galaxy handler restart
-      become: True
-      become_user: galaxy
-      command: "{{ galaxy_venv_dir }}/bin/galaxyctl handler_0 handler_1 handler_2 handler_3 handler_4"
-      environment:
-        GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
-        GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl -c {{ galaxy_config_file }} graceful"
+      listen: "restart galaxy"
   tasks:
     - name: copy job_conf file
       template:
         src: "{{ galaxy_config_template_src_dir }}/config/aarnet_job_conf.yml.j2"
         dest: "{{ galaxy_config_dir }}/job_conf.yml"
-      notify: galaxy handler restart
+      notify: restart handlers
       # TODO: better linting of job conf, then it is probably entirely acceptable to let the jenkins_bot trigger a graceful restart of handlers
       when: not ansible_user == 'jenkins_bot'  # do not let the automatic process update the job conf
     - name: template object store conf file
       template:
         src: "{{ galaxy_config_template_src_dir }}/config/aarnet_object_store_conf.xml.j2"
         dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
-      notify: galaxy gravity restart
+      notify: restart galaxy
       when: not ansible_user == 'jenkins_bot'  # do not let the automatic process object store or restart galaxy
     - name: template toolbox filters
       template:
         src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
         dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
-      notify: galaxy gravity restart
+      notify: restart galaxy
       when: not ansible_user == 'jenkins_bot'  # do not let the automatic process restart galaxy
     - name: Copy local tool conf file
       copy:
