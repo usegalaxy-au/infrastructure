@@ -29,7 +29,7 @@ function: >
     }
 
     const listItems = SUBDOMAINS
-      .filter( site => site.url.strip('/') !== window.location.origin )
+      .filter( site => site.url.replace(/\/$/, '') !== window.location.origin )
       .map(site => `<li>
         <a class="dropdown-item" role="menuitem" href="${site.url}">${site.label}</a>
       </li>`);
