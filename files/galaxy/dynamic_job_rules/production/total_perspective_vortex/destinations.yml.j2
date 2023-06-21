@@ -8,11 +8,6 @@ destinations:
       accept:
         - docker # to satisfy tools in shared db that have require: docker
         - singularity # to satisfy tools in shared db that have require: singularity
-    env:
-      TEMP: /tmp
-      TMPDIR: /tmp
-      SINGULARITYENV_TEMP: /tmp
-      SINGULARITYENV_TMPDIR: /tmp
   _slurm_destination:
     abstract: true
     params:

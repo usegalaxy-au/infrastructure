@@ -2138,7 +2138,6 @@ tools:
     mem: 30.7
     params:
       singularity_enabled: true
-      tmp_dir: true
     scheduling:
       accept:
       - pulsar
