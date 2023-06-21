@@ -2138,7 +2138,7 @@ tools:
     mem: 30.7
     params:
       singularity_enabled: true
-      singularity_run_extra_arguments: '--env TMPDIR=/tmp'
+      tmp_dir: true
     scheduling:
       accept:
       - pulsar
