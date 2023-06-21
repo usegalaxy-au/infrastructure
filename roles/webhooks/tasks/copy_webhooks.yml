@@ -21,4 +21,4 @@
     mode: 0644
   with_fileglob:
     - "{{ webhook_plugins_src_dir }}/{{ webhook_name }}/*"
-  notify: galaxy gravity restart
+  notify: restart galaxy
