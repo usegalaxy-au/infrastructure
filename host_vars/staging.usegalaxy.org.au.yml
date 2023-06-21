@@ -253,10 +253,10 @@ galaxy_subsites:
         background: #3a3e87;
       }
       #masthead a.navbar-brand::after {
-          content: "Australia - Genomes Lab";
+        content: "Australia - Genomes Lab";
       }
-      #masthead a.navbar-brand .navbar-text {
-          display: none;
+      #masthead .navbar-text {
+        display: none;
       }
 
 webhook_plugins:
