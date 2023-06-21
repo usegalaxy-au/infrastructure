@@ -554,6 +554,7 @@ slurm_singularity_volumes_list_restricted:
   - /mnt/user-data:ro
   - /mnt/custom-indices:ro
   - /cvmfs/data.galaxyproject.org:ro
+  - /tmp:rw  # TODO: copy to galaxy etca files
 
 legacy_singularity_volumes_list: "{{ ['/mnt/files:ro', '/mnt/files2:ro'] if legacy_file_mounts_available|d(True) else [] }}"
 
@@ -566,6 +567,7 @@ pulsar_singularity_volumes_list:
   - $tool_directory:ro
   - /mnt/custom-indices:ro
   - /cvmfs/data.galaxyproject.org:ro
+  - /tmp:rw  # TODO: copy to galaxy etca files
 
 slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
 pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
