@@ -64,7 +64,7 @@
     - galaxy-pg-cleanup
     - galaxyproject.tiaas2
     - geerlingguy.docker
-    - usegalaxy_eu.gie_proxy
+    # - usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf
     - postfix-mail-relay
     #- login-override

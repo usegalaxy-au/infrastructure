@@ -57,7 +57,7 @@
     - geerlingguy.docker
     - acl-on-startup
     - galaxyproject.gxadmin
-    - usegalaxy_eu.gie_proxy
+    # - usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf
     - pg-post-tasks
     - postfix-mail-relay

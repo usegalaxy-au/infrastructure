@@ -9,13 +9,6 @@
     - host_vars/aarnet.usegalaxy.org.au.yml
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ubuntu_maintenance_key
-  handlers:
-    - name: galaxy gravity restart
-      become: True
-      become_user: galaxy
-      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful" # results in restart of gunicorn, 502 page for ~3 minutes
-      environment:
-        GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -30,6 +23,11 @@
       with_items:
         - "{{ galaxy_user_singularity_cachedir }}"
         - "{{ galaxy_user_singularity_tmpdir }}"
+    - name: Disable old tusd service
+      systemd:
+        name: 'tusd-main'
+        enabled: false
+        state: stopped
   roles:
     - galaxyproject.repos
     - common
@@ -58,7 +56,7 @@
     - acl-on-startup
     - dj-wasabi.telegraf
     - galaxyproject.gxadmin
-    - usegalaxy_eu.gie_proxy
+    # - usegalaxy_eu.gie_proxy
     - pg-post-tasks
     - remote-pulsar-cron
     - delete-tmp-jwds-cron
