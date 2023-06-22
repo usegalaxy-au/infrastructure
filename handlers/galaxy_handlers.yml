@@ -1,0 +1,7 @@
+---
+- name: galaxy gravity restart
+  command: "{{ galaxy_venv_dir }}/bin/galaxyctl -c {{ galaxy_config_file }} graceful"
+  listen: "restart galaxy"
+- name: galaxy gravity restart handlers
+  command: "{{ galaxy_venv_dir }}/bin/galaxyctl -c {{ galaxy_config_file }} restart handler"
+  listen: "restart handlers"

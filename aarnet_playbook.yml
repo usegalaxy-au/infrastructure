@@ -9,6 +9,8 @@
     - host_vars/aarnet.usegalaxy.org.au.yml
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ubuntu_maintenance_key
+  handlers:
+    - include: handlers/galaxy_handlers.yml
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -56,7 +58,6 @@
     - acl-on-startup
     - dj-wasabi.telegraf
     - galaxyproject.gxadmin
-    # - usegalaxy_eu.gie_proxy
     - pg-post-tasks
     - postfix-mail-relay
     - remote-pulsar-cron
