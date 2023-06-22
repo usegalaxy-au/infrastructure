@@ -75,14 +75,6 @@
       state: present
     with_items: "{{ machine_users }}"
 
-# DEPRECATED
-#  - name: Add sudo users
-#    copy:
-#      dest: "/etc/sudoers.d/{{ item.name }}"
-#      content: "{{ item.name }}  ALL=(ALL)  NOPASSWD: ALL"
-#      validate: /usr/sbin/visudo -cf %s
-#    with_items: "{{ machine_users | selectattr('roles', 'contains', 'sudo') | list }}"
-
   - name: Add bash function gxctl for sudo users only
     blockinfile:
       path: "/home/{{ item.name }}/.bashrc"
@@ -95,5 +87,6 @@
           sudo -H -Eu {{ galaxy_user.name }} bash -c '. {{ galaxy_venv_dir }}/bin/activate && {{ galaxy_venv_dir }}/bin/galaxyctl $gctl_args' 
         }
       marker: "# {mark} MANAGED BY ANSIBLE - DO NOT MODIFY (gxctl)"
+      state: absent # TODO: Once this is gone from dev/staging/aarnet, remove this task altogether
     with_items: "{{ machine_users | selectattr('roles', 'contains', 'sudo') | list + [{'name': 'ubuntu'}] }}"
     when: is_galaxy_head_node|d(false)
