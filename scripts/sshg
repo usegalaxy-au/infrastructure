@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ ### Standalone Galaxy ssh helper bash script with multiple configurable options and defaults.
+based on the sshy function developed by @cat-bro for MacOS and adapted to Linux by @neoformit
 ### DEFAULTS - MODIFY to suit user and client machine
 
 gx_username=$USER
