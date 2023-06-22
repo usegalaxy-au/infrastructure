@@ -368,9 +368,22 @@ galaxy_subsites:
       - "phylogenetics"
       - "multiple_alignments"
     custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #2c3067;
+      }
       #masthead {
-        background: linear-gradient(20deg, rgb(7, 40, 98) 0%, rgb(69, 122, 184) 48%, rgba(165,204,210,0.9676562309265136) 74%, rgb(228, 195, 131) 92%, rgb(203, 119, 79) 100%);
+        background: #3a3e87;
+      }
+      #masthead a.navbar-brand::after {
+          content: "Australia - Genomes Lab";
+      }
+      #masthead a.navbar-brand .navbar-text {
+          display: none;
       }
 
 webhook_plugins:
   - subdomain_switcher
+  # These ones aren't in the playbook as they are included in the galaxy repo:
+  - demo
+  - gtn
+  - news

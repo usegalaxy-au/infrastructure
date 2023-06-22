@@ -15,3 +15,4 @@
     state: absent
   with_items: "{{ existing_webhook_plugin_dirs.stdout_lines }}"
   when: "item not in webhook_plugins"
+  notify: restart galaxy

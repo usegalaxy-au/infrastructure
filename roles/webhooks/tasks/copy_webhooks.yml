@@ -6,6 +6,12 @@
     group: root
     mode: 0755
 
+- name: list discovered webhook templates
+  debug:
+    msg: "{{ item }}"
+  with_fileglob:
+    - "{{ webhook_plugins_src_dir }}/{{ webhook_name }}/*"
+
 - name: template webhook files
   template:
     src: "{{ item }}"
@@ -15,3 +21,4 @@
     mode: 0644
   with_fileglob:
     - "{{ webhook_plugins_src_dir }}/{{ webhook_name }}/*"
+  notify: restart galaxy

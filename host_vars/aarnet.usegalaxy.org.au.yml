@@ -611,6 +611,16 @@ galaxy_subsites:
       #masthead {
         background: #3a3e87;
       }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Genomes Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
 
 webhook_plugins:
   - subdomain_switcher
+  # These ones aren't in the playbook as they are included in the galaxy repo:
+  - demo
+  - gtn
+  - news
