@@ -1,0 +1,145 @@
+#!/bin/bash
+
+### Standalone Galaxy ssh helper bash script with multiple configurable options and defaults.
+### Based on the sshy function developed by @cat-bro for MacOS and adapted to Linux by @neoformit
+
+
+### DEFAULTS - MODIFY to suit user and client machine
+
+gx_username=$USER
+gx_ssh_key=$HOME/.ssh/galaxy-australia
+gx_repo_dir=$HOME/infrastructure
+
+
+### Help / Usage
+
+function galaxy_ssh_helper_usage()
+{
+  cat <<ENDOFHELP
+Galaxy ssh helper for logging into Galaxy Australia machines using latest IP address
+by extracting the host's IP from the usegalaxy-au/infrastructure hosts file.
+
+Usage: $(basename $0) [-h] [-v] [-n] [-u username] [-k ssh_key_file] [-r repo_dir] [-o ssh_option] hostname
+
+Arguments:
+  -h                 provides this handy help
+  -v                 verbose ssh mode
+  -n                 dry run only (for testing)
+  -u <username>      username for login on destination host
+                     default: $gx_username
+  -k <ssh_key_file>  (optional path to) ssh private key
+                     looks for key in ~/.ssh if only the name is specified
+                     default: $gx_ssh_key
+  -r <repo_dir>      path to galaxy 'infrastructure' repo directory
+                     default: $gx_repo_dir
+  -o <ssh_option>    ssh option (can be repeated for multiple options)
+  <hostname>         the name of host as defined in the inventory file
+
+Examples:
+- connect to pulsar-mel3-w2 using default username and key
+    \$ $(basename $0) pulsar-mel3-w2 
+- connect to pulsar-mel3-w2 using provided username and key
+    \$ $(basename $0) -u simon -k simon-galaxy pulsar-mel3-w2
+- connect to pawsey using default username and key, specify repo dir
+    \$ $(basename $0) -r $HOME/repos/infrastructure pawsey
+- connect to pawsey using defaults with additional ssh options
+    \$ $(basename $0) -o IdentitiesOnly=yes -o CheckHostIP=no
+
+ENDOFHELP
+}
+
+
+### Argument Parsing
+
+ssh_verbose=""
+ssh_opts=""
+dryrun=0
+
+while getopts "hvnu:k:r:o:" opt; do
+    case $opt in
+        h)
+            galaxy_ssh_helper_usage
+            exit
+            ;;
+        v)
+            ssh_verbose="-v"
+            ;;
+        n)
+            dryrun=1
+            ;;
+        u)
+            gx_username=$OPTARG
+            ;;
+        k)
+            gx_ssh_key=$OPTARG
+            ;;
+        r)
+            gx_repo_dir=$OPTARG
+            ;;
+        o)
+            ssh_opts="$ssh_opts -o $OPTARG"
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            exit 1
+            ;;
+    esac
+done
+
+# get rid of optional parameters
+shift $((OPTIND-1))
+
+hosts_file="${gx_repo_dir}/hosts" # inventory file
+
+if [ $# -eq 1 ]; then
+    hostname="$1"
+else
+    echo >&2 "Error: missing hostname!"
+    echo >&2 "$usage_str"
+fi
+
+if [ ! -f $hosts_file ]; then
+    echo >&2 "Error: inventory file doesn't exist: $hosts_file"
+    exit 1
+fi
+
+if [ ! -f $gx_ssh_key ]; then
+    if [ -f $HOME/.ssh/$gx_ssh_key ]; then
+        echo >&2 "Using key $HOME/.ssh/$gx_ssh_key"
+        gx_ssh_key="$HOME/.ssh/$gx_ssh_key"
+    else
+        echo >&2 "Error: key file doesn't exist: $gx_ssh_key"
+        exit 1
+    fi
+fi
+
+
+### Lookup hostname in inventory file
+
+line=$(grep "^$hostname " $hosts_file)
+
+if [ ! "$line" ]; then
+    echo >&2 "No line matching hostname $hostname"
+    exit 1
+fi
+
+for col in $line; do
+    if [[ "$col" = "ansible_ssh_host="* ]]; then
+        host_ip=`echo $col | grep -o -E '([0-9]{1,3}\.){3}[0-9]{1,3}'`
+    fi
+done
+
+if [ ! "$host_ip" ]; then
+    echo >&2 "No address matching hostname $hostname"
+    exit 1
+fi
+
+
+### ssh to host
+
+ssh_args="$(echo $ssh_verbose $ssh_opts -i $gx_ssh_key | xargs)" # cleanup whitespace
+echo "ssh $ssh_args $gx_username@$host_ip # $hostname"
+if [ $dryrun -eq 0 ]; then
+    ssh $ssh_args $gx_username@$host_ip
+fi
+
