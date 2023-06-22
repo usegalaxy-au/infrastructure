@@ -9,13 +9,7 @@
     - host_vars/staging.usegalaxy.org.au.yml
     - secret_group_vars/stats_server_vault
   handlers:
-    - name: galaxy gravity restart
-      become: True
-      become_user: galaxy
-      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
-      environment:
-        GRAVITY_STATE_DIR: "{{ galaxy_gravity_state_dir }}"
-        GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
+    - include: handlers/galaxy_handlers.yml
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -34,16 +28,11 @@
     - galaxyproject.repos
     - common
     - install-tpv
-    - galaxyproject.postgresql
-    # - role: galaxyproject.postgresql_objects
-    #   become: true
-    #   become_user: postgres
     - geerlingguy.pip
     - galaxyproject.galaxy
     - role: galaxyproject.miniconda
       become: true
       become_user: galaxy
-    # - usegalaxy_eu.galaxy_systemd
     - usegalaxy_eu.galaxy_subdomains
     - nginx-upload-module
     - galaxyproject.nginx
@@ -53,11 +42,9 @@
     - galaxyproject.cvmfs
     - gantsign.golang
     - cyverse-ansible.singularity
-    #- dev-tiaas2
     - geerlingguy.docker
     - acl-on-startup
     - galaxyproject.gxadmin
-    # - usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf
     - pg-post-tasks
     - postfix-mail-relay
