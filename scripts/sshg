@@ -4,11 +4,11 @@
 ### Based on the sshy function developed by @cat-bro for MacOS and adapted to Linux by @neoformit
 
 
-### DEFAULTS - MODIFY to suit user and client machine
+### DEFAULTS - export desired values in .bashrc to override defaults
 
-gx_username=$USER
-gx_ssh_key=$HOME/.ssh/galaxy-australia
-gx_repo_dir=$HOME/infrastructure
+gx_username=${gx_username:-$USER}
+gx_ssh_key=${gx_ssh_key:-$HOME/.ssh/galaxy-australia}
+gx_repo_dir=${gx_repo_dir:-$HOME/infrastructure}
 
 
 ### Help / Usage
@@ -26,14 +26,22 @@ Arguments:
   -v                 verbose ssh mode
   -n                 dry run only (for testing)
   -u <username>      username for login on destination host
-                     default: $gx_username
+                     default: gx_username=$gx_username
   -k <ssh_key_file>  (optional path to) ssh private key
                      looks for key in ~/.ssh if only the name is specified
-                     default: $gx_ssh_key
+                     default: gx_ssh_key=$gx_ssh_key
   -r <repo_dir>      path to galaxy 'infrastructure' repo directory
-                     default: $gx_repo_dir
+                     default: gx_repo_dir=$gx_repo_dir
   -o <ssh_option>    ssh option (can be repeated for multiple options)
   <hostname>         the name of host as defined in the inventory file
+
+Defaults:
+  The default values for gx_username, gx_ssh_key and gx_repo_dir
+  can be defined in the \$HOME/.bashrc with 'export <var>=<value>',
+  to suit the user's requirements.
+  These will take precedence over the coded defaults in this script.
+  For example:
+    export gx_ssh_key=id_rsa.galaxy
 
 Examples:
 - connect to pulsar-mel3-w2 using default username and key
