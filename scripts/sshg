@@ -26,12 +26,12 @@ Arguments:
   -v                 verbose ssh mode
   -n                 dry run only (for testing)
   -u <username>      username for login on destination host
-                     default: $gx_username
+                     default: gx_username=$gx_username
   -k <ssh_key_file>  (optional path to) ssh private key
                      looks for key in ~/.ssh if only the name is specified
-                     default: $gx_ssh_key
+                     default: gx_ssh_key=$gx_ssh_key
   -r <repo_dir>      path to galaxy 'infrastructure' repo directory
-                     default: $gx_repo_dir
+                     default: gx_repo_dir=$gx_repo_dir
   -o <ssh_option>    ssh option (can be repeated for multiple options)
   <hostname>         the name of host as defined in the inventory file
 
