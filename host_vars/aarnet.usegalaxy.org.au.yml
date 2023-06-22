@@ -249,6 +249,12 @@ add_monthly_stats: true
 add_utilisation_info: true
 add_queue_info: true
 
+# host-specific settings for postfix
+postfix_host_domain: "usegalaxy.org.au"
+postfix_hostname: "aarnet"
+smtp_login: "{{ vault_smtp_login_prod }}"
+smtp_password: "{{ vault_smtp_password_prod }}"
+
 #Vars for TIaaS
 tiaas_galaxy_db_host: "aarnet-db.usegalaxy.org.au"
 tiaas_galaxy_db_port: "5432"

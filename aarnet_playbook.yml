@@ -57,6 +57,7 @@
     - galaxyproject.gxadmin
     # - usegalaxy_eu.gie_proxy
     - pg-post-tasks
+    - postfix-mail-relay
     - remote-pulsar-cron
     - delete-tmp-jwds-cron
     - slg.galaxy_stats
