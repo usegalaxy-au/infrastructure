@@ -25,7 +25,7 @@ Template begins here >>>>>>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Galaxy account activation</title>
+    <title>Activating Galaxy Australia account</title>
 
     <!-- Load custom font from Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,74 +34,24 @@ Template begins here >>>>>>
   </head>
   <body style="font-family: 'Roboto', sans-serif;">
 
-    <h3 style="font-size: 18pt;">Thanks for signing up to use Galaxy!</h3>
-
     <p style="font-size: 14pt;">
       Hello {{ name }},<br><br>
 
-      In order to complete the activation process for {{ user_email }} (begun on
-      {{ date }} at {{ hostname }}), please
+      Thank you for registering an account with Galaxy Australia.
+
+      To finalise registration, please click on the following link to verify your email address: 
       <a href="{{ activation_url }}">click here</a>
-      to verify your account.
-      <br><br>
 
-      By clicking on the above link and opening a Galaxy account you are also
-      confirming that you have read and agreed to
-      {% if terms_url %}
-      <a href="{{ terms_url }}">Galaxy's Terms and Conditions</a>
-      {% else %}
-      Galaxy's Terms and Conditions.
-      {% endif %}
-      for use of this service. This includes a data storage limit per user
-      account. Attempts to subvert this limit by creating multiple accounts or
-      through any other method may result in termination of all associated
-      accounts and data.
-      <br><br>
+      By registering an account you agree to abide by <a href="{{ terms_url }}">Galaxy Australia's Terms of Service</a>.
 
-      <ul style="font-size: 14pt;">
-        {% if contact_email %}
-        <li>
-          If you need help with your account, please contact us at
-          <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>
-        </li>
-        {% endif %}
-        {% if instance_resource_url %}
-        <li>
-          Browse available resources:
-          <a href="{{ instance_resource_url }}">{{ instance_resource_url }}</a>
-        </li>
-        {% endif %}
-        <li>
-          Find out more about the Galaxy Project at
-          <a href="galaxyproject.org">galaxyproject.org</a>.
-        </li>
-      </ul>
+      Please contact us if you need help with your account at: <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.
+
+      For security reasons, the account activation link will expire in {{ expiry_days }} days.
     </p>
-
-    {% if custom_message %}
-    <p>{{ custom_message }}</p>
-    {% endif %}
-    <br>
 
     <p style="font-size: 14pt;">
       Regards,<br>
-      Your Galaxy Team
-    </p>
-
-    <img
-      style="width: 130px; height: auto; margin: 15px 0;"
-      src="https://galaxyproject.org/images/galaxy-logos/galaxy_project_logo_square.png"
-      alt="Galaxy project logo"
-    >
-
-    <br><br>
-
-    <p style="font-size: 11pt;">
-      If you cannot click on the link above, please copy and paste the
-      following URL into your browser:<br>
-      {{ activation_url }}<br><br>
-      If this account was not created by you, please disregard this email and
-      the account will be automatically terminated.
+      Galaxy Australia Team
     </p>
 
   </body>
