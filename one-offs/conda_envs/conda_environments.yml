@@ -243,3 +243,8 @@ miniconda_conda_environments:
         packages:
         - samtools=0.1.16
         - ncurses=5.9 # added
+    # toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/0.2.4+galaxy0
+    __porechop@0.2.4:
+        packages:
+        - porechop=0.2.4
+        - python=3.9 # added
