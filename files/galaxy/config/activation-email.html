@@ -1,0 +1,58 @@
+Edit this template to customise the "account activation" HTML email your
+users will receive.
+
+If you are adding URLs into this, remember that only absolute URLS (with
+a domain name) make sense in email! They can be served from any stable
+location, including your Galaxy server or GitHub.
+
+The following variables are available for inserting into the html with Jinja2
+syntax, like {{ variable_name }}. They will be rendered into the text before
+the email is sent:
+
+- name                     The user's name
+- user_email               The user's email
+- date                     Date of registration
+- hostname                 Your galaxy's hostname
+- activation_url           The account activation URL
+- terms_url                Your T&Cs URL
+- contact_email            Your galaxy's contact email
+- instance_resource_url    Your galaxy's resource website URL
+- expiry_days              Days until the activation link expires
+- custom_message           Your Galaxy config custom_activation_email_message
+
+Template begins here >>>>>>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Activating Galaxy Australia account</title>
+
+    <!-- Load custom font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  </head>
+  <body style="font-family: 'Roboto', sans-serif;">
+
+    <p style="font-size: 14pt;">
+      Hello {{ name }},<br><br>
+
+      Thank you for registering an account with Galaxy Australia.
+
+      To finalise registration, please click on the following link to verify your email address: 
+      <a href="{{ activation_url }}">click here</a>
+
+      By registering an account you agree to abide by <a href="{{ terms_url }}">Galaxy Australia's Terms of Service</a>.
+
+      Please contact us if you need help with your account at: <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.
+
+      For security reasons, the account activation link will expire in {{ expiry_days }} days.
+    </p>
+
+    <p style="font-size: 14pt;">
+      Regards,<br>
+      Galaxy Australia Team
+    </p>
+
+  </body>
+</html>

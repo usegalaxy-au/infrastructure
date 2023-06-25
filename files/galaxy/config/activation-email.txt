@@ -1,0 +1,37 @@
+Edit this template to customise the "account activation" HTML email your
+users will receive.
+
+If you are adding URLs into this, remember that only absolute URLS (with
+a domain name) make sense in email! They can be served from any stable
+location, including your Galaxy server or GitHub.
+
+The following variables are available for inserting into the html with Jinja2
+syntax, like {{ variable_name }}. They will be rendered into the text before
+the email is sent:
+
+- name The user's name
+- user_email The user's email
+- date Date of registration
+- hostname Your galaxy's hostname
+- activation_url The account activation URL
+- terms_url Your T&Cs URL
+- contact_email Your galaxy's contact email
+- instance_resource_url Your galaxy's resource website URL
+- expiry_days Days until the activation link expires
+- custom_message Your Galaxy config custom_activation_email_message
+
+Template begins here >>>>>>
+Hello {{ name }},
+
+Thank you for registering an account with Galaxy Australia.
+
+To finalise registration, please click on the following link to verify your email address: {{ activation_url }}
+
+By registering an account you agree to abide by Galaxy Australia's Terms of Service: {{ terms_url }}
+
+Please contact us if you need help with your account at {{ contact_email }}.
+
+For security reasons, the account activation link will expire in {{ expiry_days }} days.
+
+Regards,
+Galaxy Australia Team
