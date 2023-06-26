@@ -135,7 +135,7 @@ for f in $(<search_file.tmp)
         {% if use_swift == true %}
         echo '  Deleting on swift: '$f >> $LOGFILE
         #delete cloud copy and log error if delete fails
-        swift delete ${SWIFT_BACKUP_CONTAINER} $f || '  swift delete failed for: '$f >> $LOGFILE
+        swift delete ${SWIFT_BACKUP_CONTAINER} $f || echo '  swift delete failed for: '$f >> $LOGFILE
         {% endif %}
         #delete local copy
         rm $f
