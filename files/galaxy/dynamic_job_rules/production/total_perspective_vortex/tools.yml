@@ -866,6 +866,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/arriba/arriba/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/arriba_draw_fusions/arriba_draw_fusions/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/arriba_get_filters/arriba_get_filters/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
     cores: 8
     mem: 30.7
