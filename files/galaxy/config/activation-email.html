@@ -9,16 +9,16 @@ The following variables are available for inserting into the html with Jinja2
 syntax, like {{ variable_name }}. They will be rendered into the text before
 the email is sent:
 
-- name The user's name
-- user_email The user's email
-- date Date of registration
-- hostname Your galaxy's hostname
-- activation_url The account activation URL
-- terms_url Your T&Cs URL
-- contact_email Your galaxy's contact email
-- instance_resource_url Your galaxy's resource website URL
-- expiry_days Days until the activation link expires
-- custom_message Your Galaxy config custom_activation_email_message
+- name                     The user's name
+- user_email               The user's email
+- date                     Date of registration
+- hostname                 Your galaxy's hostname
+- activation_url           The account activation URL
+- terms_url                Your T&Cs URL
+- contact_email            Your galaxy's contact email
+- instance_resource_url    Your galaxy's resource website URL
+- expiry_days              Days until the activation link expires
+- custom_message           Your Galaxy config custom_activation_email_message
 
 Template begins here >>>>>>
 <!DOCTYPE html>
