@@ -111,6 +111,8 @@ galaxy_dynamic_job_rules:
   - total_perspective_vortex/default_tool.yml.j2
   - readme.txt
 
+galaxy_infrastructure_url: "https://usegalaxy.org.au"
+
 galaxy_systemd_mode: gravity
 galaxy_systemd_env:
   [DRMAA_LIBRARY_PATH="/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"]
@@ -131,6 +133,10 @@ nginx_upload_store_set_cleanup_cron_job: true
 host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/activation-email.html"
+    dest: "{{ galaxy_config_dir }}/mail/activation-email.html"
+  - src: "{{ galaxy_config_file_src_dir }}/config/activation-email.txt"
+    dest: "{{ galaxy_config_dir }}/mail/activation-email.txt"
 
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/aarnet_object_store_conf.xml.j2"
@@ -201,7 +207,6 @@ host_galaxy_config: # renamed from __galaxy_config
     ga_code: "{{ vault_prod_ga_code }}" ## swich off ga_code while testing.  TODO: uncomment this when we go live
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
-    galaxy_infrastructure_url: "https://usegalaxy.org.au"
     enable_oidc: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
@@ -222,6 +227,11 @@ host_galaxy_config: # renamed from __galaxy_config
     # For subdomains
     # tool_section_filters: global_host_filters:per_host_tool_sections
     # tool_label_filters: global_host_filters:per_host_tool_labels
+
+    # uncomment these 3 lines when switching on email verification
+    # email_from: <galaxy-no-reply@usegalaxy.org.au>  
+    # user_activation_on: true
+    # activation_email: <activation-noreply@usegalaxy.org.au>
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
