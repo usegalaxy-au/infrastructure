@@ -169,6 +169,7 @@ host_galaxy_config: # renamed from __galaxy_config
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
     cleanup_job: never
     job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
+    tool_data_table_config_path: "{{ galaxy_config_dir}}/local_tool_data_table_conf.xml,{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
     show_welcome_with_login: false
     enable_mulled_containers: true
     enable_beta_containers_interface: true
