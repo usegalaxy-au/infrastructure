@@ -98,6 +98,10 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
   - src: "{{ galaxy_config_file_src_dir }}/config/email_domain_blocklist.conf"
     dest: "{{ galaxy_config_dir }}/email_domain_blocklist.conf"
+  - src: "{{ galaxy_config_file_src_dir }}/config/activation-email.html"
+    dest: "{{ galaxy_config_dir }}/activation-email.html"
+  - src: "{{ galaxy_config_file_src_dir }}/config/activation-email.txt"
+    dest: "{{ galaxy_config_dir }}/activation-email.txt"
 
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
@@ -179,7 +183,6 @@ host_galaxy_config: # renamed from __galaxy_config
     smtp_server: localhost
     error_email_to: <help@genome.edu.au> # error reports are disabled if no email is set
     email_from: <galaxy-no-reply@usegalaxy.org.au>
-    blacklist_file: "{{galaxy_config_dir }}/email_domain_blocklist.conf"
     user_activation_on: true
     instance_resource_url: https://site.usegalaxy.org.au
     activation_email: <activation-noreply@usegalaxy.org.au>
