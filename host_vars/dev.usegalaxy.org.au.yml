@@ -102,6 +102,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/activation-email.html"
   - src: "{{ galaxy_config_file_src_dir }}/config/activation-email.txt"
     dest: "{{ galaxy_config_dir }}/activation-email.txt"
+  - src: "{{ galaxy_config_file_src_dir }}/galaxy/config/local_tool_data_table_conf.xml"
+    dest: "{{ galaxy_config_dir}}/local_tool_data_table_conf.xml"
 
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
