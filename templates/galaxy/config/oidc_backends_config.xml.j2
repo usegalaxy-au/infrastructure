@@ -4,7 +4,7 @@
         <url>{{ aaf_issuer_url }}</url>
         <client_id>{{ aaf_client_id }}</client_id>
         <client_secret>{{ aaf_client_secret }}</client_secret>
-        <redirect_uri>{{ host_galaxy_config['galaxy']['galaxy_infrastructure_url'] }}/authnz/keycloak/callback</redirect_uri>
+        <redirect_uri>{{ galaxy_config['galaxy']['galaxy_infrastructure_url'] }}/authnz/keycloak/callback</redirect_uri>
         <well_known_oidc_config_uri>{{ aaf_issuer_url }}.well-known/openid-configuration</well_known_oidc_config_uri>
         <icon>https://swift.rc.nectar.org.au/v1/AUTH_377/public/Galaxy/AAF_BTN_Sign_in_med_gradient_orange_FIN2020.png</icon>
     </provider>

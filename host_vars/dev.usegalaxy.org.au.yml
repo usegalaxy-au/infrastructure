@@ -57,6 +57,8 @@ galaxy_dynamic_job_rules:
   - total_perspective_vortex/dev_destinations.yml.j2
   - readme.txt
 
+galaxy_infrastructure_url: "https://dev.usegalaxy.org.au"
+
 galaxy_systemd_mode: gravity
 galaxy_systemd_env:
   [DRMAA_LIBRARY_PATH="/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"]
@@ -99,9 +101,9 @@ host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/email_domain_blocklist.conf"
     dest: "{{ galaxy_config_dir }}/email_domain_blocklist.conf"
   - src: "{{ galaxy_config_file_src_dir }}/config/activation-email.html"
-    dest: "{{ galaxy_config_dir }}/activation-email.html"
+    dest: "{{ galaxy_config_dir }}/mail/activation-email.html"
   - src: "{{ galaxy_config_file_src_dir }}/config/activation-email.txt"
-    dest: "{{ galaxy_config_dir }}/activation-email.txt"
+    dest: "{{ galaxy_config_dir }}/mail/activation-email.txt"
   - src: "{{ galaxy_config_file_src_dir }}/config/local_tool_data_table_conf.xml"
     dest: "{{ galaxy_config_dir }}/local_tool_data_table_conf.xml"
 
@@ -157,7 +159,6 @@ host_galaxy_config: # renamed from __galaxy_config
     id_secret: "{{ vault_dev_id_secret }}"
     file_path: "{{ galaxy_file_path }}"
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
-    galaxy_infrastructure_url: "https://dev.usegalaxy.org.au"
     enable_oidc: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
@@ -184,10 +185,8 @@ host_galaxy_config: # renamed from __galaxy_config
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
     datatypes_config_file: "{{ galaxy_server_dir }}/lib/galaxy/config/sample/datatypes_conf.xml.sample,{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
     smtp_server: localhost
-    error_email_to: <help@genome.edu.au> # error reports are disabled if no email is set
     email_from: <galaxy-no-reply@usegalaxy.org.au>
     user_activation_on: true
-    instance_resource_url: https://site.usegalaxy.org.au
     activation_email: <activation-noreply@usegalaxy.org.au>
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific

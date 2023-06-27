@@ -30,6 +30,12 @@
         name: 'tusd-main'
         enabled: false
         state: stopped
+    - name: Create extra galaxy config folders
+      file:
+        state: directory
+        path: "{{ item }}"
+      with_items:
+        - "{{ galaxy_config_dir }}/mail"
   roles:
     - galaxyproject.repos
     - common

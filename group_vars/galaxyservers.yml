@@ -155,8 +155,9 @@ group_galaxy_config:
 
     static_enabled: true
     show_welcome_with_login: false
-    error_email_to: <help@genome.edu.au> # error reports are disabled if no email is set
+    error_email_to: "help@genome.edu.au" # error reports are disabled if no email is set
     email_from: <galaxy-no-reply@usegalaxy.org.au>
+    galaxy_infrastructure_url: "{{ galaxy_infrastructure_url }}"
     support_url: "{{ galaxy_australia_website }}/help"
     terms_url: "{{ galaxy_australia_website }}/about#terms-of-service"
     email_domain_blocklist_file: "{{ galaxy_config_dir }}/email_domain_blocklist.conf"
