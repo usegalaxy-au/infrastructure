@@ -227,11 +227,9 @@ host_galaxy_config: # renamed from __galaxy_config
     # For subdomains
     # tool_section_filters: global_host_filters:per_host_tool_sections
     # tool_label_filters: global_host_filters:per_host_tool_labels
-
-    # uncomment these 3 lines when switching on email verification
-    # email_from: <galaxy-no-reply@usegalaxy.org.au>  
-    # user_activation_on: true
-    # activation_email: <activation-noreply@usegalaxy.org.au>
+ 
+    user_activation_on: true
+    activation_email: <activation-noreply@usegalaxy.org.au>
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
