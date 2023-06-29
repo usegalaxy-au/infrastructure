@@ -227,7 +227,7 @@ host_galaxy_config: # renamed from __galaxy_config
     # For subdomains
     # tool_section_filters: global_host_filters:per_host_tool_sections
     # tool_label_filters: global_host_filters:per_host_tool_labels
- 
+
     user_activation_on: true
     activation_email: <activation-noreply@usegalaxy.org.au>
 
@@ -626,7 +626,7 @@ galaxy_subsites:
         background: #3a3e87;
       }
       #masthead a.navbar-brand::after {
-        content: "Australia - Genomes Lab";
+        content: "Australia - Genome Lab";
       }
       #masthead .navbar-text {
         display: none;
