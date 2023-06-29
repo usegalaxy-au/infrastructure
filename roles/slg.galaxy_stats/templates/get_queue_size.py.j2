@@ -21,7 +21,7 @@ job_conf_path = '{{ galaxy_config_dir }}/job_conf.yml'
 secrets = yaml.safe_load(open(secrets_file, 'r'))
 SALT = secrets['salt']
 TOP_USAGE_LIMIT = 30
-PGCONNS = secrets['pgconn']
+PGCONNS = secrets.get('pgconn')
 
 time = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
