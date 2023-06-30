@@ -93,24 +93,32 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
     cores: 9
     mem: 34.5
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/.*:
     cores: 7
     mem: 26.8
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_matrix/deeptools_compute_matrix/.*:
     cores: 9
     mem: 34.5
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_fingerprint/deeptools_plot_fingerprint/.*:
     cores: 8
     mem: 30.7
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -122,6 +130,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_heatmap/deeptools_plot_heatmap/.*:
     cores: 7
     mem: 26.8
+    params:
+      singularity_enabled: true
     rules:
     - id: deeptools_plot_heatmap_small_input_rule
       if: input_size < 0.3
