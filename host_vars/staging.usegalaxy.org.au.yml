@@ -266,6 +266,30 @@ galaxy_subsites:
       #masthead .navbar-text {
         display: none;
       }
+  - name: proteomics
+    brand: Proteomics lab
+    iframe: "https://site.usegalaxy.org.au/landing/proteomics"
+    wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
+    tool_sections:
+      - "hicexplorer"
+      - "plots"
+      - "assembly"
+      - "annotation"
+      - "phylogenetics"
+      - "multiple_alignments"
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #402668;
+      }
+      #masthead {
+        background: #542a95;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Proteomics Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
 
 webhook_plugins:
   - subdomain_switcher
