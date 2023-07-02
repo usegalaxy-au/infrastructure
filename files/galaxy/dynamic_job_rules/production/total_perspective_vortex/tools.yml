@@ -845,8 +845,11 @@ tools:
     rules:
     - id: abricate_small_input_rule
       if: input_size < 0.005
-      cores: 2
-      mem: 7.6
+      cores: 1
+      mem: 3.8
+      scheduling:
+        prefer:
+          - slurm
     - id: abricate_medium_input_rule
       if: 0.005 <= input_size < 0.02
       cores: 4
