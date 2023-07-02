@@ -17,6 +17,7 @@ certbot_domains:
   - "www.usegalaxy.org.au"
   - "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
   - "genome.usegalaxy.org.au"
+  - "proteomics.usegalaxy.org.au"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_api_token }}"
@@ -611,13 +612,6 @@ galaxy_subsites:
     brand: Genomes lab
     iframe: "https://site.usegalaxy.org.au/landing/genome"
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
-    tool_sections:
-      - "hicexplorer"
-      - "plots"
-      - "assembly"
-      - "annotation"
-      - "phylogenetics"
-      - "multiple_alignments"
     custom_css: |
       #masthead .navbar-nav>li.active {
         background: #2c3067;
@@ -627,6 +621,23 @@ galaxy_subsites:
       }
       #masthead a.navbar-brand::after {
         content: "Australia - Genome Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
+  - name: proteomics
+    brand: Proteomics lab
+    iframe: "https://site.usegalaxy.org.au/landing/proteomics"
+    wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #402668;
+      }
+      #masthead {
+        background: #542a95;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Proteomics Lab";
       }
       #masthead .navbar-text {
         display: none;
