@@ -1356,11 +1356,11 @@ tools:
     mem: 61.4
     rules:
     - id: metaphlan_small_input_rule
-      if: input_size < 0.5
+      if: input_size < 0.1
       cores: 1
       mem: 3.8
     - id: metaphlan_medium_input_rule
-      if: 0.5 <= input_size < 10
+      if: 0.1 <= input_size < 10
       cores: 5
       mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/.*:
