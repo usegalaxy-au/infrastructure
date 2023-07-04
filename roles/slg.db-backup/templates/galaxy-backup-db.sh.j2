@@ -108,7 +108,7 @@ pg_dump \
 
 #delete anything that's too old!
 #put the filenames in a file so we can get rid of them from object store.
-if [ -f search_file.ymp ] ; then
+if [ -f search_file.tmp ] ; then
         rm search_file.tmp
 fi
 find -maxdepth 1 -name "*${BACKUP_TYPE}*" -mtime +$RETENTION_DAY_LOOKUP > search_file.tmp
