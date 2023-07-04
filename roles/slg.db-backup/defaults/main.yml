@@ -29,6 +29,6 @@ retention_month: 92    #Keep monthly backups for this many days (92 days ~ 3 mon
 connection_string: "postgres://{{ db_user }}:{{ db_password }}@{{ db_server }}:{{ db_port }}/{{ psql_db }}"
 
 set_backup_cron: true
-backup_run_hour: "23"
+backup_run_hour: "18" # 18 UTC = 4am AEST; was 23 UTC = 9am AEST
 backup_run_minute: "1"
 
