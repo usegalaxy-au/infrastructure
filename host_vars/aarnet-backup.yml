@@ -28,7 +28,7 @@ psql_db: 'galaxy'
 #Database connection vars
 db_user: galaxy
 db_password: "{{ vault_aarnet_db_user_password }}"
-db_server: 192.168.199.56
+db_server: "{{ hostvars['aarnet-db']['internal_ip'] }}"
 db_port: 5432
 
 # Retention time variables
