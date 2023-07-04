@@ -8,8 +8,6 @@
     - group_vars/staging_slurm.yml
     - host_vars/staging.usegalaxy.org.au.yml
     - secret_group_vars/stats_server_vault
-  handlers:
-    - include: handlers/galaxy_handlers.yml
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -34,6 +32,7 @@
       become: true
       become_user: galaxy
     - usegalaxy_eu.galaxy_subdomains
+    - webhooks
     - nginx-upload-module
     - galaxyproject.nginx
     - galaxyproject.tusd
@@ -48,7 +47,6 @@
     - dj-wasabi.telegraf
     - pg-post-tasks
     - postfix-mail-relay
-    - webhooks
   post_tasks:
     - name: Ensure object store paths exist
       file:

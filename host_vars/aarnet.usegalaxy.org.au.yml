@@ -627,6 +627,7 @@ galaxy_subsites:
         display: none;
       }
   - name: proteomics
+    hidden: true
     brand: Proteomics lab
     iframe: "https://site.usegalaxy.org.au/landing/proteomics"
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.

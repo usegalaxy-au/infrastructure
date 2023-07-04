@@ -11,8 +11,6 @@
     - secret_group_vars/stats_server_vault
     - secret_group_vars/dev_secrets
     - secret_group_vars/sentry_vault
-  handlers:
-    - include: handlers/galaxy_handlers.yml
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -57,8 +55,8 @@
     - role: galaxyproject.miniconda
       become: true
       become_user: galaxy
-    # - usegalaxy_eu.galaxy_systemd
     - usegalaxy_eu.galaxy_subdomains
+    - webhooks
     - nginx-upload-module
     - galaxyproject.nginx
     - galaxyproject.tusd
@@ -72,12 +70,10 @@
     - galaxy-pg-cleanup
     - galaxyproject.tiaas2
     - geerlingguy.docker
-    # - usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf
     - postfix-mail-relay
     #- login-override
     - acl-on-startup
-    - webhooks
   post_tasks:
     - name: Ensure object store paths exist
       file:

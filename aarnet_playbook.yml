@@ -9,8 +9,6 @@
     - host_vars/aarnet.usegalaxy.org.au.yml
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ubuntu_maintenance_key
-  handlers:
-    - include: handlers/galaxy_handlers.yml
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -46,8 +44,8 @@
     - role: galaxyproject.miniconda
       become: true
       become_user: galaxy
-    # - usegalaxy_eu.galaxy_systemd
     - usegalaxy_eu.galaxy_subdomains
+    - webhooks
     - nginx-upload-module
     - galaxyproject.nginx
     - galaxyproject.tusd
@@ -67,7 +65,6 @@
     - slg.galaxy_stats
     - galaxy-pg-cleanup
     - galaxyproject.tiaas2
-    - webhooks
   post_tasks:
     - name: Make local_tool directory group-writable by machine users
       file:
