@@ -36,7 +36,7 @@
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks
-    # - slg.galaxy_stats
+    - slg.galaxy_stats
   post_tasks:
     - name: Create worker tmpdir on /mnt
       file:
