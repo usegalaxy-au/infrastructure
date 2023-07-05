@@ -33,7 +33,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install total-perspective-vortex==$TPV_VERSION pyyaml galaxy-app==22.1.1
       env:
-        TPV_VERSION: '2.2.4'
+        TPV_VERSION: '2.3.0'
     - name: Check TPV files and job conf
       env:
         SETTING: github
