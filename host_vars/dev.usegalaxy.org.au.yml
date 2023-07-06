@@ -335,6 +335,7 @@ slurm_singularity_volumes_list:
   - "/mnt/galaxy/data-3:ro"
   - "/mnt/test_mount:ro"
   - "/cvmfs/data.galaxyproject.org:ro"
+  - "/mnt/galaxy/local_tools:ro"
 
 pulsar_singularity_volumes_list:
   - "$job_directory:rw"
