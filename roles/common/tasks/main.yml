@@ -61,7 +61,7 @@
       path: /home/galaxy/.bashrc
       owner: galaxy
       group: galaxy
-  when: galaxy_config_file is defined
+  when: add_galaxy_user is defined and galaxy_config_file is defined
 
 - name: Add ssl key if required
   include_tasks: ssl_key.yml

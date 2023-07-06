@@ -36,7 +36,7 @@
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks
-    # - slg.galaxy_stats
+    - slg.galaxy_stats
   post_tasks:
     - name: Create worker tmpdir on /mnt
       file:
@@ -68,15 +68,15 @@
           path: /lib/systemd/system/slurmd.service
           regexp: "^TasksMax="
           line: "TasksMax=5000"
-      when: "{{ inventory_hostname.endswith('himem-2') }}"
+      when: inventory_hostname.endswith('himem-2')
     - name: reload systemd manager configuration for changes to take effect
       systemd:
           state: restarted
           daemon_reload: yes
           name: slurmd
-      when: "{{ inventory_hostname.endswith('himem-2') }}"
+      when: inventory_hostname.endswith('himem-2')
     - name: Update max_map_count to 1,000,000 for maxquant on himem-1
       command:
         cmd: sysctl -w vm.max_map_count=1000000
-      when: "{{ inventory_hostname.endswith('himem-1') }}"
+      when: inventory_hostname.endswith('himem-1')
 

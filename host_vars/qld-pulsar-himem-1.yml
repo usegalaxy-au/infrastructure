@@ -91,3 +91,6 @@ extra_keys:
 # docker
 docker_daemon_options:
   data-root: /mnt/docker-data
+
+# stats role
+sinfo_hostname: 'pulsar-qld-himem-1' # TODO: fix hostnames, influx database so that this may be the same as the hostname and the destination ID
