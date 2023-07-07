@@ -84,7 +84,7 @@ rabbitmq_vhosts:
   - /pulsar/galaxy_QLD
   - /pulsar/galaxy_azure_0
 
-rabbitmq_version: 3.10.6-1
+rabbitmq_version: 3.12.1
 
 rabbitmq_password_admin: "{{ vault_rabbitmq_password_admin_prod }}"
 rabbitmq_password_telegraf: "{{ vault_rabbitmq_password_telegraf_prod }}"
@@ -128,8 +128,8 @@ mariadb_users:
 mariadb_databases:
   - name: "{{ slurm_database }}"
 
-mariadb_password_slurm: "{{ vault_production_mariadb_password_slurm }}"  # TODO: Add to vault!
-mariadb_password_root: "{{ vault_production_mariadb_password_root }}"  # TODO: Add to vault!
+mariadb_password_slurm: "{{ vault_production_mariadb_password_slurm }}"
+mariadb_password_root: "{{ vault_production_mariadb_password_root }}"
 
 #Slurmdbd
 

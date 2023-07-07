@@ -199,14 +199,20 @@ cvmfsp-paw.gvl.org.au ansible_ssh_host=146.118.70.86 internal_ip=192.168.0.131
 telescope ansible_ssh_host=115.146.86.144
 
 [galaxy_group]
-galaxy ansible_ssh_host=138.44.7.169 internal_ip=192.168.210.157
 galaxy-handlers ansible_ssh_host=138.44.7.173 internal_ip=192.168.210.252
 galaxy-db ansible_ssh_host=138.44.7.171 internal_ip=192.168.210.128
-galaxy-queue ansible_ssh_host=138.44.7.170 internal_ip=192.168.210.230
 galaxy-backup ansible_ssh_host=138.44.7.172 internal_ip=192.168.210.239
 [galaxy_group:children]
+galaxy_galaxy_server
+galaxy_slurm_head
 galaxy_nfs_servers
 galaxy_workers
+
+[galaxy_galaxy_server]
+galaxy ansible_ssh_host=138.44.7.169 internal_ip=192.168.210.157
+
+[galaxy_slurm_head]
+galaxy-queue ansible_ssh_host=138.44.7.170 internal_ip=192.168.210.230
 
 [galaxy_nfs_servers]
 galaxy-misc-nfs internal_ip=192.168.210.76
