@@ -1,27 +1,65 @@
 ---
 - block:
-    - block:
-      - name: Detect attached volume
-        parted:
-          device: "{{ attached_volume.device }}"
-          unit: GiB
-        register: volume_info
-      - name: Create a partition on volume
-        parted:
-          device: "{{ attached_volume.device }}"
-          number: "{{ attached_volume.partition }}"
-          label: "{{ attached_volume.label|d('gpt') }}"
-          state: present
-        when: attached_volume.partition is defined and volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == attached_volume.device
-      - name: Create a filesystem on volume
-        filesystem:
-          fstype: "{{ attached_volume.fstype }}"
-          dev: "{{ attached_volume.device }}{{ attached_volume.partition|d('') }}"
-        when: volume_info.disk is defined and volume_info.disk.dev is defined and volume_info.disk.dev == attached_volume.device
-      - name: Mount volume
-        mount:
-          path: "{{ attached_volume.path }}"
-          src: "{{ attached_volume.device }}{{ attached_volume.partition|d('') }}"
-          fstype: "{{ attached_volume.fstype }}"
-          state: mounted    
-  when: attached_volume.device is defined and attached_volume.fstype is defined and attached_volume.path is defined
+  - name: "Detect attached volume"
+    parted:
+      device: "{{ attached_volume.device }}"
+      unit: GiB
+    register: volume_info
+
+  - name: "Set fact for number of existing partitions"
+    set_fact:
+      num_parts: "{{ volume_info.partitions | length }}"
+
+  - name: "If volume {{ volume_info.disk.dev }} is partitioned - output number of existing partitions"
+    debug:
+      msg: "Disk {{ volume_info.disk.dev }} has {{ num_parts }} existing partitions!"
+    when: num_parts|int > 0
+
+  - name: "If no partitions exist on {{ volume_info.disk.dev }} - create partition on attached volume"
+    parted:
+      device: "{{ attached_volume.device }}"
+      number: "{{ attached_volume.partition }}"
+      label: "{{ attached_volume.label|d('gpt') }}"
+      state: present
+    when: num_parts == "0"
+
+  - name: "Update information on attached volume"
+    parted:
+      device: "{{ attached_volume.device }}"
+      unit: GiB
+    register: volume_info2
+
+  - name: "Set fact for updated number of partitions"
+    set_fact:
+      num_parts2: "{{ volume_info2.partitions | length }}"
+
+  # block used to simplify testing - if partitioning fails in production playbook should abort
+  - name: "if {{ volume_info.disk.dev }} is successfully partitioned - proceed with filesystem check/format and mount"
+    block:
+    - name: "Check partition {{ attached_volume.partition }} on disk {{ attached_volume.device }}"
+      set_fact:
+        # note ansible list is indexed starting from 0, so need to subtract 1
+        part_info: "{{ volume_info2.partitions[attached_volume.partition|int-1] }}"
+
+    - name: "if {{ volume_info.disk.dev }}{{ attached_volume.partition }} is formatted - output fstype"
+      debug:
+        msg: "{{ volume_info.disk.dev }}{{ attached_volume.partition }} has filesystem type {{ part_info.fstype }}"
+      when: part_info.fstype != ""
+
+    - name: "If partition {{ attached_volume.device }}{{ attached_volume.partition }} is unformatted - create a {{ attached_volume.fstype }} filesystem"
+      filesystem:
+        fstype: "{{ attached_volume.fstype }}"
+        dev: "{{ attached_volume.device }}{{ attached_volume.partition|d('') }}"
+      when: part_info.fstype == ""
+
+    - name: "Mount {{ attached_volume.device }}{{ attached_volume.partition }} on {{ attached_volume.path }} "
+      mount:
+        path: "{{ attached_volume.path }}"
+        src: "{{ attached_volume.device }}{{ attached_volume.partition|d('') }}"
+        fstype: "{{ attached_volume.fstype }}"
+        state: mounted    
+    when: num_parts2|int > 0
+  when: attached_volume.device is defined and attached_volume.partition is defined and attached_volume.fstype is defined and attached_volume.path is defined
+  become: yes
+  become_user: root
+
