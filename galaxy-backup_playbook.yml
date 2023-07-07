@@ -11,7 +11,7 @@
       include_role:
         name: attached-volumes
   vars:
-    - galaxy_backup_ansible_version: '4.0.0'
+    - galaxy_backup_ansible_version: '5.6.0'
     - galaxy_backup_ansible_venv: /home/ubuntu/venv
   roles:
     - common
