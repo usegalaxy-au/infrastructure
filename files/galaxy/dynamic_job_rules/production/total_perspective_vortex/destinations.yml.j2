@@ -118,6 +118,7 @@ destinations:
       require:
         - pulsar-paw
         - pulsar
+        - offline  # on loan to etca
   pulsar-mel3:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
@@ -229,7 +230,7 @@ destinations:
         - pulsar-QLD
       require:
         - pulsar
-        - offline
+        - offline  # on loan to etca
   pulsar-azure:
     inherits: _pulsar_destination
     runner: pulsar_azure_0_runner
