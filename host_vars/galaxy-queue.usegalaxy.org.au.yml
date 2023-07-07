@@ -74,6 +74,7 @@ rabbitmq_users:
     vhost: /pulsar/galaxy_azure_0
 
 # NGINX Letsencrypt bindings
+nginx_ssl_role: usegalaxy_eu.certbot
 nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
 nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
 
