@@ -38,7 +38,7 @@ Example Playbook
   vars:
     slurm_roles: ['controller', 'exec', 'dbd']
   roles:
-    - galaxyproject.slurm
+    - galaxyproject.legacy_slurm
 ```
 
 License

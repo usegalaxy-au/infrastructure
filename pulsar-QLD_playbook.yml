@@ -36,7 +36,7 @@
     - galaxyproject.pulsar
     - geerlingguy.nfs
     #- mariadb # - not required here as it's not the slurm controller or dbd.
-    - galaxyproject.slurm
+    - galaxyproject.legacy_slurm
     - galaxyproject.cvmfs
     - gantsign.golang
     - cyverse-ansible.singularity

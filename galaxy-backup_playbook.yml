@@ -1,0 +1,48 @@
+- hosts: galaxy-backup
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/galaxy_etca.yml
+      - group_vars/VAULT
+      - host_vars/galaxy-backup.yml
+      - secret_group_vars/stats_server_vault
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+  vars:
+    - galaxy_backup_ansible_version: '4.0.0'
+    - galaxy_backup_ansible_venv: /home/ubuntu/venv
+  roles:
+    - common
+    - geerlingguy.pip
+    # - slg.db-backup # Do not include this role until galaxy production is in Sydney
+    # - dj-wasabi.telegraf # comment this out for now - need to check which db it sends to, and that the db exists on stats
+  post_tasks:
+    - name: Ensure desired version of ansible is installed
+      pip:
+        name: "ansible=={{ galaxy_backup_ansible_version }}"
+        umask: "0022"
+        virtualenv: "{{ galaxy_backup_ansible_venv }}"
+    - name: Clone infrastructure repo
+      git:
+        repo: https://github.com/usegalaxy-au/infrastructure
+        dest: /home/ubuntu/infrastructure
+        update: yes
+      become: yes
+      become_user: ubuntu
+    - name: Update ansible roles
+      command:
+        cmd: "{{ galaxy_backup_ansible_venv }}/bin/ansible-galaxy install -p roles -r requirements.yml"
+        chdir: /home/ubuntu/infrastructure
+      become: yes
+      become_user: ubuntu
+    - name: add galaxy australia authorised key
+      authorized_key:
+        user: ubuntu
+        state: present
+        key: "{{ lookup('file', 'files/keys/galaxy-australia.pub') }}"
+    - name: Add venv activation to ubuntu's .bashrc
+      lineinfile:
+        path: /home/ubuntu/.bashrc
+        line: ". {{ galaxy_backup_ansible_venv }}/bin/activate"

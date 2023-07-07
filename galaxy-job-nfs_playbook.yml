@@ -1,0 +1,34 @@
+- hosts: galaxy-job-nfs
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/galaxy_etca.yml
+    - group_vars/VAULT
+    - group_vars/nfs_servers.yml
+    - host_vars/galaxy-job-nfs.usegalaxy.org.au.yml
+    - secret_group_vars/stats_server_vault
+    - secret_group_vars/ubuntu_maintenance_key
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+    - name: Create galaxy job data directory
+      file:
+        path: "{{ nfs_job_dir }}"
+        state: directory
+  roles:
+    - common
+    - insspb.hostname
+    - geerlingguy.pip
+    - geerlingguy.nfs
+      #   - dj-wasabi.telegraf
+  post_tasks:
+    - name: Chown shared dirs to Galaxy user
+      file:
+        path: "{{ nfs_job_dir }}"
+        owner: galaxy
+        group: galaxy
+    - name: Reload exportfs
+      command: exportfs -ra
+      become: yes
+      become_user: root

@@ -17,6 +17,6 @@
       #- galaxyproject.nginx
       - mariadb
       - galaxyproject.repos
-      - galaxyproject.slurm
+      - galaxyproject.legacy_slurm
       - dj-wasabi.telegraf
       - slurm-post-tasks

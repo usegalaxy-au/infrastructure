@@ -15,6 +15,12 @@ telegraf_agent_output:
     - username = "node"
     - password = "{{ vault_influx_node_password }}"
 
+# dbservers and galaxyservers
+galaxy_db_user_password: "{{ vault_dev_db_user_password }}"
+galaxy_db_reader_password: "{{ vault_dev_db_reader_password }}"
+galaxy_db_tiaasadmin_password: "{{ vault_dev_db_tiaasadmin_password }}"
+galaxy_db_tiaas_password: "{{ vault_dev_db_tiaas_password }}"
+
 # Override permission level for tool devs on dev (quick fix)
 machine_users:
     # special users

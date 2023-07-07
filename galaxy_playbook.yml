@@ -1,12 +1,12 @@
-- hosts: aarnet_galaxy_server
+- hosts: galaxy
   become: true
   vars_files:
     - group_vars/all.yml
-    - group_vars/aarnet.yml
+    - group_vars/galaxy_etca.yml
     - group_vars/VAULT
     - group_vars/galaxyservers.yml
-    - group_vars/aarnet_slurm.yml
-    - host_vars/aarnet.usegalaxy.org.au.yml
+    - group_vars/galaxy_etca_slurm.yml
+    - host_vars/galaxy.usegalaxy.org.au.yml
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
@@ -23,19 +23,20 @@
       with_items:
         - "{{ galaxy_user_singularity_cachedir }}"
         - "{{ galaxy_user_singularity_tmpdir }}"
-    - name: Disable old tusd service
-      systemd:
-        name: 'tusd-main'
-        enabled: false
-        state: stopped
-    - name: Create extra galaxy config folders
+    - name: create dir for galaxy's custom indices  # TODO: directory creation is not needed here once /mnt/custom-indices exists on galaxy-misc-nfs
       file:
         state: directory
-        path: "{{ item }}"
-      with_items:
-        - "{{ galaxy_config_dir }}/mail"
+        path: "{{ galaxy_custom_indices_dir }}"
+        owner: galaxy
+        group: galaxy
+    - name: Install slurm drmaa ppa
+      include_role:
+        name: galaxyproject.repos
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa1
+        state: latest
   roles:
-    - galaxyproject.repos
     - common
     - install-tpv
     - mounts
@@ -44,40 +45,37 @@
     - role: galaxyproject.miniconda
       become: true
       become_user: galaxy
-    - usegalaxy_eu.galaxy_subdomains
-    - webhooks
-    - nginx-upload-module
     - galaxyproject.nginx
+    - nginx-upload-module # Does this need to go after the nginx role?
     - galaxyproject.tusd
-    - geerlingguy.nfs
-    - galaxyproject.legacy_slurm
+    - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - gantsign.golang
-    - cyverse-ansible.singularity
+    # - gantsign.golang
+    # - cyverse-ansible.singularity
+    - usegalaxy_eu.apptainer # see how this works as replacement for golang+cyverse/singularity
     - geerlingguy.docker
     - acl-on-startup
-    - dj-wasabi.telegraf
+    # - dj-wasabi.telegraf # TODO: switch on once influx has tables
     - galaxyproject.gxadmin
+    - usegalaxy_eu.gie_proxy
     - pg-post-tasks
-    - postfix-mail-relay
-    - remote-pulsar-cron
-    - delete-tmp-jwds-cron
-    - slg.galaxy_stats
+    # - remote-pulsar-cron # commented out until galaxy etca is production galaxy
+    # - delete-tmp-jwds-cron # commented out until galaxy etca is production galaxy, also needs to be enabled
+    # - slg.galaxy_stats # commented out until galaxy etca is production galaxy
     - galaxy-pg-cleanup
     - galaxyproject.tiaas2
   post_tasks:
     - name: Make local_tool directory group-writable by machine users
+      # TODO: This path is problematic because the galaxyproject.galaxy role will chown it to root:root
+      # every time we run this playbook, potentially locking out tool devs for 10 minutes.
+      # New folder for in /mnt/tools? What would this mean for the lsync? What would this mean for docker volumes?
       file:
         path: "{{ galaxy_root }}/local_tools"
         owner: root
         group: devs
         mode: 0775
         state: directory
-    - name: Install slurm-drmaa
-      package:
-        name: slurm-drmaa1
-        state: latest
-    - name: Uninstall the existing web-dav-client
+    - name: Uninstall the existing web-dav-client  # TODO: these two tasks could be a role
       pip:
         name: "webdavclient3"
         virtualenv: "{{ galaxy_venv_dir }}"
@@ -86,11 +84,10 @@
       pip:
         name: "webdavclient3@git+https://github.com/ezhov-evgeny/webdav-client-python-3@0f17fa7946e66f7963db367d0d6b2e7f940ebeb8"
         virtualenv: "{{ galaxy_venv_dir }}"
-    - name: Reload exportfs
-      command: exportfs -ra
-      become: yes
-      become_user: root
     - name: setup lsyncd
+      # TODO: (a) This could be a role,
+      # (b) there is no need to sync all of /mnt/galaxy: only /mnt/galaxy/galaxy-app and /mnt/galaxy/venv need to exist for the workers
+      # Possible /mnt/galaxy/local_tools also needs to exist for the workers. Move that dir into /mnt/tools?
       package:
         name: lsyncd
         state: present
