@@ -196,3 +196,5 @@ pip_install_packages:
 
 # rabbitmq_plugins:
 #   - rabbitmq_management
+
+nginx_check_conf: False
