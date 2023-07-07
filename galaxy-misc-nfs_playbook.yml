@@ -1,0 +1,35 @@
+- hosts: galaxy-misc-nfs
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/galaxy_etca.yml
+    - group_vars/VAULT
+    - group_vars/nfs_servers.yml
+    - host_vars/galaxy-misc-nfs.usegalaxy.org.au.yml
+    - secret_group_vars/stats_server_vault
+  pre_tasks:
+    - name: Create nfs directories
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items: "{{ nfs_dirs }}"
+    - name: Attach volume to instance # TODO: Could this role take care of creating the dirs too?
+      include_role:
+        name: attached-volumes
+  roles:
+    - common
+    - insspb.hostname
+    - geerlingguy.pip
+    - geerlingguy.nfs
+    # - dj-wasabi.telegraf
+  post_tasks:
+    - name: Chown shared dirs to Galaxy user
+      file:
+        path: "{{ item }}"
+        owner: galaxy
+        group: galaxy
+      with_items: "{{ nfs_dirs }}"
+    - name: Reload exportfs
+      command: exportfs -ra
+      become: yes
+      become_user: root

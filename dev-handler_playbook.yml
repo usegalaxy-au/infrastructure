@@ -46,7 +46,7 @@
     - nginx-upload-module # depends on nginx conf file, why does this go before nginx?
     - galaxyproject.nginx
     - galaxyproject.tusd
-    - galaxyproject.slurm
+    - galaxyproject.legacy_slurm
     # - galaxyproject.s3fs
     - galaxyproject.cvmfs
     - galaxyproject.gxadmin

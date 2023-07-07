@@ -27,7 +27,7 @@
   roles:
       - common
       - insspb.hostname
-      - galaxyproject.slurm
+      - galaxyproject.legacy_slurm
       - mounts
       - galaxyproject.repos
       - galaxyproject.cvmfs

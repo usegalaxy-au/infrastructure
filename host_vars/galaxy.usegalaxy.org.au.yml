@@ -1,0 +1,520 @@
+# Specific settings for galaxy dev application/web server
+
+# legacy_file_mounts_available: set to true if /mnt/files, /mnt/files2 should be in the object store
+legacy_file_mounts_available: False # assume true unless set to false
+pawsey_file_mounts_available: False # assume true unless set to false
+
+# variables for attaching mounted volume to application server
+attached_volumes: # TODO: check this
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
+    partition: 1
+
+certbot_domains:
+  - "{{ hostname }}" # galaxy.usegalaxy.org.au
+#   - "usegalaxy.org.au"
+#   - "www.usegalaxy.org.au"
+#   - "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
+  - "*.interactivetoolentrypoint.interactivetool.galaxy.usegalaxy.org.au"
+certbot_dns_provider: cloudflare
+certbot_dns_credentials:
+  api_token: "{{ vault_dns_cloudflare_api_token }}"
+certbot_dns_provider_propagation_seconds: 60
+
+nginx_ssl_servers:
+  - galaxy
+  - galaxy-gie-proxy
+
+# gie proxy hostname
+interactive_tools_server_name: "galaxy.usegalaxy.org.au"
+
+galaxy_repo: https://github.com/galaxyproject/galaxy.git
+galaxy_commit_id: release_23.0
+
+# total perspective vortex # TODO: put this in galaxyservers.yml once aarnet-production is on release_23.0
+tpv_version: "2.2.3"
+
+# TODO: check list concatenation with versions of ansible > 2.12
+shared_mounts: "{{ galaxy_server_and_worker_shared_mounts + galaxy_web_server_mounts }}" # sourced from galaxy_etca.yml
+
+# ansible-galaxy
+# galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/production
+# galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
+# galaxy_dynamic_job_rules:
+#   - total_perspective_vortex/tools.yml
+#   - total_perspective_vortex/destinations.yml.j2
+#   - total_perspective_vortex/users.yml
+#   - total_perspective_vortex/roles.yml
+#   - total_perspective_vortex/default_tool.yml.j2
+#   - readme.txt
+
+galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/load-testing
+galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
+galaxy_dynamic_job_rules:
+  - total_perspective_vortex/testing_tpv_config.yml
+  - readme.txt
+
+galaxy_systemd_mode: gravity
+galaxy_systemd_env:
+  [DRMAA_LIBRARY_PATH="/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"]
+
+galaxy_tools_indices_dir: /mnt/tools
+galaxy_custom_indices_dir: /mnt/custom-indices
+galaxy_tmp_dir: /mnt/tmp
+galaxy_tus_upload_store: "{{ galaxy_tmp_dir }}/tus"
+
+galaxy_file_path: /mnt/user-data-test
+nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
+nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
+nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
+nginx_upload_store_set_cleanup_cron_job: true
+
+host_galaxy_config_files:
+  - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
+    dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+
+host_galaxy_config_templates:
+  - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.xml.j2"  # TODO: create me
+    dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
+  - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_job_conf.yml.j2"  # TODO: create me
+    dest: "{{ galaxy_config_dir }}/job_conf.yml"
+#   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2" ## File cannot be created at dest on first run of playbook
+#     dest: "{{ galaxy_server_dir }}/lib/galaxy/tool_util/toolbox/filters/ga_filters.py"
+
+host_galaxy_config:
+  gravity:
+    process_manager: systemd
+    galaxy_root: "{{ galaxy_server_dir }}"
+    galaxy_user: "{{ galaxy_user.name }}"
+    app_server: gunicorn
+    virtualenv: "{{ galaxy_venv_dir }}"
+    gunicorn:
+      # listening options
+      bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+      # performance options
+      workers: 4
+      # Other options that will be passed to gunicorn
+      extra_args: '--forwarded-allow-ips="*"'
+      preload: true
+      environment:
+        VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
+        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+
+    celery:
+      concurrency: 2
+      loglevel: DEBUG
+    handlers:
+      handler:
+        environment:
+          DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+          SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+          SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+        processes: 5
+        pools:
+          - job-handlers
+          - workflow-schedulers
+    tusd:
+      enable: true
+      tusd_path: /usr/local/sbin/tusd
+      upload_dir: "{{ galaxy_tus_upload_store }}"
+    reports:
+      enable: true
+      url_prefix: /reports
+      bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
+      config_file: "{{ galaxy_config_dir }}/reports.yml"
+  galaxy:
+    admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
+    brand: "E T C A"
+    database_connection: "postgresql://galaxy:{{ galaxy_db_user_password }}@{{ hostvars['galaxy-db']['internal_ip'] }}:5432/galaxy"
+    id_secret: "{{ vault_aarnet_id_secret }}" # TODO: this need to stay the same wherever production galaxy is runninig, but the name of the vault variable is misleading
+    file_path: "{{ galaxy_file_path }}"
+    object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
+    smtp_server: localhost
+    # ga_code: "{{ vault_prod_ga_code }}" ## swich off ga_code while testing.  TODO: uncomment this when we go live
+    interactivetools_enable: true
+    interactivetools_map: "{{ gie_proxy_sessions_path }}"
+    galaxy_infrastructure_url: "https://galaxy.usegalaxy.org.au"
+    # enable_oidc: true # TODO: Can we switch this on before galaxy-etca is production galaxy or should we wait until moving day?
+    # oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
+    # oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
+    # nginx upload module
+    nginx_upload_store: "{{ nginx_upload_store_dir }}"
+    nginx_upload_path: "/_upload"
+    nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
+    nginx_upload_job_files_path: "/_job_files"
+    job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
+    watch_job_rules: true # important for total perspective vortex
+    enable_mulled_containers: true
+    enable_beta_containers_interface: true # TODO: is one of this or the above config options deprecated?
+    tool_filters: ga_filters:hide_test_tools,ga_filters:restrict_alphafold
+    #TRS - workflowhub
+    trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+    # TUS
+    tus_upload_store: "{{ galaxy_tus_upload_store }}"
+
+# cvmfs
+cvmfs_cache_base: /mnt/var/lib/cvmfs
+
+# vars for setting up .pgpass # TODO: can this be generalised for group_vars/galaxyservers.yml instead of individual host files?
+pg_db_password:
+  galaxy: "{{ galaxy_db_user_password }}"
+  reader: "{{ galaxy_db_reader_password }}"
+  tiaasadmin: "{{ galaxy_db_tiaasadmin_password }}"
+db_address: "{{ hostvars['galaxy-db']['internal_ip'] }}"
+gxadmin_ubuntu_config_dir: /home/ubuntu/.config # TODO: is this variable really needed when it is exactly like other user paths for gxadmin config?
+
+# vars for stats_collection
+stats_dir: /home/ubuntu/stats_collection
+stats_instance: main
+sinfo_hostname: 'Galaxy-Main'
+stats_db_server: "{{ hostvars['galaxy-db']['internal_ip'] }}"
+stats_db_user: reader
+influx_url: "stats.usegalaxy.org.au"
+influx_db_stats: "GA_server"
+stats_db_password: "{{ galaxy_db_reader_password }}"
+influx_salt: "{{ prod_queue_size_salt }}"
+add_daily_stats: true
+add_monthly_stats: true
+add_utilisation_info: true
+add_queue_info: true
+
+#Vars for TIaaS
+tiaas_galaxy_db_host: "galaxy-db.usegalaxy.org.au"
+tiaas_galaxy_db_port: "5432"
+tiaas_galaxy_db_user: "tiaas"
+tiaas_galaxy_db_pass: "{{ galaxy_db_tiaas_password }}"
+tiaas_info:
+  owner: "Galaxy Australia"
+  owner_email: help@genome.edu.au
+  owner_site: "https://site.usegalaxy.org.au"
+  domain: galaxy.usegalaxy.org.au # TODO: update when galaxy-etca is production galaxy
+tiaas_other_config: |
+  EMAIL_HOST="localhost"
+  EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+  EMAIL_TIMEOUT = 60
+  TIAAS_SEND_EMAIL_TO = "help@genome.edu.au"
+  TIAAS_SEND_EMAIL_FROM = "tiaas-no-reply@usegalaxy.org.au"
+  TIAAS_SEND_EMAIL_TO_REQUESTER = True
+  TIAAS_LATE_REQUEST_PREVENTION_DAYS = 0
+  TIAAS_GDPR_AUTO_REDACT = False
+
+# Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
+tiaas_disassociate_training_roles:
+  hour: 9 # optional, defaults to 0
+  minute: 0 # optional, defaults to 0
+
+tiaas_show_advertising: false
+tiaas_retain_contact_consent: false
+
+# Templates to override web content:
+tiaas_templates_dir: files/tiaas/html
+# Static files referenced by above templates:
+tiaas_extra_static_dir: files/tiaas/static
+
+# AAF specific settings
+aaf_issuer_url: "{{ vault_aaf_issuer_url_prod }}"
+aaf_client_id: "{{ vault_aaf_client_id_prod }}"
+aaf_client_secret: "{{ vault_aaf_client_secret_prod }}"
+
+# remote-pulsar-cron variables
+rpc_skip_cron_setup: false
+rpc_db_connection_string: "postgres://reader:{{ galaxy_db_reader_password }}@{{ hostvars['galaxy-db']['internal_ip'] }}:5432/galaxy"
+
+rpc_pulsar_machines:
+  - pulsar_name: pulsar-mel3
+    pulsar_ip_address: "{{ hostvars['pulsar-mel3']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "00"
+  - pulsar_name: pulsar-mel2
+    pulsar_ip_address: "{{ hostvars['pulsar-mel2']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "5,11,17,23"
+    cron_minute: "10"
+  - pulsar_name: pulsar-paw
+    pulsar_ip_address: "{{ hostvars['pulsar-paw']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "20"
+  - pulsar_name: pulsar-high-mem1
+    pulsar_ip_address: "{{ hostvars['pulsar-high-mem1']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "30"
+  - pulsar_name: pulsar-high-mem2
+    pulsar_ip_address: "{{ hostvars['pulsar-high-mem2']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "40"
+  - pulsar_name: qld-pulsar-himem-0
+    pulsar_ip_address: "{{ hostvars['qld-pulsar-himem-0']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "17"
+    cron_minute: "50"
+  - pulsar_name: qld-pulsar-himem-1
+    pulsar_ip_address: "{{ hostvars['qld-pulsar-himem-1']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "18"
+    cron_minute: "00"
+  - pulsar_name: qld-pulsar-himem-2
+    pulsar_ip_address: "{{ hostvars['qld-pulsar-himem-2']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "18"
+    cron_minute: "10"
+  - pulsar_name: pulsar-nci-training
+    pulsar_ip_address: "{{ hostvars['pulsar-nci-training']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "18"
+    cron_minute: "20"
+  - pulsar_name: pulsar-qld-blast
+    pulsar_ip_address: "{{ hostvars['pulsar-qld-blast']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "18"
+    cron_minute: "30"
+  - pulsar_name: pulsar-QLD
+    pulsar_ip_address: "{{ hostvars['pulsar-QLD']['ansible_ssh_host'] }}"
+    pulsar_staging_dir: /mnt/tmp/files/staging
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "18"
+    cron_minute: "40"
+  - pulsar_name: pulsar-azure-0
+    pulsar_ip_address: "{{ hostvars['pulsar-azure-0']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "18"
+    cron_minute: "50"
+    remote_user: hpcuser
+
+extra_keys:
+  - id: ubuntu_maintenance_key
+    type: private
+
+# # grt-sender role # TODO: what of GRT??
+# grt_sender_dir: /mnt/var/galactic_radio_telescope
+# grt_sender_api_key: "{{ vault_grt_api_key }}"
+# grt_sender_grt_url: https://telescope.usegalaxy.org.au/grt
+
+# Docker
+docker_users:
+  - "{{ galaxy_user.name }}"
+docker_daemon_options:
+  data-root: /mnt/docker-data
+
+# Job conf limits (defined here to be available to job conf and tpv)
+job_conf_limits:
+  environments:
+    interactive_pulsar:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-QLD:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-azure:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-azure-1-gpu:
+      tags:
+      - registered_user_concurrent_jobs_25
+    pulsar-azure-gpu:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-high-mem1:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-high-mem2:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-mel2:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-mel3:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-nci-training:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-paw:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-qld-blast:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-qld-high-mem0:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-qld-high-mem1:
+      tags:
+      - registered_user_concurrent_jobs_10
+    pulsar-qld-high-mem2:
+      tags:
+      - registered_user_concurrent_jobs_10
+    slurm:
+      tags:
+      - registered_user_concurrent_jobs_10
+    slurm-training:
+      tags:
+      - registered_user_concurrent_jobs_10
+  limits:
+  - type: anonymous_user_concurrent_jobs
+    value: 1
+  - type: destination_user_concurrent_jobs
+    tag: registered_user_concurrent_jobs_10
+    value: 10
+  - type: destination_user_concurrent_jobs
+    tag: registered_user_concurrent_jobs_25
+    value: 25
+
+  - type: destination_total_concurrent_jobs
+    id: slurm
+    value: 55
+  - type: destination_user_concurrent_jobs
+    id: slurm
+    value: 5
+
+  - type: destination_total_concurrent_jobs
+    id: slurm-training
+    value: 40
+  - type: destination_user_concurrent_jobs
+    id: slurm-training
+    value: 4
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-mel2
+    value: 20
+  - type: destination_user_concurrent_jobs
+    id: pulsar-mel2
+    value: 5
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-mel3
+    value: 20
+  - type: destination_user_concurrent_jobs
+    id: pulsar-mel3
+    value: 5
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-paw
+    value: 10
+
+  - type: destination_user_concurrent_jobs
+    id: pulsar-nci-training
+    value: 3
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-high-mem1
+    value: 6
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-high-mem2
+    value: 6
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-qld-high-mem0
+    value: 10
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-qld-high-mem1
+    value: 10
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-qld-high-mem2
+    value: 10
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-QLD
+    value: 20
+  - type: destination_user_concurrent_jobs
+    id: pulsar-QLD
+    value: 5
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-qld-blast
+    value: 6
+  - type: destination_user_concurrent_jobs
+    id: pulsar-qld-blast
+    value: 2
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-azure
+    value: 4
+  - type: destination_user_concurrent_jobs
+    id: pulsar-azure
+    value: 1
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-azure-gpu
+    value: 8
+  - type: destination_user_concurrent_jobs
+    id: pulsar-azure-gpu
+    value: 2
+
+# Singularity and docker volumes
+slurm_singularity_volumes_list_restricted:
+  - $job_directory:rw
+  - $galaxy_root:ro
+  - $tool_directory:ro
+  - /mnt/user-data-test # TEMPORARY
+#   - /mnt/user-data-7:ro
+#   - /mnt/user-data-6:ro
+#   - /mnt/user-data-5:ro
+#   - /mnt/user-data-4:ro
+#   - /mnt/user-data:ro
+  - /mnt/custom-indices:ro
+  - /cvmfs/data.galaxyproject.org:ro
+
+legacy_singularity_volumes_list: "{{ ['/mnt/files:ro', '/mnt/files2:ro'] if legacy_file_mounts_available|d(True) else [] }}"
+
+pawsey_singularity_volumes_list: "{{ ['/mnt/user-data-2:ro', '/mnt/user-data-3:ro'] if pawsey_file_mounts_available|d(True) else [] }}"
+
+slurm_singularity_volumes_list: "{{ slurm_singularity_volumes_list_restricted + legacy_singularity_volumes_list + pawsey_singularity_volumes_list }}"
+
+pulsar_singularity_volumes_list:
+  - $job_directory:rw
+  - $tool_directory:ro
+  - /mnt/custom-indices:ro
+  - /cvmfs/data.galaxyproject.org:ro
+
+slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
+pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
+
+# comma separated strings for the job conf
+slurm_singularity_volumes: "{{ slurm_singularity_volumes_list | join(',') }}"
+pulsar_singularity_volumes: "{{ pulsar_singularity_volumes_list | join(',') }}"
+slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
+pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
+
+singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
+
+# delete-tmp-jwds role for removing job working directories from /mnt/tmp
+dt_remote_ip: "{{ hostvars['galaxy-job-nfs']['internal_ip'] }}"
+dt_ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+dt_cron_hour: "20"
+dt_cron_minute: "00"
+dt_skip_cron_setup: true
+dt_connection_string: "postgres://reader:{{ galaxy_db_reader_password }}@{{ hostvars['galaxy-db']['internal_ip'] }}:5432/galaxy" # TODO: generalise connection string

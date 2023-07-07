@@ -38,7 +38,7 @@
     - galaxyproject.pulsar
     - geerlingguy.nfs
     - mariadb
-    - galaxyproject.slurm
+    - galaxyproject.legacy_slurm
     - galaxyproject.cvmfs
     - gantsign.golang
     - cyverse-ansible.singularity

@@ -37,7 +37,7 @@
     - galaxyproject.nginx
     - galaxyproject.tusd
     - geerlingguy.nfs
-    - galaxyproject.slurm
+    - galaxyproject.legacy_slurm
     - galaxyproject.cvmfs
     - gantsign.golang
     - cyverse-ansible.singularity
