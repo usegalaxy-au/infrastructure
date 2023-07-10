@@ -24,7 +24,7 @@ certbot_dns_provider_propagation_seconds: 60
 
 nginx_ssl_servers:
   - galaxy
-  - galaxy-gie-proxy
+  - galaxy-gie-proxy ## we still do this?
 
 # gie proxy hostname
 interactive_tools_server_name: "galaxy.usegalaxy.org.au"
@@ -53,6 +53,7 @@ galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/load-testing
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
   - total_perspective_vortex/testing_tpv_config.yml
+  - total_perspective_vortex/testing_tpv_destinations.yml
   - readme.txt
 
 galaxy_systemd_mode: gravity
@@ -120,6 +121,13 @@ host_galaxy_config:
       enable: true
       tusd_path: /usr/local/sbin/tusd
       upload_dir: "{{ galaxy_tus_upload_store }}"
+    gx_it_proxy:
+      enable: true
+      version: '>=0.0.5'  # default from galaxy.yml.sample
+      ip: "{{ gie_proxy_ip }}"
+      port: "{{ gie_proxy_port }}"
+      sessions: "{{ gie_proxy_sessions_path }}"
+      verbose: true
     reports:
       enable: true
       url_prefix: /reports
@@ -487,6 +495,7 @@ slurm_singularity_volumes_list_restricted:
 #   - /mnt/user-data:ro
   - /mnt/custom-indices:ro
   - /cvmfs/data.galaxyproject.org:ro
+  - /tmp:rw
 
 legacy_singularity_volumes_list: "{{ ['/mnt/files:ro', '/mnt/files2:ro'] if legacy_file_mounts_available|d(True) else [] }}"
 
