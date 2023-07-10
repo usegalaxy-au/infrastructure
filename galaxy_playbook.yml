@@ -13,22 +13,6 @@
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
-    - name: create dir for galaxy's singularity cache
-      file:
-        state: directory
-        path: "{{ item }}"
-        owner: galaxy
-        group: galaxy
-        mode: 0700
-      with_items:
-        - "{{ galaxy_user_singularity_cachedir }}"
-        - "{{ galaxy_user_singularity_tmpdir }}"
-    - name: create dir for galaxy's custom indices  # TODO: directory creation is not needed here once /mnt/custom-indices exists on galaxy-misc-nfs
-      file:
-        state: directory
-        path: "{{ galaxy_custom_indices_dir }}"
-        owner: galaxy
-        group: galaxy
     - name: Install slurm drmaa ppa
       include_role:
         name: galaxyproject.repos
@@ -65,6 +49,22 @@
     - galaxy-pg-cleanup
     - galaxyproject.tiaas2
   post_tasks:
+    - name: create dir for galaxy's singularity cache
+      file:
+        state: directory
+        path: "{{ item }}"
+        owner: galaxy
+        group: galaxy
+        mode: 0700
+      with_items:
+        - "{{ galaxy_user_singularity_cachedir }}"
+        - "{{ galaxy_user_singularity_tmpdir }}"
+    - name: create dir for galaxy's custom indices  # TODO: directory creation is not needed here once /mnt/custom-indices exists on galaxy-misc-nfs
+      file:
+        state: directory
+        path: "{{ galaxy_custom_indices_dir }}"
+        owner: galaxy
+        group: galaxy
     - name: Make local_tool directory group-writable by machine users
       # TODO: This path is problematic because the galaxyproject.galaxy role will chown it to root:root
       # every time we run this playbook, potentially locking out tool devs for 10 minutes.
