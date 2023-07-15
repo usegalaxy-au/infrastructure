@@ -211,6 +211,8 @@ galaxy_job_metrics_plugins:
   - type: core
   - type: cpuinfo
   - type: meminfo
+  - type: uname
+  - type: cgroup
   - type: env
     variables: 'HOSTNAME,SLURM_CPUS_ON_NODE,SLURM_JOB_ID'
 
@@ -250,6 +252,12 @@ group_slurm_config:
 
   AccountingStorageHost: "{% if ansible_hostname == slurm_controller_host %}localhost{% else %}{{ slurm_controller_host }}{% endif %}"
   ControlMachine: "{{ slurm_controller_host }}"
+
+  # cgroups
+  JobAcctGatherType: jobacct_gather/cgroup
+  JobAcctGatherFrequency: task=15
+  ProctrackType: proctrack/cgroup
+  TaskPlugin: task/cgroup
 
 slurm_config: "{{ group_slurm_config | combine(host_slurm_config | default({}), recursive=True) }}"
 
