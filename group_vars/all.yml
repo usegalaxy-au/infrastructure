@@ -261,6 +261,12 @@ group_slurm_config:
 
 slurm_config: "{{ group_slurm_config | combine(host_slurm_config | default({}), recursive=True) }}"
 
+slurm_cgroup_config:
+  CgroupAutomount: yes
+  ConstrainCores: yes
+  ConstrainRAMSpace: yes
+  ConstrainSwapSpace: yes
+
 # slurmdbd
 __slurmdbd_config_default: # this is not needed if this PR is merged: https://github.com/galaxyproject/ansible-slurm/pull/49
   AuthType: auth/munge
