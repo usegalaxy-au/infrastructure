@@ -311,7 +311,7 @@ galaxy_config_files: "{{ group_galaxy_config_files + host_galaxy_config_files|d(
 
 # galaxy_config is the combination of group_galaxy_config and host_galaxy_config.  For any variable
 # defined in both group_galaxy_config and host_galaxy_config the value from host_galaxy_config will
-#a be used.
+# be used.
 galaxy_config: "{{ group_galaxy_config | combine(host_galaxy_config | default({}), recursive=True) }}"
 
 # TUS
