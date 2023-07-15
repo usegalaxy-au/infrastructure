@@ -234,8 +234,27 @@ singularity_go_path: "{{ golang_install_dir }}"
 # docker
 docker_install_compose: false
 
+# slurm config
+
+# slurm
+group_slurm_config:
+  #SlurmDBd includes
+  AccountingStorageType: accounting_storage/slurmdbd
+  SlurmctldPidFile: /run/slurmctld.pid
+  SlurmdPidFile: /run/slurmd.pid
+  # SCHEDULING
+  FastSchedule: 2
+  SchedulerType: sched/backfill
+  SelectType: select/cons_res
+  SelectTypeParameters: CR_CPU_Memory,CR_LLN
+
+  AccountingStorageHost: "{% if ansible_hostname == slurm_controller_host %}localhost{% else %}{{ slurm_controller_host }}{% endif %}"
+  ControlMachine: "{{ slurm_controller_host }}"
+
+slurm_config: "{{ group_slurm_config | combine(host_slurm_config | default({}), recursive=True) }}"
+
 # slurmdbd
-__slurmdbd_config_default:
+__slurmdbd_config_default: # this is not needed if this PR is merged: https://github.com/galaxyproject/ansible-slurm/pull/49
   AuthType: auth/munge
   DbdPort: 6819
   SlurmUser: "{{ __slurm_user_name }}"

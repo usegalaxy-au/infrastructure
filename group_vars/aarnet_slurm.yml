@@ -84,18 +84,6 @@ slurm_partitions:
     State: UP
     MaxTime: "10:00:00"
 
-slurm_config:
-  #SlurmDBd includes
-  AccountingStorageType: accounting_storage/slurmdbd
-  AccountingStorageHost: "{% if ansible_hostname == 'aarnet-queue' %}localhost{% else %}aarnet-queue{% endif %}"
-  JobAcctGatherType: jobacct_gather/linux
-  ControlMachine: aarnet-queue
-  SlurmctldPidFile: /run/slurmctld.pid
-  SlurmdPidFile: /run/slurmd.pid
-  # SCHEDULING
-  FastSchedule: 2
-  SchedulerType: sched/backfill
-  SelectType: select/cons_res
-  SelectTypeParameters: CR_CPU_Memory,CR_LLN
+slurm_controller_host: aarnet-queue
 
 slurm_munge_key: files/keys/munge.key

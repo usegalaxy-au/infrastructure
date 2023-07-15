@@ -67,20 +67,6 @@ slurm_partitions:
       MaxTime: INFINITE
       State: UP
 
-slurm_config:
-    #SlurmDBd includes
-    AccountingStorageType: accounting_storage/slurmdbd
-    AccountingStorageHost: localhost
-    JobAcctGatherType: jobacct_gather/linux
-    ControlMachine: qld-pulsar-himem-0
-    SlurmctldPidFile: /run/slurmctld.pid
-    SlurmdPidFile: /run/slurmd.pid
-    # SCHEDULING
-    FastSchedule: 2
-    SchedulerType: sched/backfill
-    SelectType: select/cons_res
-    SelectTypeParameters: CR_CPU_Memory,CR_LLN
-
 slurm_munge_key: files/keys/munge.key
 
 extra_keys:
