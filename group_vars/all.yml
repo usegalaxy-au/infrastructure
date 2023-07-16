@@ -245,7 +245,6 @@ group_slurm_config:
   SlurmctldPidFile: /run/slurmctld.pid
   SlurmdPidFile: /run/slurmd.pid
   # SCHEDULING
-  FastSchedule: 2
   SchedulerType: sched/backfill
   SelectType: select/cons_res
   SelectTypeParameters: CR_CPU_Memory,CR_LLN
