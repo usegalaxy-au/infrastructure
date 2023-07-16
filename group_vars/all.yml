@@ -242,8 +242,6 @@ docker_install_compose: false
 group_slurm_config:
   #SlurmDBd includes
   AccountingStorageType: accounting_storage/slurmdbd
-  SlurmctldPidFile: /run/slurmctld.pid
-  SlurmdPidFile: /run/slurmd.pid
   # SCHEDULING
   SchedulerType: sched/backfill
   SelectType: select/cons_res
