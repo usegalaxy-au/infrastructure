@@ -7,7 +7,7 @@ attached_volumes:
     fstype: ext4
 
 # total perspective vortex
-tpv_version: "2.3.0"
+tpv_version: "2.2.4"
 
 # workaround to maintain correct tpv version (release_22.05)
 galaxy_additional_venv_packages: |
