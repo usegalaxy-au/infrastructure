@@ -25,7 +25,7 @@ roles/galaxyproject.cvmfs/
 roles/galaxyproject.postgresql/
 roles/galaxyproject.tusd
 roles/galaxyproject.tiaas2
-# roles/galaxyproject.slurm/ # Commented out as we have made modifications to this role so slurmdbd installation works
+roles/galaxyproject.slurm
 # roles/galaxyproject.repos/ # Commented out as Simon made a modification so ppa is added to ubuntu 20.04
 roles/geerlingguy.pip/
 roles/geerlingguy.nfs/
