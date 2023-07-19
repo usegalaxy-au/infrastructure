@@ -2264,6 +2264,9 @@ tools:
       if: 0.015 <= input_size < 3
       cores: 2
       mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/recetox/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/.*:
     cores: 8
     mem: 30.7
