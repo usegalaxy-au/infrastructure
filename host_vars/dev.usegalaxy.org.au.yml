@@ -6,7 +6,7 @@ add_hosts_handlers: yes
 galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
 
 # total perspective vortex
-tpv_version: "2.2.4"
+tpv_version: "2.3.1"
 # tpv_repo: https://github.com/usegalaxy-au/total-perspective-vortex
 # tpv_commit_id: d8e336b1cc889237c155d0ad318051c36e5636e6
 
