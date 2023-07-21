@@ -2264,6 +2264,9 @@ tools:
       if: 0.015 <= input_size < 3
       cores: 2
       mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2.*:
+    params:
+      docker_enabled: true
   toolshed.g2.bx.psu.edu/repos/recetox/.*:
     params:
       singularity_enabled: true
