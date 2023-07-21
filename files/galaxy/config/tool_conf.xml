@@ -208,6 +208,8 @@
     </section>
     <section id="presto" name="pRESTO">
     </section>
+    <section id="qiime_2" name="QIIME 2">
+    </section>
     <label id="statistics_and_visualisation" text="STATISTICS AND VISUALISATION"/>
     <section id="stats" name="Statistics">
         <tool file="stats/gsummary.xml"/>
