@@ -22,7 +22,6 @@
         state: latest
   roles:
     - common
-    - install-tpv
     - mounts
     - geerlingguy.pip
     - galaxyproject.galaxy
