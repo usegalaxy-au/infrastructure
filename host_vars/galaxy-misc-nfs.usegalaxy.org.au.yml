@@ -18,7 +18,7 @@ attached_volumes: # TODO: volume for custom_indices does not exist in test envir
 
 nfs_dirs:
   - "{{ nfs_app_dir }}"
-  - "{{ nfs_app_dir }}"
+  - "{{ nfs_tools_dir }}"
   # - "{{ nfs_custom_indices_dir }}"
 
 nfs_exports:
