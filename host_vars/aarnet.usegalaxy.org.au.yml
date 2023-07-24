@@ -609,7 +609,7 @@ galaxy_subsite_default_welcome: "https://site.usegalaxy.org.au"
 galaxy_subsite_dir: /mnt/galaxy/subsites
 galaxy_subsites:
   - name: genome
-    brand: Genomes lab
+    brand: Genomes Lab
     iframe: "https://site.usegalaxy.org.au/landing/genome"
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
     tool_sections: []
@@ -621,7 +621,7 @@ galaxy_subsites:
         background: #3a3e87 !important;
       }
       #masthead a.navbar-brand::after {
-        content: "Australia - Genomes Lab";
+        content: "Australia - Genome Lab";
       }
       #masthead .navbar-text {
         display: none;
