@@ -82,6 +82,7 @@ create_nginx_htpasswd: true
 nginx_conf_user: galaxy # the nginx-with-dynamic-module role uses this (though it is a var for galaxyproject.nginx)
 nginx_upload_limit_rate: 0 # for nginx template: rate in bytes per second.  0 means no limit. (EU has '32k', US has no limit)
 
+nginx_upload_module_url: https://swift.rc.nectar.org.au/v1/AUTH_377/galaxy_infrastructure/nginx/ngx_http_upload_module.so  # compatible with nginx 1.18.0
 # miniconda
 miniconda_prefix: "{{ galaxy_conda_prefix }}"
 

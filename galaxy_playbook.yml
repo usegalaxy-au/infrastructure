@@ -29,8 +29,8 @@
     - role: galaxyproject.miniconda
       become: true
       become_user: galaxy
+    - nginx-upload-module
     - galaxyproject.nginx
-    - nginx-upload-module # Does this need to go after the nginx role?
     - galaxyproject.tusd
     - galaxyproject.slurm
     - galaxyproject.cvmfs

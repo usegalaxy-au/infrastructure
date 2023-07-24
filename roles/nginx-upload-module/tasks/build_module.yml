@@ -4,8 +4,15 @@
     path: "{{ nginx_conf_dir }}/modules-enabled/50-mod-http-upload.conf"
   register: stat_result
 
+- name: Download ngx_http_upload_module.so file
+  get_url:
+    url: https://swift.rc.nectar.org.au/v1/AUTH_377/galaxy_infrastructure/nginx/ngx_http_upload_module.so
+    dest: /usr/lib/nginx/modules/ngx_http_upload_module.so
+    mode: 0744
+  when: not stat_result.stat.exists and nginx_upload_module_url is defined
+
 - name: Build upload module if it is not already built
-  when: not stat_result.stat.exists
+  when: not stat_result.stat.exists and nginx_upload_module_url is not defined
   block:
     - name: Register installed nginx version
       shell: echo "$(nginx -v 2>&1 | cut -d '/' -f 2 | cut -d ' ' -f 1)"  # note this must use shell rather than command
@@ -71,13 +78,14 @@
         cmd: mv objs/ngx_http_upload_module.so /usr/lib/nginx/modules
         chdir: "{{ nginx_build_module_dir }}/{{ nginx_source_dir }}"
 
-    - name: Make nginx load the module
-      lineinfile:
-        create: true
-        line: 'load_module /usr/lib/nginx/modules/ngx_http_upload_module.so;'
-        path: "{{ nginx_conf_dir }}/modules-enabled/50-mod-http-upload.conf"
-
     - name: Clean up
       file:
         path: "{{ nginx_build_module_dir }}"
         state: absent
+
+- name: Make nginx load the module
+  lineinfile:
+    create: true
+    line: 'load_module /usr/lib/nginx/modules/ngx_http_upload_module.so;'
+    path: "{{ nginx_conf_dir }}/modules-enabled/50-mod-http-upload.conf"
+
