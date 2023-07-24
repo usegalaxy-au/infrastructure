@@ -53,7 +53,7 @@ galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/load-testing
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
   - total_perspective_vortex/testing_tpv_config.yml
-  - total_perspective_vortex/testing_tpv_destinations.yml
+  - total_perspective_vortex/testing_tpv_destinations.yml.j2
   - readme.txt
 
 galaxy_systemd_mode: gravity
