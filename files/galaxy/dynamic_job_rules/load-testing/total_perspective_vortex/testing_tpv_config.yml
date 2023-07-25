@@ -5,12 +5,12 @@ global:
 
 tools:
   default:
+    context:
+      partition: main
     cores: 1
     mem: cores * 3.8
+    params: {}
     env: {}
-    params:
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)}"
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)}"
     scheduling:
       reject:
         - offline
