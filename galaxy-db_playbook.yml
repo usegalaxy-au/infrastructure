@@ -35,7 +35,7 @@
         become_user: postgres
         vars: # TODO: remove this when database has been set up with galaxy server
           postgresql_objects_privileges: "{{ postgresql_objects_privileges_first_run }}"
-      # - dj-wasabi.telegraf
+      - dj-wasabi.telegraf
       # Note: After running this playbook for the first time the postgresql services
       # may have stopped with errors due to the moving of the data directory.
       # A reboot should fix this.
