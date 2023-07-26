@@ -60,6 +60,9 @@ tools:
     mem: 61.4
     params:
       docker_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/blobtoolkit/blobtoolkit/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/canu/canu/.*:
     cores: 120
     mem: 1922
