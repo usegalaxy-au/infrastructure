@@ -19,5 +19,5 @@
       - mariadb
       - galaxyproject.repos
       - galaxyproject.slurm
-      # - dj-wasabi.telegraf
+      - dj-wasabi.telegraf
       - slurm-post-tasks

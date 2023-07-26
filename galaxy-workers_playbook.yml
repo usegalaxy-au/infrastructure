@@ -19,7 +19,7 @@
       - galaxyproject.repos
       - galaxyproject.slurm
       - galaxyproject.cvmfs
-    #   - dj-wasabi.telegraf
+      - dj-wasabi.telegraf
     #   - gantsign.golang
     #   - cyverse-ansible.singularity
       - usegalaxy_eu.apptainer # see how this works as replacement for golang+cyverse/singularity

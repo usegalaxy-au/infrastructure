@@ -38,7 +38,7 @@
     - usegalaxy_eu.apptainer # see how this works as replacement for golang+cyverse/singularity
     - geerlingguy.docker
     - acl-on-startup
-    # - dj-wasabi.telegraf # TODO: switch on once influx has tables
+    - dj-wasabi.telegraf
     - galaxyproject.gxadmin
     - usegalaxy_eu.gie_proxy
     - pg-post-tasks
