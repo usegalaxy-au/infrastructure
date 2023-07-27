@@ -8,7 +8,7 @@ attached_volumes: # TODO: volume for custom_indices does not exist in test envir
     fstype: ext4
     partition: 1
   - device: /dev/vdc
-    path: "{{ nfs_app_dir }}"
+    path: "{{ nfs_tools_dir }}"
     fstype: ext4
     partition: 1
   # - device: /dev/vdXYZ
