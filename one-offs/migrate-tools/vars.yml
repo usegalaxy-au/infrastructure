@@ -1,0 +1,59 @@
+source_galaxy: aarnet
+source_ip_field: internal_ip
+dest_galaxy: galaxy
+dest_ip_field: internal_ip
+
+source_galaxy_root: /mnt/galaxy
+source_tools_root: /mnt/tools
+dest_galaxy_root: /mnt/galaxy
+dest_tools_root: /mnt/tools
+
+# source_galaxy: dev
+# source_ip_field: ansible_ssh_host
+# dest_galaxy: staging
+# dest_ip_field: ansible_ssh_host
+
+# source_galaxy_root: /mnt/galaxy
+# source_tools_root: /mnt/galaxy
+# dest_galaxy_root: /mnt/galaxy
+# dest_tools_root: /mnt/galaxy
+
+galaxy_tool_migration_dir: /mnt/galaxy_tool_migration
+
+# conda_prefix: /mnt/galaxy/tool_dependencies/_conda # for dev
+source_conda_prefix: "{{ source_tools_root }}/tool_dependencies/_conda"
+source_conda_envs_dir: "{{ source_conda_prefix }}/envs"
+
+dest_conda_prefix: "{{ dest_tools_root }}/tool_dependencies/_conda"
+dest_conda_envs_dir: "{{ dest_conda_prefix }}/envs"
+
+internal_ssh_keys:
+  tool_migration_rsync_key:
+    private_key_content: "{{ vault_tool_migration_rsync_key }}"
+    public_key_src: files/tool_migration_rsync_key.pub
+    user: galaxy
+
+# directories
+source_shed_tools_dir: "{{ source_tools_root }}/shed_tools"
+source_tool_data_dir: "{{ source_tools_root }}/tool-data"
+# source_custom_indices_dir: /mnt/custom-indices
+
+dest_shed_tools_dir: "{{ dest_tools_root }}/shed_tools"
+dest_tool_data_dir: "{{ dest_tools_root }}/tool-data"
+# dest_custom_indices_dir: /mnt/custom-indices # not available at destination yet
+
+# files
+source_allowlist_file: "{{ source_galaxy_root }}/var/sanitize_allowlist.txt"
+source_shed_tool_conf_file: "{{ source_galaxy_root }}/var/shed_tool_conf.xml"
+source_install_db_file: "{{ source_galaxy_root }}/var/galaxy_install_db.sqlite"
+source_shed_data_manager_conf_file: "{{ source_galaxy_root }}/var/shed_data_manager_conf.xml"
+source_shed_tool_data_table_conf_file: "{{ source_galaxy_root }}/var/shed_tool_data_table_conf.xml"
+
+dest_allowlist_file: "{{ dest_galaxy_root }}/var/sanitize_allowlist.txt"
+dest_shed_tool_conf_file: "{{ dest_galaxy_root }}/var/shed_tool_conf.xml"
+dest_install_db_file: "{{ dest_galaxy_root }}/var/galaxy_install_db.sqlite"
+dest_shed_data_manager_conf_file: "{{ dest_galaxy_root }}/var/shed_data_manager_conf.xml"
+dest_shed_tool_data_table_conf_file: "{{ dest_galaxy_root }}/var/shed_tool_data_table_conf.xml"
+
+# /mnt/galaxy/var/migrated_tools_conf.xml ok to ignore?
+
