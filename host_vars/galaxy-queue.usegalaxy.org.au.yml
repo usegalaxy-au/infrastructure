@@ -153,6 +153,13 @@ mariadb_password_root: "{{ vault_production_mariadb_password_root }}"
 
 #Slurmdbd
 
+__slurmdbd_config_default: # overriding this to remove deprecated SlurmctldPidFile (using this key breaks it)
+  AuthType: auth/munge
+  DbdPort: 6819
+  SlurmUser: "{{ __slurm_user_name }}"
+  # SlurmctldPidFile: "{{ __slurm_run_dir ~ '/slurmdbd.pid' if __slurm_debian else omit }}"
+  LogFile: "{{ __slurm_log_dir ~ '/slurmdbd.log' if __slurm_debian else omit }}"
+
 slurmdbd_config:
   AuthType: auth/munge
   AuthInfo: /var/run/munge/munge.socket.2
@@ -162,7 +169,6 @@ slurmdbd_config:
   StoragePass: "{{ slurm_database_user_password }}"
   StorageType: accounting_storage/mysql
   StorageUser: "{{ slurm_database_user }}"
-  LogFile: /var/log/slurm-llnl/slurmdbd.log
   PidFile: /run/slurmdbd.pid
   SlurmUser: slurm
 
