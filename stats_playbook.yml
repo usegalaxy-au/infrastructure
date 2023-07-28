@@ -22,7 +22,7 @@
       dpkg_selections:
         name: grafana
         selection: hold
-      when: 'grafana' in ansible_facts.packages
+      when: "'grafana' in ansible_facts.packages"
 
   roles:
     - common
