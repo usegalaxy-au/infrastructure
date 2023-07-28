@@ -90,10 +90,7 @@ slurm_config:
   AccountingStorageHost: "{% if ansible_hostname == 'galaxy-queue' %}localhost{% else %}galaxy-queue{% endif %}"
   JobAcctGatherType: jobacct_gather/linux
   ControlMachine: galaxy-queue
-  SlurmctldPidFile: /run/slurmctld.pid
-  SlurmdPidFile: /run/slurmd.pid
   # SCHEDULING
-  FastSchedule: 2
   SchedulerType: sched/backfill
   SelectType: select/cons_res
   SelectTypeParameters: CR_CPU_Memory,CR_LLN
