@@ -35,7 +35,7 @@
     #   become_user: galaxy
     #   ignore_errors: true # imagine there might be one or two dirs that is not a conda environment
     #   command:
-    #     cmd: "{{ conda_prefix }}/bin/conda env export -n {{ item }} -f {{ galaxy_tool_migration_dir }}/conda_envs/{{ item }}.yml"
+    #     cmd: "{{ source_conda_prefix }}/bin/conda env export -n {{ item }} -f {{ galaxy_tool_migration_dir }}/conda_envs/{{ item }}.yml"
     #     creates: "{{ galaxy_tool_migration_dir }}/conda_envs/{{ item }}.yml"
     #   with_items: "{{ conda_environments_dir_list.files | map(attribute='path') | map('basename') }}"
 
