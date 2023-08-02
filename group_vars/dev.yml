@@ -30,8 +30,9 @@ machine_users:
     - name: simon
       uid: 7007
       roles:
-        - sudo
-        - galaxy_admin
+        - nologin
+    #   - sudo
+    #   - galaxy_admin
       key: files/keys/simon.pub
       email: "{{ simon_email }}"
 
@@ -58,13 +59,6 @@ machine_users:
       key: files/keys/nuwan.pub
       galaxy_admin: true
       email: "{{ nuwan_email }}"
-    - name: gavin
-      uid: 7014
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/gavin.pub
-      email: "{{ gavin_email }}"
     - name: ollie
       uid: 7015
       roles:
@@ -117,21 +111,4 @@ machine_users:
         - tiaas_admin
       key: files/keys/anna.pub
       email: "{{ anna_email }}"
-
-
-# no longer active accounts to be removed - only name field is required
-remove_machine_users:
-    - name: grace
-    # roles:
-    #   - sudo
-    # key: files/keys/grace.pub
-    # email: "{{ grace_email }}"
-    - name: nick
-    # roles:
-    #   - sudo
-    #   - galaxy_admin
-    # key: files/keys/nick.pub
-    # email: "{{ nick_email }}"
-    - name: thom
-
 
