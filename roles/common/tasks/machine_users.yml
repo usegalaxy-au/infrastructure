@@ -51,6 +51,12 @@
       append: yes
     with_items: "{{ machine_users | selectattr('roles', 'contains', 'sudo') | list }}"
 
+  - name: Disable login for machine_users with 'nologin' role (leaves account otherwise intact)
+    user: 
+      name: "{{ item.name }}"
+      shell: /sbin/nologin
+    with_items: "{{ machine_users | selectattr('roles', 'contains', 'nologin') | list }}"
+
   - name: Remove old machine user accounts
     user:
       name: "{{ item.name }}"
