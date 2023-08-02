@@ -19,5 +19,6 @@
     </section>
     <section id="interactivetools" name="Interactive Tools">
         <tool file="/mnt/galaxy/local_tools/glt_tom/tools/interactivetool_lfqanalyst/interactivetool_lfqanalyst.xml" />
+	<tool file="/mnt/galaxy/local_tools/zeppelin/interactivetool_zeppelin.xml" />
     </section>
 </toolbox>
