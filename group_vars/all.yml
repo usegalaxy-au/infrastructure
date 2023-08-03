@@ -233,3 +233,10 @@ singularity_go_path: "{{ golang_install_dir }}"
 
 # docker
 docker_install_compose: false
+
+# slurmdbd
+__slurmdbd_config_default:
+  AuthType: auth/munge
+  DbdPort: 6819
+  SlurmUser: "{{ __slurm_user_name }}"
+  LogFile: "{{ __slurm_log_dir ~ '/slurmdbd.log' if __slurm_debian else omit }}"
