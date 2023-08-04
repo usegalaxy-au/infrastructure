@@ -28,3 +28,9 @@ docker_users:
   - "{{ galaxy_user.name }}"
 docker_daemon_options: # TODO: Uncomment as soon as there is a volume
   data-root: /mnt/docker-data
+
+# internal ssh keys
+extra_keys:
+  - id: internal_hop_key
+    type: public
+    from: "{{ hostvars['galaxy']['internal_ip'] }},{{ hostvars['galaxy-backup']['internal_ip'] }},{{ hostvars['galaxy-queue']['internal_ip'] }}"

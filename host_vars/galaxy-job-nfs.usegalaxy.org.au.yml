@@ -13,3 +13,6 @@ extra_keys:
   - id: ubuntu_maintenance_key
     type: public
     from: "{{ hostvars['galaxy']['internal_ip'] }}"
+  - id: internal_hop_key
+    type: public
+    from: "{{ hostvars['galaxy']['internal_ip'] }},{{ hostvars['galaxy-backup']['internal_ip'] }}"
