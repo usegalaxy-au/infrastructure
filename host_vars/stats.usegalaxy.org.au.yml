@@ -199,6 +199,15 @@ grafana_datasources:
     user: "{{ influxdb.grafana.username }}"
     secureJsonData:
       password: "{{ influxdb.grafana.password }}"
+  - name: "galaxy_etca"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 1
+    editable: false
+    database: "galaxy_etca"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
   - name: "aarnet"
     type: influxdb
     url: "{{ influxdb.url }}"
