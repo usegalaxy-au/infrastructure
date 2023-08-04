@@ -9,7 +9,6 @@
   ansible.builtin.apt_key:
     url: https://repos.influxdata.com/influxdata-archive_compat.key
     state: present
-  when: ansible_distribution_major_version is version('22', '<')
 
 - name: Update the apt repos and base OS
   apt:
@@ -90,6 +89,14 @@
   loop: "{{ extra_keys }}"
   loop_control:
     loop_var: extra_key
+
+- name: Add ssh config
+  import_tasks: ssh_config.yml
+  when: ssh_config_hosts is defined
+
+- name: Add ssh config
+  import_tasks: ssh_config.yml
+  when: ssh_config_hosts is defined
 
 - name: Make sure cloud configured hostname control is not present
   file:
