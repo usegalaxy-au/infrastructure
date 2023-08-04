@@ -23,21 +23,21 @@
       with_items:
         - "{{ galaxy_tool_migration_dir }}"
         - "{{ galaxy_tool_migration_dir }}/conda_envs"
-    # - name: Get a list of all of the environments in the envs dir
-    #   find:
-    #     paths:
-    #         - "{{ conda_envs_dir }}"
-    #     file_type: directory
-    #     depth: 1
-    #   register: conda_environments_dir_list
-    # - name: Now for each env, run conda env export if there is no export file
-    #   become: true
-    #   become_user: galaxy
-    #   ignore_errors: true # imagine there might be one or two dirs that is not a conda environment
-    #   command:
-    #     cmd: "{{ source_conda_prefix }}/bin/conda env export -n {{ item }} -f {{ galaxy_tool_migration_dir }}/conda_envs/{{ item }}.yml"
-    #     creates: "{{ galaxy_tool_migration_dir }}/conda_envs/{{ item }}.yml"
-    #   with_items: "{{ conda_environments_dir_list.files | map(attribute='path') | map('basename') }}"
+    - name: Get a list of all of the environments in the envs dir
+      find:
+        paths:
+            - "{{ conda_envs_dir }}"
+        file_type: directory
+        depth: 1
+      register: conda_environments_dir_list
+    - name: Now for each env, run conda env export if there is no export file
+      become: true
+      become_user: galaxy
+      ignore_errors: true # imagine there might be one or two dirs that is not a conda environment
+      command:
+        cmd: "{{ source_conda_prefix }}/bin/conda env export -n {{ item }} -f {{ galaxy_tool_migration_dir }}/conda_envs/{{ item }}.yml"
+        creates: "{{ galaxy_tool_migration_dir }}/conda_envs/{{ item }}.yml"
+      with_items: "{{ conda_environments_dir_list.files | map(attribute='path') | map('basename') }}"
 
 - hosts: "{{ dest_galaxy }}"
   become: true
