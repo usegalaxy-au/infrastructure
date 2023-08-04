@@ -8,16 +8,6 @@ source_tools_root: /mnt/tools
 dest_galaxy_root: /mnt/galaxy
 dest_tools_root: /mnt/tools
 
-# source_galaxy: dev
-# source_ip_field: ansible_ssh_host
-# dest_galaxy: staging
-# dest_ip_field: ansible_ssh_host
-
-# source_galaxy_root: /mnt/galaxy
-# source_tools_root: /mnt/galaxy
-# dest_galaxy_root: /mnt/galaxy
-# dest_tools_root: /mnt/galaxy
-
 galaxy_tool_migration_dir: /mnt/galaxy_tool_migration
 
 # conda_prefix: /mnt/galaxy/tool_dependencies/_conda # for dev
