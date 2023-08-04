@@ -37,3 +37,12 @@ weekly_backup_day: 6  #Weekly backups will run on this day of the week
 retention_day: 6       #Keep daily backups for this many days (6 days)
 retention_week: 21     #Keep weekly backups for this many days (21 days = 3 weeks)
 retention_month: 61    #Keep monthly backups for this many days (61 days ~ 2 months)
+
+extra_keys:
+  - id: internal_hop_key
+    type: private
+
+# ssh config, only for ubuntu for now
+ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/internal_hop_key"
+ssh_config_user: ubuntu
+ssh_config_hosts: "{{ galaxy_group }}"  # TODO: filter out self here

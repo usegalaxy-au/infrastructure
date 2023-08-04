@@ -216,3 +216,11 @@ nginx_check_conf: False
 
 redis_requirepass: "{{ vault_redis_requirepass }}"
 redis_bind_interface: 0.0.0.0
+extra_keys:
+  - id: internal_hop_key
+    type: private
+
+# ssh config, only for ubuntu for now
+ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/internal_hop_key"
+ssh_config_user: ubuntu
+ssh_config_hosts: "{{ galaxy_group }}"  # TODO: filter out self here
