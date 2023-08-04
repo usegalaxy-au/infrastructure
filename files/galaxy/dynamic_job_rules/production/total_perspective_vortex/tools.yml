@@ -789,6 +789,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/galaxyp/diann/diann/.*:
+    params:
+      docker_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper/.*:
     cores: 6
     mem: 23.0
