@@ -6,6 +6,7 @@
     - group_vars/VAULT
     - group_vars/nfs_servers.yml
     - host_vars/galaxy-misc-nfs.usegalaxy.org.au.yml
+    - secret_group_vars/ubuntu_maintenance_key
     - secret_group_vars/stats_server_vault
   pre_tasks:
     - name: Create nfs directories
