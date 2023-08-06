@@ -2326,6 +2326,9 @@ tools:
     - id: rbc_mafft_fail_rule
       if: input_size >= 0.5
       fail: Too much data, please don't use MAFFT for this.
+  toolshed.g2.bx.psu.edu/repos/rnateam/sortmerna/bg_sortmerna/.*:
+    cores: 8
+    mem: 30.7
   toolshed.g2.bx.psu.edu/repos/saskia-hiltemann/krona_text/krona-text/.*:
     cores: 7
     mem: 26.8
