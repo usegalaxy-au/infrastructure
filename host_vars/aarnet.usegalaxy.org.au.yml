@@ -134,7 +134,7 @@ nginx_upload_store_set_cleanup_cron_job: true
 host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
-  - src: "{{ galaxy_config_file_src_dir }}/config/tool_data_table_conf.xml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/tool_data_table_conf.xml" # TODO: etca will need this too
     dest: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/activation-email.html"
     dest: "{{ galaxy_config_dir }}/mail/activation-email.html"
@@ -227,6 +227,7 @@ host_galaxy_config: # renamed from __galaxy_config
     trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
     # TUS
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
+    # Production tool data table config path  # TODO: etca will need this too
     tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml,{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
     # For subdomains
     # tool_section_filters: global_host_filters:per_host_tool_sections
