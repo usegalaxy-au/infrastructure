@@ -67,7 +67,7 @@ pulsar_optional_dependencies:
   - psutil
   - pycurl
   - drmaa
-  - kombu
+  - kombu>=5.2.0
 
 install_drmaa: true
 pulsar_drmaa_library_path: /usr/lib/slurm-drmaa/lib/libdrmaa.so.1
