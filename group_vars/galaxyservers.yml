@@ -318,7 +318,7 @@ galaxy_config: "{{ group_galaxy_config | combine(host_galaxy_config | default({}
 galaxy_tusd_port: 1080
 tusd_version: 'v1.10.0'
 
-#Slurm client
+# Slurm client
 slurm_roles: ["exec"]
 
 #Add slurm controllers hostname to hosts.
