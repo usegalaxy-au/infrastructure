@@ -38,8 +38,12 @@ shared_mounts: # TODO: /mnt/custom-indices from aarnet-misc-nfs
     src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-3"
     fstype: nfs
     state: mounted
-  - path: /mnt/user-data-4
+  - path: /mnt/user-data-4 # TODO: This MUST be removed after one playbook run
     src: "{{ hostvars['aarnet-user-nfs']['internal_ip'] }}:/mnt/user-data4"
+    fstype: nfs
+    state: absent
+  - path: /mnt/user-data-4
+    src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-4"
     fstype: nfs
     state: mounted
   - path: /mnt/user-data-5
