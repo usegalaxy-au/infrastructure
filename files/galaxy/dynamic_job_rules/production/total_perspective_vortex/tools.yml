@@ -2186,6 +2186,8 @@ tools:
     cores: 6
     mem: 23.0
   toolshed.g2.bx.psu.edu/repos/iuc/yahs/yahs/.*:
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
