@@ -27,7 +27,7 @@
       become_user: "{{ pulsar_user.name }}"
     - galaxyproject.pulsar
     - mariadb
-    - galaxyproject.legacy_slurm
+    - galaxyproject.slurm
     - galaxyproject.cvmfs
     - gantsign.golang
     - cyverse-ansible.singularity

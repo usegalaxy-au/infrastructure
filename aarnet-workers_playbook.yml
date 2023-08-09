@@ -17,7 +17,7 @@
       - geerlingguy.pip
       - mounts
       - galaxyproject.repos
-      - galaxyproject.legacy_slurm
+      - galaxyproject.slurm
       - galaxyproject.cvmfs
       - dj-wasabi.telegraf
       - gantsign.golang

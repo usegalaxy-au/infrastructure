@@ -27,7 +27,7 @@
       - geerlingguy.pip
       - mounts
       - galaxyproject.repos
-      - galaxyproject.legacy_slurm
+      - galaxyproject.slurm
       - geerlingguy.docker
       - gantsign.golang
       - cyverse-ansible.singularity

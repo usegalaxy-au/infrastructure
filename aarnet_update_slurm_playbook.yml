@@ -18,4 +18,4 @@
         name: slurmctld
         state: restarted
   roles:
-    - galaxyproject.legacy_slurm
+    - galaxyproject.slurm
