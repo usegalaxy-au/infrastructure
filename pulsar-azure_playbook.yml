@@ -21,7 +21,7 @@
     #   become_user: "{{ pulsar_user.name }}"
     - galaxyproject.pulsar
     # - mariadb
-    # - galaxyproject.slurm
+    # - galaxyproject.legacy_slurm
     # - galaxyproject.cvmfs
     # - dj-wasabi.telegraf
     # - pulsar-post-tasks

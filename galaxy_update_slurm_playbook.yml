@@ -1,12 +1,12 @@
-- hosts: aarnet_galaxy_server, aarnet_slurm_head, aarnet_workers
+- hosts: galaxy, galaxy-queue, galaxy_workers
   become: true
   vars_files:
     - group_vars/all.yml
-    - group_vars/aarnet.yml
+    - group_vars/galaxy_etca.yml
     - group_vars/VAULT
     - group_vars/galaxyservers.yml
-    - group_vars/aarnet_slurm.yml
-    - host_vars/aarnet.usegalaxy.org.au.yml
+    - group_vars/galaxy_etca_slurm.yml
+    - host_vars/galaxy.usegalaxy.org.au.yml
     - secret_group_vars/stats_server_vault
   handlers:
     - name: Restart Slurmd
@@ -18,4 +18,4 @@
         name: slurmctld
         state: restarted
   roles:
-    - galaxyproject.legacy_slurm
+    - galaxyproject.slurm
