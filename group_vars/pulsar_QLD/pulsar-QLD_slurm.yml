@@ -9,42 +9,42 @@ slurm_nodes:
   - name: pulsar-QLD
     NodeAddr: "{{ hostvars['pulsar-QLD']['ansible_ssh_host'] }}"
     CPUs: 8
-    RealMemory: 64419
+    RealMemory: 64318
     State: UNKNOWN
   - name: pulsar-QLD-w0
     NodeAddr: "{{ hostvars['pulsar-QLD-w0']['ansible_ssh_host'] }}"
     CPUs: 16
-    RealMemory: 64419
+    RealMemory: 64318
     State: UNKNOWN
   - name: pulsar-QLD-w1
     NodeAddr: "{{ hostvars['pulsar-QLD-w1']['ansible_ssh_host'] }}"
     CPUs: 16
-    RealMemory: 64419
+    RealMemory: 64318
     State: UNKNOWN
   - name: pulsar-QLD-w2
     NodeAddr: "{{ hostvars['pulsar-QLD-w2']['ansible_ssh_host'] }}"
     CPUs: 16
-    RealMemory: 64419
+    RealMemory: 64318
     State: UNKNOWN
   - name: pulsar-QLD-w3
     NodeAddr: "{{ hostvars['pulsar-QLD-w3']['ansible_ssh_host'] }}"
     CPUs: 16
-    RealMemory: 64419
+    RealMemory: 64318
     State: UNKNOWN
   - name: pulsar-QLD-w4
     NodeAddr: "{{ hostvars['pulsar-QLD-w4']['ansible_ssh_host'] }}"
     CPUs: 16
-    RealMemory: 64419
+    RealMemory: 64318
     State: UNKNOWN
   - name: pulsar-QLD-w5
     NodeAddr: "{{ hostvars['pulsar-QLD-w5']['ansible_ssh_host'] }}"
     CPUs: 16
-    RealMemory: 64419
+    RealMemory: 64318
     State: UNKNOWN
   - name: pulsar-QLD-w6
     NodeAddr: "{{ hostvars['pulsar-QLD-w6']['ansible_ssh_host'] }}"
     CPUs: 16
-    RealMemory: 64419
+    RealMemory: 64318
     State: UNKNOWN
 
 slurm_partitions:
