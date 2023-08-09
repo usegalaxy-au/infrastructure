@@ -57,7 +57,7 @@ slurm_nodes:
     - name: qld-pulsar-himem-0
       NodeAddr: "{{ hostvars['qld-pulsar-himem-0']['ansible_ssh_host'] }}"
       CPUs: 240
-      RealMemory: 4018565
+      RealMemory: 3937345
       State: UNKNOWN
 
 slurm_partitions:
