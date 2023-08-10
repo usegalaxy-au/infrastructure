@@ -183,6 +183,8 @@ bashrc_env: |
 miniconda_version: '4.12.0'
 miniconda_mamba_version: '0.23.3'
 
+miniconda_installer: 'Miniconda3-py39_4.12.0-Linux-x86_64.sh'  # TODO: change if using another version of miniconda
+
 miniconda_channels:
   - conda-forge
   - bioconda

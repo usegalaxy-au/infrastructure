@@ -5,12 +5,12 @@ global:
 
 tools:
   default:
+    context:
+      partition: main
     cores: 1
     mem: cores * 3.8
+    params: {}
     env: {}
-    params:
-      nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)}"
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)}"
     scheduling:
       reject:
         - offline
@@ -117,38 +117,6 @@ tools:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
     cores: 3
-destinations:
-  slurm:
-    cores: 32
-    mem: 121.25
-    scheduling:
-      accept:
-      - slurm
-      - training
-  pulsar-paw:
-    cores: 8
-    mem: 31.36
-    scheduling:
-      require:
-      - pulsar-paw
-      - pulsar
-  # pulsar-nci-test:
-  #   cores: 16
-  #   mem: 48.19
-  #   scheduling:
-  #     accept:
-  #       - general
-  #       - pulsar-nci-test
-  #     require:
-  #       - pulsar
-  pulsar-QLD:
-    cores: 16
-    mem: 62.72
-    scheduling:
-      accept:
-      - pulsar-QLD
-      require:
-      - pulsar
 
 users:
   jenkins_bot@usegalaxy.org.au:
@@ -168,6 +136,15 @@ users:
             - offline
           require:
             - pulsar-paw
+  pqld@usegalaxy.org.au:
+    rules:
+      - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        scheduling:
+          accept:
+            - pulsar
+            - offline
+          require:
+            - pulsar-QLD
   pulsar_nci_test_user@usegalaxy.org.au:
     rules:
       - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')

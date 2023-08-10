@@ -1,0 +1,98 @@
+auth_key_user: ubuntu
+
+head_nodes: "{{ groups['galaxy_slurm_head'] }}"
+worker_nodes: "{{ groups['galaxy_workers'] }}"
+galaxy_nodes: "{{ groups['galaxy_galaxy_server'] }}"
+
+add_galaxy_user: true # Adds the galaxy user to all machines that have slurm on them
+
+# SLURM
+slurm_nodes:
+  - name: galaxy-w1
+    NodeAddr: "{{ hostvars['galaxy-w1']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+  - name: galaxy-w2
+    NodeAddr: "{{ hostvars['galaxy-w2']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+  - name: galaxy-w3
+    NodeAddr: "{{ hostvars['galaxy-w3']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+  - name: galaxy-w4
+    NodeAddr: "{{ hostvars['galaxy-w4']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+  - name: galaxy-w5
+    NodeAddr: "{{ hostvars['galaxy-w5']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+  - name: galaxy-w6
+    NodeAddr: "{{ hostvars['galaxy-w6']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+  - name: galaxy-w7
+    NodeAddr: "{{ hostvars['galaxy-w7']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+  - name: galaxy-w8
+    NodeAddr: "{{ hostvars['galaxy-w8']['internal_ip'] }}"
+    CPUs: 32
+    RealMemory: 125812
+    State: UNKNOWN
+  - name: galaxy-w9
+    NodeAddr: "{{ hostvars['galaxy-w9']['internal_ip'] }}"
+    CPUs: 32
+    RealMemory: 125812
+    State: UNKNOWN
+  - name: galaxy-w10
+    NodeAddr: "{{ hostvars['galaxy-w10']['internal_ip'] }}"
+    CPUs: 32
+    RealMemory: 125812
+    State: UNKNOWN
+  - name: galaxy-queue
+    NodeAddr: "{{ hostvars['galaxy-queue']['internal_ip'] }}"
+    CPUs: 4
+    RealMemory: 15638
+    State: UNKNOWN
+  - name: galaxy
+    NodeAddr: "{{ hostvars['galaxy']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 62815
+    State: UNKNOWN
+
+slurm_partitions:
+  - name: main
+    nodes: "galaxy-w1,galaxy-w2,galaxy-w3,galaxy-w4,galaxy-w5,galaxy-w6,galaxy-w8,galaxy-w9,galaxy-w10"
+    Default: YES
+    State: UP
+  - name: training
+    nodes: "galaxy-w7,galaxy-w5,galaxy-w4,galaxy-w6,galaxy-w10"
+    Default: NO
+    State: UP
+  - name: interactive_tools
+    nodes: "galaxy-w4,galaxy-w5"
+    Default: NO
+    State: UP
+    MaxTime: "10:00:00"
+
+slurm_config:
+  #SlurmDBd includes
+  AccountingStorageType: accounting_storage/slurmdbd
+  AccountingStorageHost: "{% if ansible_hostname == 'galaxy-queue' %}localhost{% else %}galaxy-queue{% endif %}"
+  JobAcctGatherType: jobacct_gather/linux
+  ControlMachine: galaxy-queue
+  # SCHEDULING
+  SchedulerType: sched/backfill
+  SelectType: select/cons_res
+  SelectTypeParameters: CR_CPU_Memory,CR_LLN
+
+slurm_munge_key: files/keys/munge.key

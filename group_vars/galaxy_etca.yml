@@ -1,0 +1,89 @@
+galaxy_uid: 10010
+galaxy_gid: 10010
+
+use_internal_ips: true
+
+influx_url: stats.usegalaxy.org.au
+grafana_server_url: "https://{{ influx_url }}:8086"
+
+# Monitoring
+telegraf_agent_output:
+  - type: influxdb
+    config:
+      - urls = ["{{ grafana_server_url }}"]
+      - database = "galaxy_etca"
+      - precision = "s"
+      - username = "node"
+      - password = "{{ vault_influx_node_password }}"
+
+# dbservers and galaxyservers
+galaxy_db_user_password: "{{ vault_galaxy_db_user_password }}"
+galaxy_db_reader_password: "{{ vault_galaxy_db_reader_password }}"
+galaxy_db_tiaasadmin_password: "{{ vault_galaxy_db_tiaasadmin_password }}"
+galaxy_db_tiaas_password: "{{ vault_galaxy_db_tiaas_password }}"
+
+galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_handlers and workers
+  - path: /mnt/tools
+    src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/tools"
+    fstype: nfs
+    state: mounted
+  - path: /mnt/user-data-test  # TEMPORARY
+    src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/user-data-test"
+    fstype: nfs
+    state: mounted
+#   - path: /mnt/custom-indices
+#     src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/custom-indices"
+#     fstype: nfs
+#     state: mounted
+#   - path: /mnt/user-data
+#     src: "pawsey-user-nfs.usegalaxy.org.au:/mnt/user-data"
+#     fstype: nfs
+#     state: mounted
+#   - path: /mnt/user-data-2
+#     src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-2"
+#     fstype: nfs
+#     state: mounted
+#   - path: /mnt/user-data-3
+#     src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-3"
+#     fstype: nfs
+#     state: mounted
+#   - path: /mnt/user-data-4
+#     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/user-data4"
+#     fstype: nfs
+#     state: mounted
+#   - path: /mnt/user-data-5
+#     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/user-data5"
+#     fstype: nfs
+#     state: mounted
+#   - path: /mnt/user-data-6
+#     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/user-data6"
+#     fstype: nfs
+#     state: mounted
+#   - path: /mnt/user-data-7
+#     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/user-data7"
+#     fstype: nfs
+#     state: mounted
+  - path: /mnt/tmp
+    src: "{{ hostvars['galaxy-job-nfs']['internal_ip'] }}:/mnt/tmp"
+    fstype: nfs
+    state: mounted
+#   - path: /mnt/files
+#     src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
+#     fstype: nfs
+#     state: mounted
+#   - path: /mnt/files2
+#     src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
+#     fstype: nfs
+#     state: mounted
+
+galaxy_worker_mounts:
+  - path: /mnt/galaxy
+    src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
+    fstype: nfs
+    state: mounted
+
+galaxy_web_server_mounts:
+  - path: /mnt/ghost-galaxy-app
+    src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/ghost-galaxy-app"
+    fstype: nfs
+    state: mounted

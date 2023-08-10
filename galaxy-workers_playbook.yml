@@ -1,0 +1,60 @@
+- hosts: galaxy_workers
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/galaxy_etca.yml
+      - group_vars/VAULT
+      - group_vars/galaxy_etca_slurm.yml
+      - group_vars/galaxy_workers.yml
+      - secret_group_vars/stats_server_vault
+  pre_tasks:
+      - name: Attach volume to instance
+        include_role:
+          name: attached-volumes
+  roles:
+      - common
+      - insspb.hostname
+      - geerlingguy.pip
+      - mounts
+      - galaxyproject.repos
+      - galaxyproject.slurm
+      - galaxyproject.cvmfs
+      - dj-wasabi.telegraf
+    #   - gantsign.golang
+    #   - cyverse-ansible.singularity
+      - usegalaxy_eu.apptainer # see how this works as replacement for golang+cyverse/singularity
+      - geerlingguy.docker
+      - acl-on-startup
+  post_tasks:
+      - name: restart munge
+        systemd:
+            name: munge
+            state: restarted
+      - name: Move /tmp to vdc # TODO: Factor this out to its own role, it is copied/pasted in about 10 playbooks
+        block:
+          - name: Create worker tmpdir on vdc
+            file:
+                path: /mnt/tmpdisk
+                state: directory
+                owner: root
+                group: root
+                mode: '1777'
+          - name: stat links
+            stat:
+                path: /tmp
+            register: links
+          - name: remove old tmp
+            file:
+                path: /tmp
+                state: absent
+            when: links.stat.islnk is defined and not links.stat.islnk
+          - name: Link /tmp to /mnt/tmpdisk
+            file:
+                src: /mnt/tmpdisk
+                dest: /tmp
+                state: link
+            become: yes
+            become_user: root
+            when: links.stat.islnk is defined and not links.stat.islnk
+        when: attached_volumes is defined
+

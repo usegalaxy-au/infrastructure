@@ -1,0 +1,41 @@
+- hosts: galaxy-db
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/galaxy_etca.yml
+      - group_vars/VAULT
+      - group_vars/dbservers.yml
+      - host_vars/galaxy-db.usegalaxy.org.au.yml
+      - secret_group_vars/stats_server_vault
+  pre_tasks:
+      - name: Attach volume to instance
+        include_role:
+          name: attached-volumes
+      - name: Install psycopg2 for python3
+        apt:
+            name: python3-psycopg2
+            state: present
+        become: true
+      - name: stat data directory
+        stat:
+          path: "{{ postgresql_pgdata }}"
+        register: data_directory_stat
+      - name: override postgresql_objects_privileges if data directory does not yet exist
+        set_fact:
+          postgresql_objects_privileges: postgresql_objects_privileges_first_run
+        when: not data_directory_stat.stat.exists
+  roles:
+      - common
+      - insspb.hostname
+      - geerlingguy.pip
+      - galaxyproject.postgresql
+      - move-postgresql-data-directory
+      - role: galaxyproject.postgresql_objects
+        become: true
+        become_user: postgres
+        vars: # TODO: remove this when database has been set up with galaxy server
+          postgresql_objects_privileges: "{{ postgresql_objects_privileges_first_run }}"
+      - dj-wasabi.telegraf
+      # Note: After running this playbook for the first time the postgresql services
+      # may have stopped with errors due to the moving of the data directory.
+      # A reboot should fix this.
