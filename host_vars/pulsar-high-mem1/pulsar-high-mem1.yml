@@ -58,7 +58,7 @@ slurm_nodes:
     - name: pulsar-high-mem1
       NodeAddr: "{{ hostvars['pulsar-high-mem1']['ansible_ssh_host'] }}"
       CPUs: 126
-      RealMemory: 3937373
+      RealMemory: 3937300
       State: UNKNOWN
 
 slurm_partitions:

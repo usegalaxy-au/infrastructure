@@ -11,52 +11,52 @@ slurm_nodes:
   - name: aarnet-w1
     NodeAddr: "{{ hostvars['aarnet-w1']['internal_ip'] }}"
     CPUs: 16
-    RealMemory: 62815
+    RealMemory: 64000
     State: UNKNOWN
   - name: aarnet-w2
     NodeAddr: "{{ hostvars['aarnet-w2']['internal_ip'] }}"
     CPUs: 16
-    RealMemory: 62815
+    RealMemory: 64000
     State: UNKNOWN
   - name: aarnet-w3
     NodeAddr: "{{ hostvars['aarnet-w3']['internal_ip'] }}"
     CPUs: 16
-    RealMemory: 62815
+    RealMemory: 64000
     State: UNKNOWN
   - name: aarnet-w4
     NodeAddr: "{{ hostvars['aarnet-w4']['internal_ip'] }}"
     CPUs: 16
-    RealMemory: 62815
+    RealMemory: 64000
     State: UNKNOWN
   - name: aarnet-w5
     NodeAddr: "{{ hostvars['aarnet-w5']['internal_ip'] }}"
     CPUs: 16
-    RealMemory: 62815
+    RealMemory: 64000
     State: UNKNOWN
   - name: aarnet-w6
     NodeAddr: "{{ hostvars['aarnet-w6']['internal_ip'] }}"
     CPUs: 32
-    RealMemory: 125812
+    RealMemory: 128000
     State: UNKNOWN
   - name: aarnet-w7
     NodeAddr: "{{ hostvars['aarnet-w7']['internal_ip'] }}"
     CPUs: 16
-    RealMemory: 62815
+    RealMemory: 64000
     State: UNKNOWN
   - name: aarnet-w8
     NodeAddr: "{{ hostvars['aarnet-w8']['internal_ip'] }}"
     CPUs: 16
-    RealMemory: 62815
+    RealMemory: 64000
     State: UNKNOWN
   - name: aarnet-w9
     NodeAddr: "{{ hostvars['aarnet-w9']['internal_ip'] }}"
     CPUs: 32
-    RealMemory: 125812
+    RealMemory: 128000
     State: UNKNOWN
   - name: aarnet-w10
     NodeAddr: "{{ hostvars['aarnet-w10']['internal_ip'] }}"
     CPUs: 32
-    RealMemory: 125812
+    RealMemory: 128000
     State: UNKNOWN
   - name: aarnet-queue
     NodeAddr: "{{ hostvars['aarnet-queue']['internal_ip'] }}"
@@ -66,7 +66,7 @@ slurm_nodes:
   - name: aarnet
     NodeAddr: "{{ hostvars['aarnet']['internal_ip'] }}"
     CPUs: 16
-    RealMemory: 62815
+    RealMemory: 64000
     State: UNKNOWN
 
 slurm_partitions:

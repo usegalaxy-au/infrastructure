@@ -8,37 +8,37 @@ slurm_nodes:
   - name: pulsar-mel3
     NodeAddr: "{{ hostvars['pulsar-mel3']['ansible_ssh_host'] }}"
     CPUs: 8
-    RealMemory: 32112
+    RealMemory: 32000
     State: UNKNOWN
   - name: pulsar-mel3-w1
     NodeAddr: "{{ hostvars['pulsar-mel3-w1']['ansible_ssh_host'] }}"
     CPUs: 16
-    RealMemory: 64318
+    RealMemory: 64000
     State: UNKNOWN
   - name: pulsar-mel3-w2
     NodeAddr: "{{ hostvars['pulsar-mel3-w2']['ansible_ssh_host'] }}"
     CPUs: 16
-    RealMemory: 64318
+    RealMemory: 64000
     State: UNKNOWN
   - name: pulsar-mel3-w3
     NodeAddr: "{{ hostvars['pulsar-mel3-w3']['ansible_ssh_host'] }}"
     CPUs: 32
-    RealMemory: 125812
+    RealMemory: 128000
     State: UNKNOWN
   - name: pulsar-mel3-w4
     NodeAddr: "{{ hostvars['pulsar-mel3-w4']['ansible_ssh_host'] }}"
     CPUs: 32
-    RealMemory: 125812
+    RealMemory: 128000
     State: UNKNOWN
   - name: pulsar-mel3-w5
     NodeAddr: "{{ hostvars['pulsar-mel3-w5']['ansible_ssh_host'] }}"
     CPUs: 32
-    RealMemory: 125812
+    RealMemory: 128000
     State: UNKNOWN
   - name: pulsar-mel3-w6
     NodeAddr: "{{ hostvars['pulsar-mel3-w6']['ansible_ssh_host'] }}"
     CPUs: 16
-    RealMemory: 64318
+    RealMemory: 64000
     State: UNKNOWN
 
 slurm_partitions:
