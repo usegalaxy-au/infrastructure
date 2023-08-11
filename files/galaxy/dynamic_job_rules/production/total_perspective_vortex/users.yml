@@ -22,9 +22,9 @@ users:
       scheduling:
         require:
           - slurm
-      rules:
+      rules:  # test temp files from msconvert are filling up worker disks
         - if: 'msconvert' in tool.id
-          fail: "Temporarily failing all msconvert tests"  # test temp files are filling up worker disks
+          fail: "Temporarily failing all msconvert tests"
     testbot@usegalaxy.org:
       inherits: test_user
       cores: 1
