@@ -191,11 +191,13 @@ slurm_singularity_volumes_list:
   - "$tool_directory:ro"
   - "$default_file_path:ro"
   - "/cvmfs/data.galaxyproject.org:ro"
+  - "/tmp:rw"
 
 pulsar_singularity_volumes_list:
   - "$job_directory:rw"
   - "$tool_directory:ro"
   - "/cvmfs/data.galaxyproject.org:ro"
+  - "/tmp:rw"
 
 slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
 pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
