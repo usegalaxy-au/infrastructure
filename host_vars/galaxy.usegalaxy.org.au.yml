@@ -513,6 +513,7 @@ pulsar_singularity_volumes_list:
   - $tool_directory:ro
   - /mnt/custom-indices:ro
   - /cvmfs/data.galaxyproject.org:ro
+  - /tmp:rw
 
 slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
 pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
