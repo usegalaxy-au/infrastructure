@@ -76,7 +76,7 @@ pulsar_yaml_config:
   managers:
       _default_:
           type: queued_drmaa
-          preprocess_action_max_retries: 10
+          preprocess_action_max_retries: 20
           preprocess_action_interval_start: 2
           preprocess_action_interval_step: 2
           preprocess_action_interval_max: 60
