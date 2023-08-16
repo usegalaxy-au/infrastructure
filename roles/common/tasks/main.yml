@@ -122,3 +122,10 @@
     group: galaxy
     mode: 0640
   when: create_nginx_htpasswd is defined and create_nginx_htpasswd == true
+
+- name: Disable Apport service to prevent coredumps
+  systemd:
+    name: "apport"
+    state: "stopped"
+    enabled: false
+
