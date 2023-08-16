@@ -38,26 +38,6 @@
   vars:
     hosts_filename: "/etc/hosts"
 
-- name: Set default umask to 0022 in /etc/login.defs
-  lineinfile:
-    dest: /etc/login.defs
-    regexp: '^UMASK'
-    line: 'UMASK           022'
-    state: present
-
-- name: Configure creation of user home directories to be user group readable only
-  lineinfile:
-    dest: "/etc/adduser.conf"
-    regexp: "^DIR_MODE="
-    line: "DIR_MODE=0750"
-    state: present
-
-- name: Ensure the system user's home directory is private
-  file:
-    path: "/home/{{ ansible_user }}"
-    state: directory
-    mode: 0700
-
 - name: Add Galaxy group to relevant machines
   become: yes
   become_user: root
@@ -103,15 +83,6 @@
     state: absent
   become: yes
   become_user: root
-
-- name: "Ensure that ssh connections are allowed through UFW"
-  ufw:
-    rule: allow
-    name: 'OpenSSH'
-
-- name: "Disable UFW until all allow rules are configured"
-  ufw:
-    state: disabled
 
 - name: Create a nginx .htpasswd file if required
   htpasswd:
