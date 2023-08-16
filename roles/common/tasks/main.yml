@@ -84,6 +84,15 @@
   become: yes
   become_user: root
 
+- name: "Ensure that ssh connections are allowed through UFW"
+  ufw:
+    rule: allow
+    name: 'OpenSSH'
+
+- name: "Disable UFW until all allow rules are configured"
+  ufw:
+    state: disabled
+
 - name: Create a nginx .htpasswd file if required
   htpasswd:
     path: /etc/nginx/.htpasswd
