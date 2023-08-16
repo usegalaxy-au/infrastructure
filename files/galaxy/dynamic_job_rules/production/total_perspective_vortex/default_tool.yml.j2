@@ -33,8 +33,8 @@ tools:
           response = requests.get('https://stats.usegalaxy.org.au:8086/query', auth=('grafana', '{{ vault_influx_grafana_password }}'), params=params)
           data = response.json()
           cpu_by_destination = {grafana_destinations.get(s['tags']['host'], s['tags']['host']):s['values'][0][1] for s in data.get('results')[0].get('series', [])}
-          # sort by destination preference, and then by cpu usage
-          candidate_destinations.sort(key=lambda d: (-1 * d.score(entity), cpu_by_destination.get(d.id), random.randint(0,9)))
+          # sort by cpu usage
+          candidate_destinations.sort(key=lambda d: (cpu_by_destination.get(d.id), random.randint(0,9)))
           final_destinations = candidate_destinations
         except Exception:
           log.exception("An error occurred while querying influxdb. Using a weighted random candidate destination")
