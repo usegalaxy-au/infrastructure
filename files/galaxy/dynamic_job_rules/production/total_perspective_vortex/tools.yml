@@ -174,14 +174,10 @@ tools:
       - pulsar-training-large
     rules:
     - id: flye_small_input_rule
-      if: input_size < 0.15
-      cores: 2
-      mem: 7.6
-    - id: flye_medium_input_rule
-      if: 0.15 <= input_size < 0.5
+      if: input_size < 0.5
       cores: 8
       mem: 30.7
-    - id: flye_medium2_input_rule
+    - id: flye_medium_input_rule
       if: 0.5 <= input_size < 10
       cores: 16
       mem: 61.4
