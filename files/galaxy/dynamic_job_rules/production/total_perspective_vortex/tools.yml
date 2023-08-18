@@ -655,17 +655,6 @@ tools:
       if: input_size < 0.5
       cores: 1
       mem: 3.8
-  toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/.*:
-    cores: 5
-    mem: 19.1
-    rules:
-    - id: velvetg_small_input_rule
-      if: input_size < 0.1
-      cores: 2
-      mem: 7.6
-  toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/.*:
-    cores: 2
-    mem: 7.6
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy.*:
     cores: 1
     mem: 3.8
@@ -889,8 +878,8 @@ tools:
     rules:
     - id: abyss-pe_small_input_rule
       if: input_size < 0.002
-      cores: 2
-      mem: 7.6
+      cores: 4
+      mem: 15.3
     - id: abyss-pe_medium_input_rule
       if: 0.002 <= input_size < 5
       cores: 16
@@ -1387,10 +1376,6 @@ tools:
       if: input_size < 0.001
       cores: 1
       mem: 3.8
-    - id: metaphlan_medium_input_rule
-      if: 0.001 <= input_size < 10
-      cores: 5
-      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/.*:
     cores: 30
     mem: 480.5
@@ -1638,18 +1623,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/nanoplot/.*:
     cores: 3
     mem: 11.5
-  toolshed.g2.bx.psu.edu/repos/iuc/novoplasty/novoplasty/.*:
-    cores: 16
-    mem: 61.4
-    rules:
-    - id: novoplasty_small_input_rule
-      if: input_size < 0.2
-      cores: 2
-      mem: 7.6
-    - id: novoplasty_medium_input_rule
-      if: 0.2 <= input_size < 6
-      cores: 5
-      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/pathview/pathview/.*:
     params:
       singularity_enabled: true
