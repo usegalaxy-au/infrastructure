@@ -2,7 +2,7 @@ nfs_app_dir: /mnt/ghost-galaxy-app
 nfs_tools_dir: /mnt/tools
 nfs_custom_indices_dir: /mnt/custom-indices
 
-attached_volumes: # TODO: volume for custom_indices does not exist in test environment but will later on. Mount points might change
+attached_volumes:
   - device: /dev/vdb
     path: "{{ nfs_app_dir }}"
     fstype: ext4
@@ -11,17 +11,17 @@ attached_volumes: # TODO: volume for custom_indices does not exist in test envir
     path: "{{ nfs_tools_dir }}"
     fstype: ext4
     partition: 1
-  # - device: /dev/vdXYZ
-  #   path: "{{ nfs_custom_indices_dir }}"
-  #   fstype: ext4
-  #   partition: 1
+  - device: /dev/vdd
+    path: "{{ nfs_custom_indices_dir }}"
+    fstype: ext4
+    partition: 1
 
 nfs_dirs:
   - "{{ nfs_app_dir }}"
   - "{{ nfs_tools_dir }}"
-  # - "{{ nfs_custom_indices_dir }}"
+  - "{{ nfs_custom_indices_dir }}"
 
 nfs_exports:
   - "{{ nfs_app_dir }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
   - "{{ nfs_tools_dir }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
-  # - "{{ nfs_custom_indices_dir }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
+  - "{{ nfs_custom_indices_dir }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
