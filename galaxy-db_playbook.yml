@@ -22,7 +22,7 @@
         register: data_directory_stat
       - name: override postgresql_objects_privileges if data directory does not yet exist
         set_fact:
-          postgresql_objects_privileges: postgresql_objects_privileges_first_run
+          postgresql_objects_privileges: "{{ postgresql_objects_privileges_first_run }}"
         when: not data_directory_stat.stat.exists
   roles:
       - common
@@ -33,8 +33,6 @@
       - role: galaxyproject.postgresql_objects
         become: true
         become_user: postgres
-        vars: # TODO: remove this when database has been set up with galaxy server
-          postgresql_objects_privileges: "{{ postgresql_objects_privileges_first_run }}"
       - dj-wasabi.telegraf
       # Note: After running this playbook for the first time the postgresql services
       # may have stopped with errors due to the moving of the data directory.
