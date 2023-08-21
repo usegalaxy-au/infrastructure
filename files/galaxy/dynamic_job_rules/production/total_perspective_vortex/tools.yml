@@ -255,7 +255,10 @@ tools:
       mem: 3.8
     scheduling:
       accept:
-      - pulsar    
+      - pulsar
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/.*:
+    params:
+      tmp_dir: true  
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/.*:
     cores: 1
     mem: 3.8
