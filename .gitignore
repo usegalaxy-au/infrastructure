@@ -49,6 +49,9 @@ roles/usegalaxy_eu.influxdb
 roles/cloudalchemy.grafana
 roles/cyverse-ansible.singularity
 roles/gantsign.golang
+roles/galaxyproject.repos
+roles/usegalaxy_eu.apptainer
+roles/usegalaxy_eu.rabbitmqserver
 
 # integration-testing virtual environment
 integration-testing/venv
