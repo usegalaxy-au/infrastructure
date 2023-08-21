@@ -3,11 +3,11 @@ slurm_roles: ["exec"]
 add_hosts_head: yes
 add_hosts_galaxy: yes
 
-# attached_volumes: # No attached workers for testing (?) TODO: check mount point later on
-#   - device: /dev/vdb
-#     path: /mnt
-#     fstype: ext4
-#     partition: 1
+attached_volumes:
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
+    partition: 1
 
 galaxy_worker_mounts:
   - path: /mnt/galaxy
@@ -19,12 +19,12 @@ galaxy_worker_mounts:
 shared_mounts: "{{ galaxy_server_and_worker_shared_mounts + galaxy_worker_mounts }}" # sourced from galaxy_etca.yml
 
 # cvmfs
-# cvmfs_cache_base: /mnt/var/lib/cvmfs # TODO: Uncomment as soon as there is a volume
-# cvmfs_quota_limit: 20000
+cvmfs_cache_base: /mnt/var/lib/cvmfs # TODO: Uncomment as soon as there is a volume
+cvmfs_quota_limit: 20000
 
 # Docker
 docker_install_compose: false
 docker_users:
   - "{{ galaxy_user.name }}"
-# docker_daemon_options: # TODO: Uncomment as soon as there is a volume
-#   data-root: /mnt/docker-data
+docker_daemon_options: # TODO: Uncomment as soon as there is a volume
+  data-root: /mnt/docker-data
