@@ -87,6 +87,7 @@
       # TODO: (a) This could be a role,
       # (b) there is no need to sync all of /mnt/galaxy: only /mnt/galaxy/galaxy-app and /mnt/galaxy/venv need to exist for the workers
       # Possible /mnt/galaxy/local_tools also needs to exist for the workers. Move that dir into /mnt/tools?
+      # [ UPDATE ]: /mnt/galaxy/config and /mnt/galaxy/var would also need to be included!
       package:
         name: lsyncd
         state: present
