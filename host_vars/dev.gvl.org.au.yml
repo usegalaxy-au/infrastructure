@@ -57,7 +57,7 @@ galaxy_dynamic_job_rules:
   - total_perspective_vortex/dev_destinations.yml.j2
   - readme.txt
 
-galaxy_infrastructure_url: "https://dev.usegalaxy.org.au"
+galaxy_infrastructure_url: "https://dev.gvl.org.au"
 
 galaxy_systemd_mode: gravity
 galaxy_systemd_env:
@@ -150,9 +150,9 @@ host_galaxy_config: # renamed from __galaxy_config
 
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},uwe@biocommons.org.au,uwwint@gmail.com" # everyone is an admin on dev
-    amqp_internal_connection: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_dev }}@dev-queue.usegalaxy.org.au:5671//galaxy/galaxy_queues?ssl=1"
+    amqp_internal_connection: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_dev }}@dev-queue.gvl.org.au:5671//galaxy/galaxy_queues?ssl=1"
     brand: "Australia Dev"
-    database_connection: "postgresql://galaxy:{{ vault_dev_db_user_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
+    database_connection: "postgresql://galaxy:{{ vault_dev_db_user_password }}@dev-db.gvl.org.au:5432/galaxy"
     # enable_celery_tasks: true # 18/5/23: Switched off due to upload jobs remaining in new state
     id_secret: "{{ vault_dev_id_secret }}"
     file_path: "{{ galaxy_file_path }}"
@@ -201,11 +201,11 @@ pg_db_password:
   galaxy: "{{ vault_dev_db_user_password }}"
   reader: "{{ vault_dev_db_reader_password }}"
   tiaasadmin: "{{ vault_dev_db_tiaasadmin_password }}"
-db_address: "dev-db.usegalaxy.org.au"
+db_address: "dev-db.gvl.org.au"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 
 # host-specific settings for postfix
-postfix_host_domain: "dev.usegalaxy.org.au"
+postfix_host_domain: "dev.gvl.org.au"
 postfix_hostname: "dev"
 smtp_login: "{{ vault_smtp_login_dev }}"
 smtp_password: "{{ vault_smtp_password_dev }}"
@@ -213,7 +213,7 @@ smtp_password: "{{ vault_smtp_password_dev }}"
 # TIaaS specific settings
 tiaas_repo: https://github.com/galaxyproject/tiaas2
 tiaas_version: main2 # New GalaxyAU version
-tiaas_galaxy_db_host: "dev-db.usegalaxy.org.au"
+tiaas_galaxy_db_host: "dev-db.gvl.org.au"
 tiaas_galaxy_db_port: "5432"
 tiaas_galaxy_db_user: "tiaasadmin"
 tiaas_galaxy_db_pass: "{{ vault_dev_db_tiaasadmin_password }}"
@@ -221,7 +221,7 @@ tiaas_info:
   owner: "Galaxy Australia Dev"
   owner_email: help@genome.edu.au
   owner_site: https://site.usegalaxy.org.au
-  domain: dev.usegalaxy.org.au
+  domain: dev.gvl.org.au
 
 tiaas_other_config: |
   # Cam's mailtrap account
@@ -261,12 +261,12 @@ extra_oidc_providers:
     url: https://cilogon.org/authorize
     client_id: "{{ vault_dev_cilogon_client }}"
     client_secret: "{{ vault_dev_cilogon_secret }}"
-    redirect_uri: https://dev.usegalaxy.org.au/authnz/cilogon/callback
+    redirect_uri: https://dev.gvl.org.au/authnz/cilogon/callback
     realm: master
 
 # remote-pulsar-cron variables
 rpc_skip_cron_setup: false
-rpc_db_connection_string: "postgres://reader:{{ vault_dev_db_reader_password }}@dev-db.usegalaxy.org.au:5432/galaxy"
+rpc_db_connection_string: "postgres://reader:{{ vault_dev_db_reader_password }}@dev-db.gvl.org.au:5432/galaxy"
 
 rpc_pulsar_machines:
   - pulsar_name: dev-pulsar
@@ -357,14 +357,14 @@ singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/pyth
 
 # multisite stuff
 
-galaxy_subsite_base_domain: "dev.usegalaxy.org.au"
+galaxy_subsite_base_domain: "dev.gvl.org.au"
 galaxy_subsite_default_welcome: "https://site.usegalaxy.org.au"
 galaxy_subsite_dir: /mnt/galaxy/subsites
 #galaxy_subsite_base_css: '#masthead { background-color: #003399;}'
 galaxy_subsites:
   - name: genome
     brand: Genomes lab
-    iframe: "https://dev-site.usegalaxy.org.au/landing/genome"
+    iframe: "https://dev-site.gvl.org.au/landing/genome"
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
     tool_sections:
       - "hicexplorer"
