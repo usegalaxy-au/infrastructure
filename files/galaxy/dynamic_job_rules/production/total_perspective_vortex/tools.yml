@@ -756,6 +756,14 @@ tools:
     scheduling:
       prefer:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/smudgeplot/smudgeplot/.*:
+    cores: 8
+    mem: 500
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxyp/cardinal_classification/cardinal_classification/.*:
     scheduling:
       accept:
@@ -1292,14 +1300,9 @@ tools:
       - pulsar
       - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgdiff/.*:
-    cores: 5
-    mem: 19.1
     scheduling:
       accept:
       - pulsar
-  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_callpeak/.*:
-    cores: 9
-    mem: 34.5
   toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
     cores: 8
     mem: 30.39
