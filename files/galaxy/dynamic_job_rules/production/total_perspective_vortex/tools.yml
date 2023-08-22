@@ -372,12 +372,19 @@ tools:
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/.*:
-    cores: 9
-    mem: 34.5
+    cores: 8
+    mem: 30.7
     scheduling:
       accept:
       - pulsar
     rules:
+    - id: rule_clustalw_limit_concurrency
+      if: |
+        user_limit = 2
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
     - id: clustalw_small_input_rule
       if: input_size < 0.0003
       cores: 3
