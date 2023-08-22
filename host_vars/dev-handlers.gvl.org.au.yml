@@ -59,4 +59,4 @@ flower_app_name: galaxy.celery
 flower_persistent: true
 
 #flower_broker_api: "https://flower:{{ rabbitmq_password_flower }}@{{ rabbitmq_url }}/api/"
-flower_broker_url: "amqp://flower:{{ vault_rabbitmq_password_galaxy_dev }}@dev-queue.usegalaxy.org.au:5671//galaxy/galaxy_queues?ssl=true"
+flower_broker_url: "amqp://flower:{{ vault_rabbitmq_password_galaxy_dev }}@dev-queue.gvl.org.au:5671//galaxy/galaxy_queues?ssl=true"
