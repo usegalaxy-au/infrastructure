@@ -18,8 +18,8 @@ runners:
     pulsar_config: "{{ galaxy_config_dir }}/pulsar_app.yml"
   pulsar_au_01:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    amqp_url: "pyamqp://galaxy_au:{{ vault_rabbitmq_password_galaxy_au_dev }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_au?ssl=1"
-    galaxy_url: https://dev.usegalaxy.org.au
+    amqp_url: "pyamqp://galaxy_au:{{ vault_rabbitmq_password_galaxy_au_dev }}@dev-queue.gvl.org.au:5671//pulsar/galaxy_au?ssl=1"
+    galaxy_url: https://dev.gvl.org.au
     manager: _default_
     amqp_acknowledge: true
     amqp_ack_republish_time: 300
@@ -28,8 +28,8 @@ runners:
     amqp_publish_retry_max_retries: 60
   pulsar_nci_test_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    amqp_url: "pyamqp://galaxy_nci_test:{{ vault_rabbitmq_password_galaxy_nci_test }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_nci_test?ssl=1"
-    galaxy_url: https://dev.usegalaxy.org.au
+    amqp_url: "pyamqp://galaxy_nci_test:{{ vault_rabbitmq_password_galaxy_nci_test }}@dev-queue.gvl.org.au:5671//pulsar/galaxy_nci_test?ssl=1"
+    galaxy_url: https://dev.gvl.org.au
     manager: _default_
     amqp_acknowledge: true
     amqp_ack_republish_time: 1200
@@ -38,8 +38,8 @@ runners:
     amqp_publish_retry_max_retries: 60
   pulsar_eu_gpu:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    amqp_url: "pyamqp://galaxy_eu_gpu:{{ vault_rabbitmq_password_galaxy_eu_gpu }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_eu_gpu?ssl=1"
-    galaxy_url: "https://dev.usegalaxy.org.au"
+    amqp_url: "pyamqp://galaxy_eu_gpu:{{ vault_rabbitmq_password_galaxy_eu_gpu }}@dev-queue.gvl.org.au:5671//pulsar/galaxy_eu_gpu?ssl=1"
+    galaxy_url: "https://dev.gvl.org.au"
     manager: _default_
     amqp_acknowledge: True
     amqp_ack_republish_time: 1200
@@ -48,8 +48,8 @@ runners:
     amqp_publish_retry_max_retries: 60
   pulsar_azure_0_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    amqp_url: "pyamqp://galaxy_azure_0:{{ vault_rabbitmq_password_galaxy_azure_0 }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_azure_0?ssl=1"
-    galaxy_url: "https://dev.usegalaxy.org.au"
+    amqp_url: "pyamqp://galaxy_azure_0:{{ vault_rabbitmq_password_galaxy_azure_0 }}@dev-queue.gvl.org.au:5671//pulsar/galaxy_azure_0?ssl=1"
+    galaxy_url: "https://dev.gvl.org.au"
     manager: _default_
     amqp_acknowledge: True
     amqp_ack_republish_time: 1200
@@ -58,8 +58,8 @@ runners:
     amqp_publish_retry_max_retries: 60
   pulsar_azure_1_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    amqp_url: "pyamqp://galaxy_azure_1:{{ vault_rabbitmq_password_galaxy_azure_1 }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_azure_1?ssl=1"
-    galaxy_url: "https://dev.usegalaxy.org.au"
+    amqp_url: "pyamqp://galaxy_azure_1:{{ vault_rabbitmq_password_galaxy_azure_1 }}@dev-queue.gvl.org.au:5671//pulsar/galaxy_azure_1?ssl=1"
+    galaxy_url: "https://dev.gvl.org.au"
     manager: _default_
     amqp_acknowledge: True
     amqp_ack_republish_time: 1200
@@ -68,8 +68,8 @@ runners:
     amqp_publish_retry_max_retries: 60
   pulsar_reservation_g2_xlarge_A_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    amqp_url: "pyamqp://galaxy_reservation_g2_xlarge_A:{{ vault_rabbitmq_password_galaxy_reservation_g2_xlarge_A }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_reservation_g2_xlarge_A?ssl=1"
-    galaxy_url: "https://dev.usegalaxy.org.au"
+    amqp_url: "pyamqp://galaxy_reservation_g2_xlarge_A:{{ vault_rabbitmq_password_galaxy_reservation_g2_xlarge_A }}@dev-queue.gvl.org.au:5671//pulsar/galaxy_reservation_g2_xlarge_A?ssl=1"
+    galaxy_url: "https://dev.gvl.org.au"
     manager: _default_
     amqp_acknowledge: True
     amqp_ack_republish_time: 1200
@@ -78,8 +78,8 @@ runners:
     amqp_publish_retry_max_retries: 60
   pulsar_reservation_g2_xlarge_B_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    amqp_url: "pyamqp://galaxy_reservation_g2_xlarge_B:{{ vault_rabbitmq_password_galaxy_reservation_g2_xlarge_B }}@dev-queue.usegalaxy.org.au:5671//pulsar/galaxy_reservation_g2_xlarge_B?ssl=1"
-    galaxy_url: "https://dev.usegalaxy.org.au"
+    amqp_url: "pyamqp://galaxy_reservation_g2_xlarge_B:{{ vault_rabbitmq_password_galaxy_reservation_g2_xlarge_B }}@dev-queue.gvl.org.au:5671//pulsar/galaxy_reservation_g2_xlarge_B?ssl=1"
+    galaxy_url: "https://dev.gvl.org.au"
     manager: _default_
     amqp_acknowledge: True
     amqp_ack_republish_time: 1200

@@ -1,3 +1,5 @@
+# override usegalaxy.org.au domain by appending gvl.org.au to ansible_hostname (from hosts file) for hostname variable
+hostname: "{{ ansible_hostname }}.gvl.org.au"
 
 galaxy_uid: 998
 
