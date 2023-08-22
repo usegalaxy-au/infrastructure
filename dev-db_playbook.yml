@@ -5,7 +5,7 @@
       - group_vars/dev.yml
       - group_vars/VAULT
       - group_vars/dbservers.yml
-      - host_vars/dev-db.usegalaxy.org.au.yml
+      - host_vars/dev-db.gvl.org.au.yml
       - secret_group_vars/stats_server_vault
   pre_tasks:
       - name: Install psycopg2 for python3

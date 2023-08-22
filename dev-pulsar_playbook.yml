@@ -6,7 +6,7 @@
     - group_vars/pulsarservers.yml
     - group_vars/dev_pulsar_slurm.yml
     - group_vars/VAULT
-    - host_vars/dev-pulsar.usegalaxy.org.au.yml
+    - host_vars/dev-pulsar.gvl.org.au.yml
     - secret_group_vars/ubuntu_maintenance_key
     - secret_group_vars/stats_server_vault
   pre_tasks:

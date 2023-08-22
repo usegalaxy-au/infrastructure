@@ -5,7 +5,7 @@
       - group_vars/dev.yml
       - group_vars/rabbitservers.yml
       - group_vars/VAULT
-      - host_vars/dev-queue.usegalaxy.org.au.yml
+      - host_vars/dev-queue.gvl.org.au.yml
       - group_vars/dev_slurm.yml
       - secret_group_vars/stats_server_vault
       - secret_group_vars/dev_secrets
