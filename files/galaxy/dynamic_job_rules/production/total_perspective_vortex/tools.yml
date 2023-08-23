@@ -1207,6 +1207,7 @@ tools:
       - pulsar-paw
       accept:
       - pulsar
+      - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_trim/ivar_trim/.*:
     cores: 8
     mem: 30.7
