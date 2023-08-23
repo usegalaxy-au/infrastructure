@@ -548,6 +548,7 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+      - pulsar-quick
     rules:
     - id: lastz_wrapper_2_small_input_rule
       if: input_size < 0.001
@@ -840,6 +841,7 @@ tools:
     mem: 3.8
     params:
       docker_enabled: true
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/openms_openswathworkflow/OpenSwathWorkflow/.*:
     mem: 61.4
   toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker/.*:
@@ -2089,6 +2091,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_cluster/trycycler_cluster/.*:
     cores: 9
     mem: 34.5
