@@ -1,5 +1,7 @@
 # Specific settings for galaxy dev application/web server
 
+galaxy_config_file: /opt/galaxy/galaxy.yml
+
 # legacy_file_mounts_available: set to true if /mnt/files, /mnt/files2 should be in the object store
 legacy_file_mounts_available: False # assume true unless set to false
 pawsey_file_mounts_available: False # assume true unless set to false
@@ -89,57 +91,48 @@ host_galaxy_config_templates:
 #   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2" ## File cannot be created at dest on first run of playbook
 #     dest: "{{ galaxy_server_dir }}/lib/galaxy/tool_util/toolbox/filters/ga_filters.py"
 
-host_galaxy_config:
-  gravity:
-    process_manager: systemd
-    galaxy_root: "{{ galaxy_server_dir }}"
-    galaxy_user: "{{ galaxy_user.name }}"
-    app_server: gunicorn
-    virtualenv: "{{ galaxy_venv_dir }}"
-    gunicorn:
-      # listening options
-      bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
-      # performance options
-      workers: 4
-      # Other options that will be passed to gunicorn
-      extra_args: '--forwarded-allow-ips="*"'
-      preload: true
-      environment:
-        VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
-        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
-        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
 
-    celery:
-      concurrency: 2
-      loglevel: DEBUG
-    handlers:
-      handler:
-        environment:
-          DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-          SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
-          SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
-        processes: 5
-        pools:
-          - job-handlers
-          - workflow-schedulers
-    tusd:
-      enable: true
-      tusd_path: /usr/local/sbin/tusd
-      upload_dir: "{{ galaxy_tus_upload_store }}"
-    gx_it_proxy:
-      enable: true
-      version: '>=0.0.5'  # default from galaxy.yml.sample
-      ip: "{{ gie_proxy_ip }}"
-      port: "{{ gie_proxy_port }}"
-      sessions: "{{ gie_proxy_sessions_path }}"
-      verbose: true
-    reports:
-      enable: true
-      url_prefix: /reports
-      bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
-      config_file: "{{ galaxy_config_dir }}/reports.yml"
+host_galaxy_config_gravity:
+  process_manager: systemd
+  galaxy_root: "{{ galaxy_server_dir }}"
+  galaxy_user: "{{ galaxy_user.name }}"
+  app_server: gunicorn
+  virtualenv: "{{ galaxy_venv_dir }}"
+  gunicorn:
+    # listening options
+    bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+    # performance options
+    workers: 4
+    # Other options that will be passed to gunicorn
+    extra_args: '--forwarded-allow-ips="*"'
+    preload: true
+    environment:
+      VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
+      DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+      SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+      SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+  tusd:
+    enable: true
+    tusd_path: /usr/local/sbin/tusd
+    upload_dir: "{{ galaxy_tus_upload_store }}"
+  gx_it_proxy:
+    enable: true
+    version: '>=0.0.5'  # default from galaxy.yml.sample
+    ip: "{{ gie_proxy_ip }}"
+    port: "{{ gie_proxy_port }}"
+    sessions: "{{ gie_proxy_sessions_path }}"
+    verbose: true
+  reports:
+    enable: true
+    url_prefix: /reports
+    bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
+    config_file: "{{ galaxy_config_dir }}/reports.yml"
+
+host_galaxy_config: # renamed from __galaxy_config
+  gravity: "{{ host_galaxy_config_gravity }}"
+
   galaxy:
+    amqp_internal_connection: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy }}@galaxy-queue.gvl.org.au:5671//galaxy/galaxy_queues?ssl=1"
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
     brand: "E T C A"
     database_connection: "postgresql://galaxy:{{ galaxy_db_user_password }}@{{ hostvars['galaxy-db']['internal_ip'] }}:5432/galaxy"
