@@ -32,7 +32,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
     cores: 2
     scheduling:
-      require:
+      # require:
+      accept:
       - pulsar
     params:
       singularity_enabled: true
