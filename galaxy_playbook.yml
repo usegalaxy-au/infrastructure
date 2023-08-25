@@ -20,6 +20,13 @@
       package:
         name: slurm-drmaa1
         state: latest
+    - name: create dir for gravity configuration
+      file:
+        state: directory
+        path: /opt/galaxy
+        owner: root
+        group: galaxy
+        mode: 0775
   roles:
     - common
     - mounts
@@ -40,7 +47,6 @@
     - acl-on-startup
     - dj-wasabi.telegraf
     - galaxyproject.gxadmin
-    - usegalaxy_eu.gie_proxy
     - pg-post-tasks
     # - remote-pulsar-cron # commented out until galaxy etca is production galaxy
     # - delete-tmp-jwds-cron # commented out until galaxy etca is production galaxy, also needs to be enabled
@@ -58,12 +64,12 @@
       with_items:
         - "{{ galaxy_user_singularity_cachedir }}"
         - "{{ galaxy_user_singularity_tmpdir }}"
-    - name: create dir for galaxy's custom indices  # TODO: directory creation is not needed here once /mnt/custom-indices exists on galaxy-misc-nfs
-      file:
-        state: directory
-        path: "{{ galaxy_custom_indices_dir }}"
-        owner: galaxy
-        group: galaxy
+    # - name: create dir for galaxy's custom indices  # TODO: directory creation is not needed here once /mnt/custom-indices exists on galaxy-misc-nfs
+    #   file:
+    #     state: directory
+    #     path: "{{ galaxy_custom_indices_dir }}"
+    #     owner: galaxy
+    #     group: galaxy
     - name: Make local_tool directory group-writable by machine users
       # TODO: This path is problematic because the galaxyproject.galaxy role will chown it to root:root
       # every time we run this playbook, potentially locking out tool devs for 10 minutes.
