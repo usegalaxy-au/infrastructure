@@ -11,7 +11,13 @@ attached_volumes: # TODO: check this
     fstype: ext4
     partition: 1
 
-shared_mounts: "{{ galaxy_server_and_worker_shared_mounts }}"
+galaxy_mount:
+  - path: /mnt/galaxy
+    src: "{{ hostvars['galaxy']['internal_ip'] }}:/mnt/galaxy"
+    fstype: nfs
+    state: mounted
+
+shared_mounts: "{{ galaxy_mount + galaxy_server_and_worker_shared_mounts }}"
 
 # singularity cache of galaxy user (this defaults to /home/galaxy/.singularity). Not to be confused with cache directory for built sif files in galaxy_config.galaxy.container_resolvers_conf
 galaxy_user_singularity_cachedir: /pvol/singularity_data
