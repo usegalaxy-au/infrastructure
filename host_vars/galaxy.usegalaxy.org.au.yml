@@ -526,3 +526,7 @@ dt_cron_hour: "20"
 dt_cron_minute: "00"
 dt_skip_cron_setup: true
 dt_connection_string: "postgres://reader:{{ galaxy_db_reader_password }}@{{ hostvars['galaxy-db']['internal_ip'] }}:5432/galaxy" # TODO: generalise connection string
+
+# NFS stuff (for exporting so galaxy-handlers can mount)
+nfs_exports:
+  - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
