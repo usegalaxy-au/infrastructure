@@ -21,6 +21,9 @@
       package:
         name: slurm-drmaa1
         state: latest
+    - name: Run common role as pre-task so that galaxy user will exist
+      include_role:
+        name: common
     - name: create dir for gravity configuration
       file:
         state: directory
@@ -39,8 +42,6 @@
         - "{{ galaxy_user_singularity_cachedir }}"
         - "{{ galaxy_user_singularity_tmpdir }}"
   roles:
-        - galaxyproject.repos
-        - common
         - mounts
         - geerlingguy.pip
         - usegalaxy_eu.apptainer
