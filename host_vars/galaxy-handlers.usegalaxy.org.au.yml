@@ -5,6 +5,8 @@ add_hosts_head: yes
 add_hosts_workers: yes
 add_hosts_handlers: no
 
+add_galaxy_user: yes
+
 attached_volumes: # TODO: check this
   - device: /dev/vdb
     path: /pvol
