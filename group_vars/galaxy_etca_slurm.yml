@@ -68,6 +68,12 @@ slurm_nodes:
     CPUs: 16
     RealMemory: 64000
     State: UNKNOWN
+  - name: galaxy-handlers
+    NodeAddr:  "{{ hostvars['galaxy-handlers']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 64000
+    State: UNKNOWN
+
 
 slurm_partitions:
   - name: main
