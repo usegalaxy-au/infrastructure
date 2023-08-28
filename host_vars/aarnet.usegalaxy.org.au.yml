@@ -496,7 +496,7 @@ job_conf_limits:
 
   - type: destination_total_concurrent_jobs
     id: pulsar-mel3
-    value: 20
+    value: 25
   - type: destination_user_concurrent_jobs
     id: pulsar-mel3
     value: 5
@@ -531,10 +531,7 @@ job_conf_limits:
 
   - type: destination_total_concurrent_jobs
     id: pulsar-QLD
-    value: 20
-  - type: destination_user_concurrent_jobs
-    id: pulsar-QLD
-    value: 5
+    value: 25
 
   - type: destination_total_concurrent_jobs
     id: pulsar-qld-blast
