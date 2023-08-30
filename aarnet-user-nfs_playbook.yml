@@ -23,7 +23,8 @@
           - "{{ galaxy_nfs_user_data_5_dir }}"
           - "{{ galaxy_nfs_user_data_6_dir }}"
           - "{{ galaxy_nfs_user_data_7_dir }}"
-
+          - "{{ galaxy_nfs_data08_dir }}"
+          - "{{ galaxy_nfs_data09_dir }}"
   roles:
       - common
       - insspb.hostname
@@ -44,6 +45,8 @@
           - "{{ galaxy_nfs_user_data_5_dir }}"
           - "{{ galaxy_nfs_user_data_6_dir }}"
           - "{{ galaxy_nfs_user_data_7_dir }}"
+          - "{{ galaxy_nfs_data08_dir }}"
+          - "{{ galaxy_nfs_data09_dir }}"
       - name: Reload exportfs
         command: exportfs -ra
         become: yes
