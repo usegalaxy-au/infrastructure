@@ -1097,7 +1097,7 @@ tools:
     cores: 5
     mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_clean/funannotate_clean/.*:
-    mem: 30.7
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/.*:
     cores: 8
     mem: 30.7
