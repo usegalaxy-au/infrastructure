@@ -1162,8 +1162,8 @@ tools:
     rules:
     - id: humann_small_input_rule
       if: input_size < 0.01
-      cores: 1
-      mem: 3.8
+      cores: 2
+      mem: 7.6
     - id: humann_medium_input_rule
       if: 0.01 <= input_size < 10
       cores: 7
