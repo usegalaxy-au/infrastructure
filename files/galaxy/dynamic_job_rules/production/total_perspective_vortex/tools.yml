@@ -101,33 +101,6 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
-    cores: 9
-    mem: 34.5
-    params:
-      singularity_enabled: true
-    scheduling:
-      accept:
-      - pulsar
-      - pulsar-quick
-  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/.*:
-    cores: 7
-    mem: 26.8
-    params:
-      singularity_enabled: true
-    scheduling:
-      accept:
-      - pulsar
-      - pulsar-quick
-  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_matrix/deeptools_compute_matrix/.*:
-    cores: 9
-    mem: 34.5
-    params:
-      singularity_enabled: true
-    scheduling:
-      accept:
-      - pulsar
-      - pulsar-quick
-  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_fingerprint/deeptools_plot_fingerprint/.*:
     cores: 8
     mem: 30.7
     params:
@@ -136,21 +109,34 @@ tools:
       accept:
       - pulsar
       - pulsar-quick
-    rules:
-    - id: deeptools_plot_fingerprint_small_input_rule
-      if: input_size < 0.5
-      cores: 2
-      mem: 7.6
-  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_heatmap/deeptools_plot_heatmap/.*:
-    cores: 7
-    mem: 26.8
+  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/.*:
+    cores: 8
+    mem: 30.7
     params:
       singularity_enabled: true
-    rules:
-    - id: deeptools_plot_heatmap_small_input_rule
-      if: input_size < 0.3
-      cores: 3
-      mem: 11.5
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-quick
+  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_matrix/deeptools_compute_matrix/.*:
+    cores: 10 
+    mem: 90 # TODO: delete this and get cores/mem from shared db if they are adjusted to 10c90g
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-quick
+  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_fingerprint/deeptools_plot_fingerprint/.*:
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-quick
+  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_heatmap/deeptools_plot_heatmap/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/.*:
     params:
       singularity_enabled: true
@@ -990,8 +976,8 @@ tools:
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
-    cores: 30
-    mem: 480.5
+    cores: 20
+    mem: 250
     scheduling:
       accept:
       - pulsar
@@ -1096,8 +1082,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_predict/funannotate_predict/.*:
     cores: 5
     mem: 19.1
-  toolshed.g2.bx.psu.edu/repos/iuc/funannotate_clean/funannotate_clean/.*:
-    mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/.*:
     cores: 8
     mem: 30.7
@@ -1856,7 +1840,19 @@ tools:
     cores: 9
     mem: 34.5
   toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/rnaspades/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-training-large
+    rules:
+    - id: rnaspades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 7.6
+    - id: rnaspades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/roary/roary/.*:
     cores: 7
     mem: 26.8
@@ -2005,7 +2001,21 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/spades_plasmidspades/spades_plasmidspades/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
   toolshed.g2.bx.psu.edu/repos/iuc/spades_rnaviralspades/spades_rnaviralspades/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+    cores: 10
+    mem: 250
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-training-large
+    rules:
+    - id: spades_rnaviralspades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 7.6
+    - id: spades_rnaviralspades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fasterq_dump/.*:
     cores: 3
     mem: 11.5
@@ -2256,8 +2266,8 @@ tools:
       if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
-    cores: 60
-    mem: 961
+    cores: 20
+    mem: 500
     scheduling:
       accept:
       - pulsar
@@ -2271,7 +2281,7 @@ tools:
       if: 0.005 <= input_size < 2
       cores: 8
       mem: 30.7
-    - id: spades_fail_rule
+    - id: spades_fail_rule  # TODO: Ask IM whether we still need the spades fail rule
       if: input_size >= 20
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/peterjc/sample_seqs/sample_seqs/.*:
