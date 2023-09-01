@@ -55,7 +55,7 @@
     - role: galaxyproject.miniconda
       become: true
       become_user: galaxy
-    #- usegalaxy_eu.galaxy_subdomains # broken in galaxy release_23.1
+    #- usegalaxy_eu.galaxy_subdomains # broken in galaxy release_23.1 - missing static/style/base.css
     - webhooks
     - nginx-upload-module
     - galaxyproject.nginx
@@ -68,7 +68,7 @@
     - pg-post-tasks
     - remote-pulsar-cron
     - galaxy-pg-cleanup
-    - galaxyproject.tiaas2
+    #- galaxyproject.tiaas2 # broken in galaxy release_23.1 - missing static/style/base.css
     - geerlingguy.docker
     - dj-wasabi.telegraf
     - postfix-mail-relay
