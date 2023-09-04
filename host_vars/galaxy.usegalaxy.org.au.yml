@@ -161,7 +161,7 @@ host_galaxy_config: # renamed from __galaxy_config
     # TUS
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
     celery_conf:
-      # result_backend: "redis://:{{ redis_requirepass whatever that is }}@hostvars['galaxy-queue']['internal_ip']:6379/0"
+      result_backend: "redis://:{{ vault_redis_requirepass }}@{{ hostvars['galaxy-queue']['internal_ip'] }} :6379/0"
       # result_backend: "{{ redis_connection_string }}"
       task_routes:
         galaxy.fetch_data: disabled
