@@ -1,34 +1,43 @@
 <?xml version="1.0"?>
-<object_store type="hierarchical">
+<object_store type="distributed" id="primary" order="0">
     <backends>
-        <backend id="aarnetNFS7" type="disk" order="0">
+        <!-- New folder with storage by UUID on the 50T volume. Initially set weight=0. -->
+        <backend id="data09" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-6/data09" />
+        </backend>
+        <!-- New folder with storage by UUID on the 150T volume, weight=1 means it is the only
+        one that will be written to if all of the others have weight=0 -->
+        <backend id="data08" weight="1" store_by="uuid">
+            <files_dir path="/mnt/data08" />
+        </backend>
+        <backend id="aarnetNFS7" type="disk" order="0" store_by="id">
             <files_dir path="/mnt/user-data-7" />
         </backend>
-        <backend id="aarnetNFS6" type="disk" order="1">
+        <backend id="aarnetNFS6" type="disk" weight="0" store_by="id">
             <files_dir path="/mnt/user-data-6" />
         </backend>
-        <backend id="aarnetNFS5" type="disk" order="2">
+        <backend id="aarnetNFS5" type="disk" weight="0" store_by="id">
             <files_dir path="/mnt/user-data-5" />
         </backend>
 {% if pawsey_file_mounts_available|d(True) %}
-        <backend id="perthNFS1" type="disk" order="3">
+        <backend id="perthNFS1" type="disk" weight="0" store_by="id">
             <files_dir path="/mnt/user-data" />
         </backend>
-        <backend id="perthNFS4" type="disk" order="4">
+        <backend id="perthNFS4" type="disk" weight="0" store_by="id">
             <files_dir path="/mnt/user-data-4" />
         </backend>
-        <backend id="perthNFS2" type="disk" order="5">
+        <backend id="perthNFS2" type="disk" weight="0" store_by="id">
             <files_dir path="/mnt/user-data-2" />
         </backend>
-        <backend id="perthNFS3" type="disk" order="6">
+        <backend id="perthNFS3" type="disk" weight="0" store_by="id">
             <files_dir path="/mnt/user-data-3" />
         </backend>
 {% endif %}
 {% if legacy_file_mounts_available|d(True) %}
-        <backend id="qldNFS1" type="disk" order="7">
+        <backend id="qldNFS1" type="disk" weight="0" store_by="id">
             <files_dir path="/mnt/files" />
         </backend>
-        <backend id="qldNFS2" type="disk" order="8">
+        <backend id="qldNFS2" type="disk" weight="0" store_by="id">
             <files_dir path="/mnt/files2" />
         </backend>
 {% endif %}
