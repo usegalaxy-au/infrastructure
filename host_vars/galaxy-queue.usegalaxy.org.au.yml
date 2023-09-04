@@ -213,3 +213,5 @@ pip_install_packages:
 #   - rabbitmq_management
 
 nginx_check_conf: False
+
+redis_requirepass: "{{ vault_redis_requirepass }}"
