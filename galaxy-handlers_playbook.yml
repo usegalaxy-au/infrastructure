@@ -58,7 +58,7 @@
         - pg-post-tasks
         - geerlingguy.docker
         - dj-wasabi.telegraf
-        # - usegalaxy_eu.flower # TODO: upgrade flower role in requirements.yml
+        - usegalaxy_eu.flower
         - acl-on-startup
   post_tasks:
     - name: Make local_tool directory group-writable by machine users

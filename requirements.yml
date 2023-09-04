@@ -62,7 +62,7 @@
 - name: galaxyproject.tusd
   version: 0.0.1
 - name: usegalaxy_eu.flower
-  version: 0.3.1-alpha
+  version: 1.0.2
 - name: usegalaxy_eu.galaxy_subdomains
   version: 0.0.13
 - src: usegalaxy_eu.apptainer
