@@ -65,11 +65,12 @@ host_galaxy_config_gravity:
 # TODO: Ask BG about flower!
 # # Flower
 flower_python_version: python310 # TODO: should this be the VM's python version?
-flower_app_dir: /mnt/galaxy
+flower_app_dir: /opt/flower
 flower_log_file: /var/log/flower
 flower_python_path: galaxy-app/lib
-flower_venv_dir: /mnt/galaxy/venv
+flower_venv: /mnt/galaxy/venv
 flower_app_name: galaxy.celery
+flower_galaxy_conf: "{{ galaxy_config_file }}"
 
 # flower_persistent: true
 
