@@ -43,6 +43,8 @@ host_galaxy_config_gravity:
   gunicorn:
     enable: false
   celery: # TODO: what is this doing?
+    enable: true
+    enable_beat: true
     concurrency: 2
     loglevel: DEBUG
   handlers:
