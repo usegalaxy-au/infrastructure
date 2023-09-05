@@ -155,7 +155,6 @@ host_galaxy_config: # renamed from __galaxy_config
     database_connection: "postgresql://galaxy:{{ vault_dev_db_user_password }}@dev-db.gvl.org.au:5432/galaxy"
     # enable_celery_tasks: true # 18/5/23: Switched off due to upload jobs remaining in new state
     id_secret: "{{ vault_dev_id_secret }}"
-    file_path: "{{ galaxy_file_path }}"
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     enable_oidc: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"

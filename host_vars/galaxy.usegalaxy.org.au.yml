@@ -144,7 +144,6 @@ host_galaxy_config:
     brand: "E T C A"
     database_connection: "postgresql://galaxy:{{ galaxy_db_user_password }}@{{ hostvars['galaxy-db']['internal_ip'] }}:5432/galaxy"
     id_secret: "{{ vault_aarnet_id_secret }}" # TODO: this need to stay the same wherever production galaxy is runninig, but the name of the vault variable is misleading
-    file_path: "{{ galaxy_file_path }}"
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     smtp_server: localhost
     # ga_code: "{{ vault_prod_ga_code }}" ## swich off ga_code while testing.  TODO: uncomment this when we go live
