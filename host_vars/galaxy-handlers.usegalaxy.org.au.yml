@@ -27,10 +27,6 @@ galaxy_user_singularity_tmpdir: "{{ galaxy_user_singularity_cachedir }}/tmp"
 
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
-galaxy_additional_venv_packages:
-  - redis
-  - flower
-
 # galaxy role applied to dev-handlers machine is only needed for gravity and the galaxy config files. Skip other tasks
 galaxy_manage_paths: false
 galaxy_manage_clone: false

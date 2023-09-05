@@ -38,8 +38,14 @@ galaxy_commit_id: release_23.0
 tpv_version: "2.3.1"
 
 # use galaxy_additional_venv_packages instead of install-tpv role
-galaxy_additional_venv_packages: |
+tpv_packages: |
   {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
+
+celery_packages:
+  - redis
+  - flower
+
+galaxy_additional_venv_packages: "{{ tpv_packages + celery_packages }}"
 
 # TODO: check list concatenation with versions of ansible > 2.12
 shared_mounts: "{{ galaxy_server_and_worker_shared_mounts + galaxy_web_server_mounts }}" # sourced from galaxy_etca.yml
@@ -161,7 +167,7 @@ host_galaxy_config: # renamed from __galaxy_config
     # TUS
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
     celery_conf:
-      result_backend: "redis://:{{ vault_redis_requirepass }}@{{ hostvars['galaxy-queue']['internal_ip'] }} :6379/0"
+      result_backend: "redis://:{{ vault_redis_requirepass }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:6379/0"
       # result_backend: "{{ redis_connection_string }}"
       task_routes:
         galaxy.fetch_data: disabled
