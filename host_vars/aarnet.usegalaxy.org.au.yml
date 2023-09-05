@@ -568,6 +568,7 @@ slurm_singularity_volumes_list_restricted:
   - /mnt/user-data-5:ro
   - /mnt/user-data-4:ro
   - /mnt/user-data:ro
+  - /mnt/data08:ro
   - /mnt/custom-indices:ro
   - /cvmfs/data.galaxyproject.org:ro
   - /tmp:rw  # TODO: copy to galaxy etca files
