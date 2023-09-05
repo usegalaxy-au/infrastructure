@@ -123,7 +123,7 @@ destinations:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
     max_accepted_cores: 32
-    max_accepted_mem: 122.86
+    max_accepted_mem: 63 # reduced from 122.86 to assist with scheduling
     tags: {{ job_conf_limits.environments['pulsar-mel3'].tags }}
     scheduling:
       accept:
