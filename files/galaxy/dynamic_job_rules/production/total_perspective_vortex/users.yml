@@ -143,6 +143,7 @@ users:
           scheduling:
             accept:
               - pulsar
+              - pulsar-quick
               - offline
             require:
               - pulsar-QLD
