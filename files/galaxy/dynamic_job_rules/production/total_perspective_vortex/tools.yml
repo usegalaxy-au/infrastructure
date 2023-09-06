@@ -2055,6 +2055,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_ustacks/stacks2_ustacks/.*:
     cores: 16
     mem: 61.4
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-quick
     rules:
     - id: rule_stacks2_ustacks_limit_concurrency
       if: |
