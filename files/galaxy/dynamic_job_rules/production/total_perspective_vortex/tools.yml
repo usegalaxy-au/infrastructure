@@ -432,10 +432,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/.*:
     cores: 2
     mem: 7.6
-    scheduling:
-      accept:
-      - pulsar
-      - pulsar-quick
+    # scheduling: # 9/9/23: removing from pulsar due to large output files compared to inputs
+    #   accept:
+    #   - pulsar
+    #   - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_deinterlacer/fastq_paired_end_deinterlacer/.*:
     cores: 8
     mem: 30.7
