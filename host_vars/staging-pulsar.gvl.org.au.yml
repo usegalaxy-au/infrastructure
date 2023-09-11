@@ -11,7 +11,7 @@ ssl_email: "help@genome.edu.au"
 #host specific pulsar settings
 
 rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_au_staging }}"
-pulsar_queue_url: "staging-queue.usegalaxy.org.au"
+pulsar_queue_url: "staging-queue.gvl.org.au"
 pulsar_rabbit_username: "galaxy_au"
 pulsar_rabbit_vhost: "/pulsar/galaxy_au"
 

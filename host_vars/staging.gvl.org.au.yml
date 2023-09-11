@@ -40,7 +40,7 @@ nfs_exports:
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_23.0
 
-galaxy_infrastructure_url: "https://staging.usegalaxy.org.au"
+galaxy_infrastructure_url: "https://staging.gvl.org.au"
 
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/staging
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
@@ -135,7 +135,7 @@ host_galaxy_config: # renamed from __galaxy_config
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }}"
     brand: "Australia Staging"
-    database_connection: "postgresql://galaxy:{{ vault_staging_db_user_password }}@staging-db.usegalaxy.org.au:5432/galaxy"
+    database_connection: "postgresql://galaxy:{{ vault_staging_db_user_password }}@staging-db.gvl.org.au:5432/galaxy"
     id_secret: "{{ vault_staging_id_secret }}"
     file_path: "{{ galaxy_file_path }}"
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
@@ -170,7 +170,7 @@ pg_db_password:
   galaxy: "{{ vault_staging_db_user_password }}"
   reader: "{{ vault_staging_db_reader_password }}"
   tiaasadmin: "{{ vault_staging_db_tiaasadmin_password }}"
-db_address: "staging-db.usegalaxy.org.au"
+db_address: "staging-db.gvl.org.au"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 
 # AAF specific settings
@@ -211,7 +211,7 @@ pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
 singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
 # TIaaS specific settings
 tiaas_repo: "https://github.com/neoformit/tiaas2"
-tiaas_galaxy_db_host: "staging-db.usegalaxy.org.au"
+tiaas_galaxy_db_host: "staging-db.gvl.org.au"
 tiaas_galaxy_db_port: "5432"
 tiaas_galaxy_db_user: "tiaasadmin"
 tiaas_galaxy_db_pass: "{{ vault_staging_db_tiaasadmin_password }}"
@@ -219,7 +219,7 @@ tiaas_info:
   owner: "Galaxy Australia staging"
   owner_email: help@genome.edu.au
   owner_site: "https://site.usegalaxy.org.au"
-  domain: "https://staging.usegalaxy.org.au"
+  domain: "https://staging.gvl.org.au"
 
 # Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
 tiaas_disassociate_training_roles:
@@ -235,13 +235,13 @@ tiaas_templates_dir: files/tiaas/html
 tiaas_extra_static_dir: files/tiaas/static
 
 # host-specific settings for postfix
-postfix_host_domain: "staging.usegalaxy.org.au"
+postfix_host_domain: "staging.gvl.org.au"
 postfix_hostname: "staging"
 smtp_login: "{{ vault_smtp_login_staging }}"
 smtp_password: "{{ vault_smtp_password_staging }}"
 
 # subdomains
-galaxy_subsite_base_domain: "staging.usegalaxy.org.au"
+galaxy_subsite_base_domain: "staging.gvl.org.au"
 galaxy_subsite_default_welcome: "https://site.usegalaxy.org.au"
 galaxy_subsite_dir: /mnt/galaxy/subsites
 galaxy_subsites:
