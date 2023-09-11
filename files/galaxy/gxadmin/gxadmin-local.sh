@@ -719,7 +719,7 @@ local_query-oom-jobs() { ##? <limit> : Show most recent jobs with 'Killed' in to
 	Optional argument of number of rows to return (default: 50).
 
 	$ gxadmin local query-oom-jobs 3
-	   id    | username |        create_time         |                             tool_id                             | cores | mem_mb | sum_input_size |    destination_id
+	   id    | username |        create_time         |                             tool_id                             | cores | mem_mb |   input_size   |    destination_id
 	---------+----------+----------------------------+-----------------------------------------------------------------+-------+--------+----------------+----------------------
 	 6994190 | anthony  | 2023-08-30 22:26:38.904458 | toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/2.20+galaxy2 | 16    | 62874  | 8947 MB        | pulsar-QLD
 	 6993519 | bob      | 2023-08-30 16:16:13.27616  | toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_pca/bio3d_pca/2.3.4 | 1     | 65536  | 5667 MB        | pulsar-qld-high-mem1
@@ -735,13 +735,15 @@ local_query-oom-jobs() { ##? <limit> : Show most recent jobs with 'Killed' in to
 				(REGEXP_MATCHES(encode(j.destination_params, 'escape'), 'ntasks=(\d+)'))[1] as cores,
 				(REGEXP_MATCHES(encode(j.destination_params, 'escape'), 'mem=(\d+)'))[1] as mem,
 				(
-					SELECT
-					pg_size_pretty(SUM(d.total_size))
-					FROM dataset d, history_dataset_association hda, job_to_input_dataset jtid
-					WHERE hda.dataset_id = d.id
-					AND jtid.job_id = j.id
-					AND hda.id = jtid.dataset_id
-				) as sum_input_size,
+					SELECT pg_size_pretty(SUM(total_size))
+					FROM (
+						SELECT DISTINCT hda.id as hda_id, d.total_size as total_size
+						FROM dataset d, history_dataset_association hda, job_to_input_dataset jtid
+						WHERE hda.dataset_id = d.id
+						AND jtid.job_id = j.id
+						AND hda.id = jtid.dataset_id
+					) as foo
+				) as input_size,
 				j.destination_id as destination
 			FROM job j
 			FULL OUTER JOIN galaxy_user u ON j.user_id = u.id
@@ -750,6 +752,66 @@ local_query-oom-jobs() { ##? <limit> : Show most recent jobs with 'Killed' in to
 				position('This job was terminated because it used more memory' in j.info)>0
 				OR position('Killed' in j.tool_stderr)>0
 			)
+			ORDER BY j.update_time desc
+			LIMIT $limit
+	EOF
+}
+
+local_query-tool-memory() { ##? <limit>
+	tool_substr="$1"
+	[ ! "$2" ] && limit="50" || limit="$2"
+	handle_help "$@" <<-EOF
+
+	For a substring of a tool ID, list the most recent completed jobs with annotated with
+		tpv_cores, tpv_mem_mb (the cores and memory allocated to the job)
+		input_size (the sum of the input file sizes)
+		job_max_mem (from the cgroup job metric value memory.max_usage_in_bytes)
+		runtime (from the job metric runtime_seconds)
+	The is an optional second argument of number of rows to return (default 50)
+
+	$gxadmin local query-tool-memory flye 3
+	 job_id  |          updated           | state |                            tool_id                             | tpv_cores | tpv_mem_mb | input_size | job_max_mem | runtime  |     destination
+	---------+----------------------------+-------+----------------------------------------------------------------+-----------+------------+------------+-------------+----------+----------------------
+	 6999140 | 2023-09-05 10:19:45.517908 | ok    | toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/2.9.1+galaxy0 | 120       | 1968128    | 34 GB      | 728 GB      | 42:01:32 | pulsar-qld-high-mem1
+	 7020524 | 2023-09-05 08:32:40.891413 | ok    | toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/2.9.1+galaxy0 | 16        | 62874      | 420 MB     | 9186 MB     | 00:11:28 | pulsar-mel3
+	 7020514 | 2023-09-05 08:19:25.951317 | ok    | toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/2.9.1+galaxy0 | 8         | 31437      | 207 MB     | 8991 MB     | 00:03:40 | pulsar-mel3
+
+	EOF
+
+	read -r -d '' QUERY <<-EOF
+			SELECT
+				j.id as job_id,
+				j.update_time as updated,
+				j.state as state,
+				j.tool_id as tool_id,
+				(REGEXP_MATCHES(encode(j.destination_params, 'escape'), 'ntasks=(\d+)'))[1] as tpv_cores,
+				(REGEXP_MATCHES(encode(j.destination_params, 'escape'), 'mem=(\d+)'))[1] as tpv_mem_mb,
+				(
+					SELECT pg_size_pretty(SUM(total_size))
+					FROM (
+						SELECT DISTINCT hda.id as hda_id, d.total_size as total_size
+						FROM dataset d, history_dataset_association hda, job_to_input_dataset jtid
+						WHERE hda.dataset_id = d.id
+						AND jtid.job_id = j.id
+						AND hda.id = jtid.dataset_id
+					) as foo
+				) as input_size,
+				(SELECT 
+					pg_size_pretty(jmn.metric_value)
+					FROM job_metric_numeric jmn
+					WHERE jmn.metric_name = 'memory.max_usage_in_bytes'
+					AND jmn.job_id = j.id
+				) as job_max_mem,
+				(SELECT 
+					TO_CHAR((jmn.metric_value || ' second')::interval, 'HH24:MI:SS')
+					FROM job_metric_numeric jmn
+					WHERE jmn.metric_name = 'runtime_seconds'
+					AND jmn.job_id = j.id
+				) as runtime,
+				j.destination_id as destination
+			FROM job j
+			WHERE position('$tool_substr' in j.tool_id)>0
+			AND j.state in ('ok', 'error')
 			ORDER BY j.update_time desc
 			LIMIT $limit
 	EOF
