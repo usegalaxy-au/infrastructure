@@ -13,8 +13,8 @@ runners:
     internalexception_retries: 5
   pulsar_au_01:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    amqp_url: "pyamqp://galaxy_au:{{ vault_rabbitmq_password_galaxy_au_staging }}@staging-queue.usegalaxy.org.au:5671//pulsar/galaxy_au?ssl=1"
-    galaxy_url: https://staging.usegalaxy.org.au
+    amqp_url: "pyamqp://galaxy_au:{{ vault_rabbitmq_password_galaxy_au_staging }}@staging-queue.gvl.org.au:5671//pulsar/galaxy_au?ssl=1"
+    galaxy_url: https://staging.gvl.org.au
     manager: _default_
     amqp_acknowledge: true
     amqp_ack_republish_time: 300

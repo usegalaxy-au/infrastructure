@@ -6,7 +6,7 @@
       - group_vars/VAULT
       - group_vars/galaxyservers.yml
       - group_vars/staging_slurm.yml
-      - host_vars/staging.usegalaxy.org.au.yml
+      - host_vars/staging.gvl.org.au.yml
       - secret_group_vars/ubuntu_maintenance_key
   handlers:
     - include: handlers/galaxy_handlers.yml

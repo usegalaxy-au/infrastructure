@@ -5,7 +5,7 @@
       - group_vars/staging.yml
       - group_vars/VAULT
       - group_vars/dbservers.yml
-      - host_vars/staging-db.usegalaxy.org.au.yml
+      - host_vars/staging-db.gvl.org.au.yml
       - secret_group_vars/stats_server_vault
   pre_tasks:
       - name: Install psycopg2 for python3
