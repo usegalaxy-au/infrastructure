@@ -6,7 +6,7 @@
     - group_vars/pulsarservers.yml
     - group_vars/staging_pulsar_slurm.yml
     - group_vars/VAULT
-    - host_vars/staging-pulsar.usegalaxy.org.au.yml
+    - host_vars/staging-pulsar.gvl.org.au.yml
     - secret_group_vars/stats_server_vault
   pre_tasks:
     - name: apt update
