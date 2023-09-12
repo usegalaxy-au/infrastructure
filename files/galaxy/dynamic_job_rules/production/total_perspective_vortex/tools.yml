@@ -1405,6 +1405,10 @@ tools:
       if: 0.5 <= input_size < 20
       cores: 16
       mem: 61.4
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur.*:
+    params:
+      docker_enabled: true
+      docker_run_extra_arguments: --pids-limit 10000 --ulimit fsize=1000000000 --env TERM=vt100
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_align_seqs/mothur_align_seqs/.*:
     cores: 7
     mem: 26.8
