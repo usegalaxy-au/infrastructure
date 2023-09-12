@@ -719,7 +719,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
     context:
-      test_cores: 4
+      test_cores: 10
     cores: 60
     mem: 961
     params:
