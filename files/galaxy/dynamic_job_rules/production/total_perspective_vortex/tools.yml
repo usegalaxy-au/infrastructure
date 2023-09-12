@@ -2378,6 +2378,9 @@ tools:
       if: input_size < 0.01
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
+    cores: 3
+    mem: 11.5    
   .*bowtie2_index_builder_data_manager.*:
     cores: 16
     mem: 61.4
