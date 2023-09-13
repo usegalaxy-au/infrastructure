@@ -120,7 +120,7 @@ tools:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
     cores: 3
-  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/3.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
     cores: 2
     mem: 7.6
     params:
