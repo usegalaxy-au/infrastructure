@@ -215,3 +215,4 @@ pip_install_packages:
 nginx_check_conf: False
 
 redis_requirepass: "{{ vault_redis_requirepass }}"
+redis_bind_interface: 0.0.0.0
