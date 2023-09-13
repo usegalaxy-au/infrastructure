@@ -2522,3 +2522,9 @@ tools:
   wig_to_bigWig:
     cores: 5
     mem: 19.1
+  cellranger:
+    cores: 6
+    mem: 10
+  fgenesh:
+    cores: 6
+    mem: 10
