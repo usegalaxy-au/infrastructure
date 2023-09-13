@@ -71,4 +71,4 @@ flower_galaxy_conf: "{{ galaxy_config_file }}"
 # flower_persistent: true
 
 # #flower_broker_api: "https://flower:{{ rabbitmq_password_flower }}@{{ rabbitmq_url }}/api/"
-flower_broker_url: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_prod }}@galaxy-queue.usegalaxy.org.au:5671//galaxy/galaxy_queues?ssl=1"
+flower_broker_url: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_prod }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:5671//galaxy/galaxy_queues?ssl=1"
