@@ -2,11 +2,11 @@
 <object_store type="distributed" id="primary" order="0">
     <backends>
         <!-- New folder with storage by UUID on the 50T volume -->
-        <backend id="data09" type="disk" weight="1" store_by="uuid">
+        <backend id="data09" type="disk" weight="0" store_by="uuid">
             <files_dir path="/mnt/user-data-6/data09" />
         </backend>
         <!-- New folder with storage by UUID on the 150T volume -->
-        <backend id="data08" type="disk" weight="0" store_by="uuid">
+        <backend id="data08" type="disk" weight="1" store_by="uuid">
             <files_dir path="/mnt/data08" />
         </backend>
         <backend id="aarnetNFS7" type="disk" weight="0" store_by="id">
