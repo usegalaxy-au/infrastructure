@@ -1,4 +1,18 @@
 tools:
+  ### Tools with resource updates being tested due to OOM errors ###
+  toolshed.g2.bx.psu.edu/repos/iuc/biom_convert/biom_convert/.*:
+    mem: 12
+  toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft_add/.*:
+    mem: 12
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_pipeline/picrust2_pipeline/.*:
+    cores: 4
+    mem: 15.3
+  toolshed.g2.bx.psu.edu/repos/iuc/plasflow/PlasFlow/.*:
+    mem: 12
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*:
+    cores: 2
+    mem: 10
+  ### ###
   testtoolshed.g2.bx.psu.edu/repos/fubar/htseq_bams_to_count_matrix/htseqsams2mxlocal/.*:
     cores: 3
     mem: 11.5
@@ -1219,15 +1233,13 @@ tools:
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/jellyfish/jellyfish/.*:
-    cores: 4
-    mem: 15.3
+    mem: 24
     scheduling:
       accept:
       - pulsar
     rules:
     - id: jellyfish_small_input_rule
       if: input_size < 0.1
-      cores: 2
       mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/jvarkit_wgscoverageplotter/jvarkit_wgscoverageplotter/.*:
     params:
