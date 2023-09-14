@@ -2522,3 +2522,21 @@ tools:
   wig_to_bigWig:
     cores: 5
     mem: 19.1
+  cellranger:
+    cores: 6
+    mem: 10
+    params:
+      singularity_enabled: true
+    rules:
+      - if: |
+          not user or not 'cellranger' in [role.name for role in user.all_roles() if not role.deleted]
+        fail: Your account has not been given access to cellranger. Contact help@genome.edu.au if you think this is in error.
+  fgenesh:
+    cores: 6
+    mem: 10
+    params:
+      singularity_enabled: true
+    rules:
+      - if: |
+          not user or not 'fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
+        fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au if you think this is in error.
