@@ -2525,6 +2525,8 @@ tools:
   cellranger:
     cores: 6
     mem: 10
+    params:
+      singularity_enabled: true
     rules:
       - if: |
           not user or not 'cellranger' in [role.name for role in user.all_roles() if not role.deleted]
@@ -2532,6 +2534,8 @@ tools:
   fgenesh:
     cores: 6
     mem: 10
+    params:
+      singularity_enabled: true
     rules:
       - if: |
           not user or not 'fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
