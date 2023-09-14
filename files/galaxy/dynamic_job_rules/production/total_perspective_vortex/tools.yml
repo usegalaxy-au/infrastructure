@@ -4,8 +4,6 @@ tools:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft_add/.*:
     mem: 12
-  toolshed.g2.bx.psu.edu/repos/iuc/plasflow/PlasFlow/.*:
-    mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*:
     cores: 2
     mem: 10
@@ -1724,6 +1722,7 @@ tools:
       cores: 9
       mem: 34.5
   toolshed.g2.bx.psu.edu/repos/iuc/plasflow/PlasFlow/.*:
+    mem: 12
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
