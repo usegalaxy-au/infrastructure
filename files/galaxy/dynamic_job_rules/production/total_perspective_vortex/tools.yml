@@ -7,6 +7,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*:
     cores: 2
     mem: 10
+  toolshed.g2.bx.psu.edu/repos/iuc/mlst/mlst/.*:
+    mem: 12
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgcmp/.*:
+    mem: 12
   ### ###
   testtoolshed.g2.bx.psu.edu/repos/fubar/htseq_bams_to_count_matrix/htseqsams2mxlocal/.*:
     cores: 3
@@ -210,8 +214,8 @@ tools:
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_variants/nanopolish_variants/.*:
-    cores: 3
-    mem: 11.5
+    cores: 5
+    mem: 20
   toolshed.g2.bx.psu.edu/repos/bgruening/pfamscan/pfamscan/.*:
     params:
       singularity_enabled: true
@@ -897,11 +901,7 @@ tools:
       - pulsar-training-large
     rules:
     - id: abyss-pe_small_input_rule
-      if: input_size < 0.002
-      cores: 4
-      mem: 15.3
-    - id: abyss-pe_medium_input_rule
-      if: 0.002 <= input_size < 5
+      if: input_size < 1
       cores: 16
       mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/anndata_import/anndata_import/.*:
