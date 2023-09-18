@@ -1,5 +1,7 @@
 # Specific settings for galaxy dev application/web server
 
+galaxy_config_file: /opt/galaxy/galaxy.yml
+
 # legacy_file_mounts_available: set to true if /mnt/files, /mnt/files2 should be in the object store
 legacy_file_mounts_available: False # assume true unless set to false
 pawsey_file_mounts_available: False # assume true unless set to false
@@ -36,8 +38,14 @@ galaxy_commit_id: release_23.0
 tpv_version: "2.3.1"
 
 # use galaxy_additional_venv_packages instead of install-tpv role
-galaxy_additional_venv_packages: |
+tpv_packages: |
   {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
+
+celery_packages:
+  - redis
+  - flower
+
+galaxy_additional_venv_packages: "{{ tpv_packages + celery_packages }}"
 
 # TODO: check list concatenation with versions of ansible > 2.12
 shared_mounts: "{{ galaxy_server_and_worker_shared_mounts + galaxy_web_server_mounts }}" # sourced from galaxy_etca.yml
@@ -89,57 +97,63 @@ host_galaxy_config_templates:
 #   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2" ## File cannot be created at dest on first run of playbook
 #     dest: "{{ galaxy_server_dir }}/lib/galaxy/tool_util/toolbox/filters/ga_filters.py"
 
-host_galaxy_config:
-  gravity:
-    process_manager: systemd
-    galaxy_root: "{{ galaxy_server_dir }}"
-    galaxy_user: "{{ galaxy_user.name }}"
-    app_server: gunicorn
-    virtualenv: "{{ galaxy_venv_dir }}"
-    gunicorn:
-      # listening options
-      bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
-      # performance options
-      workers: 4
-      # Other options that will be passed to gunicorn
-      extra_args: '--forwarded-allow-ips="*"'
-      preload: true
-      environment:
-        VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
-        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
-        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
 
-    celery:
-      concurrency: 2
-      loglevel: DEBUG
-    handlers:
-      handler:
-        environment:
-          DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-          SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
-          SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
-        processes: 5
-        pools:
-          - job-handlers
-          - workflow-schedulers
-    tusd:
-      enable: true
-      tusd_path: /usr/local/sbin/tusd
-      upload_dir: "{{ galaxy_tus_upload_store }}"
-    gx_it_proxy:
-      enable: true
-      version: '>=0.0.5'  # default from galaxy.yml.sample
-      ip: "{{ gie_proxy_ip }}"
-      port: "{{ gie_proxy_port }}"
-      sessions: "{{ gie_proxy_sessions_path }}"
-      verbose: true
-    reports:
-      enable: true
-      url_prefix: /reports
-      bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
-      config_file: "{{ galaxy_config_dir }}/reports.yml"
+host_galaxy_config_gravity:
+  process_manager: systemd
+  galaxy_root: "{{ galaxy_server_dir }}"
+  galaxy_user: "{{ galaxy_user.name }}"
+  app_server: gunicorn
+  virtualenv: "{{ galaxy_venv_dir }}"
+  gunicorn:
+    # listening options
+    bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+    # performance options
+    workers: 4
+    # Other options that will be passed to gunicorn
+    extra_args: '--forwarded-allow-ips="*"'
+    preload: true
+    environment:
+      VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
+      DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+      SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+      SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+  tusd:
+    enable: true
+    tusd_path: /usr/local/sbin/tusd
+    upload_dir: "{{ galaxy_tus_upload_store }}"
+  gx_it_proxy:
+    enable: true
+    version: '>=0.0.5'  # default from galaxy.yml.sample
+    ip: "{{ gie_proxy_ip }}"
+    port: "{{ gie_proxy_port }}"
+    sessions: "{{ gie_proxy_sessions_path }}"
+    verbose: true
+  reports:
+    enable: true
+    url_prefix: /reports
+    bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
+    config_file: "{{ galaxy_config_dir }}/reports.yml"
+  ##& handlers and celery are on galaxy-handlers VM with 2-VM galaxy server. Uncomment these entries when using a single VM
+  # celery:
+  #   concurrency: 2
+  #   loglevel: DEBUG
+  # handlers:
+  #   handler:
+  #     environment:
+  #       DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+  #       SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+  #       SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+  #     processes: 5
+  #     pools:
+  #       - job-handlers
+  #       - workflow-schedulers
+
+host_galaxy_config: # renamed from __galaxy_config
+  gravity: "{{ host_galaxy_config_gravity }}"
+
   galaxy:
+    ##& amqp_internal_connection for 2-VM galaxy server. Comment this out when out when using a single VM
+    amqp_internal_connection: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_prod }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:5671//galaxy/galaxy_queues?ssl=1"
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
     brand: "E T C A"
     database_connection: "postgresql://galaxy:{{ galaxy_db_user_password }}@{{ hostvars['galaxy-db']['internal_ip'] }}:5432/galaxy"
@@ -167,7 +181,18 @@ host_galaxy_config:
     trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
     # TUS
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
+    celery_conf:
+      result_backend: "redis://:{{ vault_redis_requirepass }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:6379/0"
+      # result_backend: "{{ redis_connection_string }}"
+      task_routes:
+        galaxy.fetch_data: disabled
+        # galaxy.fetch_data: galaxy.external
+        galaxy.set_job_metadata: galaxy.external
 
+    # Offload long-running tasks to a Celery task queue. Activate this
+    # only if you have setup a Celery worker for Galaxy. For details, see
+    # https://docs.galaxyproject.org/en/master/admin/production.html
+    enable_celery_tasks: true
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 
@@ -533,3 +558,7 @@ dt_cron_hour: "20"
 dt_cron_minute: "00"
 dt_skip_cron_setup: true
 dt_connection_string: "postgres://reader:{{ galaxy_db_reader_password }}@{{ hostvars['galaxy-db']['internal_ip'] }}:5432/galaxy" # TODO: generalise connection string
+
+# NFS stuff (for exporting so galaxy-handlers can mount)
+nfs_exports:
+  - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"

@@ -8,14 +8,15 @@
       - host_vars/galaxy-queue.usegalaxy.org.au.yml
       - group_vars/galaxy_etca_slurm.yml
       - secret_group_vars/stats_server_vault
+      - secret_group_vars/etca_vault.yml
   roles:
       - common
       - insspb.hostname
       - geerlingguy.pip
       - geerlingguy.docker
-    #   - jasonroyle.rabbitmq
       - galaxyproject.nginx
       - usegalaxy_eu.rabbitmqserver
+      - geerlingguy.redis
       - mariadb
       - galaxyproject.repos
       - galaxyproject.slurm

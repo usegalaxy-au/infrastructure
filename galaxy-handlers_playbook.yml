@@ -1,0 +1,74 @@
+- hosts: galaxy-handlers
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/galaxy_etca.yml
+    - group_vars/VAULT
+    - group_vars/galaxyservers.yml
+    - group_vars/galaxy_etca_slurm.yml
+    - host_vars/galaxy.usegalaxy.org.au.yml
+    - host_vars/galaxy-handlers.usegalaxy.org.au.yml
+    - secret_group_vars/stats_server_vault
+    - secret_group_vars/ubuntu_maintenance_key
+    - secret_group_vars/etca_vault.yml
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+    - name: Install slurm drmaa ppa
+      include_role:
+        name: galaxyproject.repos
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa1
+        state: latest
+    - name: Run common role as pre-task so that galaxy user will exist
+      include_role:
+        name: common
+    - name: create dir for gravity configuration
+      file:
+        state: directory
+        path: /opt/galaxy
+        owner: root
+        group: galaxy
+        mode: 0775
+    - name: create dir for galaxy's singularity cache # TODO: Put this on volume
+      file:
+        state: directory
+        path: "{{ item }}"
+        owner: galaxy
+        group: galaxy
+        mode: 0700
+      with_items:
+        - "{{ galaxy_user_singularity_cachedir }}"
+        - "{{ galaxy_user_singularity_tmpdir }}"
+  roles:
+        - mounts
+        - geerlingguy.pip
+        - usegalaxy_eu.apptainer
+        - galaxyproject.galaxy
+        # - role: galaxyproject.miniconda
+        #   become: true
+        #   become_user: galaxy
+        # - nginx-upload-module # depends on nginx conf file, why does this go before nginx?
+        # - galaxyproject.nginx
+        # - galaxyproject.tusd # TODO: Where is tusd going to run??
+        - galaxyproject.slurm
+        - galaxyproject.cvmfs
+        - galaxyproject.gxadmin
+        - pg-post-tasks
+        - geerlingguy.docker
+        - dj-wasabi.telegraf
+        - usegalaxy_eu.flower
+        - acl-on-startup
+  post_tasks:
+    - name: Make local_tool directory group-writable by machine users
+      # TODO: This path is problematic because the galaxyproject.galaxy role will chown it to root:root
+      # every time we run this playbook, potentially locking out tool devs for 10 minutes.
+      # New folder for in /mnt/tools? What would this mean for the lsync? What would this mean for docker volumes?
+      file:
+        path: "{{ galaxy_root }}/local_tools"
+        owner: root
+        group: devs
+        mode: 0775
+        state: directory

@@ -62,10 +62,13 @@
 - name: galaxyproject.tusd
   version: 0.0.1
 - name: usegalaxy_eu.flower
-  version: 0.3.1-alpha
+  version: 1.0.2
 - name: usegalaxy_eu.galaxy_subdomains
   version: 0.0.13
 - src: usegalaxy_eu.apptainer
   version: 0.0.1
 - src: usegalaxy_eu.rabbitmqserver
   version: 1.4.4
+- name: geerlingguy.redis
+  version: 1.8.0
+
