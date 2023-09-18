@@ -33,13 +33,6 @@ interactive_tools_server_name: "usegalaxy.org.au"
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_23.0
 
-# total perspective vortex
-tpv_version: "2.2.4"
-
-# workaround to maintain correct tpv version (release_22.05)
-galaxy_additional_venv_packages: |
-  {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
-
 # Mounts for various connections:
 shared_mounts: # TODO: /mnt/custom-indices from aarnet-misc-nfs
   - path: /mnt/ghost-galaxy-app
