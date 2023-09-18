@@ -41,7 +41,7 @@ nfs_exports:
     - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
 
 # Pulsar
-pulsar_package_version: '0.15.4'
+pulsar_package_version: '0.15.5'
 
 pulsar_root: /mnt/pulsar
 pulsar_server_dir: /mnt/pulsar/server
