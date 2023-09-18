@@ -901,7 +901,7 @@ tools:
       - pulsar-training-large
     rules:
     - id: abyss-pe_small_input_rule
-      if: input_size < 1
+      if: input_size < 0.05
       cores: 16
       mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/anndata_import/anndata_import/.*:
