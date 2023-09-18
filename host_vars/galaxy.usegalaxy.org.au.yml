@@ -34,19 +34,6 @@ interactive_tools_server_name: "galaxy.usegalaxy.org.au"
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_23.0
 
-# total perspective vortex # TODO: put this in galaxyservers.yml once aarnet-production is on release_23.0
-tpv_version: "2.3.1"
-
-# use galaxy_additional_venv_packages instead of install-tpv role
-tpv_packages: |
-  {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
-
-celery_packages:
-  - redis
-  - flower
-
-galaxy_additional_venv_packages: "{{ tpv_packages + celery_packages }}"
-
 # TODO: check list concatenation with versions of ansible > 2.12
 shared_mounts: "{{ galaxy_server_and_worker_shared_mounts + galaxy_web_server_mounts }}" # sourced from galaxy_etca.yml
 
