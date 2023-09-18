@@ -1,6 +1,6 @@
 <tables>
     <!-- FGENESH  -->
-    <!-- <table name="fgenesh_db" comment_char="#" allow_duplicate_entries="False">
+    <table name="fgenesh_db" comment_char="#" allow_duplicate_entries="False">
         <columns>value, name, path</columns>
         <file path="/mnt/tools/tool-data/fgenesh_db.loc" />
     </table>
@@ -15,7 +15,7 @@
     <table name="cellranger_db" comment_char="#" allow_duplicate_entries="False">
         <columns>value, name, path</columns>
         <file path="/mnt/tools/tool-data/cellranger_db.loc" />
-    </table> -->
+    </table>
     <!-- Locations of nucleotide BLAST databases -->
     <table name="blastdb" comment_char="#" allow_duplicate_entries="False">
         <columns>value, name, path</columns>
