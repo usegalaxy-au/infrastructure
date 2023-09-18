@@ -26,11 +26,11 @@ internal_ssh_keys:
 # directories
 source_shed_tools_dir: "{{ source_tools_root }}/shed_tools"
 source_tool_data_dir: "{{ source_tools_root }}/tool-data"
-# source_custom_indices_dir: /mnt/custom-indices
+source_custom_indices_dir: /mnt/custom-indices
 
 dest_shed_tools_dir: "{{ dest_tools_root }}/shed_tools"
 dest_tool_data_dir: "{{ dest_tools_root }}/tool-data"
-# dest_custom_indices_dir: /mnt/custom-indices # not available at destination yet
+dest_custom_indices_dir: /mnt/custom-indices # not available at destination yet
 
 # files
 source_allowlist_file: "{{ source_galaxy_root }}/var/sanitize_allowlist.txt"
