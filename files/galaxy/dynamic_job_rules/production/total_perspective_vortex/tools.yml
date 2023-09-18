@@ -2543,5 +2543,5 @@ tools:
       singularity_enabled: true
     rules:
       - if: |
-          not user or not 'fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
+          not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
         fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au if you think this is in error.
