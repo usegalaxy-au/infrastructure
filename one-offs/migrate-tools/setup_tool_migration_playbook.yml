@@ -1,0 +1,61 @@
+
+- hosts: "{{ source_galaxy }}"
+  become: true
+  vars_files:
+    - vars.yml
+    - secret_vars/tool_migration_rsync_key.yml
+  vars:
+    - extra_key:
+        id: tool_migration_rsync_key
+        type: public
+        from: "{{ hostvars[dest_galaxy]['ansible_ssh_host'] }}"
+    - migrate_conda_envs: true
+    - migrate_custom_indices: false
+  tasks:
+    - name: Install keys using common role
+      include_role:
+        name: common
+        tasks_from: extra_keys
+    - name: Ensure migration directories exists on past galaxy
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: galaxy
+        group: galaxy
+      with_items:
+        - "{{ galaxy_tool_migration_dir }}"
+
+- hosts: "{{ dest_galaxy }}"
+  become: true
+  vars_files:
+    - vars.yml
+    - secret_vars/tool_migration_rsync_key.yml
+  vars:
+    - extra_key:
+        id: tool_migration_rsync_key
+        type: private
+    - migrate_conda_envs: false
+  tasks:
+    - name: Ensure migration directories exists on future galaxy
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: galaxy
+        group: galaxy
+      with_items:
+        - "{{ galaxy_tool_migration_dir }}"
+        - /home/galaxy/.ssh
+    - name: Install keys using common role
+      include_role:
+        name: common
+        tasks_from: extra_keys
+    - name: template rsync script
+      template:
+        src: tool_migration_rsync_script.sh.j2
+        dest: /home/galaxy/tool_migration_rsync_script.sh
+        owner: galaxy
+        group: galaxy
+      vars:
+        ssh_key: /home/galaxy/.ssh/tool_migration_rsync_key
+        source_galaxy_ip: "{{ hostvars[source_galaxy]['ansible_ssh_host'] }}"
+      

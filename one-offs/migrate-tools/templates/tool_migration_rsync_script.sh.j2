@@ -1,0 +1,41 @@
+# directories
+{% if migrate_conda_envs %}
+rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av --copy-unsafe-links \
+    galaxy@{{ source_galaxy_ip }}:{{ source_conda_envs_dir }} \
+    {{ dest_conda_envs_dir }}
+{% endif %}
+
+rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
+    galaxy@{{ source_galaxy_ip }}:{{ source_shed_tools_dir }} \
+    {{ dest_shed_tools_dir | dirname }}
+
+rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
+    galaxy@{{ source_galaxy_ip }}:{{ source_tool_data_dir }} \
+    {{ dest_tool_data_dir | dirname }}
+
+{% if migrate_custom_indices %}
+rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
+    galaxy@{{ source_galaxy_ip }}:{{ source_custom_indices_dir }} \
+    {{ dest_custom_indices_dir }}
+{% endif %}
+
+# managed files
+rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
+    galaxy@{{ source_galaxy_ip }}:{{ source_allowlist_file }} \
+    {{ dest_allowlist_file | dirname }}
+
+rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
+    galaxy@{{ source_galaxy_ip }}:{{ source_shed_tool_conf_file }} \
+    {{ dest_shed_tool_conf_file | dirname }}
+
+rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
+    galaxy@{{ source_galaxy_ip }}:{{ source_install_db_file }} \
+    {{ dest_install_db_file | dirname }}
+
+rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
+    galaxy@{{ source_galaxy_ip }}:{{ source_shed_data_manager_conf_file }} \
+    {{ dest_shed_data_manager_conf_file | dirname }}
+
+rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
+    galaxy@{{ source_galaxy_ip }}:{{ source_shed_tool_data_table_conf_file }} \
+    {{ dest_shed_tool_data_table_conf_file | dirname }}
