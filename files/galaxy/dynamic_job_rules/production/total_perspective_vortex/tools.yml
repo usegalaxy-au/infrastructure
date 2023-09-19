@@ -2551,6 +2551,4 @@ tools:
     cores: 6
     params:
       singularity_container_id_override: docker://teambraker/braker3:v.1.0.4
-    scheduling:
-      require:
-        - singularity
+      singularity_enabled: true
