@@ -21,4 +21,9 @@
         <columns>value, name, path</columns>
         <file path="/mnt/tools/tool-data/blastdb.loc" />
     </table>
+    <!-- GetOrganelle -->
+    <table name="getorganelle" comment_char="#" allow_duplicate_entries="False">
+        <columns>ID, value, path, version</columns>
+        <file path="/mnt/tools/tool-data/getorganelle.loc" />
+    </table>
 </tables>
