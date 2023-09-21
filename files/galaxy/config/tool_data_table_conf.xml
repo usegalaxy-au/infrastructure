@@ -23,7 +23,7 @@
     </table>
     <!-- GetOrganelle -->
     <table name="getorganelle" comment_char="#" allow_duplicate_entries="False">
-        <columns>ID, value, path, version</columns>
+        <columns>value, name, path, db-version</columns>
         <file path="/mnt/tools/tool-data/getorganelle.loc" />
     </table>
 </tables>
