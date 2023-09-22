@@ -38,7 +38,7 @@ tools:
     rules:
     - id: rule_repenrich_limit_concurrency
       if: |
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= 4  # concurrent jobs per user
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 2  # concurrent jobs per user (reduced from 4 while pulsar-mel2 and pulsar-mel3 are offline)
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
@@ -1320,7 +1320,7 @@ tools:
     rules:
     - id: rule_maker_limit_concurrency
       if: |
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= 3  # concurrent jobs per user
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 2  # concurrent jobs per user (reduced from 3 while pulsar-mel2 and pulsar-mel3 are offline)
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
@@ -2344,7 +2344,7 @@ tools:
     rules:
     - id: rule_mafft_limit_concurrency
       if: |
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= 2  # concurrent jobs per user
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 1  # concurrent jobs per user (reduced from 2 while pulsar-mel2 and pulsar-mel3 are offline)
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
