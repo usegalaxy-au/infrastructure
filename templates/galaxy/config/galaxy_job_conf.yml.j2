@@ -158,11 +158,5 @@ execution:
         # - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/destinations.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/testing_tpv_config.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/testing_tpv_destinations.yml"
-# {% if job_conf_limits %} # TODO - put this back once one load testing is finished
-# {% for env in job_conf_limits.environments|d({}) %}
-#     {{ env }}:
-#       tags: {{ job_conf_limits.environments[env].tags }}
-# {% endfor %}
-# limits:
-# {{ job_conf_limits.limits | to_nice_yaml }}
-# {% endif %}
+# TODO - put job conf limits back here once one load testing is finished  (saved in trello card)
+
