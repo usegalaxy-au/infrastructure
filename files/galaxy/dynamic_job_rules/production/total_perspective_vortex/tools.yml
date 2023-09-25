@@ -647,12 +647,16 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/.*:
     cores: 5
     mem: 19.1
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/.*:
     cores: 2
     mem: 7.6
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1846,6 +1850,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
     cores: 12
     mem: 46.0
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
