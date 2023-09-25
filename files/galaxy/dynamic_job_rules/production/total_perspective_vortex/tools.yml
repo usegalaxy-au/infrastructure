@@ -1979,6 +1979,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/shovill/shovill/.*:
     cores: 10
     mem: 38.3
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
