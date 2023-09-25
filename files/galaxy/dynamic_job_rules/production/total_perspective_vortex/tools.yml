@@ -497,6 +497,8 @@ tools:
       accept:
       - pulsar
       - pulsar-quick
+    params:
+      singularity_enabled: true
     rules:
     - id: fastqc_small_input_rule
       if: input_size < 0.01
@@ -1161,6 +1163,9 @@ tools:
       mem: 45
   toolshed.g2.bx.psu.edu/repos/iuc/humann2/humann2/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*
+  toolshed.g2.bx.psu.edu/repos/iuc/hybpiper/hybpiper/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/.*:
     cores: 16
     mem: 61.4

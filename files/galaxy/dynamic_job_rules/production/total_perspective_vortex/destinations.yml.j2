@@ -108,7 +108,6 @@ destinations:
         - pulsar-mel2
       require:
         - pulsar
-        - offline
   pulsar-paw:
     inherits: _pulsar_destination
     runner: pulsar-paw_runner
@@ -132,7 +131,6 @@ destinations:
         # - pulsar-blast
       require:
         - pulsar
-        - offline
   pulsar-high-mem1:
     inherits: _pulsar_destination
     runner: pulsar-high-mem1_runner
@@ -235,6 +233,7 @@ destinations:
       require:
         - pulsar
         - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
+        - offline  # etca testing
   pulsar-azure:
     inherits: _pulsar_destination
     runner: pulsar_azure_0_runner
