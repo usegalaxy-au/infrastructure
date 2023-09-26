@@ -2002,10 +2002,10 @@ tools:
     mem: 15.3
     params:
       tmp_dir: true
-    scheduling:
-      accept:
-      - pulsar
-      - pulsar-quick
+    # scheduling: # switching from pulsar due to errors with the tool (both conda + singularity) on pulsar-mel2 (26/9/23)
+    #   accept:
+    #   - pulsar
+    #   - pulsar-quick
     rules:
     - id: snippy_small_input_rule
       if: input_size < 0.015
