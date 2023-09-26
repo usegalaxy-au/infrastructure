@@ -2001,6 +2001,7 @@ tools:
     cores: 4
     mem: 15.3
     params:
+      singularity_enabled: true
       tmp_dir: true
     scheduling:
       accept:
