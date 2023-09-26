@@ -2003,7 +2003,7 @@ tools:
     params:
       singularity_enabled: true
       tmp_dir: true
-    scheduling: # switching from pulsar due to errors with the tool (both conda + singularity) on pulsar-mel2 (26/9/23)
+    scheduling:
       accept:
       - pulsar
       - pulsar-quick
