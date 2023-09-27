@@ -2573,3 +2573,6 @@ tools:
     params:
       singularity_container_id_override: docker://teambraker/braker3:v.1.0.4
       singularity_enabled: true
+    scheduling:
+      require:
+      - pulsar
