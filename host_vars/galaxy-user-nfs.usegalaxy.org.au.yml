@@ -1,14 +1,14 @@
-nfs_user_data_test_dir: /mnt/user-data-test
+nfs_user_data_test_dir: /mnt/volB/user-data-test
 
 attached_volumes:
   - device: /dev/vdb
-    path: /mnt
+    path: /mnt/volA
     fstype: ext4
     partition: 1
-  # - device: /dev/vdc
-  #   partition: 1
-  #   path: /user-data6
-  #   fstype: ext4
+  - device: /dev/vdc
+    partition: 1
+    path: /mnt/volB
+    fstype: ext4
 
 nfs_dirs:
   - "{{ nfs_user_data_test_dir }}"
