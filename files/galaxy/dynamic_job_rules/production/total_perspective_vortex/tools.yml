@@ -732,7 +732,8 @@ tools:
         ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data/v2.3
     rules:
       - if: |
-          helpers.tool_version_gte(tool, '2.3.1+galaxy2')
+          min_version = '2.3.1+galaxy2'
+          helpers.tool_version_gte(tool, min_version)
         params:
           docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data
     inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*
