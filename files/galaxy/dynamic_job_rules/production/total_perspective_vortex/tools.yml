@@ -497,9 +497,12 @@ tools:
       accept:
       - pulsar
       - pulsar-quick
-    params:
-      singularity_enabled: true
     rules:
+    - if: |
+        minimum_singularity_version = '0.72+galaxy1'
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
     - id: fastqc_small_input_rule
       if: input_size < 0.01
       cores: 2
@@ -729,9 +732,8 @@ tools:
         ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data/v2.3
     rules:
       - if: |
-          import packaging.version
           min_version = '2.3.1+galaxy2'
-          packaging.version.parse(tool.version) >= packaging.version.parse(min_version)
+          helpers.tool_version_gte(tool, min_version)
         params:
           docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data
     inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*
@@ -972,11 +974,9 @@ tools:
       - pulsar-qld-high-mem2
     rules:
     - if: |
-        import packaging.version
         minimum_singularity_version = '5.0.0+galaxy0'
-        packaging.version.parse(tool.version) >= packaging.version.parse(minimum_singularity_version)
+        helpers.tool_version_gte(tool, minimum_singularity_version)
       params:
-        dependency_resolution: none
         singularity_enabled: true
     - id: busco_small_input_rule
       if: input_size < 0.05
