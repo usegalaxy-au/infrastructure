@@ -83,7 +83,8 @@ machine_users:
       email: "{{ cameron_email }}"
     - name: tom
       uid: 7203
-      roles: []
+      roles:
+        - galaxy_admin
       key: files/keys/tom.pub
       email: "{{ tom_email }}"
 
