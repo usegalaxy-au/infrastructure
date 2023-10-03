@@ -2515,7 +2515,7 @@ tools:
     mem: 3.8
   __DATA_FETCH__:
     cores: 1
-    mem: 6
+    mem: 8
     params:
       tmp_dir: true
     rules:
