@@ -1,15 +1,21 @@
 tools:
   ### Tools with resource updates being tested due to OOM errors ###
-  toolshed.g2.bx.psu.edu/repos/iuc/biom_convert/biom_convert/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/biom_convert/biom_convert/.*: # still waiting for evidence that this has made a difference (3/10/23)
     mem: 12
-  toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft_add/.*:
+  toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft_add/.*: # TODO: add to shared db and remove this entry (3/10/23)
     mem: 12
-  toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*: # still waiting for evidence that this has made a difference (3/10/23)
     cores: 2
     mem: 10
-  toolshed.g2.bx.psu.edu/repos/iuc/mlst/mlst/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/mlst/mlst/.*: # TODO: add to shared db and remove this entry (3/10/23)
+    mem: 8
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgcmp/.*: # still waiting for evidence that this has made a difference (3/10/23)
     mem: 12
-  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgcmp/.*:
+  toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/.*: # Added 3/10/23
+    mem: 12
+  toolshed.g2.bx.psu.edu/repos/peterjc/seq_select_by_id/seq_select_by_id/.*: # Added 3/10/23
+    mem: 12
+  toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina/docking/.*: # Added 3/10/23
     mem: 12
   toolshed.g2.bx.psu.edu/repos/artbio/cap3/cap3/.*:
     mem: 8
@@ -2466,18 +2472,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/rnateam/sortmerna/bg_sortmerna/.*:
     cores: 8
     mem: 30.7
-  toolshed.g2.bx.psu.edu/repos/saskia-hiltemann/krona_text/krona-text/.*:
-    cores: 7
-    mem: 26.8
-    rules:
-    - id: krona-text_small_input_rule
-      if: input_size < 0.02
-      cores: 1
-      mem: 3.8
-    - id: krona-text_medium_input_rule
-      if: 0.02 <= input_size < 2
-      cores: 5
-      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/velvetoptimiser/.*:
     cores: 4
     mem: 15.3
