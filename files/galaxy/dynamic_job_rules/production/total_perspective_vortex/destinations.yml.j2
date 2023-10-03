@@ -156,7 +156,7 @@ destinations:
         - pulsar-high-mem2
       require:
         - pulsar
-        - offline
+        - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
   pulsar-qld-high-mem0:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem0_runner
