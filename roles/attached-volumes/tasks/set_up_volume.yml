@@ -57,6 +57,7 @@
         path: "{{ attached_volume.path }}"
         src: "{{ attached_volume.device }}{{ attached_volume.partition|d('') }}"
         fstype: "{{ attached_volume.fstype }}"
+        opts: "{{ attached_volume.opts|d('defaults') }}"
         state: mounted    
     when: num_parts2|int > 0
   when: attached_volume.device is defined and attached_volume.partition is defined and attached_volume.fstype is defined and attached_volume.path is defined
