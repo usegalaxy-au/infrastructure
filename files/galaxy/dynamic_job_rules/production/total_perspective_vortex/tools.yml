@@ -15,8 +15,6 @@ tools:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/peterjc/seq_select_by_id/seq_select_by_id/.*: # Added 3/10/23
     mem: 12
-  toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina/docking/.*: # Added 3/10/23
-    mem: 12
   toolshed.g2.bx.psu.edu/repos/artbio/cap3/cap3/.*:
     mem: 8
   ### ###
