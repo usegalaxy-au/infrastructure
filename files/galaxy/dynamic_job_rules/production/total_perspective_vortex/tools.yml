@@ -342,6 +342,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 8
     mem: 30.7
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -358,6 +360,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
     cores: 60
     mem: 961
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -2006,7 +2010,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      - pulsar-quick
+      # - pulsar-quick # commented out since snippy requires data from all_fasta data table
     rules:
     - id: snippy_small_input_rule
       if: input_size < 0.015
