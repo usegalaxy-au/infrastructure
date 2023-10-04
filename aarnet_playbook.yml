@@ -90,6 +90,6 @@
       command: exportfs -ra
       become: yes
       become_user: root
-    - name: lsync between /mnt/galaxy and /mnt/ghost-galaxy-app
+    - name: set up lsync between /mnt/galaxy and /mnt/ghost-galaxy-app
       include_role:
         name: lsyncd
