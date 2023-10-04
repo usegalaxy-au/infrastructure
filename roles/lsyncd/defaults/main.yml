@@ -1,0 +1,4 @@
+lsyncd_dir: /etc/lsyncd
+lsyncd_log_dir: /var/log/lsyncd
+
+lsyncd_exclude: []
