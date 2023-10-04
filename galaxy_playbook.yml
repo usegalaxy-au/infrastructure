@@ -83,6 +83,6 @@
       pip:
         name: "webdavclient3@git+https://github.com/ezhov-evgeny/webdav-client-python-3@0f17fa7946e66f7963db367d0d6b2e7f940ebeb8"
         virtualenv: "{{ galaxy_venv_dir }}"
-    - name: lsync between /mnt/galaxy and /mnt/ghost-galaxy-app
+    - name: set up lsync between /mnt/galaxy and /mnt/ghost-galaxy-app
       include_role:
         name: lsyncd
