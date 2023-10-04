@@ -1119,6 +1119,11 @@ tools:
     mem: 122.8
     params:
       singularity_enabled: true
+    scheduling:
+      prefer:
+        - pulsar
+      require:
+        - gtdbtk_database
   toolshed.g2.bx.psu.edu/repos/iuc/gubbins/gubbins/.*:
     cores: 16
     mem: 61.4

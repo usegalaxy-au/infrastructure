@@ -67,6 +67,7 @@ destinations:
     scheduling:
       accept:
         - slurm
+        - gtdbtk_database
   slurm-training:
     inherits: _slurm_destination
     runner: slurm
@@ -76,6 +77,7 @@ destinations:
     scheduling:
       accept:
         - slurm
+        - gtdbtk_database
       require:
         - training
   interactive_pulsar:
@@ -179,6 +181,7 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-high-mem1
+        - gtdbtk_database
       require:
         - pulsar
   pulsar-qld-high-mem2:
