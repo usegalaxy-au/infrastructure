@@ -371,3 +371,10 @@ telegraf_plugins_extra:
     config:
       - service_address = ":8125"
       - metric_separator = "."
+
+# lsyncd
+lsyncd_source: /mnt/galaxy
+lsyncd_target: /mnt/ghost-galaxy-app
+lsyncd_exclude:
+  - cache
+lsyncd_max_user_watches: 524288

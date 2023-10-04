@@ -41,9 +41,7 @@
     - galaxyproject.tusd
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    # - gantsign.golang
-    # - cyverse-ansible.singularity
-    - usegalaxy_eu.apptainer # see how this works as replacement for golang+cyverse/singularity
+    - usegalaxy_eu.apptainer
     - geerlingguy.docker
     - acl-on-startup
     - dj-wasabi.telegraf
@@ -66,12 +64,6 @@
       with_items:
         - "{{ galaxy_user_singularity_cachedir }}"
         - "{{ galaxy_user_singularity_tmpdir }}"
-    # - name: create dir for galaxy's custom indices  # TODO: directory creation is not needed here once /mnt/custom-indices exists on galaxy-misc-nfs
-    #   file:
-    #     state: directory
-    #     path: "{{ galaxy_custom_indices_dir }}"
-    #     owner: galaxy
-    #     group: galaxy
     - name: Make local_tool directory group-writable by machine users
       # TODO: This path is problematic because the galaxyproject.galaxy role will chown it to root:root
       # every time we run this playbook, potentially locking out tool devs for 10 minutes.
@@ -91,30 +83,6 @@
       pip:
         name: "webdavclient3@git+https://github.com/ezhov-evgeny/webdav-client-python-3@0f17fa7946e66f7963db367d0d6b2e7f940ebeb8"
         virtualenv: "{{ galaxy_venv_dir }}"
-    - name: setup lsyncd
-      # TODO: (a) This could be a role,
-      # (b) there is no need to sync all of /mnt/galaxy: only /mnt/galaxy/galaxy-app and /mnt/galaxy/venv need to exist for the workers
-      # Possible /mnt/galaxy/local_tools also needs to exist for the workers. Move that dir into /mnt/tools?
-      # [ UPDATE ]: /mnt/galaxy/config and /mnt/galaxy/var would also need to be included!
-      package:
+    - name: set up lsync between /mnt/galaxy and /mnt/ghost-galaxy-app
+      include_role:
         name: lsyncd
-        state: present
-    - name: create lsync dirs
-      file:
-        path: "{{ item }}"
-        state: directory
-      with_items:
-        - /etc/lsyncd
-        - /var/log/lsyncd
-    - name: config lsyncd
-      copy:
-        src: lsyncd/lsyncd.conf.lua
-        dest: /etc/lsyncd/lsyncd.conf.lua
-      become: yes
-    - name: Set max_user_watches
-      command: sysctl fs.inotify.max_user_watches=524288
-      become: true
-    - name: restart lsyncd
-      systemd:
-        name: lsyncd
-        state: restarted
