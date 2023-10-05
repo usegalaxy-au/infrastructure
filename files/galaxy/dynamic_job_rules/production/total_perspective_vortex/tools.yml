@@ -1849,8 +1849,10 @@ tools:
       cores: 16
       mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/raxml/raxml/.*:
-    cores: 120
-    mem: 1922
+    cores: 24
+    mem: 250
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
