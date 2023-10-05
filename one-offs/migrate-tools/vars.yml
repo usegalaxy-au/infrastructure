@@ -1,3 +1,6 @@
+migrate_custom_indices: true
+migrate_singularity_cache: true # not cache in the sense of SINGULARITY_CACHEDIR. These are the built .sif files in /mnt/tools
+
 source_galaxy: aarnet
 source_ip_field: internal_ip
 dest_galaxy: galaxy
@@ -26,10 +29,12 @@ internal_ssh_keys:
 # directories
 source_shed_tools_dir: "{{ source_tools_root }}/shed_tools"
 source_tool_data_dir: "{{ source_tools_root }}/tool-data"
+source_singularity_cache_dir: "{{ source_tools_root }}/cache"
 source_custom_indices_dir: /mnt/custom-indices
 
 dest_shed_tools_dir: "{{ dest_tools_root }}/shed_tools"
 dest_tool_data_dir: "{{ dest_tools_root }}/tool-data"
+dest_singularity_cache_dir: "{{ dest_tools_root }}/cache"
 dest_custom_indices_dir: /mnt/custom-indices # not available at destination yet
 
 # files

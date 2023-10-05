@@ -1,22 +1,20 @@
-# directories
-{% if migrate_conda_envs %}
-rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av --copy-unsafe-links \
-    galaxy@{{ source_galaxy_ip }}:{{ source_conda_envs_dir }} \
-    {{ dest_conda_envs_dir }}
-{% endif %}
-
+# directories on misc nfs
 rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
-    galaxy@{{ source_galaxy_ip }}:{{ source_shed_tools_dir }} \
-    {{ dest_shed_tools_dir | dirname }}
+    galaxy@{{ source_galaxy_ip }}:{{ galaxy_tool_migration_dir }}/conda_envs \
+    {{ galaxy_tool_migration_dir }}
 
 rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
     galaxy@{{ source_galaxy_ip }}:{{ source_tool_data_dir }} \
     {{ dest_tool_data_dir | dirname }}
 
-{% if migrate_custom_indices %}
 rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
-    galaxy@{{ source_galaxy_ip }}:{{ source_custom_indices_dir }} \
-    {{ dest_custom_indices_dir }}
+    galaxy@{{ source_galaxy_ip }}:{{ source_shed_tools_dir }} \
+    {{ dest_shed_tools_dir | dirname }}
+
+{% if migrate_singularity_cache %}
+rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
+    galaxy@{{ source_galaxy_ip }}:{{ source_singularity_cache_dir }} \
+    {{ dest_singularity_cache_dir | dirname }}
 {% endif %}
 
 # managed files
@@ -39,3 +37,10 @@ rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
 rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
     galaxy@{{ source_galaxy_ip }}:{{ source_shed_tool_data_table_conf_file }} \
     {{ dest_shed_tool_data_table_conf_file | dirname }}
+
+# custom indices (~2TB)
+{% if migrate_custom_indices %}
+rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
+    galaxy@{{ source_galaxy_ip }}:{{ source_custom_indices_dir }} \
+    {{ dest_custom_indices_dir }}
+{% endif %}
