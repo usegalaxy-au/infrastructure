@@ -305,6 +305,11 @@ tools:
       - pulsar
       - pulsar-quick
     rules:
+    - if: |
+        minimum_singularity_version = '1.14.6+galaxy1' # earlier versions untested
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
     - id: prokka_small_input_rule
       if: input_size < 0.001
       cores: 2
@@ -497,6 +502,7 @@ tools:
     mem: 30.7
     env:
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     scheduling:
       accept:
       - pulsar
@@ -644,11 +650,17 @@ tools:
     mem: 11.5
     env:
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     scheduling:
       accept:
       - pulsar
       - pulsar-quick
     rules:
+    - if: |
+        minimum_singularity_version = '2.18.2'
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
     - id: picard_small_input_rule
       if: input_size < 1
       cores: 1
@@ -656,6 +668,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/.*:
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/.*:
     cores: 5
     mem: 19.1
@@ -1347,6 +1362,9 @@ tools:
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
+  toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus/medaka_consensus/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus_pipeline/medaka_consensus_pipeline/.*:
     cores: 20
     mem: 200
@@ -1367,6 +1385,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant/medaka_variant/.*:
     cores: 8
     mem: 30.7
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1902,6 +1922,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/roary/roary/.*:
     cores: 7
     mem: 26.8
+  toolshed.g2.bx.psu.edu/repos/iuc/samtools.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_cluster_reduce_dimension/scanpy_cluster_reduce_dimension/.*:
     cores: 5
     mem: 19.1
@@ -2196,6 +2219,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/trycycler.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_cluster/trycycler_cluster/.*:
     cores: 9
     mem: 34.5
@@ -2272,6 +2298,11 @@ tools:
       - pulsar-quick
       - pulsar-training-large
     rules:
+    - if: |
+        minimum_singularity_version = '0.5.0+galaxy0'
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
     - id: unicycler_small_input_rule
       if: input_size < 0.05
       cores: 1
@@ -2391,11 +2422,17 @@ tools:
     mem: 11.5
     env:
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     scheduling:
       accept:
       - pulsar
       - pulsar-quick
     rules:
+    - if: |
+        minimum_singularity_version = '0.36.6'
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
     - id: trimmomatic_small_input_rule
       if: input_size < 0.015
       cores: 1
