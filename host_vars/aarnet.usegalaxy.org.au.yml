@@ -226,6 +226,9 @@ host_galaxy_config: # renamed from __galaxy_config
     # tool_section_filters: global_host_filters:per_host_tool_sections
     # tool_label_filters: global_host_filters:per_host_tool_labels
 
+    # Allow cross-subdomain cookie sharing:
+    cookie_domain: usegalaxy.org.au
+
     user_activation_on: true
     activation_email: <activation-noreply@usegalaxy.org.au>
 
