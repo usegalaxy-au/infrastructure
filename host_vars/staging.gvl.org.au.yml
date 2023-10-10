@@ -31,7 +31,7 @@ nfs_exports:
 
 # ansible-galaxy
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_23.0
+galaxy_commit_id: release_23.1
 
 galaxy_infrastructure_url: "https://staging.gvl.org.au"
 

@@ -31,7 +31,7 @@ nginx_ssl_servers:
 interactive_tools_server_name: "usegalaxy.org.au"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_23.0
+galaxy_commit_id: release_23.1
 
 # Mounts for various connections:
 shared_mounts: # TODO: /mnt/custom-indices from aarnet-misc-nfs
