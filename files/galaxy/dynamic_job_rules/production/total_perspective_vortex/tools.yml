@@ -1955,6 +1955,8 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+    params:
+      singularity_enabled: true
     rules:
     - id: rnaspades_small_input_rule
       if: input_size < 0.005
