@@ -346,6 +346,7 @@ tiaas_group: tiaas
 tiaas_version: main
 tiaas_admin_user: admin
 tiaas_admin_pass: "{{ tiaas_password }}"
+tiaas_galaxy_stylesheet: "{{ galaxy_server_dir }}/static/dist/base.css"
 
 # Interactive Tools
 docker_install_compose: false
