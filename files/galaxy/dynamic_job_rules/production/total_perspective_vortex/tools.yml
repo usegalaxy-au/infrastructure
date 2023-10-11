@@ -2524,7 +2524,7 @@ tools:
     mem: 19.1
   cellranger:
     cores: 6
-    mem: 10
+    mem: 20
     params:
       singularity_enabled: true
     rules:
