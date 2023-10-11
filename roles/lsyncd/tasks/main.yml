@@ -1,0 +1,29 @@
+---
+- name: setup lsyncd
+  package:
+    name: lsyncd
+    state: present
+- name: create lsync dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ lsyncd_dir }}"
+    - "{{ lsyncd_log_dir }}"
+- name: Template lsyncd config file
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ lsyncd_dir }}/{{ item }}"
+  with_items:
+    - lsyncd.conf.lua
+    - lsyncd.exclude
+  become: yes
+- name: Set max_user_watches
+  command: "sysctl fs.inotify.max_user_watches={{ lsyncd_max_user_watches }}"
+  become: true
+  when: lsyncd_max_user_watches is defined
+- name: restart lsyncd
+  systemd:
+    name: lsyncd
+    state: restarted
+

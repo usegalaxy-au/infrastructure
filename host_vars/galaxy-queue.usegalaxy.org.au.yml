@@ -72,6 +72,14 @@ rabbitmq_users:
   - user: galaxy_azure_0
     password: "{{ rabbitmq_password_galaxy_azure }}"
     vhost: /pulsar/galaxy_azure_0
+  - user: galaxy_queues
+    password: "{{ rabbitmq_password_galaxy }}"
+    vhost: /galaxy/galaxy_queues
+  - user: flower
+    password: "{{ rabbitmq_password_galaxy }}"
+    vhost: /galaxy/galaxy_queues
+    tags: administrator
+
 
 # NGINX Letsencrypt bindings
 nginx_selinux_allow_local_connections: true
@@ -103,6 +111,7 @@ rabbitmq_vhosts:
   - /pulsar/galaxy_qld_blast
   - /pulsar/galaxy_QLD
   - /pulsar/galaxy_azure_0
+  - /galaxy/galaxy_queues
 
 rabbitmq_version: 3.12.1
 
@@ -204,3 +213,6 @@ pip_install_packages:
 #   - rabbitmq_management
 
 nginx_check_conf: False
+
+redis_requirepass: "{{ vault_redis_requirepass }}"
+redis_bind_interface: 0.0.0.0

@@ -6,13 +6,6 @@ attached_volumes:
     path: /mnt
     fstype: ext4
 
-# total perspective vortex
-tpv_version: "2.2.4"
-
-# workaround to maintain correct tpv version (release_22.05)
-galaxy_additional_venv_packages: |
-  {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
-
 certbot_domains:
   - "{{ hostname }}"
   - "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
@@ -38,7 +31,7 @@ nfs_exports:
 
 # ansible-galaxy
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_23.0
+galaxy_commit_id: release_23.1
 
 galaxy_infrastructure_url: "https://staging.gvl.org.au"
 

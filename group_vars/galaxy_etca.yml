@@ -28,9 +28,10 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     fstype: nfs
     state: mounted
   - path: /mnt/user-data-test  # TEMPORARY
-    src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/user-data-test"
+    src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/volB/user-data-test"
     fstype: nfs
     state: mounted
+    opts: 'actimeo=2,defaults'
   - path: /mnt/custom-indices
     src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/custom-indices"
     fstype: nfs

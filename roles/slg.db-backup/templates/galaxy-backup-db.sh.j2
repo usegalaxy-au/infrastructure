@@ -123,12 +123,13 @@ set +o nounset
 source ${VENV_LOCATION}/bin/activate
 set -o nounset
 
-swift --quiet --retries 5 --timeout 120 upload --segment-size 2000000000 --segment-threads 1 ${SWIFT_BACKUP_CONTAINER} ${backup_filename}
-
-{% endif %}
-
 # don't exit on swift errors
 set +e
+
+echo '  Uploading to swift: '$backup_filename >> $LOGFILE
+swift --quiet --retries 5 --timeout 120 upload --segment-size 2000000000 --segment-threads 1 ${SWIFT_BACKUP_CONTAINER} ${backup_filename} || echo '  swift upload failed for: '$backup_filename >> $LOGFILE
+{% endif %}
+
 for f in $(<search_file.tmp)
     do
         echo $f
@@ -138,10 +139,13 @@ for f in $(<search_file.tmp)
         swift --retries 5 --timeout 120 delete --object-threads 1 ${SWIFT_BACKUP_CONTAINER} $f || echo '  swift delete failed for: '$f >> $LOGFILE
         {% endif %}
         #delete local copy
-        rm $f
+        rm $f || echo '  local delete failed for: '$f >> $LOGFILE
     done
+
+{% if use_swift == true %}
 # restore exit on fail
 set -e
+{% endif %}
 
 rm search_file.tmp
 

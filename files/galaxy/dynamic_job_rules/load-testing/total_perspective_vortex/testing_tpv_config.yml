@@ -17,6 +17,9 @@ tools:
     rules: []
     rank: |
       helpers.weighted_random_sampling(candidate_destinations)
+  toolshed.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
     cores: 2
     scheduling:
@@ -32,7 +35,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
     cores: 2
     scheduling:
-      require:
+      prefer:
       - pulsar
     rules:
     - if: 0.01 <= input_size < 2
@@ -117,6 +120,15 @@ tools:
     cores: 5
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
     cores: 3
+  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
+    cores: 2
+    mem: 7.6
+    params:
+      singularity_enabled: false
+    rules:
+    - if: 0.05 <= input_size
+      cores: 8
+      mem: 30.7
 
 users:
   jenkins_bot@usegalaxy.org.au:

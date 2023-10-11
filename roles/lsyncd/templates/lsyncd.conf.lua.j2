@@ -1,0 +1,11 @@
+sync {
+    default.rsync,
+    source = "{{ lsyncd_source }}",
+    target = "{{ lsyncd_target }}",
+    excludeFrom = "{{ lsyncd_dir }}/lsyncd.exclude"
+}
+
+settings {
+    logfile = "{{ lsyncd_log_dir }}/lsyncd.log",
+    statusFile = "{{ lsyncd_log_dir }}/lsyncd.status"
+}
