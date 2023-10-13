@@ -32,7 +32,7 @@ nginx_ssl_servers:
 interactive_tools_server_name: "galaxy.usegalaxy.org.au"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_23.0
+galaxy_commit_id: release_23.1
 
 # TODO: check list concatenation with versions of ansible > 2.12
 shared_mounts: "{{ galaxy_server_and_worker_shared_mounts + galaxy_web_server_mounts }}" # sourced from galaxy_etca.yml
