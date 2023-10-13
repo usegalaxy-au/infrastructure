@@ -24,6 +24,10 @@ test_tools = [
         'id': 'maxquant_test',
         'role': 'maxquant_test',
     },
+    {
+        'id': 'cellranger',
+        'role': 'cellranger',
+    },
 ]
 
 def hide_test_tools(context, tool):
@@ -84,7 +88,7 @@ assert restrict_alphafold(context2, tool1) == False  # if tool is alphafold and 
 assert restrict_alphafold(context1, tool2) == True  # any tool other than alphafold is visible
 
 
-roleA = Role('maxquant_test', False)
+roleA = Role('cellranger', False)
 
 userA = User(lambda: [roleA], 'amy@email.org')
 userB = User(lambda: [], 'amy@email.org')
@@ -98,7 +102,7 @@ contextA = context(transA)
 contextB = context(transB)
 contextC = context(transC)
 
-toolA = Tool('maxquant_test', ['test'])
+toolA = Tool('cellranger', ['test'])
 toolB = Tool('something_else', ['test'])
 
 assert hide_test_tools(contextA, toolA) == True
