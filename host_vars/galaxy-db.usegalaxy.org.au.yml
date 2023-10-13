@@ -17,7 +17,7 @@ postgresql_conf:
   #   CPUs num: 8
   #   Connections num: 100
   #   Data Storage: san
-  - max_connections: 200
+  - max_connections: 300
   - listen_addresses: "'*'"   # Allow remote connections
   - data_directory: "'/data/production'"
   - shared_buffers: 8GB
