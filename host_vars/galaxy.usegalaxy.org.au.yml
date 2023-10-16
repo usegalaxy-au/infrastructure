@@ -28,6 +28,8 @@ nginx_ssl_servers:
   - galaxy
   - galaxy-gie-proxy ## we still do this?
 
+num_gunicorn_processes: 2
+
 # gie proxy hostname
 interactive_tools_server_name: "galaxy.usegalaxy.org.au"
 
@@ -92,18 +94,30 @@ host_galaxy_config_gravity:
   app_server: gunicorn
   virtualenv: "{{ galaxy_venv_dir }}"
   gunicorn:
-    # listening options
-    bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
-    # performance options
-    workers: 4
-    # Other options that will be passed to gunicorn
-    extra_args: '--forwarded-allow-ips="*"'
-    preload: true
-    environment:
-      VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
-      DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-      SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
-      SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+    - bind: unix:{{ galaxy_mutable_config_dir }}/gunicorn1.sock
+      workers: 3
+      # Other options that will be passed to gunicorn
+      extra_args: '--forwarded-allow-ips="*"'
+      timeout: 600
+      restart_timeout: 600
+      preload: true
+      environment:
+        VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
+        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+    - bind: unix:{{ galaxy_mutable_config_dir }}/gunicorn2.sock
+      workers: 3
+      # Other options that will be passed to gunicorn
+      extra_args: '--forwarded-allow-ips="*"'
+      timeout: 600
+      restart_timeout: 600
+      preload: true
+      environment:
+        VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
+        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
   tusd:
     enable: true
     tusd_path: /usr/local/sbin/tusd
