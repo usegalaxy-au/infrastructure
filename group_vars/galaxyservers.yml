@@ -160,7 +160,6 @@ group_galaxy_config:
     use_interactive: false
     expose_dataset_path: true
     enable_unique_workflow_defaults: true
-    database_engine_option_server_side_cursors: true
     track_jobs_in_database: true
     use_heartbeat: true
     allow_user_dataset_purge: true
