@@ -1,7 +1,7 @@
 {% if num_gunicorn_processes == 2 %}
 upstream galaxy {
-    server unix://{{ galaxy_mutable_config_dir }}/gunicorn1.sock
-    server unix://{{ galaxy_mutable_config_dir }}/gunicorn2.sock
+    server unix://{{ galaxy_mutable_config_dir }}/gunicorn1.sock;
+    server unix://{{ galaxy_mutable_config_dir }}/gunicorn2.sock;
 }
 {% endif %}
 
