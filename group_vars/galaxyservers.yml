@@ -86,6 +86,8 @@ nginx_upload_module_url: https://swift.rc.nectar.org.au/v1/AUTH_377/galaxy_infra
 # miniconda
 miniconda_prefix: "{{ galaxy_conda_prefix }}"
 
+num_gunicorn_processes: 1
+
 # singularity cache of galaxy user (this defaults to /home/galaxy/.singularity). Not to be confused with cache directory for built sif files in galaxy_config.galaxy.container_resolvers_conf
 galaxy_user_singularity_cachedir: /mnt/singularity_data
 galaxy_user_singularity_tmpdir: "{{ galaxy_user_singularity_cachedir }}/tmp"
