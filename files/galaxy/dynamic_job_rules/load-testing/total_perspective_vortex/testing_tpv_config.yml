@@ -35,7 +35,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
     cores: 2
     scheduling:
-      prefer:
+      require:
       - pulsar
     rules:
     - if: 0.01 <= input_size < 2
