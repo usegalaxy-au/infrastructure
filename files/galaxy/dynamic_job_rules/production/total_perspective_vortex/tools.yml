@@ -1295,6 +1295,9 @@ tools:
       if: 0.1 <= input_size < 0.5
       cores: 16
       mem: 61.4
+  toolshed.g2.bx.psu.edu/repos/iuc/kraken_biom/kraken_biom/.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     cores: 16
     mem: 200
@@ -1314,6 +1317,9 @@ tools:
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
+  toolshed.g2.bx.psu.edu/repos/iuc/krakentools_extract_kraken_reads/krakentools_extract_kraken_reads/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/krakentools_kreport2krona/krakentools_kreport2krona/.*:
     params:
       singularity_enabled: true
