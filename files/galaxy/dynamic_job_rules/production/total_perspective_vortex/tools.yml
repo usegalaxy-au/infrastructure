@@ -1743,8 +1743,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/picrust2_pipeline/picrust2_pipeline/.*:
-    cores: 4
-    mem: 15.3
+    cores: 7
+    mem: 26.8
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/picrust2_place_seqs/picrust2_place_seqs/.*:
