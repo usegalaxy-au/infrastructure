@@ -1,17 +1,19 @@
 tools:
   ### Tools with resource updates being tested due to OOM errors ###
-  toolshed.g2.bx.psu.edu/repos/iuc/biom_convert/biom_convert/.*: # still waiting for evidence that this has made a difference (3/10/23)
+  toolshed.g2.bx.psu.edu/repos/iuc/biom_convert/biom_convert/.*: # not enough jobs to tell whether this has fixed oom issue (19/10/23)
     mem: 12
-  toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*: # still waiting for evidence that this has made a difference (3/10/23)
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*: # not enough jobs to tell whether this has fixed oom issue (19/10/23)
     cores: 2
     mem: 10
-  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgcmp/.*: # still waiting for evidence that this has made a difference (3/10/23)
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgcmp/.*: # not enough jobs to tell whether this has fixed oom issue (19/10/23)
     mem: 12
-  toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/.*: # Added 3/10/23
+  toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/.*:
     mem: 12
-  toolshed.g2.bx.psu.edu/repos/peterjc/seq_select_by_id/seq_select_by_id/.*: # Added 3/10/23
+  toolshed.g2.bx.psu.edu/repos/peterjc/seq_select_by_id/seq_select_by_id/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/artbio/cap3/cap3/.*:
+    mem: 8
+  toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
     mem: 8
   ### ###
   testtoolshed.g2.bx.psu.edu/repos/fubar/htseq_bams_to_count_matrix/htseqsams2mxlocal/.*:
@@ -2129,18 +2131,10 @@ tools:
     mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_ustacks/stacks2_ustacks/.*:
     cores: 16
-    mem: 61.4
+    mem: 100
     scheduling:
       accept:
       - pulsar
-      - pulsar-quick
-    rules:
-    - id: rule_stacks2_ustacks_limit_concurrency
-      if: |
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= 3  # concurrent jobs per user
-      execute: |
-        from galaxy.jobs.mapper import JobNotReadyException
-        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/.*:
     cores: 5
     mem: 19.1
@@ -2308,7 +2302,7 @@ tools:
       cores: 1
       mem: 3.8
     - id: unicycler_medium_input_rule
-      if: 0.05 <= input_size < 2
+      if: 0.05 <= input_size < 0.3
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/vcf2maf/vcf2maf/.*:
