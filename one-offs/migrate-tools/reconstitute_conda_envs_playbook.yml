@@ -9,13 +9,17 @@
             - "{{ galaxy_tool_migration_dir }}/conda_envs"
         depth: 1
       register: conda_environments_list
-    - name: debug
-      debug:
-        msg: "{{ conda_environments_list }}"
+    - set_fact:
+        list1: "{{ conda_environments_list.files | map(attribute='path') | map('basename') | replace('.yml', '') }}"
+    - set_fact:
+        list2: "{{ conda_envs_skip_list }}"
+    - debug:
+        msg: "{{ list1|difference(list2) }}"
     - name: Now for each env yaml file, run conda create if the env does not already exist
       become: true
       become_user: galaxy
       command:
-        cmd: "{{ dest_conda_prefix }}/bin/conda env create -n {{ item }} -f {{ galaxy_tool_migration_dir }}/conda_envs/{{ item }}.yml"
+        cmd: "{{ dest_conda_prefix }}/bin/mamba env create -n {{ item }} -f {{ galaxy_tool_migration_dir }}/conda_envs/{{ item }}.yml"
         creates: "{{ dest_conda_prefix }}/envs/{{ item }}"
-      with_items: "{{ conda_environments_list.files | map(attribute='path') | map('basename') | replace('.yml', '') }}"
+      timeout: 300
+      with_items: "{{ list1|difference(list2) }}"

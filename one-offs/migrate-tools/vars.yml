@@ -52,3 +52,12 @@ dest_shed_tool_data_table_conf_file: "{{ dest_galaxy_root }}/var/shed_tool_data_
 
 # /mnt/galaxy/var/migrated_tools_conf.xml ok to ignore?
 
+conda_envs_skip_list:
+#0
+- __nanoplot@1.41.0
+- __samtools@1.5
+- __funannotate@1.8.15
+- mulled-v1-eb49ebde633f66aea154ce38ea1312afb2f5f149b8813c2d4e70970629603f2d
+- mulled-v1-09fa2e12e5fc9e54a4354917037d9f2f1a4845306c2d08c2a0820da088591517
+- mulled-v1-f44043511d76d1ba20396cb7b54e248c9d376bf5a7995de6b6ffa7403d30af78
+##
