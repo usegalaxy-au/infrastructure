@@ -49,7 +49,7 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     fstype: nfs
     state: mounted
   - path: /mnt/user-data-4
-    src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/user-data4"
+    src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-4"
     fstype: nfs
     state: mounted
 #   - path: /mnt/user-data-5
