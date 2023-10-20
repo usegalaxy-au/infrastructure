@@ -1,0 +1,18 @@
+global:
+  default_inherits: default
+
+tools:
+  default:
+    context:
+      partition: main
+      test_cores: 1
+    cores: 1
+    mem: cores * 3.8
+    params: {}
+    env: {}
+    scheduling:
+      reject:
+        - offline
+    rules: []
+    rank: |
+      helpers.weighted_random_sampling(candidate_destinations)
