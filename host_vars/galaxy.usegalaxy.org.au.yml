@@ -53,7 +53,10 @@ shared_mounts: "{{ galaxy_server_and_worker_shared_mounts + galaxy_web_server_mo
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/load-testing
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
-  - total_perspective_vortex/testing_tpv_config.yml
+  # - total_perspective_vortex/testing_tpv_config.yml
+  - total_perspective_vortex/testing_tpv_default_tool.yml
+  - total_perspective_vortex/production_tools.yml
+  - total_perspective_vortex/testing_tpv_users.yml
   - total_perspective_vortex/testing_tpv_destinations.yml.j2
   - readme.txt
 
@@ -83,8 +86,8 @@ host_galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
   - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_job_conf.yml.j2"  # TODO: create me
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
-#   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2" ## File cannot be created at dest on first run of playbook
-#     dest: "{{ galaxy_toolbox_filters_dir }}/ga_filters.py"
+  - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2" ## File cannot be created at dest on first run of playbook
+    dest: "{{ galaxy_toolbox_filters_dir }}/ga_filters.py"
 
 
 host_galaxy_config_gravity:

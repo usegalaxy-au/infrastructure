@@ -150,13 +150,15 @@ execution:
       rules_module: tpv.rules
       tpv_config_files:
         # shared db commented out until rules are updated to accommodate it (rank function, high-mem tag)
-        # - https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/main/tools.yml
+        - https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/main/tools.yml
         # - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
         # - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/tools.yml"
         # - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/users.yml"
         # - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/roles.yml"
         # - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/destinations.yml"
-        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/testing_tpv_config.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/testing_tpv_default_tool.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/production_tools.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/testing_tpv_users.yml"
         - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/testing_tpv_destinations.yml"
 limits: {}  # TODO - put job conf limits back here once one load testing is finished  (saved in trello card)
 
