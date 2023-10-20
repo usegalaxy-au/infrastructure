@@ -1,6 +1,21 @@
 users:
+  test_user:
+    rules:
+      - id: singularity_test_user_rule
+        if: |
+          enable_singularity = False
+          if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+            try:
+              enable_singularity = 'singularity' in [hta.user_tname for hta in job.history.tags]
+            except:
+              pass
+          enable_singularity
+        params:
+          singularity_enabled: True
+          dependency_resolution: none
   jenkins_bot@usegalaxy.org.au:
-    cores: 1
+    inherits: test_user
+    cores: test_cores
     mem: cores * 3.8
     params:
       nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition=main"
@@ -8,6 +23,7 @@ users:
       require:
         - slurm
   pulsar_paw_user@usegalaxy.org.au:
+    inherits: test_user
     rules:
       - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
         scheduling:
@@ -17,6 +33,7 @@ users:
           require:
             - pulsar-paw
   pqld@usegalaxy.org.au:
+    inherits: test_user
     rules:
       - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
         scheduling:
@@ -26,6 +43,7 @@ users:
           require:
             - pulsar-QLD
   pulsar_nci_test_user@usegalaxy.org.au:
+    inherits: test_user
     rules:
       - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
         scheduling:
