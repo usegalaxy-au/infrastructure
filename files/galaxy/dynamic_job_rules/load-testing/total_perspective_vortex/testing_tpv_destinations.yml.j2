@@ -61,8 +61,8 @@ destinations:
   slurm:
     inherits: _slurm_destination
     runner: slurm
-    max_accepted_cores: 32
-    max_accepted_mem: 122.86
+    max_cores: 32
+    max_mem: 122.86
     tags: {{ job_conf_limits.environments['slurm'].tags }}
     scheduling:
       accept:
@@ -110,8 +110,8 @@ destinations:
   pulsar-QLD:
     inherits: _pulsar_destination
     runner: pulsar-QLD_runner
-    max_accepted_cores: 16
-    max_accepted_mem: 62.72
+    max_cores: 16
+    max_mem: 62.72
     tags: {{ job_conf_limits.environments['pulsar-QLD'].tags }}
     params:
       jobs_directory: /mnt/tmp/files/staging
