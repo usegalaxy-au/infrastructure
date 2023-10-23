@@ -1,9 +1,45 @@
 <?xml version="1.0"?>
 <object_store type="distributed" id="primary" order="0">
     <backends>
-        <backend id="test01" type="disk" weight="1" store_by="uuid">
-            <files_dir path="/mnt/user-data-test" />
+        <!-- New folder with storage by UUID on the 50T volume -->
+        <backend id="data09" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-6/data09" />
         </backend>
+        <!-- New folder with storage by UUID on the 150T volume -->
+        <backend id="data08" type="disk" weight="1" store_by="uuid">
+            <files_dir path="/mnt/data08" />
+        </backend>
+        <backend id="aarnetNFS7" type="disk" weight="0" store_by="id">
+            <files_dir path="/mnt/user-data-7" />
+        </backend>
+        <backend id="aarnetNFS6" type="disk" weight="0" store_by="id">
+            <files_dir path="/mnt/user-data-6/user-data-6" />
+        </backend>
+        <backend id="aarnetNFS5" type="disk" weight="0" store_by="id">
+            <files_dir path="/mnt/user-data-5" />
+        </backend>
+{% if pawsey_file_mounts_available|d(True) %}
+        <backend id="perthNFS1" type="disk" weight="0" store_by="id">
+            <files_dir path="/mnt/user-data" />
+        </backend>
+        <backend id="perthNFS4" type="disk" weight="0" store_by="id">
+            <files_dir path="/mnt/user-data-4" />
+        </backend>
+        <backend id="perthNFS2" type="disk" weight="0" store_by="id">
+            <files_dir path="/mnt/user-data-2" />
+        </backend>
+        <backend id="perthNFS3" type="disk" weight="0" store_by="id">
+            <files_dir path="/mnt/user-data-3" />
+        </backend>
+{% endif %}
+{% if legacy_file_mounts_available|d(True) %}
+        <backend id="qldNFS1" type="disk" weight="0" store_by="id">
+            <files_dir path="/mnt/files" />
+        </backend>
+        <backend id="qldNFS2" type="disk" weight="0" store_by="id">
+            <files_dir path="/mnt/files2" />
+        </backend>
+{% endif %}
     </backends>
 </object_store>
 

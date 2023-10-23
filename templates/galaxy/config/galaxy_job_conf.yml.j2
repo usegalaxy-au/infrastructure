@@ -23,7 +23,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_mel2:{{ vault_rabbitmq_password_galaxy_mel2_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel2?ssl=1"
-    galaxy_url: "{{ galaxy_infrastructure_url }}"
+    galaxy_url: https://galaxy.usegalaxy.org.au
     manager: _default_
   pulsar-paw_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -33,7 +33,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_paw:{{ vault_rabbitmq_password_galaxy_paw_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_paw?ssl=1"
-    galaxy_url: "{{ galaxy_infrastructure_url }}"
+    galaxy_url: https://galaxy.usegalaxy.org.au
     manager: _default_
   pulsar-mel3_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -43,7 +43,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_mel3:{{ vault_rabbitmq_password_galaxy_mel3_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel3?ssl=1"
-    galaxy_url: "{{ galaxy_infrastructure_url }}"
+    galaxy_url: https://galaxy.usegalaxy.org.au
     manager: _default_
   pulsar-high-mem1_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -53,7 +53,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_hm1:{{ vault_rabbitmq_password_galaxy_hm1_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm1?ssl=1"
-    galaxy_url: "{{ galaxy_infrastructure_url }}"
+    galaxy_url: https://galaxy.usegalaxy.org.au
     manager: _default_
   pulsar-high-mem2_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -63,7 +63,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_hm2:{{ vault_rabbitmq_password_galaxy_hm2_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm2?ssl=1"
-    galaxy_url: "{{ galaxy_infrastructure_url }}"
+    galaxy_url: https://galaxy.usegalaxy.org.au
     manager: _default_
   pulsar-qld-high-mem0_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -73,7 +73,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_qld_hm0:{{ vault_rabbitmq_password_galaxy_qld_hm0_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm0?ssl=1"
-    galaxy_url: "{{ galaxy_infrastructure_url }}"
+    galaxy_url: https://galaxy.usegalaxy.org.au
     manager: _default_
   pulsar-qld-high-mem1_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -83,7 +83,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_qld_hm1:{{ vault_rabbitmq_password_galaxy_qld_hm1_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm1?ssl=1"
-    galaxy_url: "{{ galaxy_infrastructure_url }}"
+    galaxy_url: https://galaxy.usegalaxy.org.au
     manager: _default_
   pulsar-qld-high-mem2_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -93,7 +93,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_qld_hm2:{{ vault_rabbitmq_password_galaxy_qld_hm2_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm2?ssl=1"
-    galaxy_url: "{{ galaxy_infrastructure_url }}"
+    galaxy_url: https://galaxy.usegalaxy.org.au
     manager: _default_
   pulsar-nci-training_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -103,7 +103,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_nci_training:{{ vault_rabbitmq_password_galaxy_nci_training_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_nci_training?ssl=1"
-    galaxy_url: "{{ galaxy_infrastructure_url }}"
+    galaxy_url: https://galaxy.usegalaxy.org.au
     manager: _default_
   pulsar-qld-blast_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -113,7 +113,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_qld_blast:{{ vault_rabbitmq_password_galaxy_qld_blast_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_blast?ssl=1"
-    galaxy_url: "{{ galaxy_infrastructure_url }}"
+    galaxy_url: https://galaxy.usegalaxy.org.au
     manager: _default_
   pulsar-QLD_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -123,12 +123,12 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_QLD:{{ vault_rabbitmq_password_galaxy_QLD_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_QLD?ssl=1"
-    galaxy_url: "{{ galaxy_infrastructure_url }}"
+    galaxy_url: https://galaxy.usegalaxy.org.au
     manager: _default_
   pulsar_azure_0_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     amqp_url: "pyamqp://galaxy_azure_0:{{ vault_rabbitmq_password_galaxy_azure_0_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_azure_0?ssl=1"
-    galaxy_url: "{{ galaxy_infrastructure_url }}"
+    galaxy_url: https://galaxy.usegalaxy.org.au
     manager: _default_
     amqp_acknowledge: True
     amqp_ack_republish_time: 1200
@@ -149,16 +149,18 @@ execution:
       function: map_tool_to_destination
       rules_module: tpv.rules
       tpv_config_files:
-        # shared db commented out until rules are updated to accommodate it (rank function, high-mem tag)
         - https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/main/tools.yml
-        # - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
-        # - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/tools.yml"
-        # - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/users.yml"
-        # - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/roles.yml"
-        # - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/destinations.yml"
-        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/testing_tpv_default_tool.yml"
-        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/production_tools.yml"
-        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/testing_tpv_users.yml"
-        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/testing_tpv_destinations.yml"
-limits: {}  # TODO - put job conf limits back here once one load testing is finished  (saved in trello card)
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/default_tool.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/tools.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/users.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/roles.yml"
+        - "{{ galaxy_dynamic_job_rules_dir }}/total_perspective_vortex/destinations.yml"
+{% if job_conf_limits %}
+{% for env in job_conf_limits.environments|d({}) %}
+    {{ env }}:
+      tags: {{ job_conf_limits.environments[env].tags }}
+{% endfor %}
+limits:
+{{ job_conf_limits.limits | to_nice_yaml }}
+{% endif %}
 
