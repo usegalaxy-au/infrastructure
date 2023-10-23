@@ -115,6 +115,9 @@ tools:
     mem: 3.8
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/circexplorer/circexplorer/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
     cores: 8
     mem: 30.7
@@ -169,6 +172,8 @@ tools:
       test_cores: 2
     cores: 120
     mem: 1922
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -191,6 +196,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     cores: 120
     mem: 1922
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -245,6 +252,8 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:
+    params:
+      singularity_enabled: true
     cores: 5
     mem: 19.1
   toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/.*:
@@ -523,6 +532,9 @@ tools:
       if: 0.01 <= input_size < 2
       cores: 4
       mem: 15.3
+  toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/freebayes/bamleftalign/.*:
     params:
       singularity_enabled: true
@@ -668,6 +680,8 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/.*:
+    params:
+      singularity_enabled: true
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/devteam/samtools.*:
@@ -694,6 +708,9 @@ tools:
       if: input_size < 0.5
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/devteam/sicer/peakcalling_sicer/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/.*:
     cores: 8
     mem: 30.7
@@ -1099,6 +1116,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/edger/edger/.*:
     cores: 5
     mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/egsea/egsea/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/exonerate/exonerate/.*:
     cores: 30
     mem: 480.5
@@ -1146,6 +1166,9 @@ tools:
         - pulsar
       require:
         - gtdbtk_database
+  toolshed.g2.bx.psu.edu/repos/iuc/gtftobed12/gtftobed12/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/gubbins/gubbins/.*:
     cores: 16
     mem: 61.4
@@ -1277,6 +1300,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/.*:
     cores: 5
     mem: 19.1
+    params:
+      singularity_enabled: true
     rules:
     - id: kallisto_quant_small_input_rule
       if: input_size < 0.1
@@ -1326,6 +1351,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/.*:
+    params:
+      singularity_enabled: true
     cores: 7
     mem: 26.8
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/.*:
@@ -1426,6 +1453,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
     cores: 60
     mem: 961
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1841,6 +1870,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/qualimap_bamqc/qualimap_bamqc/.*:
     cores: 9
     mem: 34.5
+    params:
+      singularity_enabled: true
     rules:
     - id: qualimap_bamqc_small_input_rule
       if: input_size < 0.2
@@ -1850,6 +1881,12 @@ tools:
       if: 0.2 <= input_size < 30
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/qualimap_multi_bamqc/qualimap_multi_bamqc/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/qualimap_rnaseq/qualimap_rnaseq/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/.*:
     cores: 16
     mem: 61.4
@@ -2484,6 +2521,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/thanhlv/clinker/clinker/.*:
     cores: 1
     mem: 3.8
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/wolma/mimodd.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/wolma/mimodd_aln/mimodd_align/.*:
