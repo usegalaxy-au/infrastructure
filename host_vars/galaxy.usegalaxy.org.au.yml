@@ -15,10 +15,11 @@ attached_volumes: # TODO: check this
 
 certbot_domains:
   - "{{ hostname }}" # galaxy.usegalaxy.org.au
-#   - "usegalaxy.org.au"
-#   - "www.usegalaxy.org.au"
-#   - "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
-  - "*.interactivetoolentrypoint.interactivetool.galaxy.usegalaxy.org.au"
+  - "usegalaxy.org.au"
+  - "www.usegalaxy.org.au"
+  - "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
+  - "genome.usegalaxy.org.au"
+  - "proteomics.usegalaxy.org.au"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_api_token }}"
