@@ -6,6 +6,8 @@ use_internal_ips: true
 influx_url: stats.usegalaxy.org.au
 grafana_server_url: "https://{{ influx_url }}:8086"
 
+install_python_311: True
+
 # Monitoring
 telegraf_agent_output:
   - type: influxdb
