@@ -1,0 +1,59 @@
+- hosts: galaxy-handlers
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/galaxy_etca.yml
+      - group_vars/VAULT
+      - group_vars/galaxyservers.yml
+      - group_vars/galaxy_etca_slurm.yml
+      - host_vars/galaxy.usegalaxy.org.au.yml
+      - host_vars/galaxy-handlers.usegalaxy.org.au.yml
+      - secret_group_vars/stats_server_vault
+  handlers:
+    - include: handlers/galaxy_handlers.yml
+  tasks:
+    - name: copy job_conf file
+      template:
+        src: "{{ galaxy_config_template_src_dir }}/config/aarnet_job_conf.yml.j2"
+        dest: "{{ galaxy_config_dir }}/job_conf.yml"
+      notify: restart handlers
+      # TODO: better linting of job conf, then it is probably entirely acceptable to let the jenkins_bot trigger a graceful restart of handlers
+      when: not ansible_user == 'jenkins_bot'  # do not let the automatic process update the job conf
+    # Previous process would update object store, toolbox filters. TODO: Find another place to do this
+    # - name: template object store conf file
+    #   template:
+    #     src: "{{ galaxy_config_template_src_dir }}/config/aarnet_object_store_conf.xml.j2"
+    #     dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
+    #   notify: restart galaxy
+    #   when: not ansible_user == 'jenkins_bot'  # do not let the automatic process object store or restart galaxy
+    # - name: template toolbox filters
+    #   template:
+    #     src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
+    #     dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
+    #   notify: restart galaxy
+    #   when: not ansible_user == 'jenkins_bot'  # do not let the automatic process restart galaxy
+    - name: Copy local tool conf file
+      copy:
+        src: "{{ galaxy_config_file_src_dir }}/config/{{ item }}"
+        dest: "{{ galaxy_config_dir }}/{{ item }}"
+      with_items:
+        - local_tool_conf.xml
+      when: not ansible_user == 'jenkins_bot'
+    - name: Install dynamic job rules (static) # dynamic job rules tasks copied from https://github.com/galaxyproject/ansible-galaxy/blob/main/tasks/static_setup.yml
+      copy:
+        src: "{{ galaxy_dynamic_job_rules_src_dir }}/{{ item }}"
+        dest: "{{ galaxy_dynamic_job_rules_dir }}/{{ item }}"
+        mode: 0644
+      with_items: "{{ galaxy_dynamic_job_rules }}"
+      when: not item.endswith(".j2")
+      notify: restart handlers
+    - name: Install dynamic job rules (template)
+      template:
+        src: "{{ galaxy_dynamic_job_rules_src_dir }}/{{ item }}"
+        dest: "{{ galaxy_dynamic_job_rules_dir }}/{{ item | regex_replace(regex) }}"
+        mode: 0644
+      vars:
+        regex: '\.j2$'
+      with_items: "{{ galaxy_dynamic_job_rules }}"
+      when: item.endswith(".j2")
+      notify: restart handlers
