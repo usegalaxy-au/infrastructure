@@ -1172,6 +1172,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/gubbins/gubbins/.*:
     cores: 16
     mem: 61.4
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1723,6 +1725,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/nanoplot/.*:
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/iuc/nextclade/nextclade/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/pathview/pathview/.*:
     params:
       singularity_enabled: true
@@ -2107,18 +2112,114 @@ tools:
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/spades_biosyntheticspades/spades_biosyntheticspades/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+    cores: 20
+    mem: 500
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-training-large
+    rules:
+    - id: spades_biosyntheticspades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 7.6
+    - id: spades_biosyntheticspades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 30.7
+    - id: spades_biosyntheticspades_fail_rule
+      if: input_size >= 20
+      fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_coronaspades/spades_coronaspades/.*:
+    cores: 20
+    mem: 500
     scheduling:
       accept:
       - pulsar-paw
-    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+      - pulsar
+      - pulsar-training-large
+    rules:
+    - if: |
+        minimum_singularity_version = '3.15.4+galaxy0'
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
+    - id: spades_coronaspades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 7.6
+    - id: spades_coronaspades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 30.7
+    - id: spades_coronaspades_fail_rule
+      if: input_size >= 20
+      fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_metaplasmidspades/spades_metaplasmidspades/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+    cores: 20
+    mem: 500
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-training-large
+    rules:
+    - id: spades_metaplasmidspades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 7.6
+    - id: spades_metaplasmidspades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 30.7
+    - id: spades_metaplasmidspades_fail_rule
+      if: input_size >= 20
+      fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_metaviralspades/spades_metaviralspades/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+    cores: 20
+    mem: 500
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-training-large
+    rules:
+    - id: spades_metaviralspades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 7.6
+    - id: spades_metaviralspades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 30.7
+    - id: spades_metaviralspades_fail_rule
+      if: input_size >= 20
+      fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_plasmidspades/spades_plasmidspades/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+    cores: 20
+    mem: 500
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-training-large
+    rules:
+    - id: spades_plasmidspades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 7.6
+    - id: spades_plasmidspades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 30.7
+    - id: spades_plasmidspades_fail_rule
+      if: input_size >= 20
+      fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_rnaviralspades/spades_rnaviralspades/.*:
     cores: 10
     mem: 250
@@ -2127,6 +2228,11 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
+    - if: |
+        minimum_singularity_version = '3.15.4+galaxy1'
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
     - id: spades_rnaviralspades_small_input_rule
       if: input_size < 0.005
       cores: 2
@@ -2415,6 +2521,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/nml/metaspades/metaspades/.*:
     cores: 16
     mem: 61.4
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -2434,6 +2542,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
     cores: 20
     mem: 500
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -2537,6 +2647,8 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
+    params:
+      singularity_enabled: true
     cores: 3
     mem: 11.5    
   .*bowtie2_index_builder_data_manager.*:
