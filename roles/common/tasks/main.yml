@@ -38,6 +38,20 @@
   vars:
     hosts_filename: "/etc/hosts"
 
+- name: Install python 3.11
+  block:       
+    - name: Add ppa
+      apt_repository:
+        repo: ppa:deadsnakes/ppa
+        state: present  
+    - name: Install python 3.11
+      apt:
+        name:
+          - python3.11
+          - python3.11-venv
+        state: present  
+  when: install_python_311|d(False)
+
 - name: Add Galaxy group to relevant machines
   become: yes
   become_user: root

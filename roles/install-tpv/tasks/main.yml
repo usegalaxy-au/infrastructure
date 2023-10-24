@@ -3,10 +3,12 @@
   pip:
     name: "total-perspective-vortex=={{ tpv_version }}"
     virtualenv: "{{ galaxy_venv_dir }}"
+    virtualenv_python: "{{ galaxy_virtualenv_python | default(omit) }}"
   when: tpv_version is defined
 - name: Install Total Perspective Vortex (from git commit)
   pip:
     name: "git+{{ tpv_repo }}{% if tpv_commit_id|d('') %}@{{ tpv_commit_id }}{% endif %}"
     virtualenv: "{{ galaxy_venv_dir }}"
+    virtualenv_python: "{{ galaxy_virtualenv_python | default(omit) }}"
     state: forcereinstall
   when: tpv_version is not defined and tpv_repo is defined
