@@ -111,7 +111,7 @@ destinations:
     inherits: _pulsar_destination
     runner: pulsar-QLD_runner
     max_cores: 16
-    max_mem: 62.72
+    max_mem: 62.4
     tags: {{ job_conf_limits.environments['pulsar-QLD'].tags }}
     params:
       jobs_directory: /mnt/tmp/files/staging
@@ -119,6 +119,7 @@ destinations:
     scheduling:
       accept:
         - pulsar-QLD
+        - pulsar-blast
       require:
         - pulsar
 
