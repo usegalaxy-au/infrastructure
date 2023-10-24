@@ -16,7 +16,7 @@
   roles:
     - common
     - geerlingguy.pip
-    # - slg.db-backup # Do not include this role until galaxy production is in Sydney
+    - slg.db-backup
     - dj-wasabi.telegraf
   post_tasks:
     - name: Ensure desired version of ansible is installed
