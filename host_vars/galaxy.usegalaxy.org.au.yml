@@ -77,7 +77,7 @@ nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 nginx_upload_store_set_cleanup_cron_job: true
 
-galaxy_virtualenv_python: python3.11
+# galaxy_virtualenv_python: python3.11 # deferred until release 23.2 probably
 
 host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
