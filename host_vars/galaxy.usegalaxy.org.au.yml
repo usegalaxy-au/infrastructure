@@ -159,10 +159,10 @@ host_galaxy_config: # renamed from __galaxy_config
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
     brand: "Australia"
     database_connection: "postgresql://galaxy:{{ galaxy_db_user_password }}@{{ hostvars['galaxy-db']['internal_ip'] }}:5432/galaxy"
-    id_secret: "{{ vault_aarnet_id_secret }}" # TODO: this need to stay the same wherever production galaxy is runninig, but the name of the vault variable is misleading
+    id_secret: "{{ vault_aarnet_id_secret }}" # TODO: this need to stay the same wherever production galaxy is running, but the name of the vault variable is misleading
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     smtp_server: localhost
-    # ga_code: "{{ vault_prod_ga_code }}" ## swich off ga_code while testing.  TODO: uncomment this when we go live
+    ga_code: "{{ vault_prod_ga_code }}" ## swich off ga_code while testing.  TODO: uncomment this when we go live
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
     enable_oidc: true
@@ -573,3 +573,53 @@ dt_connection_string: "postgres://reader:{{ galaxy_db_reader_password }}@{{ host
 # NFS stuff (for exporting so galaxy-handlers can mount)
 nfs_exports:
   - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
+
+# Subdomains
+galaxy_subsite_base_domain: "usegalaxy.org.au"
+galaxy_subsite_default_welcome: "https://site.usegalaxy.org.au"
+galaxy_subsite_dir: /mnt/galaxy/subsites
+galaxy_subsites:
+  - name: genome
+    brand: Genome Lab
+    iframe: "https://site.usegalaxy.org.au/landing/genome"
+    wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
+    tool_sections: []
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #2c3067 !important;
+      }
+      #masthead {
+        background: #3a3e87 !important;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Genome Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
+  - name: proteomics
+    hidden: true
+    brand: Proteomics lab
+    iframe: "https://site.usegalaxy.org.au/landing/proteomics"
+    wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
+    tool_sections: []
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #402668 !important;
+      }
+      #masthead {
+        background: #542a95 !important;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Proteomics Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
+
+webhook_plugins:
+  - subdomain_switcher
+  # These ones aren't in the playbook as they are included in the galaxy repo:
+  - demo
+  - gtn
+  - news

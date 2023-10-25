@@ -36,6 +36,8 @@
     # - role: galaxyproject.miniconda # this role is needed for a fresh installation, but for subsequent playbook runs can take far too much time. TODO: fix this somehow
     #   become: true
     #   become_user: galaxy
+    - usegalaxy_eu.galaxy_subdomains
+    - webhooks
     - nginx-upload-module
     - galaxyproject.nginx
     - galaxyproject.tusd
