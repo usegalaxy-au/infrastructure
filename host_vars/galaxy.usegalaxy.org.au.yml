@@ -243,7 +243,7 @@ tiaas_info:
   owner: "Galaxy Australia"
   owner_email: help@genome.edu.au
   owner_site: "https://site.usegalaxy.org.au"
-  domain: galaxy.usegalaxy.org.au # TODO: update when galaxy-etca is production galaxy
+  domain: usegalaxy.org.au
 tiaas_other_config: |
   EMAIL_HOST="localhost"
   EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
