@@ -32,7 +32,7 @@ nginx_ssl_servers:
 num_gunicorn_processes: 2
 
 # gie proxy hostname
-interactive_tools_server_name: "galaxy.usegalaxy.org.au"
+interactive_tools_server_name: "usegalaxy.org.au"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_23.1
