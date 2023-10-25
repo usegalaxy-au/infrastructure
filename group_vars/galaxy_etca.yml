@@ -29,11 +29,11 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/tools"
     fstype: nfs
     state: mounted
-  - path: /mnt/user-data-test  # TEMPORARY
+  - path: /mnt/user-data-test  # TODO: Remove this entry immediately after first run
     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/volB/user-data-test"
     fstype: nfs
-    state: mounted
-    opts: 'actimeo=2,defaults'
+    state: absent
+    opts: 'actimeo=0,defaults'
   - path: /mnt/custom-indices
     src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/custom-indices"
     fstype: nfs
@@ -57,22 +57,23 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
 #   - path: /mnt/user-data-5
 #     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/user-data5"
 #     fstype: nfs
-#     opts: 'actimeo=2,defaults'
+#     opts: 'actimeo=0,defaults'
 #     state: mounted
 #   - path: /mnt/user-data-6
 #     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/user-data6"
 #     fstype: nfs
-#     opts: 'actimeo=2,defaults'
+#     opts: 'actimeo=0,defaults'
 #     state: mounted
 #   - path: /mnt/user-data-7
 #     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/user-data7"
 #     fstype: nfs
-#     opts: 'actimeo=2,defaults'
+#     opts: 'actimeo=0,defaults'
 #     state: mounted
   - path: /mnt/tmp
     src: "{{ hostvars['galaxy-job-nfs']['internal_ip'] }}:/mnt/tmp"
     fstype: nfs
     state: mounted
+    opts: 'actimeo=0,defaults'
   - path: /mnt/files
     src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
     fstype: nfs
