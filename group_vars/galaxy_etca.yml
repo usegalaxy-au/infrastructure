@@ -25,6 +25,7 @@ galaxy_db_tiaasadmin_password: "{{ vault_galaxy_db_tiaasadmin_password }}"
 galaxy_db_tiaas_password: "{{ vault_galaxy_db_tiaas_password }}"
 
 galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_handlers and workers
+  # galaxy-misc-nfs
   - path: /mnt/tools
     src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/tools"
     fstype: nfs
@@ -33,6 +34,29 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/custom-indices"
     fstype: nfs
     state: mounted
+  # galaxy-job-nfs
+  - path: /mnt/tmp
+    src: "{{ hostvars['galaxy-job-nfs']['internal_ip'] }}:/mnt/tmp"
+    fstype: nfs
+    state: mounted
+    opts: 'actimeo=0,defaults'
+  # galaxy-user-nfs
+  - path: /mnt/user-data-volA # 150T volume
+    src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/volA"
+    fstype: nfs
+    opts: 'actimeo=0,defaults'
+    state: mounted
+  - path: /mnt/user-data-volB # 50T volume
+    src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/volB"
+    fstype: nfs
+    opts: 'actimeo=0,defaults'
+    state: mounted
+  - path: /mnt/user-data-volC # 42T volume
+    src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/volC"
+    fstype: nfs
+    opts: 'actimeo=0,defaults'
+    state: mounted
+  # pawsey data volumes
   - path: /mnt/user-data
     src: "pawsey-user-nfs.usegalaxy.org.au:/mnt/user-data"
     fstype: nfs
@@ -49,26 +73,7 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-4"
     fstype: nfs
     state: mounted
-#   - path: /mnt/user-data-5
-#     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/user-data5"
-#     fstype: nfs
-#     opts: 'actimeo=0,defaults'
-#     state: mounted
-#   - path: /mnt/user-data-6
-#     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/user-data6"
-#     fstype: nfs
-#     opts: 'actimeo=0,defaults'
-#     state: mounted
-#   - path: /mnt/user-data-7
-#     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/user-data7"
-#     fstype: nfs
-#     opts: 'actimeo=0,defaults'
-#     state: mounted
-  - path: /mnt/tmp
-    src: "{{ hostvars['galaxy-job-nfs']['internal_ip'] }}:/mnt/tmp"
-    fstype: nfs
-    state: mounted
-    opts: 'actimeo=0,defaults'
+  # QLD data volumes
   - path: /mnt/files
     src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
     fstype: nfs
