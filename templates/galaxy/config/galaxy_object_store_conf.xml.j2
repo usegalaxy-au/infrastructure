@@ -1,22 +1,20 @@
 <?xml version="1.0"?>
 <object_store type="distributed" id="primary" order="0">
     <backends>
-        <!-- New folder with storage by UUID on the 50T volume -->
         <backend id="data09" type="disk" weight="0" store_by="uuid">
-            <files_dir path="/mnt/user-data-6/data09" />
+            <files_dir path="/mnt/user-data-volB/data09" />
         </backend>
-        <!-- New folder with storage by UUID on the 150T volume -->
         <backend id="data08" type="disk" weight="1" store_by="uuid">
-            <files_dir path="/mnt/data08" />
+            <files_dir path="/mnt/user-data-volA/data08" />
         </backend>
         <backend id="aarnetNFS7" type="disk" weight="0" store_by="id">
-            <files_dir path="/mnt/user-data-7" />
+            <files_dir path="/mnt/user-data-volA/user-data-7" />
         </backend>
         <backend id="aarnetNFS6" type="disk" weight="0" store_by="id">
-            <files_dir path="/mnt/user-data-6/user-data-6" />
+            <files_dir path="/mnt/user-data-volB/user-data-6" />
         </backend>
         <backend id="aarnetNFS5" type="disk" weight="0" store_by="id">
-            <files_dir path="/mnt/user-data-5" />
+            <files_dir path="/mnt/user-data-volA/user-data-5" />
         </backend>
 {% if pawsey_file_mounts_available|d(True) %}
         <backend id="perthNFS1" type="disk" weight="0" store_by="id">
