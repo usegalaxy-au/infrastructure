@@ -29,11 +29,6 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/tools"
     fstype: nfs
     state: mounted
-  - path: /mnt/user-data-test  # TODO: Remove this entry immediately after first run
-    src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/volB/user-data-test"
-    fstype: nfs
-    state: absent
-    opts: 'actimeo=0,defaults'
   - path: /mnt/custom-indices
     src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/custom-indices"
     fstype: nfs
