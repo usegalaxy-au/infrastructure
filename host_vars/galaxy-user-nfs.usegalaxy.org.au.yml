@@ -7,7 +7,7 @@ nfs_user_data_7_dir: "{{ volA_path }}/user-data-7"
 nfs_data08_dir: "{{ volA_path }}/data08"
 
 nfs_user_data_6_dir: "{{ volB_path }}/user-data-6"
-nfs_user_data09_dir: "{{ volB_path }}/data09"
+nfs_data09_dir: "{{ volB_path }}/data09"
 nfs_user_data10_dir: "{{ volC_path }}/data10"
 
 attached_volumes:
@@ -29,7 +29,7 @@ nfs_dirs:
   - "{{ nfs_user_data_7_dir }}"
   - "{{ nfs_data08_dir }}"
   - "{{ nfs_user_data_6_dir }}"
-  - "{{ nfs_user_data09_dir }}"
+  - "{{ nfs_data09_dir }}"
   - "{{ nfs_user_data10_dir }}"
 
 nfs_exports:
