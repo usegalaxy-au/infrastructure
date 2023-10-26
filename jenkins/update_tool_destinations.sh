@@ -31,7 +31,7 @@ echo "helloworld" > .vault_pass.txt  # ansible needs .vault_pass.txt to exist
 if [ "$PROD_TPV_UPDATED" ]; then
     echo -e "\nUpdating tool destinations file on Galaxy production instance\n"
 
-    ansible-playbook -i hosts aarnet_update_configs_playbook.yml --extra-vars "ansible_user=jenkins_bot" --vault-password-file "$VAULT_PASS"
+    ansible-playbook -i hosts galaxy_update_configs_playbook.yml --extra-vars "ansible_user=jenkins_bot" --vault-password-file "$VAULT_PASS"
 fi
 
 if [ "$DEV_RELEVANT_FILES_UPDATED" ]; then
