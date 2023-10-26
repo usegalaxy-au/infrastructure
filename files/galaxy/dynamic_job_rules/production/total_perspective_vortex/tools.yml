@@ -2818,3 +2818,6 @@ tools:
     scheduling:
       require:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/links/links/.*:
+    cores: 4
+    mem: 15.3  
