@@ -1,5 +1,5 @@
 - hosts:
-    - aarnet
+    - galaxy
     - staging
     - dev
   become: true
@@ -26,7 +26,8 @@
         dest: "{{ backup_dir }}/{{ ansible_hostname }}/config/"
       with_items:
         - build_sites.yml
-        - galaxy.yml
+        # - galaxy.yml # TODO: galaxy.yml is now at /opt/galaxy/galaxy.yml on both galaxy and galaxy-handlers and these are different files.
+        # ansible saving backups of these in /mnt/galaxy/config when changes are made - these will have to do for now.
         - job_conf.yml
         - object_store_conf.xml
         - nagios_tool_conf.xml
