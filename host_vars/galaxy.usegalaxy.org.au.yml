@@ -169,6 +169,7 @@ host_galaxy_config: # renamed from __galaxy_config
     enable_oidc: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
+    tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml,{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
     # nginx upload module
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
     nginx_upload_path: "/_upload"
