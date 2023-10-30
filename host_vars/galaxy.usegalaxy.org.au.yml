@@ -634,4 +634,4 @@ webhook_plugins:
 # ssh config, only for ubuntu
 ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/internal_hop_key"
 ssh_config_user: ubuntu
-ssh_config_hosts: "{{ galaxy_group }}"
+ssh_config_hosts: "{{ groups['galaxy_group'] }}"
