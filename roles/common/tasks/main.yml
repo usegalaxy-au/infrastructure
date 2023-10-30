@@ -94,10 +94,6 @@
   import_tasks: ssh_config.yml
   when: ssh_config_hosts is defined
 
-- name: Add ssh config
-  import_tasks: ssh_config.yml
-  when: ssh_config_hosts is defined
-
 - name: Make sure cloud configured hostname control is not present
   file:
     path: /etc/cloud/cloud.cfg.d/07_hostnamefix.cfg
