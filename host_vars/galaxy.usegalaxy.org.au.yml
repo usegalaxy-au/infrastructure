@@ -368,6 +368,11 @@ rpc_pulsar_machines:
 extra_keys:
   - id: ubuntu_maintenance_key
     type: private
+  - id: internal_hop_key
+    type: private
+  - id: internal_hop_key
+    type: public
+    from: "{{ hostvars['galaxy-backup']['internal_ip'] }},{{ hostvars['galaxy-handlers']['internal_ip'] }},{{ hostvars['galaxy-queue']['internal_ip'] }}"
 
 # # grt-sender role # TODO: what of GRT??
 # grt_sender_dir: /mnt/var/galactic_radio_telescope
@@ -625,3 +630,8 @@ webhook_plugins:
   - demo
   - gtn
   - news
+
+# ssh config, only for ubuntu
+ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/internal_hop_key"
+ssh_config_user: ubuntu
+ssh_config_hosts: "{{ galaxy_group }}"

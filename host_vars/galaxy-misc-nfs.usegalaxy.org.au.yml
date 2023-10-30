@@ -25,3 +25,9 @@ nfs_exports:
   - "{{ nfs_app_dir }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
   - "{{ nfs_tools_dir }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
   - "{{ nfs_custom_indices_dir }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
+
+# internal ssh keys
+extra_keys:
+  - id: internal_hop_key
+    type: public
+    from: "{{ hostvars['galaxy']['internal_ip'] }},{{ hostvars['galaxy-backup']['internal_ip'] }},{{ hostvars['galaxy-queue']['internal_ip'] }},{{ hostvars['galaxy-handlers']['internal_ip'] }}"

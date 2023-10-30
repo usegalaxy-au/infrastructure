@@ -72,3 +72,10 @@ flower_galaxy_conf: "{{ galaxy_config_file }}"
 
 # #flower_broker_api: "https://flower:{{ rabbitmq_password_flower }}@{{ rabbitmq_url }}/api/"
 flower_broker_url: "pyamqp://flower:{{ vault_rabbitmq_password_galaxy_prod }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:5671//galaxy/galaxy_queues?ssl=1"
+
+extra_keys:
+  - id: internal_hop_key
+    type: private
+  - id: internal_hop_key
+    type: public
+    from: "{{ hostvars['galaxy-backup']['internal_ip'] }},{{ hostvars['galaxy']['internal_ip'] }},{{ hostvars['galaxy-queue']['internal_ip'] }}"

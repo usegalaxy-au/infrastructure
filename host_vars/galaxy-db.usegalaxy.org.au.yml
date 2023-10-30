@@ -46,3 +46,8 @@ postgresql_pg_hba_conf:
   - host all all "{{ hostvars['galaxy']['internal_ip'] }}/32" md5
   - host all all "{{ hostvars['galaxy-handlers']['internal_ip'] }}/32" md5
   - host all all "{{ hostvars['galaxy-backup']['internal_ip'] }}/32" md5
+
+extra_keys:
+  - id: internal_hop_key
+    type: public
+    from: "{{ hostvars['galaxy']['internal_ip'] }},{{ hostvars['galaxy-backup']['internal_ip'] }}"

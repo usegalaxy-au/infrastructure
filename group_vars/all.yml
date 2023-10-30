@@ -228,6 +228,10 @@ internal_ssh_keys:
     private_key_content: "{{ vault_ubuntu_maintenance_key }}"
     public_key_src: files/keys/ubuntu_maintenance_key.pub
     user: ubuntu
+  internal_hop_key:
+    private_key_content: "{{ vault_internal_hop_key }}"
+    public_key_src: files/keys/internal_hop_key.pub
+    user: ubuntu
 
 # Golang
 golang_version: '1.15.6' # default for role version 2.6.3

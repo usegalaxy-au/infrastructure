@@ -1,0 +1,12 @@
+- name: Add entries to ssh config
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (common role: add ssh config entries)"
+    dest: "/home/{{ ssh_config_user }}/.ssh/config"
+    create: true
+    block: |
+        {% for item in ssh_config_hosts %}
+        Host {{ item }}
+            HostName {{ item }}
+            User {{ ssh_config_user }}
+            IdentityFile {{ ssh_config_id_file }}
+        {% endfor %}
