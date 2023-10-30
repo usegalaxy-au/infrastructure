@@ -1440,6 +1440,11 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
+    - if: |
+        minimum_singularity_version = '1.2.9+galaxy0' # earlier versions untested
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
     - id: megahit_small_input_rule
       if: input_size < 5
       cores: 8
