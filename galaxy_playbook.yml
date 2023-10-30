@@ -51,7 +51,7 @@
     - galaxyproject.gxadmin
     - pg-post-tasks
     - postfix-mail-relay
-    # - remote-pulsar-cron # commented out until galaxy etca is production galaxy
+    - remote-pulsar-cron
     # - delete-tmp-jwds-cron # commented out until galaxy etca is production galaxy, also needs to be enabled
     - slg.galaxy_stats
     - galaxy-pg-cleanup
