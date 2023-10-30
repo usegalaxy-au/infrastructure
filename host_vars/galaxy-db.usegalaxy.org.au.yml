@@ -50,4 +50,4 @@ postgresql_pg_hba_conf:
 extra_keys:
   - id: internal_hop_key
     type: public
-    from: "{{ hostvars['galaxy']['internal_ip'] }},{{ hostvars['galaxy-backup']['internal_ip'] }}"
+    from: "{{ hostvars['galaxy']['internal_ip'] }},{{ hostvars['galaxy-backup']['internal_ip'] }},{{ hostvars['galaxy-handlers']['internal_ip'] }},{{ hostvars['galaxy-queue']['internal_ip'] }}"
