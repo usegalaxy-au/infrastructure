@@ -1119,6 +1119,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/egsea/egsea/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/ena_upload/ena_upload/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/exonerate/exonerate/.*:
     cores: 30
     mem: 480.5
