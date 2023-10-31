@@ -97,7 +97,7 @@ host_galaxy_config_gravity:
   virtualenv: "{{ galaxy_venv_dir }}"
   gunicorn:
     - bind: unix:{{ galaxy_mutable_config_dir }}/gunicorn1.sock
-      workers: 3
+      workers: 2
       # Other options that will be passed to gunicorn
       extra_args: '--forwarded-allow-ips="*"'
       timeout: 600
@@ -109,7 +109,7 @@ host_galaxy_config_gravity:
         SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
         SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
     - bind: unix:{{ galaxy_mutable_config_dir }}/gunicorn2.sock
-      workers: 3
+      workers: 2
       # Other options that will be passed to gunicorn
       extra_args: '--forwarded-allow-ips="*"'
       timeout: 600
