@@ -15,6 +15,13 @@ tools:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
     mem: 8
+  toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS.*:
+    mem: 10
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/.*:
+    mem: 8
+  toolshed.g2.bx.psu.edu/repos/iuc/mummer_mummer/mummer_mummer/.*:
+    cores: 2
+    mem: 10
   ### ###
   testtoolshed.g2.bx.psu.edu/repos/fubar/htseq_bams_to_count_matrix/htseqsams2mxlocal/.*:
     cores: 3
@@ -268,6 +275,7 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/.*:
+    mem: 10
     params:
       tmp_dir: true  
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/.*:
@@ -784,18 +792,23 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
     context:
       test_cores: 10
-    cores: 60
-    mem: 961
+    cores: 24
+    mem: 200
     params:
       singularity_enabled: true
     scheduling:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
-    cores: 1
-    mem: 3.8
+    context:
+      test_cores: 10
+    cores: 24
+    mem: 200
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
     cores: 12
     mem: 46.0
@@ -2138,7 +2151,7 @@ tools:
       cores: 8
       mem: 30.7
     - id: spades_biosyntheticspades_fail_rule
-      if: input_size >= 20
+      if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_coronaspades/spades_coronaspades/.*:
     cores: 20
@@ -2163,7 +2176,7 @@ tools:
       cores: 8
       mem: 30.7
     - id: spades_coronaspades_fail_rule
-      if: input_size >= 20
+      if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_metaplasmidspades/spades_metaplasmidspades/.*:
     cores: 20
@@ -2184,7 +2197,7 @@ tools:
       cores: 8
       mem: 30.7
     - id: spades_metaplasmidspades_fail_rule
-      if: input_size >= 20
+      if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_metaviralspades/spades_metaviralspades/.*:
     cores: 20
@@ -2205,7 +2218,7 @@ tools:
       cores: 8
       mem: 30.7
     - id: spades_metaviralspades_fail_rule
-      if: input_size >= 20
+      if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_plasmidspades/spades_plasmidspades/.*:
     cores: 20
@@ -2226,7 +2239,7 @@ tools:
       cores: 8
       mem: 30.7
     - id: spades_plasmidspades_fail_rule
-      if: input_size >= 20
+      if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_rnaviralspades/spades_rnaviralspades/.*:
     cores: 10
@@ -2565,8 +2578,8 @@ tools:
       if: 0.005 <= input_size < 2
       cores: 8
       mem: 30.7
-    - id: spades_fail_rule  # TODO: Ask IM whether we still need the spades fail rule
-      if: input_size >= 20
+    - id: spades_fail_rule
+      if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/peterjc/sample_seqs/sample_seqs/.*:
     params:
