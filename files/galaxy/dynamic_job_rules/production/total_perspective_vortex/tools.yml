@@ -2151,7 +2151,7 @@ tools:
       cores: 8
       mem: 30.7
     - id: spades_biosyntheticspades_fail_rule
-      if: input_size >= 20
+      if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_coronaspades/spades_coronaspades/.*:
     cores: 20
@@ -2176,7 +2176,7 @@ tools:
       cores: 8
       mem: 30.7
     - id: spades_coronaspades_fail_rule
-      if: input_size >= 20
+      if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_metaplasmidspades/spades_metaplasmidspades/.*:
     cores: 20
@@ -2197,7 +2197,7 @@ tools:
       cores: 8
       mem: 30.7
     - id: spades_metaplasmidspades_fail_rule
-      if: input_size >= 20
+      if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_metaviralspades/spades_metaviralspades/.*:
     cores: 20
@@ -2218,7 +2218,7 @@ tools:
       cores: 8
       mem: 30.7
     - id: spades_metaviralspades_fail_rule
-      if: input_size >= 20
+      if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_plasmidspades/spades_plasmidspades/.*:
     cores: 20
@@ -2239,7 +2239,7 @@ tools:
       cores: 8
       mem: 30.7
     - id: spades_plasmidspades_fail_rule
-      if: input_size >= 20
+      if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_rnaviralspades/spades_rnaviralspades/.*:
     cores: 10
@@ -2579,7 +2579,7 @@ tools:
       cores: 8
       mem: 30.7
     - id: spades_fail_rule  # TODO: Ask IM whether we still need the spades fail rule
-      if: input_size >= 20
+      if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/peterjc/sample_seqs/sample_seqs/.*:
     params:
