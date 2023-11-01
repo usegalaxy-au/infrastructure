@@ -2578,7 +2578,7 @@ tools:
       if: 0.005 <= input_size < 2
       cores: 8
       mem: 30.7
-    - id: spades_fail_rule  # TODO: Ask IM whether we still need the spades fail rule
+    - id: spades_fail_rule
       if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/peterjc/sample_seqs/sample_seqs/.*:
