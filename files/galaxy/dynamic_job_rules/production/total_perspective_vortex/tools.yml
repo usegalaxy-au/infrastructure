@@ -15,6 +15,15 @@ tools:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
     mem: 8
+  toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS.*:
+    mem: 10
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/.*:
+    mem: 8
+  toolshed.g2.bx.psu.edu/repos/iuc/mummer_mummer/mummer_mummer/.*:
+    cores: 2
+    mem: 10
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/.*:
+    mem: 10
   ### ###
   testtoolshed.g2.bx.psu.edu/repos/fubar/htseq_bams_to_count_matrix/htseqsams2mxlocal/.*:
     cores: 3
@@ -784,18 +793,23 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
     context:
       test_cores: 10
-    cores: 60
-    mem: 961
+    cores: 24
+    mem: 200
     params:
       singularity_enabled: true
     scheduling:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
-    cores: 1
-    mem: 3.8
+    context:
+      test_cores: 10
+    cores: 24
+    mem: 200
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
     cores: 12
     mem: 46.0
