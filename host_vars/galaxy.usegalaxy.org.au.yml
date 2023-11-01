@@ -236,7 +236,7 @@ smtp_login: "{{ vault_smtp_login_prod }}"
 smtp_password: "{{ vault_smtp_password_prod }}"
 
 #Vars for TIaaS
-tiaas_galaxy_db_host: "galaxy-db.usegalaxy.org.au"
+tiaas_galaxy_db_host: "{{ hostvars['galaxy-db']['internal_ip'] }}"
 tiaas_galaxy_db_port: "5432"
 tiaas_galaxy_db_user: "tiaas"
 tiaas_galaxy_db_pass: "{{ galaxy_db_tiaas_password }}"
