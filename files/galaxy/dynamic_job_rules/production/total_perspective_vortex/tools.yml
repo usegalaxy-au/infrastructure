@@ -730,9 +730,10 @@ tools:
       if: input_size < 0.5
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/anndata_ops/anndata_ops/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy.*:
-    cores: 1
-    mem: 3.8
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
