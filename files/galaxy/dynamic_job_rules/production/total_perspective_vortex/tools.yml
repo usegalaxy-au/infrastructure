@@ -154,6 +154,9 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
     mem: 8
+  toolshed.g2.bx.psu.edu/repos/bgruening/enumerate_charges/enumerate_charges/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     context:
       test_cores: 2
@@ -180,6 +183,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/hicexplorer_hicpca/hicexplorer_hicpca/.*:
     cores: 10
     mem: 38.3
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     cores: 120
     mem: 1922
@@ -252,6 +257,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:
     cores: 5
     mem: 19.1
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/sdf_to_tab/sdf_to_tab/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/.*:
@@ -716,6 +724,21 @@ tools:
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ecology/pampa_communitymetrics/pampa_communitymetrics/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ecology/pampa_glmcomm/pampa_glmcomm/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ecology/pampa_glmsp/pampa_glmsp/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ecology/pampa_plotglm/pampa_plotglm/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ecology/pampa_presabs/pampa_presabs/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     gpus: 1
     cores: 8
@@ -898,6 +921,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/galaxyp/rawtools/rawtools/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/genouest/braker3/braker3/.*:
     cores: 6
     mem: 4
@@ -1128,6 +1154,9 @@ tools:
     mem: 3.8
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/dropletutils/dropletutils/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/edger/edger/.*:
     cores: 5
     mem: 19.1
@@ -1143,6 +1172,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/export2graphlan/export2graphlan/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     cores: 3
     mem: 11.5
@@ -1296,6 +1328,9 @@ tools:
       accept:
       - pulsar
       - pulsar-quick
+  toolshed.g2.bx.psu.edu/repos/iuc/iwtomics_loadandplot/iwtomics_loadandplot/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/.*:
     cores: 3
     mem: 11.5
@@ -2062,6 +2097,18 @@ tools:
       if: 0.05 <= input_size < 0.5
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/scater_create_qcmetric_ready_sce/scater_create_qcmetric_ready_sce/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/scater_filter/scater_filter/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/scater_plot_dist_scatter/scater_plot_dist_scatter/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/scater_plot_pca/scater_plot_pca/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_seq/.*:
     cores: 20
     mem: 200
@@ -2622,6 +2669,9 @@ tools:
     params:
       docker_enabled: true
   toolshed.g2.bx.psu.edu/repos/recetox/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/rnateam/chipseeker/chipseeker/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/.*:
