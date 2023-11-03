@@ -68,6 +68,7 @@ pulsar_optional_dependencies:
   - pycurl
   - drmaa
   - kombu>=5.2.0
+  - sentry-sdk
 
 install_drmaa: true
 pulsar_drmaa_library_path: /usr/lib/slurm-drmaa/lib/libdrmaa.so.1
@@ -107,6 +108,7 @@ pulsar_yaml_config:
   amqp_publish_retry_interval_start: 10
   amqp_publish_retry_interval_step: 10
   amqp_publish_retry_interval_max: 60
+  sentry_dsn: "{{ vault_sentry_url_pulsar_production if ansible_hostname in groups['production_pulsars'] else omit }}"
 
 pulsar_conda_prefix: "{{ pulsar_dependencies_dir }}/_conda"
 miniconda_prefix: "{{ pulsar_conda_prefix }}"
