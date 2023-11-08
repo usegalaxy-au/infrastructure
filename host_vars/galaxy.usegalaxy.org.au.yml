@@ -191,7 +191,7 @@ host_galaxy_config: # renamed from __galaxy_config
     user_activation_on: true
     activation_email: <activation-noreply@usegalaxy.org.au>
 
-    sentry_dsn: "{{ vault_sentry_url_galaxy_production }}"
+    #sentry_dsn: "{{ vault_sentry_url_galaxy_production }}"  # commented out, waiting for change in 23.1 to reduce severity of startup logs
 
     celery_conf:
       result_backend: "redis://:{{ vault_redis_requirepass }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:6379/0"
