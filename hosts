@@ -172,6 +172,17 @@ pulsar-nci-training-w9 ansible_ssh_host=10.0.2.254 internal_ip=10.0.2.254
 pulsar-nci-training-w10 ansible_ssh_host=10.0.1.110 internal_ip=10.0.1.110
 pulsar-nci-training-w11 ansible_ssh_host=10.0.2.82 internal_ip=10.0.2.82
 
+[production_pulsars:children]
+pulsar_mel3_head
+pulsar_mel2_head
+pulsar_paw_head
+pulsar_qld_himems
+pulsar_high_mem2
+pulsar_high_mem1
+pulsar_qld_blast
+pulsar_nci_training_head
+pulsar_azure_0_head
+
 [nvme]
 qld-nvme ansible_ssh_host=203.101.231.166
 
