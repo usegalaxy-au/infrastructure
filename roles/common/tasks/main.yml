@@ -9,7 +9,6 @@
   ansible.builtin.apt_key:
     url: https://repos.influxdata.com/influxdata-archive_compat.key
     state: present
-  when: ansible_distribution_major_version is version('22', '<')
 
 - name: Update the apt repos and base OS
   apt:
@@ -37,6 +36,20 @@
   import_tasks: add_hosts.yml
   vars:
     hosts_filename: "/etc/hosts"
+
+- name: Install python 3.11
+  block:       
+    - name: Add ppa
+      apt_repository:
+        repo: ppa:deadsnakes/ppa
+        state: present  
+    - name: Install python 3.11
+      apt:
+        name:
+          - python3.11
+          - python3.11-venv
+        state: present  
+  when: install_python_311|d(False)
 
 - name: Add Galaxy group to relevant machines
   become: yes
@@ -76,6 +89,10 @@
   loop: "{{ extra_keys }}"
   loop_control:
     loop_var: extra_key
+
+- name: Add ssh config
+  import_tasks: ssh_config.yml
+  when: ssh_config_hosts is defined
 
 - name: Make sure cloud configured hostname control is not present
   file:

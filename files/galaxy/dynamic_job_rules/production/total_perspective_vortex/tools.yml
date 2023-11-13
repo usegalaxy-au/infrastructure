@@ -1,17 +1,4 @@
 tools:
-  ### Tools with resource updates being tested due to OOM errors ###
-  toolshed.g2.bx.psu.edu/repos/iuc/biom_convert/biom_convert/.*:
-    mem: 12
-  toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft_add/.*:
-    mem: 12
-  toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*:
-    cores: 2
-    mem: 10
-  toolshed.g2.bx.psu.edu/repos/iuc/mlst/mlst/.*:
-    mem: 12
-  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgcmp/.*:
-    mem: 12
-  ### ###
   testtoolshed.g2.bx.psu.edu/repos/fubar/htseq_bams_to_count_matrix/htseqsams2mxlocal/.*:
     cores: 3
     mem: 11.5
@@ -29,6 +16,8 @@ tools:
   testtoolshed.g2.bx.psu.edu/repos/simon-gladman/phyloseq_ordination_plot/phyloseq_ordinate/.*:
     cores: 16
     mem: 61.4
+  toolshed.g2.bx.psu.edu/repos/artbio/cap3/cap3/.*:
+    mem: 8
   toolshed.g2.bx.psu.edu/repos/artbio/repenrich/repenrich/.*:
     cores: 8
     mem: 30.7
@@ -71,8 +60,6 @@ tools:
       cores: 2
       mem: 7.6
   toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina/docking/.*:
-    cores: 1
-    mem: 3.8
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
@@ -80,7 +67,7 @@ tools:
     mem: 61.4
     params:
       docker_enabled: true
-  toolshed.g2.bx.psu.edu/repos/bgruening/blobtoolkit/blobtoolkit/.*: #
+  toolshed.g2.bx.psu.edu/repos/bgruening/blobtoolkit/blobtoolkit/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/canu/canu/.*:
@@ -90,9 +77,6 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
-  toolshed.g2.bx.psu.edu/repos/bgruening/cpat/cpat/.*:
-    params:
-      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_butina_clustering/.*:
     cores: 1
     mem: 3.8
@@ -111,6 +95,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_sdf2fps/.*:
     cores: 1
     mem: 3.8
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/circexplorer/circexplorer/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/cpat/cpat/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
@@ -132,8 +122,8 @@ tools:
       - pulsar
       - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_matrix/deeptools_compute_matrix/.*:
-    cores: 10 
-    mem: 90 # TODO: delete this and get cores/mem from shared db if they are adjusted to 10c90g
+    cores: 10
+    mem: 90
     params:
       singularity_enabled: true
     scheduling:
@@ -162,11 +152,18 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond_view/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
+    mem: 8
+  toolshed.g2.bx.psu.edu/repos/bgruening/enumerate_charges/enumerate_charges/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     context:
       test_cores: 2
     cores: 120
     mem: 1922
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -186,9 +183,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/hicexplorer_hicpca/hicexplorer_hicpca/.*:
     cores: 10
     mem: 38.3
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     cores: 120
     mem: 1922
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -242,23 +243,29 @@ tools:
     scheduling:
       accept:
       - pulsar
-  toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:
-    cores: 5
-    mem: 19.1
   toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/.*:
     cores: 4
     mem: 15.3
+    scheduling:
+      accept:
+      - pulsar
     rules:
     - id: sailfish_small_input_rule
       if: input_size < 0.2
       cores: 1
       mem: 3.8
-    scheduling:
-      accept:
-      - pulsar
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/.*:
+  toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:
+    cores: 5
+    mem: 19.1
     params:
-      tmp_dir: true  
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/sdf_to_tab/sdf_to_tab/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/.*:
+    mem: 10
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/.*:
     cores: 1
     mem: 3.8
@@ -318,6 +325,8 @@ tools:
       if: input_size >= 0.03
       fail: Too much data, Prokka is designed to annotate bacterial/virus genomes
         only. Prokka will not annotate eukaryotic genomes nor metagenomes.
+  toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/.*:
+    mem: 12
   toolshed.g2.bx.psu.edu/repos/csbl/repeatmodeler/repeatmodeler/.*:
     cores: 8
     mem: 30.7
@@ -451,13 +460,11 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS.*:
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/.*:
     cores: 2
     mem: 7.6
-    # scheduling: # 9/9/23: removing from pulsar due to large output files compared to inputs
-    #   accept:
-    #   - pulsar
-    #   - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_deinterlacer/fastq_paired_end_deinterlacer/.*:
     cores: 8
     mem: 30.7
@@ -501,8 +508,8 @@ tools:
     cores: 8
     mem: 30.7
     env:
-      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
       SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     scheduling:
       accept:
       - pulsar
@@ -521,6 +528,9 @@ tools:
       if: 0.01 <= input_size < 2
       cores: 4
       mem: 15.3
+  toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/freebayes/bamleftalign/.*:
     params:
       singularity_enabled: true
@@ -649,8 +659,8 @@ tools:
     cores: 3
     mem: 11.5
     env:
-      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
       SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     scheduling:
       accept:
       - pulsar
@@ -668,6 +678,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/.*:
     cores: 3
     mem: 11.5
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/samtools.*:
     params:
       singularity_enabled: true
@@ -692,6 +704,9 @@ tools:
       if: input_size < 0.5
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/devteam/sicer/peakcalling_sicer/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/.*:
     cores: 8
     mem: 30.7
@@ -703,9 +718,25 @@ tools:
       if: input_size < 0.5
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/anndata_ops/anndata_ops/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy.*:
-    cores: 1
-    mem: 3.8
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ecology/pampa_communitymetrics/pampa_communitymetrics/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ecology/pampa_glmcomm/pampa_glmcomm/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ecology/pampa_glmsp/pampa_glmsp/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ecology/pampa_plotglm/pampa_plotglm/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ecology/pampa_presabs/pampa_presabs/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
@@ -713,9 +744,10 @@ tools:
     cores: 8
     mem: 69
     params:
-      tmp_dir: true
       docker_enabled: true
-      docker_volumes: $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro
+      docker_volumes: 
+        $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro
+      tmp_dir: true
     rules:
     - if: |
         user and 'Alphafold' in [role.name for role in user.all_roles() if not role.deleted] and not (
@@ -744,39 +776,43 @@ tools:
         )])
       fail: |
         This tool is currently being beta-tested on GPUs and your account has not been given access. Contact help@genome.edu.au if you think this is in error.
-
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/2.1.*:
-    params:
-      docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env
-        ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data/v2.1
     inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*
-  toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/2.3.*:
     params:
-      docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env
+      docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=5 --env
+        ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data/v2.1
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/2.3.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*
+    params:
+      docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=5 --env
         ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data/v2.3
     rules:
-      - if: |
-          min_version = '2.3.1+galaxy2'
-          helpers.tool_version_gte(tool, min_version)
-        params:
-          docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data
-    inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*
-
+    - if: |
+        min_version = '2.3.1+galaxy2'
+        helpers.tool_version_gte(tool, min_version)
+      params:
+        docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=5 --env
+          ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB=/data
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
     context:
       test_cores: 10
-    cores: 60
-    mem: 961
+    cores: 24
+    mem: 200
     params:
       singularity_enabled: true
     scheduling:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_export/cactus_export/.*:
-    cores: 1
-    mem: 3.8
+    context:
+      test_cores: 10
+    cores: 24
+    mem: 200
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
     cores: 12
     mem: 46.0
@@ -885,6 +921,18 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/galaxyp/rawtools/rawtools/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/genouest/braker3/braker3/.*:
+    cores: 6
+    mem: 4
+    params:
+      singularity_container_id_override: docker://teambraker/braker3:v.1.0.4
+      singularity_enabled: true
+    scheduling:
+      require:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iracooke/protk_proteogenomics/.*:
     cores: 1
     mem: 3.8
@@ -917,7 +965,7 @@ tools:
       mem: 3.8
       scheduling:
         prefer:
-          - slurm
+        - slurm
     - id: abricate_medium_input_rule
       if: 0.005 <= input_size < 0.02
       cores: 4
@@ -977,10 +1025,14 @@ tools:
       if: input_size < 0.5
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/.*:
+    mem: 8
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/.*:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/biom_convert/biom_convert/.*:
+    mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/3.*:
     cores: 2
     mem: 7.6
@@ -1073,6 +1125,14 @@ tools:
       if: 0.0002 <= input_size < 0.01
       cores: 2
       mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
+    cores: 3
+    mem: 11.5
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*:
+    cores: 2
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     cores: 1
     mem: 3.8
@@ -1094,15 +1154,27 @@ tools:
     mem: 3.8
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/dropletutils/dropletutils/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/edger/edger/.*:
     cores: 5
     mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/egsea/egsea/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/ena_upload/ena_upload/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/exonerate/exonerate/.*:
     cores: 30
     mem: 480.5
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/export2graphlan/export2graphlan/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     cores: 3
     mem: 11.5
@@ -1140,13 +1212,18 @@ tools:
     params:
       singularity_enabled: true
     scheduling:
-      prefer:
-        - pulsar
       require:
-        - gtdbtk_database
+      - gtdbtk_database
+      prefer:
+      - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/gtftobed12/gtftobed12/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/gubbins/gubbins/.*:
     cores: 16
     mem: 61.4
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1179,12 +1256,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
     cores: 32
     mem: 122.8
-    # scheduling:
-    #   accept:
-    #   - pulsar
-    #   reject:
-    #   - pulsar-mel2
-    #   - pulsar-QLD
     rules:
     - id: humann_small_input_rule
       if: input_size < 0.01
@@ -1257,6 +1328,9 @@ tools:
       accept:
       - pulsar
       - pulsar-quick
+  toolshed.g2.bx.psu.edu/repos/iuc/iwtomics_loadandplot/iwtomics_loadandplot/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/.*:
     cores: 3
     mem: 11.5
@@ -1275,6 +1349,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/.*:
     cores: 5
     mem: 19.1
+    params:
+      singularity_enabled: true
     rules:
     - id: kallisto_quant_small_input_rule
       if: input_size < 0.1
@@ -1314,12 +1390,23 @@ tools:
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
+  toolshed.g2.bx.psu.edu/repos/iuc/kraken_biom/kraken_biom/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/krakentools_extract_kraken_reads/krakentools_extract_kraken_reads/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/krakentools_kreport2krona/krakentools_kreport2krona/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/.*:
     cores: 7
     mem: 26.8
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/links/links/.*:
+    cores: 4
+    mem: 15.3
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/.*:
     cores: 5
     mem: 19.1
@@ -1344,6 +1431,8 @@ tools:
       accept:
       - pulsar
       - pulsar-quick
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgcmp/.*:
+    mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgdiff/.*:
     scheduling:
       accept:
@@ -1398,6 +1487,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
     cores: 16
     mem: 61.4
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1418,6 +1509,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
     cores: 60
     mem: 961
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1460,7 +1553,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mothur.*:
     params:
       docker_enabled: true
-      docker_run_extra_arguments: --pids-limit 10000 --ulimit fsize=1000000000 --env TERM=vt100
+      docker_run_extra_arguments: --pids-limit 10000 --ulimit fsize=1000000000 --env
+        TERM=vt100
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_align_seqs/mothur_align_seqs/.*:
     cores: 7
     mem: 26.8
@@ -1672,6 +1766,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/iuc/mummer.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/mummer_mummer/mummer_mummer/.*:
+    cores: 2
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
     cores: 5
     mem: 19.1
@@ -1686,6 +1786,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/nanoplot/.*:
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/iuc/nextclade/nextclade/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/pathview/pathview/.*:
     params:
       singularity_enabled: true
@@ -1704,6 +1807,36 @@ tools:
       if: 0.015 <= input_size < 1
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
+    cores: 120
+    mem: 1922
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-training-large
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_add_descriptions/picrust2_add_descriptions/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_hsp/picrust2_hsp/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_metagenome_pipeline/picrust2_metagenome_pipeline/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_pathway_pipeline/picrust2_pathway_pipeline/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_pipeline/picrust2_pipeline/.*:
+    cores: 7
+    mem: 26.8
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_place_seqs/picrust2_place_seqs/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_shuffle_predictions/picrust2_shuffle_predictions/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/picrust_categorize/picrust_categorize/.*:
     params:
       singularity_enabled: true
@@ -1722,36 +1855,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/picrust_predict_metagenomes/picrust_predict_metagenomes/.*:
     params:
       singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_add_descriptions/picrust2_add_descriptions/.*:
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_hsp/picrust2_hsp/.*:
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_metagenome_pipeline/picrust2_metagenome_pipeline/.*:
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_pathway_pipeline/picrust2_pathway_pipeline/.*:
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_pipeline/picrust2_pipeline/.*:
-    cores: 4
-    mem: 15.3
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_place_seqs/picrust2_place_seqs/.*:
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/iuc/picrust2_shuffle_predictions/picrust2_shuffle_predictions/.*:
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
-    cores: 120
-    mem: 1922
-    scheduling:
-      accept:
-      - pulsar
-      - pulsar-training-large
   toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/.*:
     cores: 16
     mem: 61.4
@@ -1833,6 +1936,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/qualimap_bamqc/qualimap_bamqc/.*:
     cores: 9
     mem: 34.5
+    params:
+      singularity_enabled: true
     rules:
     - id: qualimap_bamqc_small_input_rule
       if: input_size < 0.2
@@ -1842,14 +1947,20 @@ tools:
       if: 0.2 <= input_size < 30
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/qualimap_multi_bamqc/qualimap_multi_bamqc/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/qualimap_rnaseq/qualimap_rnaseq/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/.*:
     cores: 16
     mem: 61.4
     rules:
     - id: quast_small_input_rule
       if: input_size < 1
-      cores: 1
-      mem: 3.8
+      cores: 2
+      mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/raven/raven/.*:
     cores: 20
     mem: 200
@@ -1906,6 +2017,8 @@ tools:
     cores: 9
     mem: 34.5
   toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/rnaspades/.*:
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -1984,6 +2097,18 @@ tools:
       if: 0.05 <= input_size < 0.5
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/scater_create_qcmetric_ready_sce/scater_create_qcmetric_ready_sce/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/scater_filter/scater_filter/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/scater_plot_dist_scatter/scater_plot_dist_scatter/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/scater_plot_pca/scater_plot_pca/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_seq/.*:
     cores: 20
     mem: 200
@@ -2060,18 +2185,114 @@ tools:
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/spades_biosyntheticspades/spades_biosyntheticspades/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+    cores: 20
+    mem: 500
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-training-large
+    rules:
+    - id: spades_biosyntheticspades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 7.6
+    - id: spades_biosyntheticspades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 30.7
+    - id: spades_biosyntheticspades_fail_rule
+      if: input_size >= 60
+      fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_coronaspades/spades_coronaspades/.*:
+    cores: 20
+    mem: 500
     scheduling:
       accept:
       - pulsar-paw
-    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+      - pulsar
+      - pulsar-training-large
+    rules:
+    - if: |
+        minimum_singularity_version = '3.15.4+galaxy0'
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
+    - id: spades_coronaspades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 7.6
+    - id: spades_coronaspades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 30.7
+    - id: spades_coronaspades_fail_rule
+      if: input_size >= 60
+      fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_metaplasmidspades/spades_metaplasmidspades/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+    cores: 20
+    mem: 500
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-training-large
+    rules:
+    - id: spades_metaplasmidspades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 7.6
+    - id: spades_metaplasmidspades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 30.7
+    - id: spades_metaplasmidspades_fail_rule
+      if: input_size >= 60
+      fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_metaviralspades/spades_metaviralspades/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+    cores: 20
+    mem: 500
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-training-large
+    rules:
+    - id: spades_metaviralspades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 7.6
+    - id: spades_metaviralspades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 30.7
+    - id: spades_metaviralspades_fail_rule
+      if: input_size >= 60
+      fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_plasmidspades/spades_plasmidspades/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*
+    cores: 20
+    mem: 500
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-training-large
+    rules:
+    - id: spades_plasmidspades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 7.6
+    - id: spades_plasmidspades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 30.7
+    - id: spades_plasmidspades_fail_rule
+      if: input_size >= 60
+      fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_rnaviralspades/spades_rnaviralspades/.*:
     cores: 10
     mem: 250
@@ -2080,6 +2301,11 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
+    - if: |
+        minimum_singularity_version = '3.15.4+galaxy1'
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
     - id: spades_rnaviralspades_small_input_rule
       if: input_size < 0.005
       cores: 2
@@ -2129,18 +2355,10 @@ tools:
     mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_ustacks/stacks2_ustacks/.*:
     cores: 16
-    mem: 61.4
+    mem: 100
     scheduling:
       accept:
       - pulsar
-      - pulsar-quick
-    rules:
-    - id: rule_stacks2_ustacks_limit_concurrency
-      if: |
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= 3  # concurrent jobs per user
-      execute: |
-        from galaxy.jobs.mapper import JobNotReadyException
-        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/.*:
     cores: 5
     mem: 19.1
@@ -2308,7 +2526,7 @@ tools:
       cores: 1
       mem: 3.8
     - id: unicycler_medium_input_rule
-      if: 0.05 <= input_size < 2
+      if: 0.05 <= input_size < 0.3
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/vcf2maf/vcf2maf/.*:
@@ -2376,6 +2594,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/nml/metaspades/metaspades/.*:
     cores: 16
     mem: 61.4
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -2395,6 +2615,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
     cores: 20
     mem: 500
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -2408,12 +2630,14 @@ tools:
       if: 0.005 <= input_size < 2
       cores: 8
       mem: 30.7
-    - id: spades_fail_rule  # TODO: Ask IM whether we still need the spades fail rule
-      if: input_size >= 20
+    - id: spades_fail_rule
+      if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/peterjc/sample_seqs/sample_seqs/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/peterjc/seq_select_by_id/seq_select_by_id/.*:
+    mem: 12
   toolshed.g2.bx.psu.edu/repos/pjbriggs/macs21/macs2_1_peakcalling/.*:
     cores: 9
     mem: 34.5
@@ -2421,8 +2645,8 @@ tools:
     cores: 3
     mem: 11.5
     env:
-      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
       SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     scheduling:
       accept:
       - pulsar
@@ -2447,6 +2671,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/recetox/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/rnateam/chipseeker/chipseeker/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/.*:
     cores: 8
     mem: 30.7
@@ -2466,18 +2693,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/rnateam/sortmerna/bg_sortmerna/.*:
     cores: 8
     mem: 30.7
-  toolshed.g2.bx.psu.edu/repos/saskia-hiltemann/krona_text/krona-text/.*:
-    cores: 7
-    mem: 26.8
-    rules:
-    - id: krona-text_small_input_rule
-      if: input_size < 0.02
-      cores: 1
-      mem: 3.8
-    - id: krona-text_medium_input_rule
-      if: 0.02 <= input_size < 2
-      cores: 5
-      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/velvetoptimiser/.*:
     cores: 4
     mem: 15.3
@@ -2498,6 +2713,9 @@ tools:
     mem: 3.8
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/wolma/mimodd.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/wolma/mimodd_aln/mimodd_align/.*:
     cores: 5
     mem: 19.1
@@ -2506,9 +2724,6 @@ tools:
       if: input_size < 0.01
       cores: 1
       mem: 3.8
-  toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
-    cores: 3
-    mem: 11.5    
   .*bowtie2_index_builder_data_manager.*:
     cores: 16
     mem: 61.4
@@ -2601,6 +2816,26 @@ tools:
       require:
       - pulsar
       - pulsar-azure-gpu
+  cellranger:
+    cores: 6
+    mem: 20
+    params:
+      singularity_enabled: true
+    rules:
+    - if: |
+        not user or not 'cellranger' in [role.name for role in user.all_roles() if not role.deleted]
+      fail: Your account has not been given access to cellranger. Contact help@genome.edu.au
+        if you think this is in error.
+  fgenesh:
+    cores: 24
+    mem: 12
+    params:
+      singularity_enabled: true
+    rules:
+    - if: |
+        not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
+      fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au
+        if you think this is in error.
   gtdbtk_classify_wf_test:
     cores: 16
     mem: 60
@@ -2644,33 +2879,7 @@ tools:
       cores: 1
       mem: 3.8
   wig_to_bigWig:
-    cores: 5
     mem: 19.1
-  cellranger:
-    cores: 6
-    mem: 20
-    params:
-      singularity_enabled: true
-    rules:
-      - if: |
-          not user or not 'cellranger' in [role.name for role in user.all_roles() if not role.deleted]
-        fail: Your account has not been given access to cellranger. Contact help@genome.edu.au if you think this is in error.
-  fgenesh:
-    cores: 24
-    mem: 12
-    params:
-      singularity_enabled: true
-    rules:
-      - if: |
-          not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
-        fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au if you think this is in error.
-
-  toolshed.g2.bx.psu.edu/repos/genouest/braker3/braker3/.*:
-    mem: 4
-    cores: 6
-    params:
-      singularity_container_id_override: docker://teambraker/braker3:v.1.0.4
-      singularity_enabled: true
     scheduling:
-      require:
-      - pulsar
+      accept:
+      - training-exempt   # these jobs are exempt from training rules that would reduce allocated memory

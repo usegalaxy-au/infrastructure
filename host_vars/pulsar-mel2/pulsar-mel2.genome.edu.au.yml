@@ -29,7 +29,7 @@ ssl_email: "help@genome.edu.au"
 #host specific pulsar settings
 
 rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_mel2_prod }}"
-pulsar_queue_url: "aarnet-queue.usegalaxy.org.au"
+pulsar_queue_url: "galaxy-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_mel2"
 pulsar_rabbit_vhost: "/pulsar/galaxy_mel2"
 
@@ -38,7 +38,7 @@ pulsar_conda_exec: "mamba"  # Use mamba as replacement for conda
 extra_keys:
   - id: ubuntu_maintenance_key
     type: public
-    from: "{{ hostvars['aarnet']['ansible_ssh_host'] }}"
+    from: "{{ hostvars['galaxy']['ansible_ssh_host'] }},{{ hostvars['galaxy-handlers']['ansible_ssh_host'] }},{{ hostvars['galaxy-backup']['ansible_ssh_host'] }}"
 
 # docker
 docker_daemon_options:

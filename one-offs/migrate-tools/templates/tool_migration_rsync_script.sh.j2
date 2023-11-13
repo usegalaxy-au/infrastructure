@@ -42,5 +42,5 @@ rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
 {% if migrate_custom_indices %}
 rsync -e "ssh -i {{ ssh_key }} -o StrictHostKeyChecking=no" -av \
     galaxy@{{ source_galaxy_ip }}:{{ source_custom_indices_dir }} \
-    {{ dest_custom_indices_dir }}
+    {{ dest_custom_indices_dir | dirname }}
 {% endif %}

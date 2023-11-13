@@ -17,7 +17,7 @@ postgresql_conf:
   #   CPUs num: 8
   #   Connections num: 100
   #   Data Storage: san
-  - max_connections: 200
+  - max_connections: 300
   - listen_addresses: "'*'"   # Allow remote connections
   - data_directory: "'/data/production'"
   - shared_buffers: 8GB
@@ -46,3 +46,8 @@ postgresql_pg_hba_conf:
   - host all all "{{ hostvars['galaxy']['internal_ip'] }}/32" md5
   - host all all "{{ hostvars['galaxy-handlers']['internal_ip'] }}/32" md5
   - host all all "{{ hostvars['galaxy-backup']['internal_ip'] }}/32" md5
+
+extra_keys:
+  - id: internal_hop_key
+    type: public
+    from: "{{ hostvars['galaxy']['internal_ip'] }},{{ hostvars['galaxy-backup']['internal_ip'] }},{{ hostvars['galaxy-handlers']['internal_ip'] }},{{ hostvars['galaxy-queue']['internal_ip'] }}"

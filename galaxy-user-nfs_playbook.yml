@@ -7,10 +7,11 @@
     - group_vars/nfs_servers.yml
     - host_vars/galaxy-user-nfs.usegalaxy.org.au.yml
     - secret_group_vars/stats_server_vault
+    - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
-    - name: Attach volumes to instance
-      include_role:
-        name: attached-volumes
+    # - name: Attach volumes to instance # handle user nfs mounting manually
+    #   include_role:
+    #     name: attached-volumes
     - name: Ensure galaxy nfs user data directories exist
       file:
         path: "{{ item }}"

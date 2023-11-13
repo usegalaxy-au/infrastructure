@@ -12,51 +12,61 @@ slurm_nodes:
     NodeAddr: "{{ hostvars['galaxy-w1']['internal_ip'] }}"
     CPUs: 16
     RealMemory: 64000
+    Weight: 10
     State: UNKNOWN
   - name: galaxy-w2
     NodeAddr: "{{ hostvars['galaxy-w2']['internal_ip'] }}"
     CPUs: 16
     RealMemory: 64000
+    Weight: 10
     State: UNKNOWN
   - name: galaxy-w3
     NodeAddr: "{{ hostvars['galaxy-w3']['internal_ip'] }}"
     CPUs: 16
     RealMemory: 64000
+    Weight: 10
     State: UNKNOWN
   - name: galaxy-w4
     NodeAddr: "{{ hostvars['galaxy-w4']['internal_ip'] }}"
     CPUs: 16
     RealMemory: 64000
+    Weight: 10
     State: UNKNOWN
   - name: galaxy-w5
     NodeAddr: "{{ hostvars['galaxy-w5']['internal_ip'] }}"
     CPUs: 16
     RealMemory: 64000
+    Weight: 10
     State: UNKNOWN
   - name: galaxy-w6
     NodeAddr: "{{ hostvars['galaxy-w6']['internal_ip'] }}"
     CPUs: 16
     RealMemory: 64000
+    Weight: 10
     State: UNKNOWN
   - name: galaxy-w7
     NodeAddr: "{{ hostvars['galaxy-w7']['internal_ip'] }}"
     CPUs: 16
     RealMemory: 64000
+    Weight: 10
     State: UNKNOWN
   - name: galaxy-w8
     NodeAddr: "{{ hostvars['galaxy-w8']['internal_ip'] }}"
     CPUs: 32
     RealMemory: 128000
+    Weight: 100
     State: UNKNOWN
   - name: galaxy-w9
     NodeAddr: "{{ hostvars['galaxy-w9']['internal_ip'] }}"
     CPUs: 32
     RealMemory: 128000
+    Weight: 100
     State: UNKNOWN
   - name: galaxy-w10
     NodeAddr: "{{ hostvars['galaxy-w10']['internal_ip'] }}"
     CPUs: 32
     RealMemory: 128000
+    Weight: 100
     State: UNKNOWN
   - name: galaxy-queue
     NodeAddr: "{{ hostvars['galaxy-queue']['internal_ip'] }}"
@@ -69,11 +79,11 @@ slurm_nodes:
     RealMemory: 64000
     State: UNKNOWN
   ##& Include galaxy-handlers in slurm config for 2-VM galaxy server. Comment out when using a single VM for galaxy server
-  # - name: galaxy-handlers
-  #   NodeAddr:  "{{ hostvars['galaxy-handlers']['internal_ip'] }}"
-  #   CPUs: 16
-  #   RealMemory: 64000
-  #   State: UNKNOWN
+  - name: galaxy-handlers
+    NodeAddr:  "{{ hostvars['galaxy-handlers']['internal_ip'] }}"
+    CPUs: 16
+    RealMemory: 64000
+    State: UNKNOWN
 
 
 slurm_partitions:

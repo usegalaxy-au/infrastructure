@@ -216,3 +216,15 @@ nginx_check_conf: False
 
 redis_requirepass: "{{ vault_redis_requirepass }}"
 redis_bind_interface: 0.0.0.0
+
+extra_keys:
+  - id: internal_hop_key
+    type: private
+  - id: internal_hop_key
+    type: public
+    from: "{{ hostvars['galaxy-backup']['internal_ip'] }},{{ hostvars['galaxy']['internal_ip'] }},{{ hostvars['galaxy-handlers']['internal_ip'] }}"
+
+# ssh config, only for ubuntu
+ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/internal_hop_key"
+ssh_config_user: ubuntu
+ssh_config_hosts: "{{ groups['galaxy_group'] }}"

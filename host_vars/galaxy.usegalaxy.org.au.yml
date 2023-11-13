@@ -3,8 +3,8 @@
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
 # legacy_file_mounts_available: set to true if /mnt/files, /mnt/files2 should be in the object store
-legacy_file_mounts_available: False # assume true unless set to false
-pawsey_file_mounts_available: False # assume true unless set to false
+legacy_file_mounts_available: True # assume true unless set to false
+pawsey_file_mounts_available: True # assume true unless set to false
 
 # variables for attaching mounted volume to application server
 attached_volumes: # TODO: check this
@@ -15,10 +15,11 @@ attached_volumes: # TODO: check this
 
 certbot_domains:
   - "{{ hostname }}" # galaxy.usegalaxy.org.au
-#   - "usegalaxy.org.au"
-#   - "www.usegalaxy.org.au"
-#   - "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
-  - "*.interactivetoolentrypoint.interactivetool.galaxy.usegalaxy.org.au"
+  - "usegalaxy.org.au"
+  - "www.usegalaxy.org.au"
+  - "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
+  - "genome.usegalaxy.org.au"
+  - "proteomics.usegalaxy.org.au"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_api_token }}"
@@ -28,31 +29,26 @@ nginx_ssl_servers:
   - galaxy
   - galaxy-gie-proxy ## we still do this?
 
+num_gunicorn_processes: 2
+
 # gie proxy hostname
-interactive_tools_server_name: "galaxy.usegalaxy.org.au"
+interactive_tools_server_name: "usegalaxy.org.au"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_23.0
+galaxy_commit_id: release_23.1
 
 # TODO: check list concatenation with versions of ansible > 2.12
 shared_mounts: "{{ galaxy_server_and_worker_shared_mounts + galaxy_web_server_mounts }}" # sourced from galaxy_etca.yml
 
 # ansible-galaxy
-# galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/production
-# galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
-# galaxy_dynamic_job_rules:
-#   - total_perspective_vortex/tools.yml
-#   - total_perspective_vortex/destinations.yml.j2
-#   - total_perspective_vortex/users.yml
-#   - total_perspective_vortex/roles.yml
-#   - total_perspective_vortex/default_tool.yml.j2
-#   - readme.txt
-
-galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/load-testing
+galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/production
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
-  - total_perspective_vortex/testing_tpv_config.yml
-  - total_perspective_vortex/testing_tpv_destinations.yml.j2
+  - total_perspective_vortex/tools.yml
+  - total_perspective_vortex/destinations.yml.j2
+  - total_perspective_vortex/users.yml
+  - total_perspective_vortex/roles.yml
+  - total_perspective_vortex/default_tool.yml.j2
   - readme.txt
 
 galaxy_systemd_mode: gravity
@@ -64,25 +60,33 @@ galaxy_custom_indices_dir: /mnt/custom-indices
 galaxy_tmp_dir: /mnt/tmp
 galaxy_tus_upload_store: "{{ galaxy_tmp_dir }}/tus"
 
-galaxy_infrastructure_url: https://galaxy.usegalaxy.org.au
+galaxy_infrastructure_url: https://usegalaxy.org.au
 
-galaxy_file_path: /mnt/user-data-test
-nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
+upload_store_volume_dir: /mnt/user-data-volA
+nginx_upload_store_base_dir: "{{ upload_store_volume_dir }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 nginx_upload_store_set_cleanup_cron_job: true
 
+# galaxy_virtualenv_python: python3.11 # deferred until release 23.2 probably
+
 host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/tool_data_table_conf.xml" # TODO: etca will need this too
+    dest: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/activation-email.html"
+    dest: "{{ galaxy_config_dir }}/mail/activation-email.html"
+  - src: "{{ galaxy_config_file_src_dir }}/config/activation-email.txt"
+    dest: "{{ galaxy_config_dir }}/mail/activation-email.txt"
 
 host_galaxy_config_templates:
-  - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.xml.j2"  # TODO: create me
+  - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.xml.j2"
     dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
-  - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_job_conf.yml.j2"  # TODO: create me
+  - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_job_conf.yml.j2"
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
-#   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2" ## File cannot be created at dest on first run of playbook
-#     dest: "{{ galaxy_server_dir }}/lib/galaxy/tool_util/toolbox/filters/ga_filters.py"
+  - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2" ## File cannot be created at dest on first run of playbook
+    dest: "{{ galaxy_toolbox_filters_dir }}/ga_filters.py"
 
 
 host_galaxy_config_gravity:
@@ -92,18 +96,30 @@ host_galaxy_config_gravity:
   app_server: gunicorn
   virtualenv: "{{ galaxy_venv_dir }}"
   gunicorn:
-    # listening options
-    bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
-    # performance options
-    workers: 4
-    # Other options that will be passed to gunicorn
-    extra_args: '--forwarded-allow-ips="*"'
-    preload: true
-    environment:
-      VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
-      DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-      SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
-      SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+    - bind: unix:{{ galaxy_mutable_config_dir }}/gunicorn1.sock
+      workers: 2
+      # Other options that will be passed to gunicorn
+      extra_args: '--forwarded-allow-ips="*"'
+      timeout: 600
+      restart_timeout: 600
+      preload: true
+      environment:
+        VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
+        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+    - bind: unix:{{ galaxy_mutable_config_dir }}/gunicorn2.sock
+      workers: 2
+      # Other options that will be passed to gunicorn
+      extra_args: '--forwarded-allow-ips="*"'
+      timeout: 600
+      restart_timeout: 600
+      preload: true
+      environment:
+        VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
+        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
   tusd:
     enable: true
     tusd_path: /usr/local/sbin/tusd
@@ -121,39 +137,39 @@ host_galaxy_config_gravity:
     bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
     config_file: "{{ galaxy_config_dir }}/reports.yml"
   ##& handlers and celery are on galaxy-handlers VM with 2-VM galaxy server. Uncomment these entries when using a single VM
-  celery:
-    concurrency: 2
-    loglevel: DEBUG
-  handlers:
-    handler:
-      environment:
-        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
-        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
-      processes: 5
-      pools:
-        - job-handlers
-        - workflow-schedulers
+  # celery:
+  #   concurrency: 2
+  #   loglevel: DEBUG
+  # handlers:
+  #   handler:
+  #     environment:
+  #       DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+  #       SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+  #       SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+  #     processes: 5
+  #     pools:
+  #       - job-handlers
+  #       - workflow-schedulers
 
 host_galaxy_config: # renamed from __galaxy_config
   gravity: "{{ host_galaxy_config_gravity }}"
 
   galaxy:
     ##& amqp_internal_connection for 2-VM galaxy server. Comment this out when out when using a single VM
-    # amqp_internal_connection: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_prod }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:5671//galaxy/galaxy_queues?ssl=1"
+    amqp_internal_connection: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_prod }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:5671//galaxy/galaxy_queues?ssl=1"
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
-    brand: "E T C A"
+    brand: "Australia"
     database_connection: "postgresql://galaxy:{{ galaxy_db_user_password }}@{{ hostvars['galaxy-db']['internal_ip'] }}:5432/galaxy"
-    id_secret: "{{ vault_aarnet_id_secret }}" # TODO: this need to stay the same wherever production galaxy is runninig, but the name of the vault variable is misleading
-    file_path: "{{ galaxy_file_path }}"
+    id_secret: "{{ vault_aarnet_id_secret }}" # TODO: this need to stay the same wherever production galaxy is running, but the name of the vault variable is misleading
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     smtp_server: localhost
-    # ga_code: "{{ vault_prod_ga_code }}" ## swich off ga_code while testing.  TODO: uncomment this when we go live
+    ga_code: "{{ vault_prod_ga_code }}" ## swich off ga_code while testing.  TODO: uncomment this when we go live
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
-    # enable_oidc: true # TODO: Can we switch this on before galaxy-etca is production galaxy or should we wait until moving day?
-    # oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
-    # oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
+    enable_oidc: true
+    oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
+    oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
+    tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml,{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
     # nginx upload module
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
     nginx_upload_path: "/_upload"
@@ -170,23 +186,25 @@ host_galaxy_config: # renamed from __galaxy_config
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
 
     # Allow cross-subdomain cookie sharing:
-    # cookie_domain: usegalaxy.org.au # TODO: switch from null to usegalaxy.org.au when etca is production site
-    cookie_domain: null
+    cookie_domain: usegalaxy.org.au
 
-    ##& comment out celery_conf and enable_celery_tasks when using single VM
-    # celery_conf:
-    #   result_backend: "redis://:{{ vault_redis_requirepass }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:6379/0"
-    #   # result_backend: "{{ redis_connection_string }}"
-    #   task_routes:
-    #     galaxy.fetch_data: disabled
-    #     # galaxy.fetch_data: galaxy.external
-    #     galaxy.set_job_metadata: galaxy.external
+    user_activation_on: true
+    activation_email: <activation-noreply@usegalaxy.org.au>
 
-    # # Offload long-running tasks to a Celery task queue. Activate this
-    # # only if you have setup a Celery worker for Galaxy. For details, see
-    # # https://docs.galaxyproject.org/en/master/admin/production.html
-    # enable_celery_tasks: true
+    #sentry_dsn: "{{ vault_sentry_url_galaxy_production }}"  # commented out, waiting for change in 23.1 to reduce severity of startup logs
 
+    celery_conf:
+      result_backend: "redis://:{{ vault_redis_requirepass }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:6379/0"
+      # result_backend: "{{ redis_connection_string }}"
+      task_routes:
+        galaxy.fetch_data: disabled
+        # galaxy.fetch_data: galaxy.external
+        galaxy.set_job_metadata: galaxy.external
+
+    # Offload long-running tasks to a Celery task queue. Activate this
+    # only if you have setup a Celery worker for Galaxy. For details, see
+    # https://docs.galaxyproject.org/en/master/admin/production.html
+    enable_celery_tasks: true
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 
@@ -213,8 +231,14 @@ add_monthly_stats: true
 add_utilisation_info: true
 add_queue_info: true
 
+# host-specific settings for postfix
+postfix_host_domain: "usegalaxy.org.au"
+postfix_hostname: "galaxy"
+smtp_login: "{{ vault_smtp_login_prod }}"
+smtp_password: "{{ vault_smtp_password_prod }}"
+
 #Vars for TIaaS
-tiaas_galaxy_db_host: "galaxy-db.usegalaxy.org.au"
+tiaas_galaxy_db_host: "{{ hostvars['galaxy-db']['internal_ip'] }}"
 tiaas_galaxy_db_port: "5432"
 tiaas_galaxy_db_user: "tiaas"
 tiaas_galaxy_db_pass: "{{ galaxy_db_tiaas_password }}"
@@ -222,7 +246,7 @@ tiaas_info:
   owner: "Galaxy Australia"
   owner_email: help@genome.edu.au
   owner_site: "https://site.usegalaxy.org.au"
-  domain: galaxy.usegalaxy.org.au # TODO: update when galaxy-etca is production galaxy
+  domain: usegalaxy.org.au
 tiaas_other_config: |
   EMAIL_HOST="localhost"
   EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -346,6 +370,11 @@ rpc_pulsar_machines:
 extra_keys:
   - id: ubuntu_maintenance_key
     type: private
+  - id: internal_hop_key
+    type: private
+  - id: internal_hop_key
+    type: public
+    from: "{{ hostvars['galaxy-backup']['internal_ip'] }},{{ hostvars['galaxy-handlers']['internal_ip'] }},{{ hostvars['galaxy-queue']['internal_ip'] }}"
 
 # # grt-sender role # TODO: what of GRT??
 # grt_sender_dir: /mnt/var/galactic_radio_telescope
@@ -511,19 +540,16 @@ slurm_singularity_volumes_list_restricted:
   - $job_directory:rw
   - $galaxy_root:ro
   - $tool_directory:ro
-  - /mnt/user-data-test # TEMPORARY
-#   - /mnt/user-data-7:ro
-#   - /mnt/user-data-6:ro
-#   - /mnt/user-data-5:ro
-#   - /mnt/user-data-4:ro
-#   - /mnt/user-data:ro
+  - /mnt/user-data-volA:ro
+  - /mnt/user-data-volB:ro
+  - /mnt/user-data-volC:ro
   - /mnt/custom-indices:ro
   - /cvmfs/data.galaxyproject.org:ro
   - /tmp:rw
 
 legacy_singularity_volumes_list: "{{ ['/mnt/files:ro', '/mnt/files2:ro'] if legacy_file_mounts_available|d(True) else [] }}"
 
-pawsey_singularity_volumes_list: "{{ ['/mnt/user-data-2:ro', '/mnt/user-data-3:ro'] if pawsey_file_mounts_available|d(True) else [] }}"
+pawsey_singularity_volumes_list: "{{ ['/mnt/user-data:ro', '/mnt/user-data-2:ro', '/mnt/user-data-3:ro', '/mnt/user-data-4:ro'] if pawsey_file_mounts_available|d(True) else [] }}"
 
 slurm_singularity_volumes_list: "{{ slurm_singularity_volumes_list_restricted + legacy_singularity_volumes_list + pawsey_singularity_volumes_list }}"
 
@@ -556,3 +582,58 @@ dt_connection_string: "postgres://reader:{{ galaxy_db_reader_password }}@{{ host
 # NFS stuff (for exporting so galaxy-handlers can mount)
 nfs_exports:
   - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
+
+# Subdomains
+galaxy_subsite_base_domain: "usegalaxy.org.au"
+galaxy_subsite_default_welcome: "https://site.usegalaxy.org.au"
+galaxy_subsite_dir: /mnt/galaxy/subsites
+galaxy_subsites:
+  - name: genome
+    brand: Genome Lab
+    iframe: "https://site.usegalaxy.org.au/landing/genome"
+    wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
+    tool_sections: []
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #2c3067 !important;
+      }
+      #masthead {
+        background: #3a3e87 !important;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Genome Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
+  - name: proteomics
+    hidden: true
+    brand: Proteomics lab
+    iframe: "https://site.usegalaxy.org.au/landing/proteomics"
+    wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
+    tool_sections: []
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #402668 !important;
+      }
+      #masthead {
+        background: #542a95 !important;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Proteomics Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
+
+webhook_plugins:
+  - subdomain_switcher
+  # These ones aren't in the playbook as they are included in the galaxy repo:
+  - demo
+  - gtn
+  - news
+
+# ssh config, only for ubuntu
+ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/internal_hop_key"
+ssh_config_user: ubuntu
+ssh_config_hosts: "{{ groups['galaxy_group'] }}"

@@ -86,6 +86,8 @@ nginx_upload_module_url: https://swift.rc.nectar.org.au/v1/AUTH_377/galaxy_infra
 # miniconda
 miniconda_prefix: "{{ galaxy_conda_prefix }}"
 
+num_gunicorn_processes: 1
+
 # singularity cache of galaxy user (this defaults to /home/galaxy/.singularity). Not to be confused with cache directory for built sif files in galaxy_config.galaxy.container_resolvers_conf
 galaxy_user_singularity_cachedir: /mnt/singularity_data
 galaxy_user_singularity_tmpdir: "{{ galaxy_user_singularity_cachedir }}/tmp"
@@ -122,6 +124,8 @@ galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_conda_prefix: "{{ galaxy_tools_indices_dir }}/tool_dependencies/_conda"
 galaxy_conda_exec: mamba
 
+galaxy_toolbox_filters_dir: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters"
+
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.yml"
 
 tpv_version: "2.3.2"
@@ -156,7 +160,6 @@ group_galaxy_config:
     use_interactive: false
     expose_dataset_path: true
     enable_unique_workflow_defaults: true
-    database_engine_option_server_side_cursors: true
     track_jobs_in_database: true
     use_heartbeat: true
     allow_user_dataset_purge: true
@@ -204,6 +207,7 @@ group_galaxy_config:
     themes_config_file: "{{ galaxy_config_dir }}/themes_conf.yml"
     library_import_dir: "{{ galaxy_tmp_dir }}/library_import_dir"
     cluster_files_directory: "{{ galaxy_tmp_dir }}/pbs"
+    short_term_storage_dir: "{{ galaxy_tmp_dir }}/short_term_web_storage"
 
     templates_dir: "{{ galaxy_config_dir }}"
 

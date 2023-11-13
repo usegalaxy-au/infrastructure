@@ -1,4 +1,4 @@
-- hosts: galaxy, galaxy-queue, galaxy_workers
+- hosts: galaxy, galaxy-handlers, galaxy-queue, galaxy_workers
   become: true
   vars_files:
     - group_vars/all.yml
