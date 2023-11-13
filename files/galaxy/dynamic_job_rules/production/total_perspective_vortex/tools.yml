@@ -205,6 +205,13 @@ tools:
     params:
       singularity_enabled: true
       tmp_dir: true
+    rules:
+    - id: rule_interproscan_limit_concurrency
+      if: |
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 3
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_eventalign/nanopolish_eventalign/.*:
     cores: 3
     mem: 11.5
