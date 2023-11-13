@@ -9,8 +9,3 @@ galaxy_job_dir: /mnt/tmp
 nfs_exports:
   #- "{{ pulsar_custom_indices_dir }}  *(rw,async,no_root_squash,no_subtree_check)"
   - "{{ galaxy_job_dir }} 203.101.224.0/19(rw,async,no_root_squash,no_subtree_check)"
-
-extra_keys:
-  - id: ubuntu_maintenance_key
-    type: public
-    from: {{ hostvars['galaxy']['ansible_ssh_host'] }},{{ hostvars['galaxy-handlers']['ansible_ssh_host'] }},{{ hostvars['galaxy-backup']['ansible_ssh_host'] }}"
