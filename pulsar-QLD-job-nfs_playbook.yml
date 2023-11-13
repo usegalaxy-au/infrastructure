@@ -23,11 +23,11 @@
       - geerlingguy.pip
       - geerlingguy.nfs
   post_tasks:
-      - name: Chown shared dirs to Galaxy user
+      - name: Chown shared dirs to ubuntu user
         file:
           path: "{{ galaxy_job_dir }}"
-          owner: galaxy
-          group: galaxy
+          owner: ubuntu
+          group: ubuntu
           recurse: yes
       - name: Reload exportfs
         command: exportfs -ra
