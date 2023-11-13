@@ -100,8 +100,8 @@ host_galaxy_config_gravity:
       workers: 2
       # Other options that will be passed to gunicorn
       extra_args: '--forwarded-allow-ips="*"'
-      timeout: 600
-      restart_timeout: 600
+      timeout: 1800
+      restart_timeout: 1800
       preload: true
       environment:
         VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
@@ -112,8 +112,8 @@ host_galaxy_config_gravity:
       workers: 2
       # Other options that will be passed to gunicorn
       extra_args: '--forwarded-allow-ips="*"'
-      timeout: 600
-      restart_timeout: 600
+      timeout: 1800
+      restart_timeout: 1800
       preload: true
       environment:
         VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
