@@ -1,0 +1,74 @@
+# Specific settings for galaxy dev job handlers server
+
+add_hosts_galaxy: yes
+add_hosts_head: yes
+add_hosts_workers: yes
+add_hosts_handlers: no
+
+add_galaxy_user: yes
+
+attached_volumes: # TODO: check this
+  - device: /dev/vdb
+    path: /pvol
+    fstype: ext4
+    partition: 1
+
+galaxy_mount:
+  - path: /mnt/galaxy
+    src: "{{ hostvars['galaxy']['internal_ip'] }}:/mnt/galaxy"
+    fstype: nfs
+    state: mounted
+
+shared_mounts: "{{ galaxy_mount + galaxy_server_and_worker_shared_mounts }}"
+
+# singularity cache of galaxy user (this defaults to /home/galaxy/.singularity). Not to be confused with cache directory for built sif files in galaxy_config.galaxy.container_resolvers_conf
+galaxy_user_singularity_cachedir: /pvol/singularity_data
+galaxy_user_singularity_tmpdir: "{{ galaxy_user_singularity_cachedir }}/tmp"
+
+galaxy_config_file: /opt/galaxy/galaxy.yml
+
+# galaxy role applied to dev-handlers machine is only needed for gravity and the galaxy config files. Skip other tasks
+galaxy_manage_paths: false
+galaxy_manage_clone: false
+galaxy_fetch_dependencies: false
+galaxy_manage_mutable_setup: false
+galaxy_build_client: false
+
+host_galaxy_config_gravity:
+  process_manager: systemd
+  galaxy_root: "{{ galaxy_server_dir }}"
+  galaxy_user: "{{ galaxy_user.name }}"
+  app_server: gunicorn
+  virtualenv: "{{ galaxy_venv_dir }}"
+  gunicorn:
+    enable: false
+  celery: # TODO: what is this doing?
+    enable: true
+    enable_beat: true
+    concurrency: 2
+    loglevel: DEBUG
+  handlers:
+    handler:
+      environment:
+        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
+        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
+        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+      processes: 5
+      pools:
+        - job-handlers
+        - workflow-schedulers
+
+# TODO: Ask BG about flower!
+# # Flower
+flower_python_version: python3
+flower_app_dir: /mnt/galaxy
+flower_log_file: /var/log/flower
+flower_python_path: galaxy-app/lib
+flower_venv_dir: /mnt/galaxy/venv
+flower_app_name: galaxy.celery
+flower_galaxy_conf: "{{ galaxy_config_file }}"
+
+# flower_persistent: true
+
+# #flower_broker_api: "https://flower:{{ rabbitmq_password_flower }}@{{ rabbitmq_url }}/api/"
+flower_broker_url: "pyamqp://flower:{{ vault_rabbitmq_password_galaxy_prod }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:5671//galaxy/galaxy_queues?ssl=1"

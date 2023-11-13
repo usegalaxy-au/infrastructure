@@ -6,6 +6,8 @@ deprecated:
 - toolshed.g2.bx.psu.edu/repos/devteam/cuffnorm/cuffnorm/*
 - toolshed.g2.bx.psu.edu/repos/devteam/cuffmerge/cuffmerge/*
 - toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/cuffcompare/*
+test:
+- toolshed.g2.bx.psu.edu/repos/genouest/braker3/braker3/*
 training-only:
 - toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/velvet/*
 - toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/*

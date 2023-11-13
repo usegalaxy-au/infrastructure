@@ -126,10 +126,10 @@ pulsar-nci-test-w1 ansible_ssh_host=10.0.0.20 internal_ip=10.0.0.20
 pulsar-nci-test-w2 ansible_ssh_host=10.0.1.48 internal_ip=10.0.1.48
 
 [pulsar_high_mem1]
-pulsar-high-mem1 ansible_ssh_host=115.146.84.89
+pulsar-high-mem1 ansible_ssh_host=115.146.84.36
 
 [pulsar_high_mem2]
-pulsar-high-mem2 ansible_ssh_host=115.146.85.33
+pulsar-high-mem2 ansible_ssh_host=115.146.85.27
 
 [pulsar_qld_himems]
 qld-pulsar-himem-0 ansible_ssh_host=203.101.225.122

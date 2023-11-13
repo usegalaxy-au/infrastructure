@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <OIDC>
     <provider name="Keycloak">
+        <label>AAF</label>
+        <require_create_confirmation>true</require_create_confirmation>
         <url>{{ aaf_issuer_url }}</url>
         <client_id>{{ aaf_client_id }}</client_id>
         <client_secret>{{ aaf_client_secret }}</client_secret>

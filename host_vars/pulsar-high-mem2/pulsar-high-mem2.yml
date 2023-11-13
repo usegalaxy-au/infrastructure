@@ -17,11 +17,6 @@ pulsar_queue_url: "aarnet-queue.usegalaxy.org.au"
 pulsar_rabbit_username: "galaxy_hm2"
 pulsar_rabbit_vhost: "/pulsar/galaxy_hm2"
 
-attached_volumes:
-  - device: /dev/nvme0n1
-    path: /mnt
-    fstype: ext4
-
 galaxy_uid: 10010
 galaxy_gid: 10010
 

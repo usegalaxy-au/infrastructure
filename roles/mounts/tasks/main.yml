@@ -13,9 +13,10 @@
 
 - name: Install shared mounts into fstab
   mount:
-      path: "{{ item['path'] }}"
-      state: "{{ item['state'] }}"
-      src: "{{ item['src'] }}"
-      fstype: "{{ item['fstype'] }}"
+      path: "{{ item.path }}"
+      state: "{{ item.state }}"
+      src: "{{ item.src }}"
+      fstype: "{{ item.fstype }}"
+      opts: "{{ item.opts|d('defaults') }}"
   become: yes
   with_items: "{{ shared_mounts }}"

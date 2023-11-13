@@ -124,6 +124,17 @@ galaxy_conda_exec: mamba
 
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.yml"
 
+tpv_version: "2.3.2"
+
+tpv_packages: |
+  {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
+
+additional_packages:
+  - redis
+  - flower
+  - watchdog==2.2.1
+
+galaxy_additional_venv_packages: "{{ tpv_packages + additional_packages }}"
 
 #########################################
 # group_galaxy_config contains variables for galaxy_config that can be overridden by variables in host_galaxy_config (defined in host_vars)
@@ -335,6 +346,7 @@ tiaas_group: tiaas
 tiaas_version: main
 tiaas_admin_user: admin
 tiaas_admin_pass: "{{ tiaas_password }}"
+tiaas_galaxy_stylesheet: "{{ galaxy_server_dir }}/static/dist/base.css"
 
 # Interactive Tools
 docker_install_compose: false
@@ -360,3 +372,10 @@ telegraf_plugins_extra:
     config:
       - service_address = ":8125"
       - metric_separator = "."
+
+# lsyncd
+lsyncd_source: /mnt/galaxy
+lsyncd_target: /mnt/ghost-galaxy-app
+lsyncd_exclude:
+  - cache
+lsyncd_max_user_watches: 524288
