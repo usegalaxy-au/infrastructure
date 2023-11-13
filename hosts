@@ -176,6 +176,7 @@ pulsar-nci-training-w11 ansible_ssh_host=10.0.2.82 internal_ip=10.0.2.82
 pulsar_mel3_head
 pulsar_mel2_head
 pulsar_paw_head
+pulsar_QLD_head
 pulsar_qld_himems
 pulsar_high_mem2
 pulsar_high_mem1
