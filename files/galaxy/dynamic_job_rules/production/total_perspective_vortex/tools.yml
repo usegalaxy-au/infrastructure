@@ -731,6 +731,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_multiplet_scrublet/scanpy_multiplet_scrublet/.*:
+    mem: 2 + input_size * 65
+    rules:
+    - id: scanpy_multiplet_scrublet_fail_rule
+      if: input_size > 0.8
+      fail: Too much data: please do not use scanpy_multiplet_scrublet for this
   toolshed.g2.bx.psu.edu/repos/ecology/pampa_communitymetrics/pampa_communitymetrics/.*:
     params:
       singularity_enabled: true
