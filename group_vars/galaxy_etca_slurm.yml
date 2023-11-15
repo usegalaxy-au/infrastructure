@@ -54,19 +54,19 @@ slurm_nodes:
     NodeAddr: "{{ hostvars['galaxy-w8']['internal_ip'] }}"
     CPUs: 32
     RealMemory: 128000
-    Weight: 100
+    Weight: 110
     State: UNKNOWN
   - name: galaxy-w9
     NodeAddr: "{{ hostvars['galaxy-w9']['internal_ip'] }}"
     CPUs: 32
     RealMemory: 128000
-    Weight: 100
+    Weight: 120
     State: UNKNOWN
   - name: galaxy-w10
     NodeAddr: "{{ hostvars['galaxy-w10']['internal_ip'] }}"
     CPUs: 32
     RealMemory: 128000
-    Weight: 100
+    Weight: 130
     State: UNKNOWN
   - name: galaxy-queue
     NodeAddr: "{{ hostvars['galaxy-queue']['internal_ip'] }}"
