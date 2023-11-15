@@ -729,23 +729,41 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/anndata_ops/anndata_ops/.*:
+    mem: 2 + input_size * 7
+    rules:
+    - id: anndata_ops
+      if: input_size > 30
+      fail: Too much data. Total input data must be less than 30GB.
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy.*:
+    mem: 2 + input_size * 10
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_multiplet_scrublet/scanpy_multiplet_scrublet/.*:
     mem: 1 + input_size * 65
     rules:
     - id: scanpy_multiplet_scrublet_fail_rule
-      if: input_size > 0.8
-      fail: Too much data. Total input data must be less than 800MB.
+      if: input_size > 10
+      fail: Too much data. Total input data must be less than 10GB.
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_scale_data/scanpy_scale_data/.*:
     mem: 1 + input_size * 32
     rules:
     - id: scanpy_scale_data_fail_rule
-      if: input_size > 1.5
-      fail: Too much data. Total input data must be less than 1.5GB.
+      if: input_size > 10
+      fail: Too much data. Total input data must be less than 10GB.
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_run_pca/scanpy_run_pca/.*:
+    mem: 2 + input_size * 10
+    rules:
+    - id: scanpy_run_pca_fail_rule
+      if: input_size > 20
+      fail: Too much data. Total input data must be less than 20GB.
   toolshed.g2.bx.psu.edu/repos/ecology/pampa_communitymetrics/pampa_communitymetrics/.*:
     params:
       singularity_enabled: true
