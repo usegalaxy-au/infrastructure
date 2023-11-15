@@ -740,7 +740,7 @@ tools:
       accept:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy.*:
-    mem: 2 + input_size * 10
+    mem: 4 + input_size * 10
     params:
       singularity_enabled: true
     scheduling:
