@@ -497,15 +497,15 @@ job_conf_limits:
 
   - type: destination_total_concurrent_jobs
     id: pulsar-qld-high-mem0
-    value: 10
+    value: 20
 
   - type: destination_total_concurrent_jobs
     id: pulsar-qld-high-mem1
-    value: 10
+    value: 20
 
   - type: destination_total_concurrent_jobs
     id: pulsar-qld-high-mem2
-    value: 10
+    value: 20
 
   - type: destination_total_concurrent_jobs
     id: pulsar-QLD
