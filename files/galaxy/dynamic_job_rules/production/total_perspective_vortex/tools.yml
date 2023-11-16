@@ -1173,6 +1173,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*:
     cores: 2
     mem: 10
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_filterandtrim/dada2_filterAndTrim/.*:
+    cores: 2
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     cores: 1
     mem: 3.8
@@ -1923,7 +1926,7 @@ tools:
       - pulsar
     rules:
     - id: porechop_small_input_rule
-      if: input_size < 5
+      if: input_size < 1.5
       cores: 3
       mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_events/poretools_events/.*:
