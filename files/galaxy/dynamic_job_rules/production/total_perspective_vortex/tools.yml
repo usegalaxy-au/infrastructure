@@ -535,6 +535,11 @@ tools:
       if: 0.01 <= input_size < 2
       cores: 4
       mem: 15.3
+    - id: fastqc_large_input_rule
+      if: input_size > 20
+      scheduling:
+        require:
+          - slurm
   toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/.*:
     params:
       singularity_enabled: true
@@ -1065,7 +1070,7 @@ tools:
       if: input_size < 0.5
       cores: 1
       mem: 3.8
-  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools.*:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/.*:
     scheduling:
