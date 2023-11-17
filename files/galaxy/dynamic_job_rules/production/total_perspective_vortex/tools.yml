@@ -535,6 +535,11 @@ tools:
       if: 0.01 <= input_size < 2
       cores: 4
       mem: 15.3
+    - id: fastqc_large_input_rule
+      if: input_size > 20
+      scheduling:
+        require:
+          - slurm
   toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/.*:
     params:
       singularity_enabled: true
