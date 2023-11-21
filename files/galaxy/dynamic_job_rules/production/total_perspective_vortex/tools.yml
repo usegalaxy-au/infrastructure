@@ -736,7 +736,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/anndata_ops/anndata_ops/.*:
     mem: 2 + input_size * 7
     rules:
-    - id: anndata_ops
+    - id: anndata_ops_fail_rule
       if: input_size > 30
       fail: Too much data. Total input data must be less than 30GB.
     params:
@@ -1028,6 +1028,17 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/anndata_inspect/anndata_inspect/.*:
+    mem: 2 + input_size * 7
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar  
+    rules:
+    - id: anndata_inspect_fail_rule
+      if: input_size > 30
+      fail: Too much data. Total input data must be less than 30GB.
   toolshed.g2.bx.psu.edu/repos/iuc/arriba/arriba/.*:
     params:
       singularity_enabled: true
@@ -2127,10 +2138,16 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_plot/scanpy_plot/.*:
-    cores: 1
-    mem: 3.8
+    mem: 4 + input_size * 8
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
+    rules:
+    - id: scanpy_plot_fail_rule
+      if: input_size > 30
+      fail: Too much data. Total input data must be less than 30GB.
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/scanpy_remove_confounders/.*:
     cores: 9
     mem: 34.5
