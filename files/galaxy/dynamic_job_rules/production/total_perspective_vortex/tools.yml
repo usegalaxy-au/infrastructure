@@ -2138,7 +2138,7 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_plot/scanpy_plot/.*:
-    mem: 4 + input_size * 8
+    mem: 4 + input_size * 12
     params:
       singularity_enabled: true
     scheduling:
