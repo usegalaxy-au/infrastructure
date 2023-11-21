@@ -46,7 +46,7 @@
         mode: 0644
       with_items: "{{ galaxy_dynamic_job_rules }}"
       when: not item.endswith(".j2")
-      notify: restart handlers
+      # notify: restart handlers
     - name: Install dynamic job rules (template)
       template:
         src: "{{ galaxy_dynamic_job_rules_src_dir }}/{{ item }}"
@@ -56,4 +56,4 @@
         regex: '\.j2$'
       with_items: "{{ galaxy_dynamic_job_rules }}"
       when: item.endswith(".j2")
-      notify: restart handlers
+      # notify: restart handlers
