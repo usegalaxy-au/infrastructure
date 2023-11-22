@@ -2899,6 +2899,11 @@ tools:
     mem: 12
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
+      require:
+        - pulsar-high-mem2
     rules:
     - if: |
         not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]

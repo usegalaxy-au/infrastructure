@@ -153,11 +153,9 @@ destinations:
     # min_accepted_mem: 62.51 # 2/10/23 accept all job sizes
     tags: {{ job_conf_limits.environments['pulsar-high-mem2'].tags }}
     scheduling:
-      accept:
-        - pulsar-high-mem2
       require:
         - pulsar
-        - offline
+        - pulsar-high-mem2
   pulsar-qld-high-mem0:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem0_runner
