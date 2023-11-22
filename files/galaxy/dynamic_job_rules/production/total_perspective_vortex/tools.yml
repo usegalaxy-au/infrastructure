@@ -676,10 +676,10 @@ tools:
     env:
       SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
-    scheduling:
-      accept:
-      - pulsar
-      - pulsar-quick
+    # scheduling: # these jobs can run on pulsar but it may not be worth transferring them because the job walltime is much quicker than the transport time
+    #   accept:
+    #   - pulsar
+    #   - pulsar-quick
     rules:
     - if: |
         minimum_singularity_version = '2.18.2'
@@ -999,10 +999,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/.*:
     cores: 8
     mem: 30.7
-    scheduling:
-      accept:
-      - pulsar
-      - pulsar-quick
+    # scheduling: # these jobs can run on pulsar but it may not be worth transferring them because the job walltime is much quicker than the transport time
+    #   accept:
+    #   - pulsar
+    #   - pulsar-quick
     rules:
     - id: abricate_small_input_rule
       if: input_size < 0.005
@@ -1503,10 +1503,13 @@ tools:
       MAKER_MPI: '1'
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
     rules:
     - id: rule_maker_limit_concurrency
       if: |
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= 2  # concurrent jobs per user (reduced from 3 while pulsar-mel2 and pulsar-mel3 are offline)
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 3
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
