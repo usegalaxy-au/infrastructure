@@ -1220,6 +1220,7 @@ tools:
     cores: 5
     mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/egsea/egsea/.*:
+    mem: 8
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/ena_upload/ena_upload/.*:
@@ -1260,8 +1261,7 @@ tools:
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/.*:
-    cores: 2
-    mem: 7.6
+    mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_point/ggplot2_point/.*:
     cores: 1
     mem: 3.8
@@ -1527,8 +1527,8 @@ tools:
     rules:
     - id: medaka_consensus_pipeline_small_input_rule
       if: input_size < 0.5
-      cores: 1
-      mem: 3.8
+      cores: 2
+      mem: 7.6
     - id: medaka_consensus_pipeline_medium_input_rule
       if: 0.5 <= input_size < 5
       cores: 8
@@ -2076,8 +2076,8 @@ tools:
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/rna_starsolo/.*:
-    cores: 9
-    mem: 34.5
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/rnaspades/.*:
     params:
       singularity_enabled: true
@@ -2391,6 +2391,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/.*:
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks_denovomap/stacks_denovomap/.*:
+    cores: 2
+    mem: 8
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2.*:
     params:
       singularity_enabled: true
@@ -2701,6 +2704,8 @@ tools:
     - id: spades_fail_rule
       if: input_size >= 60
       fail: Too much data, please don't use Spades for this
+  toolshed.g2.bx.psu.edu/repos/nml/quasitools/.*:
+      mem: 8
   toolshed.g2.bx.psu.edu/repos/peterjc/sample_seqs/sample_seqs/.*:
     params:
       singularity_enabled: true
