@@ -924,6 +924,9 @@ tools:
       reject:
       - pulsar-QLD
       - pulsar-mel2
+  toolshed.g2.bx.psu.edu/repos/galaxyp/encyclopedia_searchtolib/encyclopedia_searchtolib/.*:
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/flashlfq/flashlfq/.*:
     scheduling:
       accept:
