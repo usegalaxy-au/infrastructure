@@ -866,6 +866,12 @@ tools:
     scheduling:
       accept:
       - pulsar
+    rules:
+    - id: hifiadapterfilt_large_input_rule
+      if: input_size > 40
+      scheduling:
+        require:
+          - slurm
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiasm_meta/hifiasm_meta/.*:
     cores: 16
     mem: 61.4
