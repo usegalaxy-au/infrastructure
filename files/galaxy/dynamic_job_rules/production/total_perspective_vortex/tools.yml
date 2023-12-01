@@ -676,10 +676,10 @@ tools:
     env:
       SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
-    scheduling:
-      accept:
-      - pulsar
-      - pulsar-quick
+    # scheduling: # these jobs can run on pulsar but it may not be worth transferring them because the job walltime is much quicker than the transport time
+    #   accept:
+    #   - pulsar
+    #   - pulsar-quick
     rules:
     - if: |
         minimum_singularity_version = '2.18.2'
@@ -736,7 +736,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/anndata_ops/anndata_ops/.*:
     mem: 2 + input_size * 7
     rules:
-    - id: anndata_ops
+    - id: anndata_ops_fail_rule
       if: input_size > 30
       fail: Too much data. Total input data must be less than 30GB.
     params:
@@ -866,6 +866,12 @@ tools:
     scheduling:
       accept:
       - pulsar
+    rules:
+    - id: hifiadapterfilt_large_input_rule
+      if: input_size > 40
+      scheduling:
+        require:
+          - slurm
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiasm_meta/hifiasm_meta/.*:
     cores: 16
     mem: 61.4
@@ -924,6 +930,9 @@ tools:
       reject:
       - pulsar-QLD
       - pulsar-mel2
+  toolshed.g2.bx.psu.edu/repos/galaxyp/encyclopedia_searchtolib/encyclopedia_searchtolib/.*:
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/flashlfq/flashlfq/.*:
     scheduling:
       accept:
@@ -999,10 +1008,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/.*:
     cores: 8
     mem: 30.7
-    scheduling:
-      accept:
-      - pulsar
-      - pulsar-quick
+    # scheduling: # these jobs can run on pulsar but it may not be worth transferring them because the job walltime is much quicker than the transport time
+    #   accept:
+    #   - pulsar
+    #   - pulsar-quick
     rules:
     - id: abricate_small_input_rule
       if: input_size < 0.005
@@ -1028,6 +1037,17 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/anndata_inspect/anndata_inspect/.*:
+    mem: 2 + input_size * 7
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar  
+    rules:
+    - id: anndata_inspect_fail_rule
+      if: input_size > 30
+      fail: Too much data. Total input data must be less than 30GB.
   toolshed.g2.bx.psu.edu/repos/iuc/arriba/arriba/.*:
     params:
       singularity_enabled: true
@@ -1492,10 +1512,13 @@ tools:
       MAKER_MPI: '1'
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
     rules:
     - id: rule_maker_limit_concurrency
       if: |
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= 2  # concurrent jobs per user (reduced from 3 while pulsar-mel2 and pulsar-mel3 are offline)
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 3
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
@@ -1597,7 +1620,7 @@ tools:
     - id: minimap2_medium_input_rule
       if: 0.5 <= input_size < 20
       cores: 16
-      mem: 61.4
+      mem: 120
   toolshed.g2.bx.psu.edu/repos/iuc/mothur.*:
     params:
       docker_enabled: true
@@ -2127,10 +2150,16 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_plot/scanpy_plot/.*:
-    cores: 1
-    mem: 3.8
+    mem: 4 + input_size * 16
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
+    rules:
+    - id: scanpy_plot_fail_rule
+      if: input_size > 30
+      fail: Too much data. Total input data must be less than 30GB.
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/scanpy_remove_confounders/.*:
     cores: 9
     mem: 34.5
@@ -2879,6 +2908,11 @@ tools:
     mem: 12
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
+      require:
+        - pulsar-high-mem2
     rules:
     - if: |
         not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]

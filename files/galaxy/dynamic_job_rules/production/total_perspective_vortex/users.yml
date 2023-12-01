@@ -66,18 +66,16 @@ users:
           scheduling:
             accept:
               - pulsar
-              - high-mem
               - offline
             require:
               - pulsar-high-mem1
     phm2@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed') or any([tool.id == x for x in ['fgenesh']])
           scheduling:
             accept:
               - pulsar
-              - high-mem
               - offline
             require:
               - pulsar-high-mem2
@@ -99,7 +97,6 @@ users:
           scheduling:
             accept:
               - pulsar
-              - high-mem
               - offline
             require:
               - pulsar-qld-high-mem0
@@ -110,7 +107,6 @@ users:
           scheduling:
             accept:
               - pulsar
-              - high-mem
               - offline
             require:
               - pulsar-qld-high-mem1
@@ -121,7 +117,6 @@ users:
           scheduling:
             accept:
               - pulsar
-              - high-mem
               - offline
             require:
               - pulsar-qld-high-mem2
