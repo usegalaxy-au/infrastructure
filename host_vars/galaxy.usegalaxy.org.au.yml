@@ -4,7 +4,7 @@ galaxy_config_file: /opt/galaxy/galaxy.yml
 
 # legacy_file_mounts_available: set to true if /mnt/files, /mnt/files2 should be in the object store
 legacy_file_mounts_available: True # assume true unless set to false
-pawsey_file_mounts_available: True # assume true unless set to false
+pawsey_file_mounts_available: False # assume true unless set to false
 
 # variables for attaching mounted volume to application server
 attached_volumes: # TODO: check this
