@@ -174,45 +174,15 @@
     </section>
     <section id="dna_metabarcoding" name="DNA Metabarcoding">
     </section>
-
-    <label id="proteomics" text="PROTEOMICS"/>
-    <section id="databases" name="Databases">
+    <label id="proteomics_metabolomics" text="PROTEOMICS, METABOLOMICS"/>
+    <section id="proteomics" name="Proteomics">
     </section>
-    <section id="dia" name="DIA">
+    <section id="proteomic_ai" name="Proteomic AI">
     </section>
-    <section id="feature_identification" name="Feature identification">
-    </section>
-    <section id="file_conversion" name="File conversion">
-    </section>
-    <section id="genomic_classification" name="Genomic classification">
-    </section>
-    <section id="identification_quantitation" name="Identification & quantitation">
-    </section>
-    <section id="metaquantome" name="metaQuantome">
-    </section>
-    <section id="msi" name="MSI">
-    </section>
-    <section id="openms" name="OpenMS">
-    </section>
-    <section id="peptide_identification" name="Peptide identification">
-    </section>
-    <section id="post_processing" name="Post-processing">
-    </section>
-    <section id="protein_identification" name="Protein identification">
-    </section>
-    <section id="quality_control" name="Quality control">
-    </section>
-    <section id="search_engine" name="Search engine">
-    </section>
-    <section id="proteomic_ai" name="Proteomics AI">
-    </section>
-
-    <label id="metabolomics" text="METABOLOMICS"/>
-    <section id="general" name="General">
+    <section id="metabolomics" name="Metabolomics">
     </section>
     <section id="chemicaltoolbox" name="ChemicalToolBox">
     </section>
-
     <label id="genomics_toolkits" text="Genomics Toolkits"/>
     <section id="picard" name="Picard">
     </section>
