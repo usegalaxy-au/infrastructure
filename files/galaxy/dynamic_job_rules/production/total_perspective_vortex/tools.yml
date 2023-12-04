@@ -1620,7 +1620,7 @@ tools:
     - id: minimap2_medium_input_rule
       if: 0.5 <= input_size < 20
       cores: 16
-      mem: 120
+      mem: 200
   toolshed.g2.bx.psu.edu/repos/iuc/mothur.*:
     params:
       docker_enabled: true
