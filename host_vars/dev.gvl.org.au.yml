@@ -100,8 +100,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/mail/activation-email.txt"
   - src: "{{ galaxy_config_file_src_dir }}/config/local_tool_data_table_conf.xml"
     dest: "{{ galaxy_config_dir }}/local_tool_data_table_conf.xml"
-  - src: "{{ galaxy_tool_box_filters_dir }}/proteomics.yml"
-    dest: "{{ galaxy_config_dir }}/tool_panel_filters/proteomics.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/tool_panel_filters/proteomics.yml"
+    dest: "{{ galaxy_toolbox_filters_dir }}/proteomics.yml"
 
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
@@ -184,7 +184,6 @@ host_galaxy_config: # renamed from __galaxy_config
     email_from: <galaxy-no-reply@usegalaxy.org.au>
     user_activation_on: true
     activation_email: <activation-noreply@usegalaxy.org.au>
-    panel_views_dir: "{{ galaxy_config_dir }}/tool_panel_filters
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
