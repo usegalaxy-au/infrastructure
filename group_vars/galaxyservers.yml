@@ -128,6 +128,9 @@ galaxy_toolbox_filters_dir: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/fi
 
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.yml"
 
+galaxy_extra_privsep_dirs:
+  - "{{ galaxy_config_dir }}/mail"
+
 tpv_version: "2.3.2"
 
 tpv_packages: |
