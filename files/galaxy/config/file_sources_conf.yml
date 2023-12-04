@@ -1,4 +1,4 @@
-- type: webdav
+- type: webdav # TODO: Remove this entry after 15/12/23
   id: cloudstor
   label: CloudStor
   doc: Import your files from CloudStor. Configure access in User -> Preferences -> Manage Information
@@ -6,7 +6,7 @@
   root: "/plus/remote.php/webdav"
   login: ${user.preferences['owncloud_account|username']}
   password: ${user.preferences['owncloud_account|password']}
-  writable: true
+  # writable: true
 
 - type: webdav
   id: griffith_owncloud
