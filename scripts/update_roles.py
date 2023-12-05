@@ -12,7 +12,9 @@ Checks elements of requirements.yml against directories in 'roles' and makes a l
 of the roles with updated requirements.
 
 Calls ansible-galaxy install -p roles -r requirements_updated.yml --force
-where requirements_updated.yml contains only the roles that need to be force-installed 
+where requirements_updated.yml contains only the roles that need to be force-installed
+
+Note that this does not update collections, only the roles
 """
 
 roles_to_update = []
@@ -25,9 +27,9 @@ if not roles_dir in os.listdir(here):
 output_file = 'requirements_updated.yml'
 
 with open('requirements.yml') as handle:
-    requirements = yaml.safe_load(handle)
+    role_requirements = yaml.safe_load(handle).get('roles')
 
-for r in requirements:
+for r in role_requirements:
     try:
         name = r.get('name', r.get('src'))
         if not name:

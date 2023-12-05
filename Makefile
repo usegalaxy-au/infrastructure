@@ -22,17 +22,14 @@ KEY_FILE?=~/.ssh/galaxy  # set env var KEY_FILE to override this (or symlink you
 run:
 	ansible-playbook -i hosts --key-file $(KEY_FILE) $(PLAYBOOK)_playbook.yml
 
-run-dev:
-	ansible-playbook -i hosts --key-file $(KEY_FILE) dev_playbook.yml
-
-run-staging:
-	ansible-playbook -i hosts --key-file $(KEY_FILE) staging_playbook.yml
-
-run-prod:
-	ansible-playbook -i hosts --key-file $(KEY_FILE) aarnet_playbook.yml
-
 install-roles:
 	ansible-galaxy install -p roles -r requirements.yml
+
+install-requirements:
+	ansible-galaxy install -r requirements.yml
+
+force-install-requirements:
+	ansible-galaxy install -r requirements.yml -f
 
 update-roles:
 	python scripts/update_roles.py
