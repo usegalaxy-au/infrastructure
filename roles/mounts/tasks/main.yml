@@ -12,7 +12,7 @@
   with_items: expanded_mounts
 
 - name: Install shared mounts into fstab
-  mount:
+  ansible.posix.mount:
       path: "{{ item.path }}"
       state: "{{ item.state }}"
       src: "{{ item.src }}"
