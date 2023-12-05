@@ -32,7 +32,7 @@
         owner: root
         group: galaxy
         mode: 0775
-    - name: create dir for galaxy's singularity cache # TODO: Put this on volume
+    - name: create dir for galaxy's singularity cache
       file:
         state: directory
         path: "{{ item }}"
@@ -42,6 +42,13 @@
       with_items:
         - "{{ galaxy_user_singularity_cachedir }}"
         - "{{ galaxy_user_singularity_tmpdir }}"
+    - name: Create containing folders for external NFS file mounts
+      file:
+        state: directory
+        path: "{{ item }}"
+      with_items:
+        - "{{ qld_file_mounts_path }}"
+        - "{{ pawsey_file_mounts_path }}"
   roles:
         - mounts
         - geerlingguy.pip
