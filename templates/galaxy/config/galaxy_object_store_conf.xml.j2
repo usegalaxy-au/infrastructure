@@ -21,24 +21,24 @@
         </backend>
 {% if pawsey_file_mounts_available|d(True) %}
         <backend id="perthNFS1" type="disk" weight="0" store_by="id">
-            <files_dir path="/mnt/user-data" />
+            <files_dir path="{{ pawsey_file_mounts_path }}/user-data" />
         </backend>
         <backend id="perthNFS4" type="disk" weight="0" store_by="id">
-            <files_dir path="/mnt/user-data-4" />
+            <files_dir path="{{ pawsey_file_mounts_path }}/user-data-4" />
         </backend>
         <backend id="perthNFS2" type="disk" weight="0" store_by="id">
-            <files_dir path="/mnt/user-data-2" />
+            <files_dir path="{{ pawsey_file_mounts_path }}/user-data-2" />
         </backend>
         <backend id="perthNFS3" type="disk" weight="0" store_by="id">
-            <files_dir path="/mnt/user-data-3" />
+            <files_dir path="{{ pawsey_file_mounts_path }}/user-data-3" />
         </backend>
 {% endif %}
 {% if qld_file_mounts_available|d(True) %}
         <backend id="qldNFS1" type="disk" weight="0" store_by="id">
-            <files_dir path="/mnt/files" />
+            <files_dir path="{{ qld_file_mounts_path }}/files" />
         </backend>
         <backend id="qldNFS2" type="disk" weight="0" store_by="id">
-            <files_dir path="/mnt/files2" />
+            <files_dir path="{{ qld_file_mounts_path }}/files2" />
         </backend>
 {% endif %}
     </backends>
