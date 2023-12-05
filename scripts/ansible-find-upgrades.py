@@ -8,7 +8,7 @@ import subprocess
 
 
 with open('requirements.yml', 'r') as handle:
-    desired = yaml.safe_load(handle)
+    desired = yaml.safe_load(handle).get('roles')
 
 for role in desired:
     if '://' in role.get('src', role.get('name')):
