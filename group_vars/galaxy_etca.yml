@@ -65,22 +65,22 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     opts: 'noatime,actimeo=0,defaults'
     state: mounted
   # pawsey data volumes
-  - path: /mnt/user-data  # TODO: Change to "{{ pawsey_file_mounts_path }}/user-data"
+  - path: "{{ pawsey_file_mounts_path }}/user-data"
     src: "pawsey-user-nfs.usegalaxy.org.au:/mnt/user-data"
     fstype: nfs
     opts: 'noatime,defaults'
     state: "{{ 'mounted' if pawsey_file_mounts_available else 'absent_from_fstab' }}"
-  - path: /mnt/user-data-2  # TODO: Change to "{{ pawsey_file_mounts_path }}/user-data-2"
+  - path: "{{ pawsey_file_mounts_path }}/user-data-2"
     src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-2"
     fstype: nfs
     opts: 'noatime,defaults'
     state: "{{ 'mounted' if pawsey_file_mounts_available else 'absent_from_fstab' }}"
-  - path: /mnt/user-data-3  # TODO: Change to "{{ pawsey_file_mounts_path }}/user-data-3"
+  - path: "{{ pawsey_file_mounts_path }}/user-data-3"
     src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-3"
     fstype: nfs
     opts: 'noatime,defaults'
     state: "{{ 'mounted' if pawsey_file_mounts_available else 'absent_from_fstab' }}"
-  - path: /mnt/user-data-4  # TODO: Change to "{{ pawsey_file_mounts_path }}/user-data-4"
+  - path: "{{ pawsey_file_mounts_path }}/user-data-4"
     src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-4"
     fstype: nfs
     opts: 'noatime,defaults'
