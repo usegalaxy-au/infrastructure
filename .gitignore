@@ -62,3 +62,5 @@ roles/dev-tiaas2
 roles/galaxyproject.s3fs
 roles/usegalaxy_eu.flower
 roles/usegalaxy_eu.galaxy_subdomains
+
+collections/ansible_collections/*
