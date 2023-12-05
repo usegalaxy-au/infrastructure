@@ -12,6 +12,13 @@
       - name: Attach volume to instance
         include_role:
           name: attached-volumes
+      - name: Create containing folders for external NFS file mounts
+        file:
+          state: directory
+          path: "{{ item }}"
+        with_items:
+          - "{{ qld_file_mounts_path }}"
+          - "{{ pawsey_file_mounts_path }}"
   roles:
       - common
       - insspb.hostname
@@ -21,9 +28,7 @@
       - galaxyproject.slurm
       - galaxyproject.cvmfs
       - dj-wasabi.telegraf
-    #   - gantsign.golang
-    #   - cyverse-ansible.singularity
-      - usegalaxy_eu.apptainer # see how this works as replacement for golang+cyverse/singularity
+      - usegalaxy_eu.apptainer
       - geerlingguy.docker
       - acl-on-startup
   post_tasks:
