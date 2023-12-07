@@ -39,7 +39,7 @@
         # Note: This step requires only the restart of galaxy processes running on galaxy VM
         template:
           src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
-          dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
+          dest: "{{ galaxy_toolbox_filters_dir }}/ga_filters.py"
         notify:
           - remote restart galaxy
       - name: Copy tool configuration files (static) # does not require a restart
