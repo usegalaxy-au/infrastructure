@@ -11,34 +11,51 @@
       - secret_group_vars/stats_server_vault
   handlers:
     - include: handlers/galaxy_handlers.yml
+    - name: galaxy gravity remote restart
+      become: true
+      become_user: ubuntu
+      command: 'ssh galaxy "sudo {{ galaxy_venv_dir }}/bin/galaxyctl -c {{ galaxy_config_file }} graceful"'
+      listen: "remote restart galaxy"
   tasks:
-    - name: copy job_conf file
-      template:
-        src: "{{ galaxy_config_template_src_dir }}/config/galaxy_job_conf.yml.j2"
-        dest: "{{ galaxy_config_dir }}/job_conf.yml"
-      notify: restart handlers
-      # TODO: better linting of job conf, then it is probably entirely acceptable to let the jenkins_bot trigger a graceful restart of handlers
-      when: not ansible_user == 'jenkins_bot'  # do not let the automatic process update the job conf
-    # Previous process would update object store, toolbox filters. TODO: Find another place to do this
-    # - name: template object store conf file
-    #   template:
-    #     src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.xml.j2"
-    #     dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
-    #   notify: restart galaxy
-    #   when: not ansible_user == 'jenkins_bot'  # do not let the automatic process object store or restart galaxy
-    # - name: template toolbox filters
-    #   template:
-    #     src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
-    #     dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
-    #   notify: restart galaxy
-    #   when: not ansible_user == 'jenkins_bot'  # do not let the automatic process restart galaxy
-    - name: Copy local tool conf file
-      copy:
-        src: "{{ galaxy_config_file_src_dir }}/config/{{ item }}"
-        dest: "{{ galaxy_config_dir }}/{{ item }}"
-      with_items:
-        - local_tool_conf.xml
-      when: not ansible_user == 'jenkins_bot'
+    - name: Template and copy config files
+      when: not ansible_user == 'jenkins_bot'  # do not let the automatic process object store or restart galaxy
+      block: 
+      - name: copy job_conf file
+        # Note: This step requires only the restart of galaxy processes running on galaxy-handlers VM
+        template:
+          src: "{{ galaxy_config_template_src_dir }}/config/galaxy_job_conf.yml.j2"
+          dest: "{{ galaxy_config_dir }}/job_conf.yml"
+        notify: restart handlers
+      - name: template object store conf file
+        # Note: This step requires the restart of all galaxy processes (galaxyctl graceful run on both VMs)
+        template:
+          src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.xml.j2"
+          dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
+        register: object_store_task
+        notify:
+          - restart galaxy
+          - remote restart galaxy
+      - name: template toolbox filters
+        # Note: This step requires only the restart of galaxy processes running on galaxy VM
+        template:
+          src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
+          dest: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/filters/ga_filters.py"
+        notify:
+          - remote restart galaxy
+      - name: Copy tool configuration files (static) # does not require a restart
+        copy:
+          src: "{{ galaxy_config_file_src_dir }}/config/{{ item }}"
+          dest: "{{ galaxy_config_dir }}/{{ item }}"
+        with_items:
+          - local_tool_conf.xml
+          - tool_conf.xml
+      - name: Copy tool configuration files (template) # does not require a restart
+        template:
+          src: "{{ galaxy_config_template_src_dir }}/config/{{ item }}.j2"
+          dest: "{{ galaxy_config_dir }}/{{ item }}"
+        with_items:
+          - tool_conf_interactive.xml
+    # following tasks are OK for jenkins_bot
     - name: Install dynamic job rules (static) # dynamic job rules tasks copied from https://github.com/galaxyproject/ansible-galaxy/blob/main/tasks/static_setup.yml
       copy:
         src: "{{ galaxy_dynamic_job_rules_src_dir }}/{{ item }}"
@@ -46,7 +63,6 @@
         mode: 0644
       with_items: "{{ galaxy_dynamic_job_rules }}"
       when: not item.endswith(".j2")
-      # notify: restart handlers
     - name: Install dynamic job rules (template)
       template:
         src: "{{ galaxy_dynamic_job_rules_src_dir }}/{{ item }}"
@@ -56,4 +72,5 @@
         regex: '\.j2$'
       with_items: "{{ galaxy_dynamic_job_rules }}"
       when: item.endswith(".j2")
-      # notify: restart handlers
+    # TODO: Most tasks here are not appropriate for the jenkins_bot automatic update process. To make them auto-update 
+    # friendly (if this is actually desirable) we'd need to introduce linting for xml, templated xml and yml files
