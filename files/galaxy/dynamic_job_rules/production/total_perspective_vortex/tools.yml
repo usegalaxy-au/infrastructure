@@ -295,6 +295,11 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_pca_visualize/bio3d_pca_visualize/.*:
+    mem: 64
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_rmsd/bio3d_rmsd/.*:
     scheduling:
       accept:
@@ -314,6 +319,18 @@ tools:
       if: input_size < 0.01
       cores: 2
       mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/chemteam/mdanalysis_cosine_analysis/mdanalysis_cosine_analysis/.*:
+    mem: 12
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/chemteam/md_converter/md_converter/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/chemteam/md_converter/md_slicer/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/chemteam/vmd_hbonds/vmd_hbonds/.*:
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/.*:
     cores: 8
     mem: 30.7
@@ -1888,6 +1905,9 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+  toolshed.g2.bx.psu.edu/repos/iuc/picrust.*:
+    cores: 2
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/picrust2_add_descriptions/picrust2_add_descriptions/.*:
     params:
       singularity_enabled: true
