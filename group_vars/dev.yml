@@ -67,12 +67,6 @@ machine_users:
       key: files/keys/nuwan.pub
       galaxy_admin: true
       email: "{{ nuwan_email }}"
-    - name: ollie
-      uid: 7015
-      roles:
-        - sudo
-      key: files/keys/ollie.pub
-      email: "{{ ollie_email }}"
 
     # user support team
     - name: igor
