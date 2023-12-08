@@ -1,215 +1,4 @@
-[dev_db_server]
-dev-db ansible_ssh_host=45.113.232.252
-
-[staging_db_server]
-staging-db ansible_ssh_host=115.146.87.93
-
-[aarnet_db_server]
-aarnet-db ansible_ssh_host=138.44.80.119 internal_ip=192.168.199.24
-
-[dev_galaxy_server]
-dev ansible_ssh_host=45.113.232.186
-
-[dev_handlers_server]
-dev-handlers ansible_ssh_host=103.6.254.142
-
-[staging_galaxy_server]
-staging ansible_ssh_host=115.146.84.166
-
-[aarnet_galaxy_server]
-aarnet ansible_ssh_host=138.44.80.40 internal_ip=192.168.199.221
-
-[aarnet_slurm_head]
-aarnet-queue ansible_ssh_host=138.44.80.74 internal_ip=192.168.199.210
-
-# unused ftp VMs for repurposing
-[ftp_servers]
-dev-ftp	ansible_ssh_host=45.113.235.70
-aarnet-ftp ansible_ssh_host=138.44.80.113 internal_ip=192.168.199.129
-
-[aarnet_ftp_server]
-aarnet-ftp ansible_ssh_host=138.44.80.28 internal_ip=192.168.199.39
-
-[rabbitservers]
-dev-queue ansible_ssh_host=45.113.232.149
-staging-queue ansible_ssh_host=115.146.84.121
-prod-rabbit ansible_ssh_host=115.146.86.67
-aarnet-queue ansible_ssh_host=138.44.80.74 internal_ip=192.168.199.210
-
-[slurmcontrollers]
-dev-queue ansible_ssh_host=45.113.232.149
-staging-queue ansible_ssh_host=115.146.84.121
-aarnet-queue ansible_ssh_host=138.44.80.74 internal_ip=192.168.199.210
-
-[pulsarservers]
-dev-pulsar ansible_ssh_host=45.113.233.82
-staging-pulsar ansible_ssh_host=115.146.87.193
-
-[nfs_servers]
-pawsey-user-nfs ansible_ssh_host=146.118.68.13 internal_ip=192.168.0.165
-aarnet-user-nfs ansible_ssh_host=192.168.199.169 internal_ip=192.168.199.169
-aarnet-misc-nfs ansible_ssh_host=192.168.199.153 internal_ip=192.168.199.153
-aarnet-job-nfs ansible_ssh_host=192.168.199.43 internal_ip=192.168.199.43
-pulsar-QLD-job-nfs ansible_ssh_host=203.101.226.27
-
-[dev_slurm_head]
-dev-queue ansible_ssh_host=45.113.232.149
-
-[dev_workers]
-dev-w1 ansible_ssh_host=45.113.233.251
-dev-w2 ansible_ssh_host=45.113.233.7
-
-[staging_slurm_head]
-staging-queue ansible_ssh_host=115.146.84.121
-
-[staging_workers]
-staging-w1 ansible_ssh_host=115.146.87.130
-
-[aarnet_workers]
-aarnet-w1 ansible_ssh_host=192.168.199.251 internal_ip=192.168.199.251
-aarnet-w2 ansible_ssh_host=192.168.199.218 internal_ip=192.168.199.218
-aarnet-w3 ansible_ssh_host=192.168.199.80 internal_ip=192.168.199.80
-aarnet-w4 ansible_ssh_host=192.168.199.7 internal_ip=192.168.199.7
-aarnet-w5 ansible_ssh_host=192.168.199.126 internal_ip=192.168.199.126
-aarnet-w6 ansible_ssh_host=192.168.199.228 internal_ip=192.168.199.228
-aarnet-w7 ansible_ssh_host=192.168.199.82 internal_ip=192.168.199.82
-aarnet-w8 ansible_ssh_host=192.168.199.156 internal_ip=192.168.199.156
-aarnet-w9 ansible_ssh_host=192.168.199.83 internal_ip=192.168.199.83
-aarnet-w10 ansible_ssh_host=192.168.199.212 internal_ip=192.168.199.212
-
-[backupservers]
-aarnet-backup ansible_ssh_host=138.44.80.22 internal_ip=192.168.199.12
-
-[pawsey_group]  # 6/6/23 hosts removed except for pawsey-user-nfs which is still in use
-pawsey-user-nfs ansible_ssh_host=146.118.68.13 internal_ip=192.168.0.165
-
-# Pulsar servers
-
-[pulsar_paw_head]
-pulsar-paw ansible_ssh_host=146.118.68.128 internal_ip=192.168.0.64
-
-[pulsar_paw_workers]
-pulsar-paw-w1 ansible_ssh_host=146.118.68.43 internal_ip=192.168.0.134
-pulsar-paw-w2 ansible_ssh_host=146.118.67.217 internal_ip=192.168.0.180
-pulsar-paw-w3 ansible_ssh_host=146.118.70.37 internal_ip=192.168.0.138
-pulsar-paw-w4 ansible_ssh_host=146.118.69.218 internal_ip=192.168.0.176
-pulsar-paw-w5 ansible_ssh_host=146.118.70.1 internal_ip=192.168.0.157
-
-[pulsar_mel2_head]
-pulsar-mel2 ansible_ssh_host=115.146.85.55
-
-[pulsar_mel2_workers]
-pulsar-mel2-w1 ansible_ssh_host=115.146.86.24
-pulsar-mel2-w2 ansible_ssh_host=115.146.86.70
-pulsar-mel2-w3 ansible_ssh_host=115.146.87.226
-pulsar-mel2-w4 ansible_ssh_host=115.146.84.97
-pulsar-mel2-w5 ansible_ssh_host=115.146.85.102
-pulsar-mel2-w6 ansible_ssh_host=115.146.84.131
-pulsar-mel2-w7 ansible_ssh_host=115.146.86.132
-
-[pulsar_mel3_head]
-pulsar-mel3 ansible_ssh_host=115.146.85.19
-
-[pulsar_mel3_workers]
-pulsar-mel3-w1 ansible_ssh_host=115.146.84.200
-pulsar-mel3-w2 ansible_ssh_host=115.146.84.238
-pulsar-mel3-w3 ansible_ssh_host=115.146.87.129
-pulsar-mel3-w4 ansible_ssh_host=115.146.86.181
-pulsar-mel3-w5 ansible_ssh_host=115.146.86.108
-pulsar-mel3-w6 ansible_ssh_host=115.146.86.64
-
-[pulsar_nci_test_head]
-pulsar-nci-test ansible_ssh_host=130.56.246.138 internal_ip=10.0.2.29
-
-[pulsar_nci_test_workers]
-pulsar-nci-test-w1 ansible_ssh_host=10.0.0.20 internal_ip=10.0.0.20
-pulsar-nci-test-w2 ansible_ssh_host=10.0.1.48 internal_ip=10.0.1.48
-
-[pulsar_high_mem1]
-pulsar-high-mem1 ansible_ssh_host=115.146.84.36
-
-[pulsar_high_mem2]
-pulsar-high-mem2 ansible_ssh_host=115.146.85.27
-
-[pulsar_qld_himems]
-qld-pulsar-himem-0 ansible_ssh_host=203.101.225.122
-qld-pulsar-himem-1 ansible_ssh_host=203.101.228.14
-qld-pulsar-himem-2 ansible_ssh_host=203.101.227.201
-
-[pulsar_qld_blast]
-pulsar-qld-blast ansible_ssh_host=203.101.231.166 internal_ip=10.255.138.38
-
-
-[pulsar_QLD_head]
-pulsar-QLD ansible_ssh_host=203.101.225.247
-
-[pulsar_QLD_queue]
-pulsar-QLD-queue ansible_ssh_host=203.101.227.169
-
-[pulsar_QLD_workers]
-pulsar-QLD-w0 ansible_ssh_host=203.101.225.65
-pulsar-QLD-w1 ansible_ssh_host=203.101.227.84
-pulsar-QLD-w2 ansible_ssh_host=203.101.230.207
-pulsar-QLD-w3 ansible_ssh_host=203.101.229.212
-pulsar-QLD-w4 ansible_ssh_host=203.101.228.12
-pulsar-QLD-w5 ansible_ssh_host=203.101.224.157
-pulsar-QLD-w6 ansible_ssh_host=203.101.227.103
-
-[pulsar_nci_training_head]
-pulsar-nci-training ansible_ssh_host=130.56.246.233 internal_ip=10.0.1.46
-
-[pulsar_nci_training_workers]
-pulsar-nci-training-w0 ansible_ssh_host=10.0.1.197 internal_ip=10.0.1.197
-pulsar-nci-training-w1 ansible_ssh_host=10.0.0.28 internal_ip=10.0.0.28
-pulsar-nci-training-w2 ansible_ssh_host=10.0.3.167 internal_ip=10.0.3.167
-pulsar-nci-training-w3 ansible_ssh_host=10.0.2.236 internal_ip=10.0.2.236
-pulsar-nci-training-w4 ansible_ssh_host=10.0.0.175 internal_ip=10.0.0.175
-pulsar-nci-training-w5 ansible_ssh_host=10.0.1.218 internal_ip=10.0.1.218
-pulsar-nci-training-w6 ansible_ssh_host=10.0.2.125 internal_ip=10.0.2.125
-pulsar-nci-training-w7 ansible_ssh_host=10.0.2.186 internal_ip=10.0.2.186
-pulsar-nci-training-w8 ansible_ssh_host=10.0.1.143 internal_ip=10.0.1.143
-pulsar-nci-training-w9 ansible_ssh_host=10.0.2.254 internal_ip=10.0.2.254
-pulsar-nci-training-w10 ansible_ssh_host=10.0.1.110 internal_ip=10.0.1.110
-pulsar-nci-training-w11 ansible_ssh_host=10.0.2.82 internal_ip=10.0.2.82
-
-[production_pulsars:children]
-pulsar_mel3_head
-pulsar_mel2_head
-pulsar_paw_head
-pulsar_QLD_head
-pulsar_qld_himems
-pulsar_high_mem2
-pulsar_high_mem1
-pulsar_qld_blast
-pulsar_nci_training_head
-pulsar_azure_0_head
-
-[nvme]
-qld-nvme ansible_ssh_host=203.101.231.166
-
-[build_machines]
-nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249
-aarnet-backup ansible_ssh_host=138.44.80.22 internal_ip=192.168.199.12
-
-##### Pulsar Azure
-[pulsar_azure_0_head]
-pulsar-azure-0 ansible_ssh_host=20.28.206.42
-
-##### Stats server
-[stats_servers]
-stats.usegalaxy.org.au ansible_ssh_host=115.146.84.128
-
-######## CVMFS Stratum 1 servers
-[cvmfsstratum1servers]
-cvmfs1-mel0.gvl.org.au ansible_user=ec2-user ansible_ssh_host=115.146.85.207
-
-[cvmfslocalproxies]
-cvmfsp-mel.gvl.org.au ansible_ssh_host=115.146.87.203
-cvmfsp-paw.gvl.org.au ansible_ssh_host=146.118.70.86 internal_ip=192.168.0.131
-
-[galactic_radio_telescope]
-telescope ansible_ssh_host=115.146.86.144
-
+# galaxy etca
 [galaxy_group]
 galaxy-handlers ansible_ssh_host=138.44.7.157 internal_ip=192.168.205.47
 galaxy-db ansible_ssh_host=138.44.7.155 internal_ip=192.168.205.18
@@ -242,6 +31,188 @@ galaxy-w7 internal_ip=192.168.205.25
 galaxy-w8 internal_ip=192.168.205.193
 galaxy-w9 internal_ip=192.168.205.181
 galaxy-w10 internal_ip=192.168.205.236
+
+# Pawsey
+[pawsey_group]  # 6/6/23 hosts removed except for pawsey-user-nfs which is still in use
+pawsey-user-nfs ansible_ssh_host=146.118.68.13 internal_ip=192.168.0.165
+
+[pulsar_paw_head]
+pulsar-paw ansible_ssh_host=146.118.68.128 internal_ip=192.168.0.64
+
+[pulsar_paw_workers]
+pulsar-paw-w1 ansible_ssh_host=146.118.68.43 internal_ip=192.168.0.134
+pulsar-paw-w2 ansible_ssh_host=146.118.67.217 internal_ip=192.168.0.180
+pulsar-paw-w3 ansible_ssh_host=146.118.70.37 internal_ip=192.168.0.138
+pulsar-paw-w4 ansible_ssh_host=146.118.69.218 internal_ip=192.168.0.176
+pulsar-paw-w5 ansible_ssh_host=146.118.70.1 internal_ip=192.168.0.157
+
+# GenomicsVL pulsar
+[pulsar_mel3_head]
+pulsar-mel3 ansible_ssh_host=115.146.85.19
+
+[pulsar_mel3_workers]
+pulsar-mel3-w1 ansible_ssh_host=115.146.84.200
+pulsar-mel3-w2 ansible_ssh_host=115.146.84.238
+pulsar-mel3-w3 ansible_ssh_host=115.146.87.129
+pulsar-mel3-w4 ansible_ssh_host=115.146.86.181
+pulsar-mel3-w5 ansible_ssh_host=115.146.86.108
+pulsar-mel3-w6 ansible_ssh_host=115.146.86.64
+
+# MelbourneGVL pulsars
+[pulsar_mel2_head]
+pulsar-mel2 ansible_ssh_host=115.146.85.55
+
+[pulsar_mel2_workers]
+pulsar-mel2-w1 ansible_ssh_host=115.146.86.24
+pulsar-mel2-w2 ansible_ssh_host=115.146.86.70
+pulsar-mel2-w3 ansible_ssh_host=115.146.87.226
+pulsar-mel2-w4 ansible_ssh_host=115.146.84.97
+pulsar-mel2-w5 ansible_ssh_host=115.146.85.102
+pulsar-mel2-w6 ansible_ssh_host=115.146.84.131
+pulsar-mel2-w7 ansible_ssh_host=115.146.86.132
+
+[pulsar_high_mem1]
+pulsar-high-mem1 ansible_ssh_host=115.146.84.36
+
+[pulsar_high_mem2]
+pulsar-high-mem2 ansible_ssh_host=115.146.85.27
+
+# GenomicsVL_QLD pulsars
+[pulsar_qld_himems]
+qld-pulsar-himem-0 ansible_ssh_host=203.101.225.122
+qld-pulsar-himem-1 ansible_ssh_host=203.101.228.14
+qld-pulsar-himem-2 ansible_ssh_host=203.101.227.201
+
+[pulsar_qld_blast]
+pulsar-qld-blast ansible_ssh_host=203.101.231.166 internal_ip=10.255.138.38
+
+[pulsar_QLD_head]
+pulsar-QLD ansible_ssh_host=203.101.225.247
+
+[pulsar_QLD_queue]
+pulsar-QLD-queue ansible_ssh_host=203.101.227.169
+
+[pulsar_QLD_nfs]
+pulsar-QLD-job-nfs ansible_ssh_host=203.101.226.27
+
+[pulsar_QLD_workers]
+pulsar-QLD-w0 ansible_ssh_host=203.101.225.65
+pulsar-QLD-w1 ansible_ssh_host=203.101.227.84
+pulsar-QLD-w2 ansible_ssh_host=203.101.230.207
+pulsar-QLD-w3 ansible_ssh_host=203.101.229.212
+pulsar-QLD-w4 ansible_ssh_host=203.101.228.12
+pulsar-QLD-w5 ansible_ssh_host=203.101.224.157
+pulsar-QLD-w6 ansible_ssh_host=203.101.227.103
+
+# NCI
+[nci_build]
+nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249
+
+[pulsar_nci_training_head]
+pulsar-nci-training ansible_ssh_host=130.56.246.233 internal_ip=10.0.1.46
+
+[pulsar_nci_training_workers]
+pulsar-nci-training-w0 ansible_ssh_host=10.0.1.197 internal_ip=10.0.1.197
+pulsar-nci-training-w1 ansible_ssh_host=10.0.0.28 internal_ip=10.0.0.28
+pulsar-nci-training-w2 ansible_ssh_host=10.0.3.167 internal_ip=10.0.3.167
+pulsar-nci-training-w3 ansible_ssh_host=10.0.2.236 internal_ip=10.0.2.236
+pulsar-nci-training-w4 ansible_ssh_host=10.0.0.175 internal_ip=10.0.0.175
+pulsar-nci-training-w5 ansible_ssh_host=10.0.1.218 internal_ip=10.0.1.218
+pulsar-nci-training-w6 ansible_ssh_host=10.0.2.125 internal_ip=10.0.2.125
+pulsar-nci-training-w7 ansible_ssh_host=10.0.2.186 internal_ip=10.0.2.186
+pulsar-nci-training-w8 ansible_ssh_host=10.0.1.143 internal_ip=10.0.1.143
+pulsar-nci-training-w9 ansible_ssh_host=10.0.2.254 internal_ip=10.0.2.254
+pulsar-nci-training-w10 ansible_ssh_host=10.0.1.110 internal_ip=10.0.1.110
+pulsar-nci-training-w11 ansible_ssh_host=10.0.2.82 internal_ip=10.0.2.82
+
+[pulsar_nci_test_head]
+pulsar-nci-test ansible_ssh_host=130.56.246.138 internal_ip=10.0.2.29
+
+[pulsar_nci_test_workers]
+pulsar-nci-test-w1 ansible_ssh_host=10.0.0.20 internal_ip=10.0.0.20
+pulsar-nci-test-w2 ansible_ssh_host=10.0.1.48 internal_ip=10.0.1.48
+
+# Pulsar Azure
+[pulsar_azure_0_head]
+pulsar-azure-0 ansible_ssh_host=20.28.206.42
+
+# Production pulsars grouping
+[production_pulsars:children]
+pulsar_mel3_head
+pulsar_mel2_head
+pulsar_paw_head
+pulsar_QLD_head
+pulsar_qld_himems
+pulsar_high_mem2
+pulsar_high_mem1
+pulsar_qld_blast
+pulsar_nci_training_head
+pulsar_azure_0_head
+
+# Dev cluster (GenomicsVL_Devt)
+[dev_group]
+dev-pulsar ansible_ssh_host=45.113.233.82
+[dev_group:children]
+dev_db_server
+dev_galaxy_server
+dev_handlers_server
+dev_slurm_head
+dev_workers
+
+[dev_db_server]
+dev-db ansible_ssh_host=45.113.232.252
+
+[dev_galaxy_server]
+dev ansible_ssh_host=45.113.232.186
+
+[dev_handlers_server]
+dev-handlers ansible_ssh_host=103.6.254.142
+
+[dev_slurm_head]
+dev-queue ansible_ssh_host=45.113.232.149
+
+[dev_workers]
+dev-w1 ansible_ssh_host=45.113.233.251
+dev-w2 ansible_ssh_host=45.113.233.7
+
+# Staging cluster (GenomicsVL)
+[staging_group]
+staging-pulsar ansible_ssh_host=115.146.87.193
+[staging_group:children]
+staging_db_server
+staging_galaxy_server
+staging_slurm_head
+staging_workers
+
+[staging_db_server]
+staging-db ansible_ssh_host=115.146.87.93
+
+[staging_galaxy_server]
+staging ansible_ssh_host=115.146.84.166
+
+[staging_slurm_head]
+staging-queue ansible_ssh_host=115.146.84.121
+
+[staging_workers]
+staging-w1 ansible_ssh_host=115.146.87.130
+
+# CVMFS
+[cvmfsstratum1servers]
+cvmfs1-mel0.gvl.org.au ansible_user=ec2-user ansible_ssh_host=115.146.85.207
+
+[cvmfslocalproxies]
+cvmfsp-mel.gvl.org.au ansible_ssh_host=115.146.87.203
+cvmfsp-paw.gvl.org.au ansible_ssh_host=146.118.70.86 internal_ip=192.168.0.131
+
+# Miscellaneous
+[nvme]
+qld-nvme ansible_ssh_host=203.101.231.166
+
+[stats_servers]
+stats.usegalaxy.org.au ansible_ssh_host=115.146.84.128
+
+[galactic_radio_telescope]
+telescope ansible_ssh_host=115.146.86.144
 
 [all:vars]
 ansible_host_key_checking=False
