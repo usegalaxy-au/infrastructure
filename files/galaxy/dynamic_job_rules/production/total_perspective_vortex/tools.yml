@@ -1002,7 +1002,7 @@ tools:
     cores: 6
     mem: 4
     params:
-      singularity_container_id_override: docker://teambraker/braker3:v.1.0.4
+      singularity_container_id_override: docker://quay.io/bgruening/braker3:v.1.0.4
       singularity_enabled: true
     scheduling:
       require:
