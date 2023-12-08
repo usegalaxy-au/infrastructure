@@ -2993,3 +2993,6 @@ tools:
     scheduling:
       accept:
       - training-exempt   # these jobs are exempt from training rules that would reduce allocated memory
+  toolshed.g2.bx.psu.edu/repos/iuc/tbprofiler/tb_profiler_profile/.*:
+    cores: 3
+    mem: 11.5
