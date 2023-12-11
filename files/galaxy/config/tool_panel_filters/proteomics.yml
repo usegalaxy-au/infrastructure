@@ -1,24 +1,20 @@
-name: Proteomics Panel Filter
-type: generic
+name: Proteomics toolbox
+id: proteomics
+type: activity
 items:
 - type: label
   text: Proteomics
 - type: section
-  id: databases
-  name: Databases
+  id: proteomics
+  name: Proteomics
   items:
   - type: tool
-    id: toolshed.g2.bx.psu.edu/repos/galaxyp/custom_pro_db/custom_pro_db
-  - type: tool
-    id: toolshed.g2.bx.psu.edu/repos/galaxyp/openms_decoydatabase/DecoyDatabase
-  - type: tool
-    id: toolshed.g2.bx.psu.edu/repos/galaxyp/openms_falsediscoveryrate/FalseDiscoveryRate
+    id: toolshed.g2.bx.psu.edu/repos/iracooke/mascot/proteomics_search_mascot_1
 - type: section
   id: dia
   name: DIA
   items:
   - type: tool
-    id: toolshed.g2.bx.psu.edu/repos/galaxyp/dia_umpire/dia_umpire_se
+    id: toolshed.g2.bx.psu.edu/repos/galaxyp/encyclopedia_encyclopedia/encyclopedia_encyclopedia
   - type: tool
-    id: toolshed.g2.bx.psu.edu/repos/galaxyp/diann/diann
-    
+    id: toolshed.g2.bx.psu.edu/repos/galaxyp/encyclopedia_quantify/encyclopedia_quantify
