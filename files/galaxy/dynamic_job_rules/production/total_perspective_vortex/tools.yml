@@ -999,8 +999,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/genouest/braker3/braker3/.*:
-    cores: 6
-    mem: 4
+    cores: 8
+    mem: 32
     params:
       singularity_container_id_override: docker://teambraker/braker3:v1.0.6
       singularity_enabled: true
