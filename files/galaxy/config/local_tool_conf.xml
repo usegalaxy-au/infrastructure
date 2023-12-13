@@ -10,5 +10,6 @@
     </section>
     <section id="interactivetools" name="Interactive Tools">
         <tool file="/mnt/galaxy/local_tools/lfqanalyst/interactivetool_lfqanalyst.xml"/>
+        <tool file="/mnt/galaxy/local_tools/interactivetool_ena_upload_table_builder.xml"/>
     </section>
 </toolbox>
