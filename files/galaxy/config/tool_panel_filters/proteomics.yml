@@ -2,12 +2,12 @@ name: Proteomics toolbox
 id: proteomics
 type: activity
 items:
-  - type: label
-    text: Proteomics
-  - type: section
-    id: databases
-    name: Databases
-    items:
+- type: label
+  text: Proteomics
+- type: section
+  id: databases
+  name: Databases
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/custom_pro_db/custom_pro_db
     - type: tool
@@ -18,9 +18,10 @@ items:
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/fasta_cli
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/uniprotxml_downloader/uniprotxml_downloader
-  - type: section
-    id: dia
-    name: DIA
+- type: section
+  id: dia
+  name: DIA
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/dia_umpire/dia_umpire_se
     - type: tool
@@ -35,14 +36,16 @@ items:
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/encyclopedia_searchtolib/encyclopedia_searchtolib
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/encyclopedia_walnut/encyclopedia_walnut
-  - type: section
-    id: Feature identification
-    name: feature_identification
+- type: section
+  id: feature_identification
+  name: Feature identification
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/proteomics_moff/proteomics_moff
-  - type: section
-    id: File conversion
-    name: file_conversion
+- type: section
+  id: file_conversion
+  name: File conversion
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert
     - type: tool
@@ -53,25 +56,28 @@ items:
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/percolator/percolator_input_converters
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/iracooke/xtandem/tandem_to_pepxml_1
-  - type: section
-    id: File modification
-    name: file_modification
+- type: section
+  id: file_modification
+  name: File modification
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/percolator/batched_set_list_creator
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/percolator/pout2mzid
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/pyprophet_merge/pyprophet_merge
-  - type: section
-    id: Genomics classification
-    name: genomics_classification
+- type: section
+  id: genomics_classification
+  name: Genomics classification
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/pep_pointer/pep_pointer
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/peptide_genomic_coordinate/peptide_genomic_coordinate
-  - type: section
-    id: Identification and quantitation
-    name: identification_quantitation
+- type: section
+  id: identification_quantitation
+  name: Identification and quantitation
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/flashlfq/flashlfq
     - type: tool
@@ -80,9 +86,10 @@ items:
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant_mqpar
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant_mqpar/maxquant_mqpar
-  - type: section
-    id: metaQuantome
-    name: metaquantome
+- type: section
+  id: metaquantome
+  name: metaQuantome
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/metaquantome_sample/metaquantome_sample
     - type: tool
@@ -95,9 +102,10 @@ items:
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/metaquantome_stat/metaquantome_stat
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/metaquantome_viz/metaquantome_viz
-  - type: section
-    id: MSI
-    name: msi
+- type: section
+  id: msi
+  name: MSI
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/maldi_quant_peak_detection/maldi_quant_peak_detection
     - type: tool
@@ -120,9 +128,10 @@ items:
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/cardinal_quality_report/cardinal_quality_report
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/cardinal_segmentations/cardinal_segmentations
-  - type: section
-    id: OpenMS
-    name: openms
+- type: section
+  id: openms
+  name: OpenMS
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/openms_consensusid/ConsensusID
     - type: tool
@@ -187,14 +196,16 @@ items:
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/openms_targetedfileconverter/TargetedFileConverter
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/openms_textexporter/TextExporter
-  - type: section
-    id: Peptide identification
-    name: peptide_identification
+- type: section
+  id: peptide_identification
+  name: Peptide identification
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/percolator/percolator
-  - type: section
-    id: Post-processing
-    name: post_processing
+- type: section
+  id: post_processing
+  name: Post-processing
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/iracooke/tpp_prophets/proteomics_search_interprophet_1
     - type: tool
@@ -211,21 +222,24 @@ items:
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/pyprophet_protein/pyprophet_protein
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/pyprophet_score/pyprophet_score
-  - type: section
-    id: Protein identification
-    name: protein_identification
+- type: section
+  id: protein_identification
+  name: Protein identification
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker
-  - type: section
-    id: Quality control
-    name: quality_control
+- type: section
+  id: quality_control
+  name: Quality control
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/rawtools/rawtools
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/openms_xmlvalidator/XMLValidator
-  - type: section
-    id: Search engine
-    name: search_engine
+- type: section
+  id: search_engine
+  name: Search engine
+  items:
     - type: tool
       id: toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/ident_params
     - type: tool
