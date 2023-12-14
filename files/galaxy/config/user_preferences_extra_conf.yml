@@ -9,17 +9,6 @@ preferences:
           checked: false
           value: false
           help: If you select yes, you will be able to select for each tool and workflow run if you would like to use this feature.
-    owncloud_account:
-        description: AARNet CloudStor Credentials
-        inputs:
-            - name: username
-              label: Username
-              type: text
-              required: False
-            - name: password
-              label: App Password
-              type: password
-              required: False
     griffith_owncloud_account:
         description: Griffith Research Space OwnCloud Credentials
         inputs:
@@ -49,3 +38,14 @@ preferences:
               label: Password
               type:  password
               required: False
+    # owncloud_account:  # Cloudstor retired 15/12/23
+    #     description: AARNet CloudStor Credentials
+    #     inputs:
+    #         - name: username
+    #           label: Username
+    #           type: text
+    #           required: False
+    #         - name: password
+    #           label: App Password
+    #           type: password
+    #           required: False
