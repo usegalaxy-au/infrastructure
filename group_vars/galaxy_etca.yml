@@ -85,18 +85,7 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     fstype: nfs
     opts: 'noatime,defaults'
     state: "{{ 'mounted' if pawsey_file_mounts_available else 'absent_from_fstab' }}"
-  # QLD data volumes legacy: remove these when current slurm jobs are no longer running
-  - path: /mnt/files
-    src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
-    fstype: nfs
-    opts: 'noatime,defaults'
-    state: "{{ 'mounted' if qld_file_mounts_available else 'absent_from_fstab' }}"
-  - path: /mnt/files2
-    src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
-    fstype: nfs
-    opts: 'noatime,defaults'
-    state: "{{ 'mounted' if qld_file_mounts_available else 'absent_from_fstab' }}"
-  # QLD data volumes (doubled up at first for the sake of singularity slurm jobs that are still running)
+  # QLD data volumes
   - path: "{{ qld_file_mounts_path }}/files"
     src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
     fstype: nfs
