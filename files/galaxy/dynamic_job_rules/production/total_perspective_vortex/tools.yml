@@ -1289,6 +1289,16 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/.*:
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/iuc/geneiobio/gene_iobio_display_generation_iframe/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/getorganelle/get_annotated_regions_from_gb/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/getorganelle/get_organelle_from_reads/.*:
+    mem: 10
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_point/ggplot2_point/.*:
@@ -1354,7 +1364,11 @@ tools:
       cores: 7
       mem: 45
   toolshed.g2.bx.psu.edu/repos/iuc/humann2/humann2/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*
+    params:
+      singularity_enabled: true
+    scheduling:
+      prefer:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/hybpiper/hybpiper/.*:
     params:
       singularity_enabled: true
@@ -1387,6 +1401,7 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/isoformswitchanalyzer/isoformswitchanalyzer/.*:
+    mem: 10  
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_consensus/ivar_consensus/.*:
@@ -2635,6 +2650,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/vcf2maf/vcf2maf/.*:
     cores: 6
     mem: 23.0
+  toolshed.g2.bx.psu.edu/repos/iuc/windowmasker/windowmasker_mkcounts/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/windowmasker/windowmasker_ustat/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/yahs/yahs/.*:
     params:
       singularity_enabled: true
