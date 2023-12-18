@@ -38,7 +38,6 @@
         path: "{{ item }}"
       with_items:
         - "{{ galaxy_config_dir }}/mail"
-        - "{{ galaxy_config_dir }}/tool_panel_filters"
     - name: Disable old tusd service
       systemd:
         name: 'tusd-main'
