@@ -100,8 +100,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/mail/activation-email.txt"
   - src: "{{ galaxy_config_file_src_dir }}/config/local_tool_data_table_conf.xml"
     dest: "{{ galaxy_config_dir }}/local_tool_data_table_conf.xml"
-  - src: "{{ galaxy_config_file_src_dir }}/tool_panel_filters/proteomics.yml"
-    dest: "{{ galaxy_toolbox_filters_dir }}/proteomics.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/proteomics.yml"
+    dest: "{{ galaxy_config_dir }}/tool_panel_filters/proteomics.yml"
 
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
@@ -184,6 +184,9 @@ host_galaxy_config: # renamed from __galaxy_config
     email_from: <galaxy-no-reply@usegalaxy.org.au>
     user_activation_on: true
     activation_email: <activation-noreply@usegalaxy.org.au>
+    panel_views_dir: "{{ galaxy_config_dir }}/tool_panel_filters"
+    default_panel_view_by_host:
+      proteomics.dev.gvl.org.au: proteomics
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
@@ -363,7 +366,9 @@ galaxy_subsites:
   - name: genome
     brand: Genomes lab
     iframe: "https://dev-site.gvl.org.au/landing/genome"
-    wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
+    # If wallpaper is true, then files/subsites/{name}.png will be copied to
+    # /static/dist/{name}.png, and can be used exactly like that in the CSS.
+    wallpaper: false
     tool_sections:
       - "hicexplorer"
       - "plots"
@@ -383,6 +388,24 @@ galaxy_subsites:
       }
       #masthead a.navbar-brand .navbar-text {
           display: none;
+      }
+  - name: proteomics
+    brand: Proteomics lab
+    iframe: "https://site.usegalaxy.org.au/landing/proteomics"
+    wallpaper: false
+    tool_sections: []
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #402668 !important;
+      }
+      #masthead {
+        background: #542a95 !important;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Proteomics Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
       }
 
 webhook_plugins:
