@@ -394,6 +394,7 @@ galaxy_subsites:
     brand: Proteomics lab
     iframe: "https://site.usegalaxy.org.au/landing/proteomics"
     wallpaper: false
+    tool_sections: []
     custom_css: |
       #masthead .navbar-nav>li.active {
         background: #402668 !important;
