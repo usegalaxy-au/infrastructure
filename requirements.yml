@@ -3,7 +3,7 @@ collections:
 
 roles:
 - name: galaxyproject.galaxy
-  version: 0.10.15
+  version: 0.10.19
 - name: galaxyproject.nginx
   version: 0.7.1
 - name: galaxyproject.postgresql
@@ -31,7 +31,7 @@ roles:
 - src: galaxyproject.repos
   version: 0.0.3
 - src: galaxyproject.pulsar
-  version: 1.0.8
+  version: 1.0.11
 - src: dj-wasabi.telegraf
   version: 0.14.0
 - src: galaxyproject.gxadmin
