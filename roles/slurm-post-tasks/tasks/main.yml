@@ -7,18 +7,3 @@
     validate: /usr/sbin/visudo -cf %s
   with_items:
     - /usr/bin/sacct
-- name: Remove some sudo rules for devs
-  lineinfile:
-    path: /etc/sudoers.d/devs
-    create: true
-    line: "%devs ALL=(ALL) NOPASSWD: {{ item }}"
-    validate: /usr/sbin/visudo -cf %s
-    state: absent
-  with_items:
-    - /usr/bin/scontrol
-    - /usr/bin/scancel
-- name: set SACCT_FORMAT for root user
-  lineinfile:
-    path: /etc/environment
-    create: true
-    line: export SACCT_FORMAT="jobid%8,partition%9,jobname%30,alloccpus,elapsed,totalcpu,END,state,MaxRSS%12,ReqMem,NodeList%24"
