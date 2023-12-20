@@ -7,7 +7,9 @@ tools:
     scheduling:
       require:
         - interactive_pulsar
-
+  toolshed.g2.bx.psu.edu/repos/galaxyp/openms.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     scheduling:
       accept:
