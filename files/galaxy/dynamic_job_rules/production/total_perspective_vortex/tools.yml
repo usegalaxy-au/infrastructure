@@ -71,6 +71,7 @@ tools:
     params:
       docker_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/blobtoolkit/blobtoolkit/.*:
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/canu/canu/.*:
