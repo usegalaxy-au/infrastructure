@@ -2769,8 +2769,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/peterjc/sample_seqs/sample_seqs/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/peterjc/seq_filter_by_id/seq_filter_by_id/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/peterjc/seq_select_by_id/seq_select_by_id/.*:
     mem: 12
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/pjbriggs/macs21/macs2_1_peakcalling/.*:
     cores: 9
     mem: 34.5
