@@ -383,6 +383,8 @@ tools:
       if: 0.1 <= input_size < 5
       cores: 8
       mem: 30.7
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie_wrappers/bowtie_wrapper/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 8
     mem: 30.7
