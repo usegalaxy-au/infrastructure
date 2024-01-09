@@ -28,7 +28,6 @@
           path: "{{ galaxy_job_dir }}"
           owner: galaxy
           group: galaxy
-          recurse: yes
       - name: Reload exportfs
         command: exportfs -ra
         become: yes
