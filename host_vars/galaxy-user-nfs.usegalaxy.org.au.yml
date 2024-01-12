@@ -5,6 +5,7 @@ volC_path: /mnt/volC
 nfs_user_data_5_dir: "{{ volA_path }}/user-data-5"
 nfs_user_data_7_dir: "{{ volA_path }}/user-data-7"
 nfs_data08_dir: "{{ volA_path }}/data08"
+nfs_data11_dir: "{{ volA_path }}/data11"
 
 nfs_user_data_6_dir: "{{ volB_path }}/user-data-6"
 nfs_data09_dir: "{{ volB_path }}/data09"
@@ -28,6 +29,7 @@ nfs_dirs:
   - "{{ nfs_user_data_5_dir }}"
   - "{{ nfs_user_data_7_dir }}"
   - "{{ nfs_data08_dir }}"
+  - "{{ nfs_data11_dir }}"
   - "{{ nfs_user_data_6_dir }}"
   - "{{ nfs_data09_dir }}"
   - "{{ nfs_user_data10_dir }}"
