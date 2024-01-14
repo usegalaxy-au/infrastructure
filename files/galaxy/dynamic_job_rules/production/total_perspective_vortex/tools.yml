@@ -1919,6 +1919,9 @@ tools:
       if: 0.015 <= input_size < 1
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/pharokka/pharokka/.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
     cores: 120
     mem: 1922
