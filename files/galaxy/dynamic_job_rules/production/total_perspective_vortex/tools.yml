@@ -2967,8 +2967,8 @@ tools:
       fail: Your account has not been given access to cellranger. Contact help@genome.edu.au
         if you think this is in error.
   fgenesh:
-    cores: 24
-    mem: 12
+    cores: 120
+    mem: 20
     params:
       singularity_enabled: true
     scheduling:
