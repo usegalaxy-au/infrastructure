@@ -1901,6 +1901,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/nextclade/nextclade/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/orthofinder_onlygroups/orthofinder_onlygroups/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/pathview/pathview/.*:
     params:
       singularity_enabled: true
