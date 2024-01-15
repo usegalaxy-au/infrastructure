@@ -2986,6 +2986,24 @@ tools:
         if you think this is in error.
   $fgenesh_annotate$:
     inherits: ^fgenesh$
+  fgenesh_merge:
+    cores: 1
+    params:
+      singularity_enabled: true
+    rules:
+     - if: |
+         not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
+       fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au
+         if you think this is in error.
+  fgenesh_split:
+    cores: 1
+    params:
+      singularity_enabled: true
+    rules:
+     - if: |
+         not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
+       fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au
+         if you think this is in error.    
   gtdbtk_classify_wf_test:
     cores: 16
     mem: 60
