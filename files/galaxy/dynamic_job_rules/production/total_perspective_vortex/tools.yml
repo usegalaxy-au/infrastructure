@@ -604,7 +604,7 @@ tools:
     cores: 8
     mem: 100
     scheduling:
-      accept:
+      require:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/.*:
     cores: 1
