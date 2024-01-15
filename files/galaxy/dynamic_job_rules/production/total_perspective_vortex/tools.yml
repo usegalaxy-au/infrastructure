@@ -3059,3 +3059,15 @@ tools:
     mem: 24.0
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/genouest/helixer/helixer/*:
+    context:
+      partition: azuregpu0
+    cores: 8
+    mem: 69
+    params:
+      docker_enabled: true
+      docker_run_extra_arguments: --gpus all
+    scheduling:
+      require:
+      - pulsar
+      - pulsar-azure-gpu
