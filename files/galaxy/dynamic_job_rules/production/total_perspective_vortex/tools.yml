@@ -250,7 +250,7 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/.*:
     cores: 8
-    mem: 30.7
+    mem: 80
     params:
       singularity_enabled: true
     scheduling:
