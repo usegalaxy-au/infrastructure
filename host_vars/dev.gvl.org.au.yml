@@ -66,8 +66,8 @@ galaxy_custom_indices_dir: "{{ galaxy_root }}/custom-indices"
 galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
 galaxy_tus_upload_store: "{{ galaxy_tmp_dir }}/tus"
 
-galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_23.1
+galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
+galaxy_commit_id: release_23.1_au
 
 galaxy_file_path: "{{ galaxy_root }}/data-3"
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
