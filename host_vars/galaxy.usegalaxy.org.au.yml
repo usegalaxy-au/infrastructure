@@ -30,8 +30,8 @@ num_gunicorn_processes: 2
 # gie proxy hostname
 interactive_tools_server_name: "usegalaxy.org.au"
 
-galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_23.1
+galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
+galaxy_commit_id: release_23.1_au
 
 # TODO: check list concatenation with versions of ansible > 2.12
 shared_mounts: "{{ galaxy_server_and_worker_shared_mounts + galaxy_web_server_mounts }}" # sourced from galaxy_etca.yml

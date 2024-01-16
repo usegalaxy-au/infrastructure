@@ -30,8 +30,8 @@ nfs_exports:
   - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
 
 # ansible-galaxy
-galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_23.1
+galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
+galaxy_commit_id: release_23.1_au
 
 galaxy_infrastructure_url: "https://staging.gvl.org.au"
 
