@@ -3066,7 +3066,8 @@ tools:
     mem: 69
     params:
       docker_enabled: true
-      docker_run_extra_arguments: --gpus all --env HOME=$working_directory
+      docker_run_extra_arguments: --gpus all
+      docker_volumes: $job_directory/home:rw
     scheduling:
       require:
       - pulsar
