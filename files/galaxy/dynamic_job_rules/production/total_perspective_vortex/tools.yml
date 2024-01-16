@@ -3070,4 +3070,4 @@ tools:
     scheduling:
       require:
       - pulsar
-      - pulsar-azure-gpu
+      - pulsar-azure-1-gpu
