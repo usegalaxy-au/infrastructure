@@ -148,6 +148,10 @@ if [ $? -eq 0 ]; then
     echo '  created swift marker file: '$backup_filename_swift >> $LOGFILE
 else
     echo '  swift upload failed for: '$backup_filename >> $LOGFILE
+    {% if use_slack == true and slack_galaxy_log_webhook is defined %}
+    # send swift upload fail notification to slack
+    post_to_slack "Swift operation failed: swift upload ${SWIFT_BACKUP_CONTAINER} ${backup_filename}"
+    {% endif %}
 fi
 
 for fm in $(<swift_search_file.tmp)
@@ -163,6 +167,10 @@ for fm in $(<swift_search_file.tmp)
             rm $fm || echo '  local delete failed for swift marker file: '$fm >> $LOGFILE
         else
             echo '  swift delete failed for: '$f >> $LOGFILE
+            {% if use_slack == true and slack_galaxy_log_webhook is defined %}
+            # send swift delete fail notification to slack
+            post_to_slack "Swift operation failed: swift delete ${SWIFT_BACKUP_CONTAINER} $f"
+            {% endif %}
         fi
     done
 
