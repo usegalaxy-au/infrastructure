@@ -42,6 +42,7 @@ WEEKLY_BACKUP_DAY={{ weekly_backup_day }}  #Weekly backups will run on this day 
 RETENTION_DAY={{ retention_day }}       #Keep daily backups for this many days (6 days)
 RETENTION_WEEK={{ retention_week }}     #Keep weekly backups for this many days (21 days = 3 weeks)
 RETENTION_MONTH={{ retention_month }}    #Keep monthly backups for this many days (92 days ~ 3 months)
+DISK_RETENTION_DAYS={{ retention_disk }} # keep backups on local disk for this many days
 
 {% if use_slack == true and slack_galaxy_log_webhook is defined %}
 post_to_slack() {
@@ -80,6 +81,7 @@ cd $BACKUP_DIR
 #create the backup filename
 
 backup_filename=`date +"%d-%m-%Y"`'-'${PSQL_DB}${BACKUP_TYPE}'.sql.gz'
+backup_filename_swift="${backup_filename}.swift"
 
 PRELIM_OUTPUT="[$(date --iso-8601=seconds)] Starting database backup\n"
 PRELIM_OUTPUT+="  Month day: ${month_day}\n"
@@ -91,6 +93,9 @@ PRELIM_OUTPUT+="  Swift details: ${SWIFT_BACKUP_CONTAINER}\n"
 PRELIM_OUTPUT+="  Database: ${PSQL_DB}\n"
 PRELIM_OUTPUT+="  Retention: ${RETENTION_DAY_LOOKUP}\n"
 PRELIM_OUTPUT+="  Backup filename: ${backup_filename}\n"
+{% if use_swift == true %}
+PRELIM_OUTPUT+="  Backup swift marker filename: ${backup_filename_swift}\n"
+{% endif %}
 
 #Send prelim output to the logfile
 echo $PRELIM_OUTPUT >> $LOGFILE
@@ -106,20 +111,29 @@ pg_dump \
   {{ connection_string }} \
   | pigz > ${backup_filename}
 
-#delete anything that's too old!
-#put the filenames in a file so we can get rid of them from object store.
-if [ -f search_file.tmp ] ; then
-        rm search_file.tmp
+# get the filenames of old database backups on local disk for deletion
+if [ -f local_search_file.tmp ] ; then
+    rm local_search_file.tmp
 fi
-find -maxdepth 1 -name "*${BACKUP_TYPE}*" -mtime +$RETENTION_DAY_LOOKUP > search_file.tmp
-sed -i "s/\.\///" search_file.tmp
-echo '  Contents of search_file.tmp' >> $LOGFILE
-cat 'search_file.tmp' >> $LOGFILE
+find -maxdepth 1 -name "*.sql.gz" -mtime +$DISK_RETENTION_DAYS > local_search_file.tmp
+echo '  Contents of local_search_file.tmp' >> $LOGFILE
+cat 'local_search_file.tmp' >> $LOGFILE
 
 {% if use_swift == true %}
+# get the old swift marker filenames in a file so we can get rid of them from object store
+if [ -f swift_search_file.tmp ] ; then
+        rm swift_search_file.tmp
+fi
+find -maxdepth 1 -name "*${BACKUP_TYPE}*.swift" -mtime +$RETENTION_DAY_LOOKUP > swift_search_file.tmp
+sed -i "s/\.\///" swift_search_file.tmp
+echo '  Contents of swift_search_file.tmp' >> $LOGFILE
+cat 'swift_search_file.tmp' >> $LOGFILE
+
+echo "sourcing swift credential file ${SWIFT_CRED_FILE}" >> $LOGFILE
 . ${SWIFT_CRED_FILE}
 
 set +o nounset
+echo "sourcing venv ${VENV_LOCATION}/bin/activate" >> $LOGFILE
 source ${VENV_LOCATION}/bin/activate
 set -o nounset
 
@@ -128,26 +142,36 @@ set +e
 
 echo '  Uploading to swift: '$backup_filename >> $LOGFILE
 swift --quiet --retries 5 --timeout 120 upload --segment-size 2000000000 --segment-threads 1 ${SWIFT_BACKUP_CONTAINER} ${backup_filename} || echo '  swift upload failed for: '$backup_filename >> $LOGFILE
-{% endif %}
 
-for f in $(<search_file.tmp)
+for fm in $(<swift_search_file.tmp)
     do
-        echo $f
-        {% if use_swift == true %}
+        f="${fm%.*}" # strip final suffix from filename
+        echo "swift marker file $fm for database backup $f"
         echo '  Deleting on swift: '$f >> $LOGFILE
-        #delete cloud copy and log error if delete fails
-        swift --retries 5 --timeout 120 delete --object-threads 1 ${SWIFT_BACKUP_CONTAINER} $f || echo '  swift delete failed for: '$f >> $LOGFILE
-        {% endif %}
-        #delete local copy
-        rm $f || echo '  local delete failed for: '$f >> $LOGFILE
+        # delete cloud copy
+        swift --retries 5 --timeout 120 delete --object-threads 1 ${SWIFT_BACKUP_CONTAINER} $f
+        # delete marker file if swift delete successful, otherwise log error
+        if [ $? -eq 0 ]; then
+            echo '  Deleting swift marker file: '$fm >> $LOGFILE
+            rm $fm || echo '  local delete failed for swift marker file: '$fm >> $LOGFILE
+        else
+            echo '  swift delete failed for: '$f >> $LOGFILE
+        fi
     done
 
-{% if use_swift == true %}
 # restore exit on fail
 set -e
+
+rm swift_search_file.tmp
 {% endif %}
 
-rm search_file.tmp
+# cleanup local disk of old backups
+for f in $(<local_search_file.tmp); do
+    echo $f
+    echo '  Deleting from local disk: '$f >> $LOGFILE
+    rm $f || echo '  local delete failed for galaxy database backup file: '$f >> $LOGFILE
+done
+rm local_search_file.tmp
 
 POST_OUTPUT="[$(date --iso-8601=seconds)] Database backup complete."
 echo $POST_OUTPUT >> $LOGFILE

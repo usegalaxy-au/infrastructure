@@ -25,6 +25,7 @@ weekly_backup_day: 6  #Weekly backups will run on this day of the week
 retention_day: 6       #Keep daily backups for this many days (6 days)
 retention_week: 21     #Keep weekly backups for this many days (21 days = 3 weeks)
 retention_month: 92    #Keep monthly backups for this many days (92 days ~ 3 months)
+retention_disk: 7      # keep backups on local disk for this many days
 
 connection_string: "postgres://{{ db_user }}:{{ db_password }}@{{ db_server }}:{{ db_port }}/{{ psql_db }}"
 
