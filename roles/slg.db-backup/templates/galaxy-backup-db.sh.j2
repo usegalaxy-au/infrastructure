@@ -141,7 +141,14 @@ set -o nounset
 set +e
 
 echo '  Uploading to swift: '$backup_filename >> $LOGFILE
-swift --quiet --retries 5 --timeout 120 upload --segment-size 2000000000 --segment-threads 1 ${SWIFT_BACKUP_CONTAINER} ${backup_filename} || echo '  swift upload failed for: '$backup_filename >> $LOGFILE
+swift --quiet --retries 5 --timeout 120 upload --segment-size 2000000000 --segment-threads 1 ${SWIFT_BACKUP_CONTAINER} ${backup_filename}
+# if upload was successful create marker file, otherwise log error
+if [ $? -eq 0 ]; then
+    touch ${backup_filename_swift}
+    echo '  created swift marker file: '$backup_filename_swift >> $LOGFILE
+else
+    echo '  swift upload failed for: '$backup_filename >> $LOGFILE
+fi
 
 for fm in $(<swift_search_file.tmp)
     do
