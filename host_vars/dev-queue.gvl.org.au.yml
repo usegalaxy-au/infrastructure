@@ -64,42 +64,10 @@ rabbitmq_password_galaxy_reservation_g2_xlarge_B: "{{ vault_rabbitmq_password_ga
 # Host specific Slurm settings
 slurm_roles: ['controller', 'dbd']
 
-slurm_database_user: slurm
-slurm_database_user_password: "{{ mariadb_password_slurm }}"
-slurm_database: 'slurm_acct_db'
-
 add_hosts_workers: yes
 add_hosts_handlers: yes
 add_hosts_galaxy: yes
 
 #Mariadb
-
-mariadb_root_pass: "{{ mariadb_password_root }}"
-mariadb_options:
-  innodb_buffer_pool_size: 1073741824
-  innodb_log_file_size: 67108864
-  innodb_lock_wait_timeout: 900
-mariadb_users:
-  - name: "{{ slurm_database_user }}"
-    password: "{{ slurm_database_user_password }}"
-    priv: '{{ slurm_database }}.*:ALL'
-mariadb_databases:
-  - name: '{{ slurm_database }}'
-
 mariadb_password_slurm: "{{ vault_mariadb_password_slurm }}"
 mariadb_password_root: "{{ vault_mariadb_password_root }}"
-
-#Slurmdbd
-
-slurmdbd_config:
-  AuthType: auth/munge
-  AuthInfo: /var/run/munge/munge.socket.2
-  DbdHost: localhost
-  StorageHost: localhost
-  StorageLoc: "{{ slurm_database }}"
-  StoragePass: "{{ slurm_database_user_password }}"
-  StorageType: accounting_storage/mysql
-  StorageUser: "{{ slurm_database_user }}"
-  LogFile: /var/log/slurm-llnl/slurmdbd.log
-  PidFile: /run/slurmdbd.pid
-  SlurmUser: slurm
