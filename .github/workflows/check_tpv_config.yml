@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ master ]
     paths:
-      - templates/galaxy/config/aarnet_job_conf.yml.j2
+      - templates/galaxy/config/galaxy_job_conf.yml.j2
       - files/galaxy/dynamic_job_rules/production/total_perspective_vortex/*  # check
 
 # # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -56,7 +56,7 @@ jobs:
 
         tpv_dir = 'files/galaxy/dynamic_job_rules/production/total_perspective_vortex'
         tpv_config_files = [os.path.join(tpv_dir, f) for f in os.listdir(tpv_dir)]
-        job_conf_template = 'templates/galaxy/config/aarnet_job_conf.yml.j2'
+        job_conf_template = 'templates/galaxy/config/galaxy_job_conf.yml.j2'
         tpv_files = []
 
         replace_patterns = ['\{\{\s?vault_\w+\s?\}\}', '\{\{\s?hostname\s?\}\}']
