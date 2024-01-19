@@ -136,50 +136,12 @@ rabbitmq_password_galaxy_azure_1: "{{ vault_rabbitmq_password_galaxy_azure_1_pro
 # Host specific Slurm settings
 slurm_roles: ["controller", "dbd"]
 
-slurm_database_user: slurm
-slurm_database_user_password: "{{ mariadb_password_slurm }}"
-slurm_database: "slurm_acct_db"
-
 add_hosts_workers: yes
 add_hosts_galaxy: yes
 
 #Mariadb
-
-mariadb_root_pass: "{{ mariadb_password_root }}"
-mariadb_options:
-  innodb_buffer_pool_size: 1073741824
-  innodb_log_file_size: 67108864
-  innodb_lock_wait_timeout: 900
-mariadb_users:
-  - name: "{{ slurm_database_user }}"
-    password: "{{ slurm_database_user_password }}"
-    priv: "{{ slurm_database }}.*:ALL"
-mariadb_databases:
-  - name: "{{ slurm_database }}"
-
 mariadb_password_slurm: "{{ vault_production_mariadb_password_slurm }}"
 mariadb_password_root: "{{ vault_production_mariadb_password_root }}"
-
-#Slurmdbd
-
-__slurmdbd_config_default: # overriding this to remove deprecated SlurmctldPidFile (using this key breaks it)
-  AuthType: auth/munge
-  DbdPort: 6819
-  SlurmUser: "{{ __slurm_user_name }}"
-  # SlurmctldPidFile: "{{ __slurm_run_dir ~ '/slurmdbd.pid' if __slurm_debian else omit }}"
-  LogFile: "{{ __slurm_log_dir ~ '/slurmdbd.log' if __slurm_debian else omit }}"
-
-slurmdbd_config:
-  AuthType: auth/munge
-  AuthInfo: /var/run/munge/munge.socket.2
-  DbdHost: localhost
-  StorageHost: localhost
-  StorageLoc: "{{ slurm_database }}"
-  StoragePass: "{{ slurm_database_user_password }}"
-  StorageType: accounting_storage/mysql
-  StorageUser: "{{ slurm_database_user }}"
-  PidFile: /run/slurmdbd.pid
-  SlurmUser: slurm
 
 # Variables for nginx and eu rabbitmq role
 
