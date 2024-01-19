@@ -3004,6 +3004,24 @@ tools:
          not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
        fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au
          if you think this is in error.    
+  fgenesh_to_genbank:
+    cores: 1
+    params:
+      singularity_enabled: true
+    rules:
+     - if: |
+         not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
+       fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au
+         if you think this is in error.
+  fgenesh_get_mrnas_gc:
+    cores: 1
+    params:
+      singularity_enabled: true
+    rules:
+     - if: |
+         not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
+       fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au
+         if you think this is in error.
   gtdbtk_classify_wf_test:
     cores: 16
     mem: 60
