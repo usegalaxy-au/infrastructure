@@ -2,6 +2,8 @@ slurm_roles: ['exec']
 
 add_hosts_head: yes
 
+clean_tmpdisk_tmp_dir: /tmp  # no mounted tmpdisk
+
 shared_mounts:
     - path: /mnt/custom-indices
       src: pulsar-paw:/mnt/custom-indices
