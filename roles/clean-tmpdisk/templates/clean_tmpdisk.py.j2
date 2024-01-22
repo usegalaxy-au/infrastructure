@@ -78,11 +78,11 @@ def main():
         file_list = file_list.decode('utf-8')
         print(file_list)
 
-    if dry_run:
-        print(f'\nCommands to run to remove files from dir {tmp_dir} last modified more than {max_job_time + 30} minutes ago')
+    if dry_run or verbose:
+        print(f'\nCommand to run to remove files from dir {tmp_dir} last modified more than {max_job_time + 30} minutes ago')
         print(delete_files_command)
     
-    else:
+    if not dry_run:
         subprocess.check_output(delete_files_command, shell=True)
 
 
