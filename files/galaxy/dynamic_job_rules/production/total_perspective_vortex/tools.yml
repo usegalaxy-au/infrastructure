@@ -920,6 +920,10 @@ tools:
     scheduling:
       accept:
       - pulsar
+    rules:
+    - id: smudgeplot_fail_rule
+      if: input_size > 50
+      fail: Too much data. Total input data must be less than 50GB.
   toolshed.g2.bx.psu.edu/repos/galaxyp/cardinal_classification/cardinal_classification/.*:
     scheduling:
       accept:
