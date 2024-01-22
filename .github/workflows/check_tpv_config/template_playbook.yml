@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   vars_files:
-  - ../../../group_vars/galaxy.yml
+  - ../../../group_vars/galaxy_etca.yml
   - ../../../group_vars/galaxyservers.yml
   - ../../../host_vars/galaxy.usegalaxy.org.au.yml
   tasks:
