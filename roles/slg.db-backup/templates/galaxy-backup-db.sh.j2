@@ -111,24 +111,7 @@ pg_dump \
   {{ connection_string }} \
   | pigz > ${backup_filename}
 
-# get the filenames of old database backups on local disk for deletion
-if [ -f local_search_file.tmp ] ; then
-    rm local_search_file.tmp
-fi
-find -maxdepth 1 -name "*.sql.gz" -mtime +$DISK_RETENTION_DAYS > local_search_file.tmp
-echo '  Contents of local_search_file.tmp' >> $LOGFILE
-cat 'local_search_file.tmp' >> $LOGFILE
-
 {% if use_swift == true %}
-# get the old swift marker filenames in a file so we can get rid of them from object store
-if [ -f swift_search_file.tmp ] ; then
-        rm swift_search_file.tmp
-fi
-find -maxdepth 1 -name "*${BACKUP_TYPE}*.swift" -mtime +$RETENTION_DAY_LOOKUP > swift_search_file.tmp
-sed -i "s/\.\///" swift_search_file.tmp
-echo '  Contents of swift_search_file.tmp' >> $LOGFILE
-cat 'swift_search_file.tmp' >> $LOGFILE
-
 echo "sourcing swift credential file ${SWIFT_CRED_FILE}" >> $LOGFILE
 . ${SWIFT_CRED_FILE}
 
@@ -153,6 +136,15 @@ else
     post_to_slack "Swift operation failed: swift upload ${SWIFT_BACKUP_CONTAINER} ${backup_filename}"
     {% endif %}
 fi
+
+# get the old swift marker filenames in a file so we can get rid of them from object store
+if [ -f swift_search_file.tmp ] ; then
+        rm swift_search_file.tmp
+fi
+find -maxdepth 1 -name "*${BACKUP_TYPE}*.swift" -mtime +$RETENTION_DAY_LOOKUP > swift_search_file.tmp
+sed -i "s/\.\///" swift_search_file.tmp
+echo '  Contents of swift_search_file.tmp' >> $LOGFILE
+cat 'swift_search_file.tmp' >> $LOGFILE
 
 for fm in $(<swift_search_file.tmp)
     do
@@ -179,6 +171,14 @@ set -e
 
 rm swift_search_file.tmp
 {% endif %}
+
+# get the filenames of old database backups on local disk for deletion
+if [ -f local_search_file.tmp ] ; then
+    rm local_search_file.tmp
+fi
+find -maxdepth 1 -name "*.sql.gz" -mtime +$DISK_RETENTION_DAYS > local_search_file.tmp
+echo '  Contents of local_search_file.tmp' >> $LOGFILE
+cat 'local_search_file.tmp' >> $LOGFILE
 
 # cleanup local disk of old backups
 for f in $(<local_search_file.tmp); do
