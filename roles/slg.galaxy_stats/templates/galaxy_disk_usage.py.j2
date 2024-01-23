@@ -1,0 +1,100 @@
+#!{{ virtualenv_dir }}/bin/python
+import shutil
+import datetime
+import argparse
+import yaml
+
+from influxdb import InfluxDBClient
+
+"""
+Post volume usage daily to an influx db.
+"""
+
+secrets_file = '{{ stats_dir }}/secret.yml'
+secrets = yaml.safe_load(open(secrets_file, 'r'))
+
+volumes = ["{{ stats_galaxy_volume_list | join('", "') }}"]
+db_name = "{{ stats_galaxy_volume_db }}"
+
+
+def dump(database, points):
+    db_secrets = {**secrets['influxdb'], 'database': database}
+    client = InfluxDBClient(**db_secrets)
+    client.write_points(points)
+
+def to_tb(bytes):
+    return round(bytes/(1024)**4, 2)
+
+def add_to_sum(dict, location, field, value):
+    for key in [location, 'all']:
+        if not key in dict:
+            dict[key] = {}
+        if not field in dict[key]:
+            dict[key][field] = 0.0
+        dict[key][field] += value
+
+def main():
+    parser = argparse.ArgumentParser(description='Post galaxy volume usage stats to an influxdb')
+    parser.add_argument('-d', '--dry_run', action='store_true', help='Dry run. Print measurements but do not post.')
+    args = parser.parse_args()
+
+    dry_run = args.dry_run
+
+    time = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+
+    points = []
+    summed_measurements = {} # sums for user data over pawsey/etca/qld
+
+    for volume in volumes:
+
+        data_type = 'user-data' if 'user-data' in volume else 'other'
+
+        if 'pawsey' in volume:
+            location = 'pawsey'
+        elif 'qld' in volume:
+            location = 'qld'
+        else:
+            location = 'etca'
+
+        x = shutil.disk_usage(volume)
+
+        points.append({ 
+            'measurement': 'galaxy_disk_usage', 
+            'time': time, 
+            'fields': { 
+                'total': to_tb(x.total), 
+                'used': to_tb(x.used), 
+                'free': to_tb(x.free),
+                },
+            'tags': {
+                'path': volume,
+                'location': location,
+                'type': data_type,
+                }
+        })
+
+        if data_type == 'user-data':
+            for field in ['free', 'used', 'total']:
+                add_to_sum(summed_measurements, location, field, getattr(x, field))
+    
+    for location in summed_measurements:
+        points.append({
+            'measurement': 'galaxy_user_data_by_location', 
+            'time': time, 
+            'fields': { 
+                'total': to_tb(summed_measurements[location]['total']), 
+                'used': to_tb(summed_measurements[location]['used']), 
+                'free': to_tb(summed_measurements[location]['free']),
+                },
+            'tags': {
+                'location': location,
+                }
+        })
+    
+    if dry_run:
+        print(points)
+    else:
+        dump(db_name, points)
+
+if __name__ == '__main__':
+    main()
