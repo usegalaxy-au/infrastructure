@@ -2161,6 +2161,9 @@ tools:
     mem: 30.7
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/samtools.*:
     params:
       singularity_enabled: true
