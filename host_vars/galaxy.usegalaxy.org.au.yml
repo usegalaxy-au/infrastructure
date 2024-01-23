@@ -227,7 +227,7 @@ add_monthly_stats: true
 add_utilisation_info: true
 add_queue_info: true
 add_volume_usage_info: true
-stats_galaxy_volume_list: "{{ galaxy_server_and_worker_shared_mounts | selectattr('state', 'mounted') | map(attribute='path') | list }}"
+stats_galaxy_volume_list: "{{ galaxy_server_and_worker_shared_mounts | selectattr('state', 'equalto', 'mounted') | map(attribute='path') | list }}"
 stats_galaxy_volume_db: "ancillary"  # use GA_server
 
 # host-specific settings for postfix
