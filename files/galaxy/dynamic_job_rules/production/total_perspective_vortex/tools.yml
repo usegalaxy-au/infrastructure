@@ -42,6 +42,8 @@ tools:
       if: input_size < 0.1
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/bebatut/cdhit/cd_hit_protein/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/bebatut/cdhit/cd_hit_est/.*
   toolshed.g2.bx.psu.edu/repos/bgruening/antismash/antismash/.*:
     params:
       singularity_enabled: true
@@ -2155,8 +2157,13 @@ tools:
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/roary/roary/.*:
-    cores: 7
-    mem: 26.8
+    cores: 8
+    mem: 30.7
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/samtools.*:
     params:
       singularity_enabled: true
@@ -2252,6 +2259,10 @@ tools:
       if: 10 <= input_size < 20
       cores: 4
       mem: 15.3
+  toolshed.g2.bx.psu.edu/repos/iuc/seurat/seurat/.*:
+    mem: 10
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/shasta/shasta/.*:
     cores: 20
     mem: 200
@@ -2306,6 +2317,10 @@ tools:
       if: input_size < 0.015
       cores: 2
       mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_core/.*:
+    mem: 12
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/.*:
     cores: 3
     mem: 11.5
@@ -2506,6 +2521,7 @@ tools:
     cores: 1
     mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/tetoolkit_tetranscripts/tetoolkit_tetranscripts/.*:
+    mem: 12
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
