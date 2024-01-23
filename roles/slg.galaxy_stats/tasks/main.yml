@@ -83,4 +83,17 @@
       dest: "{{ stats_dir }}/monthly_stats_collector.py"
       mode: 0766
     when: add_monthly_stats
-    
+
+  - name: Template daily volume usage script
+    template:
+      src: galaxy_disk_usage.py.j2
+      dest: "{{ stats_dir }}/galaxy_disk_usage.py"
+    when: add_volume_usage_info
+  
+  - name: Create cron job for disk usage
+    cron:
+      name: "disk_usage"
+      minute: "00"
+      hour: "19"
+      job: "{{ virtualenv_dir }}/bin/python {{ stats_dir }}/galaxy_disk_usage.py"
+    when: add_volume_usage_info
