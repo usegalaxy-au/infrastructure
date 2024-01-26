@@ -150,7 +150,7 @@ tools:
     params:
       singularity_enabled: true
     scheduling:
-      accept:
+      require:  # TODO: update score function put it back in the rank function, change this to 'prefer'
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond_makedb/.*:
     params:
