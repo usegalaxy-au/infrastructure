@@ -48,7 +48,7 @@ tools:
     params:
       singularity_enabled: true
     scheduling:
-      accept:
+      require:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/augustus/augustus/.*:
     cores: 8
