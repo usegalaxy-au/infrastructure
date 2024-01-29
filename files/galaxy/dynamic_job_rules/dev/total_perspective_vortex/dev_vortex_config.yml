@@ -7,6 +7,12 @@ tools:
     scheduling:
       require:
         - interactive_pulsar
+  toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 1
+    params:
+      docker_enabled: true
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/openms.*:
     params:
       singularity_enabled: true
