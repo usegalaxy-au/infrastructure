@@ -9,10 +9,24 @@ tools:
     context:
       partition: main
       test_cores: 1  # TODO: test_mem?
+      max_concurrent_job_count_for_tool_total: null
+      max_concurrent_job_count_for_tool_user: null
     scheduling:
       reject:
         - offline
-    rules: []
+    rules:
+    - id: max_concurrent_job_count_for_tool_rule
+      if: |
+        total_limit_exceeded = False
+        user_limit_exceeded = False
+        if max_concurrent_job_count_for_tool_total:
+          total_limit_exceeded = helpers.concurrent_job_count_for_tool(app, tool) >= max_concurrent_job_count_for_tool_total
+        if max_concurrent_job_count_for_tool_user:
+          user_limit_exceeded = helpers.concurrent_job_count_for_tool(app, tool, user) >= max_concurrent_job_count_for_tool_user
+        total_limit_exceeded or user_limit_exceeded
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
     rank: |  # TODO: rank function needs overhaul to consider memory
       import requests
       import random
