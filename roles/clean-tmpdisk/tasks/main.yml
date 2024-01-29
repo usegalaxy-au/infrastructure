@@ -1,0 +1,17 @@
+---
+- block:
+    - name: Make the script directory
+      file:
+        state: directory
+        path: "{{ clean_tmpdisk_script_dir }}"
+    - name: Template cleanup script
+      template:
+        src: clean_tmpdisk.py.j2
+        dest: "{{ clean_tmpdisk_script_dir }}/clean_tmpdisk.py"
+    - cron:
+        hour: clean_tmpdisk_cron_hour
+        minute: clean_tmpdisk_cron_minute
+        job: "python {{ clean_tmpdisk_script_dir }}/clean_tmpdisk.py"
+        disabled: "{{ not clean_tmpdisk_enable_cron_job }}"  # set clean_tmpdisk_enable_cron_job to false at first
+  become: true
+  become_user: "{{ clean_tmpdisk_user }}"

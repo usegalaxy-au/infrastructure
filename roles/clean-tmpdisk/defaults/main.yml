@@ -1,0 +1,10 @@
+clean_tmpdisk_worker_node_name: "{{ ansible_hostname }}"
+clean_tmpdisk_tmp_dir: /mnt/tmpdisk
+
+clean_tmpdisk_script_dir: "/home/{{ clean_tmpdisk_user }}/clean_tmpdisk"
+clean_tmpdisk_user: ubunt
+
+clean_tmpdisk_cron_hour: "19"
+clean_tmpdisk_cron_minute: "00"
+
+clean_tmpdisk_enable_cron_job: false  # set this to false for testing phase, then default to true
