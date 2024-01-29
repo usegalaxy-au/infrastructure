@@ -313,6 +313,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     cores: 8
     mem: 30.7
@@ -1065,14 +1068,15 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+  toolshed.g2.bx.psu.edu/repos/iuc/anndata_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/anndata_import/anndata_import/.*:
     scheduling:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/anndata_inspect/anndata_inspect/.*:
     mem: 2 + input_size * 7
-    params:
-      singularity_enabled: true
     scheduling:
       accept:
         - pulsar  
@@ -1311,6 +1315,9 @@ tools:
     mem: 24
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_point/ggplot2_point/.*:
@@ -1375,6 +1382,16 @@ tools:
       if: 0.01 <= input_size < 10
       cores: 7
       mem: 45
+    - id: humann_singularity_rule
+      if: |
+        minimum_singularity_version = '3.7+galaxy0'
+        # Unable to run tool tests on previous versions. They might work. TODO: test these manually
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/humann_*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/humann2/humann2/.*:
     params:
       singularity_enabled: true
@@ -1486,6 +1503,9 @@ tools:
       if: 0.1 <= input_size < 0.5
       cores: 16
       mem: 61.4
+  toolshed.g2.bx.psu.edu/repos/iuc/kraken.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     cores: 16
     mem: 200
@@ -1569,6 +1589,9 @@ tools:
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
+  toolshed.g2.bx.psu.edu/repos/iuc/medaka_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus/medaka_consensus/.*:
     params:
       singularity_enabled: true
@@ -2057,6 +2080,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/qualimap_.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/qualimap_bamqc/qualimap_bamqc/.*:
     cores: 9
     mem: 34.5
@@ -2085,6 +2111,9 @@ tools:
       if: input_size < 1
       cores: 2
       mem: 10
+  toolshed.g2.bx.psu.edu/repos/iuc/raceid_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/raven/raven/.*:
     cores: 20
     mem: 200
@@ -2232,16 +2261,7 @@ tools:
       if: 0.05 <= input_size < 0.5
       cores: 5
       mem: 19.1
-  toolshed.g2.bx.psu.edu/repos/iuc/scater_create_qcmetric_ready_sce/scater_create_qcmetric_ready_sce/.*:
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/iuc/scater_filter/scater_filter/.*:
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/iuc/scater_plot_dist_scatter/scater_plot_dist_scatter/.*:
-    params:
-      singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/iuc/scater_plot_pca/scater_plot_pca/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/scater_.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_seq/.*:
@@ -2524,6 +2544,12 @@ tools:
     mem: 12
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/transit_.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/trinity.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
     cores: 60
     mem: 961
@@ -2654,6 +2680,12 @@ tools:
       if: 0.2 <= input_size < 3
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/ucsc_.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/umi_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/umi_tools_dedup/umi_tools_dedup/.*:
     cores: 2
     mem: 7.6
@@ -2679,6 +2711,9 @@ tools:
       if: 0.05 <= input_size < 0.3
       cores: 8
       mem: 30.7
+  toolshed.g2.bx.psu.edu/repos/iuc/varscan_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/vcf2maf/vcf2maf/.*:
     cores: 6
     mem: 23.0
