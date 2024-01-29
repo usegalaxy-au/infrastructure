@@ -34,7 +34,7 @@
     - pulsar-post-tasks
     - slurm-post-tasks
     - slg.galaxy_stats
-    - clean-tmpdisk
+    # - clean-tmpdisk
   post_tasks:
     - name: Create worker tmpdir on /mnt
       file:
