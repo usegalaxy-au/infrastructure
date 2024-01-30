@@ -20,7 +20,7 @@ tools:
         user_limit_exceeded = False
         if max_concurrent_job_count_for_tool_total:
           total_limit_exceeded = helpers.concurrent_job_count_for_tool(app, tool) >= max_concurrent_job_count_for_tool_total
-        if max_concurrent_job_count_for_tool_user:
+        if max_concurrent_job_count_for_tool_user and not total_limit_exceeded:
           user_limit_exceeded = helpers.concurrent_job_count_for_tool(app, tool, user) >= max_concurrent_job_count_for_tool_user
         total_limit_exceeded or user_limit_exceeded
       execute: |
