@@ -11,6 +11,7 @@ destinations:
     abstract: true
     params:
         nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
+        metadata_strategy: extended
     rules:
       - id: slurm_destination_singularity_rule
         if: entity.params.get('singularity_enabled')
