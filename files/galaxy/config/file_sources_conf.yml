@@ -7,6 +7,10 @@
   login: ${user.preferences['griffith_owncloud_account|username']}
   password: ${user.preferences['griffith_owncloud_account|password']}
   writable: true
+  # Set the following settings to avoid loading entire files into memory
+  # useful when dealing with big files
+  use_temp_files: true
+  temp_path: /mnt/tmp
 
 - type: dropbox
   id: dropbox
