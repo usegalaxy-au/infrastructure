@@ -77,8 +77,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/canu/canu/.*:
-    cores: 120
-    mem: 1922
+    cores: 60
+    mem: 961
     scheduling:
       accept:
       - pulsar
@@ -166,8 +166,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     context:
       test_cores: 2
-    cores: 120
-    mem: 1922
+    cores: 60
+    mem: 961
     params:
       singularity_enabled: true
     scheduling:
@@ -192,8 +192,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
-    cores: 120
-    mem: 1922
+    cores: 60
+    mem: 961
     params:
       singularity_enabled: true
     scheduling:
@@ -234,8 +234,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/racon/racon/.*:
-    cores: 120
-    mem: 1922
+    cores: 60
+    mem: 961
     params:
       singularity_enabled: true
     scheduling:
@@ -1353,8 +1353,8 @@ tools:
       if: input_size >= 0.5
       fail: Too much data, please don't use the gubbins for this.
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
-    cores: 60
-    mem: 961
+    cores: 36
+    mem: 500
     scheduling:
       accept:
       - pulsar
@@ -1952,8 +1952,8 @@ tools:
     params:
       singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
-    cores: 120
-    mem: 1922
+    cores: 60
+    mem: 961
     scheduling:
       accept:
       - pulsar
