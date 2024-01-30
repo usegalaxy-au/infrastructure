@@ -363,8 +363,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/csbl/repeatmodeler/repeatmodeler/.*:
-    cores: 8
-    mem: 30.7
+    cores: 16
+    mem: 36
     params:
       singularity_enabled: true
     scheduling:
