@@ -532,10 +532,10 @@ tools:
     env:
       SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
-    # scheduling: 17/1/24: temporarily run all fastqc jobs on slurm to alleviate pulsar transport congestion
-    #   accept:
-    #  - pulsar
-    #  - pulsar-quick
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-quick
     rules:
     - if: |
         minimum_singularity_version = '0.72+galaxy1'
