@@ -72,6 +72,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/canu/canu/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     cores: 60
     mem: 961
     scheduling:
@@ -2442,9 +2444,13 @@ tools:
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fasterq_dump/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/.*:
