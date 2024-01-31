@@ -19,18 +19,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/artbio/cap3/cap3/.*:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/artbio/repenrich/repenrich/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     cores: 8
     mem: 30.7
     scheduling:
       prefer:
       - pulsar
-    rules:
-    - id: rule_repenrich_limit_concurrency
-      if: |
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= 2  # concurrent jobs per user (reduced from 4 while pulsar-mel2 and pulsar-mel3 are offline)
-      execute: |
-        from galaxy.jobs.mapper import JobNotReadyException
-        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/bebatut/cdhit/cd_hit_est/.*:
     cores: 4
     mem: 15.3
@@ -206,18 +201,13 @@ tools:
       cores: 2
       mem: 7.6
   toolshed.g2.bx.psu.edu/repos/bgruening/interproscan/interproscan/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
     cores: 8
     mem: 30.7
     params:
       singularity_enabled: true
       tmp_dir: true
-    rules:
-    - id: rule_interproscan_limit_concurrency
-      if: |
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= 3
-      execute: |
-        from galaxy.jobs.mapper import JobNotReadyException
-        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_eventalign/nanopolish_eventalign/.*:
     cores: 3
     mem: 11.5
@@ -431,19 +421,14 @@ tools:
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     cores: 8
     mem: 30.7
     scheduling:
       accept:
       - pulsar
     rules:
-    - id: rule_clustalw_limit_concurrency
-      if: |
-        user_limit = 2
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit
-      execute: |
-        from galaxy.jobs.mapper import JobNotReadyException
-        raise JobNotReadyException()
     - id: clustalw_small_input_rule
       if: input_size < 0.0003
       cores: 3
@@ -977,16 +962,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxyp/maldi_quant_preprocessing/maldi_quant_preprocessing/.*:
     mem: 92
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
+    context:
+      max_concurrent_job_count_for_tool_total: 4
+      max_concurrent_job_count_for_tool_user: 2
     cores: 16
     mem: 61.4
-    rules:
-    - if: |
-        user_limit = 2
-        total_limit = 4
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit or helpers.concurrent_job_count_for_tool(app, tool) >= total_limit
-      execute: |
-        from galaxy.jobs.mapper import JobNotReadyException
-        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant_mqpar/.*:
     cores: 16
     mem: 61.4
@@ -1507,6 +1487,8 @@ tools:
     params:
       singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
     cores: 16
     mem: 200
     params:
@@ -1517,14 +1499,6 @@ tools:
       - training-exempt
       reject:
       - pulsar-QLD
-    rules:
-    - id: rule_kraken2_limit_concurrency
-      if: |
-        user_limit = 2
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit
-      execute: |
-        from galaxy.jobs.mapper import JobNotReadyException
-        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/iuc/kraken_biom/kraken_biom/.*:
     params:
       singularity_enabled: true
@@ -1573,6 +1547,8 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
     cores: 8
     mem: 30.39
     env:
@@ -1582,13 +1558,6 @@ tools:
     scheduling:
       accept:
       - pulsar
-    rules:
-    - id: rule_maker_limit_concurrency
-      if: |
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= 3
-      execute: |
-        from galaxy.jobs.mapper import JobNotReadyException
-        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_.*:
     params:
       singularity_enabled: true
@@ -2150,6 +2119,8 @@ tools:
       cores: 16
       mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
     cores: 12
     mem: 46.0
     params:
@@ -2159,13 +2130,6 @@ tools:
       - pulsar
       - pulsar-training-large
       - pulsar-quick
-    rules:
-    - id: rule_rna_star_limit_concurrency
-      if: |
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= 3  # concurrent jobs per user
-      execute: |
-        from galaxy.jobs.mapper import JobNotReadyException
-        raise JobNotReadyException()
   toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/rna_starsolo/.*:
     params:
       singularity_enabled: true
@@ -2873,18 +2837,14 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 1
     cores: 8
     mem: 30.7
     scheduling:
       prefer:
       - pulsar
     rules:
-    - id: rule_mafft_limit_concurrency
-      if: |
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= 1  # concurrent jobs per user (reduced from 2 while pulsar-mel2 and pulsar-mel3 are offline)
-      execute: |
-        from galaxy.jobs.mapper import JobNotReadyException
-        raise JobNotReadyException()
     - id: rbc_mafft_fail_rule
       if: input_size >= 0.5
       fail: Too much data, please don't use MAFFT for this.
@@ -2985,19 +2945,13 @@ tools:
     cores: 1
     mem: 3.8
   __DATA_FETCH__:
+    context:
+      max_concurrent_job_count_for_tool_total: 20
+      max_concurrent_job_count_for_tool_user: 4
     cores: 1
     mem: 8
     params:
       tmp_dir: true
-    rules:
-    - id: rule_data_fetch_limit_concurrency
-      if: |
-        user_limit = 4
-        total_limit = 20
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= user_limit or helpers.concurrent_job_count_for_tool(app, tool) >= total_limit
-      execute: |
-        from galaxy.jobs.mapper import JobNotReadyException
-        raise JobNotReadyException()
   __IMPORT_HISTORY__:
     params:
       tmp_dir: true
