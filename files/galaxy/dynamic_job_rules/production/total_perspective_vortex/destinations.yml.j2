@@ -111,6 +111,7 @@ destinations:
         - pulsar-mel2
       require:
         - pulsar
+        - pulsar-quick  # tag given to tools where jobs are likely to complete in less than a day
   pulsar-paw:
     inherits: _pulsar_destination
     runner: pulsar-paw_runner
