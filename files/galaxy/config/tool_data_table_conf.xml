@@ -26,4 +26,9 @@
         <columns>value, name, path, db-version</columns>
         <file path="/mnt/tools/tool-data/getorganelle.loc" />
     </table>
+    <!-- Bracken -->
+    <table name="bracken_databases" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, name, path</columns>
+        <file path="/mnt/tools/tool-data/bracken_databases.loc" />
+    </table>
 </tables>
