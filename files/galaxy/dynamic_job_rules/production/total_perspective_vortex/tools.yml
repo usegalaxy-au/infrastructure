@@ -17,7 +17,7 @@ tools:
     cores: 16
     mem: 61.4
   toolshed.g2.bx.psu.edu/repos/artbio/cap3/cap3/.*:
-    mem: 8
+    mem: 12
   toolshed.g2.bx.psu.edu/repos/artbio/repenrich/repenrich/.*:
     context:
       max_concurrent_job_count_for_tool_user: 2
@@ -334,16 +334,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/.*:
     cores: 8
     mem: 30.7
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
       - pulsar-quick
     rules:
-    - if: |
-        minimum_singularity_version = '1.14.6+galaxy1' # earlier versions untested
-        helpers.tool_version_gte(tool, minimum_singularity_version)
-      params:
-        singularity_enabled: true
     - id: prokka_small_input_rule
       if: input_size < 0.001
       cores: 2
@@ -875,6 +872,10 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/hapcut2/hapcut2/.*:
+    mem: 8  # TODO: this could be linear on input size
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
     cores: 12
     mem: 46.0
@@ -940,17 +941,21 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxyp/diann/diann/.*:
     params:
       docker_enabled: true
+  toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper/.*:
     cores: 6
     mem: 23.0
-    params:
-      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
       reject:
       - pulsar-QLD
       - pulsar-mel2
+  toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper_search/.*:
+    cores: 2
+    mem: 7.6
   toolshed.g2.bx.psu.edu/repos/galaxyp/encyclopedia_searchtolib/encyclopedia_searchtolib/.*:
     mem: 10
     params:
@@ -995,6 +1000,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxyp/rawtools/rawtools/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/galaxyp/uniprotxml_downloader/uniprotxml_downloader/.*:
+    # note: this fails tests with singularity (version 2.4.0)
+    mem: 8
   toolshed.g2.bx.psu.edu/repos/genouest/braker3/braker3/.*:
     cores: 8
     mem: 32
@@ -1116,6 +1124,9 @@ tools:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/biom_convert/biom_convert/.*:
     mem: 12
+  toolshed.g2.bx.psu.edu/repos/iuc/bracken/est_abundance/.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/3.*:
     cores: 2
     mem: 7.6
@@ -1305,6 +1316,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_point/ggplot2_point/.*:
     cores: 1
     mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/goseq/goseq/.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/gtdbtk_classify_wf/gtdbtk_classify_wf/.*:
     cores: 32
     mem: 122.8
@@ -1644,6 +1658,11 @@ tools:
       if: input_size < 0.001
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/metaphlan2/metaphlan2/.*:
+    cores: 2
+    mem: 7.6
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/.*:
     cores: 30
     mem: 480.5
@@ -2572,6 +2591,7 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/trinity_run_de_analysis/trinity_run_de_analysis/.*:
+    mem: 8
     params:
       singularity_enabled: true
     scheduling:
@@ -2591,7 +2611,7 @@ tools:
     mem: 34.5
     rules:
     - id: trycycler_cluster_small_input_rule
-      if: input_size < 0.2
+      if: input_size < 0.1
       cores: 1
       mem: 3.8
     - id: trycycler_cluster_medium_input_rule
@@ -2796,6 +2816,9 @@ tools:
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/nml/quasitools/.*:
       mem: 8
+  toolshed.g2.bx.psu.edu/repos/padge/clipkit/clipkit/.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/peterjc/sample_seqs/sample_seqs/.*:
     params:
       singularity_enabled: true
