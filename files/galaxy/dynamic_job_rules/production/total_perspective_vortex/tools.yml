@@ -163,6 +163,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     context:
       test_cores: 2
+      max_concurrent_job_count_for_tool_user: 2
     cores: 60
     mem: 961
     params:
@@ -2537,6 +2538,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/trinity.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
