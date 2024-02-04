@@ -26,11 +26,6 @@ galaxy_fetch_dependencies: false
 galaxy_manage_mutable_setup: false
 galaxy_build_client: false
 
-galaxy_process_env: # put this in dev or in galaxyservers
-  DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-  SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
-  SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
-
 host_galaxy_config_gravity:  # overridden from entry in dev.usegalaxy.org.au
   process_manager: systemd
   galaxy_root: "{{ galaxy_server_dir }}"
@@ -48,7 +43,7 @@ host_galaxy_config_gravity:  # overridden from entry in dev.usegalaxy.org.au
       environment: "{{ galaxy_process_env }}"
       pools:
         - job-handlers
-    workflow_scheduler:
+    workflow-scheduler:
       processes: 1
       environment: "{{ galaxy_process_env }}"
       pools:

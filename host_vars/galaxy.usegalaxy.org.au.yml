@@ -99,11 +99,7 @@ host_galaxy_config_gravity:
       timeout: 1800
       restart_timeout: 1800
       preload: true
-      environment:
-        VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
-        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
-        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+      environment: "{{ galaxy_process_env }}"
     - bind: unix:{{ galaxy_mutable_config_dir }}/gunicorn2.sock
       workers: 2
       # Other options that will be passed to gunicorn
@@ -111,11 +107,7 @@ host_galaxy_config_gravity:
       timeout: 1800
       restart_timeout: 1800
       preload: true
-      environment:
-        VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
-        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
-        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+      environment: "{{ galaxy_process_env }}"
   tusd:
     enable: true
     tusd_path: /usr/local/sbin/tusd
@@ -138,10 +130,7 @@ host_galaxy_config_gravity:
   #   loglevel: DEBUG
   # handlers:
   #   handler:
-  #     environment:
-  #       DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-  #       SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
-  #       SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+  #     environment: "{{ galaxy_process_env }}"
   #     processes: 5
   #     pools:
   #       - job-handlers
