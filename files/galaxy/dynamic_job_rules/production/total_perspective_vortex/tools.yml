@@ -1328,8 +1328,7 @@ tools:
     scheduling:
       require:
       - gtdbtk_database
-      prefer:
-      - pulsar
+      - pulsar  # TODO: fix 'prefer' in ranking and prefer pulsar here
   toolshed.g2.bx.psu.edu/repos/iuc/gtftobed12/gtftobed12/.*:
     params:
       singularity_enabled: true
@@ -1682,6 +1681,9 @@ tools:
       if: 0.5 <= input_size < 20
       cores: 16
       mem: 120
+      scheduling:
+        require:
+        - pulsar  # TODO: fix 'prefer' in ranking and prefer pulsar here
   toolshed.g2.bx.psu.edu/repos/iuc/mothur.*:
     params:
       docker_enabled: true
