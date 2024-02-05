@@ -1237,6 +1237,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/.*:
     cores: 3
     mem: 11.5
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dexseq/dexseq/.*:
     cores: 9
     mem: 34.5
