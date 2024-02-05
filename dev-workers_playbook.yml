@@ -33,6 +33,7 @@
       - cyverse-ansible.singularity
       - dj-wasabi.telegraf
       - acl-on-startup
+      - clean-tmpdisk
   post_tasks:
       - name: restart munge
         systemd:

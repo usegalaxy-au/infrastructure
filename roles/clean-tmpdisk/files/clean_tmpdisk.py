@@ -1,15 +1,22 @@
 import subprocess
 import argparse
 import re
+import os
+import yaml
 
 MINUTES_IN_DAY=1440
 MINUTES_IN_HOUR=60
 
-worker_node = "{{ clean_tmpdisk_worker_node_name }}"
-tmp_dir = "{{ clean_tmpdisk_tmp_dir }}"
-
 squeue_format="%8i %.50j %.9T %.12M %.40N" # slurm_id, name, state, runtime, node
 
+vars_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'clean_tmpdisk_variables.yml')
+
+with open(vars_file) as handle:
+    vars = yaml.safe_load(handle)
+    worker_node = vars['worker_node']
+    tmp_dir = vars['tmp_dir']
+
+# integrity check for tmp_dir variable:
 accepted_tmp_dirs = ['/tmp', '/mnt/tmpdisk']
 if not tmp_dir in accepted_tmp_dirs: # safety feature to stop this from accidentally being set to something we don't want
     raise Exception(f'specified clean_tmpdisk_tmp_dir must be one of {str(accepted_tmp_dirs)}')

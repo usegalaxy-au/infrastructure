@@ -31,7 +31,7 @@
       - usegalaxy_eu.apptainer
       - geerlingguy.docker
       - acl-on-startup
-      # - clean-tmpdisk
+      - clean-tmpdisk
   post_tasks:
       - name: restart munge
         systemd:
