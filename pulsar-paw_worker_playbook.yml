@@ -21,7 +21,7 @@
       - geerlingguy.docker
       - acl-on-startup
       - dj-wasabi.telegraf
-      # - clean-tmpdisk
+      - clean-tmpdisk
   post_tasks:
       - name: Restart munge service
         service:
