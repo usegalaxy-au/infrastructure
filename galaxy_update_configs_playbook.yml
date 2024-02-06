@@ -55,6 +55,15 @@
           dest: "{{ galaxy_config_dir }}/{{ item }}"
         with_items:
           - tool_conf_interactive.xml
+      - name: Copy tool data table config # requires a restart of both gunicorn and handlers
+        copy:
+          src: "{{ galaxy_config_file_src_dir }}/config/{{ item }}"
+          dest: "{{ galaxy_config_dir }}/{{ item }}"
+        with_items:
+          - tool_data_table_conf.xml
+        notify:
+          - restart galaxy
+          - remote restart galaxy
     # following tasks are OK for jenkins_bot
     - name: Install dynamic job rules (static) # dynamic job rules tasks copied from https://github.com/galaxyproject/ansible-galaxy/blob/main/tasks/static_setup.yml
       copy:
