@@ -325,6 +325,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/chemteam/md_converter/md_converter/.*:
+    mem: 16  # TODO: review this, it might not need to be as high
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/chemteam/md_converter/md_slicer/.*:
