@@ -330,6 +330,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/chemteam/md_converter/md_slicer/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/chemteam/mmpbsa_mmgbsa/mmpbsa_mmgbsa/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/chemteam/vmd_hbonds/vmd_hbonds/.*:
     mem: 10
   toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/.*:
@@ -2823,9 +2826,7 @@ tools:
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/nml/quasitools/.*:
       mem: 8
-  toolshed.g2.bx.psu.edu/repos/padge/clipkit/clipkit/.*:
-    params:
-      singularity_enabled: true  
+  toolshed.g2.bx.psu.edu/repos/padge/clipkit/clipkit/.*: {}  # no singularity container, works with conda
   toolshed.g2.bx.psu.edu/repos/peterjc/sample_seqs/sample_seqs/.*:
     params:
       singularity_enabled: true
