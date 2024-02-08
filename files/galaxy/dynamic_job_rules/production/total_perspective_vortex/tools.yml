@@ -357,6 +357,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/csbl/repeatmodeler/repeatmodeler/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     cores: 16
     mem: 36
     params:
