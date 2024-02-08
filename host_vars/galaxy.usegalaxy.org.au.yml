@@ -14,6 +14,7 @@ certbot_domains:
   - "usegalaxy.org.au"
   - "www.usegalaxy.org.au"
   - "*.interactivetoolentrypoint.interactivetool.usegalaxy.org.au"
+  - "*.ep.interactivetool.usegalaxy.org.au"
   - "genome.usegalaxy.org.au"
   - "proteomics.usegalaxy.org.au"
 certbot_dns_provider: cloudflare
