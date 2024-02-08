@@ -25,6 +25,7 @@ shared_mounts:
 certbot_domains:
   - "{{ hostname }}"
   - "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
+  - "*.ep.interactivetool.{{ hostname }}"
   - "genome.{{ hostname }}"
   - "proteomics.{{ hostname }}"
 certbot_dns_provider: cloudflare
