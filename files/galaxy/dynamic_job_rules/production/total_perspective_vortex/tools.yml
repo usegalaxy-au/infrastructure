@@ -1617,6 +1617,8 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2  # TODO: this tool could go to high memory pulsars instead
     cores: 16
     mem: 61.4
     params:
