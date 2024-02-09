@@ -1306,7 +1306,6 @@ tools:
     rules:
     - id: filtlong_small_input_rule
       if: input_size < 1
-      cores: 1
       mem: 6
   toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/.*:
     cores: 5
