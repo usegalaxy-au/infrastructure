@@ -1301,6 +1301,12 @@ tools:
       if: input_size < 0.01
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/filtlong/filtlong/.*:
+    mem: 12  # TODO: this overrides tpv shared entry giving 50G to each job. It could be changed to a linear function of input size
+    rules:
+    - id: filtlong_small_input_rule
+      if: input_size < 1
+      mem: 6
   toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/.*:
     cores: 5
     mem: 19.1
