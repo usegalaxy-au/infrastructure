@@ -2289,6 +2289,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-quick
       - pulsar-training-large
     rules:
     - id: shasta_small_input_rule
