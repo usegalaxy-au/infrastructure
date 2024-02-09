@@ -981,6 +981,17 @@ tools:
       max_concurrent_job_count_for_tool_user: 2
     cores: 16
     mem: 61.4
+    scheduling:
+      accept:
+        - pulsar
+        - pulsar-high-mem2  # TODO: Allowing pulsar-mel2 is temporary for crowd control on a busy day - this might not be a good spot for maxquant long term
+    rules:
+      - id: maxquant_singularity_rule
+        if: |
+          minimum_singularity_version = '2.0.3.0+galaxy0'
+          helpers.tool_version_gte(tool, minimum_singularity_version)
+        params:
+          singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant_mqpar/.*:
     cores: 16
     mem: 61.4
@@ -3022,7 +3033,7 @@ tools:
       fail: Your account has not been given access to cellranger. Contact help@genome.edu.au
         if you think this is in error.
   ^fgenesh$:
-    cores: 120
+    cores: 60
     mem: 20
     params:
       singularity_enabled: true
