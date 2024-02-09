@@ -50,7 +50,6 @@
     # - galaxyproject.s3fs
     - galaxyproject.cvmfs
     - galaxyproject.gxadmin
-    - pg-post-tasks
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf

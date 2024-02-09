@@ -56,7 +56,6 @@
     - dj-wasabi.telegraf
     - geerlingguy.nfs
     - galaxyproject.gxadmin
-    - pg-post-tasks
     - postfix-mail-relay
     - remote-pulsar-cron
     # - delete-tmp-jwds-cron # commented out until galaxy etca is production galaxy, also needs to be enabled

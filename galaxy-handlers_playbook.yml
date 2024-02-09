@@ -63,7 +63,6 @@
         - galaxyproject.slurm
         - galaxyproject.cvmfs
         - galaxyproject.gxadmin
-        - pg-post-tasks
         - geerlingguy.docker
         - dj-wasabi.telegraf
         - usegalaxy_eu.flower

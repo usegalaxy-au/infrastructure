@@ -65,7 +65,6 @@
     # - galaxyproject.s3fs
     - galaxyproject.cvmfs
     - galaxyproject.gxadmin
-    - pg-post-tasks
     - remote-pulsar-cron
     - galaxy-pg-cleanup
     #- galaxyproject.tiaas2 # broken in galaxy release_23.1 - missing static/style/base.css

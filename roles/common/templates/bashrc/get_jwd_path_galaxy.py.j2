@@ -1,0 +1,26 @@
+import argparse
+import os
+
+def main():
+    parser = argparse.ArgumentParser(description='Get job working directory from a job id')
+    parser.add_argument('job_id', type=int, help='Galaxy job id')
+    args = parser.parse_args()
+
+    prefix = os.environ.get("GALAXY_JWD_PATH")
+    if not prefix:
+        raise ValueError("Please set GALAXY_JWD_PATH environment variable")
+
+    jwd_path = get_jwd_path(args.job_id, prefix)
+    print(jwd_path)
+
+def get_jwd_path(job_id, prefix):
+    if len(str(job_id)) > 6: # on production this is the case
+        nine_digit_id = '0'*(9-len(str(job_id))) + str(job_id)
+        return os.path.join(prefix, nine_digit_id[:3], nine_digit_id[3:6], str(job_id))
+    elif len(str(job_id)) <= 6:
+        six_digit_id = '0'*(6-len(str(job_id))) + str(job_id)
+        return os.path.join(prefix, six_digit_id[:3], str(job_id))
+
+
+if __name__ == '__main__':
+    main()

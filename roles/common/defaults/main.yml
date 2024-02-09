@@ -8,3 +8,11 @@ htpass_username: "ubuntu"
 internal_ssh_keys: {}
 
 extra_keys: []
+
+common_sinfo_format: "%24n %.14C %.8t"
+common_squeue_format: "%8i %9P %.35j %.9T %8r %19S %.10M %.6m %.3C %.3N %.55Z"
+common_sacct_format: "jobid%8,partition%9,jobname%30,alloccpus,elapsed,totalcpu,END,state,MaxRSS%12,ReqMem,NodeList%24"
+
+common_bashrc_dir: /etc/bashrc_common
+common_bashrc_vars_file: "{{ common_bashrc_dir }}/common_variables"
+common_bashrc_functions_file: "{{ common_bashrc_dir }}/common_functions"

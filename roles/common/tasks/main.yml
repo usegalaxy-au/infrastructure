@@ -83,6 +83,11 @@
 
 - name: Add machine users
   import_tasks: machine_users.yml
+  when: not skip_machine_users|d(False)
+
+- name: Add variables to bashrc files
+  import_tasks: bashrc.yml
+  when: not skip_machine_users|d(False)
 
 - name: Add extra ssh keys
   include_tasks: extra_keys.yml
@@ -122,4 +127,4 @@
   lineinfile:
     path: /etc/environment
     create: true
-    line: export SACCT_FORMAT="jobid%8,partition%9,jobname%30,alloccpus,elapsed,totalcpu,END,state,MaxRSS%12,ReqMem,NodeList%24"
+    line: export SACCT_FORMAT="{{ common_sacct_format }}"
