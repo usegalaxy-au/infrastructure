@@ -1324,6 +1324,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/.*:
     cores: 3
     mem: 11.5
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/geneiobio/gene_iobio_display_generation_iframe/.*:
     params:
       singularity_enabled: true
