@@ -32,17 +32,6 @@
       with_items:
         - "{{ galaxy_user_singularity_cachedir }}"
         - "{{ galaxy_user_singularity_tmpdir }}"
-    - name: Create extra galaxy config folders
-      file:
-        state: directory
-        path: "{{ item }}"
-      with_items:
-        - "{{ galaxy_config_dir }}/mail"
-    - name: Disable old tusd service
-      systemd:
-        name: 'tusd-main'
-        enabled: false
-        state: stopped
   roles:
     - galaxyproject.repos
     - common
@@ -62,17 +51,15 @@
     - galaxyproject.tusd
     - geerlingguy.nfs
     - galaxyproject.slurm
-    # - galaxyproject.s3fs
     - galaxyproject.cvmfs
     - galaxyproject.gxadmin
     - pg-post-tasks
     - remote-pulsar-cron
     - galaxy-pg-cleanup
-    #- galaxyproject.tiaas2 # broken in galaxy release_23.1 - missing static/style/base.css
+    - galaxyproject.tiaas2
     - geerlingguy.docker
     - dj-wasabi.telegraf
     - postfix-mail-relay
-    #- login-override
     - acl-on-startup
   post_tasks:
     - name: Ensure object store paths exist
