@@ -214,8 +214,6 @@ smtp_login: "{{ vault_smtp_login_dev }}"
 smtp_password: "{{ vault_smtp_password_dev }}"
 
 # TIaaS specific settings
-tiaas_repo: https://github.com/galaxyproject/tiaas2
-tiaas_version: main2 # New GalaxyAU version
 tiaas_galaxy_db_host: "dev-db.gvl.org.au"
 tiaas_galaxy_db_port: "5432"
 tiaas_galaxy_db_user: "tiaasadmin"
