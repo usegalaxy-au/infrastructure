@@ -530,10 +530,10 @@ job_conf_limits:
 
   - type: destination_total_concurrent_jobs
     id: pulsar-azure-gpu
-    value: 8
+    value: 12
   - type: destination_user_concurrent_jobs
     id: pulsar-azure-gpu
-    value: 2
+    value: 3
 
 # Singularity and docker volumes
 slurm_singularity_volumes_list:
