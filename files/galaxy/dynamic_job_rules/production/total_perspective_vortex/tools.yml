@@ -3042,7 +3042,7 @@ tools:
         if you think this is in error.
   ^fgenesh$:
     cores: 60
-    mem: 20
+    mem: 300
     params:
       singularity_enabled: true
     scheduling:
