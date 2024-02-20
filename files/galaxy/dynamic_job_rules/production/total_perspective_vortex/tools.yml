@@ -211,6 +211,9 @@ tools:
     params:
       singularity_enabled: true
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_eventalign/nanopolish_eventalign/.*:
     cores: 3
     mem: 11.5
