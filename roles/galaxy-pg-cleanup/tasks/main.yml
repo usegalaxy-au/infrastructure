@@ -5,4 +5,4 @@
     weekday: "{{ galaxy_pg_cleanup_cron_weekday }}"
     hour: "{{ galaxy_pg_cleanup_cron_hour }}"
     minute: "00"
-    job: gxadmin galaxy cleanup 10
+    job: GALAXY_LOG_DIR=/var/log/galaxy gxadmin galaxy cleanup 10
