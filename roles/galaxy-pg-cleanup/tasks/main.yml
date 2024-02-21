@@ -1,3 +1,9 @@
+- name: Create log directory that galaxy can write to
+  file:
+    state: directory
+    path: /var/log/galaxy
+    owner: galaxy
+    group: galaxy
 - name: Add cron job for galaxy
   cron:
     name: "galaxy_pg_cleanup"    
@@ -5,4 +11,4 @@
     weekday: "{{ galaxy_pg_cleanup_cron_weekday }}"
     hour: "{{ galaxy_pg_cleanup_cron_hour }}"
     minute: "00"
-    job: GALAXY_LOG_DIR=/var/log/galaxy gxadmin galaxy cleanup 10
+    job: ". {{ galaxy_venv_dir }}/bin/activate; GALAXY_LOG_DIR=/var/log/galaxy GALAXY_ROOT={{ galaxy_server_dir }} GALAXY_CONFIG_FILE={{ galaxy_config_file }} /usr/local/bin/gxadmin galaxy cleanup 10"
