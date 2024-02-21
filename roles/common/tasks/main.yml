@@ -1,4 +1,7 @@
 ---
+- name: Adjust systemwide ulimits
+  import_tasks: ulimits.yml
+
 - name: Add hosts to hosts template file
   import_tasks: add_hosts.yml
   vars:
