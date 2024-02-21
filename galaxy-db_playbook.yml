@@ -7,6 +7,7 @@
       - group_vars/dbservers.yml
       - host_vars/galaxy-db.usegalaxy.org.au.yml
       - secret_group_vars/stats_server_vault
+      - secret_group_vars/history_mailer_vault
       - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
       - name: Attach volume to instance
