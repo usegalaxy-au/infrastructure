@@ -36,7 +36,7 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
   - path: /mnt/tools
     src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/tools"
     fstype: nfs
-    opts: 'noatime,actimeo=0,defaults'
+    opts: 'noatime,defaults'
     state: mounted
   - path: /mnt/custom-indices
     src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/custom-indices"
