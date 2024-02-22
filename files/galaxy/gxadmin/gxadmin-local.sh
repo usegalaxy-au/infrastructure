@@ -516,39 +516,6 @@ local_query-job-input-size-by-tool() { ##? [tool] <limit> : Show most recent job
 	EOF
 }
 
-local_query-all-jobs() {  ##? <limit> : List most recently updated jobs
-	[ ! "$1" ] && limit="50" || limit="$1"
-	handle_help "$@" <<-EOF
-
-	Produces a table of all jobs by creation time.  This is much like `gxadmin query queue-detail`
-	but it returns jobs in all states. By default it returns 50 jobs.  It can return more
-	or less if a limit is supplied.
-
-	$ gxadmin local query-all-jobs 4
-	 job_id  |          created           |     username     | state  |                                 tool_id                                  |    destination
-	---------+----------------------------+------------------+--------+--------------------------------------------------------------------------+--------------------
-	 2209960 | 2021-03-23 11:33:59.382595 | frederick_smythe | queued | upload1                                                                  | slurm_1slot_upload
-	 2209959 | 2021-03-23 11:33:42.422161 | frederick_smythe | error  | toolshed.g2.bx.psu.edu/repos/iuc/newick_utils/newick_display/1.6+galaxy1 | pulsar-mel3_small
-	 2209958 | 2021-03-23 11:33:17.148529 | frederick_smythe | ok     | upload1                                                                  | slurm_1slot_upload
-	 2209957 | 2021-03-23 11:28:40.726797 | frederick_smythe | error  | toolshed.g2.bx.psu.edu/repos/iuc/newick_utils/newick_display/1.6+galaxy1 | pulsar-mel3_small
-
-	EOF
-
-	read -r -d '' QUERY <<-EOF
-			SELECT
-				j.id as job_id,
-				j.create_time as created,
-				u.username,
-				j.state as state,
-				j.tool_id as tool_id,
-				j.destination_id as destination
-			FROM job j, galaxy_user u
-			WHERE j.user_id = u.id
-			ORDER BY j.update_time desc
-			LIMIT $limit
-	EOF
-}
-
 local_query-walltime-size-by-tool() { ##? [tool substr] <limit> : Show most recent jobs with walltime and total input size for a given tool
 	tool_substr="$1"
 	[ ! "$2" ] && limit="50" || limit="$2"
@@ -813,6 +780,46 @@ local_query-tool-memory() { ##? <limit>
 			WHERE position('$tool_substr' in j.tool_id)>0
 			AND j.state in ('ok', 'error')
 			ORDER BY j.update_time desc
+			LIMIT $limit
+	EOF
+}
+
+local_query-jobs-by-object-store-id() { ## [object_store_ids]: Comma separated substrings of object store backend IDs, optional limit as second arg
+	object_store_ids="$1"
+	object_store_str=$(echo $object_store_ids | sed 's/,/\|/g')
+	[ ! "$2" ] && limit="50" || limit="$2"
+	handle_help "$@" <<-EOF
+
+		See most recent jobs created with input data from a range of object store ids specified by a comma-separated string, such as data1,data2
+
+			$ gxadmin local query-jobs-by-object-store-id aarnetNFS5 200
+			 job_id  |          created           |          updated           | user_id |  state  |                                    tool_id                                    | destination
+			---------+----------------------------+----------------------------+---------+---------+-------------------------------------------------------------------------------+-------------
+			 8249270 | 2024-02-21 04:53:58.874936 | 2024-02-21 05:06:33.584383 |   14366 | ok      | toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/4.6.0+galaxy0                  | pulsar-mel3
+			 8247098 | 2024-02-21 02:24:55.58023  | 2024-02-21 03:37:19.175585 |   21850 | ok      | toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/2.1.2              | slurm
+			 8247094 | 2024-02-21 02:24:55.184211 | 2024-02-21 03:34:07.777735 |   21850 | ok      | toolshed.g2.bx.psu.edu/repos/devteam/bowtie_wrappers/bowtie_wrapper/1.2.0     | pulsar-QLD
+
+	EOF
+
+	read -r -d '' QUERY <<-EOF
+			SELECT DISTINCT
+				j.id as job_id,
+				j.create_time as created,
+				j.update_time as updated,
+				j.user_id,
+				j.state as state,
+				j.tool_id as tool_id,
+				j.destination_id as destination
+			FROM job j
+				JOIN job_to_input_dataset jtid
+					ON j.id = jtid.job_id
+				JOIN history_dataset_association hda
+					ON hda.id = jtid.dataset_id
+				JOIN dataset d
+					ON hda.dataset_id = d.id
+			WHERE
+				d.object_store_id ~ '$object_store_str'
+			ORDER BY j.create_time desc
 			LIMIT $limit
 	EOF
 }
