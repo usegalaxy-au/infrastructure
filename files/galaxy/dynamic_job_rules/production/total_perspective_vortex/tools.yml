@@ -416,6 +416,8 @@ tools:
       accept:
       - pulsar
       - pulsar-quick
+      reject:
+      - pulsar-QLD
     rules:
     - id: bwa_mem_small_input_rule
       if: input_size < 0.25
