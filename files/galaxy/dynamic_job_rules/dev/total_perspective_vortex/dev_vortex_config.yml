@@ -8,7 +8,7 @@ tools:
       require:
         - interactive_pulsar
   toolshed.g2.bx.psu.edu/repos/fubar/mashmap/mashmap/.*:
-    mem: 8
+    mem: 16
   toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
     context:
       max_concurrent_job_count_for_tool_user: 1
