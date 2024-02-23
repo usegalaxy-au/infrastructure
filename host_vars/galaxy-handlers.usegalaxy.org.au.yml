@@ -49,13 +49,14 @@ host_galaxy_config_gravity:
     loglevel: DEBUG
   handlers:
     handler:
-      environment:
-        DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
-        SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
-        SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+      environment: "{{ galaxy_process_env }}"
       processes: 5
       pools:
         - job-handlers
+    workflow-scheduler:
+      processes: 2
+      environment: "{{ galaxy_process_env }}"
+      pools:
         - workflow-schedulers
 
 # TODO: Ask BG about flower!
