@@ -31,4 +31,9 @@
         <columns>value, name, path</columns>
         <file path="/mnt/tools/tool-data/bracken_databases.loc" />
     </table>
+    <!-- BWA MEM2 -->
+    <table name="bwa_mem2_indexes" comment_char="#">
+        <columns>value, dbkey, name, path</columns>
+        <file path="/mnt/tools/tool-data/bwa_mem2_index.loc"/>
+    </table>
 </tables>
