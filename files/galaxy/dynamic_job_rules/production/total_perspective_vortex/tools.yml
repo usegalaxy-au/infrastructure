@@ -1326,6 +1326,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/.*:
     cores: 5
     mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/funannotate_compare/funannotate_compare/.*:
+    cores: 8
+    mem: 40
+    rules:
+    - id: funannotate_compare_large_input
+      if: input_size > 3.2
+      mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_predict/funannotate_predict/.*:
     cores: 5
     mem: 19.1
