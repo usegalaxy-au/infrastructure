@@ -1,4 +1,4 @@
-tools:
+tools: # comment to change file to check linting
   testtoolshed.g2.bx.psu.edu/repos/fubar/htseq_bams_to_count_matrix/htseqsams2mxlocal/.*:
     cores: 3
     mem: 11.5
