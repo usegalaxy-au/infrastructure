@@ -1,7 +1,12 @@
-- name: "Set systemwide hard nofile limits to match: https://github.com/galaxyproject/ansible-common-roles/blob/ade65130a4b6c16afb8715d7b328edc7d0d7fc99/supervisor/templates/redhat.init.j2#L36"
+- name: Remove existing file
+  file:
+    path: /etc/security/limits.d/50-usegalaxy-au.conf
+    state: absent
+
+- name: "Set soft limit of supervisor process to match: https://github.com/galaxyproject/ansible-common-roles/blob/ade65130a4b6c16afb8715d7b328edc7d0d7fc99/supervisor/templates/redhat.init.j2#L36"
   community.general.pam_limits:
     domain: '*'
-    limit_type: hard
+    limit_type: soft
     limit_item: nofile
     value: 96000
     dest: /etc/security/limits.d/50-usegalaxy-au.conf
