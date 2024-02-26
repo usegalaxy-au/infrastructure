@@ -51,7 +51,7 @@ nginx_enable_default_server: false
 nginx_ssl_servers:
   - galaxy
 nginx_conf_http:
-  client_max_body_size: 120g
+  client_max_body_size: 180g
   gzip_proxied: "any"
   gzip_static: "on" # The ngx_http_gzip_static_module module allows sending precompressed files with the ".gz" filename extension instead of regular files.
   gzip_vary: "on"
