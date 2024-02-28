@@ -38,6 +38,7 @@ nfs_dirs:
   - "{{ nfs_data09_dir }}"
   - "{{ nfs_data10_dir }}"
   - "{{ nfs_data11_dir }}"
+  - "{{ nfs_data12_dir }}"
 
 nfs_exports:
   - "{{ volA_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
