@@ -30,7 +30,6 @@ with open('requirements.yml') as handle:
     role_requirements = yaml.safe_load(handle).get('roles')
 
 for r in role_requirements:
-    try:
         name = r.get('name', r.get('src'))
         if not name:
             raise Exception(f'Could not find role {name} in yaml entry')
@@ -38,22 +37,24 @@ for r in role_requirements:
         if not required_version:
             print(f'role {name} has no required version, no need to update')
             continue
+
         role_info_file = os.path.join(here, roles_dir, name, 'meta', '.galaxy_install_info')
-        role_info_version = None
-        with open(role_info_file) as handle:
-            role_info_lines = handle.readlines()
-        for line in role_info_lines:
-            content = re.split(':\s+', line.strip())
-            if content[0] == 'version':
-                role_info_version = content[1]
-        if role_info_version and role_info_version == required_version:
-            print(f'role {name} is already installed at version {role_info_version}, no need to update')
-        else:
-            print(f'role {name} will be updated from {role_info_version} to {required_version}')
+        if not os.path.exists(role_info_file):
+            print(f'role {name} has no .galaxy_install_info, assuming new and adding to roles to install')
             roles_to_update.append(r)
-    except Exception as e: # file doesnt exist or isn't parsed properly or something
-        sys.stderr.write(str(e))
-        roles_to_update.append(r)
+        else:
+            role_info_version = None
+            with open(role_info_file) as handle:
+                role_info_lines = handle.readlines()
+            for line in role_info_lines:
+                content = re.split(':\s+', line.strip())
+                if content[0] == 'version':
+                    role_info_version = content[1]
+            if role_info_version and role_info_version == required_version:
+                print(f'role {name} is already installed at version {role_info_version}, no need to update')
+            else:
+                print(f'role {name} will be updated from {role_info_version} to {required_version}')
+                roles_to_update.append(r)
 if roles_to_update:
     with open(output_file, 'w') as handle:
         yaml.safe_dump(roles_to_update, handle)

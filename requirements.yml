@@ -80,3 +80,7 @@ roles:
 - name: geerlingguy.redis
   version: 1.8.0
 
+- name: usegalaxy-au.history_mailer
+  src: https://github.com/usegalaxy-au/ansible-history-mailer
+  version: e01d8f1 # TODO: at the very least add a commit ID here
+
