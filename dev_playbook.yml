@@ -11,6 +11,7 @@
     - secret_group_vars/stats_server_vault
     - secret_group_vars/dev_secrets
     - secret_group_vars/sentry_vault
+    - secret_group_vars/history_mailer_vault
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -44,68 +45,69 @@
         enabled: false
         state: stopped
   roles:
-    - galaxyproject.repos
-    - common
-    - mounts
-    - install-tpv
-    - geerlingguy.pip
-    - gantsign.golang
-    - cyverse-ansible.singularity
-    - galaxyproject.galaxy
-    - role: galaxyproject.miniconda
-      become: true
-      become_user: galaxy
-    - usegalaxy_eu.galaxy_subdomains
-    - webhooks
-    - nginx-upload-module
-    - galaxyproject.nginx
-    - galaxyproject.tusd
-    - geerlingguy.nfs
-    - galaxyproject.slurm
-    # - galaxyproject.s3fs
-    - galaxyproject.cvmfs
-    - galaxyproject.gxadmin
-    - pg-post-tasks
-    - remote-pulsar-cron
-    - galaxy-pg-cleanup
-    #- galaxyproject.tiaas2 # broken in galaxy release_23.1 - missing static/style/base.css
-    - geerlingguy.docker
-    - dj-wasabi.telegraf
-    - postfix-mail-relay
-    #- login-override
-    - acl-on-startup
-  post_tasks:
-    - name: Ensure object store paths exist
-      file:
-        state: directory
-        path: "{{ item }}"
-        owner: galaxy
-        group: galaxy
-      with_items:
-        - /mnt/galaxy/data
-        - /mnt/galaxy/data-2
-        - /mnt/galaxy/data-3
-    - name: Make local_tool directory group-writable by machine users
-      file:
-        path: /mnt/galaxy/local_tools
-        owner: root
-        group: devs
-        mode: 0775
-        state: directory
-    - name: Install slurm-drmaa
-      package:
-        name: slurm-drmaa1
-    - name: Uninstall the existing web-dav-client
-      pip:
-        name: "webdavclient3"
-        virtualenv: "{{ galaxy_venv_dir }}"
-        state: absent
-    - name: Workaround content-length header bug in webdav through forcible update to newer version
-      pip:
-        name: "webdavclient3@git+https://github.com/ezhov-evgeny/webdav-client-python-3@0f17fa7946e66f7963db367d0d6b2e7f940ebeb8"
-        virtualenv: "{{ galaxy_venv_dir }}"
-    - name: Reload exportfs
-      command: exportfs -ra
-      become: yes
-      become_user: root
+    # - galaxyproject.repos
+    # - common
+    # - mounts
+    # - install-tpv
+    # - geerlingguy.pip
+    # - gantsign.golang
+    # - cyverse-ansible.singularity
+    # - galaxyproject.galaxy
+    # - role: galaxyproject.miniconda
+    #   become: true
+    #   become_user: galaxy
+    # - usegalaxy_eu.galaxy_subdomains
+    # - webhooks
+    # - nginx-upload-module
+    # - galaxyproject.nginx
+    # - galaxyproject.tusd
+    # - geerlingguy.nfs
+    # - galaxyproject.slurm
+    # # - galaxyproject.s3fs
+    # - galaxyproject.cvmfs
+    # - galaxyproject.gxadmin
+    # - pg-post-tasks
+    # - remote-pulsar-cron
+    # - galaxy-pg-cleanup
+    # #- galaxyproject.tiaas2 # broken in galaxy release_23.1 - missing static/style/base.css
+    # - geerlingguy.docker
+    # - dj-wasabi.telegraf
+    # - postfix-mail-relay
+    # #- login-override
+    # - acl-on-startup
+    - usegalaxy-au.history_mailer
+  # post_tasks:
+  #   - name: Ensure object store paths exist
+  #     file:
+  #       state: directory
+  #       path: "{{ item }}"
+  #       owner: galaxy
+  #       group: galaxy
+  #     with_items:
+  #       - /mnt/galaxy/data
+  #       - /mnt/galaxy/data-2
+  #       - /mnt/galaxy/data-3
+  #   - name: Make local_tool directory group-writable by machine users
+  #     file:
+  #       path: /mnt/galaxy/local_tools
+  #       owner: root
+  #       group: devs
+  #       mode: 0775
+  #       state: directory
+  #   - name: Install slurm-drmaa
+  #     package:
+  #       name: slurm-drmaa1
+  #   - name: Uninstall the existing web-dav-client
+  #     pip:
+  #       name: "webdavclient3"
+  #       virtualenv: "{{ galaxy_venv_dir }}"
+  #       state: absent
+  #   - name: Workaround content-length header bug in webdav through forcible update to newer version
+  #     pip:
+  #       name: "webdavclient3@git+https://github.com/ezhov-evgeny/webdav-client-python-3@0f17fa7946e66f7963db367d0d6b2e7f940ebeb8"
+  #       virtualenv: "{{ galaxy_venv_dir }}"
+  #   - name: Reload exportfs
+  #     command: exportfs -ra
+  #     become: yes
+  #     become_user: root
 
