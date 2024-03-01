@@ -2894,7 +2894,7 @@ tools:
     env:
       SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
-    scheduling:  # Temporarily run all jobs on slurm to reduce file transfers to pulsar (20/2/24)
+    scheduling:
       accept:
       - pulsar
       - pulsar-quick
