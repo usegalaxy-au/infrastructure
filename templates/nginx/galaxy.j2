@@ -147,6 +147,7 @@ server {
         upload_set_form_field "${upload_field_name}_name" "$upload_file_name";
         upload_set_form_field "${upload_field_name}_path" "$upload_tmp_path";
         upload_pass_args on;
+        upload_buffer_size 4M;
         upload_pass /_upload_done;
     }
 
@@ -171,6 +172,7 @@ server {
         upload_pass_form_field "";
         upload_set_form_field "__${upload_field_name}_path" "$upload_tmp_path";
         upload_pass_args on;
+        upload_buffer_size 4M;
         upload_pass /_upload_job_files_done;
     }
 
