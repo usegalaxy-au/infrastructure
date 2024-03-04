@@ -389,6 +389,9 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie_wrappers/bowtie_wrapper/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*
+    scheduling:
+      require:
+        - slurm  # this can run on pulsar but has high input+output size per CPU-time
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 8
     mem: 30.7
@@ -511,10 +514,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/.*:
     cores: 8
     mem: 30.7
-    scheduling:
-      accept:
-      - pulsar
-      - pulsar-quick
+    # scheduling:  # this can run on pulsar but has high input+output size per CPU-time
+    #   accept:
+    #   - pulsar
+    #   - pulsar-quick
     rules:
     - id: fastq_paired_end_interlacer_small_input_rule
       if: input_size < 0.02
@@ -735,9 +738,9 @@ tools:
     mem: 7.6
     params:
       singularity_enabled: true
-    scheduling:
-      accept:
-      - pulsar
+    # scheduling:   # this can run on pulsar but has high input+output size per CPU-time
+    #   accept:
+    #   - pulsar
     rules:
     - id: samtools_rmdup_small_input_rule
       if: input_size < 0.5
@@ -1735,6 +1738,9 @@ tools:
       if: input_size < 0.5
       cores: 4
       mem: 15.3
+      scheduling:
+        require:
+          - slurm   # this can run on pulsar but has high input+output size per CPU-time
     - id: minimap2_medium_input_rule
       if: 0.5 <= input_size < 20
       cores: 16
