@@ -1417,6 +1417,8 @@ tools:
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
     cores: 32
     mem: 122.8
     rules:
@@ -1439,6 +1441,8 @@ tools:
     params:
       singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/humann2/humann2/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
     params:
       singularity_enabled: true
     scheduling:
@@ -1510,6 +1514,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/jellyfish/jellyfish/.*:
