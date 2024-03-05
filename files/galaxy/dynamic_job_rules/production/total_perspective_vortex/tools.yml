@@ -1182,7 +1182,7 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     cores: 20
     mem: 250
     scheduling:
@@ -1198,13 +1198,13 @@ tools:
       cores: 8
       mem: 30.7
     - id: bwa_mem2_history_reference_rule
-      # This rule is copied from usegalaxy.org with bwa_mem2_max_mem increased from 120 to 900
+      # This rule is copied from usegalaxy.org with bwa_mem2_max_mem increased from 120 to 250
       # See https://github.com/galaxyproject/usegalaxy-playbook/blob/5be90699d922c85228836a5a974b05cfd08a6c4b/env/common/templates/galaxy/config/tpv/tools_vgp.yaml.j2#L217C1-L224C93
       if: |
         helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}})
       # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference
       mem: |
-        bwa_mem2_max_mem = 900
+        bwa_mem2_max_mem = 250
         options = job.get_param_values(app)
         size = options["reference_source"]["ref_file"].get_size()
         min(max(float(size/1024**3) * 28, (input_size - float(size/1024**3)) * 2, 7.6), bwa_mem2_max_mem)
