@@ -26,8 +26,7 @@
     - mariadb
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - gantsign.golang
-    - cyverse-ansible.singularity
+    - usegalaxy_eu.apptainer
     - geerlingguy.docker
     - acl-on-startup
     - dj-wasabi.telegraf
