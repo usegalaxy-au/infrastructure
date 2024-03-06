@@ -9,6 +9,7 @@ add_daily_stats: false
 add_monthly_stats: false
 add_utilisation_info: false
 add_queue_info: false
+add_volume_usage_info: false
 
 #Virtualenv
 virtualenv_dir: "{{ stats_dir }}/stats_venv"
