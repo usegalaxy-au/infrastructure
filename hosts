@@ -72,7 +72,7 @@ pulsar-mel2-w6 ansible_ssh_host=115.146.84.131
 pulsar-mel2-w7 ansible_ssh_host=115.146.86.132
 
 [pulsar_high_mem1]
-pulsar-high-mem1 ansible_ssh_host=115.146.84.36
+pulsar-high-mem1 ansible_ssh_host=115.146.86.162
 
 [pulsar_high_mem2]
 pulsar-high-mem2 ansible_ssh_host=115.146.85.27
