@@ -546,10 +546,10 @@ tools:
     env:
       SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
-    # scheduling:
-    #   accept:
-    #   - pulsar
-    #   - pulsar-quick
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-quick
     rules:
     - if: |
         minimum_singularity_version = '0.72+galaxy1'
