@@ -2143,7 +2143,7 @@ tools:
     params:
       singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/qualimap_bamqc/qualimap_bamqc/.*:
-    cores: 9
+    cores: 5
     mem: 34.5
     params:
       singularity_enabled: true
@@ -2153,7 +2153,7 @@ tools:
       cores: 1
       mem: 3.8
     - id: qualimap_bamqc_medium_input_rule
-      if: 0.2 <= input_size < 30
+      if: 0.2 <= input_size < 2
       cores: 5
       mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/qualimap_multi_bamqc/qualimap_multi_bamqc/.*:
