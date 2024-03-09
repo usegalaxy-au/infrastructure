@@ -2008,8 +2008,8 @@ tools:
       cores: 5
       mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/pharokka/pharokka/.*:
-    cores: 4
-    mem: 15
+    cores: 8
+    mem: 31
     params:
       singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
