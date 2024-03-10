@@ -391,3 +391,10 @@ lsyncd_target: /mnt/ghost-galaxy-app
 lsyncd_exclude:
   - cache
 lsyncd_max_user_watches: 524288
+
+# debugging settings
+debug:
+  # determines whether to enable memray debugging. Memray process must be manually started on port 8082
+  memray:
+    enabled: false
+    weight: 0

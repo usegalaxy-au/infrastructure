@@ -1,9 +1,9 @@
-{% if num_gunicorn_processes == 2 %}
 upstream galaxy {
-    server unix://{{ galaxy_mutable_config_dir }}/gunicorn1.sock;
-    server unix://{{ galaxy_mutable_config_dir }}/gunicorn2.sock;
-}
+{% for i in range(1, num_gunicorn_processes+1) %}
+    server unix://{{ galaxy_mutable_config_dir }}/gunicorn{% if num_gunicorn_processes > 1 %}{{i}}{% endif %}.sock weight={{100-debug.memray.weight/num_gunicorn_processes}};
 {% endif %}
+    server localhost:8082 {% if not debug.memray.enabled %}down{% endif %} weight={{debug.memray.weight}};
+}
 
 server {
     # Listen on port 443
@@ -21,7 +21,7 @@ server {
 
     # The most important location block, by default all requests are sent to Gunicorn
     location / {
-        proxy_pass         {% if num_gunicorn_processes == 2 %}http://galaxy{% else %}http://unix://{{ galaxy_mutable_config_dir }}/gunicorn.sock{% endif %};
+        proxy_pass         http://galaxy;
         proxy_redirect     off;
         proxy_set_header   Host              $host;
         proxy_set_header   X-Real-IP         $remote_addr;
@@ -33,7 +33,7 @@ server {
 
     location ~ ^/api/dataset_collections/([^/]+)/download/?$ {
         proxy_buffering off;
-        proxy_pass {% if num_gunicorn_processes == 2 %}http://galaxy{% else %}http://unix://{{ galaxy_mutable_config_dir }}/gunicorn.sock{% endif %};
+        proxy_pass http://galaxy;
         proxy_set_header Host $http_host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
