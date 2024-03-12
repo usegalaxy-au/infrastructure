@@ -2868,6 +2868,8 @@ tools:
       if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 4
     cores: 20
     mem: 500
     params:
