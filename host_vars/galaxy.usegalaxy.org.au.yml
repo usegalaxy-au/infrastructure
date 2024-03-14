@@ -26,8 +26,6 @@ nginx_ssl_servers:
   - galaxy
   - galaxy-gie-proxy ## we still do this?
 
-num_gunicorn_processes: 2
-
 # gie proxy hostname
 interactive_tools_server_name: "usegalaxy.org.au"
 

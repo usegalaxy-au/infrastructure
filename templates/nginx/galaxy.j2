@@ -1,8 +1,11 @@
 upstream galaxy {
-{% for i in range(1, num_gunicorn_processes+1) %}
-    server unix://{{ galaxy_mutable_config_dir }}/gunicorn{% if num_gunicorn_processes > 1 %}{{i}}{% endif %}.sock weight={{100-debug.memray.weight/num_gunicorn_processes}};
+{% set num_gunicorn_processes = galaxy_config.gravity.gunicorn | length %}
+{% for gunicorn_process in galaxy_config.gravity.gunicorn %}
+    server {{ gunicorn_process.bind | replace('unix:', 'unix://') }} weight={{ (100-debug.memray.weight / galaxy_config.gravity.gunicorn|length) | int }};
 {% endfor %}
-    server localhost:8082 {% if not debug.memray.enabled %}down{% endif %} weight={{debug.memray.weight}};
+{% if debug.memray.weight > 0 %}
+    server localhost:8082 weight={{ debug.memray.weight | int }};
+{% endif %}
 }
 
 server {
