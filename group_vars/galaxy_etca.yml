@@ -47,22 +47,22 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     src: "{{ hostvars['galaxy-job-nfs']['internal_ip'] }}:/mnt/tmp"
     fstype: nfs
     state: mounted
-    opts: 'noatime,actimeo=0,defaults'
+    opts: 'noatime,defaults'
   # galaxy-user-nfs
   - path: /mnt/user-data-volA # 150T volume
     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/volA"
     fstype: nfs
-    opts: 'noatime,actimeo=0,defaults'
+    opts: 'noatime,actimeo=1,defaults'
     state: mounted
   - path: /mnt/user-data-volB # 50T volume
     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/volB"
     fstype: nfs
-    opts: 'noatime,actimeo=0,defaults'
+    opts: 'noatime,actimeo=1,defaults'
     state: mounted
   - path: /mnt/user-data-volC # 42T volume
     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/volC"
     fstype: nfs
-    opts: 'noatime,actimeo=0,defaults'
+    opts: 'noatime,actimeo=1,defaults'
     state: mounted
   # pawsey data volumes
   - path: "{{ pawsey_file_mounts_path }}/user-data"
