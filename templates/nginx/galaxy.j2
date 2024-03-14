@@ -1,7 +1,7 @@
 upstream galaxy {
 {% for i in range(1, num_gunicorn_processes+1) %}
     server unix://{{ galaxy_mutable_config_dir }}/gunicorn{% if num_gunicorn_processes > 1 %}{{i}}{% endif %}.sock weight={{100-debug.memray.weight/num_gunicorn_processes}};
-{% endif %}
+{% endfor %}
     server localhost:8082 {% if not debug.memray.enabled %}down{% endif %} weight={{debug.memray.weight}};
 }
 
