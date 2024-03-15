@@ -35,7 +35,7 @@ roles:
 - src: galaxyproject.pulsar
   version: 1.0.11
 - src: dj-wasabi.telegraf
-  version: 0.14.0
+  version: 0.14.1
 - src: galaxyproject.gxadmin
   version: 0.0.12
 
