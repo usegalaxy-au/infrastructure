@@ -114,14 +114,13 @@ host_galaxy_config_gravity:
   app_server: gunicorn
   virtualenv: "{{ galaxy_venv_dir }}"
   gunicorn:
-    # listening options
-    bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
-    # performance options
-    workers: 2
-    # Other options that will be passed to gunicorn
-    extra_args: '--forwarded-allow-ips="*"'
-    preload: true
-    environment: "{{ galaxy_process_env }}"
+    - bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+      # performance options
+      workers: 2
+      # Other options that will be passed to gunicorn
+      extra_args: '--forwarded-allow-ips="*"'
+      preload: true
+      environment: "{{ galaxy_process_env }}"
   gx_it_proxy:
     enable: true
     version: '>=0.0.5'  # default from galaxy.yml.sample
