@@ -96,7 +96,7 @@ slurm_partitions:
     Default: NO
     State: UP
   - name: interactive_tools
-    nodes: "galaxy-w4,galaxy-w5"
+    nodes: "galaxy-w4,galaxy-w5,galaxy-w6"
     Default: NO
     State: UP
     MaxTime: "10:00:00"
