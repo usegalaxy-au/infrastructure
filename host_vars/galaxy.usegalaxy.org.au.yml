@@ -90,6 +90,9 @@ host_galaxy_config_gravity:
   galaxy_user: "{{ galaxy_user.name }}"
   app_server: gunicorn
   virtualenv: "{{ galaxy_venv_dir }}"
+  celery:
+    enable: false
+    enable_beat: false
   gunicorn:
     - bind: unix:{{ galaxy_mutable_config_dir }}/gunicorn1.sock
       workers: 2
