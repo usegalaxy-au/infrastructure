@@ -1332,6 +1332,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_predict/funannotate_predict/.*:
     cores: 5
     mem: 19.1
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/.*:
     cores: 8
     mem: 30.7
