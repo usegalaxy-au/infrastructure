@@ -34,6 +34,7 @@ galaxy_commit_id: release_23.1_au
 
 # TODO: check list concatenation with versions of ansible > 2.12
 shared_mounts: "{{ galaxy_server_and_worker_shared_mounts + galaxy_web_server_mounts }}" # sourced from galaxy_etca.yml
+galaxy_user_data_nfs_opts: 'noatime,actimeo=1,defaults' # galaxy VM needs to be able to see files as soon as they arrive in user data folders
 
 # ansible-galaxy
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/production
