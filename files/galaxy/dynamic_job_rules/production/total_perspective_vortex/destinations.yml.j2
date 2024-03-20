@@ -69,6 +69,7 @@ destinations:
       accept:
         - slurm
         - gtdbtk_database
+        - bakta_database
   slurm-training:
     inherits: _slurm_destination
     runner: slurm
@@ -79,6 +80,7 @@ destinations:
       accept:
         - slurm
         - gtdbtk_database
+        - bakta_database
       require:
         - training
   interactive_pulsar:
@@ -130,6 +132,7 @@ destinations:
     scheduling:
       accept:
         - pulsar-mel3
+        - bakta_database
         # - pulsar-blast
       require:
         - pulsar
