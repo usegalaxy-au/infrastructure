@@ -44,7 +44,7 @@ def main():
     dry_run = args.dry_run or args.list_only # enforce dry run in the case of printing the list
     verbose = args.verbose
 
-    squeue_details = subprocess.check_output(f'squeue --format=\'{squeue_format}\'', shell=True)
+    squeue_details = subprocess.check_output(f'squeue --format=\'{squeue_format}\' --states=RUNNING', shell=True)
 
     squeue_details = squeue_details.decode('utf-8')
 
@@ -58,7 +58,7 @@ def main():
         if not row.strip():
             continue
         slurm_id, name, state, runtime, node = re.split('\s+', row.strip())
-        if node != worker_node or state == 'PENDING':
+        if node != worker_node:
             continue
         job = {
             'slurm_id': slurm_id,
