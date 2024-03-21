@@ -67,6 +67,9 @@ tools:
     mem: 61.4
     params:
       docker_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/bismark/bismark_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/blobtoolkit/blobtoolkit/.*:
     mem: 12
     params:
