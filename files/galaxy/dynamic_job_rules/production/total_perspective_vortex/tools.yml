@@ -750,6 +750,9 @@ tools:
       if: input_size < 0.5
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_sort/samtools_sort/.*:
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/devteam/sicer/peakcalling_sicer/.*:
     params:
       singularity_enabled: true
