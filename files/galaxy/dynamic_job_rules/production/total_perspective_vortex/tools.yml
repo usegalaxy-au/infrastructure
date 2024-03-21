@@ -1295,7 +1295,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/ena_upload/ena_upload/.*:
     params:
-      singularity_enabled: true
+      singularity_enabled: false  # 21/3/24: testing ena_upload with singularity_enabled not true
   toolshed.g2.bx.psu.edu/repos/iuc/exonerate/exonerate/.*:
     cores: 30
     mem: 480.5
