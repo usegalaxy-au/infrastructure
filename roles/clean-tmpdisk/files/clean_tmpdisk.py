@@ -44,7 +44,7 @@ def main():
     dry_run = args.dry_run or args.list_only # enforce dry run in the case of printing the list
     verbose = args.verbose
 
-    squeue_details = subprocess.check_output(f'squeue --format=\'{squeue_format}\' --states=RUNNING', shell=True)
+    squeue_details = subprocess.check_output(f'squeue --format=\'{squeue_format}\' --states=RUNNING -w {worker_node}', shell=True)
 
     squeue_details = squeue_details.decode('utf-8')
 
