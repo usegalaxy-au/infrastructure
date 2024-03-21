@@ -102,8 +102,8 @@
         state: directory
         path: "{{ item }}"
       with_items:
-        - nginx_log_olddir_root
-        - nginx_long_term_log_dir
+        - "{{ nginx_log_olddir_root }}"
+        - "{{ nginx_long_term_log_dir }}"
     - name: Add lines to main block in nginx logrotate conf
       lineinfile:
         path: /etc/logrotate.d/nginx
