@@ -395,3 +395,7 @@ debug:
   # determines whether to enable memray debugging. Memray process must be manually started on port 8082
   memray:
     weight: 0
+
+# dirs for nginx logs
+nginx_log_olddir_root: /var/log/nginx/olddir
+nginx_long_term_log_dir: /mnt/var/log/nginx
