@@ -1410,6 +1410,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
     cores: 36
     mem: 500
+    params:
+      tmp_dir: true
     scheduling:
       accept:
       - pulsar
