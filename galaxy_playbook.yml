@@ -96,3 +96,27 @@
     - name: set up lsync between /mnt/galaxy and /mnt/ghost-galaxy-app
       include_role:
         name: lsyncd
+
+    # Nginx logrotate: keep nginx logs forever on /mnt disk
+    - name: Make sure extra nginx log dirs exist
+      file:
+        state: directory
+        path: "{{ item }}"
+      with_items:
+        - "{{ nginx_log_olddir_root }}"
+        - "{{ nginx_long_term_log_dir }}"
+    - name: Add lines to main block in nginx logrotate conf
+      lineinfile:
+        path: /etc/logrotate.d/nginx
+        line: "{{ item }}"
+        insertafter: ".*{"
+      with_items:
+        - "\tdateext"
+        - "\tolddir {{ nginx_log_olddir_root }}"
+    - name: Add lines to postrotate task in nginx logrotate conf
+      lineinfile:
+        path: /etc/logrotate.d/nginx
+        line: "{{ item }}"
+        insertafter: "\tpostrotate"
+      with_items:
+        - "\t\tcp -up {{ nginx_log_olddir_root }}/* {{ nginx_long_term_log_dir }}/"
