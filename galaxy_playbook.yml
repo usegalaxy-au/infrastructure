@@ -119,4 +119,4 @@
         line: "{{ item }}"
         insertafter: "\tpostrotate"
       with_items:
-        - "\t\tcp {{ nginx_log_olddir_root }}/* {{ nginx_long_term_log_dir }}/"
+        - "\t\tcp -up {{ nginx_log_olddir_root }}/* {{ nginx_long_term_log_dir }}/"
