@@ -1365,9 +1365,12 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/getorganelle/get_organelle_from_reads/.*:
-    mem: 24
+    mem: 70
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_.*:
     params:
       singularity_enabled: true
