@@ -1165,7 +1165,15 @@ tools:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/bracken/est_abundance/.*:
     params:
-      singularity_enabled: true  
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/breseq/breseq/.*:
+    cores: 2
+    mem: 7.6
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/3.*:
     cores: 2
     mem: 7.6
@@ -2589,6 +2597,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_sstacks/stacks2_sstacks/.*:
     cores: 16
     mem: 61.4
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_tsv2bam/stacks2_tsv2bam/.*:
+    cores: 2
+    mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_ustacks/stacks2_ustacks/.*:
     cores: 16
     mem: 100
