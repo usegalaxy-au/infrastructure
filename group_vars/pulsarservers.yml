@@ -48,7 +48,7 @@ pulsar_yaml_config:
   managers:
       _default_:
           type: queued_drmaa
-          preprocess_action_max_retries: 30
+          preprocess_action_max_retries: 50
           preprocess_action_interval_start: 2
           preprocess_action_interval_step: 2
           preprocess_action_interval_max: 60
@@ -75,7 +75,7 @@ pulsar_yaml_config:
   message_queue_url: "pyamqp://{{ pulsar_rabbit_username }}:{{ rabbitmq_password_galaxy_au }}@{{ pulsar_queue_url }}:5671/{{ pulsar_rabbit_vhost }}?ssl=1"
   min_polling_interval: 0.5
   amqp_publish_retry: True
-  amqp_publish_retry_max_retries: 5
+  amqp_publish_retry_max_retries: 10
   amqp_publish_retry_interval_start: 10
   amqp_publish_retry_interval_step: 10
   amqp_publish_retry_interval_max: 60
