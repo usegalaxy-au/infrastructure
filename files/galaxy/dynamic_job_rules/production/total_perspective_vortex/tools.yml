@@ -3072,7 +3072,7 @@ tools:
       max_concurrent_job_count_for_tool_total: 20
       max_concurrent_job_count_for_tool_user: 4
     cores: 1
-    mem: 10
+    mem: 12
     params:
       tmp_dir: true
   __IMPORT_HISTORY__:
