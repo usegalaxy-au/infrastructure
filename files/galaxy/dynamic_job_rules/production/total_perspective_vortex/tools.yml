@@ -1167,8 +1167,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/breseq/breseq/.*:
-    cores: 2
-    mem: 7.6
+    cores: 4
+    mem: 15.3
     params:
       singularity_enabled: true
     scheduling:
@@ -2601,8 +2601,8 @@ tools:
     cores: 16
     mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_tsv2bam/stacks2_tsv2bam/.*:
-    cores: 5
-    mem: 19.1
+    cores: 8
+    mem: 31
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_ustacks/stacks2_ustacks/.*:
     cores: 16
     mem: 100
