@@ -2337,6 +2337,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/scater_.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/seqkit_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_seq/.*:
     cores: 20
     mem: 200
