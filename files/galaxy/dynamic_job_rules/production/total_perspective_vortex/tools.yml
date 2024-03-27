@@ -152,6 +152,8 @@ tools:
     scheduling:
       require:  # TODO: update score function put it back in the rank function, change this to 'prefer'
       - pulsar
+      reject:
+      - pulsar-high-mem1
   toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond_makedb/.*:
     params:
       singularity_enabled: true
@@ -615,6 +617,8 @@ tools:
     scheduling:
       require:
       - pulsar
+      reject:
+      - pulsar-high-mem1
   toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/.*:
     cores: 1
     mem: 3.8
@@ -1470,6 +1474,8 @@ tools:
     scheduling:
       prefer:
         - pulsar
+      reject:
+        - pulsar-high-mem1
   toolshed.g2.bx.psu.edu/repos/iuc/hybpiper/hybpiper/.*:
     params:
       singularity_enabled: true
@@ -1593,6 +1599,7 @@ tools:
       - training-exempt
       reject:
       - pulsar-QLD
+      - pulsar-high-mem1
   toolshed.g2.bx.psu.edu/repos/iuc/kraken_biom/kraken_biom/.*:
     params:
       singularity_enabled: true
