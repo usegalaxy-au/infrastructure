@@ -590,11 +590,11 @@ tools:
       - pulsar
     rules:
     - id: freebayes_small_input_rule
-      if: input_size < 0.2
+      if: input_size < 0.001
       cores: 2
       mem: 7.6
     - id: freebayes_medium_input_rule
-      if: 0.2 <= input_size < 4
+      if: 0.001 <= input_size < 4
       cores: 4
       mem: 15.3
     - id: freebayes_fail_rule
