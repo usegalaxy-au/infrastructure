@@ -2,7 +2,7 @@
   become: true
   vars:
   - nfs_exports:
-    - "/mnt/vdb/alphafold_db {{ hostvars['pulsar-qld-gpu1'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
+    - "/mnt/vdb/alphafold_db {{ hostvars['pulsar-qld-gpu1'].ansible_ssh_host.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
   roles:
     - common
     - geerlinguy.nfs
@@ -12,7 +12,7 @@
 
 # for gpu pulsar vars:
 # shared_mounts:
-#   - src: "{{ hostvars['pulsar-qld-gpu1'].internal_ip }}:/mnt/vdb/alphafold_db"
+#   - src: "{{ hostvars['qld-ref-nfs'].ansible_ssh_host }}:/mnt/vdb/alphafold_db"
 #     path: /data/alphafold_databases
 #     fstype: nfs
 #     state: mounted
