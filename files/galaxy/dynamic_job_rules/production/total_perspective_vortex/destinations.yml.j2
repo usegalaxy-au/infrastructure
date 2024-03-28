@@ -285,6 +285,7 @@ destinations:
             docker_memory: '{mem}G'
             docker_sudo: false
   _pulsar_qld_gpu:
+    abstract: true
     inherits: _pulsar_destination
     max_accepted_cores: 64
     max_accepted_mem: 582
