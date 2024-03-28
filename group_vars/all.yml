@@ -255,6 +255,7 @@ group_slurm_config:
   SchedulerType: sched/backfill
   SelectType: select/cons_res
   SelectTypeParameters: CR_CPU_Memory,CR_LLN
+  UnkillableStepTimeout: 180
 
   AccountingStorageHost: "{% if ansible_hostname == slurm_controller_host %}localhost{% else %}{{ slurm_controller_host }}{% endif %}"
   ControlMachine: "{{ slurm_controller_host }}"
