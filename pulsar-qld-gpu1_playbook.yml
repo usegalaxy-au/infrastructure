@@ -1,4 +1,4 @@
-- hosts: pulsar_high_mem1
+- hosts: pulsar_qld_gpu1
   become: true
   vars_files:
     - group_vars/all.yml
@@ -8,6 +8,9 @@
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
     - name: Create pulsar deps path
       file:
         path: "{{ pulsar_dependencies_dir }}"

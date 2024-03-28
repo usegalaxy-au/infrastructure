@@ -12,10 +12,16 @@ ssl_email: "help@genome.edu.au"
 
 #host specific pulsar settings
 
-rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_hm1_prod }}"
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_qldgpu1_prod }}"
 pulsar_queue_url: "galaxy-queue.usegalaxy.org.au"
-pulsar_rabbit_username: "galaxy_hm1"
-pulsar_rabbit_vhost: "/pulsar/galaxy_hm1"
+pulsar_rabbit_username: "galaxy_qldgpu1"
+pulsar_rabbit_vhost: "/pulsar/galaxy_qldgpu1"
+
+attached_volumes:
+  - device: /dev/nvme0n1
+    partition: 1
+    path: /mnt
+    fstype: ext4
 
 galaxy_uid: 10010
 galaxy_gid: 10010
