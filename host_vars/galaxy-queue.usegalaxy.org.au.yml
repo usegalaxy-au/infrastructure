@@ -72,6 +72,24 @@ rabbitmq_users:
   - user: galaxy_azure_0
     password: "{{ rabbitmq_password_galaxy_azure }}"
     vhost: /pulsar/galaxy_azure_0
+  - user: galaxy_qldgpu1
+    password: "{{ rabbitmq_password_galaxy_qldgpu1 }}"
+    vhost: /pulsar/galaxy_qldgpu1
+  - user: galaxy_qldgpu2
+    password: "{{ rabbitmq_password_galaxy_qldgpu2 }}"
+    vhost: /pulsar/galaxy_qldgpu2
+  - user: galaxy_qldgpu3
+    password: "{{ rabbitmq_password_galaxy_qldgpu3 }}"
+    vhost: /pulsar/galaxy_qldgpu3
+  - user: galaxy_qldgpu4
+    password: "{{ rabbitmq_password_galaxy_qldgpu4 }}"
+    vhost: /pulsar/galaxy_qldgpu4
+  - user: galaxy_qldgpu5
+    password: "{{ rabbitmq_password_galaxy_qldgpu5 }}"
+    vhost: /pulsar/galaxy_qldgpu5
+  - user: galaxy_qldgpu6
+    password: "{{ rabbitmq_password_galaxy_qldgpu6 }}"
+    vhost: /pulsar/galaxy_qldgpu6
   - user: galaxy_queues
     password: "{{ rabbitmq_password_galaxy }}"
     vhost: /galaxy/galaxy_queues
@@ -111,6 +129,12 @@ rabbitmq_vhosts:
   - /pulsar/galaxy_qld_blast
   - /pulsar/galaxy_QLD
   - /pulsar/galaxy_azure_0
+  - /pulsar/galaxy_qldgpu1
+  - /pulsar/galaxy_qldgpu2
+  - /pulsar/galaxy_qldgpu3
+  - /pulsar/galaxy_qldgpu4
+  - /pulsar/galaxy_qldgpu5
+  - /pulsar/galaxy_qldgpu6
   - /galaxy/galaxy_queues
 
 rabbitmq_version: 3.12.1
@@ -132,6 +156,12 @@ rabbitmq_password_galaxy_qld_blast: "{{ vault_rabbitmq_password_galaxy_qld_blast
 rabbitmq_password_galaxy_QLD: "{{ vault_rabbitmq_password_galaxy_QLD_prod }}"
 rabbitmq_password_galaxy_azure: "{{ vault_rabbitmq_password_galaxy_azure_0_prod }}"
 rabbitmq_password_galaxy_azure_1: "{{ vault_rabbitmq_password_galaxy_azure_1_prod }}"
+rabbitmq_password_galaxy_qldgpu1: "{{ vault_rabbitmq_password_galaxy_qldgpu1_prod }}"
+rabbitmq_password_galaxy_qldgpu2: "{{ vault_rabbitmq_password_galaxy_qldgpu2_prod }}"
+rabbitmq_password_galaxy_qldgpu3: "{{ vault_rabbitmq_password_galaxy_qldgpu3_prod }}"
+rabbitmq_password_galaxy_qldgpu4: "{{ vault_rabbitmq_password_galaxy_qldgpu4_prod }}"
+rabbitmq_password_galaxy_qldgpu5: "{{ vault_rabbitmq_password_galaxy_qldgpu5_prod }}"
+rabbitmq_password_galaxy_qldgpu6: "{{ vault_rabbitmq_password_galaxy_qldgpu6_prod }}"
 
 # Host specific Slurm settings
 slurm_roles: ["controller", "dbd"]

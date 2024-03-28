@@ -284,4 +284,25 @@ destinations:
             docker_set_user: '1000'
             docker_memory: '{mem}G'
             docker_sudo: false
+  _pulsar_qld_gpu:
+    inherits: _pulsar_destination
+    max_accepted_cores: 24
+    max_accepted_mem: 209
+    max_accepted_gpus: 1
+    scheduling:
+      require:
+        - pulsar  # maybe require a group tag as well here idk
+    rules:
+      - id: pulsar_destination_docker_rule
+        params:
+            docker_volumes: $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro,/mnt/scratch:/tmp:rw
+            docker_set_user: '1000'
+            docker_memory: '{mem}G'
+            docker_sudo: false
+  pulsar-qld-gpu1:
+    inherits: _pulsar_qld_gpu
+    runner: pulsar-qld-gpu1_runner
+    scheduling:
+      require:
+        - pulsar-qld-gpu1
 

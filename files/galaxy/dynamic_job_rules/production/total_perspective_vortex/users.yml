@@ -142,3 +142,63 @@ users:
               - offline
             require:
               - pulsar-QLD
+    qldgpu1@genome.edu.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-qld-gpu1
+    qldgpu2@genome.edu.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-qld-gpu2
+    qldgpu3@genome.edu.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-qld-gpu3
+    qldgpu4@genome.edu.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-qld-gpu4
+    qldgpu5@genome.edu.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-qld-gpu5
+    qldgpu6@genome.edu.au:
+      inherits: test_user
+      rules:
+        - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+          scheduling:
+            accept:
+              - pulsar
+              - offline
+            require:
+              - pulsar-qld-gpu6

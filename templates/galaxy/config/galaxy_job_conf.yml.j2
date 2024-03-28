@@ -135,6 +135,66 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: True
     amqp_publish_retry_max_retries: 60
+pulsar-qld-gpu1_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_qldgpu1:{{ vault_rabbitmq_password_galaxy_qldgpu1_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qldgpu1?ssl=1"
+    galaxy_url: https://galaxy.usegalaxy.org.au
+    manager: _default_    
+pulsar-qld-gpu2_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_qldgpu2:{{ vault_rabbitmq_password_galaxy_qldgpu2_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qldgpu2?ssl=1"
+    galaxy_url: https://galaxy.usegalaxy.org.au
+    manager: _default_
+pulsar-qld-gpu3_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_qldgpu3:{{ vault_rabbitmq_password_galaxy_qldgpu3_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qldgpu3?ssl=1"
+    galaxy_url: https://galaxy.usegalaxy.org.au
+    manager: _default_
+pulsar-qld-gpu4_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_qldgpu4:{{ vault_rabbitmq_password_galaxy_qldgpu4_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qldgpu4?ssl=1"
+    galaxy_url: https://galaxy.usegalaxy.org.au
+    manager: _default_
+pulsar-qld-gpu5_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_qldgpu5:{{ vault_rabbitmq_password_galaxy_qldgpu5_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qldgpu5?ssl=1"
+    galaxy_url: https://galaxy.usegalaxy.org.au
+    manager: _default_
+pulsar-qld-gpu6_runner:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    amqp_ack_republish_time: 1200
+    amqp_acknowledge: true
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+    amqp_url: "pyamqp://galaxy_qldgpu6:{{ vault_rabbitmq_password_galaxy_qldgpu6_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qldgpu6?ssl=1"
+    galaxy_url: https://galaxy.usegalaxy.org.au
+    manager: _default_
   pulsar_embedded:
     load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
     pulsar_config: "{{ galaxy_config_dir }}/pulsar_app.yml"
