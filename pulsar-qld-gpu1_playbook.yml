@@ -1,0 +1,68 @@
+- hosts: pulsar-qld-gpu1
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/pulsarservers.yml
+    - group_vars/VAULT
+    - host_vars/pulsar-qld-gpu1.yml
+    - secret_group_vars/stats_server_vault
+    - secret_group_vars/ubuntu_maintenance_key
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+    - name: Create pulsar deps path
+      file:
+        path: "{{ pulsar_dependencies_dir }}"
+        state: directory
+        owner: "{{ pulsar_user.name }}"
+        group: "{{ pulsar_user.name }}"
+  roles:
+    - common
+    - insspb.hostname
+    - geerlingguy.pip
+    - galaxyproject.repos
+    - role: galaxyproject.miniconda
+      become: true
+      become_user: "{{ pulsar_user.name }}"
+    - galaxyproject.pulsar
+    - mariadb
+    - galaxyproject.slurm
+    - galaxyproject.cvmfs
+    - usegalaxy_eu.apptainer
+    - geerlingguy.docker
+    - acl-on-startup
+    - dj-wasabi.telegraf
+    - pulsar-post-tasks
+    - slurm-post-tasks
+    - slg.galaxy_stats
+    - clean-tmpdisk
+  post_tasks:
+    - name: Create worker tmpdir on /mnt
+      file:
+          path: /mnt/tmpdisk
+          state: directory
+          owner: root
+          group: root
+          mode: '1777'
+    - name: stat links
+      stat:
+          path: /tmp
+      register: links
+    - name: remove old tmp
+      file:
+          path: /tmp
+          state: absent
+      when: links.stat.islnk is defined and not links.stat.islnk
+    - name: Link /tmp to /mnt/tmpdisk
+      file:
+          src: /mnt/tmpdisk
+          dest: /tmp
+          state: link
+      become: yes
+      become_user: root
+      when: links.stat.islnk is defined and not links.stat.islnk
+    - name: Reload cvmfs config
+      command:
+        cmd: cvmfs_config reload
+      become: yes
