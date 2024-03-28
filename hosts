@@ -104,6 +104,9 @@ pulsar-QLD-w4 ansible_ssh_host=203.101.228.12
 pulsar-QLD-w5 ansible_ssh_host=203.101.224.157
 pulsar-QLD-w6 ansible_ssh_host=203.101.227.103
 
+[pulsar_qld_gpus]
+pulsar-qld-gpu1 ansible_ssh_host=203.101.231.37
+
 # NCI
 [nci_build]
 nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249
