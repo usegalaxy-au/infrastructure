@@ -293,7 +293,8 @@ destinations:
     max_accepted_gpus: 1
     scheduling:
       require:
-        - pulsar  # maybe require a group tag as well here idk
+        - pulsar
+        - pulsar-qld-gpu # for testing purposes require this tag
     rules:
       - id: pulsar_destination_docker_rule
         params:
