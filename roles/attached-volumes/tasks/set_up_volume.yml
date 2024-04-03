@@ -36,27 +36,41 @@
   # block used to simplify testing - if partitioning fails in production playbook should abort
   - name: "if {{ volume_info.disk.dev }} is successfully partitioned - proceed with filesystem check/format and mount"
     block:
+
+    - name: "Set fact for partition names on nvme devices"
+      set_fact:
+        nvme_prefix: 'p'
+      when: volume_info2.disk.dev is search("nvme")
+
+    - name: "Set device name including nvme prefix if required"
+      set_fact:
+        device_part_name: "{{ volume_info.disk.dev }}{{ nvme_prefix | default('') }}{{ attached_volume.partition|d('') }} "
+
+    - name: "device and partition name defined as {{ device_part_name }}"
+      debug:
+        msg: "full device and partition name: {{ device_part_name }}"
+
     - name: "Check partition {{ attached_volume.partition }} on disk {{ attached_volume.device }}"
       set_fact:
         # note ansible list is indexed starting from 0, so need to subtract 1
         part_info: "{{ volume_info2.partitions[attached_volume.partition|int-1] }}"
 
-    - name: "if {{ volume_info.disk.dev }}{{ attached_volume.partition }} is formatted - output fstype"
+    - name: "if {{ device_part_name }} is formatted - output fstype"
       debug:
-        msg: "{{ volume_info.disk.dev }}{{ attached_volume.partition }} has filesystem type {{ part_info.fstype }}"
+        msg: "{{ device_part_name }} has filesystem type {{ part_info.fstype }}"
       when: part_info.fstype != ""
 
-    - name: "If partition {{ attached_volume.device }}{{ attached_volume.partition }} is unformatted - create a {{ attached_volume.fstype }} filesystem"
+    - name: "If partition {{ device_part_name }} is unformatted - create a {{ attached_volume.fstype }} filesystem"
       filesystem:
         fstype: "{{ attached_volume.fstype }}"
-        dev: "{{ attached_volume.device }}{{ attached_volume.partition|d('') }}"
+        dev: "{{ device_part_name }}"
       when: part_info.fstype == ""
     when: num_parts2|int > 0 and attached_volume.partition is defined
 
-  - name: "Mount {{ attached_volume.device }}{{ attached_volume.partition }} on {{ attached_volume.path }} "
+  - name: "Mount {{ device_part_name }} on {{ attached_volume.path }} "
     mount:
       path: "{{ attached_volume.path }}"
-      src: "{{ attached_volume.device }}{{ attached_volume.partition|d('') }}"
+      src: "{{ device_part_name }}"
       fstype: "{{ attached_volume.fstype }}"
       opts: "{{ attached_volume.opts|d('defaults') }}"
       state: mounted    
