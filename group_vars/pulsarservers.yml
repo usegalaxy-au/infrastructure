@@ -36,7 +36,7 @@ pulsar_ssl_pem: /etc/ssl/certs/host.pem
 pulsar_optional_dependencies:
   - pyOpenSSL
   - psutil
-  - pycurl
+  - pycurl<=7.45.2
   - drmaa
   - kombu>=5.2.0
   - sentry-sdk
