@@ -215,6 +215,8 @@ tools:
       singularity_enabled: true
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/.*:
+    cores: 8
+    mem: 24 # TODO: this is 8/16 in shared db. If no further problems update this in shared db
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_eventalign/nanopolish_eventalign/.*:
@@ -770,6 +772,9 @@ tools:
       if: input_size < 0.5
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/dnbenso/masurca_simple/masurca_simple/.*:
+    cores: 8 
+    mem: 42 # TODO: this is part of shared db already but can't be merged because linting is out of order
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/anndata_ops/anndata_ops/.*:
     mem: 2 + input_size * 7
     rules:
@@ -1156,7 +1161,7 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools.*:
-    mem: 8
+    mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/.*:
     scheduling:
       accept:
@@ -2654,6 +2659,8 @@ tools:
       if: input_size >= 30
       fail: Too much data, we cannot support such large Trinity assemblies with our
         backend. Please use another server for your job.
+  toolshed.g2.bx.psu.edu/repos/iuc/trinity_abundance_estimates_to_matrix/trinity_abundance_estimates_to_matrix/.*:
+    mem: 8
   toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/trinity_align_and_estimate_abundance/.*:
     cores: 8
     mem: 30.7
@@ -2798,6 +2805,8 @@ tools:
       if: 0.05 <= input_size < 0.3
       cores: 8
       mem: 30.7
+  toolshed.g2.bx.psu.edu/repos/iuc/ucsc_wigtobigwig/ucsc_wigtobigwig/.*:
+    mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/varscan_.*:
     params:
       singularity_enabled: true
@@ -2869,6 +2878,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_read_duplication/.*:
+    mem: 8
   toolshed.g2.bx.psu.edu/repos/nml/metaspades/metaspades/.*:
     cores: 16
     mem: 61.4
@@ -2957,6 +2968,8 @@ tools:
     params:
       docker_enabled: true
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__longitudinal__nmit/qiime2__longitudinal__nmit/.*:
+    mem: 8
   toolshed.g2.bx.psu.edu/repos/recetox/.*:
     params:
       singularity_enabled: true
@@ -3076,7 +3089,7 @@ tools:
       max_concurrent_job_count_for_tool_total: 20
       max_concurrent_job_count_for_tool_user: 4
     cores: 1
-    mem: 12
+    mem: 10
     params:
       tmp_dir: true
   __IMPORT_HISTORY__:
