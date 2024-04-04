@@ -44,11 +44,11 @@
 
     - name: "Set device name including nvme prefix if required"
       set_fact:
-        device_part_name: "{{ volume_info.disk.dev }}{{ nvme_prefix | default('') }}{{ attached_volume.partition|d('') }} "
+        device_part_name: "{{ volume_info.disk.dev }}{{ nvme_prefix | default('') }}{{ attached_volume.partition|d('') }}"
 
-    - name: "device and partition name defined as {{ device_part_name }}"
+    - name: "device and partition name defined as '{{ device_part_name }}'"
       debug:
-        msg: "full device and partition name: {{ device_part_name }}"
+        msg: "full device and partition name: '{{ device_part_name }}'"
 
     - name: "Check partition {{ attached_volume.partition }} on disk {{ attached_volume.device }}"
       set_fact:
