@@ -862,6 +862,7 @@ tools:
       scheduling:
         accept:
         - pulsar
+        require:
         - pulsar-qld-gpu
     - if: |
         not user or not any([
@@ -3257,6 +3258,7 @@ tools:
       scheduling:
         accept:
         - pulsar
+        require:
         - pulsar-qld-gpu
     - if: | # everything but a pulsar test user
         user_roles = [role.name for role in user.all_roles() if not role.deleted]
