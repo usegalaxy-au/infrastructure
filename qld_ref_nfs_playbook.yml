@@ -12,10 +12,3 @@
   post_tasks:
     - name: Reload exportfs
       command: exportfs -ra
-
-# for gpu pulsar vars:
-# shared_mounts:
-#   - src: "{{ hostvars['qld-ref-nfs'].ansible_ssh_host }}:/mnt/vdb/alphafold_db"
-#     path: /data/alphafold_databases
-#     fstype: nfs
-#     state: mounted
