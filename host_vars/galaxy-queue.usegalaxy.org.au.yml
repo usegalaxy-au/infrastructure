@@ -20,6 +20,7 @@ rabbitmq_config:
   management:
     disable_stats: 'false'
   consumer_timeout: 21600000 # 6 hours in milliseconds
+  max_message_size: 536870912 # 512MB, max size allowed
 
 rabbitmq_users:
   - user: admin
