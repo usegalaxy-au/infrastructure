@@ -23,6 +23,12 @@ attached_volumes:
     path: /mnt
     fstype: ext4
 
+shared_mounts:
+  - src: "{{ hostvars['qld-ref-nfs'].ansible_ssh_host }}:/mnt/vdb/alphafold_db"
+    path: /data/alphafold_databases
+    fstype: nfs
+    state: mounted
+
 galaxy_uid: 10010
 galaxy_gid: 10010
 
