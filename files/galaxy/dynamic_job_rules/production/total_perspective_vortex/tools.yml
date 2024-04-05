@@ -837,9 +837,8 @@ tools:
       tmp_dir: true
     rules:
     - if: |
-        user and 'Alphafold' in [role.name for role in user.all_roles() if not role.deleted] and not (
-          'UoM_Vet_Alphafold' in [role.name for role in user.all_roles() if not role.deleted]
-        )
+        user_roles = [role.name for role in user.all_roles() if not role.deleted]
+        user and 'Alphafold' in user_roles and not 'UoM_Vet_Alphafold' in user_roles and not 'pulsar_gpu_test' in user_roles
       context:
         partition: azuregpu0
       scheduling:
@@ -849,7 +848,8 @@ tools:
         accept:
         - training-exempt
     - if: |
-        user and 'UoM_Vet_Alphafold' in [role.name for role in user.all_roles() if not role.deleted]
+        user_roles = [role.name for role in user.all_roles() if not role.deleted]
+        user and 'UoM_Vet_Alphafold' in user_roles
       context:
         partition: azuregpu1
       scheduling:
@@ -857,10 +857,17 @@ tools:
         - pulsar
         - pulsar-azure-1-gpu
     - if: |
+        user_roles = [role.name for role in user.all_roles() if not role.deleted]
+        user.name in [f'qldgpu{x+1}' for x in range(6)] or 'pulsar_gpu_test' in user_roles
+      scheduling:
+        accept:
+        - pulsar
+        - pulsar-qld-gpu
+    - if: |
         not user or not any([
           role for role in user.all_roles() if (
-            role.name in ['Alphafold', 'UoM_Vet_Alphafold'] and not role.deleted
-        )])
+            role.name in ['Alphafold', 'UoM_Vet_Alphafold', 'pulsar_gpu_test'] and not role.deleted
+        )]) and user.name not in [f'qldgpu{x+1}' for x in range(6)]
       fail: |
         This tool is currently being beta-tested on GPUs and your account has not been given access. Contact help@genome.edu.au if you think this is in error.
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/2.1.*:
@@ -3238,14 +3245,25 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/genouest/helixer/helixer/*:
-    context:
-      partition: azuregpu0
     cores: 8
     mem: 69
     params:
       docker_enabled: true
       docker_run_extra_arguments: --gpus all
-    scheduling:
-      require:
-      - pulsar
-      - pulsar-azure-1-gpu
+    rules:
+    - if: | # pulsar test users only
+        user_roles = [role.name for role in user.all_roles() if not role.deleted]
+        user and (user.name in [f'qldgpu{x+1}' for x in range(6)] or 'pulsar_gpu_test' in user_roles)
+      scheduling:
+        accept:
+        - pulsar
+        - pulsar-qld-gpu
+    - if: | # everything but a pulsar test user
+        user_roles = [role.name for role in user.all_roles() if not role.deleted]
+        user and user.name not in [f'qldgpu{x+1}' for x in range(6)] and 'pulsar_gpu_test' not in user_roles
+      context:
+        partition: azuregpu0
+      scheduling:
+        require:
+        - pulsar
+        - pulsar-azure-1-gpu
