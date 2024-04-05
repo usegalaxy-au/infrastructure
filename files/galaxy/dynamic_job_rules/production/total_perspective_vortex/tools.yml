@@ -858,7 +858,7 @@ tools:
         - pulsar-azure-1-gpu
     - if: |
         user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        user.name in [f'qldgpu{x+1}' for x in range(6)] or 'pulsar_gpu_test' in user_roles
+        user.username in [f'qldgpu{x+1}' for x in range(6)] or 'pulsar_gpu_test' in user_roles
       scheduling:
         accept:
         - pulsar
@@ -867,7 +867,7 @@ tools:
         not user or not any([
           role for role in user.all_roles() if (
             role.name in ['Alphafold', 'UoM_Vet_Alphafold', 'pulsar_gpu_test'] and not role.deleted
-        )]) and user.name not in [f'qldgpu{x+1}' for x in range(6)]
+        )]) and user.username not in [f'qldgpu{x+1}' for x in range(6)]
       fail: |
         This tool is currently being beta-tested on GPUs and your account has not been given access. Contact help@genome.edu.au if you think this is in error.
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/2.1.*:
@@ -3253,14 +3253,14 @@ tools:
     rules:
     - if: | # pulsar test users only
         user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        user and (user.name in [f'qldgpu{x+1}' for x in range(6)] or 'pulsar_gpu_test' in user_roles)
+        user and (user.username in [f'qldgpu{x+1}' for x in range(6)] or 'pulsar_gpu_test' in user_roles)
       scheduling:
         accept:
         - pulsar
         - pulsar-qld-gpu
     - if: | # everything but a pulsar test user
         user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        user and user.name not in [f'qldgpu{x+1}' for x in range(6)] and 'pulsar_gpu_test' not in user_roles
+        user and user.username not in [f'qldgpu{x+1}' for x in range(6)] and 'pulsar_gpu_test' not in user_roles
       context:
         partition: azuregpu0
       scheduling:
