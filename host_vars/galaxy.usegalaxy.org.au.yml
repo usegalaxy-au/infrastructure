@@ -434,6 +434,9 @@ job_conf_limits:
     slurm-training:
       tags:
       - registered_user_concurrent_jobs_10
+    pulsar-qld-gpu1:
+      tags:
+      - registered_user_concurrent_jobs_10
   limits:
   - type: anonymous_user_concurrent_jobs
     value: 1
