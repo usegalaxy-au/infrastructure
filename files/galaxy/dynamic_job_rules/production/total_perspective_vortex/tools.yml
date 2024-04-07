@@ -2792,6 +2792,8 @@ tools:
     cores: 2
     mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 4
     cores: 16
     mem: 61.4
     scheduling:
