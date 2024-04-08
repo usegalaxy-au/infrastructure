@@ -92,7 +92,7 @@ slurm_partitions:
     Default: YES
     State: UP
   - name: training
-    nodes: "galaxy-w7,galaxy-w5,galaxy-w4,galaxy-w6,galaxy-w10"
+    nodes: "galaxy-w7,galaxy-w1,galaxy-w2,galaxy-w3,galaxy-w4,galaxy-w5,galaxy-w6,galaxy-w8,galaxy-w9,galaxy-w10"
     Default: NO
     State: UP
   - name: interactive_tools
