@@ -1009,11 +1009,13 @@ tools:
       max_concurrent_job_count_for_tool_total: 4
       max_concurrent_job_count_for_tool_user: 2
     cores: 16
-    mem: 61.4
+    mem: 65
     scheduling:
-      accept:
-        - pulsar
-        - pulsar-high-mem2  # TODO: Allowing pulsar-mel2 is temporary for crowd control on a busy day - this might not be a good spot for maxquant long term
+      require:
+        - pulsar # TODO: change ranking to reneable "prefer" and change this to prefer 
+      reject: # reject pulsars without high max_map_count
+        - pulsar-high-mem1
+        - pulsar-high-mem2
     rules:
       - id: maxquant_singularity_rule
         if: |
