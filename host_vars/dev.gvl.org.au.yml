@@ -252,15 +252,6 @@ aaf_issuer_url: "{{ vault_aaf_issuer_url_dev }}"
 aaf_client_id: "{{ vault_aaf_client_id_dev }}"
 aaf_client_secret: "{{ vault_aaf_client_secret_dev }}"
 
-# Other OIDC providers
-extra_oidc_providers:
-  - provider: CILogon
-    url: https://cilogon.org/authorize
-    client_id: "{{ vault_dev_cilogon_client }}"
-    client_secret: "{{ vault_dev_cilogon_secret }}"
-    redirect_uri: https://dev.gvl.org.au/authnz/cilogon/callback
-    realm: master
-
 # remote-pulsar-cron variables
 rpc_skip_cron_setup: false
 rpc_db_connection_string: "postgres://reader:{{ vault_dev_db_reader_password }}@dev-db.gvl.org.au:5432/galaxy"
