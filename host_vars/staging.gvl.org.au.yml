@@ -73,6 +73,12 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir}}/oidc_config.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/themes/themes_main.yml"
+    dest: "{{ galaxy_config_dir }}/themes_main.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/themes/themes_genome.yml"
+    dest: "{{ galaxy_config_dir }}/themes_genome.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/themes/themes_proteomics.yml"
+    dest: "{{ galaxy_config_dir }}/themes_proteomics.yml"
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
@@ -147,6 +153,10 @@ host_galaxy_config: # renamed from __galaxy_config
     # For subdomains
     tool_section_filters: global_host_filters:per_host_tool_sections
     tool_label_filters: global_host_filters:per_host_tool_labels
+    themes_config_file_by_host:
+      staging.gvl.org.au: "{{ galaxy_config_dir }}/themes_main.yml"
+      genome.staging.gvl.org.au: "{{ galaxy_config_dir }}/themes_genome.yml"
+      proteomics.staging.gvl.org.au: "{{ galaxy_config_dir }}/themes_proteomics.yml"
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
