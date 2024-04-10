@@ -1568,6 +1568,9 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/.*:
+    context:
+      max_concurrent_job_count_for_tool_total: 16
+      max_concurrent_job_count_for_tool_user: 2
     cores: 5
     mem: 19.1
     params:
