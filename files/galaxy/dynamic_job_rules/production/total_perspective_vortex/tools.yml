@@ -2617,7 +2617,7 @@ tools:
     mem: 61.4
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_tsv2bam/stacks2_tsv2bam/.*:
     cores: 8
-    mem: 31
+    mem: 42
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_ustacks/stacks2_ustacks/.*:
     cores: 16
     mem: 100
