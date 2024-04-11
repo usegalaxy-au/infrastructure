@@ -12,9 +12,9 @@
     - secret_group_vars/dev_secrets
     - secret_group_vars/sentry_vault
   pre_tasks:
-    - name: Attach volume to instance
-      include_role:
-        name: attached-volumes
+    # - name: Attach volume to instance
+    #   include_role:
+    #     name: attached-volumes
     - name: create dir for gravity configuration
       file:
         state: directory
