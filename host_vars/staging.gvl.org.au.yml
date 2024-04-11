@@ -154,9 +154,9 @@ host_galaxy_config: # renamed from __galaxy_config
     tool_section_filters: global_host_filters:per_host_tool_sections
     tool_label_filters: global_host_filters:per_host_tool_labels
     themes_config_file_by_host:
-      # staging.gvl.org.au: "{{ galaxy_config_dir }}/themes_main.yml"
-      # genome.staging.gvl.org.au: "{{ galaxy_config_dir }}/themes_genome.yml"
-      # proteomics.staging.gvl.org.au: "{{ galaxy_config_dir }}/themes_proteomics.yml"
+      staging.gvl.org.au: "{{ galaxy_config_dir }}/themes_main.yml"
+      genome.staging.gvl.org.au: "{{ galaxy_config_dir }}/themes_genome.yml"
+      proteomics.staging.gvl.org.au: "{{ galaxy_config_dir }}/themes_proteomics.yml"
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
