@@ -10,17 +10,17 @@ slurm_nodes:
     - name: pulsar-nci-test
       NodeAddr: "{{ hostvars['pulsar-nci-test']['internal_ip'] }}"
       CPUs: 8
-      RealMemory: 16380
+      RealMemory: 15990
       State: UNKNOWN
     - name: pulsar-nci-test-w1
       NodeAddr: "{{ hostvars['pulsar-nci-test-w1']['internal_ip'] }}"
       CPUs: 16
-      RealMemory: 49350
+      RealMemory: 48170
       State: UNKNOWN
     - name: pulsar-nci-test-w2
       NodeAddr: "{{ hostvars['pulsar-nci-test-w2']['internal_ip'] }}"
       CPUs: 16
-      RealMemory: 49350
+      RealMemory: 48170
       State: UNKNOWN
 
 slurm_partitions:
