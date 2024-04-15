@@ -74,8 +74,9 @@ roles:
   # version: 0.0.13
 - src: usegalaxy_eu.apptainer
   version: 0.0.1
-- src: usegalaxy_eu.rabbitmqserver
-  version: 1.4.4
+- name: usegalaxy_eu.rabbitmqserver
+  src: https://github.com/cat-bro/ansible-rabbitmq
+  version: main
 - name: geerlingguy.redis
   version: 1.8.0
 
