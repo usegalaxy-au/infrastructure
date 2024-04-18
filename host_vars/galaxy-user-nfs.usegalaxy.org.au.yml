@@ -9,9 +9,9 @@ nfs_data11_dir: "{{ volA_path }}/data11"
 nfs_data14_dir: "{{ volA_path }}/data14"
 
 # volume B (~50 TB)
-nfs_user_data_6_dir: "{{ volB_path }}/user-data-6"
 nfs_data09_dir: "{{ volB_path }}/data09"
 nfs_data12_dir: "{{ volB_path }}/data12"
+nfs_data15_dir: "{{ volB_path }}/data15"
 
 # volume C (~42 TB)
 nfs_data10_dir: "{{ volC_path }}/data10"
@@ -20,19 +20,18 @@ nfs_data13_dir: "{{ volC_path }}/data13"
 attached_volumes:
   - device: /dev/vdb
     partition: 1
-    path: "{{ volA_path }}" # contains user-data-5, user-data-7, data08, data11
+    path: "{{ volA_path }}"
     fstype: ext4
   - device: /dev/vdc
     partition: 1
-    path: "{{ volB_path }}" # contains user-data-6, data09, data12
+    path: "{{ volB_path }}"
     fstype: ext4
   - device: /dev/vdd
     partition: 1
-    path: "{{ volC_path }}" # contains data10, data13
+    path: "{{ volC_path }}"
     fstype: ext4
 
 nfs_dirs:
-  - "{{ nfs_user_data_6_dir }}"
   - "{{ nfs_user_data_7_dir }}"
   - "{{ nfs_data08_dir }}"
   - "{{ nfs_data09_dir }}"
@@ -41,6 +40,7 @@ nfs_dirs:
   - "{{ nfs_data12_dir }}"
   - "{{ nfs_data13_dir }}"
   - "{{ nfs_data14_dir }}"
+  - "{{ nfs_data15_dir }}"
 
 nfs_exports:
   - "{{ volA_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
