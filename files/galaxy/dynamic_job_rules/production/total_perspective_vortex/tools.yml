@@ -1006,7 +1006,6 @@ tools:
     mem: 92
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
     context:
-      max_concurrent_job_count_for_tool_total: 4
       max_concurrent_job_count_for_tool_user: 2
     cores: 16
     mem: 65
@@ -1133,6 +1132,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     cores: 8
     mem: 30.7
     params:
@@ -1569,8 +1570,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/.*:
     context:
-      max_concurrent_job_count_for_tool_total: 16
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 3
     cores: 5
     mem: 19.1
     params:
