@@ -1775,9 +1775,6 @@ tools:
       if: input_size < 0.5
       cores: 4
       mem: 24
-      scheduling:
-        require:
-          - slurm   # this can run on pulsar but has high input+output size per CPU-time
     - id: minimap2_medium_input_rule
       if: 0.5 <= input_size < 20
       cores: 16
