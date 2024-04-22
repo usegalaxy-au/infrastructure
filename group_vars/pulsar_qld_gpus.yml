@@ -49,6 +49,7 @@ slurm_nodes:
       CPUs: 64
       RealMemory: 596400
       State: UNKNOWN
+      Gres: gpu:1
 
 slurm_partitions:
     - name: main
@@ -58,6 +59,16 @@ slurm_partitions:
       State: UP
 
 slurm_controller_host: "{{ ansible_hostname }}"
+
+host_slurm_config:
+    GresTypes: gpu
+
+slurm_gres_config:
+    - NodeName: "{{ ansible_hostname }}"
+      Name: gpu
+      Count: 1
+      Type: nvidia
+      File: /dev/nvidia0
 
 slurm_munge_key: files/keys/munge.key
 
