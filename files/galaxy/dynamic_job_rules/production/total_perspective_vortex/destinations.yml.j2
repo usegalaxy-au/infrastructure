@@ -308,4 +308,12 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-gpu1
+      require:
+        - offline
+  pulsar-qld-gpu3:
+    inherits: _pulsar_qld_gpu
+    runner: pulsar-qld-gpu3_runner
+    scheduling:
+      accept:
+        - pulsar-qld-gpu3
 
