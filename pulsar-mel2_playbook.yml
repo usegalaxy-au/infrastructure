@@ -15,9 +15,11 @@
         cache_valid_time: 3600
         update_cache: yes
       when: ansible_os_family == "Debian"
-    - name: Attach volume to instance
-      include_role:
-        name: attached-volumes
+    # attached_volumes role is broken for legacy cases where there is no partition set.
+    # If we need to run this role again we should be adding partition to each attached_volumes entry for this VM
+    # - name: Attach volume to instance If we need to run this role again we should add parition to the attached_volumes entries for this VM
+    #   include_role:
+    #     name: attached-volumes
     - name: Create pulsar deps path
       file:
         path: "{{ pulsar_dependencies_dir }}"
