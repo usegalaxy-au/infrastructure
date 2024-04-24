@@ -134,7 +134,7 @@ destinations:
       accept:
         - pulsar-mel3
         - bakta_database
-        # - pulsar-blast
+        - pulsar-blast
       require:
         - pulsar
   pulsar-high-mem1:
@@ -224,6 +224,7 @@ destinations:
       require:
         - pulsar
         - pulsar-blast
+        - offline
   pulsar-QLD:
     inherits: _pulsar_destination
     runner: pulsar-QLD_runner
