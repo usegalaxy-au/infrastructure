@@ -48,7 +48,7 @@ slurm_nodes:
 
 slurm_partitions:
   - name: main
-    nodes: "pulsar-QLD-w0,pulsar-QLD-w1,pulsar-QLD-w2,pulsar-QLD-w3,pulsar-QLD-w4,pulsar-QLD-w5,pulsar-QLD-w6"
+    nodes: "pulsar-QLD-w1,pulsar-QLD-w2,pulsar-QLD-w3,pulsar-QLD-w4,pulsar-QLD-w5,pulsar-QLD-w6,pulsar-QLD-w7"
     Default: YES
     MaxTime: INFINITE
     State: UP
