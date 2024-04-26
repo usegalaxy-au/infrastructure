@@ -230,9 +230,6 @@ destinations:
     max_accepted_cores: 16
     max_accepted_mem: 62.72
     tags: {{ job_conf_limits.environments['pulsar-QLD'].tags }}
-    params:
-      jobs_directory: /mnt/tmp/files/staging
-      persistence_directory: /mnt/tmp/files/persisted_data
     scheduling:
       accept:
         - pulsar-QLD
