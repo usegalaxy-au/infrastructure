@@ -684,8 +684,13 @@ tools:
         accept:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_makeblastdb/.*:
-    cores: 5
-    mem: 19.1
+    cores: 16
+    mem: 61.4
+    rules:
+    - id: ncbi_makeblastdb_small_input_rule
+      if: input_size < 30
+      cores: 5
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/.*:
     cores: 5
     mem: 19.1
