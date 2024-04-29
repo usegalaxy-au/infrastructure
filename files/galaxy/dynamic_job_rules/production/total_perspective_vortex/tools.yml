@@ -1624,6 +1624,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/krakentools_extract_kraken_reads/krakentools_extract_kraken_reads/.*:
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/krakentools_kreport2krona/krakentools_kreport2krona/.*:
@@ -2714,7 +2715,7 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/trinity_run_de_analysis/trinity_run_de_analysis/.*:
-    mem: 8
+    mem: 15
     params:
       singularity_enabled: true
     scheduling:
@@ -2845,6 +2846,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/yahs/yahs/.*:
+    mem: 200
     params:
       singularity_enabled: true
     scheduling:
