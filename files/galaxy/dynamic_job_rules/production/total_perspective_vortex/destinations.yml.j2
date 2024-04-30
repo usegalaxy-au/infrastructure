@@ -135,6 +135,7 @@ destinations:
       accept:
         - pulsar-mel3
         - bakta_database
+        - training # Temporary reroute while training pulsar is offline
         # - pulsar-blast
       require:
         - pulsar
@@ -209,6 +210,7 @@ destinations:
         - pulsar-nci-training
         - pulsar-blast # allow training jobs with require: pulsar-blast to run here
         - bakta_database
+        - offline
       require:
         - pulsar
         - training
