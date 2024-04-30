@@ -151,7 +151,6 @@ host_galaxy_config: # renamed from __galaxy_config
     id_secret: "{{ vault_aarnet_id_secret }}" # TODO: this need to stay the same wherever production galaxy is running, but the name of the vault variable is misleading
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     smtp_server: localhost
-    ga_code: "{{ vault_prod_ga_code }}" ## swich off ga_code while testing.  TODO: uncomment this when we go live
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
     enable_oidc: true
