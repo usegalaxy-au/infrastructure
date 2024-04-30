@@ -1,7 +1,7 @@
 # Pulsar-mel2
 resource "openstack_compute_instance_v2" "pulsar-mel2" {
   name            = "pulsar-mel2"
-  image_id        = "03433e1b-d092-40eb-bbce-cd3842899001"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -11,7 +11,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel2" {
 #Workers
 resource "openstack_compute_instance_v2" "pulsar-mel2-w1" {
   name            = "pulsar-mel2-w1"
-  image_id        = "03433e1b-d092-40eb-bbce-cd3842899001"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -20,7 +20,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel2-w1" {
 
 resource "openstack_compute_instance_v2" "pulsar-mel2-w2" {
   name            = "pulsar-mel2-w2"
-  image_id        = "03433e1b-d092-40eb-bbce-cd3842899001"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -29,7 +29,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel2-w2" {
 
 resource "openstack_compute_instance_v2" "pulsar-mel2-w3" {
   name            = "pulsar-mel2-w3"
-  image_id        = "03433e1b-d092-40eb-bbce-cd3842899001"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -38,7 +38,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel2-w3" {
 
 resource "openstack_compute_instance_v2" "pulsar-mel2-w4" {
   name            = "pulsar-mel2-w4"
-  image_id        = "03433e1b-d092-40eb-bbce-cd3842899001"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -47,7 +47,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel2-w4" {
 
 resource "openstack_compute_instance_v2" "pulsar-mel2-w5" {
   name            = "pulsar-mel2-w5"
-  image_id        = "03433e1b-d092-40eb-bbce-cd3842899001"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -56,7 +56,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel2-w5" {
 
 resource "openstack_compute_instance_v2" "pulsar-mel2-w6" {
   name            = "pulsar-mel2-w6"
-  image_id        = "03433e1b-d092-40eb-bbce-cd3842899001"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -65,7 +65,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel2-w6" {
 
 resource "openstack_compute_instance_v2" "pulsar-mel2-w7" {
   name            = "pulsar-mel2-w7"
-  image_id        = "03433e1b-d092-40eb-bbce-cd3842899001"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
