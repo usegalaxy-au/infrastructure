@@ -10,16 +10,9 @@
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
-    - name: apt update
-      apt:
-        cache_valid_time: 3600
-        update_cache: yes
-      when: ansible_os_family == "Debian"
-    # attached_volumes role is broken for legacy cases where there is no partition set.
-    # If we need to run this role again we should be adding partition to each attached_volumes entry for this VM
-    # - name: Attach volume to instance If we need to run this role again we should add parition to the attached_volumes entries for this VM
-    #   include_role:
-    #     name: attached-volumes
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
     - name: Create pulsar deps path
       file:
         path: "{{ pulsar_dependencies_dir }}"
@@ -39,8 +32,7 @@
     - mariadb
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - gantsign.golang
-    - cyverse-ansible.singularity
+    - usegalaxy_eu.apptainer
     - geerlingguy.docker
     - acl-on-startup
     - dj-wasabi.telegraf

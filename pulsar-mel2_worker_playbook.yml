@@ -20,8 +20,7 @@
       - mounts
       - galaxyproject.repos
       - galaxyproject.cvmfs
-      - gantsign.golang
-      - cyverse-ansible.singularity
+      - usegalaxy_eu.apptainer
       - geerlingguy.docker
       - acl-on-startup
       - dj-wasabi.telegraf
@@ -54,11 +53,8 @@
                 src: /mnt/tmpdisk
                 dest: /tmp
                 state: link
-            become: yes
-            become_user: root
             when: links.stat.islnk is defined and not links.stat.islnk
         when: attached_volumes is defined
       - name: Reload cvmfs config
         command:
           cmd: cvmfs_config reload
-        become: yes
