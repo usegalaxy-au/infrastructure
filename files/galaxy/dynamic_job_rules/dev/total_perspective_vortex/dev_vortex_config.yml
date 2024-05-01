@@ -362,6 +362,8 @@ users:
           partition: s3fs
   star@email.com:
     inherits: test_user
+    context:
+      nodelist: dev-w1
     params:
       object_store_id: dev_objects_scratch_test
     scheduling:
