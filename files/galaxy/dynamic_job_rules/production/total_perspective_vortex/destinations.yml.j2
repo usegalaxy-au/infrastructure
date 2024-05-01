@@ -237,7 +237,7 @@ destinations:
         - pulsar-QLD
       require:
         - pulsar
-        - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
+        # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
   pulsar-azure:
     inherits: _pulsar_destination
     runner: pulsar_azure_0_runner
