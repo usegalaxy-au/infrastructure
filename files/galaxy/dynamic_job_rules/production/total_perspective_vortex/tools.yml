@@ -2604,8 +2604,8 @@ tools:
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/stacks_denovomap/stacks_denovomap/.*:
-    cores: 2
-    mem: 8
+    cores: 4
+    mem: 16
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2.*:
     params:
       singularity_enabled: true
