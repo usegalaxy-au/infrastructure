@@ -31,10 +31,10 @@
         <backend id="aarnetNFS7" type="disk" weight="0" store_by="id">
             <files_dir path="/mnt/user-data-volA/user-data-7" />
         </backend>
-        <backend id="aarnetNFS6" type="disk" weight="0" store_by="id">
-            <files_dir path="/mnt/user-data-volB/user-data-6" />
-        </backend>
 {% if pawsey_file_mounts_available|d(True) %}
+        <backend id="aarnetNFS6" type="disk" weight="0" store_by="id">
+            <files_dir path="{{ pawsey_file_mounts_path }}/user-data/user-data-6" />
+        </backend>
         <backend id="aarnetNFS5" type="disk" weight="0" store_by="id">
             <files_dir path="{{ pawsey_file_mounts_path }}/user-data/user-data-5" />
         </backend>
