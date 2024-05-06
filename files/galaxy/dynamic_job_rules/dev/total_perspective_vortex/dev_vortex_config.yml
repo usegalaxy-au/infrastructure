@@ -362,11 +362,13 @@ users:
           partition: s3fs
   star@email.com:
     inherits: test_user
-    rules:
-      - if: |
-          'hifiadapterfilt' in tool.id
-        cores: 16
-        mem: cores * 2.5
+    context:
+      nodelist: dev-w1
+    params:
+      object_store_id: dev_objects_scratch_test
+    scheduling:
+      require:
+        - slurm
   pulsar_user@usegalaxy.org.au:
     inherits: test_user
     rules:
