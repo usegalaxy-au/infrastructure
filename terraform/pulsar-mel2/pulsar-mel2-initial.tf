@@ -77,7 +77,7 @@ resource "openstack_blockstorage_volume_v2" "pulsar-mel2-volume" {
   availability_zone = "melbourne-qh2"
   name        = "pulsar-mel2-volume"
   description = "Pulsar-mel2 volume"
-  size        = 2000
+  size        = 8000
 }
 
 #Volumes for workers
