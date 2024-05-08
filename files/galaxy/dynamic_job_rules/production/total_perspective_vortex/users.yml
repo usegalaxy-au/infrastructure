@@ -31,13 +31,6 @@ users:
           - slurm
     star@email.com:
       inherits: test_user
-      context:
-        partition: scratch_test
-      params:
-        object_store_id: scratch_test2
-      scheduling:
-        require:
-          - slurm
     pulsar_mel2_user@usegalaxy.org.au:
       inherits: test_user
       rules:
