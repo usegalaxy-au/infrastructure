@@ -88,16 +88,11 @@ slurm_nodes:
 
 slurm_partitions:
   - name: main
-    #nodes: "galaxy-w1,galaxy-w2,galaxy-w3,galaxy-w4,galaxy-w5,galaxy-w6,galaxy-w8,galaxy-w9,galaxy-w10"
-    nodes: "galaxy-w1,galaxy-w2,galaxy-w3,galaxy-w5,galaxy-w6,galaxy-w8,galaxy-w9,galaxy-w10" # temporarily excluding w4 for scratch test
+    nodes: "galaxy-w1,galaxy-w2,galaxy-w3,galaxy-w4,galaxy-w5,galaxy-w6,galaxy-w8,galaxy-w9,galaxy-w10"
     Default: YES
     State: UP
   - name: training
     nodes: "galaxy-w7,galaxy-w1,galaxy-w2,galaxy-w3,galaxy-w4,galaxy-w5,galaxy-w6,galaxy-w8,galaxy-w9,galaxy-w10"
-    Default: NO
-    State: UP
-  - name: scratch_test
-    nodes: "galaxy-w4"
     Default: NO
     State: UP
   - name: interactive_tools
