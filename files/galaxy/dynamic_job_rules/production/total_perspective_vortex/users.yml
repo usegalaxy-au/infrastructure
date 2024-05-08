@@ -34,7 +34,7 @@ users:
       context:
         partition: scratch_test
       params:
-        object_store_id: scratch_test
+        object_store_id: scratch_test2
       scheduling:
         require:
           - slurm
