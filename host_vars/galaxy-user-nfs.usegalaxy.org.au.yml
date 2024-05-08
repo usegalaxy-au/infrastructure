@@ -13,6 +13,7 @@ nfs_data16_dir: "{{ volA_path }}/data16"
 nfs_data09_dir: "{{ volB_path }}/data09"
 nfs_data12_dir: "{{ volB_path }}/data12"
 nfs_data15_dir: "{{ volB_path }}/data15"
+nfs_data17_dir: "{{ volB_path }}/data17"
 
 # volume C (~42 TB)
 nfs_data10_dir: "{{ volC_path }}/data10"
@@ -43,6 +44,7 @@ nfs_dirs:
   - "{{ nfs_data14_dir }}"
   - "{{ nfs_data15_dir }}"
   - "{{ nfs_data16_dir }}"
+  - "{{ nfs_data17_dir }}"
 
 nfs_exports:
   - "{{ volA_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"

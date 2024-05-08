@@ -34,6 +34,12 @@ pawsey_file_mounts_path: /mnt/user-data-pawsey
 galaxy_user_data_nfs_opts: 'noatime,defaults'
 
 galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_handlers and workers
+  # scratch server: the new home of job working directories (May 2024)
+  - path: /mnt/scratch
+    src: nsw-etca-pfnfs1.aarnet.net.au:/data/galaxy/scratch
+    opts: proto=tcp,noatime
+    fstype: nfs
+    state: mounted
   # galaxy-misc-nfs
   - path: /mnt/tools
     src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/tools"
