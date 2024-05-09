@@ -368,9 +368,6 @@ galaxy_subsites:
       - "phylogenetics"
       - "multiple_alignments"
     custom_css: |
-      #masthead .navbar-nav>li.active {
-        background: #2c3067;
-      }
       #masthead a.navbar-brand::after {
           content: "Australia - Genomes Lab";
       }
@@ -383,9 +380,6 @@ galaxy_subsites:
     wallpaper: false
     tool_sections: []
     custom_css: |
-      #masthead .navbar-nav>li.active {
-        background: #402668 !important;
-      }
       #masthead a.navbar-brand::after {
         content: "Australia - Proteomics Lab";
       }

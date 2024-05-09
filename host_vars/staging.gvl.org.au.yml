@@ -243,9 +243,6 @@ galaxy_subsites:
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
     tool_sections: []
     custom_css: |
-      #masthead .navbar-nav>li.active {
-        background: #2c3067 !important;
-      }
       #masthead a.navbar-brand::after {
         content: "Australia - Genomes Lab";
       }
@@ -259,9 +256,6 @@ galaxy_subsites:
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
     tool_sections: []
     custom_css: |
-      #masthead .navbar-nav>li.active {
-        background: #402668 !important;
-      }
       #masthead a.navbar-brand::after {
         content: "Australia - Proteomics Lab";
       }
