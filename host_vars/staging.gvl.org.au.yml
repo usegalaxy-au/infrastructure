@@ -246,9 +246,6 @@ galaxy_subsites:
       #masthead .navbar-nav>li.active {
         background: #2c3067 !important;
       }
-      #masthead {
-        background: #3a3e87 !important;
-      }
       #masthead a.navbar-brand::after {
         content: "Australia - Genomes Lab";
       }
@@ -264,9 +261,6 @@ galaxy_subsites:
     custom_css: |
       #masthead .navbar-nav>li.active {
         background: #402668 !important;
-      }
-      #masthead {
-        background: #542a95 !important;
       }
       #masthead a.navbar-brand::after {
         content: "Australia - Proteomics Lab";
