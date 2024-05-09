@@ -113,6 +113,7 @@ destinations:
         - pulsar-mel2
       require:
         - pulsar
+        - offline
   pulsar-paw:
     inherits: _pulsar_destination
     runner: pulsar-paw_runner
@@ -123,6 +124,7 @@ destinations:
       require:
         - pulsar-paw
         - pulsar
+        - offline
   pulsar-mel3:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
@@ -196,7 +198,6 @@ destinations:
         - pulsar-qld-high-mem2
       require:
         - pulsar
-        - offline
   pulsar-nci-training:
     inherits: _pulsar_destination
     runner: pulsar-nci-training_runner
@@ -229,15 +230,12 @@ destinations:
     max_accepted_cores: 16
     max_accepted_mem: 62.72
     tags: {{ job_conf_limits.environments['pulsar-QLD'].tags }}
-    params:
-      jobs_directory: /mnt/tmp/files/staging
-      persistence_directory: /mnt/tmp/files/persisted_data
     scheduling:
       accept:
         - pulsar-QLD
       require:
         - pulsar
-        - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
+        # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
   pulsar-azure:
     inherits: _pulsar_destination
     runner: pulsar_azure_0_runner
@@ -262,7 +260,7 @@ destinations:
     rules:
       - id: pulsar_destination_docker_rule
         params:
-            docker_volumes: $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro,/mnt/scratch:/tmp:rw
+            docker_volumes: $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro
             docker_set_user: '1000'
             docker_memory: '{mem}G'
             docker_sudo: false
@@ -297,7 +295,7 @@ destinations:
     rules:
       - id: pulsar_destination_docker_rule
         params:
-            docker_volumes: $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro,/mnt/scratch:/tmp:rw
+            docker_volumes: $job_directory:ro,$job_directory/home:rw,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro
             docker_set_user: '1000'
             docker_memory: '{mem}G'
             docker_sudo: false
@@ -307,4 +305,20 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-gpu1
+      require:
+        - offline
+  pulsar-qld-gpu2:
+    inherits: _pulsar_qld_gpu
+    runner: pulsar-qld-gpu2_runner
+    scheduling:
+      accept:
+        - pulsar-qld-gpu2
+  pulsar-qld-gpu3:
+    inherits: _pulsar_qld_gpu
+    runner: pulsar-qld-gpu3_runner
+    scheduling:
+      accept:
+        - pulsar-qld-gpu3
+      require:
+        - offline
 

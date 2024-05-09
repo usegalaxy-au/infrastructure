@@ -29,6 +29,8 @@ users:
       scheduling:
         require:
           - slurm
+    star@email.com:
+      inherits: test_user
     pulsar_mel2_user@usegalaxy.org.au:
       inherits: test_user
       rules:

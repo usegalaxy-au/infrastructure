@@ -1,10 +1,13 @@
-- hosts: pulsar-qld-gpu1
+- hosts:
+    - pulsar-qld-gpu1
+    - pulsar-qld-gpu2
+    - pulsar-qld-gpu3
   become: true
   vars_files:
     - group_vars/all.yml
     - group_vars/pulsarservers.yml
     - group_vars/VAULT
-    - host_vars/pulsar-qld-gpu1.yml
+    - group_vars/pulsar_qld_gpus.yml
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:

@@ -1,7 +1,7 @@
 # Pulsar-mel2
 resource "openstack_compute_instance_v2" "pulsar-mel2" {
   name            = "pulsar-mel2"
-  image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -11,7 +11,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel2" {
 #Workers
 resource "openstack_compute_instance_v2" "pulsar-mel2-w1" {
   name            = "pulsar-mel2-w1"
-  image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -20,7 +20,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel2-w1" {
 
 resource "openstack_compute_instance_v2" "pulsar-mel2-w2" {
   name            = "pulsar-mel2-w2"
-  image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -29,7 +29,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel2-w2" {
 
 resource "openstack_compute_instance_v2" "pulsar-mel2-w3" {
   name            = "pulsar-mel2-w3"
-  image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -38,7 +38,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel2-w3" {
 
 resource "openstack_compute_instance_v2" "pulsar-mel2-w4" {
   name            = "pulsar-mel2-w4"
-  image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -47,7 +47,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel2-w4" {
 
 resource "openstack_compute_instance_v2" "pulsar-mel2-w5" {
   name            = "pulsar-mel2-w5"
-  image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -56,7 +56,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel2-w5" {
 
 resource "openstack_compute_instance_v2" "pulsar-mel2-w6" {
   name            = "pulsar-mel2-w6"
-  image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -65,7 +65,7 @@ resource "openstack_compute_instance_v2" "pulsar-mel2-w6" {
 
 resource "openstack_compute_instance_v2" "pulsar-mel2-w7" {
   name            = "pulsar-mel2-w7"
-  image_name      = "NeCTAR Ubuntu 20.04 LTS (Focal) amd64"
+  image_id        = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7"
   flavor_name     = "r3.large"
   key_pair        = "galaxy-australia"
   security_groups = ["SSH", "default"]
@@ -77,7 +77,7 @@ resource "openstack_blockstorage_volume_v2" "pulsar-mel2-volume" {
   availability_zone = "melbourne-qh2"
   name        = "pulsar-mel2-volume"
   description = "Pulsar-mel2 volume"
-  size        = 2000
+  size        = 8000
 }
 
 #Volumes for workers

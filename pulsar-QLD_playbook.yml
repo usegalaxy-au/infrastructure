@@ -30,11 +30,10 @@
       become_user: "{{ pulsar_user.name }}"
     - galaxyproject.pulsar
     - geerlingguy.nfs
-    #- mariadb # - not required here as it's not the slurm controller or dbd.
+    - mariadb
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - gantsign.golang
-    - cyverse-ansible.singularity
+    - usegalaxy_eu.apptainer
     - geerlingguy.docker
     - acl-on-startup
     - dj-wasabi.telegraf

@@ -4,9 +4,6 @@ attached_volumes:
   - device: /dev/vdb
     path: /mnt
     fstype: ext4
-  - device: /dev/vdc
-    path: /mnt/pulsar/files
-    fstype: ext3
     partition: 1
 
 #NFS shares

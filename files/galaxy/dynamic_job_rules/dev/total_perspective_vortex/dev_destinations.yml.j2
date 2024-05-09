@@ -20,7 +20,12 @@ destinations:
   _slurm_destination:
     abstract: true
     params:
-        nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
+        nativeSpecification: "--nodes=1
+          --ntasks={cores}
+          --ntasks-per-node={cores} 
+          --mem={round(mem*1024)} 
+          --partition={partition}
+          {'--nodelist=" + nodelist if nodelist else ''}"
         metadata_strategy: extended
     rules:
       - id: slurm_destination_singularity_rule

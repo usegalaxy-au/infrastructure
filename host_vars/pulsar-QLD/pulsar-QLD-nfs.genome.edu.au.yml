@@ -1,0 +1,10 @@
+attached_volumes:
+  - device: /dev/vdb
+    partition: 1
+    path: /mnt
+    fstype: ext4
+
+custom_indices_dir: /mnt/custom-indices
+
+nfs_exports:
+  - "{{ custom_indices_dir }} 203.101.224.0/19(rw,async,no_root_squash,no_subtree_check)"

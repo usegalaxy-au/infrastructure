@@ -9,9 +9,9 @@
     - group_vars/pulsar-nci-test/pulsar-nci-test_slurm.yml
     - group_vars/VAULT
   pre_tasks:
-    - name: Attach volume to instance
-      include_role:
-        name: attached-volumes
+    # - name: Attach volume to instance
+    #  include_role:
+    #    name: attached-volumes
   roles:
       - common
       - insspb.hostname

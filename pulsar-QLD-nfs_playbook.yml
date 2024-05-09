@@ -1,0 +1,25 @@
+- hosts: pulsar-QLD-nfs
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/pulsar_QLD/pulsar-QLD.yml
+      - group_vars/VAULT
+      - group_vars/nfs_servers.yml
+      - host_vars/pulsar-QLD/pulsar-QLD-nfs.genome.edu.au.yml
+      - secret_group_vars/stats_server_vault
+      - secret_group_vars/ubuntu_maintenance_key
+  roles:
+      - attached-volumes
+      - common
+      - insspb.hostname
+      - geerlingguy.pip
+      - geerlingguy.nfs
+  post_tasks:
+      - name: Create custom_indices directory
+        file:
+          path: "{{ custom_indices_dir }}"
+          state: directory
+      - name: Reload exportfs
+        command: exportfs -ra
+        become: yes
+        become_user: root

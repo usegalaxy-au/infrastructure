@@ -60,16 +60,16 @@ pulsar-mel3-w6 ansible_ssh_host=115.146.86.64
 
 # MelbourneGVL pulsars
 [pulsar_mel2_head]
-pulsar-mel2 ansible_ssh_host=115.146.85.55
+pulsar-mel2 ansible_ssh_host=115.146.85.6
 
 [pulsar_mel2_workers]
-pulsar-mel2-w1 ansible_ssh_host=115.146.86.24
-pulsar-mel2-w2 ansible_ssh_host=115.146.86.70
-pulsar-mel2-w3 ansible_ssh_host=115.146.87.226
-pulsar-mel2-w4 ansible_ssh_host=115.146.84.97
-pulsar-mel2-w5 ansible_ssh_host=115.146.85.102
-pulsar-mel2-w6 ansible_ssh_host=115.146.84.131
-pulsar-mel2-w7 ansible_ssh_host=115.146.86.132
+pulsar-mel2-w1 ansible_ssh_host=115.146.85.202
+pulsar-mel2-w2 ansible_ssh_host=115.146.85.93
+pulsar-mel2-w3 ansible_ssh_host=115.146.87.170
+pulsar-mel2-w4 ansible_ssh_host=115.146.85.76
+pulsar-mel2-w5 ansible_ssh_host=115.146.85.15
+pulsar-mel2-w6 ansible_ssh_host=115.146.85.227
+pulsar-mel2-w7 ansible_ssh_host=115.146.87.253
 
 [pulsar_high_mem1]
 pulsar-high-mem1 ansible_ssh_host=115.146.86.162
@@ -87,25 +87,24 @@ qld-pulsar-himem-2 ansible_ssh_host=203.101.227.201
 pulsar-qld-blast ansible_ssh_host=203.101.231.166 internal_ip=10.255.138.38
 
 [pulsar_QLD_head]
-pulsar-QLD ansible_ssh_host=203.101.225.247
-
-[pulsar_QLD_queue]
-pulsar-QLD-queue ansible_ssh_host=203.101.227.169
+pulsar-QLD ansible_ssh_host=203.101.230.151
 
 [pulsar_QLD_nfs]
-pulsar-QLD-job-nfs ansible_ssh_host=203.101.226.27
+pulsar-QLD-nfs ansible_ssh_host=203.101.226.244
 
 [pulsar_QLD_workers]
-pulsar-QLD-w0 ansible_ssh_host=203.101.225.65
-pulsar-QLD-w1 ansible_ssh_host=203.101.227.84
-pulsar-QLD-w2 ansible_ssh_host=203.101.230.207
-pulsar-QLD-w3 ansible_ssh_host=203.101.229.212
-pulsar-QLD-w4 ansible_ssh_host=203.101.228.12
-pulsar-QLD-w5 ansible_ssh_host=203.101.224.157
-pulsar-QLD-w6 ansible_ssh_host=203.101.227.103
+pulsar-QLD-w1 ansible_ssh_host=203.101.224.239
+pulsar-QLD-w2 ansible_ssh_host=203.101.230.170
+pulsar-QLD-w3 ansible_ssh_host=203.101.225.98
+pulsar-QLD-w4 ansible_ssh_host=203.101.227.195
+pulsar-QLD-w5 ansible_ssh_host=203.101.228.217
+pulsar-QLD-w6 ansible_ssh_host=203.101.227.132
+pulsar-QLD-w7 ansible_ssh_host=203.101.231.146
 
 [pulsar_qld_gpus]
 pulsar-qld-gpu1 ansible_ssh_host=203.101.231.37
+pulsar-qld-gpu2 ansible_ssh_host=203.101.229.77
+pulsar-qld-gpu3 ansible_ssh_host=203.101.229.123
 
 # NCI
 [nci_build]

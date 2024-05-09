@@ -67,10 +67,10 @@
       when: part_info.fstype == ""
     when: num_parts2|int > 0 and attached_volume.partition is defined
 
-  - name: "Mount {{ device_part_name }} on {{ attached_volume.path }} "
+  - name: "Mount {{ device_part_name|d(attached_volume.device) }} on {{ attached_volume.path }} "
     mount:
       path: "{{ attached_volume.path }}"
-      src: "{{ device_part_name }}"
+      src: "{{ device_part_name|d(attached_volume.device) }}"
       fstype: "{{ attached_volume.fstype }}"
       opts: "{{ attached_volume.opts|d('defaults') }}"
       state: mounted    

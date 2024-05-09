@@ -80,22 +80,23 @@ def collect(instance, dests):
 
     pconn_str = PGCONNS[instance]
     for row in pg_execute(pconn_str, queue_monitor_v2()):
+        tool, tool_version, destination, handler, state, cluster, count = row[:7]
         tags = {
-            'tool': row[0],
-            'tool_version': row[1],
-            'destination': row[2],
-            'handler': row[3],
-            'state': row[4],
-            'cluster': row[5],
+            'tool': tool,
+            'tool_version': tool_version,
+            'destination': destination,
+            'handler': handler,
+            'state': state,
+            'cluster': cluster,
         }
-        if row[4] == 'queued' or row[4] == 'running':
-            if row[2] is not None:  # occasionally jobs will enter 'queued' state without destinations
-                dest_counts[row[2]][row[4]] += row[6]
-        if row[4] == 'queued':
-            queued += row[6]
-        if row[4] == 'running':
-            running += row[6]
-        measurements.append(make_measurement('job_queue', float(row[6]), tags=tags))
+        if state in ['queued', 'running']:
+            if destination in dests:  # occasionally jobs will enter 'queued' state with no destination or destination not in dests dict
+                dest_counts[destination][state] += count
+        if state == 'queued':
+            queued += count
+        if state == 'running':
+            running += count
+        measurements.append(make_measurement('job_queue', float(count), tags=tags))
     for dc in dest_counts:
         tags = {'destination': dc, 'state': 'running'}
         measurements.append(make_measurement('queue_totals', float(dest_counts[dc]['running']), tags=tags))

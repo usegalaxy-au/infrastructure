@@ -7,12 +7,11 @@ ssl_country: "AU"
 ssl_state: "Qld"
 ssl_location: "Brisbane"
 ssl_organisation: "Galaxy Australia"
-ssl_operational_unit: "Pulsar Qld GPU1"
+ssl_operational_unit: "Pulsar Qld GPU3"
 ssl_email: "help@genome.edu.au"
 
 #host specific pulsar settings
 
-rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_qldgpu1_prod }}"
-pulsar_rabbit_username: "galaxy_qldgpu1"
-pulsar_rabbit_vhost: "/pulsar/galaxy_qldgpu1"
-
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_qldgpu3_prod }}"
+pulsar_rabbit_username: "galaxy_qldgpu3"
+pulsar_rabbit_vhost: "/pulsar/galaxy_qldgpu3"

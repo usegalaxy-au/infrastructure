@@ -10,11 +10,6 @@
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
-    - name: apt update
-      apt:
-        cache_valid_time: 3600
-        update_cache: yes
-      when: ansible_os_family == "Debian"
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
@@ -37,8 +32,7 @@
     - mariadb
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - gantsign.golang
-    - cyverse-ansible.singularity
+    - usegalaxy_eu.apptainer
     - geerlingguy.docker
     - acl-on-startup
     - dj-wasabi.telegraf

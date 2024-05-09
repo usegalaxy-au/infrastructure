@@ -184,6 +184,11 @@ tools:
       if: 0.25 <= input_size < 5
       cores: 16
       mem: 61.4
+  toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
+    cores: 4
+    mem: 15.3
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/bgruening/hicexplorer_hicbuildmatrix/hicexplorer_hicbuildmatrix/.*:
     cores: 10
     mem: 38.3
@@ -679,8 +684,13 @@ tools:
         accept:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_makeblastdb/.*:
-    cores: 5
-    mem: 19.1
+    cores: 16
+    mem: 61.4
+    rules:
+    - id: ncbi_makeblastdb_small_input_rule
+      if: input_size < 30
+      cores: 5
+      mem: 19.1
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/.*:
     cores: 5
     mem: 19.1
@@ -1006,7 +1016,6 @@ tools:
     mem: 92
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/.*:
     context:
-      max_concurrent_job_count_for_tool_total: 4
       max_concurrent_job_count_for_tool_user: 2
     cores: 16
     mem: 65
@@ -1029,6 +1038,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant_mqpar/maxquant_mqpar/.*:
     cores: 16
     mem: 61.4
+  toolshed.g2.bx.psu.edu/repos/galaxyp/morpheus/morpheus/.*:
+    params:
+      singularity_enabled: true  
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
     cores: 1
     mem: 3.8
@@ -1124,6 +1139,7 @@ tools:
       if: input_size > 30
       fail: Too much data. Total input data must be less than 30GB.
   toolshed.g2.bx.psu.edu/repos/iuc/arriba/arriba/.*:
+    mem: 8
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/arriba_draw_fusions/arriba_draw_fusions/.*:
@@ -1133,6 +1149,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     cores: 8
     mem: 30.7
     params:
@@ -1347,6 +1365,9 @@ tools:
       if: input_size < 0.01
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/feelnc/feelnc/.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/filtlong/filtlong/.*:
     mem: 12  # TODO: this overrides tpv shared entry giving 50G to each job. It could be changed to a linear function of input size
     rules:
@@ -1569,8 +1590,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/.*:
     context:
-      max_concurrent_job_count_for_tool_total: 16
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 3
     cores: 5
     mem: 19.1
     params:
@@ -1615,6 +1635,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/krakentools_extract_kraken_reads/krakentools_extract_kraken_reads/.*:
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/krakentools_kreport2krona/krakentools_kreport2krona/.*:
@@ -1755,7 +1776,7 @@ tools:
     - id: metaphlan_small_input_rule
       if: input_size < 0.001
       cores: 1
-      mem: 3.8
+      mem: 8
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan2/metaphlan2/.*:
     cores: 2
     mem: 7.6
@@ -1775,9 +1796,6 @@ tools:
       if: input_size < 0.5
       cores: 4
       mem: 24
-      scheduling:
-        require:
-          - slurm   # this can run on pulsar but has high input+output size per CPU-time
     - id: minimap2_medium_input_rule
       if: 0.5 <= input_size < 20
       cores: 16
@@ -2577,17 +2595,21 @@ tools:
       max_concurrent_job_count_for_tool_user: 1
     cores: 3
     mem: 11.5
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/.*:
     context:
       max_concurrent_job_count_for_tool_user: 1
     cores: 3
     mem: 11.5
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/.*:
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/stacks_denovomap/stacks_denovomap/.*:
-    cores: 2
-    mem: 8
+    cores: 4
+    mem: 16
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2.*:
     params:
       singularity_enabled: true
@@ -2708,7 +2730,7 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/trinity_run_de_analysis/trinity_run_de_analysis/.*:
-    mem: 8
+    mem: 15
     params:
       singularity_enabled: true
     scheduling:
@@ -2821,13 +2843,17 @@ tools:
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/ucsc_wigtobigwig/ucsc_wigtobigwig/.*:
-    mem: 12
+    mem: 20
   toolshed.g2.bx.psu.edu/repos/iuc/varscan_.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/vcf2maf/vcf2maf/.*:
     cores: 6
     mem: 23.0
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/.*:
+    mem: 8
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/windowmasker/windowmasker_mkcounts/.*:
     params:
       singularity_enabled: true
@@ -2835,6 +2861,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/yahs/yahs/.*:
+    mem: 200
     params:
       singularity_enabled: true
     scheduling:
@@ -3133,6 +3160,8 @@ tools:
         not user or not 'cellranger' in [role.name for role in user.all_roles() if not role.deleted]
       fail: Your account has not been given access to cellranger. Contact help@genome.edu.au
         if you think this is in error.
+  CONVERTER_bedgraph_to_bigwig:
+    mem: 20
   ^fgenesh$:
     cores: 60
     mem: 300
