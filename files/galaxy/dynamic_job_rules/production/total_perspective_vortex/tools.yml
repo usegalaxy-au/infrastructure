@@ -1455,16 +1455,8 @@ tools:
       if: input_size >= 0.5
       fail: Too much data, please don't use the gubbins for this.
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
-    cores: 36
-    mem: 500
     params:
       tmp_dir: true
-    scheduling:
-      accept:
-      - pulsar
-      - pulsar-quick
-      reject:
-      - pulsar-QLD
     rules:
     - id: hisat2_small_input_rule
       if: input_size < 0.5
@@ -1474,6 +1466,13 @@ tools:
       if: 0.5 <= input_size < 15
       cores: 8
       mem: 30.7
+    - id: hisat2_large_input_rule
+      if: input_size >= 15
+      cores: 36
+      mem: 500
+      scheduling:
+        accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
     context:
       max_concurrent_job_count_for_tool_user: 3
