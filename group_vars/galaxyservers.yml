@@ -333,6 +333,8 @@ group_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/themes_genome.yml"
   - src: "{{ galaxy_config_file_src_dir }}/config/themes/themes_proteomics.yml"
     dest: "{{ galaxy_config_dir }}/themes_proteomics.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/images/au/favicon/favicon.ico"
+    dest: "{{ galaxy_server_dir }}/static/favicon.ico"
 
 galaxy_config_files: "{{ group_galaxy_config_files + host_galaxy_config_files|d([]) }}"
 
