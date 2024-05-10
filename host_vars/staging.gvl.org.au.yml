@@ -148,9 +148,9 @@ host_galaxy_config: # renamed from __galaxy_config
     tool_section_filters: global_host_filters:per_host_tool_sections
     tool_label_filters: global_host_filters:per_host_tool_labels
     themes_config_file_by_host:
-      staging.gvl.org.au: "{{ galaxy_config_dir }}/themes_main.yml"
       genome.staging.gvl.org.au: "{{ galaxy_config_dir }}/themes_genome.yml"
       proteomics.staging.gvl.org.au: "{{ galaxy_config_dir }}/themes_proteomics.yml"
+      staging.gvl.org.au: "{{ galaxy_config_dir }}/themes_main.yml"
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
@@ -238,13 +238,19 @@ galaxy_subsite_default_welcome: "https://site.usegalaxy.org.au"
 galaxy_subsite_dir: /mnt/galaxy/subsites
 galaxy_subsites:
   - name: genome
-    brand: Genomes Lab
+    brand: Genome Lab
     iframe: "https://site.usegalaxy.org.au/landing/genome"
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
     tool_sections: []
     custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #2c3067 !important;
+      }
+      #masthead {
+        background: #3a3e87 !important;
+      }
       #masthead a.navbar-brand::after {
-        content: "Australia - Genomes Lab";
+        content: "Australia - Genome Lab";
       }
       #masthead .navbar-text {
         display: none;
@@ -256,6 +262,12 @@ galaxy_subsites:
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
     tool_sections: []
     custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #402668 !important;
+      }
+      #masthead {
+        background: #542a95 !important;
+      }
       #masthead a.navbar-brand::after {
         content: "Australia - Proteomics Lab";
       }

@@ -186,9 +186,9 @@ host_galaxy_config: # renamed from __galaxy_config
     default_panel_view_by_host:
       proteomics.dev.gvl.org.au: proteomics
     themes_config_file_by_host:
-      dev.gvl.org.au: "{{ galaxy_config_dir }}/themes_main.yml"
       genome.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes_genome.yml"
       proteomics.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes_proteomics.yml"
+      dev.gvl.org.au: "{{ galaxy_config_dir }}/themes_main.yml"
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
@@ -355,7 +355,7 @@ galaxy_subsite_dir: /mnt/galaxy/subsites
 #galaxy_subsite_base_css: '#masthead { background-color: #003399;}'
 galaxy_subsites:
   - name: genome
-    brand: Genomes lab
+    brand: Genome lab
     iframe: "https://dev-site.gvl.org.au/landing/genome"
     # If wallpaper is true, then files/subsites/{name}.png will be copied to
     # /static/dist/{name}.png, and can be used exactly like that in the CSS.
@@ -368,10 +368,16 @@ galaxy_subsites:
       - "phylogenetics"
       - "multiple_alignments"
     custom_css: |
-      #masthead a.navbar-brand::after {
-          content: "Australia - Genomes Lab";
+      #masthead .navbar-nav>li.active {
+        background: #2c3067 !important;
       }
-      #masthead a.navbar-brand .navbar-text {
+      #masthead {
+        background: #3a3e87 !important;
+      }
+      #masthead a.navbar-brand::after {
+          content: "Australia - Genome Lab";
+      }
+      #masthead .navbar-text {
           display: none;
       }
   - name: proteomics
@@ -380,6 +386,12 @@ galaxy_subsites:
     wallpaper: false
     tool_sections: []
     custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #402668 !important;
+      }
+      #masthead {
+        background: #542a95 !important;
+      }
       #masthead a.navbar-brand::after {
         content: "Australia - Proteomics Lab";
       }

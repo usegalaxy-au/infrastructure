@@ -195,9 +195,9 @@ host_galaxy_config: # renamed from __galaxy_config
     enable_celery_tasks: true
 
     themes_config_file_by_host:
-      usegalaxy.org.au: "{{ galaxy_config_dir }}/themes_main.yml"
       genome.usegalaxy.org.au: "{{ galaxy_config_dir }}/themes_genome.yml"
       proteomics.usegalaxy.org.au: "{{ galaxy_config_dir }}/themes_proteomics.yml"
+      usegalaxy.org.au: "{{ galaxy_config_dir }}/themes_main.yml"
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
@@ -589,6 +589,12 @@ galaxy_subsites:
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
     tool_sections: []
     custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #2c3067 !important;
+      }
+      #masthead {
+        background: #3a3e87 !important;
+      }
       #masthead a.navbar-brand::after {
         content: "Australia - Genome Lab";
       }
@@ -602,6 +608,12 @@ galaxy_subsites:
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
     tool_sections: []
     custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #402668 !important;
+      }
+      #masthead {
+        background: #542a95 !important;
+      }
       #masthead a.navbar-brand::after {
         content: "Australia - Proteomics Lab";
       }
