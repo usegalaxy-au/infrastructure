@@ -84,3 +84,10 @@ extra_keys:
 # override docker-data location
 docker_daemon_options:
   data-root: /pvol/docker-data
+
+# host-specific settings for postfix
+postfix_host_domain: "usegalaxy.org.au"
+postfix_hostname: "galaxy-handlers"
+smtp_login: "{{ vault_smtp_login_prod }}"
+smtp_password: "{{ vault_smtp_password_prod }}"
+
