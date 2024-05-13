@@ -1238,7 +1238,7 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 4
+      max_concurrent_job_count_for_tool_user: 2
     cores: 20
     mem: 250
     scheduling:
@@ -1253,6 +1253,9 @@ tools:
       if: 0.25 <= input_size < 2
       cores: 8
       mem: 30.7
+    - id: bwa_mem2_fail_rule
+      if: input_size > 150
+      fail: "Too much data: There is a limit of 150GB of input for bwa_mem2 jobs. Please note that bwa_mem2 will accept compressed fastsanger.gz input data. Email help@genome.edu.au with an enquiries."
   toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/.*:
     params:
       singularity_enabled: true
