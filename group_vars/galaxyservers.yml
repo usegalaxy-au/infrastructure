@@ -159,7 +159,7 @@ group_galaxy_config:
     check_migrate_tools: false
     log_level: TRACE
     new_file_path: "{{ galaxy_tmp_dir }}/scratch"
-    job_working_directory: "{{ galaxy_tmp_dir }}/job_working_directory"
+    job_working_directory: "{{ galaxy_job_working_directory }}"
     allow_user_impersonation: true
     allow_user_deletion: true
     allow_path_paste: true
