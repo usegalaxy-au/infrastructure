@@ -60,7 +60,7 @@ galaxy_job_working_directory: /mnt/scratch/job_working_directory
 
 galaxy_infrastructure_url: https://usegalaxy.org.au
 
-upload_store_volume_dir: /mnt/user-data-volB
+upload_store_volume_dir: /mnt/user-data-volA
 nginx_upload_store_base_dir: "{{ upload_store_volume_dir }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
