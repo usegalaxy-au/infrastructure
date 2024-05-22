@@ -87,6 +87,7 @@ machine_users:
       uid: 7301
       roles:
         - tiaas_admin
+        - galaxy_admin
       key: files/keys/anna.pub
       email: "{{ anna_email }}"
 
