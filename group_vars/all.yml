@@ -2,7 +2,7 @@
 hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
 
 #List of users to install and setup /homes for
-machine_users:
+__machine_users:
     # special users range
     - name: jenkins_bot
       uid: 7000
@@ -91,6 +91,8 @@ machine_users:
       key: files/keys/anna.pub
       email: "{{ anna_email }}"
 
+host_machine_users: [] # by default - may be overridden in host/group vars files
+machine_users: "{{ host_machine_users + (__machine_users | rejectattr('name', 'in', (host_machine_users | map(attribute='name')))) }}"
 
 # no longer active accounts to be removed - only name field is required
 remove_machine_users:

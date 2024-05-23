@@ -49,3 +49,11 @@ extra_keys:
 ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/internal_hop_key"
 ssh_config_user: ubuntu
 ssh_config_hosts: "{{ groups['galaxy_group'] }}"
+
+# Override permission level for tool devs on dev
+host_machine_users:
+    - name: uwe
+      uid: 7400
+      roles: []
+      key: files/keys/uwe.pub
+      email: "{{ uwe_email }}"
