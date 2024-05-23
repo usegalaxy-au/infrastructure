@@ -23,67 +23,8 @@ galaxy_db_reader_password: "{{ vault_dev_db_reader_password }}"
 galaxy_db_tiaasadmin_password: "{{ vault_dev_db_tiaasadmin_password }}"
 galaxy_db_tiaas_password: "{{ vault_dev_db_tiaas_password }}"
 
-# Override permission level for tool devs on dev (quick fix)
-machine_users:
-    # special users
-    - name: jenkins_bot
-      uid: 7000
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/jenkins_bot.pub
-      email: "{{ jenkins_bot_email }}" # this is not a real email address and will cause issues if validation is required
-
-    # special agent 007
-    - name: simon
-      uid: 7007
-      roles:
-        - nologin
-    #   - sudo
-    #   - galaxy_admin
-      key: files/keys/simon.pub
-      email: "{{ simon_email }}"
-
-    # infrastructure team
-    - name: justin
-      uid: 7011
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/justin.pub
-      email: "{{ justin_email }}"
-    - name: cat
-      uid: 7012
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/catherine.pub
-      email: "{{ cat_email }}"
-    - name: nuwan
-      uid: 7013
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/nuwan.pub
-      galaxy_admin: true
-      email: "{{ nuwan_email }}"
-
-    # user support team
-    - name: igor
-      uid: 7101
-      roles:
-        - tiaas_admin
-        - galaxy_admin
-      key: files/keys/igor.pub
-      email: "{{ igor_email }}"
-    - name: gareth
-      uid: 7102
-      roles:
-        - galaxy_admin
-      key: files/keys/gareth.pub
-      email: "{{ gareth_email }}"
-
-    # tools team
+# Override permission level for tool devs on dev
+host_machine_users:
     - name: mike
       uid: 7201
       roles:
@@ -91,13 +32,6 @@ machine_users:
         - galaxy_admin
       key: files/keys/mike.pub
       email: "{{ mike_email }}"
-    - name: cameron
-      uid: 7202
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/cameron.pub
-      email: "{{ cameron_email }}"
     - name: tom
       uid: 7203
       roles:
@@ -105,12 +39,3 @@ machine_users:
         - galaxy_admin
       key: files/keys/tom.pub
       email: "{{ tom_email }}"
-
-    # other
-    - name: anna
-      uid: 7301
-      roles:
-        - tiaas_admin
-      key: files/keys/anna.pub
-      email: "{{ anna_email }}"
-
