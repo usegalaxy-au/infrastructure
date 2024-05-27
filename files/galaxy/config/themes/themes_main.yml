@@ -1,6 +1,6 @@
-blue:
+main:
   masthead:
-    color: "#2c3143"
+    color: "#243e8f"
     text:
       color: "#f8f9fa"
       hover: gold
