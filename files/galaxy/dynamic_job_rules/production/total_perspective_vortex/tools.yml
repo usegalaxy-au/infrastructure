@@ -326,7 +326,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 1
+      max_concurrent_job_count_for_tool_user: 2
     cores: 8
     mem: 30.7
     scheduling:
@@ -1581,7 +1581,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 1
+      max_concurrent_job_count_for_tool_user: 2
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/jellyfish/jellyfish/.*:
@@ -2600,14 +2600,14 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fasterq_dump/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 1
+      max_concurrent_job_count_for_tool_user: 2
     cores: 3
     mem: 11.5
     params:
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 1
+      max_concurrent_job_count_for_tool_user: 2
     cores: 3
     mem: 11.5
     params:
@@ -3028,7 +3028,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 1
+      max_concurrent_job_count_for_tool_user: 2
     cores: 8
     mem: 30.7
     scheduling:
@@ -3284,7 +3284,7 @@ tools:
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/orthofinder_onlygroups/orthofinder_onlygroups/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 1
+      max_concurrent_job_count_for_tool_user: 2
     cores: 8
     mem: 24.0
     params:
