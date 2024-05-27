@@ -287,13 +287,6 @@ rpc_pulsar_machines:
     keep_error_days: 7
     cron_hour: "5,11,17,23"
     cron_minute: "10"
-  - pulsar_name: pulsar-paw
-    pulsar_ip_address: "{{ hostvars['pulsar-paw']['ansible_ssh_host'] }}"
-    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
-    delete_jwds: true
-    keep_error_days: 7
-    cron_hour: "17"
-    cron_minute: "20"
   - pulsar_name: pulsar-high-mem1
     pulsar_ip_address: "{{ hostvars['pulsar-high-mem1']['ansible_ssh_host'] }}"
     ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
@@ -412,9 +405,6 @@ job_conf_limits:
     pulsar-nci-training:
       tags:
       - registered_user_concurrent_jobs_10
-    pulsar-paw:
-      tags:
-      - registered_user_concurrent_jobs_10
     pulsar-qld-blast:
       tags:
       - registered_user_concurrent_jobs_10
@@ -473,10 +463,6 @@ job_conf_limits:
   - type: destination_user_concurrent_jobs
     id: pulsar-mel3
     value: 5
-
-  - type: destination_total_concurrent_jobs
-    id: pulsar-paw
-    value: 10
 
   - type: destination_user_concurrent_jobs
     id: pulsar-nci-training
