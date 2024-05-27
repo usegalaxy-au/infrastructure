@@ -186,9 +186,9 @@ host_galaxy_config: # renamed from __galaxy_config
     default_panel_view_by_host:
       proteomics.dev.gvl.org.au: proteomics
     themes_config_file_by_host:
-      genome.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes_genome.yml"
-      proteomics.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes_proteomics.yml"
-      dev.gvl.org.au: "{{ galaxy_config_dir }}/themes_main.yml"
+      genome.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_genome.yml"
+      proteomics.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_proteomics.yml"
+      dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_main.yml"
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
