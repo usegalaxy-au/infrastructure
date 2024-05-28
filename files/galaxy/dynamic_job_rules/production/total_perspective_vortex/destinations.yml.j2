@@ -2,6 +2,9 @@ destinations:
   default:
     runner: slurm
     abstract: true
+    context:
+      destination_total_cores: null
+      destination_total_mem: null
     # params: # commented out 3/4/23 to check whether this helps with load on nfs
     #   tmp_dir: True  # TODO: check that this works
     scheduling:
@@ -64,6 +67,9 @@ destinations:
     runner: slurm
     max_accepted_cores: 32
     max_accepted_mem: 122.86
+    context:
+      destination_total_cores: 192
+      destination_total_mem: 737
     tags: {{ job_conf_limits.environments['slurm'].tags }}
     scheduling:
       accept:
@@ -75,6 +81,9 @@ destinations:
     runner: slurm
     max_accepted_cores: 32
     max_accepted_mem: 122.86
+    context:
+      destination_total_cores: 192
+      destination_total_mem: 737
     tags: {{ job_conf_limits.environments['slurm-training'].tags }}
     scheduling:
       accept:
@@ -86,6 +95,9 @@ destinations:
   interactive_pulsar:
     max_accepted_cores: 32
     max_accepted_mem: 122.86
+    context:
+      destination_total_cores: 192
+      destination_total_mem: 737
     runner: pulsar_embedded
     tags: {{ job_conf_limits.environments['interactive_pulsar'].tags }}
     params:
@@ -107,6 +119,9 @@ destinations:
     runner: pulsar_mel2_runner
     max_accepted_cores: 8
     max_accepted_mem: 31.45
+    context:
+      destination_total_cores: 192
+      destination_total_mem: 737
     tags: {{ job_conf_limits.environments['pulsar-mel2'].tags }}
     scheduling:
       accept:
@@ -118,6 +133,9 @@ destinations:
     runner: pulsar-mel3_runner
     max_accepted_cores: 32
     max_accepted_mem: 63 # reduced from 122.86 to assist with scheduling
+    context:
+      destination_total_cores: 144
+      destination_total_mem: 553
     tags: {{ job_conf_limits.environments['pulsar-mel3'].tags }}
     scheduling:
       accept:
@@ -131,6 +149,9 @@ destinations:
     runner: pulsar-high-mem1_runner
     max_accepted_cores: 126
     max_accepted_mem: 3845.1
+    context:
+      destination_total_cores: 126
+      destination_total_mem: 3845.1
     min_accepted_mem: 62.51
     tags: {{ job_conf_limits.environments['pulsar-high-mem1'].tags }}
     scheduling:
@@ -143,6 +164,9 @@ destinations:
     runner: pulsar-high-mem2_runner
     max_accepted_cores: 126
     max_accepted_mem: 1922.49
+    context:
+      destination_total_cores: 126
+      destination_total_mem: 1922.49
     # min_accepted_mem: 62.51 # 2/10/23 accept all job sizes
     tags: {{ job_conf_limits.environments['pulsar-high-mem2'].tags }}
     scheduling:
@@ -155,6 +179,9 @@ destinations:
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
     min_accepted_mem: 62.51
+    context:
+      destination_total_cores: 240
+      destination_total_mem: 3845.07
     tags: {{ job_conf_limits.environments['pulsar-qld-high-mem0'].tags }}
     scheduling:
       accept:
@@ -167,6 +194,9 @@ destinations:
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
     min_accepted_mem: 62.51
+    context:
+      destination_total_cores: 240
+      destination_total_mem: 3845.07
     tags: {{ job_conf_limits.environments['pulsar-qld-high-mem1'].tags }}
     scheduling:
       accept:
@@ -180,6 +210,9 @@ destinations:
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
     min_accepted_mem: 62.51
+    context:
+      destination_total_cores: 240
+      destination_total_mem: 3845.07
     tags: {{ job_conf_limits.environments['pulsar-qld-high-mem2'].tags }}
     scheduling:
       accept:
@@ -191,6 +224,9 @@ destinations:
     runner: pulsar-nci-training_runner
     max_accepted_cores: 16
     max_accepted_mem: 47.07
+    context:
+      destination_total_cores: 192
+      destination_total_mem: 565
     tags: {{ job_conf_limits.environments['pulsar-nci-training'].tags }}
     scheduling:
       accept:
@@ -205,6 +241,9 @@ destinations:
     runner: pulsar-qld-blast_runner
     max_accepted_cores: 60
     max_accepted_mem: 200
+    context:
+      destination_total_cores: 60
+      destination_total_mem: 200
     tags: {{ job_conf_limits.environments['pulsar-qld-blast'].tags }}
     scheduling:
       accept:
@@ -217,6 +256,9 @@ destinations:
     runner: pulsar-QLD_runner
     max_accepted_cores: 16
     max_accepted_mem: 62.72
+    context:
+      destination_total_cores: 112
+      destination_total_mem: 439
     tags: {{ job_conf_limits.environments['pulsar-QLD'].tags }}
     scheduling:
       accept:
@@ -229,6 +271,9 @@ destinations:
     runner: pulsar_azure_0_runner
     max_accepted_cores: 24
     max_accepted_mem: 209
+    context:
+      destination_total_cores: 64
+      destination_total_mem: 558
     tags: {{ job_conf_limits.environments['pulsar-azure'].tags }}
     scheduling:
       require:
@@ -240,6 +285,9 @@ destinations:
     max_accepted_cores: 24
     max_accepted_mem: 209
     max_accepted_gpus: 1
+    context:
+      destination_total_cores: 64
+      destination_total_mem: 558
     tags: {{ job_conf_limits.environments['pulsar-azure-gpu'].tags }}
     scheduling:
       require:
@@ -258,6 +306,9 @@ destinations:
     max_accepted_cores: 24
     max_accepted_mem: 209
     max_accepted_gpus: 1
+    context:
+      destination_total_cores: 64
+      destination_total_mem: 558
     tags: {{ job_conf_limits.environments['pulsar-azure-1-gpu'].tags }}
     scheduling:
       require:
@@ -276,6 +327,9 @@ destinations:
     max_accepted_cores: 64
     max_accepted_mem: 582
     max_accepted_gpus: 1
+    context:
+      destination_total_cores: 64
+      destination_total_mem: 582
     scheduling:
       require:
         - pulsar
