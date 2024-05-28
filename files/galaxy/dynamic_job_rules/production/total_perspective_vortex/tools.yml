@@ -2462,6 +2462,9 @@ tools:
     mem: 12
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/.*:
     cores: 3
     mem: 11.5
