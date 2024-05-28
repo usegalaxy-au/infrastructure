@@ -36,16 +36,6 @@ galaxy-w10 internal_ip=192.168.205.236
 [pawsey_group]  # 6/6/23 hosts removed except for pawsey-user-nfs which is still in use
 pawsey-user-nfs ansible_ssh_host=146.118.68.13 internal_ip=192.168.0.165
 
-[pulsar_paw_head]
-pulsar-paw ansible_ssh_host=146.118.68.128 internal_ip=192.168.0.64
-
-[pulsar_paw_workers]
-pulsar-paw-w1 ansible_ssh_host=146.118.68.43 internal_ip=192.168.0.134
-pulsar-paw-w2 ansible_ssh_host=146.118.67.217 internal_ip=192.168.0.180
-pulsar-paw-w3 ansible_ssh_host=146.118.70.37 internal_ip=192.168.0.138
-pulsar-paw-w4 ansible_ssh_host=146.118.69.218 internal_ip=192.168.0.176
-pulsar-paw-w5 ansible_ssh_host=146.118.70.1 internal_ip=192.168.0.157
-
 # GenomicsVL pulsar
 [pulsar_mel3_head]
 pulsar-mel3 ansible_ssh_host=115.146.85.19
@@ -142,7 +132,6 @@ pulsar-azure-0 ansible_ssh_host=20.28.206.42
 [production_pulsars:children]
 pulsar_mel3_head
 pulsar_mel2_head
-pulsar_paw_head
 pulsar_QLD_head
 pulsar_qld_himems
 pulsar_high_mem2
