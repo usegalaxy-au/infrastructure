@@ -1388,7 +1388,10 @@ tools:
     mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate.*:
     params:
-      singularity_enabled: true  
+      singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_compare/funannotate_compare/.*:
     cores: 8
     mem: 40
