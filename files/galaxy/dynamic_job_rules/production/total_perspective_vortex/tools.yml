@@ -2468,6 +2468,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/.*:
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_get_chr_names/.*:
+    params:
+      singularity_enabled: false  # both installed versions pass tests without singularity enabled, fail 1/2 with singularity enabled
   toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_annotate/.*:
     cores: 3
     mem: 11.5
