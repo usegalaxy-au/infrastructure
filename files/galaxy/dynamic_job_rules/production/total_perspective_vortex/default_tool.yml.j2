@@ -28,31 +28,53 @@ tools:
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
     rank: |  # TODO: rank function needs overhaul to consider memory
-      import requests
-      import random
-      grafana_destinations = {  # dict of destinations where the key from the stats api call differs from the destination id
-        'Galaxy-Main': 'slurm',
-        'pulsar-high-mem-1': 'pulsar-high-mem1',
-        'pulsar-qld-himem-0': 'pulsar-qld-high-mem0',
-        'pulsar-qld-himem-1': 'pulsar-qld-high-mem1',
-        'pulsar-qld-himem-2': 'pulsar-qld-high-mem2',
-      }
-      params = {
-        'pretty': 'true',
-        'db': 'queues',
-        'q': 'SELECT last("percent_allocated") from "sinfo" group by "host"'
-      }
-      if len(candidate_destinations) > 1:
+      if len(candidate_destinations) <= 1:
+        log.info("++ ---tpv rank debug: 1 or fewer destinations: returning candidate_destinations")
+        final_destinations = candidate_destinations
+      else:
+        import random
+        from sqlalchemy import text
+
+        raw_sql_query = """
+            select destination_id, state, count(id), sum(cores), sum(mem)
+            from (
+                select id,
+                      CAST((REGEXP_MATCHES(encode(destination_params, 'escape'),'ntasks=(\d+)'))[1] as INTEGER)  as cores,
+                      CAST((REGEXP_MATCHES(encode(destination_params, 'escape'),'mem=(\d+)'))[1] as INTEGER)  as mem,
+                      state,
+                      destination_id
+                from job
+                where state='queued' or state='running'
+                order by destination_id
+            ) as foo
+            group by destination_id, state;
+        """
+
         try:
-          response = requests.get('https://stats.usegalaxy.org.au:8086/query', auth=('grafana', '{{ vault_influx_grafana_password }}'), params=params)
-          data = response.json()
-          cpu_by_destination = {grafana_destinations.get(s['tags']['host'], s['tags']['host']):s['values'][0][1] for s in data.get('results')[0].get('series', [])}
-          # sort by cpu usage
-          candidate_destinations.sort(key=lambda d: (cpu_by_destination.get(d.id), random.randint(0,9)))
+          results = app.model.context.execute(text(raw_sql_query))
+          db_queue_info = {}
+          for row in results:
+              # log.info(f"++ ---tpv rank debug: row returned by db query: {str(row)}")
+              destination_id, state, count_id, sum_cores, sum_mem = row
+              if not destination_id in db_queue_info:
+                  db_queue_info[destination_id] = {
+                    'queued': {'sum_cores': 0, 'sum_mem': 0.0, 'job_count': 0},
+                    'running': {'sum_cores': 0, 'sum_mem': 0.0, 'job_count': 0},
+                  }
+              db_queue_info[destination_id][state] = {'sum_cores': sum_cores, 'sum_mem': sum_mem, 'job_count': count_id}
+
+          def destination_usage_proportion(destination):
+              if not destination.context.get('destination_total_mem') or not destination.context.get('destination_total_cores'):
+                    raise Exception(f"++ ---tpv rank debug: At least one of destination_total_mem, destination_total_cores is unavailable")
+            destination_total_cores = destination.context.get('destination_total_cores')
+            return_value = sum([db_queue_info.get(destination.id, {}).get(state, {}).get('sum_cores', 0) for state in ['queued', 'running']])/destination_total_cores
+            log.info(f"++ ---tpv rank debug: returning usage proportion value for destination {destination}: {str(return_value)}")
+            return return_value
+
+          # Sort by cpu usage as with previous method. This time queued cpu commitment counts towards CPU usage
+          candidate_destinations.sort(key=lambda d: (destination_usage_proportion(d.id), random.randint(0,9)))
           final_destinations = candidate_destinations
         except Exception:
-          log.exception("An error occurred while querying influxdb. Using a weighted random candidate destination")
+          log.exception("++ ---tpv rank debug: An error occurred with database query and/or surrounding logic. Using a weighted random candidate destination")
           final_destinations = helpers.weighted_random_sampling(candidate_destinations)
-      else:
-        final_destinations = candidate_destinations
       final_destinations
