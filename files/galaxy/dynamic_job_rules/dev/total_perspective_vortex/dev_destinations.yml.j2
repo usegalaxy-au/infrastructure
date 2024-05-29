@@ -2,6 +2,10 @@ destinations:
   default:
     runner: slurm # abstract: this runner will be overridden
     abstract: true
+    params:
+      tpv_cores: '{cores}'
+      tpv_gpus: '{gpus}'
+      tpv_mem: '{mem}'
     # having rules on default abstract dest then rules on descendant abstract dest seems to prevent the descendant rules from applying
     # rules:
     #   - id: default_destination_singularity_rule
