@@ -75,8 +75,6 @@ tools:
           candidate_destinations.sort(key=lambda d: (destination_usage_proportion(d.id), random.randint(0,9)))
           final_destinations = candidate_destinations
         except Exception:
-          log.exception("An error occurred with database query and/or surrounding logic. Using a weighted random candidate destination")
+          log.exception("++ ---tpv rank debug: An error occurred with database query and/or surrounding logic. Using a weighted random candidate destination")
           final_destinations = helpers.weighted_random_sampling(candidate_destinations)
-      else:
-        final_destinations = candidate_destinations
       final_destinations
