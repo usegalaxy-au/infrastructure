@@ -64,15 +64,15 @@ tools:
               db_queue_info[destination_id][state] = {'sum_cores': sum_cores, 'sum_mem': sum_mem, 'job_count': count_id}
 
           def destination_usage_proportion(destination):
-              if not destination.context.get('destination_total_mem') or not destination.context.get('destination_total_cores'):
+            if not destination.context.get('destination_total_mem') or not destination.context.get('destination_total_cores'):
                     raise Exception(f"++ ---tpv rank debug: At least one of destination_total_mem, destination_total_cores is unavailable")
             destination_total_cores = destination.context.get('destination_total_cores')
             return_value = sum([db_queue_info.get(destination.id, {}).get(state, {}).get('sum_cores', 0) for state in ['queued', 'running']])/destination_total_cores
-            log.info(f"++ ---tpv rank debug: returning usage proportion value for destination {destination}: {str(return_value)}")
+            log.info(f"++ ---tpv rank debug: returning usage proportion value for destination {destination.id}: {str(return_value)}")
             return return_value
 
           # Sort by cpu usage as with previous method. This time queued cpu commitment counts towards CPU usage
-          candidate_destinations.sort(key=lambda d: (destination_usage_proportion(d.id), random.randint(0,9)))
+          candidate_destinations.sort(key=lambda d: (destination_usage_proportion(d), random.randint(0,9)))
           final_destinations = candidate_destinations
         except Exception:
           log.exception("++ ---tpv rank debug: An error occurred with database query and/or surrounding logic. Using a weighted random candidate destination")
