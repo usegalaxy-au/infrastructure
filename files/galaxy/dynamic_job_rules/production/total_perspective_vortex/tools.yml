@@ -2271,6 +2271,10 @@ tools:
       if: 0.0005 <= input_size < 0.1
       cores: 16
       mem: 61.4
+  toolshed.g2.bx.psu.edu/repos/iuc/red/red/.*:
+    mem: 8
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
     context:
       max_concurrent_job_count_for_tool_user: 3
