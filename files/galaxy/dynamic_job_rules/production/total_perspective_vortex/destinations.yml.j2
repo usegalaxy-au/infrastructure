@@ -76,6 +76,7 @@ destinations:
         - slurm
         - gtdbtk_database
         - bakta_database
+        - funannotate
   slurm-training:
     inherits: _slurm_destination
     runner: slurm
@@ -90,6 +91,7 @@ destinations:
         - slurm
         - gtdbtk_database
         - bakta_database
+        - funannotate
       require:
         - training
   interactive_pulsar:
@@ -233,6 +235,7 @@ destinations:
         - pulsar-nci-training
         - pulsar-blast # allow training jobs with require: pulsar-blast to run here
         - bakta_database
+        - funannotate
       require:
         - pulsar
         - training
@@ -264,6 +267,7 @@ destinations:
     scheduling:
       accept:
         - pulsar-QLD
+        - funannotate
       require:
         - pulsar
         # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day

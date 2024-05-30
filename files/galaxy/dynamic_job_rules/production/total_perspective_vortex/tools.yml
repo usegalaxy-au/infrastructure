@@ -1392,6 +1392,8 @@ tools:
     scheduling:
       accept:
         - pulsar
+      require:
+        - funannotate  # both funannotate dbs in /mnt/custom-indices on destination VM
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_compare/funannotate_compare/.*:
     cores: 8
     mem: 40
