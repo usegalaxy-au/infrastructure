@@ -1386,6 +1386,14 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/.*:
     cores: 5
     mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/funannotate.*:
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
+      require:
+        - funannotate  # both funannotate dbs in /mnt/custom-indices on destination VM
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_compare/funannotate_compare/.*:
     cores: 8
     mem: 40
