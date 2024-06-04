@@ -1297,7 +1297,7 @@ tools:
     params:
       singularity_enabled: true
     scheduling:
-      require:
+      accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_bundlelinks/.*:
     cores: 5
