@@ -32,6 +32,7 @@ tools:
         log.info("++ ---tpv rank debug: 1 or fewer destinations: returning candidate_destinations")
         final_destinations = candidate_destinations
       else:
+        log.info(f"++ ---tpv rank debug: ranking destinations for job with tool {job.tool_id}, cores: {cores}, mem: {mem}")
         import random
         from sqlalchemy import text
 
@@ -65,15 +66,33 @@ tools:
 
           def destination_usage_proportion(destination):
             if not destination.context.get('destination_total_mem') or not destination.context.get('destination_total_cores'):
-                    raise Exception(f"++ ---tpv rank debug: At least one of destination_total_mem, destination_total_cores is unavailable")
+              raise Exception(f"++ ---tpv rank debug: At least one of destination_total_mem, destination_total_cores is unavailable")
             destination_total_cores = destination.context.get('destination_total_cores')
             return_value = sum([db_queue_info.get(destination.id, {}).get(state, {}).get('sum_cores', 0) for state in ['queued', 'running']])/destination_total_cores
             log.info(f"++ ---tpv rank debug: returning usage proportion value for destination {destination.id}: {str(return_value)}")
             return return_value
 
+          def destination_availability_score(destination):
+              if not destination.context.get('destination_total_mem') or not destination.context.get('destination_total_cores'):
+                raise Exception(f"++ ---tpv rank debug: At least one of destination_total_mem, destination_total_cores is unavailable")
+              destination_cores_committed = sum([db_queue_info.get(destination.id, {}).get(state, {}).get('sum_cores', 0) for state in ['queued', 'running']])
+              destination_mem_committed = sum([db_queue_info.get(destination.id, {}).get(state, {}).get('sum_mem', 0) for state in ['queued', 'running']])
+              available_cores = destination.context['destination_total_cores'] - destination_cores_committed
+              available_mem = float(destination.context['destination_total_mem']) - (float(destination_mem_committed)/1024)
+ 
+              the_score = min(available_cores/cores, available_mem/mem) # returns the number of jobs with cores/mem that could run at destination
+              log.info(f"++ ---tpv rank debug: The availablity score for destination {destination.id} is {the_score}")
+              return the_score
+
           # Sort by cpu usage as with previous method. This time queued cpu commitment counts towards CPU usage
           candidate_destinations.sort(key=lambda d: (destination_usage_proportion(d), random.randint(0,9)))
+
+          # # Alternative method commented out for now
+          # # Sort destinations by the number of jobs with these values of entity cores/mem that would be able to run there
+          # candidate_destinations.sort(key=lambda d: (-1 * destination_availability_score(d), random.randint(0,9)))
+
           final_destinations = candidate_destinations
+          log.info(f"++ ---tpv rank debug: destinations ranked: {[d.id for d in final_destinations]}")
         except Exception:
           log.exception("++ ---tpv rank debug: An error occurred with database query and/or surrounding logic. Using a weighted random candidate destination")
           final_destinations = helpers.weighted_random_sampling(candidate_destinations)
