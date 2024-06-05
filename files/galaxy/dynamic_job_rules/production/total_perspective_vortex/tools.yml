@@ -721,6 +721,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/picard/.*:
     cores: 3
     mem: 11.5
+    params:
+      tmp_dir: true
     env:
       SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
