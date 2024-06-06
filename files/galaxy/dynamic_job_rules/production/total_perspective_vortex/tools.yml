@@ -1010,8 +1010,8 @@ tools:
       - pulsar-QLD
       - pulsar-mel2
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper_search/.*:
-    cores: 2
-    mem: 7.6
+    cores: 4
+    mem: 20
   toolshed.g2.bx.psu.edu/repos/galaxyp/encyclopedia_searchtolib/encyclopedia_searchtolib/.*:
     mem: 10
     params:
@@ -1257,8 +1257,8 @@ tools:
     rules:
     - id: bwa_mem2_small_input_rule
       if: input_size < 0.25
-      cores: 2
-      mem: 7.6
+      cores: 4
+      mem: 15.3
     - id: bwa_mem2_medium_input_rule
       if: 0.25 <= input_size < 2
       cores: 8
@@ -2868,8 +2868,8 @@ tools:
         singularity_enabled: true
     - id: unicycler_small_input_rule
       if: input_size < 0.05
-      cores: 1
-      mem: 3.8
+      cores: 2
+      mem: 7.6
     - id: unicycler_medium_input_rule
       if: 0.05 <= input_size < 0.3
       cores: 8
