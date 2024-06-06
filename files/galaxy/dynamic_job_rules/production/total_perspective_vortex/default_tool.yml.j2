@@ -27,7 +27,7 @@ tools:
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
-    rank: |  # TODO: rank function needs overhaul to consider memory
+    rank: |
       if len(candidate_destinations) <= 1:
         log.info("++ ---tpv rank debug: 1 or fewer destinations: returning candidate_destinations")
         final_destinations = candidate_destinations
@@ -84,12 +84,13 @@ tools:
               log.info(f"++ ---tpv rank debug: The availablity score for destination {destination.id} is {the_score}")
               return the_score
 
+          # # Previous ranking method
           # Sort by cpu usage as with previous method. This time queued cpu commitment counts towards CPU usage
-          candidate_destinations.sort(key=lambda d: (destination_usage_proportion(d), random.randint(0,9)))
+          # candidate_destinations.sort(key=lambda d: (destination_usage_proportion(d), random.randint(0,9)))
 
-          # # Alternative method commented out for now
-          # # Sort destinations by the number of jobs with these values of entity cores/mem that would be able to run there
-          # candidate_destinations.sort(key=lambda d: (-1 * destination_availability_score(d), random.randint(0,9)))
+          # New ranking method: consider memory use at destination as well as CPU use
+          # Sort destinations by the number of jobs with these values of entity cores/mem that would be able to run there
+          candidate_destinations.sort(key=lambda d: (-1 * destination_availability_score(d), random.randint(0,9)))
 
           final_destinations = candidate_destinations
           log.info(f"++ ---tpv rank debug: destinations ranked: {[d.id for d in final_destinations]}")
