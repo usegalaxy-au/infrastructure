@@ -43,7 +43,7 @@ tools:
     params:
       singularity_enabled: true
     scheduling:
-      require:
+      accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/augustus/augustus/.*:
     cores: 8
@@ -152,7 +152,7 @@ tools:
     params:
       singularity_enabled: true
     scheduling:
-      require:  # TODO: update score function put it back in the rank function, change this to 'prefer'
+      accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond_makedb/.*:
     params:
@@ -266,7 +266,7 @@ tools:
     params:
       singularity_enabled: true
     scheduling:
-      require:
+      accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/.*:
     cores: 4
@@ -622,7 +622,7 @@ tools:
     cores: 8
     mem: 100
     scheduling:
-      require:
+      accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/.*:
     cores: 1
@@ -1165,11 +1165,11 @@ tools:
     mem: 30.7
     params:
       singularity_enabled: true
-    # scheduling:
-    #   accept:
-    #     - pulsar
-    #   require:
-    #     - bakta_database
+    scheduling:
+      # accept:
+      #   - pulsar
+      require:
+        - bakta_database
   toolshed.g2.bx.psu.edu/repos/iuc/barrnap/barrnap/.*:
     cores: 3
     mem: 11.5
@@ -1457,7 +1457,8 @@ tools:
     scheduling:
       require:
       - gtdbtk_database
-      - pulsar  # TODO: fix 'prefer' in ranking and prefer pulsar here
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/gtftobed12/gtftobed12/.*:
     params:
       singularity_enabled: true
@@ -1822,9 +1823,6 @@ tools:
       if: 0.5 <= input_size < 20
       cores: 16
       mem: 120
-      scheduling:
-        require:
-        - pulsar  # TODO: fix 'prefer' in ranking and prefer pulsar here
   toolshed.g2.bx.psu.edu/repos/iuc/mothur.*:
     params:
       docker_enabled: true
