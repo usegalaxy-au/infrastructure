@@ -1,4 +1,65 @@
 users:
+    default:
+      rules:
+        - id: slurm_training_rule
+          if: |
+            include_tags = []
+            exclude_tags = ['pulsar', 'training-exempt']
+            training_rules_apply = False
+            training_job_matches_specs = False
+            if any([r for r in user.all_roles() if (not r.deleted and r.name.startswith('training-')]):
+              training_rules_apply = True
+            elif 'training' in [hta.user_tname for hta in job.history.tags]:
+              training_rules_apply = True
+            if training_rules_apply:
+              training_job_matches_specs = helpers.tag_values_match(entity, include_tags, exclude_tags)
+            training_job_matches_specs
+          max_cores: 2
+          max_mem: max_cores * 3.8  # TODO check multiplier
+          context:
+            partition: training
+          scheduling:
+            require:
+              - slurm
+              - training
+        - id: pulsar_training_rule
+          if: |
+            include_tags = ['pulsar']
+            exclude_tags = ['pulsar-training-large', 'training-exempt']
+            training_rules_apply = False
+            training_job_matches_specs = False
+            if any([r for r in user.all_roles() if (not r.deleted and r.name.startswith('training-')]):
+              training_rules_apply = True
+            elif 'training' in [hta.user_tname for hta in job.history.tags]:
+              training_rules_apply = True
+            if training_rules_apply:
+              training_job_matches_specs = helpers.tag_values_match(entity, include_tags, exclude_tags)
+            training_job_matches_specs
+          max_cores: 4
+          max_mem: max_cores * 2.9  # ratio for pulsar-nci-training
+          scheduling:
+            require:
+              - pulsar  # require pulsar and training: only one place to go
+              - training
+        - id: pulsar_training_large_rule
+          if: |
+            include_tags = ['pulsar-training-large']
+            exclude_tags = ['training-exempt']
+            training_rules_apply = False
+            training_job_matches_specs = False
+            if any([r for r in user.all_roles() if (not r.deleted and r.name.startswith('training-')]):
+              training_rules_apply = True
+            elif 'training' in [hta.user_tname for hta in job.history.tags]:
+              training_rules_apply = True
+            if training_rules_apply:
+              training_job_matches_specs = helpers.tag_values_match(entity, include_tags, exclude_tags)
+            training_job_matches_specs
+          max_cores: 16
+          max_mem: max_cores * 2.9  # ratio for pulsar-nci-training
+          scheduling:
+            require:
+              - pulsar  # require pulsar and training: only one place to go
+              - training
     test_user:
       rules:
         - id: singularity_test_user_rule
