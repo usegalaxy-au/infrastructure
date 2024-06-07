@@ -1883,6 +1883,11 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+      reject: # reject all high mem destinations except pulsar-qld-high-mem2
+      - pulsar-high-mem1
+      - pulsar-high-mem2
+      - pulsar-qld-high-mem0
+      - pulsar-qld-high-mem1
     rules:
     - id: mothur_cluster_split_small_input_rule
       if: input_size < 0.00015
