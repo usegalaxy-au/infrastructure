@@ -2155,8 +2155,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
-    cores: 9
-    mem: 34.5
+    mem: 70
     params:
       singularity_enabled: true
     scheduling:
@@ -2164,9 +2163,8 @@ tools:
       - pulsar
     rules:
     - id: porechop_small_input_rule
-      if: input_size < 1.5
-      cores: 3
-      mem: 11.5
+      if: input_size < 0.8
+      mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_events/poretools_events/.*:
     cores: 3
     mem: 11.5
