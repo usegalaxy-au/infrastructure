@@ -1078,8 +1078,8 @@ tools:
     # note: this fails tests with singularity (version 2.4.0)
     mem: 8
   toolshed.g2.bx.psu.edu/repos/genouest/braker3/braker3/.*:
-    cores: 8
-    mem: 32
+    cores: 16
+    mem: 61.4
     params:
       singularity_container_id_override: docker://teambraker/braker3:v1.0.6
       singularity_enabled: true
