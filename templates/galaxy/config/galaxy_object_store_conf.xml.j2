@@ -1,7 +1,11 @@
 <?xml version="1.0"?>
 <object_store type="distributed" id="primary" order="0">
     <backends>
-        <backend id="data18" type="disk" weight="1" store_by="uuid">
+        <backend id="data19" type="disk" weight="1" store_by="uuid">
+            <files_dir path="/mnt/user-data-volA/data19" />
+            <extra_dir type="job_work" path="/mnt/scratch/job_working_directory"/>
+        </backend>
+        <backend id="data18" type="disk" weight="0" store_by="uuid">
             <files_dir path="/mnt/user-data-volA/data18" />
             <extra_dir type="job_work" path="/mnt/scratch/job_working_directory"/>
         </backend>
