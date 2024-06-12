@@ -144,7 +144,7 @@ destinations:
         - pulsar-mel3
         - bakta_database
         - funannotate
-        - pulsar-blast
+        # - pulsar-blast  # alternate location for pulsar blast jobs when pulsar-qld-blast is unavailable
       require:
         - pulsar
   pulsar-high-mem1:
@@ -257,7 +257,6 @@ destinations:
       require:
         - pulsar
         - pulsar-blast
-        - offline
   pulsar-QLD:
     inherits: _pulsar_destination
     runner: pulsar-QLD_runner
