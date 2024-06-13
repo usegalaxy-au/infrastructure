@@ -1823,6 +1823,9 @@ tools:
       if: 0.5 <= input_size < 20
       cores: 16
       mem: 120
+  toolshed.g2.bx.psu.edu/repos/iuc/mosdepth/mosdepth/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/mothur.*:
     params:
       docker_enabled: true
@@ -3307,6 +3310,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/tbprofiler/tb_profiler_profile/.*:
     cores: 3
     mem: 11.5
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/orthofinder_onlygroups/orthofinder_onlygroups/.*:
     context:
       max_concurrent_job_count_for_tool_user: 2
