@@ -24,7 +24,7 @@ tools:
     cores: 8
     mem: 30.7
     scheduling:
-      prefer:
+      accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bebatut/cdhit/cd_hit_est/.*:
     cores: 4
@@ -959,7 +959,7 @@ tools:
     params:
       singularity_enabled: true
     scheduling:
-      prefer:
+      accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/smudgeplot/smudgeplot/.*:
     cores: 8
@@ -1116,9 +1116,6 @@ tools:
       if: input_size < 0.005
       cores: 1
       mem: 3.8
-      scheduling:
-        prefer:
-        - slurm
     - id: abricate_medium_input_rule
       if: 0.005 <= input_size < 0.02
       cores: 4
@@ -1527,7 +1524,7 @@ tools:
     params:
       singularity_enabled: true
     scheduling:
-      prefer:
+      accept:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/hybpiper/hybpiper/.*:
     params:
@@ -1568,8 +1565,6 @@ tools:
     cores: 8
     mem: 30.7
     scheduling:
-      prefer:
-      - pulsar-paw
       accept:
       - pulsar
       - pulsar-quick
@@ -1577,8 +1572,6 @@ tools:
     cores: 8
     mem: 30.7
     scheduling:
-      prefer:
-      - pulsar-paw
       accept:
       - pulsar
       - pulsar-quick
@@ -1586,8 +1579,6 @@ tools:
     cores: 8
     mem: 30.7
     scheduling:
-      prefer:
-      - pulsar-paw
       accept:
       - pulsar
       - pulsar-quick
@@ -1679,8 +1670,6 @@ tools:
     cores: 4
     mem: 15.3
     scheduling:
-      prefer:
-      - pulsar-paw
       accept:
       - pulsar
       - pulsar-quick
@@ -1691,8 +1680,6 @@ tools:
     cores: 4
     mem: 15.3
     scheduling:
-      prefer:
-      - pulsar-paw
       accept:
       - pulsar
       - pulsar-quick
@@ -3060,7 +3047,7 @@ tools:
     cores: 8
     mem: 30.7
     scheduling:
-      prefer:
+      accept:
       - pulsar
     rules:
     - id: rbc_mafft_fail_rule

@@ -64,6 +64,22 @@ tools:
                   }
               db_queue_info[destination_id][state] = {'sum_cores': sum_cores, 'sum_mem': sum_mem, 'job_count': count_id}
 
+          def score_preferred(dest, ent):
+              """
+              Computes a compatibility score between tag sets based only on a 'prefer' tag in one matching a positive tag in the other.
+              :param ent:
+              :return:
+              """
+              def a_prefers_b(a_tags, b_tags):
+                  return any(
+                    tag for tag in a_tags.filter(tag_type = TagType.PREFER)
+                    if list(b_tags.filter(tag_type = [TagType.ACCEPT, TagType.PREFER, TagType.REQUIRE], tag_value = tag.value))
+                  )
+              dest_tags = dest.tpv_dest_tags
+              ent_tags = ent.tpv_tags
+              score = 1 if a_prefers_b(dest_tags, ent_tags) or a_prefers_b(ent_tags, dest_tags) else 0
+              return score
+
           def destination_usage_proportion(destination):
             if not destination.context.get('destination_total_mem') or not destination.context.get('destination_total_cores'):
               raise Exception(f"++ ---tpv rank debug: At least one of destination_total_mem, destination_total_cores is unavailable")
@@ -90,7 +106,7 @@ tools:
 
           # New ranking method: consider memory use at destination as well as CPU use
           # Sort destinations by the number of jobs with these values of entity cores/mem that would be able to run there
-          candidate_destinations.sort(key=lambda d: (-1 * destination_availability_score(d), random.randint(0,9)))
+          candidate_destinations.sort(key=lambda d: (-1 * score_preferred(d, entity), -1 * destination_availability_score(d), random.randint(0,9)))
 
           final_destinations = candidate_destinations
           log.info(f"++ ---tpv rank debug: destinations ranked: {[d.id for d in final_destinations]}")
