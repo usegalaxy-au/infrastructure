@@ -35,6 +35,7 @@ tools:
         log.info(f"++ ---tpv rank debug: ranking destinations for job with tool {job.tool_id}, cores: {cores}, mem: {mem}")
         import random
         from sqlalchemy import text
+        from tpv.core.entities import TagType
 
         raw_sql_query = """
             select destination_id, state, count(id), sum(cores), sum(mem)
