@@ -1,0 +1,949 @@
+tools:
+  toolshed.g2.bx.psu.edu/repos/artbio/cap3/cap3/*:
+    context:
+      pulsar_score: 25.044313
+  toolshed.g2.bx.psu.edu/repos/bebatut/cdhit/cd_hit_est/*:
+    context:
+      pulsar_score: 6.126598
+  toolshed.g2.bx.psu.edu/repos/bgruening/antismash/antismash/*:
+    context:
+      pulsar_score: 226.401307
+  toolshed.g2.bx.psu.edu/repos/bgruening/augustus/augustus/*:
+    context:
+      pulsar_score: 104.643553
+  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/*:
+    context:
+      pulsar_score: 0.270284
+  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/*:
+    context:
+      pulsar_score: 0.274128
+  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bigwig_compare/deeptools_bigwig_compare/*:
+    context:
+      pulsar_score: 1.005109
+  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_matrix/deeptools_compute_matrix/*:
+    context:
+      pulsar_score: 1.627827
+  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_multi_bam_summary/deeptools_multi_bam_summary/*:
+    context:
+      pulsar_score: 0.546451
+  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_fingerprint/deeptools_plot_fingerprint/*:
+    context:
+      pulsar_score: 0.29772
+  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_heatmap/deeptools_plot_heatmap/*:
+    context:
+      pulsar_score: 4.819309
+  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_profile/deeptools_plot_profile/*:
+    context:
+      pulsar_score: 11.245762
+  toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/*:
+    context:
+      pulsar_score: 1.062214
+  toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/*:
+    context:
+      pulsar_score: 0.042444
+  toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/*:
+    context:
+      pulsar_score: 6.190085
+  toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/*:
+    context:
+      pulsar_score: 0.064408
+  toolshed.g2.bx.psu.edu/repos/bgruening/interproscan/interproscan/*:
+    context:
+      pulsar_score: 14.135263
+  toolshed.g2.bx.psu.edu/repos/bgruening/pileometh/pileometh/*:
+    context:
+      pulsar_score: 4.358915
+  toolshed.g2.bx.psu.edu/repos/bgruening/racon/racon/*:
+    context:
+      pulsar_score: 0.376165
+  toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/*:
+    context:
+      pulsar_score: 10.612737
+  toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/*:
+    context:
+      pulsar_score: 0.189645
+  toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_numeric_clustering/sklearn_numeric_clustering/*:
+    context:
+      pulsar_score: 1876.127403
+  toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_svm_classifier/sklearn_svm_classifier/*:
+    context:
+      pulsar_score: 1760.615564
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cat/*:
+    context:
+      pulsar_score: 0.027066
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_easyjoin_tool/*:
+    context:
+      pulsar_score: 0.070936
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_find_and_replace/*:
+    context:
+      pulsar_score: 0.025459
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/*:
+    context:
+      pulsar_score: 2.781672
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/*:
+    context:
+      pulsar_score: 0.008284
+  toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/*:
+    context:
+      pulsar_score: 0.200335
+  toolshed.g2.bx.psu.edu/repos/bgruening/trna_prediction/trnascan/*:
+    context:
+      pulsar_score: 1.072545
+  toolshed.g2.bx.psu.edu/repos/chemteam/ambertools_acpype/ambertools_acpype/*:
+    context:
+      pulsar_score: 567.727002
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_em/gmx_em/*:
+    context:
+      pulsar_score: 31.599161
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/*:
+    context:
+      pulsar_score: 81.428612
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_trj/gmx_trj/*:
+    context:
+      pulsar_score: 0.009424
+  toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/*:
+    context:
+      pulsar_score: 10.820822
+  toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/*:
+    context:
+      pulsar_score: 0.18666
+  toolshed.g2.bx.psu.edu/repos/csbl/repeatmodeler/repeatmodeler/*:
+    context:
+      pulsar_score: 421.067053
+  toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/bam_to_sam/*:
+    context:
+      pulsar_score: 0.009186
+  toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/*:
+    context:
+      pulsar_score: 0.061727
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/*:
+    context:
+      pulsar_score: 1.552289
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie_wrappers/bowtie_wrapper/*:
+    context:
+      pulsar_score: 0.115485
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/*:
+    context:
+      pulsar_score: 1.680596
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/*:
+    context:
+      pulsar_score: 0.508641
+  toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/*:
+    context:
+      pulsar_score: 392.418094
+  toolshed.g2.bx.psu.edu/repos/devteam/column_maker/Add_a_column1/*:
+    context:
+      pulsar_score: 1.403809
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: getorf42/*':
+    context:
+      pulsar_score: 0.067501
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: needle56/*':
+    context:
+      pulsar_score: 531.355009
+  toolshed.g2.bx.psu.edu/repos/devteam/fasta_clipping_histogram/cshl_fasta_clipping_histogram/*:
+    context:
+      pulsar_score: 0.034094
+  toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/fasta2tab/*:
+    context:
+      pulsar_score: 0.073282
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_combiner/fastq_combiner/*:
+    context:
+      pulsar_score: 1.621573
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_filter/fastq_filter/*:
+    context:
+      pulsar_score: 0.387291
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/*:
+    context:
+      pulsar_score: 0.276266
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/*:
+    context:
+      pulsar_score: 0.039368
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/fastq_paired_end_joiner/*:
+    context:
+      pulsar_score: 1.254115
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_splitter/fastq_paired_end_splitter/*:
+    context:
+      pulsar_score: 0.082665
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_filter/cshl_fastq_quality_filter/*:
+    context:
+      pulsar_score: 0.072783
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/*:
+    context:
+      pulsar_score: 0.460909
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_fasta/cshl_fastq_to_fasta/*:
+    context:
+      pulsar_score: 0.095034
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer/fastq_trimmer/*:
+    context:
+      pulsar_score: 0.029222
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/*:
+    context:
+      pulsar_score: 0.253896
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqtofasta/fastq_to_fasta_python/*:
+    context:
+      pulsar_score: 0.014974
+  toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/*:
+    context:
+      pulsar_score: 0.691301
+  toolshed.g2.bx.psu.edu/repos/devteam/gffread/gffread/*:
+    context:
+      pulsar_score: 0.026843
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/*:
+    context:
+      pulsar_score: 58.665075
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/*:
+    context:
+      pulsar_score: 0.056612
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken_report/kraken-mpa-report/*:
+    context:
+      pulsar_score: 4.104662
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken_report/kraken-report/*:
+    context:
+      pulsar_score: 0.198917
+  toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/*:
+    context:
+      pulsar_score: 72.623827
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/*:
+    context:
+      pulsar_score: 7.028809
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/*:
+    context:
+      pulsar_score: 17.835462
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_makeblastdb/*:
+    context:
+      pulsar_score: 0.18149
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/*:
+    context:
+      pulsar_score: 0.537536
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_AddOrReplaceReadGroups/*:
+    context:
+      pulsar_score: 0.124867
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectRnaSeqMetrics/*:
+    context:
+      pulsar_score: 0.257577
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FastqToSam/*:
+    context:
+      pulsar_score: 0.169578
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/*:
+    context:
+      pulsar_score: 0.126067
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/*:
+    context:
+      pulsar_score: 0.019634
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SortSam/*:
+    context:
+      pulsar_score: 0.12271
+  toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/*:
+    context:
+      pulsar_score: 0.027808
+  toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/*:
+    context:
+      pulsar_score: 0.080321
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_calmd/samtools_calmd/*:
+    context:
+      pulsar_score: 14.205184
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_flagstat/samtools_flagstat/*:
+    context:
+      pulsar_score: 0.028382
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/*:
+    context:
+      pulsar_score: 0.275152
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/*:
+    context:
+      pulsar_score: 0.058716
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/*:
+    context:
+      pulsar_score: 0.045467
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_sort/samtools_sort/*:
+    context:
+      pulsar_score: 0.207921
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/samtools_stats/*:
+    context:
+      pulsar_score: 0.003998
+  toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fasta/tab2fasta/*:
+    context:
+      pulsar_score: 0.023765
+  toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/*:
+    context:
+      pulsar_score: 0.060907
+  toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/*:
+    context:
+      pulsar_score: 0.946846
+  toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/*:
+    context:
+      pulsar_score: 0.169833
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/anndata_ops/anndata_ops/*:
+    context:
+      pulsar_score: 0.390116
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_compute_graph/scanpy_compute_graph/*:
+    context:
+      pulsar_score: 0.147942
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_normalise_data/scanpy_normalise_data/*:
+    context:
+      pulsar_score: 0.108356
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_plot_embed/scanpy_plot_embed/*:
+    context:
+      pulsar_score: 0.042165
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_read_10x/scanpy_read_10x/*:
+    context:
+      pulsar_score: 0.194329
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_run_pca/scanpy_run_pca/*:
+    context:
+      pulsar_score: 0.045898
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_run_umap/scanpy_run_umap/*:
+    context:
+      pulsar_score: 0.095652
+  toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper/*:
+    context:
+      pulsar_score: 394.471391
+  ? toolshed.g2.bx.psu.edu/repos/galaxyp/fasta_merge_files_and_filter_unique_sequences/fasta_merge_files_and_filter_unique_sequences/*
+  : context:
+      pulsar_score: 0.032129
+  toolshed.g2.bx.psu.edu/repos/galaxyp/filter_by_fasta_ids/filter_by_fasta_ids/*:
+    context:
+      pulsar_score: 0.030114
+  toolshed.g2.bx.psu.edu/repos/galaxyp/regex_find_replace/regex1/*:
+    context:
+      pulsar_score: 0.02419
+  toolshed.g2.bx.psu.edu/repos/imgteam/unzip/unzip/*:
+    context:
+      pulsar_score: 0.009076
+  toolshed.g2.bx.psu.edu/repos/iracooke/tpp_prophets/pepxml_to_table_1/*:
+    context:
+      pulsar_score: 0.278322
+  toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/*:
+    context:
+      pulsar_score: 3.507113
+  toolshed.g2.bx.psu.edu/repos/iuc/anndata_inspect/anndata_inspect/*:
+    context:
+      pulsar_score: 0.210305
+  toolshed.g2.bx.psu.edu/repos/iuc/anndata_manipulate/anndata_manipulate/*:
+    context:
+      pulsar_score: 0.093245
+  toolshed.g2.bx.psu.edu/repos/iuc/annotatemyids/annotatemyids/*:
+    context:
+      pulsar_score: 6.832599
+  toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/*:
+    context:
+      pulsar_score: 755.769882
+  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/*:
+    context:
+      pulsar_score: 0.651693
+  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_info/*:
+    context:
+      pulsar_score: 0.370842
+  toolshed.g2.bx.psu.edu/repos/iuc/bbtools_bbduk/bbtools_bbduk/*:
+    context:
+      pulsar_score: 0.011196
+  toolshed.g2.bx.psu.edu/repos/iuc/bcftools_csq/bcftools_csq/*:
+    context:
+      pulsar_score: 0.025951
+  toolshed.g2.bx.psu.edu/repos/iuc/bcftools_mpileup/bcftools_mpileup/*:
+    context:
+      pulsar_score: 0.214424
+  toolshed.g2.bx.psu.edu/repos/iuc/bcftools_norm/bcftools_norm/*:
+    context:
+      pulsar_score: 0.241432
+  toolshed.g2.bx.psu.edu/repos/iuc/bcftools_stats/bcftools_stats/*:
+    context:
+      pulsar_score: 0.641112
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_annotatebed/*:
+    context:
+      pulsar_score: 0.08552
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_bamtobed/*:
+    context:
+      pulsar_score: 0.053231
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_bamtofastq/*:
+    context:
+      pulsar_score: 0.03255
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_genomecoveragebed/*:
+    context:
+      pulsar_score: 0.086301
+  toolshed.g2.bx.psu.edu/repos/iuc/bellerophon/bellerophon/*:
+    context:
+      pulsar_score: 0.274328
+  toolshed.g2.bx.psu.edu/repos/iuc/biom_convert/biom_convert/*:
+    context:
+      pulsar_score: 56.421087
+  toolshed.g2.bx.psu.edu/repos/iuc/bp_genbank2gff3/bp_genbank2gff3/*:
+    context:
+      pulsar_score: 0.148354
+  toolshed.g2.bx.psu.edu/repos/iuc/breseq/breseq/*:
+    context:
+      pulsar_score: 23.572054
+  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/*:
+    context:
+      pulsar_score: 23.264848
+  toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/*:
+    context:
+      pulsar_score: 0.677264
+  toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/*:
+    context:
+      pulsar_score: 0.70286
+  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos/*:
+    context:
+      pulsar_score: 2.049892
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/*:
+    context:
+      pulsar_score: 28.950751
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_filterandtrim/dada2_filterAndTrim/*:
+    context:
+      pulsar_score: 1.424624
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_learnerrors/dada2_learnErrors/*:
+    context:
+      pulsar_score: 194.585274
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_mergepairs/dada2_mergePairs/*:
+    context:
+      pulsar_score: 0.910159
+  toolshed.g2.bx.psu.edu/repos/iuc/deg_annotate/deg_annotate/*:
+    context:
+      pulsar_score: 0.051624
+  toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/*:
+    context:
+      pulsar_score: 3.450658
+  toolshed.g2.bx.psu.edu/repos/iuc/dexseq/dexseq_count/*:
+    context:
+      pulsar_score: 8.831169
+  toolshed.g2.bx.psu.edu/repos/iuc/edger/edger/*:
+    context:
+      pulsar_score: 0.65339
+  toolshed.g2.bx.psu.edu/repos/iuc/ena_upload/ena_upload/*:
+    context:
+      pulsar_score: 0.924187
+  toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/*:
+    context:
+      pulsar_score: 0.111024
+  toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/*:
+    context:
+      pulsar_score: 0.092162
+  toolshed.g2.bx.psu.edu/repos/iuc/fastqe/fastqe/*:
+    context:
+      pulsar_score: 0.422889
+  toolshed.g2.bx.psu.edu/repos/iuc/fasttree/fasttree/*:
+    context:
+      pulsar_score: 169.693885
+  toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/*:
+    context:
+      pulsar_score: 0.051162
+  toolshed.g2.bx.psu.edu/repos/iuc/filtlong/filtlong/*:
+    context:
+      pulsar_score: 0.04309
+  toolshed.g2.bx.psu.edu/repos/iuc/funannotate_annotate/funannotate_annotate/*:
+    context:
+      pulsar_score: 1.501408
+  toolshed.g2.bx.psu.edu/repos/iuc/funannotate_clean/funannotate_clean/*:
+    context:
+      pulsar_score: 8.16575
+  toolshed.g2.bx.psu.edu/repos/iuc/funannotate_predict/funannotate_predict/*:
+    context:
+      pulsar_score: 10.418343
+  toolshed.g2.bx.psu.edu/repos/iuc/funannotate_sort/funannotate_sort/*:
+    context:
+      pulsar_score: 0.090799
+  toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/*:
+    context:
+      pulsar_score: 1.777701
+  toolshed.g2.bx.psu.edu/repos/iuc/gemini_inheritance/gemini_inheritance/*:
+    context:
+      pulsar_score: 0.065005
+  toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/*:
+    context:
+      pulsar_score: 0.671772
+  toolshed.g2.bx.psu.edu/repos/iuc/gemini_query/gemini_query/*:
+    context:
+      pulsar_score: 0.015215
+  toolshed.g2.bx.psu.edu/repos/iuc/genomescope/genomescope/*:
+    context:
+      pulsar_score: 10.691811
+  toolshed.g2.bx.psu.edu/repos/iuc/getorganelle/get_organelle_from_reads/*:
+    context:
+      pulsar_score: 6.253143
+  toolshed.g2.bx.psu.edu/repos/iuc/goseq/goseq/*:
+    context:
+      pulsar_score: 8.701021
+  toolshed.g2.bx.psu.edu/repos/iuc/gtdbtk_classify_wf/gtdbtk_classify_wf/*:
+    context:
+      pulsar_score: 53.219124
+  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/*:
+    context:
+      pulsar_score: 0.730399
+  toolshed.g2.bx.psu.edu/repos/iuc/hmmer3/hmmer_hmmsearch/*:
+    context:
+      pulsar_score: 0.030552
+  toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/*:
+    context:
+      pulsar_score: 66.893165
+  toolshed.g2.bx.psu.edu/repos/iuc/humann2/humann2/*:
+    context:
+      pulsar_score: 96.497442
+  toolshed.g2.bx.psu.edu/repos/iuc/humann_regroup_table/humann_regroup_table/*:
+    context:
+      pulsar_score: 29.857572
+  toolshed.g2.bx.psu.edu/repos/iuc/humann_rename_table/humann_rename_table/*:
+    context:
+      pulsar_score: 39.714351
+  toolshed.g2.bx.psu.edu/repos/iuc/humann_split_stratified_table/humann_split_stratified_table/*:
+    context:
+      pulsar_score: 294.841457
+  toolshed.g2.bx.psu.edu/repos/iuc/hybpiper/hybpiper/*:
+    context:
+      pulsar_score: 72.013871
+  toolshed.g2.bx.psu.edu/repos/iuc/integron_finder/integron_finder/*:
+    context:
+      pulsar_score: 1.647072
+  toolshed.g2.bx.psu.edu/repos/iuc/iqtree/iqtree/*:
+    context:
+      pulsar_score: 732.810604
+  toolshed.g2.bx.psu.edu/repos/iuc/isescan/isescan/*:
+    context:
+      pulsar_score: 121.488868
+  toolshed.g2.bx.psu.edu/repos/iuc/ivar_consensus/ivar_consensus/*:
+    context:
+      pulsar_score: 0.402395
+  toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/*:
+    context:
+      pulsar_score: 0.242379
+  toolshed.g2.bx.psu.edu/repos/iuc/jcvi_gff_stats/jcvi_gff_stats/*:
+    context:
+      pulsar_score: 2.353514
+  toolshed.g2.bx.psu.edu/repos/iuc/jellyfish/jellyfish/*:
+    context:
+      pulsar_score: 0.285593
+  toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/*:
+    context:
+      pulsar_score: 0.659283
+  toolshed.g2.bx.psu.edu/repos/iuc/krakentools_extract_kraken_reads/krakentools_extract_kraken_reads/*:
+    context:
+      pulsar_score: 0.089285
+  toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/*:
+    context:
+      pulsar_score: 2.912909
+  toolshed.g2.bx.psu.edu/repos/iuc/lofreq_alnqual/lofreq_alnqual/*:
+    context:
+      pulsar_score: 0.026193
+  toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/*:
+    context:
+      pulsar_score: 0.296142
+  toolshed.g2.bx.psu.edu/repos/iuc/lofreq_indelqual/lofreq_indelqual/*:
+    context:
+      pulsar_score: 0.107554
+  toolshed.g2.bx.psu.edu/repos/iuc/lofreq_viterbi/lofreq_viterbi/*:
+    context:
+      pulsar_score: 0.131519
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_callpeak/*:
+    context:
+      pulsar_score: 0.125384
+  toolshed.g2.bx.psu.edu/repos/iuc/mageck_count/mageck_count/*:
+    context:
+      pulsar_score: 0.021891
+  toolshed.g2.bx.psu.edu/repos/iuc/mageck_test/mageck_test/*:
+    context:
+      pulsar_score: 1.385355
+  toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/*:
+    context:
+      pulsar_score: 84.729729
+  toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus/medaka_consensus/*:
+    context:
+      pulsar_score: 0.151636
+  toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus_pipeline/medaka_consensus_pipeline/*:
+    context:
+      pulsar_score: 0.389098
+  toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant/medaka_variant/*:
+    context:
+      pulsar_score: 0.180097
+  toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/*:
+    context:
+      pulsar_score: 2.660476
+  toolshed.g2.bx.psu.edu/repos/iuc/merqury/merqury/*:
+    context:
+      pulsar_score: 0.920523
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/*:
+    context:
+      pulsar_score: 1.202318
+  toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/*:
+    context:
+      pulsar_score: 3.738682
+  toolshed.g2.bx.psu.edu/repos/iuc/metaphlan2/metaphlan2/*:
+    context:
+      pulsar_score: 0.728562
+  toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/*:
+    context:
+      pulsar_score: 0.39225
+  toolshed.g2.bx.psu.edu/repos/iuc/mitos2/mitos2/*:
+    context:
+      pulsar_score: 5494.321003
+  toolshed.g2.bx.psu.edu/repos/iuc/mlst/mlst/*:
+    context:
+      pulsar_score: 0.506816
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_align_seqs/mothur_align_seqs/*:
+    context:
+      pulsar_score: 0.129788
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_vsearch/mothur_chimera_vsearch/*:
+    context:
+      pulsar_score: 3.748078
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_classify_otu/mothur_classify_otu/*:
+    context:
+      pulsar_score: 0.613836
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_classify_seqs/mothur_classify_seqs/*:
+    context:
+      pulsar_score: 2.306201
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_filter_seqs/mothur_filter_seqs/*:
+    context:
+      pulsar_score: 0.064938
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_contigs/mothur_make_contigs/*:
+    context:
+      pulsar_score: 0.428823
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_merge_files/mothur_merge_files/*:
+    context:
+      pulsar_score: 0.125561
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_pre_cluster/mothur_pre_cluster/*:
+    context:
+      pulsar_score: 0.756931
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_remove_lineage/mothur_remove_lineage/*:
+    context:
+      pulsar_score: 0.142677
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_screen_seqs/mothur_screen_seqs/*:
+    context:
+      pulsar_score: 0.049114
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_summary_seqs/mothur_summary_seqs/*:
+    context:
+      pulsar_score: 0.038488
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_unique_seqs/mothur_unique_seqs/*:
+    context:
+      pulsar_score: 0.094739
+  toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/*:
+    context:
+      pulsar_score: 17.842235
+  toolshed.g2.bx.psu.edu/repos/iuc/mummer_mummer/mummer_mummer/*:
+    context:
+      pulsar_score: 3.803566
+  toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/nanoplot/*:
+    context:
+      pulsar_score: 0.209493
+  toolshed.g2.bx.psu.edu/repos/iuc/ncbi_acc_download/ncbi_acc_download/*:
+    context:
+      pulsar_score: 2.114109
+  toolshed.g2.bx.psu.edu/repos/iuc/ngsutils_bam_filter/ngsutils_bam_filter/*:
+    context:
+      pulsar_score: 0.029585
+  toolshed.g2.bx.psu.edu/repos/iuc/novoplasty/novoplasty/*:
+    context:
+      pulsar_score: 1.02542
+  toolshed.g2.bx.psu.edu/repos/iuc/obi_illumina_pairend/obi_illumina_pairend/*:
+    context:
+      pulsar_score: 4.992588
+  toolshed.g2.bx.psu.edu/repos/iuc/obi_ngsfilter/obi_ngsfilter/*:
+    context:
+      pulsar_score: 1.043784
+  toolshed.g2.bx.psu.edu/repos/iuc/orthofinder_onlygroups/orthofinder_onlygroups/*:
+    context:
+      pulsar_score: 60.891619
+  toolshed.g2.bx.psu.edu/repos/iuc/pathview/pathview/*:
+    context:
+      pulsar_score: 44.30474
+  toolshed.g2.bx.psu.edu/repos/iuc/pe_histogram/pe_histogram/*:
+    context:
+      pulsar_score: 0.034442
+  toolshed.g2.bx.psu.edu/repos/iuc/pharokka/pharokka/*:
+    context:
+      pulsar_score: 3098.731352
+  toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/*:
+    context:
+      pulsar_score: 1.513636
+  toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/*:
+    context:
+      pulsar_score: 1.878959
+  toolshed.g2.bx.psu.edu/repos/iuc/pretext_map/pretext_map/*:
+    context:
+      pulsar_score: 1.24648
+  toolshed.g2.bx.psu.edu/repos/iuc/purge_dups/purge_dups/*:
+    context:
+      pulsar_score: 1.029941
+  toolshed.g2.bx.psu.edu/repos/iuc/pycoqc/pycoqc/*:
+    context:
+      pulsar_score: 0.177868
+  toolshed.g2.bx.psu.edu/repos/iuc/qualimap_bamqc/qualimap_bamqc/*:
+    context:
+      pulsar_score: 0.298706
+  toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/*:
+    context:
+      pulsar_score: 1.408491
+  toolshed.g2.bx.psu.edu/repos/iuc/raven/raven/*:
+    context:
+      pulsar_score: 0.934
+  toolshed.g2.bx.psu.edu/repos/iuc/raxml/raxml/*:
+    context:
+      pulsar_score: 872.73059
+  toolshed.g2.bx.psu.edu/repos/iuc/red/red/*:
+    context:
+      pulsar_score: 0.330187
+  toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/*:
+    context:
+      pulsar_score: 0.999948
+  toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/rna_starsolo/*:
+    context:
+      pulsar_score: 2.213721
+  toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/rnaspades/*:
+    context:
+      pulsar_score: 3.471641
+  toolshed.g2.bx.psu.edu/repos/iuc/roary/roary/*:
+    context:
+      pulsar_score: 16.369925
+  toolshed.g2.bx.psu.edu/repos/iuc/samtools_fastx/samtools_fastx/*:
+    context:
+      pulsar_score: 0.052171
+  toolshed.g2.bx.psu.edu/repos/iuc/samtools_view/samtools_view/*:
+    context:
+      pulsar_score: 0.03091
+  toolshed.g2.bx.psu.edu/repos/iuc/scanpy_plot/scanpy_plot/*:
+    context:
+      pulsar_score: 0.200203
+  toolshed.g2.bx.psu.edu/repos/iuc/seqkit_stats/seqkit_stats/*:
+    context:
+      pulsar_score: 0.044191
+  toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_comp/*:
+    context:
+      pulsar_score: 0.0173
+  toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_sample/*:
+    context:
+      pulsar_score: 0.067533
+  toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_subseq/*:
+    context:
+      pulsar_score: 0.021569
+  toolshed.g2.bx.psu.edu/repos/iuc/shovill/shovill/*:
+    context:
+      pulsar_score: 2.84128
+  toolshed.g2.bx.psu.edu/repos/iuc/sniffles/sniffles/*:
+    context:
+      pulsar_score: 0.049899
+  toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/*:
+    context:
+      pulsar_score: 0.450179
+  toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_core/*:
+    context:
+      pulsar_score: 0.083695
+  toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/*:
+    context:
+      pulsar_score: 31.520462
+  toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_build_gb/*:
+    context:
+      pulsar_score: 0.733261
+  toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_extractFields/*:
+    context:
+      pulsar_score: 0.038505
+  toolshed.g2.bx.psu.edu/repos/iuc/spades_coronaspades/spades_coronaspades/*:
+    context:
+      pulsar_score: 13.528849
+  toolshed.g2.bx.psu.edu/repos/iuc/spades_rnaviralspades/spades_rnaviralspades/*:
+    context:
+      pulsar_score: 8.59165
+  toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fasterq_dump/*:
+    context:
+      pulsar_score: 0.85969
+  toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/*:
+    context:
+      pulsar_score: 0.546607
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_denovomap/stacks2_denovomap/*:
+    context:
+      pulsar_score: 2.6306
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_gstacks/stacks2_gstacks/*:
+    context:
+      pulsar_score: 0.196039
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_populations/stacks2_populations/*:
+    context:
+      pulsar_score: 0.329493
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_procrad/stacks2_procrad/*:
+    context:
+      pulsar_score: 0.077805
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks_ustacks/stacks_ustacks/*:
+    context:
+      pulsar_score: 0.100808
+  toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/*:
+    context:
+      pulsar_score: 0.111199
+  toolshed.g2.bx.psu.edu/repos/iuc/tbprofiler/tb_profiler_profile/*:
+    context:
+      pulsar_score: 0.449861
+  toolshed.g2.bx.psu.edu/repos/iuc/transdecoder/transdecoder/*:
+    context:
+      pulsar_score: 1.980605
+  toolshed.g2.bx.psu.edu/repos/iuc/trinity_abundance_estimates_to_matrix/trinity_abundance_estimates_to_matrix/*:
+    context:
+      pulsar_score: 0.199639
+  toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/trinity_align_and_estimate_abundance/*:
+    context:
+      pulsar_score: 0.359591
+  toolshed.g2.bx.psu.edu/repos/iuc/trinity_stats/trinity_stats/*:
+    context:
+      pulsar_score: 0.066539
+  toolshed.g2.bx.psu.edu/repos/iuc/trycycler_subsample/trycycler_subsample/*:
+    context:
+      pulsar_score: 0.144421
+  toolshed.g2.bx.psu.edu/repos/iuc/ucsc_fasplit/fasplit/*:
+    context:
+      pulsar_score: 0.022191
+  toolshed.g2.bx.psu.edu/repos/iuc/umi_tools_dedup/umi_tools_dedup/*:
+    context:
+      pulsar_score: 0.189547
+  toolshed.g2.bx.psu.edu/repos/iuc/umi_tools_extract/umi_tools_extract/*:
+    context:
+      pulsar_score: 0.286106
+  toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/*:
+    context:
+      pulsar_score: 5.290761
+  toolshed.g2.bx.psu.edu/repos/iuc/varscan_somatic/varscan_somatic/*:
+    context:
+      pulsar_score: 3049.736291
+  toolshed.g2.bx.psu.edu/repos/iuc/volcanoplot/volcanoplot/*:
+    context:
+      pulsar_score: 2.303882
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_chimera_detection/*:
+    context:
+      pulsar_score: 0.917435
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_clustering/*:
+    context:
+      pulsar_score: 1.35056
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_search/*:
+    context:
+      pulsar_score: 1.518362
+  toolshed.g2.bx.psu.edu/repos/lecorguille/xcms_group/abims_xcms_group/*:
+    context:
+      pulsar_score: 2.991109
+  toolshed.g2.bx.psu.edu/repos/lecorguille/xcms_xcmsset/abims_xcms_xcmsSet/*:
+    context:
+      pulsar_score: 22.045733
+  toolshed.g2.bx.psu.edu/repos/leomrtns/nanofilt/nanofilt/*:
+    context:
+      pulsar_score: 0.036206
+  toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/*:
+    context:
+      pulsar_score: 0.090785
+  toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/*:
+    context:
+      pulsar_score: 3.37161
+  toolshed.g2.bx.psu.edu/repos/mbernt/maxbin2/maxbin2/*:
+    context:
+      pulsar_score: 1.066122
+  toolshed.g2.bx.psu.edu/repos/mvdbeek/concatenate_multiple_datasets/cat_multiple/*:
+    context:
+      pulsar_score: 0.014822
+  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_bam_stat/*:
+    context:
+      pulsar_score: 0.020156
+  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_geneBody_coverage/*:
+    context:
+      pulsar_score: 2.573622
+  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_infer_experiment/*:
+    context:
+      pulsar_score: 0.00088
+  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_inner_distance/*:
+    context:
+      pulsar_score: 0.001073
+  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_junction_annotation/*:
+    context:
+      pulsar_score: 0.023888
+  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_junction_saturation/*:
+    context:
+      pulsar_score: 0.02565
+  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_read_distribution/*:
+    context:
+      pulsar_score: 0.06194
+  toolshed.g2.bx.psu.edu/repos/nml/bundle_collections/bundle_collection/*:
+    context:
+      pulsar_score: 0.015506
+  toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/*:
+    context:
+      pulsar_score: 0.016009
+  toolshed.g2.bx.psu.edu/repos/nml/metaspades/metaspades/*:
+    context:
+      pulsar_score: 5.257473
+  toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/*:
+    context:
+      pulsar_score: 7.336468
+  toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_typer/*:
+    context:
+      pulsar_score: 13.312676
+  toolshed.g2.bx.psu.edu/repos/nml/quasitools/consensus/*:
+    context:
+      pulsar_score: 0.64091
+  toolshed.g2.bx.psu.edu/repos/nml/spades/spades/*:
+    context:
+      pulsar_score: 4.898335
+  toolshed.g2.bx.psu.edu/repos/nml/staramr/staramr_search/*:
+    context:
+      pulsar_score: 3.761477
+  toolshed.g2.bx.psu.edu/repos/pjbriggs/macs21/macs2_1_peakcalling/*:
+    context:
+      pulsar_score: 0.585656
+  toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/*:
+    context:
+      pulsar_score: 0.106691
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__dada2__denoise_paired/qiime2__dada2__denoise_paired/*:
+    context:
+      pulsar_score: 0.791537
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__demux__summarize/qiime2__demux__summarize/*:
+    context:
+      pulsar_score: 0.085993
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__diversity__alpha_rarefaction/qiime2__diversity__alpha_rarefaction/*:
+    context:
+      pulsar_score: 36.052586
+  ? toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__diversity__core_metrics_phylogenetic/qiime2__diversity__core_metrics_phylogenetic/*
+  : context:
+      pulsar_score: 3.717836
+  ? toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__feature_classifier__classify_sklearn/qiime2__feature_classifier__classify_sklearn/*
+  : context:
+      pulsar_score: 0.442433
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__feature_table__filter_features/qiime2__feature_table__filter_features/*:
+    context:
+      pulsar_score: 17.254311
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__feature_table__filter_samples/qiime2__feature_table__filter_samples/*:
+    context:
+      pulsar_score: 3.53849
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__feature_table__filter_seqs/qiime2__feature_table__filter_seqs/*:
+    context:
+      pulsar_score: 8.447287
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__feature_table__summarize/qiime2__feature_table__summarize/*:
+    context:
+      pulsar_score: 15.734473
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__feature_table__tabulate_seqs/qiime2__feature_table__tabulate_seqs/*:
+    context:
+      pulsar_score: 41.277543
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__metadata__tabulate/qiime2__metadata__tabulate/*:
+    context:
+      pulsar_score: 13.370684
+  ? toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__phylogeny__align_to_tree_mafft_fasttree/qiime2__phylogeny__align_to_tree_mafft_fasttree/*
+  : context:
+      pulsar_score: 91.569095
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__taxa__filter_table/qiime2__taxa__filter_table/*:
+    context:
+      pulsar_score: 68.391424
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2_core__tools__export/qiime2_core__tools__export/*:
+    context:
+      pulsar_score: 90.360142
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2_core__tools__import/qiime2_core__tools__import/*:
+    context:
+      pulsar_score: 8.718179
+  toolshed.g2.bx.psu.edu/repos/qfabrepo/metadegalaxy_uc2otutable/uclust2otutable/*:
+    context:
+      pulsar_score: 0.211126
+  toolshed.g2.bx.psu.edu/repos/rnateam/chipseeker/chipseeker/*:
+    context:
+      pulsar_score: 0.229813
+  toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/*:
+    context:
+      pulsar_score: 1001.09613
+  toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2_mapper/rbc_mirdeep2_mapper/*:
+    context:
+      pulsar_score: 0.584089
+  toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2_quantifier/rbc_mirdeep2_quantifier/*:
+    context:
+      pulsar_score: 0.390253
+  toolshed.g2.bx.psu.edu/repos/rnateam/sortmerna/bg_sortmerna/*:
+    context:
+      pulsar_score: 6.522691
+  toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/velvetoptimiser/*:
+    context:
+      pulsar_score: 4.860063
+  toolshed.g2.bx.psu.edu/repos/thanhlv/clinker/clinker/*:
+    context:
+      pulsar_score: 12.540149

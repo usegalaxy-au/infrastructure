@@ -560,10 +560,10 @@ tools:
     env:
       SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
-    # scheduling:
-    #   accept:
-    #   - pulsar
-    #   - pulsar-quick
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-quick
     rules:
     - if: |
         minimum_singularity_version = '0.72+galaxy1'
@@ -726,10 +726,10 @@ tools:
     env:
       SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
-    # scheduling: # these jobs can run on pulsar but it may not be worth transferring them because the job walltime is much quicker than the transport time
-    #   accept:
-    #   - pulsar
-    #   - pulsar-quick
+    scheduling: # these jobs can run on pulsar but it may not be worth transferring them because the job walltime is much quicker than the transport time
+      accept:
+      - pulsar
+      - pulsar-quick
     rules:
     - if: |
         minimum_singularity_version = '2.18.2'
@@ -761,9 +761,9 @@ tools:
     mem: 7.6
     params:
       singularity_enabled: true
-    # scheduling:   # this can run on pulsar but has high input+output size per CPU-time
-    #   accept:
-    #   - pulsar
+    scheduling:   # this can run on pulsar but has high input+output size per CPU-time
+      accept:
+      - pulsar
     rules:
     - id: samtools_rmdup_small_input_rule
       if: input_size < 0.5
@@ -3011,10 +3011,10 @@ tools:
     env:
       SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
-    # scheduling:
-    #   accept:
-    #   - pulsar
-    #   - pulsar-quick
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-quick
     rules:
     - if: |
         minimum_singularity_version = '0.36.6'

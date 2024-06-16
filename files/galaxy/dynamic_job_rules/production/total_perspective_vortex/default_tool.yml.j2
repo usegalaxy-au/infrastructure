@@ -11,6 +11,12 @@ tools:
       test_cores: 1  # TODO: test_mem?
       max_concurrent_job_count_for_tool_total: null
       max_concurrent_job_count_for_tool_user: null
+      # pulsar score
+      pulsar_score: null  # scores set in tool_pulsar_scores.yml. Not every tool will have a score
+      pulsar_score_pulsar_threshold: 10  # above this score, prefer to send jobs to pulsar
+      pulsar_score_slurm_threshold: 0.3  # below this score, prefer to send jobs to slurm
+      pulsar_score_slurm_max_cores: 12  # if cores >= this number, do not set preference for slurm
+      pulsar_score_slurm_max_mem: 48  # if mem >= this number, do not set preference for slurm
     scheduling:
       reject:
         - offline
@@ -27,6 +33,32 @@ tools:
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
+    - id: pulsar_score_prefer_pulsar_rule
+      if: |
+        result = pulsar_score and (
+          helpers.tag_values_match(entity, ['pulsar'], [])  # tool is eligible to run on pulsar
+          and pulsar_score > pulsar_score_pulsar_threshold  # tool scores highly for resources used * runtime per GB of input/output data
+        )
+        if result:
+          log.info(f"++ ---tpv rank debug::: preferring pulsar for tool {job.tool_id} (pulsar score {pulsar_score})")
+        result
+      scheduling:
+        prefer:
+          - pulsar
+    - id: pulsar_score_prefer_slurm_rule
+      if: |
+        result = pulsar_score and (
+          helpers.tag_values_match(entity, ['pulsar'], [])  # tool is eligible to run on pulsar
+          and pulsar_score < pulsar_score_slurm_threshold  # tool has a low score for resources used * runtime per GB of input/output data
+          and entity.cores < pulsar_score_slurm_max_cores  # job's resource requirements are not so high as to make automatic slurm assignment difficult 
+          and entity.mem < pulsar_score_slurm_max_mem
+        )
+        if result:
+          log.info(f"++ ---tpv rank debug::: preferring slurm for tool {job.tool_id} (pulsar score {pulsar_score})")
+        result
+      scheduling:
+        prefer:
+          - slurm
     rank: |
       if len(candidate_destinations) <= 1:
         log.info("++ ---tpv rank debug: 1 or fewer destinations: returning candidate_destinations")
