@@ -35,7 +35,7 @@ tools:
         raise JobNotReadyException()
     - id: pulsar_score_prefer_pulsar_rule
       if: |
-        result = pulsar_score and (
+        result = pulsar_score is not None and (
           helpers.tag_values_match(entity, ['pulsar'], [])  # tool is eligible to run on pulsar
           and pulsar_score > pulsar_score_pulsar_threshold  # tool scores highly for resources used * runtime per GB of input/output data
         )
@@ -47,7 +47,7 @@ tools:
           - pulsar
     - id: pulsar_score_prefer_slurm_rule
       if: |
-        result = pulsar_score and (
+        result = pulsar_score is not None and (
           helpers.tag_values_match(entity, ['pulsar'], [])  # tool is eligible to run on pulsar
           and pulsar_score < pulsar_score_slurm_threshold  # tool has a low score for resources used * runtime per GB of input/output data
           and entity.cores < pulsar_score_slurm_max_cores  # job's resource requirements are not so high as to make automatic slurm assignment difficult 
