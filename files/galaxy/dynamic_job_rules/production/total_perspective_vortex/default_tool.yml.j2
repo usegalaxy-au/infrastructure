@@ -47,10 +47,11 @@ tools:
           - pulsar
     - id: pulsar_score_prefer_slurm_rule
       if: |
-        result = pulsar_score is not None and (
+        from numbers import Number
+        result = pulsar_score is not None and isinstance(entity.mem, Number) and (
           helpers.tag_values_match(entity, ['pulsar'], [])  # tool is eligible to run on pulsar
           and pulsar_score < pulsar_score_slurm_threshold  # tool has a low score for resources used * runtime per GB of input/output data
-          and entity.cores < pulsar_score_slurm_max_cores  # job's resource requirements are not so high as to make automatic slurm assignment difficult 
+          and entity.cores < pulsar_score_slurm_max_cores  # job resource requirements are not so high as to make automatic slurm assignment difficult 
           and entity.mem < pulsar_score_slurm_max_mem
         )
         if result:
