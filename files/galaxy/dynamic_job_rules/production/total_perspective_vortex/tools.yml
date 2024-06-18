@@ -307,6 +307,7 @@ tools:
       cores: 3
       mem: 11.5
   toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_pca/bio3d_pca/.*:
+    mem: 200
     scheduling:
       accept:
       - pulsar
@@ -316,10 +317,12 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_rmsd/bio3d_rmsd/.*:
+    mem: 200
     scheduling:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_rmsf/bio3d_rmsf/.*:
+    mem: 200
     scheduling:
       accept:
       - pulsar
@@ -385,6 +388,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/.*:
+    mem: 7.6
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
     cores: 8
     mem: 30.7
@@ -1243,7 +1248,7 @@ tools:
       if: 0.05 <= input_size < 0.3
       cores: 8
       mem: 30.7
-  toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:  # TODO: revisit setting mem based on reference size (https://github.com/usegalaxy-au/infrastructure/issues/1835)
     context:
       max_concurrent_job_count_for_tool_user: 2
     cores: 20
@@ -1253,11 +1258,7 @@ tools:
       - pulsar
     rules:
     - id: bwa_mem2_small_input_rule
-      if: input_size < 0.25
-      cores: 4
-      mem: 15.3
-    - id: bwa_mem2_medium_input_rule
-      if: 0.25 <= input_size < 2
+      if: input_size < 2
       cores: 8
       mem: 30.7
     - id: bwa_mem2_fail_rule
@@ -1322,6 +1323,9 @@ tools:
     cores: 2
     mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_filterandtrim/dada2_filterAndTrim/.*:
+    cores: 2
+    mem: 10
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_learnerrors/dada2_learnErrors/.*:
     cores: 2
     mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
@@ -1718,8 +1722,8 @@ tools:
     rules:
     - id: medaka_consensus_pipeline_small_input_rule
       if: input_size < 0.5
-      cores: 2
-      mem: 7.6
+      cores: 4
+      mem: 15.3
     - id: medaka_consensus_pipeline_medium_input_rule
       if: 0.5 <= input_size < 5
       cores: 8
@@ -2914,6 +2918,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/mbernt/maxbin2/maxbin2/.*:
     cores: 12
     mem: 46.0
+  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_bam_stat/.*:
+    mem: 8
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_RPKM_saturation/.*:
     cores: 8
     mem: 30.7
