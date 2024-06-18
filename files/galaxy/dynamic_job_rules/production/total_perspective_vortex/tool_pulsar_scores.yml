@@ -437,9 +437,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_predict/funannotate_predict/*:
     context:
       pulsar_score: 10.418343
-  #toolshed.g2.bx.psu.edu/repos/iuc/funannotate_sort/funannotate_sort/*:
-  #  context:
-  #    pulsar_score: 0.090799
+  toolshed.g2.bx.psu.edu/repos/iuc/funannotate_sort/funannotate_sort/*:
+    context:
+      pulsar_score: 0.090799
   toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/*:
     context:
       pulsar_score: 1.777701
