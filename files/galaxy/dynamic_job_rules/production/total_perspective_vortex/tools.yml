@@ -908,29 +908,6 @@ tools:
         helpers.tool_version_gte(tool, min_version)
       context:
         alphafold_db: /data
-  alphafold_test:
-    context:
-      alphafold_aa_length_max: 3000
-      alphafold_max_input_sequences: 10
-      alphafold_db: /data/v2.3
-    gpus: 1
-    cores: 8
-    mem: 69
-    params:
-      docker_enabled: true
-      docker_volumes:
-        $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro
-      docker_run_extra_arguments: '--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=5 --env ALPHAFOLD_AA_LENGTH_MAX={alphafold_aa_length_max} --env ALPHAFOLD_MAX_SEQUENCES={alphafold_max_input_sequences} --env ALPHAFOLD_DB={alphafold_db}'
-      tmp_dir: true
-    - if: |
-        user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        user and 'Alphafold' in user_roles and not 'UoM_Vet_Alphafold' in user_roles and not 'pulsar_gpu_test' in user_roles
-      context:
-        partition: azuregpu0
-      scheduling:
-        require:
-        - pulsar
-        - pulsar-azure-gpu
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/cactus_cactus/cactus_cactus/.*:
     context:
       test_cores: 10
@@ -3186,6 +3163,7 @@ tools:
   alphafold_test:
     context:
       partition: azuregpu0
+      alphafold_db: /data/v2.3
     cores: 8
     mem: 69
     params:
