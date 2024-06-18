@@ -4,14 +4,15 @@
         <!-- <tool file="galaxy-local-tools/tools/canu/canu.xml" labels="test"/> -->
         <tool file="/mnt/galaxy/local_tools/alphafold-test/alphafold.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/gtdbtk/gtdbtk_classify_wf.xml" labels="test"/>
-	<tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh.xml" labels="test"/>
-	<tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_annotate.xml" labels="test"/>
-	<tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_split.xml" labels="test"/>
-	<tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_merge.xml" labels="test"/>
-	<tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_get_mrnas_gc.xml" labels="test"/>
-	<tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_to_genbank.xml" labels="test"/>
-	<tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_get_proteins.xml" label="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh.xml" labels="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_annotate.xml" labels="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_split.xml" labels="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_merge.xml" labels="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_get_mrnas_gc.xml" labels="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_to_genbank.xml" labels="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_get_proteins.xml" label="test"/>
         <tool file="/mnt/galaxy/local_tools/cellranger/cellranger.xml" labels="test"/>
+        <tool file="/mnt/galaxy/local_tools/alphafold/alphafold.xml" labels="test"/>
     </section>
     <section id="interactivetools" name="Interactive Tools">
 	<tool file="/mnt/galaxy/local_tools/interactive_tool/lfq/interactivetool_lfqanalyst.xml" />
