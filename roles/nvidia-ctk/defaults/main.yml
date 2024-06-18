@@ -1,0 +1,6 @@
+---
+nvidia_ctk_apt_gpg_key_url: https://nvidia.github.io/libnvidia-container/gpgkey
+nvidia_ctk_apt_gpg_key_dest: /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+nvidia_ctk_apt_repository: "deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://nvidia.github.io/libnvidia-container/stable/deb/$(ARCH) /"
+nvidia_ctk_apt_filename: nvidia-container-toolkit.list
+

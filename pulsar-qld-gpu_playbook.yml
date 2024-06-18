@@ -1,6 +1,6 @@
 - hosts:
     - pulsar-qld-gpu1
-    #- pulsar-qld-gpu2
+    - pulsar-qld-gpu2
     #- pulsar-qld-gpu3
   become: true
   vars_files:
@@ -35,6 +35,7 @@
     - galaxyproject.cvmfs
     - usegalaxy_eu.apptainer
     - geerlingguy.docker
+    - nvidia-ctk
     - acl-on-startup
     - dj-wasabi.telegraf
     - pulsar-post-tasks
