@@ -1,7 +1,4 @@
-- hosts:
-    - pulsar-qld-gpu1
-    - pulsar-qld-gpu2
-    #- pulsar-qld-gpu3
+- hosts: pulsar_qld_gpus
   become: true
   vars_files:
     - group_vars/all.yml

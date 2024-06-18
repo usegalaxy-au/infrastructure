@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: pulsar_qld_gpus
   become: true
   tasks:
   - name: Install nvidia kernel modules, drivers, utils (nvidia-smi) and cuda-toolkit
