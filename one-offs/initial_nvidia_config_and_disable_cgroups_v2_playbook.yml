@@ -1,0 +1,30 @@
+- hosts: pulsar_qld_gpus
+  become: true
+  tasks:
+  - name: Install nvidia kernel modules, drivers, utils (nvidia-smi) and cuda-toolkit
+    apt:
+      pkg:
+        - "linux-modules-nvidia-{{ nvidia_driver_version }}-server-generic"
+        - "nvidia-driver-{{ nvidia_driver_version }}-server"
+        - "nvidia-utils-{{ nvidia_driver_version }}-server"
+        - "nvidia-cuda-toolkit"
+      state: present
+  - name: Reboot for kernel updates and kernel version to match nvidia modules - nvidia kernel modules will be loaded on reboot
+    reboot:
+      msg: "Reboot to sync Nvidia kernel modules with kernel updates since VM image created"
+  - name: Disable MIG mode on GPU now that Nvidia GPU is visible to nvidia-smi
+    shell:
+      cmd: nvidia-smi -mig 0
+
+  - name: Disable cgroupv2 in grub
+    copy:
+      content: |
+          GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT systemd.unified_cgroup_hierarchy=0 systemd.legacy_systemd_cgroup_controller=1"
+      dest: /etc/default/grub.d/99-cgroupv1.cfg
+      mode: 0644
+  - name: update-grub
+    command: /usr/sbin/update-grub
+
+  - name: Reboot for grub update to disable cgroupv2 and after disabling MIG mode on GPU
+    reboot:
+      msg: "Reboot to disable cgroupv2 and MIG mode GPU"

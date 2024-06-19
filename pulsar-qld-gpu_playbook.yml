@@ -1,7 +1,4 @@
-- hosts:
-    - pulsar-qld-gpu1
-    #- pulsar-qld-gpu2
-    #- pulsar-qld-gpu3
+- hosts: pulsar_qld_gpus
   become: true
   vars_files:
     - group_vars/all.yml
@@ -11,6 +8,11 @@
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ubuntu_maintenance_key
   pre_tasks:
+    - name: ensure Nvidia GPU has been pre-configured with one-offs/initial_nvidia_config_and_disable_cgroups_v2_playbook.yml
+      shell:
+        cmd: nvidia-detector
+      register: nvidia_card
+      failed_when: nvidia_card.rc != 0
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
@@ -35,6 +37,7 @@
     - galaxyproject.cvmfs
     - usegalaxy_eu.apptainer
     - geerlingguy.docker
+    - nvidia-ctk
     - acl-on-startup
     - dj-wasabi.telegraf
     - pulsar-post-tasks

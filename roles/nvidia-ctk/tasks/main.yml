@@ -1,0 +1,47 @@
+---
+# This requires Docker to already be installed as it provides support for Docker containers to use Nvidia
+# Note: this was adapted from geerlingguy's ansible docker role
+#       ref: https://github.com/geerlingguy/ansible-role-docker/blob/master/tasks/setup-Debian.yml
+
+- name: Ensure dependencies are installed.
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+    state: present
+
+- name: Add nvidia-container-toolkit apt key.
+  ansible.builtin.get_url:
+    url: "{{ nvidia_ctk_apt_gpg_key_url }}"
+    dest: /etc/apt/keyrings/nvidia-ctk-keyring.gpg
+    mode: '0644'
+    force: false
+  register: add_repository_key
+  ignore_errors: true
+
+- name: Ensure curl is present (on older systems without SNI).
+  package: name=curl state=present
+  when: add_repository_key is failed
+
+- name: Add nvidia-container-toolkit apt key (alternative for older systems without SNI).
+  shell: >
+    curl -sSL {{ nvidia_ctk_apt_gpg_key_url }} | apt-key add -
+  when: add_repository_key is failed
+
+- name: Add nvidia-container-toolkit repository.
+  apt_repository:
+    repo: "{{ nvidia_ctk_apt_repository }}"
+    state: present
+    filename: "{{ nvidia_ctk_apt_filename }}"
+    update_cache: true
+
+- name: Install nvidia-container-toolkit
+  apt:
+    name: nvidia-container-toolkit
+    state: present
+
+- name: Configure the container runtime and restart Docker
+  shell:
+    nvidia-ctk runtime configure --runtime=docker
+  notify: restart docker
+
