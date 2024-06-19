@@ -10,7 +10,7 @@
   pre_tasks:
     - name: ensure Nvidia GPU has been pre-configured with one-offs/initial_nvidia_config_and_disable_cgroups_v2_playbook.yml
       shell:
-        cmd: nvidia-detector
+        cmd: nvidia-smi
       register: nvidia_card
       failed_when: nvidia_card.rc != 0
     - name: Attach volume to instance
