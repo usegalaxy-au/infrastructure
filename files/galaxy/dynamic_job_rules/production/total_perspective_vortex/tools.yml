@@ -1526,6 +1526,8 @@ tools:
     params:
       singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/humann2/humann2/.*:
+    cores: 6
+    mem: 150
     context:
       max_concurrent_job_count_for_tool_user: 3
     params:
