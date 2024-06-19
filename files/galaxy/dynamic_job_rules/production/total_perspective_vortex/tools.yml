@@ -3168,8 +3168,11 @@ tools:
     mem: 69
     params:
       docker_enabled: true
+      docker_volumes:
+        $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro
       docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env
         ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB={alphafold_db}
+      tmp_dir: true
     scheduling:
       require:
       - pulsar
