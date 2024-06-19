@@ -13,7 +13,7 @@
 - name: Add nvidia-container-toolkit apt key.
   ansible.builtin.get_url:
     url: "{{ nvidia_ctk_apt_gpg_key_url }}"
-    dest: /etc/apt/keyrings/nvidia-ctk-keyring.gpg
+    dest: "{{ nvidia_ctk_apt_gpg_key_dest }}"
     mode: '0644'
     force: false
   register: add_repository_key
