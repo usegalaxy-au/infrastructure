@@ -533,31 +533,31 @@ job_conf_limits:
     value: 2
 
   - type: destination_total_concurrent_jobs
-    id: pulsar_qld_gpu1
+    id: pulsar-qld-gpu1
     value: 6
   - type: destination_user_concurrent_jobs
-    id: pulsar_qld_gpu1
+    id: pulsar-qld-gpu1
     value: 3
 
   - type: destination_total_concurrent_jobs
-    id: pulsar_qld_gpu2
+    id: pulsar-qld-gpu2
     value: 6
   - type: destination_user_concurrent_jobs
-    id: pulsar_qld_gpu2
+    id: pulsar-qld-gpu2
     value: 3
 
   - type: destination_total_concurrent_jobs
-    id: pulsar_qld_gpu3
+    id: pulsar-qld-gpu3
     value: 6
   - type: destination_user_concurrent_jobs
-    id: pulsar_qld_gpu3
+    id: pulsar-qld-gpu3
     value: 3
 
   - type: destination_total_concurrent_jobs
-    id: pulsar_qld_gpu4
+    id: pulsar-qld-gpu4
     value: 6
   - type: destination_user_concurrent_jobs
-    id: pulsar_qld_gpu4
+    id: pulsar-qld-gpu4
     value: 3
 
 # Singularity and docker volumes
