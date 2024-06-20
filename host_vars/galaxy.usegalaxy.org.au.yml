@@ -432,16 +432,16 @@ job_conf_limits:
       - registered_user_concurrent_jobs_10
     pulsar-qld-gpu1:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_25
     pulsar-qld-gpu2:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_25
     pulsar-qld-gpu3:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_25
     pulsar-qld-gpu4:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_25
   limits:
   - type: anonymous_user_concurrent_jobs
     value: 1
