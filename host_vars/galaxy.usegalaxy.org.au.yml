@@ -528,37 +528,22 @@ job_conf_limits:
   - type: destination_total_concurrent_jobs
     id: pulsar-azure-gpu
     value: 8
-  - type: destination_user_concurrent_jobs
-    id: pulsar-azure-gpu
-    value: 2
 
   - type: destination_total_concurrent_jobs
     id: pulsar-qld-gpu1
     value: 6
-  - type: destination_user_concurrent_jobs
-    id: pulsar-qld-gpu1
-    value: 3
 
   - type: destination_total_concurrent_jobs
     id: pulsar-qld-gpu2
     value: 6
-  - type: destination_user_concurrent_jobs
-    id: pulsar-qld-gpu2
-    value: 3
 
   - type: destination_total_concurrent_jobs
     id: pulsar-qld-gpu3
     value: 6
-  - type: destination_user_concurrent_jobs
-    id: pulsar-qld-gpu3
-    value: 3
 
   - type: destination_total_concurrent_jobs
     id: pulsar-qld-gpu4
     value: 6
-  - type: destination_user_concurrent_jobs
-    id: pulsar-qld-gpu4
-    value: 3
 
 # Singularity and docker volumes
 slurm_singularity_volumes_list:
