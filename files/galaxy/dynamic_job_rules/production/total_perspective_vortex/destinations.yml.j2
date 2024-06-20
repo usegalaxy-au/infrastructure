@@ -358,22 +358,16 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-gpu2
-      require:
-        - offline
   pulsar-qld-gpu3:
     inherits: _pulsar_qld_gpu
     runner: pulsar-qld-gpu3_runner
     scheduling:
       accept:
         - pulsar-qld-gpu3
-      require:
-        - offline
   pulsar-qld-gpu4:
     inherits: _pulsar_qld_gpu
     runner: pulsar-qld-gpu4_runner
     scheduling:
       accept:
         - pulsar-qld-gpu4
-      require:
-        - offline
 
