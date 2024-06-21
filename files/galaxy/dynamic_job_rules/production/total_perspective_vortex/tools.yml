@@ -1014,9 +1014,6 @@ tools:
     scheduling:
       accept:
       - pulsar
-      reject:
-      - pulsar-QLD
-      - pulsar-mel2
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper_search/.*:
     cores: 4
     mem: 20
