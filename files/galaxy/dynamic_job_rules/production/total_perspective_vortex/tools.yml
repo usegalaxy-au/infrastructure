@@ -3163,7 +3163,7 @@ tools:
   alphafold_test:
     context:
       partition: azuregpu0
-      alphafold_db: /data/v2.3
+      alphafold_db: /data
     cores: 8
     mem: 69
     params:
