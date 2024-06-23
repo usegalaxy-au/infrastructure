@@ -3176,7 +3176,7 @@ tools:
     scheduling:
       require:
       - pulsar
-      - pulsar-azure-gpu
+      - pulsar-qld-gpu
   cellranger:
     cores: 6
     mem: 20
