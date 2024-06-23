@@ -3173,7 +3173,7 @@ tools:
   alphafold_test:
     context:
       partition: azuregpu0
-      alphafold_db: /data/v2.3
+      alphafold_db: /data
     cores: 8
     mem: 69
     params:
@@ -3186,7 +3186,7 @@ tools:
     scheduling:
       require:
       - pulsar
-      - pulsar-azure-gpu
+      - pulsar-qld-gpu
   cellranger:
     cores: 6
     mem: 20
