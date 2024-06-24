@@ -3172,7 +3172,6 @@ tools:
       tmp_dir: true
   alphafold_test:
     context:
-      partition: azuregpu0
       alphafold_db: /data
     cores: 8
     mem: 69
