@@ -3343,3 +3343,15 @@ tools:
         require:
         - pulsar
         - pulsar-azure-1-gpu
+  dorado:
+    cores: 8
+    mem: 69
+    gpus: 1
+    params:
+      singularity_enabled: true
+      singularity_run_extra_arguments: --nv
+    scheduling:
+      accept:
+      - pulsar
+      require:
+      - pulsar-qld-gpu
