@@ -1142,7 +1142,7 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/anndata_inspect/anndata_inspect/.*:
-    mem: 2 + input_size * 7
+    mem: 2 + (input_size * 7)
     scheduling:
       accept:
         - pulsar  
