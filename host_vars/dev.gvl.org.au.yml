@@ -156,6 +156,7 @@ host_galaxy_config: # renamed from __galaxy_config
     file_path: "{{ galaxy_file_path }}"
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     enable_oidc: true
+    enable_notification_system: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
