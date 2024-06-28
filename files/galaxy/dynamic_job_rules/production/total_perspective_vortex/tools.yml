@@ -3344,7 +3344,7 @@ tools:
         require:
         - pulsar
         - pulsar-azure-1-gpu
-  dorado:
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*:
     cores: 8
     mem: 69
     gpus: 1
