@@ -3,8 +3,6 @@
     <section id="local_tools" name="Local Tools">
         <!-- <tool file="galaxy-local-tools/tools/canu/canu.xml" labels="test"/> -->
         <tool file="/mnt/galaxy/local_tools/alphafold-test/alphafold.xml" labels="test"/>
-        <tool file="/mnt/galaxy/local_tools/dorado/dorado.xml" labels="test"/>
-        <tool file="/mnt/galaxy/local_tools/dorado/dorado_pod5_convert.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/gtdbtk/gtdbtk_classify_wf.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_annotate.xml" labels="test"/>
