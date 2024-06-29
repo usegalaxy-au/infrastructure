@@ -80,3 +80,5 @@ roles:
 - name: geerlingguy.redis
   version: 1.8.0
 
+- name: usegalaxy_eu.walle  # TODO: ALPHEBATISE THIS FILE IT IS HARD TO READ
+  version: 0.0.2
