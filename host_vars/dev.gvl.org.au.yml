@@ -53,6 +53,7 @@ galaxy_dynamic_job_rules:
   - total_perspective_vortex/dev_default_tool.yml.j2
   - total_perspective_vortex/dev_vortex_config.yml
   - total_perspective_vortex/dev_destinations.yml.j2
+  - total_perspective_vortex/dev_tools.yml.j2
   - readme.txt
 
 galaxy_infrastructure_url: "https://dev.gvl.org.au"
