@@ -10,7 +10,6 @@ tools:
       docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw'
       docker_sudo: false
       require_container: true
-      docker_set_user: '1000'
       docker_cmd: 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD && docker'
     rules:
     - if: |
