@@ -82,5 +82,5 @@ docker_daemon_options:
   data-root: /mnt/docker-data
 
 # Nvidia
-nvidia_driver_version: "535"
+nvidia_driver_version: "550"
 
