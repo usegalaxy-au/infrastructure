@@ -92,10 +92,10 @@ pulsar-QLD-w6 ansible_ssh_host=203.101.227.132
 pulsar-QLD-w7 ansible_ssh_host=203.101.231.146
 
 [pulsar_qld_gpus]
-pulsar-qld-gpu1 ansible_ssh_host=203.101.231.194
-pulsar-qld-gpu2 ansible_ssh_host=203.101.229.107
-pulsar-qld-gpu3 ansible_ssh_host=203.101.227.17
-pulsar-qld-gpu4 ansible_ssh_host=203.101.227.226
+pulsar-qld-gpu1 ansible_ssh_host=203.101.224.171
+pulsar-qld-gpu2 ansible_ssh_host=203.101.228.175
+pulsar-qld-gpu3 ansible_ssh_host=203.101.227.233
+pulsar-qld-gpu4 ansible_ssh_host=203.101.228.92
 
 # NCI
 [nci_build]
