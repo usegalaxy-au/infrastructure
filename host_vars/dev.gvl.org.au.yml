@@ -300,6 +300,9 @@ job_conf_limits:
     pulsar-reservation-g2-xlarge-B:
       tags:
         - registered_user_concurrent_jobs_20
+    pulsar-qld-gpu-dev:
+      tags:
+        - registered_user_concurrent_jobs_20
   limits:
   - type: anonymous_user_concurrent_jobs
     value: 1
