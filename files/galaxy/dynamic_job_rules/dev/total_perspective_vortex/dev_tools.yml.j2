@@ -4,7 +4,7 @@ tools:
     mem: 8
     env:
       DOCKERHUB_USERNAME: aagisupport
-      DOCKERHUB_PASSWORD: "{{ aagi_dockerhub_password }}"
+      DOCKERHUB_PASSWORD: "{{ vault_aagi_dockerhub_password }}"
     params:
       docker_enabled: true
       docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw'
