@@ -75,6 +75,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir}}/oidc_config.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/proteomics.yml"
+    dest: "{{ galaxy_config_dir }}/tool_panel_filters/proteomics.yml"
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
