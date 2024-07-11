@@ -1,0 +1,14 @@
+proteomics:
+  masthead:
+    color: "#542a95"
+    text:
+      color: "#f8f9fa"
+      hover: gold
+      active: white
+    link:
+      color: transparent
+      hover: transparent
+      active: "#402668"
+    logo:
+      img: "/static/favicon.svg"
+      img-secondary: null

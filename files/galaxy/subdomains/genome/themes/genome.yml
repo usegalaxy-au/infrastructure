@@ -1,0 +1,14 @@
+genome:
+  masthead:
+    color: "#3a3e87"
+    text:
+      color: "#f8f9fa"
+      hover: gold
+      active: white
+    link:
+      color: transparent
+      hover: transparent
+      active: "#2c3067"
+    logo:
+      img: "/static/favicon.svg"
+      img-secondary: null
