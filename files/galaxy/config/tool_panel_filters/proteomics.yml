@@ -1,7 +1,18 @@
-name: Proteomics toolbox
+name: Proteomics
 id: proteomics
 type: activity
 items:
+- id: general_section
+  text: General Tools
+  type: label
+- sections:
+  - getext
+  - send
+  - collection_operations
+  - plots
+  - textutil
+  - filter
+  - group
 - type: label
   text: Proteomics
 - type: section
