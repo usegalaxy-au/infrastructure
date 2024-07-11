@@ -177,3 +177,22 @@ destinations:
       accept:
         - alphafold
         - pulsar-reservation-g2-xlarge-B
+  pulsar-qld-gpu-dev:
+    inherits: _pulsar_destination
+    runner: pulsar_qldgpu_dev_runner
+    tags: {{ job_conf_limits.environments['pulsar-qld-gpu-dev'].tags }}
+    max_accepted_cores: 64
+    max_accepted_mem: 582
+    max_accepted_gpus: 1
+    scheduling:
+      accept:
+        - pulsar-qld-gpu-dev
+      require:
+        - pulsar
+    rules:
+      - id: pulsar_destination_docker_rule
+        params:
+            docker_volumes: $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro
+            docker_set_user: '1000'
+            docker_memory: '{mem}G'
+            docker_sudo: false
