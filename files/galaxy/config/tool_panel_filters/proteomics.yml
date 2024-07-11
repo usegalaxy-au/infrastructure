@@ -13,7 +13,8 @@ items:
   - textutil
   - filter
   - group
-- type: label
+- id: proteomics_section
+  type: label
   text: Proteomics
 - type: section
   id: databases
