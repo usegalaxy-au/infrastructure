@@ -1,0 +1,9 @@
+- hosts: all
+  become: true
+  tasks:
+  - name: Update the Ubuntu apt repositories and base OS
+    apt:
+      upgrade: dist
+      update_cache: yes
+      force_apt_get: yes
+

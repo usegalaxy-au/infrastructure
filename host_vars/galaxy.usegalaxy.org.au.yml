@@ -442,6 +442,9 @@ job_conf_limits:
     pulsar-qld-gpu4:
       tags:
       - registered_user_concurrent_jobs_25
+    pulsar-qld-gpu5:
+      tags:
+      - registered_user_concurrent_jobs_25
   limits:
   - type: anonymous_user_concurrent_jobs
     value: 1
@@ -543,6 +546,10 @@ job_conf_limits:
 
   - type: destination_total_concurrent_jobs
     id: pulsar-qld-gpu4
+    value: 6
+
+  - type: destination_total_concurrent_jobs
+    id: pulsar-qld-gpu5
     value: 6
 
 # Singularity and docker volumes

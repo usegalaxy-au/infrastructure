@@ -211,8 +211,14 @@ tools:
     rules:
     - id: hifiasm_small_input_rule
       if: input_size < 0.2
-      cores: 2
-      mem: 7.6
+      cores: 4
+      mem: 15.3
+    - id: hifiasm_xlarge_input_rule
+      if: input_size > 200
+      mem: 1922
+      scheduling:
+        require:
+        - pulsar-high-mem1
   toolshed.g2.bx.psu.edu/repos/bgruening/interproscan/interproscan/.*:
     context:
       max_concurrent_job_count_for_tool_user: 3
@@ -1088,6 +1094,7 @@ tools:
     params:
       singularity_container_id_override: docker://teambraker/braker3:v1.0.6
       singularity_enabled: true
+      singularity_run_extra_arguments: --writable-tmpfs
     scheduling:
       require:
       - pulsar

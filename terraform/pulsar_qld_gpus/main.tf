@@ -58,9 +58,9 @@ resource "openstack_compute_instance_v2" "pulsar-qld-gpu4" {
   availability_zone = "QRIScloud"
 }
 
-# openstack_compute_instance_v2.gpu-test-clean:
-resource "openstack_compute_instance_v2" "gpu-test-clean" {
-  name              = "gpu-test-clean"
+# openstack_compute_instance_v2.pulsar-qld-gpu5:
+resource "openstack_compute_instance_v2" "pulsar-qld-gpu5" {
+  name              = "pulsar-qld-gpu5"
   image_id          = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7" # NeCTAR Ubuntu 22.04 LTS (Jammy) amd64
   flavor_name       = "qld.64c600g.A100.nvme"
   key_pair          = "galaxy-australia"
@@ -71,19 +71,12 @@ resource "openstack_compute_instance_v2" "gpu-test-clean" {
   availability_zone = "QRIScloud"
 }
 
-# openstack_compute_instance_v2.gpu-tool-test:
-resource "openstack_compute_instance_v2" "gpu-tool-test" {
-  name              = "gpu-tool-test"
+# openstack_compute_instance_v2.pulsar-qld-gpu-dev
+resource "openstack_compute_instance_v2" "pulsar-qld-gpu-dev" {
+  name              = "pulsar-qld-gpu-dev"
+  image_id          = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7" # NeCTAR Ubuntu 22.04 LTS (Jammy) amd64
   flavor_name       = "qld.64c600g.A100.nvme"
   key_pair          = "galaxy-australia"
-  block_device {
-    uuid                  = "d3fd2c57-d3a3-4c4f-84b6-e20d367431e7" # NeCTAR Ubuntu 22.04 LTS (Jammy) amd64
-    source_type           = "image"
-    volume_size           = 240
-    boot_index            = 0
-    destination_type      = "volume"
-    delete_on_termination = true
-  }
   security_groups   = [
       "default",
       "SSH only"
