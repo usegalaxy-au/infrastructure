@@ -4,7 +4,11 @@ collections:
 
 roles:
 - name: galaxyproject.galaxy
-  version: 0.10.21
+  # version: 0.10.21
+  # src: https://github.com/galaxyproject/ansible-galaxy
+  # version: ffb86cd
+  src: https://github.com/cat-bro/ansible-galaxy
+  version: allow_customisation_of__welcome_urls_for_subdomains
 - name: galaxyproject.nginx
   version: 0.7.1
 - name: galaxyproject.postgresql
