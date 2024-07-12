@@ -1417,8 +1417,8 @@ tools:
       if: input_size > 3.2
       mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_predict/funannotate_predict/.*:
-    cores: 5
-    mem: 19.1
+    cores: 8
+    mem: 30.7
     params:
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/.*:
