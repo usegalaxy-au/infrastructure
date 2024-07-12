@@ -412,9 +412,10 @@ singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/pyth
 
 # themes the way they work now
 
-galaxy_themes_static_path: "{{ galaxy_root }}/server"
-galaxy_themes_static_dir: "{{ galaxy_root }}/server/static"
+galaxy_themes_static_path: "{{ galaxy_server_dir }}"
+galaxy_themes_static_dir: "{{ galaxy_server_dir }}/static"
 
+galaxy_themes_default_welcome: "{{ galaxy_australia_website }}"
 galaxy_manage_themes: true
 galaxy_manage_subdomain_static: true
 galaxy_themes_ansible_file_path: files/galaxy/subdomains

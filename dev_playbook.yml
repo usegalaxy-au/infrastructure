@@ -33,17 +33,17 @@
         - "{{ galaxy_user_singularity_cachedir }}"
         - "{{ galaxy_user_singularity_tmpdir }}"
   roles:
-    - galaxyproject.repos
-    - common
-    - mounts
-    - install-tpv
-    - geerlingguy.pip
-    - gantsign.golang
-    - cyverse-ansible.singularity
+    # - galaxyproject.repos
+    # - common
+    # - mounts
+    # - install-tpv
+    # - geerlingguy.pip
+    # - gantsign.golang
+    # - cyverse-ansible.singularity
     - galaxyproject.galaxy
-    - role: galaxyproject.miniconda
-      become: true
-      become_user: galaxy
+    # - role: galaxyproject.miniconda
+    #   become: true
+    #   become_user: galaxy
     # - usegalaxy_eu.galaxy_subdomains
     - webhooks
     - nginx-upload-module
