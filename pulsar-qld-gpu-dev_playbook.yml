@@ -1,0 +1,77 @@
+- hosts: pulsar-qld-gpu-dev
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/dev.yml
+    - group_vars/pulsarservers.yml
+    - group_vars/pulsar_qld_gpus.yml
+    - group_vars/VAULT
+    - secret_group_vars/stats_server_vault
+    - secret_group_vars/ubuntu_maintenance_key
+    - host_vars/pulsar-qld-gpu-dev.yml
+  pre_tasks:
+    - name: ensure Nvidia GPU has been pre-configured with one-offs/initial_nvidia_config_and_disable_cgroups_v2_playbook.yml
+      shell:
+        cmd: nvidia-smi
+      register: nvidia_card
+      failed_when: nvidia_card.rc != 0
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+    - name: Create pulsar deps path
+      file:
+        path: "{{ pulsar_dependencies_dir }}"
+        state: directory
+        owner: "{{ pulsar_user.name }}"
+        group: "{{ pulsar_user.name }}"
+  roles:
+    - common
+    - insspb.hostname
+    - mounts
+    - geerlingguy.pip
+    - galaxyproject.repos
+    - role: galaxyproject.miniconda
+      become: true
+      become_user: "{{ pulsar_user.name }}"
+    - galaxyproject.pulsar
+    - mariadb
+    - galaxyproject.slurm
+    - galaxyproject.cvmfs
+    - usegalaxy_eu.apptainer
+    - geerlingguy.docker
+    - nvidia-ctk
+    - acl-on-startup
+    - dj-wasabi.telegraf
+    - pulsar-post-tasks
+    - slurm-post-tasks
+    - slg.galaxy_stats
+    - clean-tmpdisk
+  post_tasks:
+    - name: Create worker tmpdir on /mnt
+      file:
+          path: /mnt/tmpdisk
+          state: directory
+          owner: root
+          group: root
+          mode: '1777'
+    - name: stat links
+      stat:
+          path: /tmp
+      register: links
+    - name: remove old tmp
+      file:
+          path: /tmp
+          state: absent
+      when: links.stat.islnk is defined and not links.stat.islnk
+    - name: Link /tmp to /mnt/tmpdisk
+      file:
+          src: /mnt/tmpdisk
+          dest: /tmp
+          state: link
+      become: yes
+      become_user: root
+      when: links.stat.islnk is defined and not links.stat.islnk
+    - name: Reload cvmfs config
+      command:
+        cmd: cvmfs_config reload
+      become: yes
