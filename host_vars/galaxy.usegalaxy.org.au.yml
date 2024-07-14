@@ -78,6 +78,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/mail/activation-email.html"
   - src: "{{ galaxy_config_file_src_dir }}/config/activation-email.txt"
     dest: "{{ galaxy_config_dir }}/mail/activation-email.txt"
+  - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/proteomics.yml"
+    dest: "{{ galaxy_config_dir }}/tool_panel_filters/proteomics.yml"
 
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.xml.j2"
@@ -180,6 +182,15 @@ host_galaxy_config: # renamed from __galaxy_config
 
     user_activation_on: true
     activation_email: <activation-noreply@usegalaxy.org.au>
+
+    # Panel views / themes
+    panel_views_dir: "{{ galaxy_config_dir }}/tool_panel_filters"
+    default_panel_view_by_host:
+      proteomics.usegalaxy.org.au: proteomics
+    themes_config_file_by_host:
+      genome.usegalaxy.org.au: "{{ galaxy_config_dir }}/themes/themes_genome.yml"
+      proteomics.usegalaxy.org.au: "{{ galaxy_config_dir }}/themes/themes_proteomics.yml"
+      usegalaxy.org.au: "{{ galaxy_config_dir }}/themes/themes_main.yml"
 
     sentry_dsn: "{{ vault_sentry_url_galaxy_production }}"
     log_level: INFO
