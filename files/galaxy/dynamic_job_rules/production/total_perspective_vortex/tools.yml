@@ -3330,6 +3330,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/genouest/helixer/helixer/*:
     cores: 8
     mem: 69
+    params:
       singularity_enabled: true
       singularity_run_extra_arguments: --nv
     scheduling:
