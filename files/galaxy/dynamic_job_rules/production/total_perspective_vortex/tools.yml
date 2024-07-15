@@ -786,6 +786,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_sort/samtools_sort/.*:
     params:
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/samtools_stats/.*:
+    cores: 2
+    mem: 7.6
   toolshed.g2.bx.psu.edu/repos/devteam/sicer/peakcalling_sicer/.*:
     params:
       singularity_enabled: true
@@ -1158,6 +1161,8 @@ tools:
     - id: anndata_inspect_fail_rule
       if: input_size > 30
       fail: Too much data. Total input data must be less than 30GB.
+  toolshed.g2.bx.psu.edu/repos/iuc/annotatemyids/annotatemyids/.*:
+    mem: 8
   toolshed.g2.bx.psu.edu/repos/iuc/arriba/arriba/.*:
     mem: 8
     params:
@@ -1606,6 +1611,8 @@ tools:
       max_concurrent_job_count_for_tool_user: 2
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/iuc/jcvi_gff_stats/jcvi_gff_stats/.*:
+    mem: 8
   toolshed.g2.bx.psu.edu/repos/iuc/jellyfish/jellyfish/.*:
     mem: 24
     scheduling:
@@ -3155,6 +3162,8 @@ tools:
   .*twobit_builder_data_manager.*:
     cores: 16
     mem: 61.4
+  'Convert characters1':
+    mem: 8
   Cut1:
     cores: 1
     mem: 3.8
