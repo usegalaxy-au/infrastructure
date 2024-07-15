@@ -3330,27 +3330,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/genouest/helixer/helixer/*:
     cores: 8
     mem: 69
-    params:
-      docker_enabled: true
-      docker_run_extra_arguments: --gpus all
-    rules:
-    - if: | # pulsar test users only
-        user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        user and (user.username in [f'qldgpu{x+1}' for x in range(6)] or 'pulsar_gpu_test' in user_roles)
-      scheduling:
-        accept:
-        - pulsar
-        require:
-        - pulsar-qld-gpu
-    - if: | # everything but a pulsar test user
-        user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        user and user.username not in [f'qldgpu{x+1}' for x in range(6)] and 'pulsar_gpu_test' not in user_roles
-      context:
-        partition: azuregpu0
-      scheduling:
-        require:
-        - pulsar
-        - pulsar-azure-1-gpu
+      singularity_enabled: true
+      singularity_run_extra_arguments: --nv
+    scheduling:
+      accept:
+      - pulsar
+      require:
+      - pulsar-qld-gpu
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*:
     cores: 8
     mem: 69
