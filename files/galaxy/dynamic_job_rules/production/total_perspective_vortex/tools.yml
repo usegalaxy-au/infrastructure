@@ -3359,3 +3359,7 @@ tools:
       - pulsar
       require:
       - pulsar-qld-gpu
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_pod5_convert/dorado_pod5_convert/.*:
+    cores: 8
+    params:
+      singularity_enabled: true
