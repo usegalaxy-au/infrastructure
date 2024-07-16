@@ -144,6 +144,9 @@ host_galaxy_config_gravity:
   #       - job-handlers
   #       - workflow-schedulers
 
+# galaxy vault key
+galaxy_vault_encryption_key: "{{ vault_galaxy_vault_encryption_key_prod }}"
+
 host_galaxy_config: # renamed from __galaxy_config
   gravity: "{{ host_galaxy_config_gravity }}"
 
