@@ -16,3 +16,14 @@ pulsar_queue_url: "dev-queue.gvl.org.au"
 rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_qldgpu_dev }}"
 pulsar_rabbit_username: "galaxy_qldgpu_dev"
 pulsar_rabbit_vhost: "/pulsar/galaxy_qldgpu_dev"
+
+# host specific NFS mounts
+shared_mounts:
+  - src: "{{ hostvars['qld-ref-nfs'].ansible_ssh_host }}:/mnt/vdb/alphafold_db"
+    path: /data/alphafold_databases/2.3
+    fstype: nfs 
+    state: mounted
+  - src: "{{ hostvars['qld-ref-nfs'].ansible_ssh_host }}:/mnt/vdc/alphafold"
+    path: /data2/alphafold/2.3
+    fstype: nfs 
+    state: mounted
