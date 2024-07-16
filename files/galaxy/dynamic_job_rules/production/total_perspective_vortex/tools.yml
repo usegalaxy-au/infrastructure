@@ -313,7 +313,7 @@ tools:
       cores: 3
       mem: 11.5
   toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_pca/bio3d_pca/.*:
-    mem: 200
+    mem: 500
     scheduling:
       accept:
       - pulsar
@@ -323,12 +323,12 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_rmsd/bio3d_rmsd/.*:
-    mem: 200
+    mem: 500
     scheduling:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_rmsf/bio3d_rmsf/.*:
-    mem: 200
+    mem: 500
     scheduling:
       accept:
       - pulsar
