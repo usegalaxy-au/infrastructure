@@ -9,17 +9,7 @@ preferences:
           checked: false
           value: false
           help: If you select yes, you will be able to select for each tool and workflow run if you would like to use this feature.
-    griffith_owncloud_account:
-        description: Griffith Research Space OwnCloud Credentials
-        inputs:
-            - name: username
-              label: Username
-              type: text
-              required: False
-            - name: password
-              label: App Password
-              type: password
-              required: False
+
     dropbox:
         description: Your DropBox Account
         inputs:
@@ -27,6 +17,7 @@ preferences:
               label: Dropbox access token (See https://dropbox.tech/developers/generate-an-access-token-for-your-own-account)
               type: text
               required: False
+
     ena_webin_account:
         description: Your ENA Webin account details
         inputs:
@@ -38,6 +29,47 @@ preferences:
               label: Password
               type:  password
               required: False
+
+    zenodo:
+        description: Your Zenodo Integration Settings
+        inputs:
+            - name: token
+              label: Personal Access Token used to create draft records and to upload files. You can manage your tokens at https://zenodo.org/account/settings/applications/
+              type: secret
+              # store: vault # Requires setting up vault_config_file in your galaxy.yml
+              required: False
+            - name: public_name
+              label: Creator name to associate with new records (formatted as "Last name, First name"). If left blank "Anonymous Galaxy User" will be used. You can always change this by editing your record directly.
+              type: text
+              required: False
+
+    zenodo_sandbox:
+        description: Your Zenodo Sandbox Integration Settings (TESTING ONLY)
+        inputs:
+            - name: token
+              label: Personal Access Token used to create draft records and to upload files. You can manage your tokens at https://sandbox.zenodo.org/account/settings/applications/
+              type: secret
+              # store: vault # Requires setting up vault_config_file in your galaxy.yml
+              required: False
+            - name: public_name
+              label: Creator name to associate with new records (formatted as "Last name, First name"). If left blank "Anonymous Galaxy User" will be used. You can always change this by editing your record directly.
+              type: text
+              required: False
+
+    griffith_owncloud_account:
+        description: Griffith Research Space OwnCloud Credentials
+        inputs:
+            - name: username
+              label: Username
+              type: text
+              required: False
+            - name: password
+              label: App Password
+              type: password
+              required: False
+
+
+
     # owncloud_account:  # Cloudstor retired 15/12/23
     #     description: AARNet CloudStor Credentials
     #     inputs:
