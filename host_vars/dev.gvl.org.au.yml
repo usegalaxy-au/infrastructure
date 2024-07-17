@@ -144,6 +144,9 @@ host_galaxy_config_gravity:
     tusd_path: /usr/local/sbin/tusd
     upload_dir: "{{ galaxy_tus_upload_store }}"
 
+# galaxy vault key
+galaxy_vault_encryption_key: "{{ vault_galaxy_vault_encryption_key_nonprod }}"
+
 host_galaxy_config: # renamed from __galaxy_config
   gravity: "{{ host_galaxy_config_gravity }}"
 

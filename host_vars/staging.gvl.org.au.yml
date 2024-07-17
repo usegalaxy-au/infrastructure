@@ -80,6 +80,9 @@ host_galaxy_config_files:
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
+# galaxy vault key
+galaxy_vault_encryption_key: "{{ vault_galaxy_vault_encryption_key_nonprod }}"
+
 host_galaxy_config: # renamed from __galaxy_config
   gravity:
     process_manager: systemd
