@@ -16,3 +16,4 @@ pulsar_queue_url: "dev-queue.gvl.org.au"
 rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_qldgpu_dev }}"
 pulsar_rabbit_username: "galaxy_qldgpu_dev"
 pulsar_rabbit_vhost: "/pulsar/galaxy_qldgpu_dev"
+

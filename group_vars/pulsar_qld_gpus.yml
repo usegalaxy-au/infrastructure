@@ -11,6 +11,10 @@ shared_mounts:
     path: /data/alphafold_databases/2.3
     fstype: nfs
     state: mounted
+  - src: "{{ hostvars['qld-ref-nfs'].ansible_ssh_host }}:/mnt/vdc/alphafold"
+    path: /data2/alphafold/2.3
+    fstype: nfs
+    state: mounted
 
 galaxy_uid: 10010
 galaxy_gid: 10010
