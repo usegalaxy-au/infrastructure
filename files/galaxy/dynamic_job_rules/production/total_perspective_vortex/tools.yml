@@ -3187,7 +3187,7 @@ tools:
   __IMPORT_HISTORY__:
     params:
       tmp_dir: true
-  alphafold_tes*:
+  alphafold_test.*:
     context:
       alphafold_db: /data
     cores: 8
@@ -3205,9 +3205,7 @@ tools:
       - pulsar-qld-gpu
   alphafold_test_2:
     context:
-      alphafold_db: /data2
-    docker_volumes:
-      $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data2/alphafold/2.3:/data:ro
+      alphafold_db_test: true
 
   cellranger:
     cores: 6
