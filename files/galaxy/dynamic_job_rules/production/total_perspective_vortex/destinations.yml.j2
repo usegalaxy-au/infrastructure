@@ -347,6 +347,10 @@ destinations:
             docker_set_user: '1000'
             docker_memory: '{mem}G'
             docker_sudo: false
+      - id: pulsar_destination_docker_af_db_test_rule
+        params:
+            docker_volumes: $job_directory:ro,$job_directory/home:rw,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data2/alphafold:/data:ro
+        if: entity.context.get('alphafold_db_test')
   pulsar-qld-gpu1:
     inherits: _pulsar_qld_gpu
     runner: pulsar-qld-gpu1_runner
