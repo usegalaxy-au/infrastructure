@@ -12,7 +12,7 @@ shared_mounts:
     fstype: nfs
     state: mounted
   - src: "{{ hostvars['qld-ref-nfs'].ansible_ssh_host }}:/mnt/vdc/alphafold"
-    path: /data2/alphafold/2.3
+    path: /data2/alphafold
     fstype: nfs
     state: mounted
 
