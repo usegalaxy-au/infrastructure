@@ -26,6 +26,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/artbio/gsc_scran_normalize/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bebatut/cdhit/cd_hit_est/.*:
     cores: 4
     mem: 15.3
@@ -39,6 +42,12 @@ tools:
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/bebatut/cdhit/cd_hit_protein/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/bebatut/cdhit/cd_hit_est/.*
+  toolshed.g2.bx.psu.edu/repos/bgruening/10x_bamtofastq/10x_bamtofastq/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/alevin/alevin/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/antismash/antismash/.*:
     params:
       singularity_enabled: true
@@ -190,7 +199,10 @@ tools:
     cores: 4
     mem: 15.3
     params:
-      singularity_enabled: true  
+      singularity_enabled: true 
+  toolshed.g2.bx.psu.edu/repos/bgruening/hicexplorer_.*:
+    params:
+      singularity_enabled: true 
   toolshed.g2.bx.psu.edu/repos/bgruening/hicexplorer_hicbuildmatrix/hicexplorer_hicbuildmatrix/.*:
     cores: 10
     mem: 38.3
@@ -230,6 +242,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/.*:
     cores: 8
     mem: 24 # TODO: this is 8/16 in shared db. If no further problems update this in shared db
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/music_.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_eventalign/nanopolish_eventalign/.*:
@@ -332,6 +347,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/chemteam/biopdb_align_and_rmsd/biopdb_align_and_rmsd/.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_.*:
     params:
       singularity_enabled: true
@@ -806,6 +824,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/dnbenso/masurca_simple/masurca_simple/.*:
     cores: 8 
     mem: 42 # TODO: this is part of shared db already but can't be merged because linting is out of order
+  toolshed.g2.bx.psu.edu/repos/earlhaminst/lotus2/lotus2/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa.*:  # singularity for all tools owned by ebi-gxa
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/anndata_ops/anndata_ops/.*:
     mem: 2 + input_size * 7
     rules:
@@ -817,6 +841,9 @@ tools:
     scheduling:
       accept:
         - pulsar
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/gtf2gene_list/_ensembl_gtf2gene_list/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy.*:
     mem: 4 + input_size * 10
     params:
@@ -1101,6 +1128,12 @@ tools:
     scheduling:
       require:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/goeckslab/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/imgteam/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iracooke/protk_proteogenomics/.*:
     cores: 1
     mem: 3.8
@@ -1185,6 +1218,9 @@ tools:
       #   - pulsar
       require:
         - bakta_database
+  toolshed.g2.bx.psu.edu/repos/iuc/baredsc_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/barrnap/barrnap/.*:
     cores: 3
     mem: 11.5
@@ -1327,6 +1363,9 @@ tools:
       if: 0.0002 <= input_size < 0.01
       cores: 2
       mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/iuc/cite_seq_count/cite_seq_count/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
     cores: 3
     mem: 11.5
@@ -1377,6 +1416,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/ena_upload/ena_upload/.*:
     params:
       singularity_enabled: false  # 21/3/24: testing ena_upload with singularity_enabled not true
+  toolshed.g2.bx.psu.edu/repos/iuc/episcanpy_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/exonerate/exonerate/.*:
     cores: 30
     mem: 480.5
@@ -1833,6 +1875,9 @@ tools:
       if: 0.5 <= input_size < 20
       cores: 16
       mem: 120
+  toolshed.g2.bx.psu.edu/repos/iuc/modify_loom/modify_loom/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/mosdepth/mosdepth/.*:
     params:
       singularity_enabled: true
@@ -2416,6 +2461,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/scater_.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/schicexplorer_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/seqkit_.*:
     params:
       singularity_enabled: true
@@ -2478,6 +2526,12 @@ tools:
     - id: shovill_fail_rule
       if: input_size >= 10
       fail: Your input data exceeds 10GB and therefore is not suitable for Shovill.
+  toolshed.g2.bx.psu.edu/repos/iuc/sinto_.*:
+    params:
+      singularity_enabled: true 
+  toolshed.g2.bx.psu.edu/repos/iuc/snapatac2_.*:
+    params:
+      singularity_enabled: true 
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/.*:
     cores: 6
     mem: 23
@@ -2899,6 +2953,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/vcf2maf/vcf2maf/.*:
     cores: 6
     mem: 23.0
+  toolshed.g2.bx.psu.edu/repos/iuc/velocyto_cli/velocyto_cli/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/vsearch/.*:
     mem: 8
     params:
@@ -3020,6 +3077,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/nml/quasitools/.*:
       mem: 8
   toolshed.g2.bx.psu.edu/repos/padge/clipkit/clipkit/.*: {}  # no singularity container, works with conda
+  toolshed.g2.bx.psu.edu/repos/perssond/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/peterjc/sample_seqs/sample_seqs/.*:
     params:
       singularity_enabled: true
