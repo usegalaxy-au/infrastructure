@@ -7,11 +7,7 @@ attached_volumes:
     fstype: ext4
 
 shared_mounts:
-  - src: "{{ hostvars['qld-ref-nfs'].ansible_ssh_host }}:/mnt/vdb/alphafold_db"
-    path: /data/alphafold_databases/2.3
-    fstype: nfs
-    state: mounted
-  - src: "{{ hostvars['qld-ref-nfs'].ansible_ssh_host }}:/mnt/vdc/alphafold"
+  - src: "{{ hostvars['qld-ref-nfs'].ansible_ssh_host }}:/mnt/prod/alphafold"
     path: /data2/alphafold
     fstype: nfs
     state: mounted
