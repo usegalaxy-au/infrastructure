@@ -3266,9 +3266,6 @@ tools:
       require:
       - pulsar
       - pulsar-qld-gpu
-  alphafold_test_2:
-    context:
-      alphafold_db_test: true
 
   cellranger:
     cores: 6

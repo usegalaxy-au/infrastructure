@@ -12,7 +12,6 @@
         <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_get_proteins.xml" label="test"/>
         <tool file="/mnt/galaxy/local_tools/cellranger/cellranger.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/alphafold/alphafold.xml" labels="test"/>
-        <tool file="/mnt/galaxy/local_tools/alphafold/alphafold_test_2.xml" labels="test"/>
     </section>
     <section id="interactivetools" name="Interactive Tools">
 	<tool file="/mnt/galaxy/local_tools/interactive_tool/lfq/interactivetool_lfqanalyst.xml" />
