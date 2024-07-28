@@ -45,6 +45,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/10x_bamtofastq/10x_bamtofastq/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/agat/agat/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/alevin/alevin/.*:
     params:
       singularity_enabled: true
