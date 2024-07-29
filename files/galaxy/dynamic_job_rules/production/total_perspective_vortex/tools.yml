@@ -3258,7 +3258,7 @@ tools:
     scheduling:
       require:
       - pulsar
-      - pulsar-qld-gpu
+      - pulsar-qld-gpu-alphafold
 
   cellranger:
     cores: 6
