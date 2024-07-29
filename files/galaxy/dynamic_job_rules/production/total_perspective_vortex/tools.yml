@@ -892,9 +892,10 @@ tools:
       alphafold_aa_length_max: 3000
       alphafold_max_input_sequences: 10
       alphafold_db: /data/v2.3
+      max_concurrent_job_count_for_tool_user: 2
     gpus: 1
-    cores: 8
-    mem: 69
+    cores: 16
+    mem: 130
     params:
       docker_enabled: true
       docker_volumes: 
@@ -910,24 +911,13 @@ tools:
         alphafold_max_input_sequences: 20
     - if: |
         user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        user and 'Alphafold' in user_roles and not 'UoM_Vet_Alphafold' in user_roles and not 'pulsar_gpu_test' in user_roles
-      context:
-        partition: azuregpu0
+        user and 'Alphafold' in user_roles and not 'pulsar_gpu_test' in user_roles
       scheduling:
         require:
         - pulsar
-        - pulsar-azure-gpu
+        - pulsar-qld-gpu-alphafold
         accept:
         - training-exempt
-    - if: |
-        user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        user and 'UoM_Vet_Alphafold' in user_roles
-      context:
-        partition: azuregpu1
-      scheduling:
-        require:
-        - pulsar
-        - pulsar-azure-1-gpu
     - if: |
         user_roles = [role.name for role in user.all_roles() if not role.deleted]
         user.username in [f'qldgpu{x+1}' for x in range(6)] or 'pulsar_gpu_test' in user_roles
@@ -935,7 +925,7 @@ tools:
         accept:
         - pulsar
         require:
-        - pulsar-qld-gpu
+        - pulsar-qld-gpu-alphafold
     - if: |
         not user or not any([
           role for role in user.all_roles() if (
@@ -3256,8 +3246,8 @@ tools:
   alphafold_test.*:
     context:
       alphafold_db: /data
-    cores: 8
-    mem: 69
+    cores: 16
+    mem: 130
     params:
       docker_enabled: true
       docker_volumes:
@@ -3413,7 +3403,7 @@ tools:
       accept:
       - pulsar
       require:
-      - pulsar-qld-gpu
+      - pulsar-qld-gpu-other
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*:
     cores: 8
     mem: 69
@@ -3425,7 +3415,7 @@ tools:
       accept:
       - pulsar
       require:
-      - pulsar-qld-gpu
+      - pulsar-qld-gpu-other
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_pod5_convert/dorado_pod5_convert/.*:
     cores: 8
     params:
