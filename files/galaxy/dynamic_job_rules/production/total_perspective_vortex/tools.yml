@@ -916,6 +916,7 @@ tools:
         require:
         - pulsar
         - pulsar-qld-gpu-alphafold
+        - pulsar-qld-gpu
         accept:
         - training-exempt
     - if: |
@@ -926,6 +927,7 @@ tools:
         - pulsar
         require:
         - pulsar-qld-gpu-alphafold
+        - pulsar-qld-gpu
     - if: |
         not user or not any([
           role for role in user.all_roles() if (
@@ -3258,6 +3260,7 @@ tools:
     scheduling:
       require:
       - pulsar
+      - pulsar-qld-gpu
       - pulsar-qld-gpu-alphafold
 
   cellranger:
@@ -3404,6 +3407,7 @@ tools:
       - pulsar
       require:
       - pulsar-qld-gpu-other
+      - pulsar-qld-gpu
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*:
     cores: 8
     mem: 69
@@ -3416,6 +3420,7 @@ tools:
       - pulsar
       require:
       - pulsar-qld-gpu-other
+      - pulsar-qld-gpu
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_pod5_convert/dorado_pod5_convert/.*:
     cores: 8
     params:
