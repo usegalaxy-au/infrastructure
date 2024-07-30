@@ -173,7 +173,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
-    mem: 8
+    mem: 30.7
   toolshed.g2.bx.psu.edu/repos/bgruening/enumerate_charges/enumerate_charges/.*:
     params:
       singularity_enabled: true
