@@ -48,6 +48,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/agat/agat/.*:
     params:
       singularity_enabled: true
+    rules:
+    - id: agat_large_input
+      if: input_size > 0.1
+      mem: 32
   toolshed.g2.bx.psu.edu/repos/bgruening/alevin/alevin/.*:
     params:
       singularity_enabled: true
