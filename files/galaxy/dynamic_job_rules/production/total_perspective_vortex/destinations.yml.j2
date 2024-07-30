@@ -284,6 +284,7 @@ destinations:
       require:
         - pulsar
         - pulsar-azure
+        - offline
   pulsar-azure-gpu:
     inherits: _pulsar_destination
     runner: pulsar_azure_0_runner
@@ -298,6 +299,7 @@ destinations:
       require:
         - pulsar
         - pulsar-azure-gpu
+        - offline
     rules:
       - id: pulsar_destination_docker_rule
         params:
@@ -319,6 +321,7 @@ destinations:
       require:
         - pulsar
         - pulsar-azure-1-gpu
+        - offline
     rules:
       - id: pulsar_destination_docker_rule
         params:
@@ -352,28 +355,33 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-gpu1
+        - pulsar-qld-gpu-alphafold
   pulsar-qld-gpu2:
     inherits: _pulsar_qld_gpu
     runner: pulsar-qld-gpu2_runner
     scheduling:
       accept:
         - pulsar-qld-gpu2
+        - pulsar-qld-gpu-alphafold
   pulsar-qld-gpu3:
     inherits: _pulsar_qld_gpu
     runner: pulsar-qld-gpu3_runner
     scheduling:
       accept:
         - pulsar-qld-gpu3
+        - pulsar-qld-gpu-alphafold
   pulsar-qld-gpu4:
     inherits: _pulsar_qld_gpu
     runner: pulsar-qld-gpu4_runner
     scheduling:
       accept:
         - pulsar-qld-gpu4
+        - pulsar-qld-gpu-other
   pulsar-qld-gpu5:
     inherits: _pulsar_qld_gpu
     runner: pulsar-qld-gpu5_runner
     scheduling:
       accept:
         - pulsar-qld-gpu5
+        - pulsar-qld-gpu-other
 
