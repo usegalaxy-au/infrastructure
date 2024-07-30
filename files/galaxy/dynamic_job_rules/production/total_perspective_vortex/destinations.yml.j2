@@ -339,10 +339,9 @@ destinations:
       destination_total_cores: 64
       destination_total_mem: 582
     scheduling:
-      accept:
-        - pulsar-qld-gpu
       require:
         - pulsar
+        - pulsar-qld-gpu
     rules:
       - id: pulsar_destination_docker_rule
         params:
