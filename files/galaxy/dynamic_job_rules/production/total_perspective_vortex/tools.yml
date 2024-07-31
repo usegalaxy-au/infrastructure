@@ -3034,6 +3034,7 @@ tools:
     mem: 61.4
     params:
       singularity_enabled: true
+      tmp_dir: true
     scheduling:
       accept:
       - pulsar
