@@ -2,7 +2,7 @@ AAGI_TOOL_LABEL = "aagi"
 AAGI_ROLE = "aagi"
 
 
-def hide_test_tools(context, tool):
+def restrict_aagi_tools(context, tool):
     """Restrict tools with AAGI_TOOL_LABEL to AAGI_ROLE only."""
     if hasattr(tool, 'labels') and AAGI_TOOL_LABEL in tool.labels:
         user = context.trans.user
