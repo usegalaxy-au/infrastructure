@@ -7,7 +7,7 @@ users:
             exclude_tags = ['pulsar', 'training-exempt']
             training_rules_apply = False
             training_job_matches_specs = False
-            if any([r for r in user.all_roles() if (not r.deleted and r.name.startswith('training-')]):
+            if any([r for r in user.all_roles() if (not r.deleted and r.name.startswith('training'))]):
               training_rules_apply = True
             elif 'training' in [hta.user_tname for hta in job.history.tags]:
               training_rules_apply = True
@@ -29,7 +29,7 @@ users:
             exclude_tags = ['pulsar-training-large', 'training-exempt']
             training_rules_apply = False
             training_job_matches_specs = False
-            if any([r for r in user.all_roles() if (not r.deleted and r.name.startswith('training-')]):
+            if any([r for r in user.all_roles() if (not r.deleted and r.name.startswith('training'))]):
               training_rules_apply = True
             elif 'training' in [hta.user_tname for hta in job.history.tags]:
               training_rules_apply = True
@@ -49,7 +49,7 @@ users:
             exclude_tags = ['training-exempt']
             training_rules_apply = False
             training_job_matches_specs = False
-            if any([r for r in user.all_roles() if (not r.deleted and r.name.startswith('training-')]):
+            if any([r for r in user.all_roles() if (not r.deleted and r.name.startswith('training'))]):
               training_rules_apply = True
             elif 'training' in [hta.user_tname for hta in job.history.tags]:
               training_rules_apply = True
