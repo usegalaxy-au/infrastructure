@@ -55,6 +55,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/alevin/alevin/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/align_it/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/antismash/antismash/.*:
     params:
       singularity_enabled: true
@@ -127,6 +130,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/cpat/cpat/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/ctb_im_rxn_maker/ctb_im_rxn_maker/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
     cores: 8
     mem: 30.7
@@ -179,6 +185,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
     mem: 30.7
   toolshed.g2.bx.psu.edu/repos/bgruening/enumerate_charges/enumerate_charges/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/find_subsequences/bg_find_subsequences/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
@@ -266,7 +275,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_variants/nanopolish_variants/.*:
     cores: 5
     mem: 20
+  toolshed.g2.bx.psu.edu/repos/bgruening/openbabel.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/pfamscan/pfamscan/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/qed/ctb_silicos_qed/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/racon/racon/.*:
@@ -286,6 +301,9 @@ tools:
       if: 0.05 <= input_size < 5
       cores: 8
       mem: 30.7
+  toolshed.g2.bx.psu.edu/repos/bgruening/rdconf/rdconf/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/.*:
     context:
       max_concurrent_job_count_for_tool_user: 2
@@ -315,6 +333,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/sdf_to_tab/sdf_to_tab/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/simsearch/ctb_simsearch/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/split_file_on_column/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/.*:
     mem: 10
     params:
@@ -334,6 +358,9 @@ tools:
       if: 0.02 <= input_size < 0.2
       cores: 3
       mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/chemteam/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_pca/bio3d_pca/.*:
     mem: 500
     scheduling:
@@ -419,6 +446,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/devteam/bamtools/bamtools/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/.*:
     mem: 7.6
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
@@ -1107,6 +1137,9 @@ tools:
     mem: 26.8
     env:
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+  toolshed.g2.bx.psu.edu/repos/galaxyp/pyprophet.*:
+    params:
+      singularity_enabled: true 
   toolshed.g2.bx.psu.edu/repos/galaxyp/pyprophet_score/pyprophet_score/.*:
     scheduling:
       accept:
@@ -1334,6 +1367,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/cat_bins/cat_bins/.*:
     cores: 5
     mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/chira_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
     cores: 1
     mem: 3.8
@@ -1363,6 +1399,12 @@ tools:
       cores: 2
       mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/cite_seq_count/cite_seq_count/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/clair3/clair3/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/control_freec/control_freec/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
@@ -1408,6 +1450,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/edger/edger/.*:
     cores: 5
     mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/ega_download_client/pyega3/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/egsea/egsea/.*:
     mem: 8
     params:
@@ -1606,6 +1651,9 @@ tools:
       if: input_size < 0.000005
       cores: 2
       mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/iuc/idr_download_by_ids/idr_download_by_ids/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/iqtree/iqtree/.*:
     cores: 5
     mem: 19.1
@@ -1817,6 +1865,9 @@ tools:
       if: input_size < 5
       cores: 8
       mem: 30.7
+  toolshed.g2.bx.psu.edu/repos/iuc/megahit_contig2fastg/megahit_contig2fastg/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/merqury/merqury/.*:
     cores: 5
     mem: 19.1
@@ -2147,6 +2198,9 @@ tools:
     mem: 31
     params:
       singularity_enabled: true  
+  toolshed.g2.bx.psu.edu/repos/iuc/phyloseq_from_dada2/phyloseq_from_dada2/.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
     cores: 60
     mem: 961
@@ -2214,6 +2268,12 @@ tools:
       mem: 34.5
   toolshed.g2.bx.psu.edu/repos/iuc/plasflow/PlasFlow/.*:
     mem: 12
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/plasmidfinder/plasmidfinder/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/polypolish/polypolish/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
@@ -2308,6 +2368,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/raceid_.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/rapidnj/rapidnj/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/raven/raven/.*:
     cores: 20
     mem: 200
@@ -2343,6 +2406,9 @@ tools:
       if: 0.0005 <= input_size < 0.1
       cores: 16
       mem: 61.4
+  toolshed.g2.bx.psu.edu/repos/iuc/recentrifuge/recentrifuge/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/red/red/.*:
     mem: 8
     params:
@@ -2378,6 +2444,9 @@ tools:
       if: 0.005 <= input_size < 2
       cores: 8
       mem: 30.7
+  toolshed.g2.bx.psu.edu/repos/iuc/rnaquast/rna_quast/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/roary/roary/.*:
     cores: 8
     mem: 30.7
@@ -2548,6 +2617,9 @@ tools:
       mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_core/.*:
     mem: 12
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/snp_dists/snp_dists/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff.*:
@@ -2996,6 +3068,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/mbernt/maxbin2/maxbin2/.*:
     cores: 12
     mem: 46.0
+  toolshed.g2.bx.psu.edu/repos/mvdbeek/add_input_name_as_column/addName/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_bam_stat/.*:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_RPKM_saturation/.*:
