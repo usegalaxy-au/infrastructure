@@ -16,7 +16,8 @@
         <tool file="/mnt/galaxy/local_tools/kmc/kmc_tools_filter.xml" />
         <tool file="/mnt/galaxy/local_tools/kmc/kmc_tools_simple.xml" />
         <tool file="/mnt/galaxy/local_tools/kmc/kmc_tools_transform.xml" />
-        <tool file="/mnt/galaxy/local_tools/aagi/crop_id/crop_id.xml" />
+        <tool file="/mnt/galaxy/local_tools/aagi/crop_id/crop_id.xml" labels="aagi"/>
+        <tool file="/mnt/galaxy/local_tools/panaroo/panaroo.xml"/>
     </section>
     <section id="interactivetools" name="Interactive Tools">
         <tool file="/mnt/galaxy/local_tools/lfq/interactivetool_lfqanalyst.xml" />

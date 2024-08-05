@@ -1,0 +1,13 @@
+AAGI_TOOL_LABEL = "aagi"
+AAGI_ROLE = "aagi"
+
+
+def restrict_aagi_tools(context, tool):
+    """Restrict tools with AAGI_TOOL_LABEL to AAGI_ROLE only."""
+    if hasattr(tool, 'labels') and AAGI_TOOL_LABEL in tool.labels:
+        user = context.trans.user
+        return user is not None and any([
+            role for role in user.all_roles()
+            if role.name == AAGI_ROLE and not role.deleted
+        ])
+    return True
