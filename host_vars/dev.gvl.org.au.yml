@@ -361,7 +361,7 @@ galaxy_subsite_dir: /mnt/galaxy/subsites
 #galaxy_subsite_base_css: '#masthead { background-color: #003399;}'
 galaxy_subsites:
   - name: genome
-    brand: Genome lab
+    brand: Genome Lab
     iframe: "https://dev-site.gvl.org.au/lab/export?content_root=https://dev-site.gvl.org.au/static/home/labs/genome/main.yml"
     # If wallpaper is true, then files/subsites/{name}.png will be copied to
     # /static/dist/{name}.png, and can be used exactly like that in the CSS.
@@ -387,8 +387,26 @@ galaxy_subsites:
           display: none;
       }
   - name: proteomics
-    brand: Proteomics lab
+    brand: Proteomics Lab
     iframe: "https://dev-site.gvl.org.au/lab/export?content_root=https://dev-site.gvl.org.au/static/home/labs/proteomics/main.yml"
+    wallpaper: false
+    tool_sections: []
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #402668 !important;
+      }
+      #masthead {
+        background: #542a95 !important;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Proteomics Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
+  - name: singlecell
+    brand: Single Cell Lab
+    iframe: "https://dev-site.gvl.org.au/lab/export?content_root=https://github.com/nomadscientist/galaxy_codex/raw/galaxy_labs/subdomains/singlecell/usegalaxy.org.au.yml"
     wallpaper: false
     tool_sections: []
     custom_css: |
