@@ -44,7 +44,6 @@ galaxy_dynamic_job_rules:
   - total_perspective_vortex/destinations.yml.j2
   - total_perspective_vortex/tool_pulsar_scores.yml
   - total_perspective_vortex/users.yml
-  - total_perspective_vortex/roles.yml
   - total_perspective_vortex/default_tool.yml.j2
   - readme.txt
 

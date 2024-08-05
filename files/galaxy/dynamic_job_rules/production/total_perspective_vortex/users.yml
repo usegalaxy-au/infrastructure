@@ -1,4 +1,83 @@
 users:
+    default:
+      rules:
+        - id: slurm_training_rule
+          if: |
+            training_job_matches_specs = False  # return value
+            training_rules_apply = False
+            try:
+              if any([r for r in user.all_roles() if (not r.deleted and r.name.startswith('training'))]):
+                training_rules_apply = True
+              elif 'training' in [hta.user_tname for hta in job.history.tags]:
+                training_rules_apply = True
+            except Exception as e:
+              log.debug('--tpv log debug: Exception checking training status of job')
+              log.debug(str(e))
+
+            if training_rules_apply:
+              include_tags = []
+              exclude_tags = ['pulsar', 'training-exempt']
+              # slurm preferred for training if the tool can run on pulsar but has a low pulsar_score and no pulsar-training-large tag
+              slurm_preferred_for_training = pulsar_score is not None and pulsar_score < pulsar_score_slurm_threshold and helpers.tag_values_match(entity, match_tag_values=[], exclude_tag_values=['pulsar-training-large', 'training-exempt'])
+              training_job_matches_specs = slurm_preferred_for_training or helpers.tag_values_match(entity, include_tags, exclude_tags)
+            training_job_matches_specs
+          max_cores: 2
+          max_mem: max_cores * 3.8
+          context:
+            partition: training
+          scheduling:
+            require:
+              - slurm
+              - training
+        - id: pulsar_training_rule
+          if: |
+            training_job_matches_specs = False  # return value
+            training_rules_apply = False
+            try:
+              if any([r for r in user.all_roles() if (not r.deleted and r.name.startswith('training'))]):
+                training_rules_apply = True
+              elif 'training' in [hta.user_tname for hta in job.history.tags]:
+                training_rules_apply = True
+            except Exception as e:
+              log.debug('--tpv log debug: Exception checking training status of job')
+              log.debug(str(e))
+              
+            if training_rules_apply:
+              include_tags = ['pulsar']
+              exclude_tags = ['pulsar-training-large', 'training-exempt']
+              slurm_preferred_for_training = pulsar_score is not None and pulsar_score < pulsar_score_slurm_threshold
+              training_job_matches_specs = (not slurm_preferred_for_training) and helpers.tag_values_match(entity, include_tags, exclude_tags)
+            training_job_matches_specs
+          max_cores: 4
+          max_mem: max_cores * 2.9  # ratio for pulsar-nci-training
+          scheduling:
+            require:
+              - pulsar
+              - training
+        - id: pulsar_training_large_rule
+          if: |
+            training_job_matches_specs = False  # return value
+            training_rules_apply = False
+            try:
+              if any([r for r in user.all_roles() if (not r.deleted and r.name.startswith('training'))]):
+                training_rules_apply = True
+              elif 'training' in [hta.user_tname for hta in job.history.tags]:
+                training_rules_apply = True
+            except Exception as e:
+              log.debug('--tpv log debug: Exception checking training status of job')
+              log.debug(str(e))
+
+            if training_rules_apply:
+              include_tags = ['pulsar-training-large']
+              exclude_tags = ['training-exempt']
+              training_job_matches_specs = helpers.tag_values_match(entity, include_tags, exclude_tags)
+            training_job_matches_specs
+          max_cores: 16
+          max_mem: max_cores * 2.9  # ratio for pulsar-nci-training
+          scheduling:
+            require:
+              - pulsar
+              - training
     test_user:
       rules:
         - id: singularity_test_user_rule
