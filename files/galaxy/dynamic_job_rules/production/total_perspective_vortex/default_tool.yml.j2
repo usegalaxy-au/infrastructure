@@ -40,7 +40,7 @@ tools:
           and pulsar_score > pulsar_score_pulsar_threshold  # tool scores highly for resources used * runtime per GB of input/output data
         )
         if result:
-          log.info(f"++ ---tpv rank debug::: preferring pulsar for tool {job.tool_id} (pulsar score {pulsar_score})")
+          log.info(f"++ ---tpv rank debug::: preferring pulsar for tool {tool.id} (pulsar score {pulsar_score})")
         result
       scheduling:
         prefer:
@@ -55,7 +55,7 @@ tools:
           and entity.mem < pulsar_score_slurm_max_mem
         )
         if result:
-          log.info(f"++ ---tpv rank debug::: preferring slurm for tool {job.tool_id} (pulsar score {pulsar_score})")
+          log.info(f"++ ---tpv rank debug::: preferring slurm for tool {tool.id} (pulsar score {pulsar_score})")
         result
       scheduling:
         prefer:
@@ -65,7 +65,7 @@ tools:
         log.info("++ ---tpv rank debug: 1 or fewer destinations: returning candidate_destinations")
         final_destinations = candidate_destinations
       else:
-        log.info(f"++ ---tpv rank debug: ranking destinations for job with tool {job.tool_id}, cores: {cores}, mem: {mem}")
+        log.info(f"++ ---tpv rank debug: ranking destinations for job with tool {tool.id}, cores: {cores}, mem: {mem}")
         import random
         from sqlalchemy import text
         from tpv.core.entities import TagType
