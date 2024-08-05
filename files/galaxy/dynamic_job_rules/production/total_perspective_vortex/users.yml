@@ -17,7 +17,8 @@ users:
             if training_rules_apply:
               include_tags = []
               exclude_tags = ['pulsar', 'training-exempt']
-              slurm_preferred_for_training = pulsar_score is not None and pulsar_score < pulsar_score_slurm_threshold and not helpers.tag_values_match(entity, match_tag_values=[], exclude_tag_values=['pulsar-training-large', 'training-exempt'])
+              # slurm preferred for training if the tool can run on pulsar but has a low pulsar_score and no pulsar-training-large tag
+              slurm_preferred_for_training = pulsar_score is not None and pulsar_score < pulsar_score_slurm_threshold and helpers.tag_values_match(entity, match_tag_values=[], exclude_tag_values=['pulsar-training-large', 'training-exempt'])
               training_job_matches_specs = slurm_preferred_for_training or helpers.tag_values_match(entity, include_tags, exclude_tags)
             training_job_matches_specs
           max_cores: 2
