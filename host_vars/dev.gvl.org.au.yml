@@ -413,13 +413,13 @@ galaxy_subsites:
     tool_sections: []
     custom_css: |
       #masthead .navbar-nav>li.active {
-        background: #402668 !important;
+        background: #236c6f !important;
       }
       #masthead {
-        background: #542a95 !important;
+        background: #209693 !important;
       }
       #masthead a.navbar-brand::after {
-        content: "Australia - Proteomics Lab";
+        content: "Australia - Single Cell Lab";
       }
       #masthead .navbar-text {
         display: none;
