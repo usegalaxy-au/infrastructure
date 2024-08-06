@@ -210,7 +210,7 @@ tools:
     - id: flye_medium_input_rule
       if: 0.25 <= input_size < 5
       cores: 16
-      mem: 61.4
+      mem: 150
   toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
     cores: 4
     mem: 15.3
@@ -759,6 +759,9 @@ tools:
       if: input_size < 30
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_segmasker_wrapper/.*:
+    cores: 4
+    mem: 15.3
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/.*:
     cores: 5
     mem: 19.1
@@ -1229,7 +1232,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/annotatemyids/annotatemyids/.*:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/iuc/arriba/arriba/.*:
-    mem: 8
+    cores: 4
+    mem: 15.3
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/arriba_draw_fusions/arriba_draw_fusions/.*:
@@ -1587,11 +1591,11 @@ tools:
       cores: 2
       mem: 7.6
     - id: hisat2_medium_input_rule
-      if: 0.5 <= input_size < 15
+      if: 0.5 <= input_size < 12
       cores: 8
       mem: 30.7
     - id: hisat2_large_input_rule
-      if: input_size >= 15
+      if: input_size >= 12
       cores: 36
       mem: 500
       scheduling:
@@ -1767,6 +1771,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/krakentools_kreport2krona/krakentools_kreport2krona/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/length_and_gc_content/.*:
+    mem: 10
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/.*:
     cores: 7
     mem: 26.8
@@ -1817,6 +1825,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus/medaka_consensus/.*:
+    cores: 4
+    mem: 15.3
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus_pipeline/medaka_consensus_pipeline/.*:
@@ -2274,6 +2284,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/polypolish/polypolish/.*:
+    mem: 12
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
@@ -2999,7 +3010,7 @@ tools:
     context:
       max_concurrent_job_count_for_tool_user: 4
     cores: 16
-    mem: 61.4
+    mem: 150
     scheduling:
       accept:
       - pulsar
@@ -3357,7 +3368,7 @@ tools:
       fail: Your account has not been given access to cellranger. Contact help@genome.edu.au
         if you think this is in error.
   CONVERTER_bedgraph_to_bigwig:
-    mem: 20
+    mem: 30
   ^fgenesh$:
     cores: 60
     mem: 300
@@ -3451,6 +3462,8 @@ tools:
       - pulsar-qld-high-mem1
       accept:
       - pulsar
+  'Show tail1':
+    mem: 10
   sort1:
     params:
       tmp_dir: true
