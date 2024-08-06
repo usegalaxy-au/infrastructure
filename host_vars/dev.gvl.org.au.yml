@@ -408,7 +408,7 @@ galaxy_subsites:
       }
   - name: singlecell
     brand: Single Cell Lab
-    iframe: "https://dev-site.gvl.org.au/lab/export?content_root=https://github.com/nomadscientist/galaxy_codex/raw/galaxy_labs/subdomains/singlecell/usegalaxy.org.au.yml"
+    iframe: "https://dev-site.gvl.org.au/lab/export?content_root=https://github.com/nomadscientist/galaxy_codex/blob/galaxy_labs/subdomains/singlecell/usegalaxy.org.au.yml"
     wallpaper: false
     tool_sections: []
     custom_css: |
