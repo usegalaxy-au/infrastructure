@@ -392,73 +392,76 @@ job_conf_limits:
   environments:
     interactive_pulsar:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     pulsar-QLD:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     pulsar-azure:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     pulsar-azure-1-gpu:
       tags:
-      - registered_user_concurrent_jobs_25
+      - registered_user_concurrent_jobs_12
     pulsar-azure-gpu:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     pulsar-high-mem1:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     pulsar-high-mem2:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     pulsar-mel2:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     pulsar-mel3:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     pulsar-nci-training:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     pulsar-qld-blast:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     pulsar-qld-high-mem0:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     pulsar-qld-high-mem1:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     pulsar-qld-high-mem2:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     slurm:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     slurm-training:
       tags:
-      - registered_user_concurrent_jobs_10
+      - registered_user_concurrent_jobs_12
     pulsar-qld-gpu1:
       tags:
-      - registered_user_concurrent_jobs_25
+      - registered_user_concurrent_jobs_12
     pulsar-qld-gpu2:
       tags:
-      - registered_user_concurrent_jobs_25
+      - registered_user_concurrent_jobs_12
     pulsar-qld-gpu3:
       tags:
-      - registered_user_concurrent_jobs_25
+      - registered_user_concurrent_jobs_12
     pulsar-qld-gpu4:
       tags:
-      - registered_user_concurrent_jobs_25
+      - registered_user_concurrent_jobs_12
     pulsar-qld-gpu5:
       tags:
-      - registered_user_concurrent_jobs_25
+      - registered_user_concurrent_jobs_12
   limits:
   - type: anonymous_user_concurrent_jobs
     value: 1
   - type: destination_user_concurrent_jobs
     tag: registered_user_concurrent_jobs_10
     value: 10
+  - type: destination_user_concurrent_jobs
+    tag: registered_user_concurrent_jobs_12
+    value: 12
   - type: destination_user_concurrent_jobs
     tag: registered_user_concurrent_jobs_25
     value: 25
@@ -468,7 +471,7 @@ job_conf_limits:
     value: 80
   - type: destination_user_concurrent_jobs
     id: slurm
-    value: 5
+    value: 6
 
   - type: destination_total_concurrent_jobs
     id: slurm-training
@@ -479,21 +482,15 @@ job_conf_limits:
 
   - type: destination_total_concurrent_jobs
     id: pulsar-mel2
-    value: 20
-  - type: destination_user_concurrent_jobs
-    id: pulsar-mel2
-    value: 5
+    value: 25
 
   - type: destination_total_concurrent_jobs
     id: pulsar-mel3
-    value: 20
-  - type: destination_user_concurrent_jobs
-    id: pulsar-mel3
-    value: 5
+    value: 30
 
   - type: destination_user_concurrent_jobs
     id: pulsar-nci-training
-    value: 3
+    value: 4
 
   - type: destination_total_concurrent_jobs
     id: pulsar-high-mem1
@@ -517,10 +514,7 @@ job_conf_limits:
 
   - type: destination_total_concurrent_jobs
     id: pulsar-QLD
-    value: 20
-  - type: destination_user_concurrent_jobs
-    id: pulsar-QLD
-    value: 5
+    value: 30
 
   - type: destination_total_concurrent_jobs
     id: pulsar-qld-blast
