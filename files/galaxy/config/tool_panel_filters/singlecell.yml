@@ -5,7 +5,14 @@ items:
 - id: general_section
   text: General Tools
   type: label
-- sections: [get_data, collection_operations, text_manipulation, filter_and_sort, join__subtract_and_group, fasta_fastq, fastq_quality_control, bed, send_data, graph_display_data]
+- sections:
+  - getext
+  - send
+  - collection_operations
+  - plots
+  - textutil
+  - filter
+  - group
 - id: sc_tools
   text: Single Cell Tools
   type: label
