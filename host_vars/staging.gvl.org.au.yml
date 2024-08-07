@@ -290,6 +290,24 @@ galaxy_subsites:
       #masthead .navbar-text {
         display: none;
       }
+  - name: singlecell
+    brand: Single Cell Lab
+    iframe: "https://site.usegalaxy.org.au/lab/export?content_root=https://github.com/nomadscientist/galaxy_codex/blob/galaxy_labs/subdomains/singlecell/usegalaxy.org.au.yml"
+    wallpaper: false
+    tool_sections: []
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #236c6f !important;
+      }
+      #masthead {
+        background: #209693 !important;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Single Cell Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
 
 webhook_plugins:
   - subdomain_switcher

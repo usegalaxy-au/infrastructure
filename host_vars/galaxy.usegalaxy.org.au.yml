@@ -630,7 +630,67 @@ galaxy_subsites:
     brand: Proteomics lab
     iframe: "https://site.usegalaxy.org.au/lab/export?content_root=https://site.usegalaxy.org.au/static/home/labs/proteomics/main.yml"
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
-    tool_sections: []
+    tool_sections:
+      - getext
+      - send
+      - collection_operations
+      - textutil
+      - filter
+      - group
+      - fastafastq
+      - fastq_quality_control
+      - sambam
+      - bed
+      - vcfbcf
+      - nanopore
+      - convert
+      - liftOver
+      - bxops
+      - mimodd
+      - extract_features
+      - fetchAlignSeq
+      - assembly
+      - annotation
+      - mapping
+      - variant_calling
+      - chip_seq
+      - rna_seq
+      - multiple_alignments
+      - bacterial_typing
+      - hgv
+      - phylogenetics
+      - epigenetics
+      - expression_tools
+      - genome_editing
+      - viral_tools
+      - mothur
+      - metagenomic_analysis
+      - dna_metabarcoding
+      - proteomics
+      - proteomic_ai
+      - metabolomics
+      - chemicaltoolbox
+      - picard
+      - deeptools
+      - emboss
+      - blast
+      - rseqc
+      - gemini_tools
+      - ivar
+      - single_cell
+      - rad_seq
+      - hicexplorer
+      - bb_tools
+      - presto
+      - qiime_2
+      - stats
+      - plots
+      - machine_learning
+      - imaging
+      - climate_analysis
+      - species_abundance
+      - hca_single_cell
+      - other_tools
     custom_css: |
       #masthead .navbar-nav>li.active {
         background: #402668 !important;
@@ -640,6 +700,84 @@ galaxy_subsites:
       }
       #masthead a.navbar-brand::after {
         content: "Australia - Proteomics Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
+  - name: singlecell
+    brand: Single Cell Lab
+    iframe: "https://site.usegalaxy.org.au/lab/export?content_root=https://github.com/nomadscientist/galaxy_codex/blob/galaxy_labs/subdomains/singlecell/usegalaxy.org.au.yml"
+    wallpaper: false
+    tool_sections:
+      - getext
+      - send
+      - collection_operations
+      - textutil
+      - filter
+      - group
+      - fastafastq
+      - fastq_quality_control
+      - sambam
+      - bed
+      - vcfbcf
+      - nanopore
+      - convert
+      - liftOver
+      - bxops
+      - mimodd
+      - extract_features
+      - fetchAlignSeq
+      - assembly
+      - annotation
+      - mapping
+      - variant_calling
+      - chip_seq
+      - rna_seq
+      - multiple_alignments
+      - bacterial_typing
+      - hgv
+      - phylogenetics
+      - epigenetics
+      - expression_tools
+      - genome_editing
+      - viral_tools
+      - mothur
+      - metagenomic_analysis
+      - dna_metabarcoding
+      - proteomics
+      - proteomic_ai
+      - metabolomics
+      - chemicaltoolbox
+      - picard
+      - deeptools
+      - emboss
+      - blast
+      - rseqc
+      - gemini_tools
+      - ivar
+      - single_cell
+      - rad_seq
+      - hicexplorer
+      - bb_tools
+      - presto
+      - qiime_2
+      - stats
+      - plots
+      - machine_learning
+      - imaging
+      - climate_analysis
+      - species_abundance
+      - hca_single_cell
+      - other_tools
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #236c6f !important;
+      }
+      #masthead {
+        background: #209693 !important;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Single Cell Lab";
       }
       #masthead .navbar-text {
         display: none;

@@ -373,12 +373,12 @@ galaxy_subsites:
     # /static/dist/{name}.png, and can be used exactly like that in the CSS.
     wallpaper: false
     tool_sections:
-      - "hicexplorer"
-      - "plots"
-      - "assembly"
-      - "annotation"
-      - "phylogenetics"
-      - "multiple_alignments"
+      - hicexplorer
+      - plots
+      - assembly
+      - annotation
+      - phylogenetics
+      - multiple_alignments
     custom_css: |
       #masthead .navbar-nav>li.active {
         background: #2c3067 !important;
