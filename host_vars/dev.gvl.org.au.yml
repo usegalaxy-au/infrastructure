@@ -105,6 +105,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/local_tool_data_table_conf.xml"
   - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/proteomics.yml"
     dest: "{{ galaxy_config_dir }}/tool_panel_filters/proteomics.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/singlecell.yml"
+    dest: "{{ galaxy_config_dir }}/tool_panel_filters/singlecell.yml"
 
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
@@ -190,9 +192,11 @@ host_galaxy_config: # renamed from __galaxy_config
     panel_views_dir: "{{ galaxy_config_dir }}/tool_panel_filters"
     default_panel_view_by_host:
       proteomics.dev.gvl.org.au: proteomics
+      singlecell.dev.gvl.org.au: singlecell
     themes_config_file_by_host:
       genome.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_genome.yml"
       proteomics.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_proteomics.yml"
+      singlecell.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_singlecell.yml"
       dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_main.yml"
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific

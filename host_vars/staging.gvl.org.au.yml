@@ -77,6 +77,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
   - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/proteomics.yml"
     dest: "{{ galaxy_config_dir }}/tool_panel_filters/proteomics.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/singlecell.yml"
+    dest: "{{ galaxy_config_dir }}/tool_panel_filters/singlecell.yml"
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
@@ -159,9 +161,11 @@ host_galaxy_config: # renamed from __galaxy_config
     panel_views_dir: "{{ galaxy_config_dir }}/tool_panel_filters"
     default_panel_view_by_host:
       proteomics.staging.gvl.org.au: proteomics
+      singlecell.staging.gvl.org.au: singlecell
     themes_config_file_by_host:
       genome.staging.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_genome.yml"
       proteomics.staging.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_proteomics.yml"
+      singlecell.staging.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_singlecell.yml"
       staging.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_main.yml"
 
 # cvmfs
