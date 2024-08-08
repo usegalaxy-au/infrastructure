@@ -79,6 +79,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/mail/activation-email.txt"
   - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/proteomics.yml"
     dest: "{{ galaxy_config_dir }}/tool_panel_filters/proteomics.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/singlecell.yml"
+    dest: "{{ galaxy_config_dir }}/tool_panel_filters/singlecell.yml"
 
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.xml.j2"
@@ -189,9 +191,11 @@ host_galaxy_config: # renamed from __galaxy_config
     panel_views_dir: "{{ galaxy_config_dir }}/tool_panel_filters"
     default_panel_view_by_host:
       proteomics.usegalaxy.org.au: proteomics
+      singlecell.usegalaxy.org.au: singlecell
     themes_config_file_by_host:
       genome.usegalaxy.org.au: "{{ galaxy_config_dir }}/themes/themes_genome.yml"
       proteomics.usegalaxy.org.au: "{{ galaxy_config_dir }}/themes/themes_proteomics.yml"
+      singlecell.usegalaxy.org.au: "{{ galaxy_config_dir }}/themes/themes_singlecell.yml"
       usegalaxy.org.au: "{{ galaxy_config_dir }}/themes/themes_main.yml"
 
     sentry_dsn: "{{ vault_sentry_url_galaxy_production }}"
@@ -626,7 +630,67 @@ galaxy_subsites:
     brand: Proteomics lab
     iframe: "https://site.usegalaxy.org.au/lab/export?content_root=https://site.usegalaxy.org.au/static/home/labs/proteomics/main.yml"
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
-    tool_sections: []
+    tool_sections:
+      - getext
+      - send
+      - collection_operations
+      - textutil
+      - filter
+      - group
+      - fastafastq
+      - fastq_quality_control
+      - sambam
+      - bed
+      - vcfbcf
+      - nanopore
+      - convert
+      - liftOver
+      - bxops
+      - mimodd
+      - extract_features
+      - fetchAlignSeq
+      - assembly
+      - annotation
+      - mapping
+      - variant_calling
+      - chip_seq
+      - rna_seq
+      - multiple_alignments
+      - bacterial_typing
+      - hgv
+      - phylogenetics
+      - epigenetics
+      - expression_tools
+      - genome_editing
+      - viral_tools
+      - mothur
+      - metagenomic_analysis
+      - dna_metabarcoding
+      - proteomics
+      - proteomic_ai
+      - metabolomics
+      - chemicaltoolbox
+      - picard
+      - deeptools
+      - emboss
+      - blast
+      - rseqc
+      - gemini_tools
+      - ivar
+      - single_cell
+      - rad_seq
+      - hicexplorer
+      - bb_tools
+      - presto
+      - qiime_2
+      - stats
+      - plots
+      - machine_learning
+      - imaging
+      - climate_analysis
+      - species_abundance
+      - hca_single_cell
+      - other_tools
     custom_css: |
       #masthead .navbar-nav>li.active {
         background: #402668 !important;
@@ -636,6 +700,84 @@ galaxy_subsites:
       }
       #masthead a.navbar-brand::after {
         content: "Australia - Proteomics Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
+  - name: singlecell
+    brand: Single Cell Lab
+    iframe: "https://site.usegalaxy.org.au/lab/export?content_root=https://github.com/nomadscientist/galaxy_codex/blob/galaxy_labs/subdomains/singlecell/usegalaxy.org.au.yml"
+    wallpaper: false
+    tool_sections:
+      - getext
+      - send
+      - collection_operations
+      - textutil
+      - filter
+      - group
+      - fastafastq
+      - fastq_quality_control
+      - sambam
+      - bed
+      - vcfbcf
+      - nanopore
+      - convert
+      - liftOver
+      - bxops
+      - mimodd
+      - extract_features
+      - fetchAlignSeq
+      - assembly
+      - annotation
+      - mapping
+      - variant_calling
+      - chip_seq
+      - rna_seq
+      - multiple_alignments
+      - bacterial_typing
+      - hgv
+      - phylogenetics
+      - epigenetics
+      - expression_tools
+      - genome_editing
+      - viral_tools
+      - mothur
+      - metagenomic_analysis
+      - dna_metabarcoding
+      - proteomics
+      - proteomic_ai
+      - metabolomics
+      - chemicaltoolbox
+      - picard
+      - deeptools
+      - emboss
+      - blast
+      - rseqc
+      - gemini_tools
+      - ivar
+      - single_cell
+      - rad_seq
+      - hicexplorer
+      - bb_tools
+      - presto
+      - qiime_2
+      - stats
+      - plots
+      - machine_learning
+      - imaging
+      - climate_analysis
+      - species_abundance
+      - hca_single_cell
+      - other_tools
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #236c6f !important;
+      }
+      #masthead {
+        background: #209693 !important;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Single Cell Lab";
       }
       #masthead .navbar-text {
         display: none;
