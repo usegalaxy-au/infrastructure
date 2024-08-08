@@ -452,6 +452,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/.*:
     mem: 7.6
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 30.7
     params:
@@ -1583,6 +1585,8 @@ tools:
       if: input_size >= 0.5
       fail: Too much data, please don't use the gubbins for this.
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
     params:
       tmp_dir: true
     rules:
@@ -2440,6 +2444,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/rnaspades/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
     params:
       singularity_enabled: true
     scheduling:
@@ -2649,6 +2655,8 @@ tools:
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/spades_biosyntheticspades/spades_biosyntheticspades/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
     cores: 20
     mem: 500
     params:
@@ -2695,6 +2703,8 @@ tools:
       if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_metaplasmidspades/spades_metaplasmidspades/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
     cores: 20
     mem: 500
     params:
@@ -2737,6 +2747,8 @@ tools:
       if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_plasmidspades/spades_plasmidspades/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
     cores: 20
     mem: 500
     params:
@@ -2758,6 +2770,8 @@ tools:
       if: input_size >= 60
       fail: Too much data, please don't use Spades for this
   toolshed.g2.bx.psu.edu/repos/iuc/spades_rnaviralspades/spades_rnaviralspades/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
     cores: 10
     mem: 250
     scheduling:
@@ -3119,6 +3133,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_read_duplication/.*:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/nml/metaspades/metaspades/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
     cores: 16
     mem: 61.4
     params:
