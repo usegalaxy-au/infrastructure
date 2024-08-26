@@ -33,9 +33,6 @@
             <files_dir path="/mnt/user-data-volA/data14" />
             <extra_dir type="job_work" path="/mnt/tmp/job_working_directory"/>
         </backend>
-        <backend id="data13" type="disk" weight="0" store_by="uuid">
-            <files_dir path="/mnt/user-data-volC/data13" />
-        </backend>
         <backend id="data12" type="disk" weight="0" store_by="uuid">
             <files_dir path="/mnt/user-data-volB/data12" />
         </backend>
@@ -75,6 +72,9 @@
         </backend>
 {% endif %}
 {% if qld_file_mounts_available|d(True) %}
+        <backend id="data13" type="disk" weight="0" store_by="uuid">
+            <files_dir path="{{ qld_file_mounts_path }}/data13" />
+        </backend>
         <backend id="qldNFS1" type="disk" weight="0" store_by="id">
             <files_dir path="{{ qld_file_mounts_path }}/files" />
         </backend>
