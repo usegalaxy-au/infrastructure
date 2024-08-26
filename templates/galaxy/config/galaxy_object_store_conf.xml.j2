@@ -73,7 +73,7 @@
 {% endif %}
 {% if qld_file_mounts_available|d(True) %}
         <backend id="data13" type="disk" weight="0" store_by="uuid">
-            <files_dir path="{{ qld_file_mounts_path }}/data13" />
+            <files_dir path="{{ qld_file_mounts_path }}/files/data13" />
         </backend>
         <backend id="qldNFS1" type="disk" weight="0" store_by="id">
             <files_dir path="{{ qld_file_mounts_path }}/files" />
