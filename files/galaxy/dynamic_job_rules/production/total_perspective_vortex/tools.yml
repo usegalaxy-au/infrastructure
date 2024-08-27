@@ -1075,6 +1075,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxyp/diann/diann/.*:
     params:
       docker_enabled: true
+    rules:
+    - if: |
+        not user or not 'diann' in [role.name for role in user.all_roles() if not role.deleted]
+      fail: Your account has not been given access to Dia-NN. Contact help@genome.edu.au
+        if you think this is in error.
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper.*:
     params:
       singularity_enabled: true
