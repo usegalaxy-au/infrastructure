@@ -80,19 +80,3 @@
       key: "{{ lookup('file', item.key) }}"
       state: present
     with_items: "{{ machine_users }}"
-
-  - name: Add bash function gxctl for sudo users only
-    blockinfile:
-      path: "/home/{{ item.name }}/.bashrc"
-      block: |
-        gxctl() {
-          export gctl_args="$@"
-          export GRAVITY_STATE_DIR={{ galaxy_gravity_state_dir }}
-          export GALAXY_CONFIG_FILE={{ galaxy_config_file }}
- 
-          sudo -H -Eu {{ galaxy_user.name }} bash -c '. {{ galaxy_venv_dir }}/bin/activate && {{ galaxy_venv_dir }}/bin/galaxyctl $gctl_args' 
-        }
-      marker: "# {mark} MANAGED BY ANSIBLE - DO NOT MODIFY (gxctl)"
-      state: absent # TODO: Once this is gone from dev/staging/aarnet, remove this task altogether
-    with_items: "{{ machine_users | selectattr('roles', 'contains', 'sudo') | list + [{'name': 'ubuntu'}] }}"
-    when: is_galaxy_head_node|d(false)
