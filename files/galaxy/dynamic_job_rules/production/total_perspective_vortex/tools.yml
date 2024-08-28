@@ -3388,6 +3388,9 @@ tools:
         not user or not 'cellranger' in [role.name for role in user.all_roles() if not role.deleted]
       fail: Your account has not been given access to cellranger. Contact help@genome.edu.au
         if you think this is in error.
+  CONVERTER.*:
+    params:
+      tmp_dir: true
   CONVERTER_bedgraph_to_bigwig:
     mem: 30
   ^fgenesh$:
