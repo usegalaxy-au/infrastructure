@@ -1944,6 +1944,10 @@ tools:
       if: 0.5 <= input_size < 20
       cores: 16
       mem: 120
+  toolshed.g2.bx.psu.edu/repos/iuc/mitobim/mitobim/.*:
+    mem: 12
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/modify_loom/modify_loom/.*:
     params:
       singularity_enabled: true
@@ -2290,6 +2294,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/plasmidfinder/plasmidfinder/.*:
+    cores: 6
+    mem: 23
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/polypolish/polypolish/.*:
