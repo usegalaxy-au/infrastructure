@@ -1350,9 +1350,13 @@ tools:
       - pulsar
     rules:
     - id: bwa_mem2_small_input_rule
-      if: input_size < 2
+      if: input_size < 1
       cores: 8
       mem: 30.7
+    - id: bwa_mem2_medium_input_rule
+      if: 1 <= input_size < 2
+      cores: 8
+      mem: 100
     - id: bwa_mem2_fail_rule
       if: input_size > 150
       fail: "Too much data: There is a limit of 150GB of input for bwa_mem2 jobs. Please note that bwa_mem2 will accept compressed fastsanger.gz input data. Email help@genome.edu.au with any enquiries."
