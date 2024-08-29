@@ -1359,6 +1359,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/.*:
     params:
       singularity_enabled: true
+      tmp_dir: true
     scheduling:
       accept:
       - pulsar
