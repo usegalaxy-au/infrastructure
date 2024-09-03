@@ -1,0 +1,154 @@
+type: distributed
+search_for_missing: false
+backends:
+- id: data22
+  weight: 1
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volA/data22
+  extra_dirs:
+  - type: job_work
+    path: /mnt/scratch/job_working_directory
+- id: data21
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volC/data21
+  extra_dirs:
+  - type: job_work
+    path: /mnt/scratch/job_working_directory
+- id: data20
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volB/data20
+  extra_dirs:
+  - type: job_work
+    path: /mnt/scratch/job_working_directory
+- id: data19
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volA/data19
+  extra_dirs:
+  - type: job_work
+    path: /mnt/scratch/job_working_directory
+- id: data18
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volA/data18
+  extra_dirs:
+  - type: job_work
+    path: /mnt/scratch/job_working_directory
+- id: data17
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volB/data17
+  extra_dirs:
+  - type: job_work
+    path: /mnt/scratch/job_working_directory
+- id: data16
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volA/data16
+  extra_dirs:
+  - type: job_work
+    path: /mnt/tmp/job_working_directory
+- id: data15
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volB/data15
+  extra_dirs:
+  - type: job_work
+    path: /mnt/tmp/job_working_directory
+- id: data14
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volA/data14
+  extra_dirs:
+  - type: job_work
+    path: /mnt/tmp/job_working_directory
+- id: data13
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volC/data13
+- id: data12
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volB/data12
+- id: data11
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volA/data11
+- id: data10
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volC/data10
+- id: data09
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volB/data09
+- id: data08
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volA/data08
+- id: aarnetNFS7
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: /mnt/user-data-volA/user-data-7
+{% if pawsey_file_mounts_available|d(True) %}
+- id: aarnetNFS6
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: '{{ pawsey_file_mounts_path }}/user-data/user-data-6'
+- id: aarnetNFS5
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: '{{ pawsey_file_mounts_path }}/user-data/user-data-5'
+- id: perthNFS1
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: '{{ pawsey_file_mounts_path }}/user-data'
+- id: perthNFS4
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: '{{ pawsey_file_mounts_path }}/user-data-4'
+- id: perthNFS2
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: '{{ pawsey_file_mounts_path }}/user-data-2'
+- id: perthNFS3
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: '{{ pawsey_file_mounts_path }}/user-data-3'
+{% endif %}
+{% if qld_file_mounts_available|d(True) %}
+- id: qldNFS1
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: '{{ qld_file_mounts_path }}/files'
+- id: qldNFS2
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: '{{ qld_file_mounts_path }}/files2'
+{% endif %}

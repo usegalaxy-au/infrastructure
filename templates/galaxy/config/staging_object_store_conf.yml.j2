@@ -1,0 +1,18 @@
+type: distributed
+search_for_missing: false
+backends:
+- id: staging_objects_3
+  weight: 1
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/galaxy/data-3
+- id: staging_objects_1
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: /mnt/galaxy/data-2
+- id: staging_objects_2
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: /mnt/galaxy/data
