@@ -867,6 +867,7 @@ tools:
     cores: 8 
     mem: 42 # TODO: this is part of shared db already but can't be merged because linting is out of order
   toolshed.g2.bx.psu.edu/repos/earlhaminst/lotus2/lotus2/.*:
+    mem: 16  # TODO - follow up with shared-db PR for this
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/ebi-gxa.*:  # singularity for all tools owned by ebi-gxa
