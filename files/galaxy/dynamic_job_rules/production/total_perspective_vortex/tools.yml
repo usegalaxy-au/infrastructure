@@ -1619,8 +1619,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
     context:
       max_concurrent_job_count_for_tool_user: 3
-    cores: 32
-    mem: 122.8
+    cores: 16
+    mem: 62
     rules:
     - id: humann_small_input_rule
       if: input_size < 0.01
