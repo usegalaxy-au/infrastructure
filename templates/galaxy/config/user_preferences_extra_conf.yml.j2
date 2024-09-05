@@ -56,6 +56,17 @@ preferences:
               type: text
               required: False
 
+{% if inventory_hostname.startswith('dev') %}
+    chatgpt:
+        description: Your OpenAI API key. This will be used for example for ChatGPT.
+        inputs:
+            - name: api_key
+              label: API Key
+              type: password
+              store: vault
+              required: False   
+{% endif %}
+
     griffith_owncloud_account:
         description: Griffith Research Space OwnCloud Credentials
         inputs:
@@ -68,16 +79,3 @@ preferences:
               type: password
               required: False
 
-
-
-    # owncloud_account:  # Cloudstor retired 15/12/23
-    #     description: AARNet CloudStor Credentials
-    #     inputs:
-    #         - name: username
-    #           label: Username
-    #           type: text
-    #           required: False
-    #         - name: password
-    #           label: App Password
-    #           type: password
-    #           required: False
