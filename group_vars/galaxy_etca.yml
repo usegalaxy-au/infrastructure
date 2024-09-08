@@ -104,6 +104,11 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     fstype: nfs
     opts: 'noatime,defaults'
     state: "{{ 'mounted' if qld_file_mounts_available else 'absent_from_fstab' }}"
+  - path: /mnt/aws_gateway
+    src: 192.168.205.17:/galaxy-aws-gw-test-bucket-2024-09-06-2fjsq
+    opts: 'nolock,hard,noatime,defaults'
+    fstype: nfs
+    state: mounted
 
 galaxy_worker_mounts:
   - path: /mnt/galaxy
