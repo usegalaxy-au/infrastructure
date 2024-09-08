@@ -60,8 +60,6 @@ tools:
     scheduling:
       accept:
         - pulsar
-      require:
-        - dev-pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
     cores: 6
     rules:
