@@ -1258,10 +1258,15 @@ tools:
     params:
       singularity_enabled: true
     scheduling:
-      accept:
-        - pulsar
       require:
         - bakta_database
+    rules:
+    - if: |
+        minimum_pulsar_version = '1.9.3+galaxy0'
+        helpers.tool_version_gte(tool, minimum_pulsar_version)
+      scheduling:
+        accept:
+          - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/baredsc_.*:
     params:
       singularity_enabled: true
