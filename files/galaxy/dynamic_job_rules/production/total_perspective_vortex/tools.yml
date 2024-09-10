@@ -912,6 +912,9 @@ tools:
     - id: scanpy_run_pca_fail_rule
       if: input_size > 20
       fail: Too much data. Total input data must be less than 20GB.
+  toolshed.g2.bx.psu.edu/repos/ecology/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/ecology/pampa_communitymetrics/pampa_communitymetrics/.*:
     params:
       singularity_enabled: true
@@ -1052,6 +1055,9 @@ tools:
     - id: smudgeplot_fail_rule
       if: input_size > 50
       fail: Too much data. Total input data must be less than 50GB.
+  toolshed.g2.bx.psu.edu/repos/galaxyp/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/cardinal_classification/cardinal_classification/.*:
     scheduling:
       accept:
@@ -1076,6 +1082,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxyp/diann/diann/.*:
     params:
       docker_enabled: true
+      singularity_enabled: false
     rules:
     - if: |
         not user or not 'diann' in [role.name for role in user.all_roles() if not role.deleted]
@@ -1120,9 +1127,9 @@ tools:
       - id: maxquant_singularity_rule
         if: |
           minimum_singularity_version = '2.0.3.0+galaxy0'
-          helpers.tool_version_gte(tool, minimum_singularity_version)
+          helpers.tool_version_lt(tool, minimum_singularity_version)
         params:
-          singularity_enabled: true
+          singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant_mqpar/.*:
     cores: 16
     mem: 61.4
@@ -1140,6 +1147,7 @@ tools:
     mem: 3.8
     params:
       docker_enabled: true
+      singularity_enabled: false
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/openms_openswathworkflow/OpenSwathWorkflow/.*:
     mem: 61.4
@@ -1424,6 +1432,9 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/clair3/clair3/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/compleasm/compleasm/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/control_freec/control_freec/.*:
@@ -2369,6 +2380,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_yield_plot/poretools_yield_plot/.*:
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/iuc/prodigal/prodigal/.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/purge_dups/purge_dups/.*:
     cores: 8
     mem: 30.7
@@ -2578,6 +2592,9 @@ tools:
       cores: 5
       mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/scater_.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/sceasy_convert/sceasy_convert/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/schicexplorer_.*:
