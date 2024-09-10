@@ -1258,8 +1258,8 @@ tools:
     params:
       singularity_enabled: true
     scheduling:
-      # accept:
-      #   - pulsar
+      accept:
+        - pulsar
       require:
         - bakta_database
   toolshed.g2.bx.psu.edu/repos/iuc/baredsc_.*:
