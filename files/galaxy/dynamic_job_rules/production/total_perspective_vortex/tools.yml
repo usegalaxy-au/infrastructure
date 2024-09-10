@@ -3125,6 +3125,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/mvdbeek/add_input_name_as_column/addName/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_bam_stat/.*:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_RPKM_saturation/.*:
