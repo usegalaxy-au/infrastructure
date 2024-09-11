@@ -1,7 +1,7 @@
 type: distributed
 search_for_missing: false
 backends:
-- id: corral4-scratch
+- id: dev_scratch
   type: disk
   weight: 0
   store_by: uuid
@@ -9,13 +9,13 @@ backends:
   private: false
   quota:
     source: scratch
-  name: "30-day scratch storage"
-  description: Data in 30-day Storage is scheduled for removal after 30 days, but is afforded a much larger quota than Permanent Storage.
-  files_dir: /corral4/main/objects
+  name: "{{ galaxy-scratch_storage_days }}-day scratch storage"
+  description: "Data in {{ galaxy-scratch_storage_days }}-day Storage is scheduled for removal after {{ galaxy-scratch_storage_days }} days, but is afforded a much larger quota than Permanent Storage."
+  files_dir: /mnt/galaxy/data-scratch
   badges:
     - type: not_backed_up
     - type: short_term
-      message: "Data stored here is scheduled for removal after 30 days of inactivity"
+      message: "Data stored here is scheduled for removal after {{ galaxy-scratch_storage_days }} days of inactivity"
 - id: dev_objects_3
   weight: 1
   type: disk
