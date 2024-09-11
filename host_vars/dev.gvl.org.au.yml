@@ -431,6 +431,8 @@ galaxy_subsites:
         display: none;
       }
 
+galaxy_scratch_storage_days: 60
+
 webhook_plugins:
   - subdomain_switcher
   # These ones aren't in the playbook as they are included in the galaxy repo:
