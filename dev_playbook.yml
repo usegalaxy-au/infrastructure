@@ -72,7 +72,7 @@
         - /mnt/galaxy/data
         - /mnt/galaxy/data-2
         - /mnt/galaxy/data-3
-        - /mnt/galaxy/data-scratch-test
+        - /mnt/galaxy/data-scratch
     - name: Make local_tool directory group-writable by machine users
       file:
         path: /mnt/galaxy/local_tools
