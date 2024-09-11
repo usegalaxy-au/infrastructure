@@ -7,6 +7,9 @@ tools:
     scheduling:
       require:
         - interactive_pulsar
+  __IMPORT_HISTORY__:
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/fubar/mashmap/mashmap/.*:
     mem: 16
   toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
