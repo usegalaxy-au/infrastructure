@@ -128,6 +128,7 @@ destinations:
     scheduling:
       accept:
         - pulsar-mel2
+        - bakta_database
       require:
         - pulsar
   pulsar-mel3:
@@ -144,7 +145,7 @@ destinations:
         - pulsar-mel3
         - bakta_database
         - funannotate
-        # - training # Temporary reroute while training pulsar is offline
+        - training # Temporary reroute while training pulsar is offline
         # - pulsar-blast  # alternate location for pulsar blast jobs when pulsar-qld-blast is unavailable
       require:
         - pulsar
@@ -241,6 +242,7 @@ destinations:
       require:
         - pulsar
         - training
+        - offline
   pulsar-qld-blast:
     inherits: _pulsar_destination
     runner: pulsar-qld-blast_runner
@@ -269,6 +271,7 @@ destinations:
       accept:
         - pulsar-QLD
         - funannotate
+        - bakta_database
       require:
         - pulsar
         # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
