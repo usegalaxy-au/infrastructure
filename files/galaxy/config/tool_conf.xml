@@ -167,7 +167,6 @@
     </section>
     <section id="expression_tools" name="Expression Tools">
         <tool file="expression_tools/parse_values_from_file.xml"/>
-        <tool file="expression_tools/pick_value.xml"/>
     </section>
     <section id="genome_editing" name="Genome Editing">
     </section>
