@@ -2,7 +2,7 @@ type: distributed
 search_for_missing: false
 backends:
 - id: dev_scratch
-  device: dev_scratch
+  device: dev_volume
   type: disk
   weight: 0
   store_by: uuid
@@ -18,7 +18,8 @@ backends:
     - type: short_term
       message: "Data stored here is scheduled for removal after {{ galaxy_scratch_storage_days }} days of inactivity"
 - id: dev_objects_3
-  device: dev_objects_3
+  name: Dev object store folder 3
+  device: dev_volume
   weight: 1
   type: disk
   store_by: uuid
