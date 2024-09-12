@@ -50,6 +50,7 @@ roles/gantsign.golang
 roles/galaxyproject.repos
 roles/usegalaxy_eu.apptainer
 roles/usegalaxy_eu.rabbitmqserver
+roles/usegalaxy_eu.walle
 
 # integration-testing virtual environment
 integration-testing/venv
