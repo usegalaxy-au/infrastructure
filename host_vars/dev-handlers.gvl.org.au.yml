@@ -39,7 +39,7 @@ host_galaxy_config_gravity:  # overridden from entry in dev.usegalaxy.org.au
     concurrency: 2
     loglevel: DEBUG
   gunicorn:
-    - bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+    - bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.handlers.sock"
       # performance options
       workers: 2
       # Other options that will be passed to gunicorn
