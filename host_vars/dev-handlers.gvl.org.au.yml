@@ -26,17 +26,26 @@ galaxy_fetch_dependencies: false
 galaxy_manage_mutable_setup: false
 galaxy_build_client: false
 
+nginx_ssl_servers:
+  - galaxy-handlers
+
 host_galaxy_config_gravity:  # overridden from entry in dev.usegalaxy.org.au
   process_manager: systemd
   galaxy_root: "{{ galaxy_server_dir }}"
   galaxy_user: "{{ galaxy_user.name }}"
   app_server: gunicorn
   virtualenv: "{{ galaxy_venv_dir }}"
-  gunicorn:
-    enable: false
   celery:
     concurrency: 2
     loglevel: DEBUG
+  gunicorn:
+    - bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+      # performance options
+      workers: 2
+      # Other options that will be passed to gunicorn
+      extra_args: '--forwarded-allow-ips="*"'
+      preload: true
+      environment: "{{ galaxy_process_env }}"
   handlers:
     handler:
       processes: 2
