@@ -32,15 +32,6 @@ server {
 {% if galaxy_config['galaxy']['nginx_upload_job_files_store'] is defined %}
 
     location /_job_files {
-        proxy_pass         http://galaxy;
-        proxy_redirect     off;
-        proxy_set_header   Host              $host;
-        proxy_set_header   X-Real-IP         $remote_addr;
-        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
-        proxy_set_header   X-Forwarded-Proto $scheme;
-        
-        add_header X-Clacks-Overhead 'GNU James Taylor (@jxtx) Simon Gladman (@slugger70)';
-
         if ($request_method != POST) {
                 rewrite "" /api/jobs/$arg_job_id/files last;
         }
@@ -55,15 +46,6 @@ server {
     }
 
     location /_upload_job_files_done {
-        proxy_pass         http://galaxy;
-        proxy_redirect     off;
-        proxy_set_header   Host              $host;
-        proxy_set_header   X-Real-IP         $remote_addr;
-        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
-        proxy_set_header   X-Forwarded-Proto $scheme;
-        
-        add_header X-Clacks-Overhead 'GNU James Taylor (@jxtx) Simon Gladman (@slugger70)';
-
         internal;
         rewrite "" /api/jobs/$arg_job_id/files;
     }
