@@ -459,3 +459,5 @@ toolmsg_messages:
       </a>
       to continue using this tool.
     class: warning
+
+walle_tool: interactivetool
