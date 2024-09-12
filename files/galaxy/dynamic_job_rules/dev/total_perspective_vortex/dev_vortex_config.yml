@@ -374,6 +374,8 @@ users:
         - slurm
   pulsar_user@usegalaxy.org.au:
     inherits: test_user
+    max_cores: 2
+    max_mem: 7.5
     rules:
       - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')  # this locks out all local tools, might need to make exceptions for these by id
         scheduling:

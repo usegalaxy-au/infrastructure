@@ -1,0 +1,71 @@
+upstream galaxy {
+{% set num_gunicorn_processes = galaxy_config.gravity.gunicorn | length %}
+{% for gunicorn_process in galaxy_config.gravity.gunicorn %}
+    server {{ gunicorn_process.bind | replace('unix:', 'unix://') }} weight={{ (100-debug.memray.weight / galaxy_config.gravity.gunicorn|length) | int }};
+{% endfor %}
+{% if debug.memray.weight > 0 %}
+    server localhost:8082 weight={{ debug.memray.weight | int }};
+{% endif %}
+}
+
+server {
+    # Listen on port 443
+    listen        *:443 ssl default_server;
+    # The virtualhost is our domain name
+    server_name   "{{ hostname }}";
+
+    # Our log files will go here.
+    access_log  /var/log/nginx/access.log;
+    error_log   /var/log/nginx/error.log;
+    sendfile    on;
+
+    uwsgi_buffer_size 16k;
+    uwsgi_busy_buffers_size 24k;s
+
+    location /_x_accel_redirect/ {
+        internal;
+        alias /;
+        add_header X-Frame-Options SAMEORIGIN;
+        add_header X-Content-Type-Options nosniff;
+    }
+
+{% if galaxy_config['galaxy']['nginx_upload_job_files_store'] is defined %}
+
+    location /_job_files {
+        if ($request_method != POST) {
+                rewrite "" /api/jobs/$arg_job_id/files last;
+        }
+        upload_store {{ galaxy_config['galaxy']['nginx_upload_job_files_store'] }};
+        upload_limit_rate "{{ nginx_upload_limit_rate|d(0) }}";
+        upload_store_access user:rw group:r all:r;
+        upload_pass_form_field "";
+        upload_set_form_field "__${upload_field_name}_path" "$upload_tmp_path";
+        upload_pass_args on;
+        upload_buffer_size 4M;
+        upload_pass /_upload_job_files_done;
+    }
+
+    location /_upload_job_files_done {
+        internal;
+        rewrite "" /api/jobs/$arg_job_id/files;
+    }
+
+{% endif %}
+
+    location /api {
+        proxy_pass         http://galaxy;
+        proxy_redirect     off;
+        proxy_set_header   Host              $host;
+        proxy_set_header   X-Real-IP         $remote_addr;
+        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+    }
+
+    # error docs
+    error_page  502         /error/502/index.shtml;
+    error_page  413         /error/413/index.html;
+    location /error {
+        ssi on;
+        root /etc/nginx;
+    }
+}
