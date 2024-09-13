@@ -83,7 +83,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_qld_hm2:{{ vault_rabbitmq_password_galaxy_qld_hm2_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm2?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar-nci-training_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
