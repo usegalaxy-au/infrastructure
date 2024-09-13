@@ -67,6 +67,18 @@ preferences:
               required: False   
 {% endif %}
 
+    aarnet_filesender_account:
+        description: AARNet FileSender Account Info
+        inputs:
+            - name: username
+              label: AARNet FileSender Username
+              type: text
+              required: False
+            - name: apikey
+              label: AARNet FileSender API Key
+              type: password
+              required: False
+
     griffith_owncloud_account:
         description: Griffith Research Space OwnCloud Credentials
         inputs:
