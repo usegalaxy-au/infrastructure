@@ -46,7 +46,7 @@ nginx_servers:
   - redirect-ssl
 nginx_enable_default_server: false
 nginx_ssl_servers:
-  - jenkins
+  - jenkins-2024
 nginx_conf_http:
   client_max_body_size: 1g
 nginx_remove_default_vhost: true
