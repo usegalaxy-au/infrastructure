@@ -40,13 +40,15 @@
     - geerlingguy.pip
     - gantsign.golang
     - cyverse-ansible.singularity
-    - galaxyproject.galaxy
+    - role: galaxyproject.galaxy
+      tags: galaxy
     - role: galaxyproject.miniconda
       become: true
       become_user: galaxy
-    - usegalaxy_eu.galaxy_subdomains
     - role: webhooks
       tags: webhooks
+    - role: usegalaxy_eu.galaxy_subdomains
+      tags: galaxy_subdomains
     - nginx-upload-module
     - galaxyproject.nginx
     - galaxyproject.tusd
@@ -62,7 +64,8 @@
     - dj-wasabi.telegraf
     - postfix-mail-relay
     - acl-on-startup
-    - usegalaxyeu.walle
+    - role: usegalaxy_eu.walle
+      tags: walle
   post_tasks:
     - name: Ensure object store paths exist
       file:
@@ -122,4 +125,3 @@
         insertafter: "\tpostrotate"
       with_items:
         - "\t\tcp {{ nginx_log_olddir_root }}/* {{ nginx_long_term_log_dir }}/"
-
