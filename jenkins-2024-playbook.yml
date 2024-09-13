@@ -1,0 +1,23 @@
+---
+- hosts: jenkins-2024
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/VAULT
+    - secret_group_vars/ubuntu_maintenance_key
+    - host_vars/jenkins-2024.yml
+
+  pre_tasks:
+    - name: Allow jenkins user to execute things as root
+      copy:
+        content: |
+          jenkins ALL=(ALL:ALL) NOPASSWD:ALL
+        dest: /etc/sudoers.d/jenkins
+        validate: 'visudo -cf %s'
+        mode: 0440
+  roles:
+    - common
+    - insspb.hostname
+    - geerlingguy.java
+    - geerlingguy.jenkins
+    - galaxyproject.nginx
