@@ -310,11 +310,13 @@ tools:
     cores: 8
     mem: 120
     params:
-      singularity_container_id_override: docker://quay.io/biocontainers/repeatmasker:4.1.5--pl5321hdfd78af_0
       singularity_enabled: true
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/4\.1\.5.*:
+    params:
+      singularity_container_id_override: docker://quay.io/biocontainers/repeatmasker:4.1.5--pl5321hdfd78af_0
   toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/.*:
     cores: 4
     mem: 15.3
