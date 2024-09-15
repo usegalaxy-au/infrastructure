@@ -30,6 +30,8 @@ galaxy_fetch_dependencies: false
 galaxy_manage_mutable_setup: false
 galaxy_build_client: false
 
+galaxy_celery_tmp_dir: /pvol/celery_tmp
+
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/handlers_job_files"
 nginx_ssl_servers:
   - galaxy-handlers
@@ -53,6 +55,8 @@ host_galaxy_config_gravity:
     enable_beat: true
     concurrency: 2
     loglevel: DEBUG
+    environment:
+      TMPDIR: "{{ galaxy_celery_tmp_dir }}"
   handlers:
     handler:
       environment: "{{ galaxy_process_env }}"
@@ -65,7 +69,6 @@ host_galaxy_config_gravity:
       pools:
         - workflow-schedulers
 
-# TODO: Ask BG about flower!
 # # Flower
 flower_python_version: python3
 flower_app_dir: /mnt/galaxy
