@@ -82,4 +82,5 @@ roles:
 
 # jenkins server roles
 - name: geerlingguy.java
+- name: geerlingguy.jenkins
 
