@@ -17,6 +17,7 @@
         <tool file="/mnt/galaxy/local_tools/kmc/kmc_tools_simple.xml" />
         <tool file="/mnt/galaxy/local_tools/kmc/kmc_tools_transform.xml" />
         <tool file="/mnt/galaxy/local_tools/panaroo/panaroo.xml"/>
+        <tool file="/mnt/galaxy/local_tools/aarnetfilesender/filesender.xml" />
 
         <!-- AAGI tools -->
         <tool file="/mnt/galaxy/local_tools/aagi/aagi_001/aagi_001.xml" labels="aagi"/>
