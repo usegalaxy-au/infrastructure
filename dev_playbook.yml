@@ -129,8 +129,8 @@
     - name: Copy galaxy_jwd.py script to walle_script_location
       copy:
         src: "galaxy/walle/galaxy_jwd.py"
-        dest: "{{ walle_script_location }}/galaxy_jwd.py"
-        permissions: 0755
-        owner: "{{ walle_user }}"
-        group: "{{ walle_group }}"
+        dest: "{{ walle_script_location|dirname }}/galaxy_jwd.py"
+        mode: 0755
+        owner: "{{ walle_user_name }}"
+        group: "{{ walle_user_group }}"
       tags: walle
