@@ -1261,6 +1261,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/arriba_get_filters/arriba_get_filters/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/artic.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
     context:
       max_concurrent_job_count_for_tool_user: 2
@@ -2600,6 +2603,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/sceasy_convert/sceasy_convert/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/seq2hla/seq2hla/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/schicexplorer_.*:
     params:
       singularity_enabled: true
@@ -3559,6 +3565,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/tbprofiler/tb_profiler_profile/.*:
     cores: 3
     mem: 11.5
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/optitype/optitype/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/orthofinder_onlygroups/orthofinder_onlygroups/.*:
