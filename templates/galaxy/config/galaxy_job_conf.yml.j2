@@ -23,7 +23,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_mel2:{{ vault_rabbitmq_password_galaxy_mel2_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel2?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar-mel3_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -33,7 +33,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_mel3:{{ vault_rabbitmq_password_galaxy_mel3_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_mel3?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar-high-mem1_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -43,7 +43,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_hm1:{{ vault_rabbitmq_password_galaxy_hm1_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm1?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar-high-mem2_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -53,7 +53,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_hm2:{{ vault_rabbitmq_password_galaxy_hm2_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_hm2?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar-qld-high-mem0_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -63,7 +63,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_qld_hm0:{{ vault_rabbitmq_password_galaxy_qld_hm0_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm0?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar-qld-high-mem1_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -73,7 +73,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_qld_hm1:{{ vault_rabbitmq_password_galaxy_qld_hm1_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_hm1?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar-qld-high-mem2_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -93,7 +93,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_nci_training:{{ vault_rabbitmq_password_galaxy_nci_training_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_nci_training?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar-qld-blast_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -103,7 +103,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_qld_blast:{{ vault_rabbitmq_password_galaxy_qld_blast_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qld_blast?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar-QLD_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -113,12 +113,12 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_QLD:{{ vault_rabbitmq_password_galaxy_QLD_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_QLD?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar_azure_0_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     amqp_url: "pyamqp://galaxy_azure_0:{{ vault_rabbitmq_password_galaxy_azure_0_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_azure_0?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
     amqp_acknowledge: True
     amqp_ack_republish_time: 1200
@@ -133,7 +133,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_qldgpu1:{{ vault_rabbitmq_password_galaxy_qldgpu1_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qldgpu1?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_    
   pulsar-qld-gpu2_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -143,7 +143,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_qldgpu2:{{ vault_rabbitmq_password_galaxy_qldgpu2_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qldgpu2?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar-qld-gpu3_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -153,7 +153,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_qldgpu3:{{ vault_rabbitmq_password_galaxy_qldgpu3_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qldgpu3?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar-qld-gpu4_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -163,7 +163,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_qldgpu4:{{ vault_rabbitmq_password_galaxy_qldgpu4_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qldgpu4?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar-qld-gpu5_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -173,7 +173,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_qldgpu5:{{ vault_rabbitmq_password_galaxy_qldgpu5_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qldgpu5?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar-qld-gpu6_runner:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -183,7 +183,7 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
     amqp_url: "pyamqp://galaxy_qldgpu6:{{ vault_rabbitmq_password_galaxy_qldgpu6_prod }}@galaxy-queue.usegalaxy.org.au:5671//pulsar/galaxy_qldgpu6?ssl=1"
-    galaxy_url: https://galaxy.usegalaxy.org.au
+    galaxy_url: https://galaxy-handlers.usegalaxy.org.au
     manager: _default_
   pulsar_embedded:
     load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
