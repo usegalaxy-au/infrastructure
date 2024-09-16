@@ -460,8 +460,10 @@ toolmsg_messages:
       to continue using this tool.
     class: warning
 
+walle_user_name: ubuntu
+walle_user_name: ubuntu
+walle_user_group: ubuntu
 walle_tool: interactivetool
 walle_virtualenv: "{{ galaxy_venv_dir }}"
-walle_bashrc: /home/{{ galaxy_user.name }}/.bashrc
-walle_pgpass_file: /home/{{ galaxy_user.name }}/.pgpass
+walle_bashrc: /home/ubuntu/.bashrc
 walle_malware_database_location: /mnt/galaxy/walle
