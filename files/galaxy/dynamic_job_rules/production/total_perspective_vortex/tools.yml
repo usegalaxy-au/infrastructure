@@ -3106,6 +3106,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/velocyto_cli/velocyto_cli/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/verkko/verkko/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/vsearch/.*:
     mem: 8
     params:
