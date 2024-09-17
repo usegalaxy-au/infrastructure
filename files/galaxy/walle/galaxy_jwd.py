@@ -292,11 +292,19 @@ def parse_object_store(object_store_conf: str) -> dict:
     """Get the path of type 'job_work' from the extra_dir's for each backend.
 
     Args:
-        object_store_conf: Path to the object_store_conf.xml file.
+        object_store_conf: Path to the object_store_conf.xml/yml file.
 
     Returns:
         Dictionary of backend id and path of type 'job_work'.
     """
+    if object_store_conf.endswith(".xml"):
+        return parse_object_store_xml(object_store_conf)
+    if object_store_conf.split('.')[-1] in ('yml', 'yaml'):
+        return parse_object_store_yaml(object_store_conf)
+    raise ValueError("Invalid object store configuration file extension")
+
+
+def parse_object_store_xml(object_store_conf: str) -> dict:
     dom = parse(object_store_conf)
     backends = {}
     for backend in dom.getElementsByTagName("backend"):
@@ -306,6 +314,21 @@ def parse_object_store(object_store_conf: str) -> dict:
         for extra_dir in backend.getElementsByTagName("extra_dir"):
             if extra_dir.getAttribute("type") == "job_work":
                 backends[backend_id] = extra_dir.getAttribute("path")
+    return backends
+
+
+def parse_object_store_yaml(object_store_conf: str) -> dict:
+    with open(object_store_conf, "r") as f:
+        data = yaml.safe_load(f)
+    backends = {}
+    for backend in data['backends']:
+        backend_id = backend['id']
+        backends[backend_id] = {}
+        # Get the extra_dir's path for each backend if type is "job_work"
+        if 'extra_dirs' in backend:
+            for extra_dir in backend["extra_dirs"]:
+                if extra_dir.get("type") == "job_work":
+                    backends[backend_id] = extra_dir["path"]
     return backends
 
 

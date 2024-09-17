@@ -463,7 +463,7 @@ toolmsg_messages:
 walle_user_name: ubuntu
 walle_user_name: ubuntu
 walle_user_group: ubuntu
-walle_tool: interactivetool
+walle_tool: interactive_tool
 walle_virtualenv: "{{ galaxy_venv_dir }}"
-walle_bashrc: /home/ubuntu/.bashrc
-walle_malware_database_location: /mnt/galaxy/walle
+walle_bashrc: "{{ galaxy_root }}/walle/.env"
+walle_malware_database_location: "{{ galaxy_root }}/walle"

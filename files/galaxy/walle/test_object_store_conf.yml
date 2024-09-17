@@ -1,0 +1,47 @@
+type: distributed
+search_for_missing: false
+backends:
+- id: dev_scratch
+  device: dev_volume
+  type: disk
+  weight: 0
+  store_by: uuid
+  allow_selection: true
+  private: false
+  quota:
+    source: scratch
+  name: "5-day scratch storage"
+  description: "Data in 5-day Storage is scheduled for removal after 5 days, but is afforded a much larger quota than Permanent Storage."
+  files_dir: /mnt/galaxy/data-scratch
+  badges:
+    - type: not_backed_up
+    - type: short_term
+      message: "Data stored here is scheduled for removal after 5 days of inactivity"
+- id: dev_objects_3
+  name: Dev object store folder 3
+  device: dev_volume
+  weight: 1
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/galaxy/data-3
+  allow_selection: true
+  extra_dirs:
+  - type: temp
+    path: /mnt/galaxy/tmp/scratch
+  - type: job_work
+    path: /mnt/galaxy/tmp/job_working_directory
+- id: dev_objects_2
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: /mnt/galaxy/data-2
+- id: dev_objects_1
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: /mnt/galaxy/data
+- id: dev_aws_test
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/test_mount

@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<object_store type="distributed" id="primary" order="0">
+    <backends>
+        <backend id="data22" type="disk" weight="1" store_by="uuid">
+            <files_dir path="/mnt/user-data-volA/data22" />
+            <extra_dir type="job_work" path="/mnt/scratch/job_working_directory"/>
+        </backend>
+        <backend id="data21" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-volC/data21" />
+            <extra_dir type="job_work" path="/mnt/scratch/job_working_directory"/>
+        </backend>
+        <backend id="data20" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-volB/data20" />
+            <extra_dir type="job_work" path="/mnt/scratch/job_working_directory"/>
+        </backend>
+        <backend id="data19" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-volA/data19" />
+            <extra_dir type="job_work" path="/mnt/scratch/job_working_directory"/>
+        </backend>
+        <backend id="data18" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-volA/data18" />
+            <extra_dir type="job_work" path="/mnt/scratch/job_working_directory"/>
+        </backend>
+        <backend id="data17" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-volB/data17" />
+            <extra_dir type="job_work" path="/mnt/scratch/job_working_directory"/>
+        </backend>
+        <backend id="data16" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-volA/data16" />
+            <extra_dir type="job_work" path="/mnt/tmp/job_working_directory"/>
+        </backend>
+        <backend id="data15" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-volB/data15" />
+            <extra_dir type="job_work" path="/mnt/tmp/job_working_directory"/>
+        </backend>
+        <backend id="data14" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-volA/data14" />
+            <extra_dir type="job_work" path="/mnt/tmp/job_working_directory"/>
+        </backend>
+        <backend id="data13" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-volC/data13" />
+        </backend>
+        <backend id="data12" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-volB/data12" />
+        </backend>
+        <backend id="data11" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-volA/data11" />
+        </backend>
+        <backend id="data10" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-volC/data10" />
+        </backend>
+        <backend id="data09" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-volB/data09" />
+        </backend>
+        <backend id="data08" type="disk" weight="0" store_by="uuid">
+            <files_dir path="/mnt/user-data-volA/data08" />
+        </backend>
+        <backend id="aarnetNFS7" type="disk" weight="0" store_by="id">
+            <files_dir path="/mnt/user-data-volA/user-data-7" />
+        </backend>
+    </backends>
+</object_store>
+
