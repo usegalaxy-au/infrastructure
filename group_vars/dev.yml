@@ -39,3 +39,10 @@ host_machine_users:
         - galaxy_admin
       key: files/keys/tom.pub
       email: "{{ tom_email }}"
+    - name: michaeld #aarnet
+      uid: 7302
+      roles:
+        - sudo
+        - galaxy_admin
+      key: files/keys/michaeld.pub
+      email: "{{ michaeld_email }}"

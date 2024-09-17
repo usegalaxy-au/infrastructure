@@ -90,6 +90,14 @@ __machine_users:
         - galaxy_admin
       key: files/keys/anna.pub
       email: "{{ anna_email }}"
+    - name: michaeld #aarnet
+      uid: 7302
+      roles:
+        - sudo
+        - galaxy_admin
+      key: files/keys/michaeld.pub
+      email: "{{ michaeld_email }}"
+
 
 host_machine_users: [] # by default - may be overridden in host/group vars files
 machine_users: "{{ host_machine_users + (__machine_users | rejectattr('name', 'in', (host_machine_users | map(attribute='name')))) }}"
