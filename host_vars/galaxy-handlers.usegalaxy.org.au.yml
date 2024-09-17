@@ -30,6 +30,12 @@ galaxy_fetch_dependencies: false
 galaxy_manage_mutable_setup: false
 galaxy_build_client: false
 
+galaxy_celery_tmp_dir: /pvol/celery_tmp
+
+nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/handlers_job_files"
+nginx_ssl_servers:
+  - galaxy-handlers
+
 host_galaxy_config_gravity:
   process_manager: systemd
   galaxy_root: "{{ galaxy_server_dir }}"
@@ -37,12 +43,20 @@ host_galaxy_config_gravity:
   app_server: gunicorn
   virtualenv: "{{ galaxy_venv_dir }}"
   gunicorn:
-    enable: false
+    - bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.handlers.sock"
+      # performance options
+      workers: 2
+      # Other options that will be passed to gunicorn
+      extra_args: '--forwarded-allow-ips="*"'
+      preload: true
+      environment: "{{ galaxy_process_env }}"
   celery: # TODO: what is this doing?
     enable: true
     enable_beat: true
     concurrency: 2
     loglevel: DEBUG
+    environment:
+      TMPDIR: "{{ galaxy_celery_tmp_dir }}"
   handlers:
     handler:
       environment: "{{ galaxy_process_env }}"
@@ -55,7 +69,6 @@ host_galaxy_config_gravity:
       pools:
         - workflow-schedulers
 
-# TODO: Ask BG about flower!
 # # Flower
 flower_python_version: python3
 flower_app_dir: /mnt/galaxy

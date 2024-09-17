@@ -49,6 +49,12 @@
       with_items:
         - "{{ qld_file_mounts_path }}"
         - "{{ pawsey_file_mounts_path }}"
+    - name: create celery tmp dir
+      file:
+        state: directory
+        path: "{{ galaxy_celery_tmp_dir }}"
+        owner: galaxy
+        group: galaxy
   roles:
         - mounts
         - geerlingguy.pip
@@ -57,8 +63,8 @@
         # - role: galaxyproject.miniconda
         #   become: true
         #   become_user: galaxy
-        # - nginx-upload-module # depends on nginx conf file, why does this go before nginx?
-        # - galaxyproject.nginx
+        - galaxyproject.nginx
+        - nginx-upload-module
         # - galaxyproject.tusd # TODO: Where is tusd going to run??
         - galaxyproject.slurm
         - galaxyproject.cvmfs
