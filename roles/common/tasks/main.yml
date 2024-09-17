@@ -20,9 +20,14 @@
       update_cache: yes
   when: not skip_upgrade_dist|d(false)
 
+- name: Adjust packages for Ubuntu 24.04 and later
+  set_fact:
+      ubuntu_packages: "{{ (common_packages | difference(problematic_packages_ubuntu_24_04)) | union(additional_packages_ubuntu_24_04) }}"
+  when: ansible_distribution == "Ubuntu" and (ansible_distribution_version is version('24.04', '>='))
+
 - name: Install some common packages
   apt:
-      name: "{{ common_packages }}"
+      name: "{{ ubuntu_packages | default(common_packages) }}"
       state: latest
 
 - name: Install group specific packages
