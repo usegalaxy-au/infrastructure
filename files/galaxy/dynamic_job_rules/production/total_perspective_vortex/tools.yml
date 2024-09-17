@@ -1293,6 +1293,9 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_.*:
+    env:
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/bcftools_mpileup/bcftools_mpileup/.*:
