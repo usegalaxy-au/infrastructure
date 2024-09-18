@@ -174,6 +174,7 @@ group_galaxy_config:
     enable_quotas: true
     outputs_to_working_directory: true # disable in job confs for all pulsars
     enable_tool_recommendations: true
+    enable_notification_system: true
     expose_potentially_sensitive_job_metrics: true
     load_tool_shed_datatypes: false # Recommended by @Marius as __DATA_FETCH__ tool was stalling.
 
