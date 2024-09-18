@@ -718,6 +718,7 @@ local_query-oom-jobs() { ##? <limit> : Show most recent jobs with 'Killed' in to
 			AND (
 				position('This job was terminated because it used more memory' in j.info)>0
 				OR position('Killed' in j.tool_stderr)>0
+				OR position('Some of your processes may have been killed' in j.tool_stderr)>0
 			)
 			ORDER BY j.update_time desc
 			LIMIT $limit
