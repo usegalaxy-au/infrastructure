@@ -183,7 +183,23 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
-    mem: 30.7
+    mem: 48
+    rules:
+      - id: diffbind_medium_input_rule
+        if: 1 <= input_size < 7
+        mem: 30
+      - id: diffbind_small_input_rule
+        if: input_size < 1
+        mem: 12
+      - id: diffbind_singularity_rule
+        if: |
+          minimum_singularity_version = '3.12.0+galaxy0'
+          helpers.tool_version_gte(tool, minimum_singularity_version)
+        params:
+          singularity_enabled: true
+        scheduling:
+          accept:
+            - pulsar  # older versions might be OK with pulsar but are not OK with singularity
   toolshed.g2.bx.psu.edu/repos/bgruening/enumerate_charges/enumerate_charges/.*:
     params:
       singularity_enabled: true
@@ -636,7 +652,8 @@ tools:
       - pulsar
       - pulsar-quick
     rules:
-    - if: |
+    - id: fastqc_singularity_rule
+      if: |
         minimum_singularity_version = '0.72+galaxy1'
         helpers.tool_version_gte(tool, minimum_singularity_version)
       params:
@@ -1231,6 +1248,9 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+  toolshed.g2.bx.psu.edu/repos/iuc/aegean_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/anndata_.*:
     params:
       singularity_enabled: true
@@ -3303,6 +3323,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/rnateam/chipseeker/chipseeker/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2_mapper/rbc_mirdeep2_mapper/.*:
+    cores: 9
+    mem: 34.5
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/.*:
     context:
       max_concurrent_job_count_for_tool_user: 2
