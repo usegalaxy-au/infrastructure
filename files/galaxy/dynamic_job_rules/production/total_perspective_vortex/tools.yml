@@ -556,8 +556,6 @@ tools:
       if: input_size >= 0.04
       fail: Too much data, please don't use the clustalw for this.
   toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/.*:
-    cores: 1
-    mem: 3.8
     params:
       dependency_resolution: none
       singularity_enabled: true
@@ -565,7 +563,8 @@ tools:
       accept:
       - pulsar
     rules:
-    - if: 2 <= input_size
+    - id: cuffdiff_large_input_rule
+      if: 2 <= input_size
       cores: 4
       mem: 15.3
   toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/.*:
@@ -738,7 +737,8 @@ tools:
     cores: 5
     mem: 19.1
     rules:
-    - if: |
+    - id: ncbi_blastn_wrapper_pulsar_rule
+      if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
       mem: cores * 3.1
@@ -751,7 +751,8 @@ tools:
     cores: 5
     mem: 19.1
     rules:
-    - if: |
+    - id: ncbi_blastp_wrapper_pulsar_rule
+      if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
       mem: cores * 3.1
@@ -764,7 +765,8 @@ tools:
     cores: 16
     mem: 61.4
     rules:
-    - if: |
+    - id: ncbi_blastx_wrapper_pulsar_rule
+      if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
       mem: cores * 3.1
@@ -788,7 +790,8 @@ tools:
     cores: 5
     mem: 19.1
     rules:
-    - if: |
+    - id: ncbi_tblastn_wrapper_pulsar_rule
+      if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
       mem: cores * 3.1
@@ -800,7 +803,8 @@ tools:
     cores: 16
     mem: 61.4
     rules:
-    - if: |
+    - id: ncbi_tblastx_wrapper_pulsar_rule
+      if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
       mem: cores * 3.1
@@ -822,7 +826,8 @@ tools:
       - pulsar
       - pulsar-quick
     rules:
-    - if: |
+    - id: picard_singularity_rule
+      if: |
         minimum_singularity_version = '2.18.2'
         helpers.tool_version_gte(tool, minimum_singularity_version)
       params:
@@ -1104,7 +1109,8 @@ tools:
       docker_enabled: true
       singularity_enabled: false
     rules:
-    - if: |
+    - id: diann_group_access_rule
+      if: |
         not user or not 'diann' in [role.name for role in user.all_roles() if not role.deleted]
       fail: Your account has not been given access to Dia-NN. Contact help@genome.edu.au
         if you think this is in error.
@@ -1295,7 +1301,8 @@ tools:
       require:
         - bakta_database
     rules:
-    - if: |
+    - id: bakta_pulsar_rule
+      if: |
         minimum_pulsar_version = '1.9.3+galaxy0'
         helpers.tool_version_gte(tool, minimum_pulsar_version)
       scheduling:
@@ -1361,7 +1368,8 @@ tools:
     cores: 2
     mem: 7.6
     rules:
-    - if: 0.05 <= input_size
+    - id: busco_3_large_input_rule
+      if: 0.05 <= input_size
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/[^3].*:
@@ -1373,7 +1381,8 @@ tools:
       reject:
       - pulsar-qld-high-mem2
     rules:
-    - if: |
+    - id: busco_singularity_rule
+      if: |
         minimum_singularity_version = '5.0.0+galaxy0'
         helpers.tool_version_gte(tool, minimum_singularity_version)
       params:
@@ -2769,7 +2778,8 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - if: |
+    - id: spades_coronaspades_singularity_rule
+      if: |
         minimum_singularity_version = '3.15.4+galaxy0'
         helpers.tool_version_gte(tool, minimum_singularity_version)
       params:
@@ -2862,7 +2872,8 @@ tools:
       - pulsar
       - pulsar-training-large
     rules:
-    - if: |
+    - id: spades_rnaviralspades_singularity_rule
+      if: |
         minimum_singularity_version = '3.15.4+galaxy1'
         helpers.tool_version_gte(tool, minimum_singularity_version)
       params:
@@ -3114,7 +3125,8 @@ tools:
       - pulsar-quick
       - pulsar-training-large
     rules:
-    - if: |
+    - id: unicycler_singularity_rule
+      if: |
         minimum_singularity_version = '0.5.0+galaxy0'
         helpers.tool_version_gte(tool, minimum_singularity_version)
       params:
@@ -3298,7 +3310,8 @@ tools:
       - pulsar
       - pulsar-quick
     rules:
-    - if: |
+    - id: trimmomatic_singularity_rule
+      if: |
         minimum_singularity_version = '0.36.6'
         helpers.tool_version_gte(tool, minimum_singularity_version)
       params:
@@ -3477,7 +3490,8 @@ tools:
     params:
       singularity_enabled: true
     rules:
-    - if: |
+    - id: cellranger_group_access_rule
+      if: |
         not user or not 'cellranger' in [role.name for role in user.all_roles() if not role.deleted]
       fail: Your account has not been given access to cellranger. Contact help@genome.edu.au
         if you think this is in error.
@@ -3486,68 +3500,35 @@ tools:
       tmp_dir: true
   CONVERTER_bedgraph_to_bigwig:
     mem: 30
-  ^fgenesh$:
-    cores: 60
-    mem: 300
+  fgenesh_tool:
+    abstract: true
     params:
       singularity_enabled: true
+    rules:
+    - id: fgenesh_group_access_rule
+      if: |
+        not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
+      fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au
+        if you think this is in error.
+  ^fgenesh_annotate$:
+    inherits: fgenesh_tool
+    cores: 60
+    mem: 300
     scheduling:
       accept:
         - pulsar
       require:
         - pulsar-high-mem2
-    rules:
-    - if: |
-        not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
-      fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au
-        if you think this is in error.
-  ^fgenesh_annotate$:
-    inherits: ^fgenesh$
   fgenesh_merge:
-    cores: 1
-    params:
-      singularity_enabled: true
-    rules:
-     - if: |
-         not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
-       fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au
-         if you think this is in error.
+    inherits: fgenesh_tool
   fgenesh_split:
-    cores: 1
-    params:
-      singularity_enabled: true
-    rules:
-     - if: |
-         not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
-       fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au
-         if you think this is in error.    
+    inherits: fgenesh_tool
   fgenesh_to_genbank:
-    cores: 1
-    params:
-      singularity_enabled: true
-    rules:
-     - if: |
-         not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
-       fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au
-         if you think this is in error.
+    inherits: fgenesh_tool
   fgenesh_get_mrnas_gc:
-    cores: 1
-    params:
-      singularity_enabled: true
-    rules:
-     - if: |
-         not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
-       fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au
-         if you think this is in error.
+    inherits: fgenesh_tool
   fgenesh_get_proteins:
-    cores: 1
-    params:
-      singularity_enabled: true
-    rules:
-     - if: |
-         not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
-       fail: Your account has not been given access to fgenesh. Contact help@genome.edu.au
-         if you think this is in error.
+    inherits: fgenesh_tool
   gtdbtk_classify_wf_test:
     cores: 16
     mem: 60
