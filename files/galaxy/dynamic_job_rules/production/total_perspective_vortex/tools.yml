@@ -3153,8 +3153,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/verkko/verkko/.*:
     cores: 16
     mem: 62
-    params:
-      singularity_enabled: true
+    # params:
+    #   singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/vsearch/.*:
     mem: 8
     params:
