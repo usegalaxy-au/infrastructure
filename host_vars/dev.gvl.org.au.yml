@@ -461,9 +461,18 @@ toolmsg_messages:
     class: warning
 
 walle_user_name: ubuntu
+galaxy_pulsar_app_conf: "{{ galaxy_config_dir }}/pulsar_app.yml"
+galaxy_pg_host: "{{ db_address }}"
+galaxy_pg_db: galaxy
+galaxy_pg_user: galaxy
+
 walle_user_name: ubuntu
 walle_user_group: ubuntu
 walle_tool: interactive_tool
 walle_virtualenv: "{{ galaxy_venv_dir }}"
-walle_bashrc: "{{ galaxy_root }}/walle/.env"
+walle_bashrc: "{{ galaxy_root }}/walle/.bashrc"
 walle_malware_database_location: "{{ galaxy_root }}/walle"
+walle_filesize_min: 0
+walle_debug: false
+walle_kill: false
+walle_cron_minute: "0"

@@ -64,7 +64,7 @@
     - dj-wasabi.telegraf
     - postfix-mail-relay
     - acl-on-startup
-    - role: usegalaxy_eu.walle
+    - role: usegalaxy_au.walle
       tags: walle
   post_tasks:
     - name: Ensure object store paths exist
@@ -134,11 +134,3 @@
         owner: "{{ walle_user_name }}"
         group: "{{ walle_user_group }}"
       tags: walle
-
-    # - name: Copy walle .env file
-    #   copy:
-    #     src: "galaxy/walle/.env"
-    #     dest: "{{ walle_bashrc }}"
-    #     owner: "{{ walle_user_name }}"
-    #     group: "{{ walle_user_group }}"
-    #   tags: walle

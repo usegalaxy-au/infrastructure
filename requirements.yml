@@ -79,7 +79,8 @@ roles:
   version: main
 - name: usegalaxy_eu.walle
   src: https://github.com/usegalaxy-eu/WallE
-  version: main
+- name: geerlingguy.redis
+  version: 1.8.0
 - name: geerlingguy.redis
   version: 1.8.0
 # jenkins server roles
