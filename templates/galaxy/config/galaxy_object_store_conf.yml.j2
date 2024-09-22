@@ -108,47 +108,80 @@ backends:
   type: disk
   store_by: id
   files_dir: /mnt/user-data-volA/user-data-7
+
 {% if pawsey_file_mounts_available|d(True) %}
 - id: aarnetNFS6
   weight: 0
   type: disk
   store_by: id
-  files_dir: '{{ pawsey_file_mounts_path }}/user-data/user-data-6'
+  files_dir: {{ pawsey_file_mounts_path }}/user-data/user-data-6
 - id: aarnetNFS5
   weight: 0
   type: disk
   store_by: id
-  files_dir: '{{ pawsey_file_mounts_path }}/user-data/user-data-5'
+  files_dir: {{ pawsey_file_mounts_path }}/user-data/user-data-5
 - id: perthNFS1
   weight: 0
   type: disk
   store_by: id
-  files_dir: '{{ pawsey_file_mounts_path }}/user-data'
+  files_dir: {{ pawsey_file_mounts_path }}/user-data
 - id: perthNFS4
   weight: 0
   type: disk
   store_by: id
-  files_dir: '{{ pawsey_file_mounts_path }}/user-data-4'
+  files_dir: {{ pawsey_file_mounts_path }}/user-data-4
 - id: perthNFS2
   weight: 0
   type: disk
   store_by: id
-  files_dir: '{{ pawsey_file_mounts_path }}/user-data-2'
+  files_dir: {{ pawsey_file_mounts_path }}/user-data-2
 - id: perthNFS3
   weight: 0
   type: disk
   store_by: id
-  files_dir: '{{ pawsey_file_mounts_path }}/user-data-3'
+  files_dir: {{ pawsey_file_mounts_path }}/user-data-3
 {% endif %}
 {% if qld_file_mounts_available|d(True) %}
 - id: qldNFS1
   weight: 0
   type: disk
   store_by: id
-  files_dir: '{{ qld_file_mounts_path }}/files'
+  files_dir: {{ qld_file_mounts_path }}/files
 - id: qldNFS2
   weight: 0
   type: disk
   store_by: id
-  files_dir: '{{ qld_file_mounts_path }}/files2'
+  files_dir: {{ qld_file_mounts_path }}/files2
 {% endif %}
+
+- id: minio_test
+  weight: 0
+  type: boto3
+  store_by: uuid
+  auth:
+    access_key: {{ vault_galaxy_minio_access_key }}
+    secret_key: {{ vault_galaxy_minio_secret_key }}
+  bucket:
+    name: galaxytest
+  connection:
+    endpoint_url: https://platforms-s3-poc.aarnet.edu.au
+    # region: some services may make use of region is specified.
+    # older style host, port, secure, and conn_path available to generic_s3 work
+    # here also - Galaxy will just infer a endpoint_url from those.
+  cache:
+    path: /mnt/user-data-volA/minio_test_cache
+    size: 1000
+    cache_updated_data: true
+  # transfer:   # see transfer options for boto3 above in AWS configuration.
+  extra_dirs:
+    - type: job_work
+      path: /mnt/scratch/job_working_directory
+- id: aws_gateway_test
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_path: /mnt/aws_gateway/data-aws-1
+  extra_dirs:
+    - type: job_work
+      path: /mnt/scratch/job_working_directory  
+
