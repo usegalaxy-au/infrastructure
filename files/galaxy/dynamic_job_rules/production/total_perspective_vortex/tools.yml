@@ -1441,6 +1441,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/chira_.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/checkm_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
     cores: 1
     mem: 3.8
