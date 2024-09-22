@@ -84,8 +84,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_panel_filters/singlecell.yml"
 
 host_galaxy_config_templates:
-  - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.xml.j2"
-    dest: "{{ galaxy_config_dir }}/object_store_conf.xml"
+  - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.yml.j2"
+    dest: "{{ galaxy_config_dir }}/object_store_conf.yml"
   - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_job_conf.yml.j2"
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2" ## File cannot be created at dest on first run of playbook
@@ -159,7 +159,7 @@ host_galaxy_config: # renamed from __galaxy_config
     brand: "Australia"
     database_connection: "postgresql://galaxy:{{ galaxy_db_user_password }}@{{ hostvars['galaxy-db']['internal_ip'] }}:5432/galaxy"
     id_secret: "{{ vault_aarnet_id_secret }}" # TODO: this need to stay the same wherever production galaxy is running, but the name of the vault variable is misleading
-    object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
+    object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.yml"
     smtp_server: localhost
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
