@@ -305,3 +305,9 @@ users:
               - offline
             require:
               - pulsar-qld-gpu6
+    selenium_st_minio@genome.edu.au:
+      params:
+        object_store_id: minio_test
+    selenium_st_aws_gateway@genome.edu.au:
+      params:
+        object_store_id: aws_gateway_test
