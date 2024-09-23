@@ -115,6 +115,17 @@ users:
       scheduling:
         require:
           - slurm
+      rules:
+        - id: star_minio_test_rule
+          if: |
+            'fastqc' in tool.id
+          params:
+            object_store_id: minio_test
+        - id: star_aws_gateway_test_rule
+          if: |
+            'samtools_merge' in tool.id
+          params:
+            object_store_id: aws_gateway_test
     pulsar_mel2_user@usegalaxy.org.au:
       inherits: test_user
       rules:
