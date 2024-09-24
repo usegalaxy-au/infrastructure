@@ -627,7 +627,7 @@ galaxy_subsites:
         display: none;
       }
   - name: proteomics
-    brand: Proteomics lab
+    brand: Proteomics Lab
     iframe: "https://site.usegalaxy.org.au/lab/export?content_root=https://site.usegalaxy.org.au/static/home/labs/proteomics/main.yml"
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
     tool_sections:
