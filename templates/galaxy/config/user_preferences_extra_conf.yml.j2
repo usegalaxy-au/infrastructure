@@ -67,7 +67,6 @@ preferences:
               required: False   
 {% endif %}
 
-{% if inventory_hostname.startswith('dev') %}
     aarnet_filesender_account:
         description: AARNet FileSender Account Info
         inputs:
@@ -79,7 +78,6 @@ preferences:
               label: AARNet FileSender API Key
               type: password
               required: False
-{% endif %}
 
     griffith_owncloud_account:
         description: Griffith Research Space OwnCloud Credentials
