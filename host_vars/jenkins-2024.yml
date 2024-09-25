@@ -2,14 +2,20 @@ hostname: "{{ ansible_hostname }}.genome.edu.au"
 
 
 # Jenkins settings
+jenkins_hostname: jenkins-2024.genome.edu.au
 jenkins_http_port: 8080
 jenkins_admin_username: admin
 jenkins_admin_password: "{{ vault_jenkins_2024_admin_password }}"
 jenkins_package_state: latest
 jenkins_plugins:
-  - matrix-auth
-  - git
   - build-timeout
+  - git
+  - github
+  - htmlpublisher
+  - matrix-auth
+  - slack
+  - ssh-agent
+  - sshd
 
 
 # Keys and shares
