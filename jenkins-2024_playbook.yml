@@ -3,6 +3,7 @@
   become: true
   vars_files:
     - group_vars/all.yml
+    - group_vars/jenkins.yml
     - group_vars/VAULT
     - secret_group_vars/ubuntu_maintenance_key
     - host_vars/jenkins-2024.yml
