@@ -1631,11 +1631,11 @@ tools:
     mem: 122.8
     params:
       singularity_enabled: true
-    scheduling:
-      require:
-      - gtdbtk_database
-      accept:
-      - pulsar
+    #scheduling:
+    #  require:
+    #  - gtdbtk_database
+    #  accept:
+    #  - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/gtftobed12/gtftobed12/.*:
     params:
       singularity_enabled: true
