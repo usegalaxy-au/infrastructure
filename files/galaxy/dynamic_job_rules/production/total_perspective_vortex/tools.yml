@@ -3342,11 +3342,11 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2.*:
+    mem: 8
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2_mapper/rbc_mirdeep2_mapper/.*:
-    cores: 9
-    mem: 34.5
+    mem: 28
     scheduling:
       accept:
         - pulsar
