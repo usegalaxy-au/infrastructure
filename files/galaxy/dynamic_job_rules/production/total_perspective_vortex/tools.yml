@@ -1261,7 +1261,6 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/anndata_import/anndata_import/.*:
-    mem: 2 + input_size * 10  # TODO: this is being added to tpv shared db and can be removed here when done
     scheduling:
       accept:
       - pulsar
