@@ -435,7 +435,17 @@ galaxy_scratch_storage_days: 60
 
 webhook_plugins:
   - subdomain_switcher
+  - toolmsg
   # These ones aren't in the playbook as they are included in the galaxy repo:
   - demo
   - gtn
   - news
+
+# toolmsg webhook plugin:
+toolmsg_messages:
+# - tool_id: to match subject.startsWith(tool_id)
+#   message: A custom message to be displayed for this tool
+#   class: bootstrap class [primary, info, success, warning, danger]
+  - tool_id: toolshed.g2.bx.psu.edu/repos/galaxyp/diann/diann
+    message: A custom message for Dia-NN!
+    class: danger
