@@ -446,6 +446,6 @@ toolmsg_messages:
 # - tool_id: to match subject.startsWith(tool_id)
 #   message: A custom message to be displayed for this tool
 #   class: bootstrap class [primary, info, success, warning, danger]
-  - tool_id: toolshed.g2.bx.psu.edu/repos/galaxyp/diann/diann
-    message: A custom message for Dia-NN!
+  - tool_id: toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/
+    message: A custom message for ABySS!
     class: danger
