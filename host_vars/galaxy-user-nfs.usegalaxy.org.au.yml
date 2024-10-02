@@ -1,6 +1,7 @@
 volA_path: /mnt/volA
 volB_path: /mnt/volB
 volC_path: /mnt/volC
+volD_path: /mnt/volD
 
 # volume A (~170 TB)
 nfs_user_data_7_dir: "{{ volA_path }}/user-data-7"
@@ -37,6 +38,10 @@ attached_volumes:
     partition: 1
     path: "{{ volC_path }}"
     fstype: ext4
+  - device: /dev/vde
+    partition: 1
+    path: "{{ volD_path }}"
+    fstype: ext4
 
 nfs_dirs:
   - "{{ nfs_user_data_7_dir }}"
@@ -60,6 +65,7 @@ nfs_exports:
   - "{{ volA_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
   - "{{ volB_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
   - "{{ volC_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
+  - "{{ volD_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
 
 # internal ssh keys
 extra_keys:
