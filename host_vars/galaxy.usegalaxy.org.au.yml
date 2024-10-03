@@ -371,6 +371,41 @@ rpc_pulsar_machines:
     cron_hour: "18"
     cron_minute: "50"
     remote_user: hpcuser
+  - pulsar_name: pulsar-qld-gpu1
+    pulsar_ip_address: "{{ hostvars['pulsar-qld-gpu1']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "19"
+    cron_minute: "00"
+  - pulsar_name: pulsar-qld-gpu2
+    pulsar_ip_address: "{{ hostvars['pulsar-qld-gpu2']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "19"
+    cron_minute: "10"
+  - pulsar_name: pulsar-qld-gpu3
+    pulsar_ip_address: "{{ hostvars['pulsar-qld-gpu3']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "19"
+    cron_minute: "20"
+  - pulsar_name: pulsar-qld-gpu4
+    pulsar_ip_address: "{{ hostvars['pulsar-qld-gpu4']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "19"
+    cron_minute: "30"
+  - pulsar_name: pulsar-qld-gpu5
+    pulsar_ip_address: "{{ hostvars['pulsar-qld-gpu5']['ansible_ssh_host'] }}"
+    ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
+    delete_jwds: true
+    keep_error_days: 7
+    cron_hour: "19"
+    cron_minute: "40"
 
 extra_keys:
   - id: ubuntu_maintenance_key
