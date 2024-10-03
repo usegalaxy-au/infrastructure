@@ -309,5 +309,8 @@ users:
       params:
         object_store_id: minio_test
     selenium_st_aws_gateway@genome.edu.au:
+      context:
+        slurm_singularity_volumes: "{{ slurm_singularity_volumes }},/mnt/aws_gateway:ro"
+        slurm_docker_volumes: "{{ slurm_docker_volumes }},/mnt/aws_gateway:ro"
       params:
         object_store_id: aws_gateway_test
