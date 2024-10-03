@@ -3365,6 +3365,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/rnateam/sortmerna/bg_sortmerna/.*:
     cores: 8
     mem: 30.7
+  toolshed.g2.bx.psu.edu/repos/rnateam/targetfinder/targetfinder/.*:
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/velvetoptimiser/.*:
     cores: 4
     mem: 15.3
