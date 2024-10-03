@@ -72,6 +72,11 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     fstype: nfs
     opts: "{{ galaxy_user_data_nfs_opts }}"
     state: mounted
+  - path: /mnt/user-data-volD # 78T volume
+    src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/volD"
+    fstype: nfs
+    opts: "{{ galaxy_user_data_nfs_opts }}"
+    state: mounted
   # pawsey data volumes
   - path: "{{ pawsey_file_mounts_path }}/user-data"
     src: "pawsey-user-nfs.usegalaxy.org.au:/mnt/user-data"
@@ -103,7 +108,7 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     src: "galaxy-aust-exports.genome.edu.au:/mnt/files2"
     fstype: nfs
     opts: 'noatime,defaults'
-    state: "{{ 'mounted' if qld_file_mounts_available else 'absent_from_fstab' }}"
+    state: absent  # TODO: remove whole block once this is unmounted from everywhere
   - path: /mnt/aws_gateway
     src: 192.168.205.17:/galaxy-aws-gw-test-bucket-2024-09-06-2fjsq
     opts: 'nolock,hard,noatime,actimeo=1'
