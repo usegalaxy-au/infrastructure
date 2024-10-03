@@ -324,7 +324,7 @@ tools:
     context:
       max_concurrent_job_count_for_tool_user: 2
     cores: 8
-    mem: 120
+    mem: 180
     params:
       singularity_enabled: true
     scheduling:
@@ -473,8 +473,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
-    cores: 8
-    mem: 30.7
+    cores: 12
+    mem: 46.0
     params:
       singularity_enabled: true
     scheduling:
@@ -484,12 +484,8 @@ tools:
     rules:
     - id: bowtie2_small_input_rule
       if: input_size < 0.1
-      cores: 2
-      mem: 7.6
-    - id: bowtie2_medium_input_rule
-      if: 0.1 <= input_size < 5
-      cores: 8
-      mem: 30.7
+      cores: 4
+      mem: 15.3
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie_wrappers/bowtie_wrapper/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*
     scheduling:
@@ -1615,6 +1611,10 @@ tools:
     scheduling:
       accept:
       - pulsar
+    rules:
+      - id: get_organelle_from_reads_large_input_rule
+        if: input_size > 2
+        mem: 120
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_.*:
     params:
       singularity_enabled: true
@@ -1988,8 +1988,8 @@ tools:
       cores: 1
       mem: 8
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan2/metaphlan2/.*:
-    cores: 2
-    mem: 7.6
+    cores: 4
+    mem: 15.3
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/.*:
@@ -2385,6 +2385,9 @@ tools:
     - id: porechop_small_input_rule
       if: input_size < 0.8
       mem: 12
+    - id: porechop_large_input_rule
+      if: input_size > 8
+      mem: 120
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_events/poretools_events/.*:
     cores: 3
     mem: 11.5
@@ -2728,8 +2731,8 @@ tools:
     rules:
     - id: snippy_small_input_rule
       if: input_size < 0.015
-      cores: 2
-      mem: 7.6
+      cores: 3
+      mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_core/.*:
     mem: 12
     params:
