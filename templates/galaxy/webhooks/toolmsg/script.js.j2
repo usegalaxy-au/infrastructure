@@ -6,7 +6,7 @@ const toolMessages = [
     {
         {% for message in toolmsg_messages %}
         tool_id: "{{ message.tool_id }}",
-        message: "{{ message.message }}",
+        message: `{{ message.message }}`,
         class: "{{ message.class }}",
         {% endfor %}
     },
@@ -47,7 +47,7 @@ function showToolMessages() {
         if (isCurrentToolForm(toolMessage.tool_id)) {
             const newElement = document.createElement('p');
             newElement.className = 'alert alert-' + toolMessage.class + ' my-3';
-            newElement.innerText = toolMessage.message;
+            newElement.innerHTML = toolMessage.message;
             const referenceElement = document.getElementById('tool-card-body');
             if (referenceElement) {
                 referenceElement.parentNode.insertBefore(newElement, referenceElement);
