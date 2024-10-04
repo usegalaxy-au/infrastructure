@@ -256,7 +256,7 @@ galaxy_subsite_dir: /mnt/galaxy/subsites
 galaxy_subsites:
   - name: genome
     brand: Genome Lab
-    iframe: "https://site.usegalaxy.org.au/lab/export?content_root=https://site.usegalaxy.org.au/static/home/labs/genome/main.yml"
+    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/genome/lab/usegalaxy.org.au.yml"
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
     tool_sections: []
     custom_css: |
@@ -275,7 +275,7 @@ galaxy_subsites:
   - name: proteomics
     hidden: true
     brand: Proteomics lab
-    iframe: "https://site.usegalaxy.org.au/lab/export?content_root=https://site.usegalaxy.org.au/static/home/labs/proteomics/main.yml"
+    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/proteomics/lab/usegalaxy.org.au.yml"
     wallpaper: false # If wallpaper is true, then files/subsites/{name}.png will be copied to /static/dist/{name}.png, and can be used exactly like that in the CSS.
     tool_sections: []
     custom_css: |
@@ -293,7 +293,7 @@ galaxy_subsites:
       }
   - name: singlecell
     brand: Single Cell Lab
-    iframe: "https://site.usegalaxy.org.au/lab/export?content_root=https://github.com/nomadscientist/galaxy_codex/blob/galaxy_labs/subdomains/singlecell/usegalaxy.org.au.yml"
+    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/spoc/lab/usegalaxy.org.au.yml"
     wallpaper: false
     tool_sections: []
     custom_css: |
