@@ -435,7 +435,27 @@ galaxy_scratch_storage_days: 60
 
 webhook_plugins:
   - subdomain_switcher
+  - toolmsg
   # These ones aren't in the playbook as they are included in the galaxy repo:
   - demo
   - gtn
   - news
+
+# toolmsg webhook plugin:
+toolmsg_messages:
+# - tool_id: to match subject.startsWith(tool_id)
+#            Best to use remove version numbers and trailing slash
+#            e.g. toolshed.g2.bx.psu.edu/repos/galaxyp/diann/diann
+#   message: A custom HTML message to be displayed for this tool
+#   class: bootstrap class [primary, info, success, warning, danger]
+
+  - tool_id: toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe
+    message: >
+      [TEST] Access rights to this tool have changed, please
+      <a href="https://site.usegalaxy.org.au/request/access/diann"
+         target="_blank"
+      >
+        apply for access
+      </a>
+      to continue using this tool.
+    class: warning
