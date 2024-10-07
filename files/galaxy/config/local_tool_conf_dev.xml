@@ -28,6 +28,5 @@
         <tool file="/mnt/galaxy/local_tools/ena_upload/interactivetool_ena_upload.xml" />
     </section>
     <section id="send" name="Send Data">
-        <tool file="/mnt/galaxy/local_tools/aarnetfilesender/filesender.xml" />
     </section>
 </toolbox>
