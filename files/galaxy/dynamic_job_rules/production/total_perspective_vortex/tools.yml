@@ -12,10 +12,10 @@ tools:
     mem: 7.6
   testtoolshed.g2.bx.psu.edu/repos/simon-gladman/phyloseq_filter/biom_filter/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
   testtoolshed.g2.bx.psu.edu/repos/simon-gladman/phyloseq_ordination_plot/phyloseq_ordinate/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
   toolshed.g2.bx.psu.edu/repos/artbio/cap3/cap3/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/artbio/repenrich/repenrich/.*:
@@ -85,7 +85,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
     params:
       docker_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/bismark/bismark_.*:
@@ -714,7 +714,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
     scheduling:
       accept:
       - pulsar
@@ -759,7 +759,7 @@ tools:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
     rules:
     - id: ncbi_blastx_wrapper_pulsar_rule
       if: |
@@ -773,7 +773,7 @@ tools:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_makeblastdb/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
     rules:
     - id: ncbi_makeblastdb_small_input_rule
       if: input_size < 30
@@ -797,7 +797,7 @@ tools:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastx_wrapper/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
     rules:
     - id: ncbi_tblastx_wrapper_pulsar_rule
       if: |
@@ -1051,7 +1051,7 @@ tools:
           - slurm
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiasm_meta/hifiasm_meta/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/metawrapmg_binning/metawrapmg_binning/.*:
@@ -1084,7 +1084,7 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxyp/cardinal_combine/cardinal_combine/.*:
-    mem: 61.4
+    mem: 62
   toolshed.g2.bx.psu.edu/repos/galaxyp/cardinal_data_exporter/cardinal_data_exporter/.*:
     scheduling:
       accept:
@@ -1154,10 +1154,10 @@ tools:
           singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant_mqpar/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
   toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant_mqpar/maxquant_mqpar/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
   toolshed.g2.bx.psu.edu/repos/galaxyp/morpheus/morpheus/.*:
     params:
       singularity_enabled: true  
@@ -1172,7 +1172,7 @@ tools:
       singularity_enabled: false
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/openms_openswathworkflow/OpenSwathWorkflow/.*:
-    mem: 61.4
+    mem: 62
   toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker/.*:
     cores: 7
     mem: 26.8
@@ -1193,7 +1193,7 @@ tools:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/genouest/braker3/braker3/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
     params:
       singularity_container_id_override: docker://teambraker/braker3:v1.0.6
       singularity_enabled: true
@@ -1640,7 +1640,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/gubbins/gubbins/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
     params:
       singularity_enabled: true
     scheduling:
@@ -1714,7 +1714,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_gard/hyphy_gard/.*:
     cores: 20
     mem: 200
@@ -1818,7 +1818,7 @@ tools:
     - id: khmer_abundance_distribution_single_medium_input_rule
       if: 0.1 <= input_size < 0.5
       cores: 16
-      mem: 61.4
+      mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/kraken.*:
     params:
       singularity_enabled: true  
@@ -1937,7 +1937,7 @@ tools:
     context:
       max_concurrent_job_count_for_tool_user: 2  # TODO: this tool could go to high memory pulsars instead
     cores: 16
-    mem: 61.4
+    mem: 62
     params:
       singularity_enabled: true
     scheduling:
@@ -1977,10 +1977,10 @@ tools:
     - id: meryl_medium_input_rule
       if: 0.001 <= input_size < 5
       cores: 16
-      mem: 61.4
+      mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
     rules:
     - id: metaphlan_small_input_rule
       if: input_size < 0.001
@@ -2348,7 +2348,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
     env:
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     scheduling:
@@ -2462,7 +2462,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
     rules:
     - id: quast_small_input_rule
       if: input_size < 1
@@ -2494,7 +2494,7 @@ tools:
     - id: raven_medium_input_rule
       if: 0.002 <= input_size < 5
       cores: 16
-      mem: 61.4
+      mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/raxml/raxml/.*:
     cores: 24
     mem: 250
@@ -2511,7 +2511,7 @@ tools:
     - id: raxml_medium_input_rule
       if: 0.0005 <= input_size < 0.1
       cores: 16
-      mem: 61.4
+      mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/recentrifuge/recentrifuge/.*:
     params:
       singularity_enabled: true
@@ -2689,7 +2689,7 @@ tools:
     - id: shasta_medium_input_rule
       if: 0.002 <= input_size < 5
       cores: 16
-      mem: 61.4
+      mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/shovill/shovill/.*:
     cores: 10
     mem: 38.3
@@ -2909,8 +2909,8 @@ tools:
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/stacks_denovomap/stacks_denovomap/.*:
-    cores: 4
-    mem: 16
+    cores: 16
+    mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2.*:
     params:
       singularity_enabled: true
@@ -2919,13 +2919,13 @@ tools:
     mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_cstacks/stacks2_cstacks/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_denovomap/stacks2_denovomap/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_gstacks/stacks2_gstacks/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_kmerfilter/stacks2_kmerfilter/.*:
     cores: 2
     mem: 7.6
@@ -2940,7 +2940,7 @@ tools:
     mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_sstacks/stacks2_sstacks/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_tsv2bam/stacks2_tsv2bam/.*:
     cores: 8
     mem: 42
@@ -3060,7 +3060,7 @@ tools:
       mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_consensus/trycycler_consensus/.*:
     cores: 16
-    mem: 61.4
+    mem: 62
     scheduling:
       accept:
       - pulsar
@@ -3244,7 +3244,7 @@ tools:
     context:
       max_concurrent_job_count_for_tool_user: 3
     cores: 16
-    mem: 61.4
+    mem: 62
     params:
       singularity_enabled: true
       tmp_dir: true
@@ -3403,10 +3403,10 @@ tools:
       mem: 3.8
   .*bowtie2_index_builder_data_manager.*:
     cores: 16
-    mem: 61.4
+    mem: 62
   .*bwa_mem_index_builder_data_manager.*:
     cores: 16
-    mem: 61.4
+    mem: 62
   .*bwameth_index_builder_data_manager.*:
     cores: 5
     mem: 19.1
@@ -3444,13 +3444,13 @@ tools:
     mem: 19.1
   .*kraken2_build_database.*:
     cores: 16
-    mem: 61.4
+    mem: 62
   .*rna_star_index_builder_data_manager.*:
     cores: 32
     mem: 122.8
   .*twobit_builder_data_manager.*:
     cores: 16
-    mem: 61.4
+    mem: 62
   'Convert characters1':
     mem: 8
   Cut1:
