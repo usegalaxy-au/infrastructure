@@ -184,4 +184,34 @@ backends:
   extra_dirs:
     - type: job_work
       path: /mnt/scratch/job_working_directory  
+- id: nectar_test
+  type: boto3
+  weight: 0
+  store_by: uuid
+  auth:
+    access_key: {{ vault_nectar_melbournegvl_cb_ec2_access_key }}
+    secret_key: {{ vault_nectar_melbournegvl_cb_ec2_secret_key }}
+  bucket:
+    name: usegalaxy-au-object-store-backend-test
+  connection:
+    endpoint_url: https://swift.rc.nectar.org.au:443/
+  cache:
+    path: /mnt/user-data-volA/nectar_test_cache
+    size: 200
+    cache_updated_data: true
+- id: aws_bucket_test
+  type: boto3
+  weight: 0
+  store_by: uuid
+  auth:
+    access_key: {{ vault_aws_galaxytest_access_key }}
+    secret_key: {{ vault_aws_galaxytest_secret_key }}
+  bucket:
+    name: ga-s3-test-230823
+  connection:  # not strictly needed but more of the API works with this.
+    region: ap-southeast-2
+  cache:
+    path: /mnt/user-data-volA/aws_bucket_test_cache
+    size: 200
+    cache_updated_data: true
 
