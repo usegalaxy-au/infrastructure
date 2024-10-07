@@ -1,8 +1,16 @@
 type: distributed
 search_for_missing: false
 backends:
-- id: data22
+- id: data23
   weight: 1
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volD/data23
+  extra_dirs:
+  - type: job_work
+    path: /mnt/scratch/job_working_directory
+- id: data22
+  weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volA/data22
