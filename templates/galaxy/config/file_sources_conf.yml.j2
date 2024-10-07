@@ -71,3 +71,15 @@
   public_name: ${user.preferences['zenodo_sandbox|public_name']}
   writable: true
 
+{% if inventory_hostname.startswith('dev') %}
+- type: s3fs
+  label: Galaxy Australia Archive Storage
+  endpoint_url: https://swift.rc.nectar.org.au:443
+  id: usegalaxy-au-archive-test
+  bucket: usegalaxy-au-archive-test # use a different container for production
+  doc: Galaxy Australia Archive Storage
+  anon: false
+  secret: {{ vault_nectar_melbournegvl_cb_ec2_secret_key }}
+  key: {{ vault_nectar_melbournegvl_cb_ec2_access_key }}
+  writable: true
+{% endif %}
