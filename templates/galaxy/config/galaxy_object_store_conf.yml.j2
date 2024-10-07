@@ -199,6 +199,9 @@ backends:
     path: /mnt/user-data-volA/nectar_test_cache
     size: 200
     cache_updated_data: true
+  extra_dirs:
+    - type: job_work
+      path: /mnt/scratch/job_working_directory 
 - id: aws_bucket_test
   type: boto3
   weight: 0
@@ -214,4 +217,6 @@ backends:
     path: /mnt/user-data-volA/aws_bucket_test_cache
     size: 200
     cache_updated_data: true
-
+  extra_dirs:
+    - type: job_work
+      path: /mnt/scratch/job_working_directory 
