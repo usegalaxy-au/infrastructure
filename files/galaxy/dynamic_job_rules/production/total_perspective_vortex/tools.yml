@@ -130,6 +130,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/cpat/cpat/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/ctb_im_conformers/ctb_im_conformers/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/ctb_im_rxn_maker/ctb_im_rxn_maker/.*:
     params:
       singularity_enabled: true
@@ -1624,7 +1627,10 @@ tools:
     mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/goseq/goseq/.*:
     params:
-      singularity_enabled: true  
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_gost/gprofiler_gost/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/gtdbtk_classify_wf/gtdbtk_classify_wf/.*:
     cores: 32
     mem: 122.8
