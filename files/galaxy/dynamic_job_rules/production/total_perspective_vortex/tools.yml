@@ -3623,7 +3623,7 @@ tools:
       - pulsar-qld-gpu
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*:
     cores: 8
-    mem: 130  # updated from 69 to 130 to lower the concurrency, not because his needs a lot of RAM
+    mem: 540  # updated from 69 to 130 to lower the concurrency, not because his needs a lot of RAM, the next day updated to 540 so only one will run at once
     gpus: 1
     params:
       singularity_enabled: true
