@@ -1057,6 +1057,9 @@ tools:
     mem: 62
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/kmc/.*:
+    cores: 4
+    mem: 15.3
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/metawrapmg_binning/metawrapmg_binning/.*:
     context:
       test_cores: 10
@@ -1440,6 +1443,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/checkm_.*:
+    cores: 4
+    mem: 15.3
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
@@ -1631,6 +1636,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_gost/gprofiler_gost/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/graphlan_annotate/graphlan_annotate/.*:
+    mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/gtdbtk_classify_wf/gtdbtk_classify_wf/.*:
     cores: 32
     mem: 122.8
@@ -2478,6 +2485,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/ragtag/ragtag/.*:
+    cores: 4
+    mem: 15.3
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/rapidnj/rapidnj/.*:
@@ -3374,8 +3383,11 @@ tools:
     cores: 8
     mem: 30.7
   toolshed.g2.bx.psu.edu/repos/rnateam/targetfinder/targetfinder/.*:
+    cores: 4
+    mem: 15.3
     params:
       tmp_dir: true
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/velvetoptimiser/.*:
     cores: 4
     mem: 15.3
