@@ -1,5 +1,8 @@
 // Custom messages for tool forms
 
+const enableDebug = false;
+const debugLog = (msg) => enableDebug && console.debug("[ToolMsg]: " + msg);
+
 const WAIT_TOOL_MAX_TRIES = 3;
 const WAIT_TOOL_INTERVAL = 500;
 const toolMessages = [
@@ -17,11 +20,11 @@ function waitToolFormLoad() {
     let matched = false;
     const element = document.querySelector('div[tool_id]');
     if (element) {
-        console.log('Tool form has been loaded');
+        debugLog('Tool form has been loaded');
         matched = showToolMessages();
         tries = WAIT_TOOL_MAX_TRIES;
     } else {
-        console.log("No tool form detected (tries: " + tries + ")");
+        debugLog("No tool form detected (tries: " + tries + ")");
     }
     tries < WAIT_TOOL_MAX_TRIES
         && !matched
@@ -33,11 +36,11 @@ function isCurrentToolForm(toolId) {
     for (let element of elements) {
         const thisToolId = element.getAttribute('tool_id');
         if (thisToolId && thisToolId.startsWith(toolId)) {
-            console.log(toolId + " matches " + thisToolId);
+            debugLog(toolId + " matches " + thisToolId);
             return true;
         }
     }
-    console.log(toolId + " not found in page.");
+    debugLog(toolId + " not found in page.");
     return false;
 }
 
@@ -52,7 +55,7 @@ function showToolMessages() {
             if (referenceElement) {
                 referenceElement.parentNode.insertBefore(newElement, referenceElement);
             } else {
-                console.log('Reference element with id="tool-card-body" not found.');
+                debugLog('Reference element with id="tool-card-body" not found.');
             }
             match = true;
         }
@@ -66,7 +69,7 @@ let lastUrlPath = null;
 // Add observer for Vue pathname changes
 const observer = new MutationObserver( () => {
     if (lastUrlPath !== window.location.href) {
-        console.log("Triggered mutation observer");
+        debugLog("Triggered mutation observer");
         tries = 0;
         lastUrlPath = window.location.href;
         setTimeout(waitToolFormLoad, 500);
