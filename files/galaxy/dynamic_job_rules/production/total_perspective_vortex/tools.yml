@@ -1627,6 +1627,10 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/.*:
     mem: 12
+    rules:
+      - id: ggplot2_heatmap2_large_input_rule
+        if: input_size > 0.001
+        mem: 24
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_point/ggplot2_point/.*:
     cores: 1
     mem: 3.8
