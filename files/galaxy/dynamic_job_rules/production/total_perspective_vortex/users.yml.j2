@@ -314,3 +314,9 @@ users:
         slurm_docker_volumes: "{{ slurm_docker_volumes }},/mnt/aws_gateway:ro"
       params:
         object_store_id: aws_gateway_test
+    selenium_st_aws_bucket@genome.edu.au:
+      params:
+        object_store_id: aws_bucket_test
+    selenium_st_nectar@genome.edu.au:
+      params:
+        object_store_id: nectar_test
