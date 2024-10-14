@@ -6,7 +6,7 @@ activate_virtualenv() {
     REQUIREMENTS_FILE="jenkins/requirements.txt"
     CACHED_REQUIREMENTS_FILE="$VIRTUALENV/cached_requirements.txt"
 
-    [ ! -d $VIRTUALENV ] && virtualenv -p python3 $VIRTUALENV
+    [ ! -d $VIRTUALENV ] && virtualenv -p python311 $VIRTUALENV
     # shellcheck source=../.venv3/bin/activate
     . "$VIRTUALENV/bin/activate"
 
