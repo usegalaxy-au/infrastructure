@@ -3658,5 +3658,4 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/plot_ragtag_paf/plot_ragtag_paf/.*:
     params:
       singularity_enabled: true
-      singularity_run_extra_arguments: --writable-tmpfs
 
