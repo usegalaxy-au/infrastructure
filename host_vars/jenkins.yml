@@ -4,7 +4,7 @@ hostname: "{{ ansible_hostname }}.genome.edu.au"
 install_python_311: true
 
 # Jenkins settings
-jenkins_hostname: jenkins-2024.genome.edu.au
+jenkins_hostname: jenkins.genome.edu.au
 jenkins_http_port: 8080
 jenkins_admin_username: admin
 jenkins_admin_password: "{{ vault_jenkins_2024_admin_password }}"
@@ -55,7 +55,7 @@ nginx_servers:
   - redirect-ssl
 nginx_enable_default_server: false
 nginx_ssl_servers:
-  - jenkins-2024
+  - jenkins
 nginx_conf_http:
   client_max_body_size: 1g
 nginx_remove_default_vhost: true

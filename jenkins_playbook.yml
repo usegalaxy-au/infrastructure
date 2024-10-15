@@ -1,12 +1,12 @@
 ---
-- hosts: jenkins-2024
+- hosts: jenkins
   become: true
   vars_files:
     - group_vars/all.yml
     - group_vars/jenkins.yml
     - group_vars/VAULT
     - secret_group_vars/ubuntu_maintenance_key
-    - host_vars/jenkins-2024.yml
+    - host_vars/jenkins.yml
 
   pre_tasks:
     - name: Allow jenkins user to execute things as root

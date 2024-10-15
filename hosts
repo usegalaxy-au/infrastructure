@@ -212,7 +212,7 @@ stats.usegalaxy.org.au ansible_ssh_host=115.146.84.128
 telescope ansible_ssh_host=115.146.86.144
 
 [jenkins_servers]
-jenkins-2024 ansible_ssh_host=115.146.87.250
+jenkins ansible_ssh_host=115.146.87.250
 
 [all:vars]
 ansible_host_key_checking=False
