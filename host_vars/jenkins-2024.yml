@@ -1,5 +1,7 @@
 hostname: "{{ ansible_hostname }}.genome.edu.au"
 
+# install python 3.11 so that venvs running old ansible in the jenkins jobs will work
+install_python_311: true
 
 # Jenkins settings
 jenkins_hostname: jenkins-2024.genome.edu.au
