@@ -77,10 +77,12 @@ roles:
 - name: usegalaxy_eu.rabbitmqserver
   src: https://github.com/cat-bro/ansible-rabbitmq
   version: main
+- name: usegalaxy_eu.walle
+  src: https://github.com/usegalaxy-eu/WallE
 - name: geerlingguy.redis
   version: 1.8.0
-
+- name: geerlingguy.redis
+  version: 1.8.0
 # jenkins server roles
 - name: geerlingguy.java
 - name: geerlingguy.jenkins
-
