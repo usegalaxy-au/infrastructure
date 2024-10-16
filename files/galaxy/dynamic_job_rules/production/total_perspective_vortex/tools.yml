@@ -3516,6 +3516,9 @@ tools:
       - pulsar-qld-gpu
       - pulsar-qld-gpu-alphafold
 
+  cat1:
+    params:
+      tmp_dir: true
   cellranger:
     cores: 6
     mem: 20
@@ -3592,6 +3595,9 @@ tools:
       - pulsar-qld-high-mem1
       accept:
       - pulsar
+  random_lines1:
+    params:
+      tmp_dir: true
   'Show tail1':
     mem: 10
   sort1:
