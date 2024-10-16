@@ -305,18 +305,42 @@ users:
               - offline
             require:
               - pulsar-qld-gpu6
+    __selenium_test_user:
+      abstract: true
+      rules:
+        - id: selenium_test_user_pulsar_rule
+          if: |
+            tool_id_matched = False
+            # make sure that a number of pulsar-friendly tools will always run on pulsar
+            pulsar_tools = [
+              '/bwa/bwa_mem/',
+              '/fastqc/fastqc/',
+              '/shovill/shovill/',
+            ]
+            if any([pulsar_tool in tool.id for pulsar_tool in pulsar_tools]):
+              tool_id_matched = True
+            tool_id_matched
+          scheduling:
+            require:
+              - pulsar
+    selenium_st_regular@genome.edu.au:
+      inherits: __selenium_test_user
     selenium_st_minio@genome.edu.au:
+      inherits: __selenium_test_user
       params:
         object_store_id: minio_test
     selenium_st_aws_gateway@genome.edu.au:
+      inherits: __selenium_test_user
       context:
         slurm_singularity_volumes: "{{ slurm_singularity_volumes }},/mnt/aws_gateway:ro"
         slurm_docker_volumes: "{{ slurm_docker_volumes }},/mnt/aws_gateway:ro"
       params:
         object_store_id: aws_gateway_test
     selenium_st_aws_bucket@genome.edu.au:
+      inherits: __selenium_test_user
       params:
         object_store_id: aws_bucket_test
     selenium_st_nectar@genome.edu.au:
+      inherits: __selenium_test_user
       params:
         object_store_id: nectar_test
