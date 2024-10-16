@@ -824,3 +824,125 @@ local_query-jobs-by-object-store-id() { ## [object_store_ids]: Comma separated s
 			LIMIT $limit
 	EOF
 }
+
+local_query-user-workflow-invocations() { ##? <limit>
+	galaxy_user_name="$1"
+	[ ! "$2" ] && limit="50" || limit="$2"
+	handle_help "$@" <<-EOF
+
+	For a galaxy username or substring of a username, list the most recently created workflow invocations
+
+	There is an optional second argument of number of rows to return (default 50)
+
+	$ gxadmin local query-user-workflow-invocations cat-bro
+	 history_id | invocation_id | username |        create_time         |        update_time         |   state   |                                 workflow_name
+	------------+---------------+----------+----------------------------+----------------------------+-----------+--------------------------------------------------------------------------------
+		1288385 |         99788 | cat-bro  | 2024-10-16 09:43:02.034373 | 2024-10-16 09:43:30.100329 | scheduled | Copy of Selenium_test_4 shared by user nuwan
+		1098047 |         97435 | cat-bro  | 2024-08-01 04:24:24.407608 | 2024-08-01 04:25:17.873239 | scheduled | Demo workflow for conditional statements
+		1098035 |         97428 | cat-bro  | 2024-08-01 04:09:37.384911 | 2024-08-01 04:10:27.454988 | scheduled | Demo workflow for conditional statements
+	EOF
+	read -r -d '' QUERY <<-EOF
+			SELECT
+				h.id AS history_id,
+				wi.id AS invocation_id,
+				u.username AS username,
+				wi.create_time AS create_time,
+				wi.update_time AS update_time,
+				wi.state AS state,
+				w.name AS workflow_name
+			FROM workflow_invocation wi, workflow w, galaxy_user u, history h
+			WHERE h.user_id = u.id
+			AND wi.history_id = h.id
+			AND wi.workflow_id = w.id
+			AND position('$galaxy_user_name' IN u.username)>0
+			ORDER BY create_time DESC limit '$limit'
+	EOF
+}
+
+local_query-history-job-io() { ##? <limit>
+	history_id="$1"
+	[ ! "$2" ] && limit="50" || limit="$2"
+	handle_help "$@" <<-EOF
+
+	For a history ID, list all jobs with the sizes of their inputs and outputs and runtimes
+
+	$ gxadmin local query-history-job-io 1287964
+	 job_id  |          updated           | state |                          tool_id                          | tpv_cores | tpv_mem_mb | input_size | output_size | runtime  | destination
+	---------+----------------------------+-------+-----------------------------------------------------------+-----------+------------+------------+-------------+----------+-------------
+	 9940284 | 2024-10-16 08:01:52.968507 | ok    | toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.7.17.2 | 8         | 31437      | 4635 MB    | 1695 MB     | 00:14:14 | pulsar-mel3
+	 9940161 | 2024-10-16 07:30:25.697688 | ok    | __DATA_FETCH__                                            | 1         | 10240      |            | 10 GB       | 00:29:19 | slurm
+	 (2 rows)
+
+
+	EOF
+	read -r -d '' QUERY <<-EOF
+			SELECT
+				j.id as job_id,
+				j.update_time as updated,
+				j.state as state,
+				j.tool_id as tool_id,
+				(REGEXP_MATCHES(encode(j.destination_params, 'escape'), 'ntasks=(\d+)'))[1] as tpv_cores,
+				(REGEXP_MATCHES(encode(j.destination_params, 'escape'), 'mem=(\d+)'))[1] as tpv_mem_mb,
+				(
+					SELECT
+					pg_size_pretty(SUM(total_size))
+					FROM (
+						SELECT distinct hda.id as hda_id, d.total_size as total_size
+						FROM dataset d, history_dataset_association hda, job_to_input_dataset jtid
+						WHERE hda.dataset_id = d.id
+						AND jtid.job_id = j.id
+						AND hda.id = jtid.dataset_id
+					) as foo
+				) as input_size,
+				(
+					SELECT
+					pg_size_pretty(SUM(total_size))
+					FROM (
+						SELECT distinct hda.id as hda_id, d.total_size as total_size
+						FROM dataset d, history_dataset_association hda, job_to_output_dataset jtod
+						WHERE hda.dataset_id = d.id
+						AND jtod.job_id = j.id
+						AND hda.id = jtod.dataset_id
+					) as foo
+				) as output_size,
+				(SELECT
+					TO_CHAR((jmn.metric_value || ' second')::interval, 'HH24:MI:SS')
+					FROM job_metric_numeric jmn
+					WHERE jmn.metric_name = 'runtime_seconds'
+					AND jmn.job_id = j.id
+				) as runtime,
+				j.destination_id as destination
+			FROM job j
+			WHERE j.history_id = '$history_id'
+			ORDER BY j.create_time desc
+	EOF
+}
+
+local_query-history-job-output-sum() { ##? <limit>
+	history_id="$1"
+	[ ! "$2" ] && limit="50" || limit="$2"
+	handle_help "$@" <<-EOF
+
+	Calculate the sum of the size of all job outputs in a history, given a history ID.
+
+	$ gxadmin local query-history-job-output-sum 1288385
+	 sum_output_size
+	-----------------
+	 42 GB
+	(1 row)
+
+	EOF
+	read -r -d '' QUERY <<-EOF
+			SELECT
+				pg_size_pretty(SUM(total_size)) as sum_output_size
+				FROM (
+					SELECT distinct hda.id as hda_id, d.total_size as total_size
+					FROM dataset d, history_dataset_association hda, job_to_output_dataset jtod, job j
+					WHERE hda.dataset_id = d.id
+					AND jtod.job_id = j.id
+					AND hda.id = jtod.dataset_id
+					AND j.history_id = '$history_id'
+				) as foo
+
+	EOF
+}
