@@ -3596,6 +3596,7 @@ tools:
       accept:
       - pulsar
   random_lines1:
+    mem: 16
     params:
       tmp_dir: true
   'Show tail1':
