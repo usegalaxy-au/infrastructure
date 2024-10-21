@@ -3556,6 +3556,7 @@ tools:
     scheduling:
       accept:
         - pulsar
+        - training-exempt  # skips user training role rules within users.yml
       require:
         - pulsar-high-mem2
   fgenesh_merge:
@@ -3645,6 +3646,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - training-exempt
       require:
       - pulsar-qld-gpu-other
       - pulsar-qld-gpu
