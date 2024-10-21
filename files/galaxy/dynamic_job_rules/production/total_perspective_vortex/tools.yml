@@ -3660,6 +3660,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - training-exempt
       require:
       - pulsar-qld-gpu-other
       - pulsar-qld-gpu
