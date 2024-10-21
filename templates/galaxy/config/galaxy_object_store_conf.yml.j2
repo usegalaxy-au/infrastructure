@@ -193,7 +193,7 @@ backends:
     - type: job_work
       path: /mnt/scratch/job_working_directory  
 - id: nectar_test
-  type: boto3
+  type: swift
   weight: 0
   store_by: uuid
   auth:
@@ -201,8 +201,13 @@ backends:
     secret_key: {{ vault_nectar_melbournegvl_cb_ec2_secret_key }}
   bucket:
     name: usegalaxy-au-object-store-backend-test
+    use_reduced_redundancy: false
+    max_chunk_size: 250
   connection:
-    endpoint_url: https://swift.rc.nectar.org.au:443/
+    host: "swift.rc.nectar.org.au"
+    port: 443
+    is_secure: true
+    conn_path: "/"
   cache:
     path: /mnt/user-data-volD/nectar_test_cache
     size: 200
