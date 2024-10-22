@@ -1799,6 +1799,8 @@ tools:
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/jcvi_gff_stats/jcvi_gff_stats/.*:
     mem: 8
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/jellyfish/jellyfish/.*:
     mem: 24
     scheduling:
@@ -3556,6 +3558,7 @@ tools:
     scheduling:
       accept:
         - pulsar
+        - training-exempt  # skips user training role rules within users.yml
       require:
         - pulsar-high-mem2
   fgenesh_merge:
@@ -3645,6 +3648,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - training-exempt
       require:
       - pulsar-qld-gpu-other
       - pulsar-qld-gpu
@@ -3658,6 +3662,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - training-exempt
       require:
       - pulsar-qld-gpu-other
       - pulsar-qld-gpu
