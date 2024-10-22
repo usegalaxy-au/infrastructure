@@ -3675,3 +3675,7 @@ tools:
     params:
       singularity_enabled: true
 
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/aarnet_filesender/aarnet_filesender/.*:
+    params:
+      singularity_enabled: true
+  
