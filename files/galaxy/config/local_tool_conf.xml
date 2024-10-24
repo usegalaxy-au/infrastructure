@@ -18,7 +18,4 @@
 	<tool file="/mnt/galaxy/local_tools/interactive_tool/tmt/interactivetool_tmtanalyst.xml" />
         <tool file="/mnt/galaxy/local_tools/interactivetool_ena_upload_table_builder.xml"/>
     </section>
-    <section id="send" name="Send Data">
-        <tool file="/mnt/galaxy/local_tools/aarnetfilesender/filesender.xml" />
-    </section>
 </toolbox>
