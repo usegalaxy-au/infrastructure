@@ -17,7 +17,7 @@
         flat: yes
         fail_on_missing: no
         src: "/mnt/galaxy/var/{{ item }}"
-        dest: "{{ config_backup_dir }}/galaxy_mutable_config"
+        dest: "{{ config_backup_dir }}/galaxy_mutable_config/"
       with_items:
         - integrated_tool_panel.xml
         - migrated_tools_conf.xml
@@ -31,7 +31,7 @@
         flat: yes
         fail_on_missing: no
         src: "/opt/tiaas/{{ item }}"
-        dest: "{{ config_backup_dir }}/tiaas"
+        dest: "{{ config_backup_dir }}/tiaas/"
       with_items:
         - db.sqlite3
 - hosts:
@@ -43,6 +43,6 @@
         flat: yes
         fail_on_missing: no
         src: "/home/ubuntu/mailer/{{ item }}"
-        dest: "{{ config_backup_dir }}/history_mailer"
+        dest: "{{ config_backup_dir }}/history_mailer/"
       with_items:
         - prod_hm.sqlite
