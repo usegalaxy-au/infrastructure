@@ -2,8 +2,8 @@
   tasks:
     - name: ensure directories exist in backup repo
       file:
-        - path: "{{ config_backup_dir }}/{{ item }}"
-          state: directory
+        path: "{{ config_backup_dir }}/{{ item }}"
+        state: directory
       with_items:
         - galaxy_mutable_config
         - tiaas
