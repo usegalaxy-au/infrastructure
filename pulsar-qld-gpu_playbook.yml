@@ -6,7 +6,7 @@
     - group_vars/VAULT
     - group_vars/pulsar_qld_gpus.yml
     - secret_group_vars/stats_server_vault
-    - secret_group_vars/ubuntu_maintenance_key
+    - secret_group_vars/ssh_keys
   pre_tasks:
     - name: ensure Nvidia GPU has been pre-configured with one-offs/initial_nvidia_config_and_disable_cgroups_v2_playbook.yml
       shell:
