@@ -3561,6 +3561,12 @@ tools:
         - training-exempt  # skips user training role rules within users.yml
       require:
         - pulsar-high-mem2
+    rules:
+    - id: fgenesh_annotate_training_rule  # custom training rule for fgenesh - regular training rules are in users.yml.j2
+      if: |
+        user and any([role.name.startswith('training') for role in user.all_roles() if not role.deleted])
+      cores: 4
+      mem: 25
   fgenesh_merge:
     inherits: fgenesh_tool
   fgenesh_split:
