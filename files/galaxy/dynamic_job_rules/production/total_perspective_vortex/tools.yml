@@ -1389,11 +1389,11 @@ tools:
       params:
         singularity_enabled: true
     - id: busco_small_input_rule
-      if: input_size < 0.05
+      if: input_size < 0.01
       cores: 2
       mem: 7.6
     - id: busco_medium_input_rule
-      if: 0.05 <= input_size < 0.3
+      if: 0.01 <= input_size < 0.3
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:  # TODO: revisit setting mem based on reference size (https://github.com/usegalaxy-au/infrastructure/issues/1835)
@@ -1444,9 +1444,12 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/checkm_.*:
     cores: 8
-    mem: 31
+    mem: 120
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
     cores: 1
     mem: 3.8
@@ -2488,9 +2491,13 @@ tools:
     mem: 62
     rules:
     - id: quast_small_input_rule
-      if: input_size < 1
+      if: input_size < 0.01
       cores: 2
       mem: 10
+    - id: quast_medium_input_rule
+      if: 0.01 <= input_size < 1
+      cores: 4
+      mem: 16
   toolshed.g2.bx.psu.edu/repos/iuc/raceid_.*:
     params:
       singularity_enabled: true
