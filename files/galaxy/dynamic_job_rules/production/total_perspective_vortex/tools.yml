@@ -534,6 +534,16 @@ tools:
       if: 1 <= input_size < 20
       cores: 8
       mem: 30.7
+  toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
+    scheduling:
+      accept:
+      - pulsar
+    rules:
+    - id: clustalw_fail_rule
+      if: input_size >= 0.04
+      fail: Too much data, please don't use the clustalw for this.
   toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/.*:
     params:
       dependency_resolution: none
