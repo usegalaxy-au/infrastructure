@@ -21,6 +21,7 @@
         <!-- AAGI tools -->
         <tool file="/mnt/galaxy/local_tools/aagi/aagi_001/aagi_001.xml" labels="aagi"/>
         <tool file="/mnt/galaxy/local_tools/aagi/aagi_002/aagi_002.xml" labels="aagi"/>
+        <tool file="/mnt/galaxy/local_tools/aagi/aagi_003/aagi_003.xml" labels="aagi"/>
     </section>
     <section id="interactivetools" name="Interactive Tools">
         <tool file="/mnt/galaxy/local_tools/lfq/interactivetool_lfqanalyst.xml" />
