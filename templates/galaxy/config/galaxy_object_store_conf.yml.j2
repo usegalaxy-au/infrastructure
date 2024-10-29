@@ -232,4 +232,27 @@ backends:
     cache_updated_data: true
   extra_dirs:
     - type: job_work
-      path: /mnt/scratch/job_working_directory 
+      path: /mnt/scratch/job_working_directory
+- id: pawsey_s3
+  type: generic_s3
+  weight: 0
+  store_by: uuid
+  auth:
+    access_key: {{ vault_pawsey_s3_test_access_key }}
+    secret_key: {{ vault_pawsey_s3_test_secret_key }}
+  bucket:
+    name: galaxy-test
+    use_reduced_redundancy: false
+    max_chunk_size: 250
+  connection:
+    host: "projects.pawsey.org.au"
+    port: 443
+    is_secure: true
+    conn_path: "/"
+  cache:
+    path: /mnt/user-data-volD/pawsey_s3_test_cache
+    size: 20
+    cache_updated_data: true
+  extra_dirs:
+    - type: job_work
+      path: /mnt/scratch/job_working_directory
