@@ -233,6 +233,8 @@ group_galaxy_config:
     build_sites_config_file: "{{ galaxy_config_dir }}/build_sites.yml"
     enable_old_display_applications: true
 
+    citations_export_message_html: 'When writing up your analysis, remember to include all references that should be cited in order to completely describe your work. Also, please remember to <a href="https://galaxyproject.org/citing-galaxy">cite Galaxy Australia</a>.'
+
     dependency_resolvers:
       - type: tool_shed_packages
       - type: galaxy_packages
