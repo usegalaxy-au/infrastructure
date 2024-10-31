@@ -178,7 +178,7 @@ backends:
     # here also - Galaxy will just infer a endpoint_url from those.
   cache:
     path: /mnt/user-data-volD/minio_test_cache
-    size: 200
+    size: 50
     cache_updated_data: true
   # transfer:   # see transfer options for boto3 above in AWS configuration.
   extra_dirs:
@@ -210,7 +210,7 @@ backends:
     conn_path: "/"
   cache:
     path: /mnt/user-data-volD/nectar_test_cache
-    size: 200
+    size: 50
     cache_updated_data: true
   extra_dirs:
     - type: job_work
@@ -228,7 +228,7 @@ backends:
     region: ap-southeast-2
   cache:
     path: /mnt/user-data-volD/aws_bucket_test_cache
-    size: 200
+    size: 50
     cache_updated_data: true
   extra_dirs:
     - type: job_work
@@ -251,7 +251,7 @@ backends:
     conn_path: "/"
   cache:
     path: /mnt/user-data-volD/pawsey_s3_test_cache
-    size: 200
+    size: 50
     cache_updated_data: true
   extra_dirs:
     - type: job_work
