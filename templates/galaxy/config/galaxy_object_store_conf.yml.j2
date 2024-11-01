@@ -162,97 +162,97 @@ backends:
   files_dir: {{ qld_file_mounts_path }}/files/files2
 {% endif %}
 
-- id: minio_test
-  weight: 0
-  type: boto3
-  store_by: uuid
-  auth:
-    access_key: {{ vault_galaxy_minio_access_key }}
-    secret_key: {{ vault_galaxy_minio_secret_key }}
-  bucket:
-    name: galaxytest
-  connection:
-    endpoint_url: https://platforms-s3-poc.aarnet.edu.au
-    # region: some services may make use of region is specified.
-    # older style host, port, secure, and conn_path available to generic_s3 work
-    # here also - Galaxy will just infer a endpoint_url from those.
-  cache:
-    path: /mnt/user-data-volD/minio_test_cache
-    size: 200
-    cache_updated_data: true
-  # transfer:   # see transfer options for boto3 above in AWS configuration.
-  extra_dirs:
-    - type: job_work
-      path: /mnt/scratch/job_working_directory
-- id: aws_gateway_test
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/aws_gateway/data-aws-1
-  extra_dirs:
-    - type: job_work
-      path: /mnt/scratch/job_working_directory  
-- id: nectar_test
-  type: swift
-  weight: 0
-  store_by: uuid
-  auth:
-    access_key: {{ vault_nectar_melbournegvl_cb_ec2_access_key }}
-    secret_key: {{ vault_nectar_melbournegvl_cb_ec2_secret_key }}
-  bucket:
-    name: usegalaxy-au-object-store-backend-test
-    use_reduced_redundancy: false
-    max_chunk_size: 250
-  connection:
-    host: "swift.rc.nectar.org.au"
-    port: 443
-    is_secure: true
-    conn_path: "/"
-  cache:
-    path: /mnt/user-data-volD/nectar_test_cache
-    size: 200
-    cache_updated_data: true
-  extra_dirs:
-    - type: job_work
-      path: /mnt/scratch/job_working_directory 
-- id: aws_bucket_test
-  type: boto3
-  weight: 0
-  store_by: uuid
-  auth:
-    access_key: {{ vault_aws_galaxytest_access_key }}
-    secret_key: {{ vault_aws_galaxytest_secret_key }}
-  bucket:
-    name: ga-s3-test-230823
-  connection:  # not strictly needed but more of the API works with this.
-    region: ap-southeast-2
-  cache:
-    path: /mnt/user-data-volD/aws_bucket_test_cache
-    size: 200
-    cache_updated_data: true
-  extra_dirs:
-    - type: job_work
-      path: /mnt/scratch/job_working_directory
-- id: pawsey_s3_test
-  type: generic_s3
-  weight: 0
-  store_by: uuid
-  auth:
-    access_key: {{ vault_pawsey_s3_test_access_key }}
-    secret_key: {{ vault_pawsey_s3_test_secret_key }}
-  bucket:
-    name: galaxy-test
-    use_reduced_redundancy: false
-    max_chunk_size: 250
-  connection:
-    host: "projects.pawsey.org.au"
-    port: 443
-    is_secure: true
-    conn_path: "/"
-  cache:
-    path: /mnt/user-data-volD/pawsey_s3_test_cache
-    size: 200
-    cache_updated_data: true
-  extra_dirs:
-    - type: job_work
-      path: /mnt/scratch/job_working_directory
+# - id: minio_test
+#   weight: 0
+#   type: boto3
+#   store_by: uuid
+#   auth:
+#     access_key: {{ vault_galaxy_minio_access_key }}
+#     secret_key: {{ vault_galaxy_minio_secret_key }}
+#   bucket:
+#     name: galaxytest
+#   connection:
+#     endpoint_url: https://platforms-s3-poc.aarnet.edu.au
+#     # region: some services may make use of region is specified.
+#     # older style host, port, secure, and conn_path available to generic_s3 work
+#     # here also - Galaxy will just infer a endpoint_url from those.
+#   cache:
+#     path: /mnt/user-data-volD/minio_test_cache
+#     size: 200
+#     cache_updated_data: true
+#   # transfer:   # see transfer options for boto3 above in AWS configuration.
+#   extra_dirs:
+#     - type: job_work
+#       path: /mnt/scratch/job_working_directory
+# - id: aws_gateway_test
+#   weight: 0
+#   type: disk
+#   store_by: uuid
+#   files_dir: /mnt/aws_gateway/data-aws-1
+#   extra_dirs:
+#     - type: job_work
+#       path: /mnt/scratch/job_working_directory  
+# - id: nectar_test
+#   type: swift
+#   weight: 0
+#   store_by: uuid
+#   auth:
+#     access_key: {{ vault_nectar_melbournegvl_cb_ec2_access_key }}
+#     secret_key: {{ vault_nectar_melbournegvl_cb_ec2_secret_key }}
+#   bucket:
+#     name: usegalaxy-au-object-store-backend-test
+#     use_reduced_redundancy: false
+#     max_chunk_size: 250
+#   connection:
+#     host: "swift.rc.nectar.org.au"
+#     port: 443
+#     is_secure: true
+#     conn_path: "/"
+#   cache:
+#     path: /mnt/user-data-volD/nectar_test_cache
+#     size: 200
+#     cache_updated_data: true
+#   extra_dirs:
+#     - type: job_work
+#       path: /mnt/scratch/job_working_directory 
+# - id: aws_bucket_test
+#   type: boto3
+#   weight: 0
+#   store_by: uuid
+#   auth:
+#     access_key: {{ vault_aws_galaxytest_access_key }}
+#     secret_key: {{ vault_aws_galaxytest_secret_key }}
+#   bucket:
+#     name: ga-s3-test-230823
+#   connection:  # not strictly needed but more of the API works with this.
+#     region: ap-southeast-2
+#   cache:
+#     path: /mnt/user-data-volD/aws_bucket_test_cache
+#     size: 200
+#     cache_updated_data: true
+#   extra_dirs:
+#     - type: job_work
+#       path: /mnt/scratch/job_working_directory
+# - id: pawsey_s3_test
+#   type: generic_s3
+#   weight: 0
+#   store_by: uuid
+#   auth:
+#     access_key: {{ vault_pawsey_s3_test_access_key }}
+#     secret_key: {{ vault_pawsey_s3_test_secret_key }}
+#   bucket:
+#     name: galaxy-test
+#     use_reduced_redundancy: false
+#     max_chunk_size: 250
+#   connection:
+#     host: "projects.pawsey.org.au"
+#     port: 443
+#     is_secure: true
+#     conn_path: "/"
+#   cache:
+#     path: /mnt/user-data-volD/pawsey_s3_test_cache
+#     size: 200
+#     cache_updated_data: true
+#   extra_dirs:
+#     - type: job_work
+#       path: /mnt/scratch/job_working_directory
