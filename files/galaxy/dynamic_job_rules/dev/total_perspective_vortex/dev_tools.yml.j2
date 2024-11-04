@@ -1,25 +1,5 @@
 tools:
-  aagi_001:
-    cores: 4
-    mem: 8
-    env:
-      DOCKERHUB_USERNAME: aagisupport
-      DOCKERHUB_PASSWORD: "{{ vault_aagi_dockerhub_password }}"
-    params:
-      docker_enabled: true
-      docker_sudo: false
-      require_container: true
-      docker_cmd: 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD && docker'
-    rules:
-    - if: |
-        not user or not 'aagi' in [role.name for role in user.all_roles() if not role.deleted]
-      fail: |
-        Access to this tool is restricted. Please submit a support ticket if you believe you should have access.
-    scheduling:
-      require:
-        - slurm
-
-  aagi_002:
+  aagi_*:
     cores: 4
     mem: 8
     env:
