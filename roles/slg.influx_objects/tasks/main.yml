@@ -68,6 +68,24 @@
   with_items: "{{ retention_policy_dbs }}"
   when: not ansible_check_mode # This task is not safe if DB doesn't exist.
 
+- name: create 8 week retention policy
+  influxdb_retention_policy:
+    database_name: "{{ item }}"
+    policy_name: two_months
+    duration: 8w
+    replication: 1
+    default: true
+    # Auth
+    username: "{{ influxdb.admin.username }}"
+    password: "{{ influxdb.admin.password }}"
+    hostname: "{{ hostname }}"
+    ssl: "{{ influxdb_ssl }}"
+    validate_certs: "{{ influxdb_validate_certs }}"
+    use_udp: no
+    udp_port: 4444
+  with_items: "{{ retention_policy_8w_dbs }}"
+  when: not ansible_check_mode # This task is not safe if DB doesn't exist.
+
 - name: Grant permissions to galaxy
   influxdb_query:
     database_name: "{{ item }}"

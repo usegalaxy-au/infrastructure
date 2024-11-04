@@ -126,6 +126,10 @@ retention_policy_dbs:
   - 'mdu-phl'
   - 'mdu-research'
 
+retention_policy_8w_dbs:
+  - 'galaxy_etca'
+
+
 ###### Grafana
 
 # set version (currently installed version on Ubuntu 20.04.5 LTS) so doesn't update Grafana when role is executed again
