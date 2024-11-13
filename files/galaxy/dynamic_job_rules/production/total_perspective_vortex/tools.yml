@@ -904,6 +904,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/gtf2gene_list/_ensembl_gtf2gene_list/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/retrieve_scxa/retrieve_scxa/.*:
+    params:
+      singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy.*:
     mem: 4 + input_size * 10
     params:
