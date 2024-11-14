@@ -26,7 +26,7 @@
     - group_vars/VAULT
     - host_vars/pulsar-nci-training/pulsar-nci-training.usegalaxy.org.au.yml
     - secret_group_vars/stats_server_vault
-    - secret_group_vars/ubuntu_maintenance_key
+    - secret_group_vars/ssh_keys
   roles:
     - common
     - insspb.hostname
