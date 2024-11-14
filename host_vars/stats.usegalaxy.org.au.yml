@@ -113,7 +113,6 @@ retention_policy_dbs:
   - 'pulsar-mel3'
   - 'pulsar-paw'
   - 'pulsar-nci-training'
-  - 'galaxy_etca'
   - 'aarnet'
   - 'pawsey'
   - 'pulsar-QLD'
