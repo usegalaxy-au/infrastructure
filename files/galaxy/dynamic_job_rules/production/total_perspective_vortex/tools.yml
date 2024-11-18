@@ -839,6 +839,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/samtools_idxstats/.*:
     cores: 2
     mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/iuc/samtools_markdup/samtools_markdup/.*:
+    cores: 4
+    mem: 15.3
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/.*:
     cores: 5
     mem: 19.1
@@ -1263,7 +1266,7 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/anndata_inspect/anndata_inspect/.*:
-    mem: 2 + (input_size * 7)
+    mem: 4 + (input_size * 7)
     scheduling:
       accept:
         - pulsar  
@@ -3302,6 +3305,18 @@ tools:
     - id: metaspades_fail_rule
       if: input_size >= 60
       fail: Too much data, please don't use Spades for this
+  toolshed.g2.bx.psu.edu/repos/nml/mob_suite/.*:
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
+  toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/.*:
+    rules:
+      - id: mob_recon_large_input_rule
+        if: input_size > 0.004
+        cores: 2
+        mem: 7.6
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
