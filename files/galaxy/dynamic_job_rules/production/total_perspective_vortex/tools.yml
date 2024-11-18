@@ -2276,6 +2276,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
     cores: 3
     mem: 11.5
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/mummer.*:
     params:
       singularity_enabled: true
