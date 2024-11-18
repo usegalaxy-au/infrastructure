@@ -277,7 +277,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/itsx/itsx/.*:
     params:
       singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/.*:  # Not working on pulsar (18/11/24 CB)
+  toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/.*:
     cores: 8
     mem: 32 # TODO: this is 8/16 in shared db. If no further problems update this in shared db
     params:
