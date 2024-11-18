@@ -49,6 +49,7 @@
     - galaxyproject.cvmfs
     - galaxyproject.gxadmin
     - pg-post-tasks
+    - postfix-mail-relay
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
     - dj-wasabi.telegraf
