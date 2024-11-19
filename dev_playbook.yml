@@ -64,7 +64,7 @@
     - dj-wasabi.telegraf
     - postfix-mail-relay
     - acl-on-startup
-    - role: usegalaxy_au.walle
+    - role: usegalaxy_eu.walle
       tags: walle
   post_tasks:
     - name: Ensure object store paths exist
