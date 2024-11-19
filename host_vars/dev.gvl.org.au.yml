@@ -219,7 +219,7 @@ db_address: "dev-db.gvl.org.au"
 gxadmin_ubuntu_config_dir: /home/ubuntu/.config
 
 # host-specific settings for postfix
-postfix_host_domain: "dev.gvl.org.au"
+postfix_host_domain: "gvl.org.au"
 postfix_hostname: "dev"
 smtp_login: "{{ vault_smtp_login_dev }}"
 smtp_password: "{{ vault_smtp_password_dev }}"
