@@ -125,12 +125,3 @@
         insertafter: "\tpostrotate"
       with_items:
         - "\t\tcp {{ nginx_log_olddir_root }}/* {{ nginx_long_term_log_dir }}/"
-
-    - name: Copy galaxy_jwd.py script to walle_script_location
-      copy:
-        src: "galaxy/walle/galaxy_jwd.py"
-        dest: "{{ walle_script_location|dirname }}/galaxy_jwd.py"
-        mode: 0755
-        owner: "{{ walle_user_name }}"
-        group: "{{ walle_user_group }}"
-      tags: walle
