@@ -84,4 +84,6 @@ roles:
   version: 1.8.0
 # jenkins server roles
 - name: geerlingguy.java
+  version: 2.5.0
 - name: geerlingguy.jenkins
+  version: 5.2.0
