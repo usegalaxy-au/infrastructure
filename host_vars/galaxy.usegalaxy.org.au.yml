@@ -847,7 +847,7 @@ toolmsg_messages:
 
   - tool_id: toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold
     message: >
-      This tool has been updated in line with best practice recommendations. <a href=""https://site.usegalaxy.org.au/notice/32" target="_blank">Click for more information.</a>
+      This tool has been updated in line with best practice recommendations. <a href="https://site.usegalaxy.org.au/notice/32" target="_blank">Click for more information.</a>
     class: info
 
 # ssh config, only for ubuntu
