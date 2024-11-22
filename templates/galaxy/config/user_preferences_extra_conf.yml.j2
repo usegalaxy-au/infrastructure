@@ -90,7 +90,8 @@ preferences:
               label: App Password
               type: password
               required: False
-    
+
+{% if inventory_hostname.startswith('dev') %}
     xnat_account:
         description: Xnat Server and Account
         inputs:
@@ -106,6 +107,6 @@ preferences:
               label: Password
               type: password
               required: True
-
+{% endif %}
               
 
