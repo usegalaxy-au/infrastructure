@@ -97,6 +97,11 @@ __machine_users:
         - galaxy_admin
       key: files/keys/michaeld.pub
       email: "{{ michaeld_email }}"
+    - name: tristan
+      uid: 7303
+      roles: []
+      key: files/keys/tristan.pub
+      email: "{{ tristan_email }}"
 
 
 host_machine_users: [] # by default - may be overridden in host/group vars files
