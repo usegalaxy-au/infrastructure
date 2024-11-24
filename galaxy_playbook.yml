@@ -63,8 +63,8 @@
     - slg.galaxy_stats
     - galaxy-pg-cleanup
     - galaxyproject.tiaas2
-    # - role: usegalaxy_eu.walle
-    #   tags: walle
+    - role: usegalaxy_eu.walle
+      tags: walle
   post_tasks:
     - name: create dir for galaxy's singularity cache
       file:
