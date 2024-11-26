@@ -3158,8 +3158,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/umi_tools_dedup/umi_tools_dedup/.*:
-    cores: 2
-    mem: 7.6
+    cores: 3
+    mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
