@@ -958,7 +958,7 @@ tools:
       alphafold_aa_length_max: 3000
       alphafold_max_input_sequences: 10
       alphafold_db: /data/v2.3
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     gpus: 1
     cores: 16
     mem: 130
