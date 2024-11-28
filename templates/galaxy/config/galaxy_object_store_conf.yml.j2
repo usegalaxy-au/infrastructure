@@ -130,44 +130,44 @@ backends:
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ pawsey_file_mounts_path }}/user-data/user-data-6
+  files_dir: {{ pawsey_file_mounts_path }}/user-data/aarnetNFS6
 - id: aarnetNFS5
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ pawsey_file_mounts_path }}/user-data/user-data-5
+  files_dir: {{ pawsey_file_mounts_path }}/user-data/aarnetNFS5
 - id: perthNFS1
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ pawsey_file_mounts_path }}/user-data
+  files_dir: {{ pawsey_file_mounts_path }}/user-data/perthNFS1
 - id: perthNFS4
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ pawsey_file_mounts_path }}/user-data-4
+  files_dir: {{ pawsey_file_mounts_path }}/user-data-4/perthNFS4
 - id: perthNFS2
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ pawsey_file_mounts_path }}/user-data-2
+  files_dir: {{ pawsey_file_mounts_path }}/user-data-2/perthNFS2
 - id: perthNFS3
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ pawsey_file_mounts_path }}/user-data-3
+  files_dir: {{ pawsey_file_mounts_path }}/user-data-3/perthNFS3
 {% endif %}
 {% if qld_file_mounts_available|d(True) %}
 - id: qldNFS1
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ qld_file_mounts_path }}/files
+  files_dir: {{ qld_file_mounts_path }}/files/qldNFS1
 - id: qldNFS2
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ qld_file_mounts_path }}/files/files2
+  files_dir: {{ qld_file_mounts_path }}/files/qldNFS2
 {% endif %}
 
 {% if test_object_store_paths_enabled|d(False) %}
