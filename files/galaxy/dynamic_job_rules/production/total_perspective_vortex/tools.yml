@@ -3226,6 +3226,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/.*:
     cores: 5
     mem: 19.1
+    rules:
+    - id: cutadapt_singularity_rule
+      if: |
+        minimum_singularity_version = '4.0+galaxy0'  # earlier versions have not been tested and might work
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     cores: 8
     mem: 30.7

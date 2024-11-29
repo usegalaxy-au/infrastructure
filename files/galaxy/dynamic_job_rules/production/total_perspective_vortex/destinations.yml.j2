@@ -127,10 +127,10 @@ destinations:
     tags: {{ job_conf_limits.environments['pulsar-mel2'].tags }}
     scheduling:
       accept:
-        - pulsar-mel2
         - bakta_database
       require:
         - pulsar
+        - pulsar-mel2  # 29/11/12: temporary change for storage testing, this tag should normally be in 'accept' instead of 'require'
   pulsar-mel3:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
