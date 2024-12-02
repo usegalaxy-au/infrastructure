@@ -266,6 +266,9 @@ tools:
       #scheduling:
       #  require:
       #  - pulsar-high-mem1
+  toolshed.g2.bx.psu.edu/repos/bgruening/infernal/infernal_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/interproscan/interproscan/.*:
     context:
       max_concurrent_job_count_for_tool_user: 3
@@ -1861,6 +1864,9 @@ tools:
       reject:
       - pulsar-QLD
   toolshed.g2.bx.psu.edu/repos/iuc/kraken_biom/kraken_biom/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/krakentools_.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/krakentools_extract_kraken_reads/krakentools_extract_kraken_reads/.*:
