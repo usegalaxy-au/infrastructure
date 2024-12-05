@@ -91,6 +91,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/bismark/bismark_.*:
     params:
       singularity_enabled: true
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/bgruening/blobtoolkit/blobtoolkit/.*:
     mem: 12
     params:
