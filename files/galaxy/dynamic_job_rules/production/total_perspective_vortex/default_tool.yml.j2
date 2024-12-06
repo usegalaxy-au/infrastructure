@@ -5,7 +5,8 @@ tools:
   default:
     cores: 1
     mem: cores * 3.8
-    env: {}
+    env: 
+      HDF5_USE_FILE_LOCKING: "FALSE"
     context:
       partition: main
       test_cores: 1  # TODO: test_mem?
