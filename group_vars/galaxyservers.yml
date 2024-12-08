@@ -147,6 +147,7 @@ galaxy_process_env:  # environment variables for gunicorn and handlers processes
   DRMAA_LIBRARY_PATH: "/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"
   SINGULARITY_CACHEDIR: "{{ galaxy_user_singularity_cachedir }}"
   SINGULARITY_TMPDIR: "{{ galaxy_user_singularity_tmpdir }}"
+  HDF5_USE_FILE_LOCKING: "FALSE"
 
 #########################################
 # group_galaxy_config contains variables for galaxy_config that can be overridden by variables in host_galaxy_config (defined in host_vars)
