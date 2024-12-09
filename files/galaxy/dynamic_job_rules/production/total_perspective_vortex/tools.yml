@@ -922,19 +922,19 @@ tools:
       accept:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_multiplet_scrublet/scanpy_multiplet_scrublet/.*:
-    mem: 1 + input_size * 65
+    mem: 4 + input_size * 65
     rules:
     - id: scanpy_multiplet_scrublet_fail_rule
       if: input_size > 10
       fail: Too much data. Total input data must be less than 10GB.
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_scale_data/scanpy_scale_data/.*:
-    mem: 1 + input_size * 32
+    mem: 4 + input_size * 32
     rules:
     - id: scanpy_scale_data_fail_rule
       if: input_size > 10
       fail: Too much data. Total input data must be less than 10GB.
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_run_pca/scanpy_run_pca/.*:
-    mem: 2 + input_size * 10
+    mem: 4 + input_size * 10
     rules:
     - id: scanpy_run_pca_fail_rule
       if: input_size > 20
