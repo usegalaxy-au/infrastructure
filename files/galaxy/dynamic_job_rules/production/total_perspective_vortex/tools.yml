@@ -1566,6 +1566,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     mem: min(3 * input_size + 2, 40)
   toolshed.g2.bx.psu.edu/repos/iuc/fastani/fastani/.*:
+    cores: 4
+    mem: 15.3
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/feelnc/feelnc/.*:
