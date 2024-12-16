@@ -130,7 +130,6 @@ destinations:
         - bakta_database
       require:
         - pulsar
-        - pulsar-mel2  # 29/11/12: temporary change for storage testing, this tag should normally be in 'accept' instead of 'require'
   pulsar-mel3:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
@@ -149,6 +148,7 @@ destinations:
         # - pulsar-blast  # alternate location for pulsar blast jobs when pulsar-qld-blast is unavailable
       require:
         - pulsar
+        - pulsar-quick
   pulsar-high-mem1:
     inherits: _pulsar_destination
     runner: pulsar-high-mem1_runner
