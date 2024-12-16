@@ -1563,6 +1563,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/export2graphlan/export2graphlan/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/falco/falco/.*:
+    cores: 4
+    mem: 15.3
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     mem: min(3 * input_size + 2, 40)
   toolshed.g2.bx.psu.edu/repos/iuc/fastani/fastani/.*:
