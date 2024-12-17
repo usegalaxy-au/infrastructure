@@ -2519,10 +2519,15 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/ragtag/ragtag/.*:
-    cores: 4
-    mem: 15.3
+    cores: 8
+    mem: 30.7
     params:
       singularity_enabled: true
+    rules:
+    - id: ragtag_small_input_rule
+      if: input_size < 2
+      cores: 4
+      mem: 15.3
   toolshed.g2.bx.psu.edu/repos/iuc/rapidnj/rapidnj/.*:
     params:
       singularity_enabled: true
