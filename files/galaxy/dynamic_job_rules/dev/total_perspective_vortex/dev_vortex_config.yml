@@ -1,4 +1,15 @@
 tools:
+  __lomem_with_resubmit:
+    abstract: true
+    mem: 0.0001 + 4 * (int(job.destination_params.get('submission_number', 1) - 1 if job.destination_params else 0)
+    params:
+      submission_number: "{1 + int(job.destination_params.get('submission_number', 1) if job.destination_params else 1}"
+    resubmit:
+      obviously_bcos_too_low_to_start_with:
+        condition: memory_limit_reached and attempt <= 3
+        destination: tpv_dispatcher
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/1.1.1:
+    inherits: lomem_with_resubmit
   __DATA_FETCH__:
     params:
       tmp_dir: True
