@@ -1049,6 +1049,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-quick
     rules:
     - id: hifiadapterfilt_large_input_rule
       if: input_size > 40
@@ -1984,6 +1985,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-quick
       - pulsar-training-large
     rules:
     - id: megahit_small_input_rule
