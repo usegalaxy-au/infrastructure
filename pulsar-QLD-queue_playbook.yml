@@ -8,7 +8,7 @@
       - host_vars/pulsar-QLD/pulsar-QLD-queue.genome.edu.au.yml
       - group_vars/pulsar_QLD/pulsar-QLD_slurm.yml
       - secret_group_vars/stats_server_vault
-      - secret_group_vars/ubuntu_maintenance_key
+      - secret_group_vars/ssh_keys
   roles:
       - common
       - insspb.hostname

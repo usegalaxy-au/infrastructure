@@ -31,3 +31,8 @@ attached_volumes:
 # docker
 docker_daemon_options:
   data-root: /mnt/tmpdisk/docker-data
+
+extra_keys:
+  - id: pulsar_internal_hop_key
+    type: public
+    from: "{{ hostvars['pulsar-nci-training']['internal_ip'] }}"

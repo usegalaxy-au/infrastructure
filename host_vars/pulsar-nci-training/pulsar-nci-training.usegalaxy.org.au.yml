@@ -28,7 +28,13 @@ extra_keys:
   - id: ubuntu_maintenance_key
     type: public
     from: "{{ hostvars['galaxy']['ansible_ssh_host'] }},{{ hostvars['galaxy-handlers']['ansible_ssh_host'] }},{{ hostvars['galaxy-backup']['ansible_ssh_host'] }}"
+  - id: pulsar_internal_hop_key
+    type: private
 
+# ssh config for ubuntu to ssh to worker machines
+ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/pulsar_internal_hop_key"
+ssh_config_user: ubuntu
+ssh_config_hosts: "{{ groups['pulsar_nci_training_workers'] }}"
 
 # docker
 docker_daemon_options:
