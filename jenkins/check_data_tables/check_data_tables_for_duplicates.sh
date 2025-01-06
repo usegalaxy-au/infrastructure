@@ -5,4 +5,4 @@ export REQUIREMENTS_FILE="jenkins/check_data_tables/requirements.txt"
 
 activate_virtualenv
 
-python check_data_tables_for_dups.py -a $API_KEY --notify --slack_token $SLACK_TOKEN
+python jenkins/check_data_tables/check_data_tables_for_dups.py -a $API_KEY --notify --slack_token $SLACK_TOKEN
