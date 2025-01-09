@@ -1568,6 +1568,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     mem: min(3 * input_size + 2, 40)
   toolshed.g2.bx.psu.edu/repos/iuc/fastani/fastani/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 4
     cores: 4
     mem: 15.3
     params:
