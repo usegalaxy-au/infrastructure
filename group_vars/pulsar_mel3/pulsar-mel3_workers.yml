@@ -4,22 +4,13 @@ add_hosts_head: yes
 
 shared_mounts:
     - path: /mnt/custom-indices
-      src: pulsar-mel3:/mnt/custom-indices
+      src: "{{ hostvars['pulsar-mel3-nfs']['ansible_ssh_host'] }}:/mnt/custom-indices"
       fstype: nfs
       state: mounted
     - path: /mnt/pulsar
       src: pulsar-mel3:/mnt/pulsar
       fstype: nfs
       state: mounted
-    - path: /mnt/files
-      src: pulsar-mel3:/mnt/files
-      fstype: nfs
-      state: mounted
-    - path: /mnt/tools-indices
-      src: pulsar-mel3:/mnt/tools-indices
-      fstype: nfs
-      state: absent
-
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
@@ -30,7 +21,14 @@ attached_volumes:
   - device: /dev/vdb
     path: /mnt
     fstype: ext4
+    partition: 1
 
 # docker
 docker_daemon_options:
   data-root: /mnt/docker-data
+
+# internal ssh key
+extra_keys:
+  - id: pulsar_internal_hop_key
+    type: public
+    from: "{{ hostvars['mel3']['ansible_ssh_host'] }}"

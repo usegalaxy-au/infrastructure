@@ -1,0 +1,8 @@
+---
+handlers:
+  - name: update-grub
+    command: /usr/sbin/update-grub
+    listen: "update grub"
+  - name: reboot
+    reboot:
+    listen: "reboot"

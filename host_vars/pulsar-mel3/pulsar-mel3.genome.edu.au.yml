@@ -5,10 +5,8 @@ hostname: "{{ ansible_hostname }}.genome.edu.au"
 #NFS shares
 
 nfs_exports:
-    - "{{ pulsar_custom_indices_dir }}  *(rw,async,no_root_squash,no_subtree_check)"
-    - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
-    - "/mnt/files   *(rw,async,no_root_squash,no_subtree_check)"
-
+  - "/mnt/pulsar  115.146.84.0/22(rw,async,no_root_squash,no_subtree_check)"
+ 
 create_ssh_key: yes  # Only the first time.
 ssl_country: "AU"
 ssl_state: "Vic"
@@ -31,14 +29,25 @@ attached_volumes:
   - device: /dev/vdb
     path: /mnt
     fstype: ext4
-  - device: /dev/vdc
-    path: /mnt/files
-    fstype: ext4
+    partition: 1
+
+shared_mounts:
+    - path: /mnt/custom-indices
+      src: "{{ hostvars['pulsar-mel3-nfs']['ansible_ssh_host'] }}:/mnt/custom-indices"
+      fstype: nfs
+      state: mounted
 
 extra_keys:
   - id: ubuntu_maintenance_key
     type: public
     from: "{{ hostvars['galaxy']['ansible_ssh_host'] }},{{ hostvars['galaxy-handlers']['ansible_ssh_host'] }},{{ hostvars['galaxy-backup']['ansible_ssh_host'] }}"
+  - id: pulsar_internal_hop_key
+    type: private
+
+# ssh config for ubuntu to ssh to worker machines
+ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/pulsar_internal_hop_key"
+ssh_config_user: ubuntu
+ssh_config_hosts: "{{ groups['pulsar_mel3_workers'] + groups['pulsar_mel3_nfs'] }}"
 
 # docker
 docker_daemon_options:
