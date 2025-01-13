@@ -1,7 +1,6 @@
 attached_volumes:
   - device: /dev/vdb
-    partition: 1
-    path: /mnt
+    path: /mnt/custom-indices
     fstype: ext4
 
 custom_indices_dir: /mnt/custom-indices
