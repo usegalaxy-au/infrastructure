@@ -1,0 +1,91 @@
+{% if certbot_certificates.stat.exists %}# Server config for {{ inventory_hostname }} in docker
+
+
+{% if nginx_limit_requests_per_minute %}
+# Define a zone to store client IP rate data, 1MB can store data for about 16,000 IPs
+limit_req_zone $binary_remote_addr zone=one:10m rate={{ nginx_limit_requests_per_minute }}r/m;
+{% endif %}
+
+
+upstream {{ docker_container_name }} {
+    server {{ docker_container_name }}:8000;
+}
+
+
+server {
+    # redirect www to non-www
+    server_name www.{{ inventory_hostname }};
+    return 301 $scheme://{{ inventory_hostname }}$request_uri;
+}
+
+server {
+
+    server_name  {{ inventory_hostname }};
+
+    access_log   /var/log/nginx/{{ docker_container_name }}.access.log;
+    error_log    /var/log/nginx/{{ docker_container_name }}.error.log;
+
+    if ( $host !~* ^({{ inventory_hostname }})$ ) {
+        # Reject requests with incorrect host header
+        return 444;
+    }
+
+    location = /biconcave {
+        return  404;
+    }
+
+    location = /favicon.ico {
+        alias  /var/www/static/favicon/favicon.ico;
+    }
+
+    location /.well-known/acme-challenge {
+        root /var/www/certbot;
+    }
+
+    location /static {
+        root /var/www;
+    }
+
+    location /media {
+        root /var/www;
+    }
+
+    location  / {
+        proxy_pass            http://{{ docker_container_name }};
+        proxy_redirect        off;
+        proxy_set_header      Host                 $host;
+        proxy_set_header      X-Real-IP            $remote_addr;
+        proxy_set_header      X-Forwarded-For      $proxy_add_x_forwarded_for;
+        proxy_hide_header     X-Frame-Options;
+        proxy_read_timeout    600;  # seconds
+        client_max_body_size  1000m;
+        {% if nginx_limit_requests_per_minute %}
+        limit_req zone=one burst=5 nodelay;
+        {% endif %}
+    }
+
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem;
+
+}
+{% endif %}
+
+
+# Server config for certbot
+
+server {
+    listen 80;
+    server_name {{ inventory_hostname }};
+
+    location /.well-known/acme-challenge/ {
+        alias /var/www/certbot/.well-known/acme-challenge/;
+    }
+
+    # Redirect all other traffic to HTTPS, but not the challenge
+    location / {
+        if ($host = {{ inventory_hostname }}) {
+            return 301 https://$host$request_uri;
+        }
+    }
+}

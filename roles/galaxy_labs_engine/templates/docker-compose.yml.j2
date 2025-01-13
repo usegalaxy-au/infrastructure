@@ -1,0 +1,108 @@
+services:
+  labs-engine-dev:
+    profiles:
+      - dev
+    image: neoformit/galaxy-labs-engine:latest
+    build: .
+    container_name: labs-engine-dev-runserver
+    networks:
+      - labs-engine-network
+    ports:
+      - "8000:8000"
+      - "5678:5678"
+    volumes:
+      - type: bind
+        source: "{{ project_root }}"
+        target: "{{ project_root }}"
+    environment:
+      - DJANGO_SETTINGS_MODULE=app.settings.dev
+    command: python manage.py runserver 0.0.0.0:8000
+    restart: always
+    working_dir: "{{ django_root }}"
+
+  labs-engine-debug:
+    profiles:
+      - debug
+    image: neoformit/galaxy-labs-engine:latest
+    build: .
+    container_name: labs-engine-debug
+    networks:
+      - labs-engine-network
+    ports:
+      - "8000:8000"
+      - "5678:5678"  # attach vscode debug
+    volumes:
+      - type: bind
+        source: "{{ project_root }}"
+        target: "{{ project_root }}"
+    environment:
+      - DJANGO_SETTINGS_MODULE=app.settings.dev
+    command: >
+      python -m debugpy
+        --listen 0.0.0.0:5678
+        --wait-for-client
+        manage.py runserver 0.0.0.0:8000
+    restart: always
+    working_dir: "{{ django_root }}"
+
+  labs-engine:
+    profiles:
+      - prod
+    image: neoformit/galaxy-labs-engine:latest
+    user: "33:33"
+    container_name: labs-engine
+    networks:
+      - labs-engine-network
+    ports:
+      - "8000:8000"
+    volumes:
+      - /srv:/srv
+    environment:
+      - DJANGO_SETTINGS_MODULE=app.settings.prod
+    command: >
+      gunicorn
+        --bind 0.0.0.0:8000
+        --access-logfile='-'
+        --error-logfile='-'
+        --capture-output
+        --log-level info
+        -c {{ config_root }}/gunicorn.py
+        app.wsgi:application
+    restart: always
+    working_dir: "{{ django_root }}"
+
+  nginx:
+    profiles:
+      - prod
+      - certbot
+    image: nginx:latest
+    container_name: nginx
+    networks:
+      - labs-engine-network
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "{{ django_root }}/app/static:/var/www/static:ro"
+      - "{{ django_root }}/app/media:/var/www/media:ro"
+      - "{{ config_root }}/nginx/ssl:/etc/nginx/ssl:ro"
+      - "{{ config_root }}/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro"
+      - /var/log/nginx:/var/log/nginx:rw
+      - /var/www/certbot/:/var/www/certbot/:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    restart: always
+
+  certbot:
+    profiles:
+      - certbot
+    depends_on:
+      - nginx
+    image: certbot/certbot:latest
+    container_name: certbot
+    volumes:
+      - /var/www/certbot:/var/www/certbot:rw
+      - /etc/letsencrypt:/etc/letsencrypt:rw
+
+networks:
+  labs-engine-network:
+    driver: bridge

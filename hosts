@@ -218,3 +218,9 @@ jenkins ansible_ssh_host=115.146.87.250
 ansible_host_key_checking=False
 ansible_user=ubuntu
 ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
+[labs_engine]
+labs.usegalaxy.org.au  ansible_connection=ssh  ansible_user=ubuntu
+
+[labs_engine_dev]
+dev-labs.gvl.org.au  ansible_connection=ssh  ansible_user=ubuntu
