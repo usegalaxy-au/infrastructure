@@ -30,6 +30,10 @@ postgresql_users:
   - name: "{{ postgres_db_user }}"
     password: "{{ vault_gms_postgres_db_password }}"
     db: "{{ postgres_db_name }}"
+
+postgresql_privs:
+  - name: "{{ postgres_db_user }}"
+    db: "{{ postgres_db_name }}"
     priv: ALL
 
 postgres_users_no_log: false
