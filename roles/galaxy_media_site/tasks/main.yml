@@ -1,20 +1,5 @@
 ---
 
-- name: Check whether SSL certificate is already installed
-  ansible.builtin.shell: "certbot certificates"
-  register: certbot_certificates
-  changed_when: false
-
-- name: Set ssl_cert_exists fact from certbot output
-  ansible.builtin.set_fact:
-    ssl_cert_exists: "{{ true if inventory_hostname in certbot_certificates.stdout else false }}"
-  changed_when: false
-
-- name: create server directory
-  file:
-    path: "{{ server_root }}"
-    state: directory
-
 - name: Add the deadsnakes PPA repository
   apt_repository:
     repo: ppa:deadsnakes/ppa
@@ -33,6 +18,21 @@
       - python3-virtualenv
       - python3.12-dev
       - python3-certbot-nginx
+
+- name: Check whether SSL certificate is already installed
+  ansible.builtin.shell: "certbot certificates"
+  register: certbot_certificates
+  changed_when: false
+
+- name: Set ssl_cert_exists fact from certbot output
+  ansible.builtin.set_fact:
+    ssl_cert_exists: "{{ true if inventory_hostname in certbot_certificates.stdout else false }}"
+  changed_when: false
+
+- name: create server directory
+  file:
+    path: "{{ server_root }}"
+    state: directory
 
 - name: Grant database privileges to postgres_db_user
   ansible.builtin.shell: >
@@ -92,15 +92,31 @@
   tags:
     - always
 
-- name: run gms setup script
-  command: "bash {{ server_root }}/setup.sh"
-
 - name: create and install SSL certificate with letsencrypt
   command: >
     certbot --nginx --noninteractive --agree-tos --redirect
       --email {{ certbot_renew_email }}
       -d {{ inventory_hostname }}
   when: certbot_ssl
+
+- name: Run Django collectstatic
+  environment:
+    DJANGO_SETTINGS_MODULE: webapp.settings.prod
+  args:
+    chdir: "{{ django_root }}"
+  command: "{{ venv_root }}/bin/python manage.py collectstatic --noinput"
+  tags:
+    - update
+
+- name: Run Django migrate
+  environment:
+    DJANGO_SETTINGS_MODULE: webapp.settings.prod
+  args:
+    chdir: "{{ django_root }}"
+  command: "{{ venv_root }}/bin/python manage.py migrate"
+  tags:
+    - update
+  when: not skip_database_migration
 
 - name: Ensure gms superuser login
   args:
@@ -115,25 +131,6 @@
       --last_name {{ admin_user.last_name }}
   ignore_errors: yes
   when: admin_user and not skip_database_migration
-
-- name: Run Django migrate
-  environment:
-    DJANGO_SETTINGS_MODULE: webapp.settings.prod
-  args:
-    chdir: "{{ django_root }}"
-  command: "{{ venv_root }}/bin/python manage.py migrate"
-  tags:
-    - update
-  when: not skip_database_migration
-
-- name: Run Django collectstatic
-  environment:
-    DJANGO_SETTINGS_MODULE: webapp.settings.prod
-  args:
-    chdir: "{{ django_root }}"
-  command: "{{ venv_root }}/bin/python manage.py collectstatic --noinput"
-  tags:
-    - update
 
 - name: update project ownership
   ansible.builtin.file:

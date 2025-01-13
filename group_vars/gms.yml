@@ -1,6 +1,6 @@
 ---
 
-# Read vault from secrets.yml:
+# Read from VAULT:
 # admin_email: <str>
 # admin_password: <str>
 # database_password: <str>
@@ -32,9 +32,10 @@ postgresql_users:
     db: "{{ postgres_db_name }}"
 
 postgresql_privs:
-  - name: "{{ postgres_db_user }}"
-    db: "{{ postgres_db_name }}"
-    priv: ALL
+  - db: "{{ postgres_db_name }}"
+    roles: "{{ postgres_db_user }}"
+    objs: ALL_IN_SCHEMA
+    privs: USAGE,CREATE
 
 postgres_users_no_log: false
 
@@ -74,13 +75,15 @@ smtp:
 # For error notifications
 slack:
   errors:
-    api_key: "{{ vault_gms_slack_error_api_key }}"  # secrets.yml
+    api_key: "{{ vault_gms_slack_error_api_key }}"
     channel_id: C038ESFSXLN
     mention_user_id: U024MUHM23W
   tools:
-    urls: "{{ vault_gms_slack_api_urls }}"  # secrets.yml; comma separated list
+    urls: "{{ vault_gms_slack_api_urls }}"  # comma separated list
 
 # For API authentication (requires admin key)
 galaxy_api:
   url: https://usegalaxy.org.au
   key: "{{ vault_gms_galaxy_api_key }}"
+
+sentry_dns_url: "{{ vault_gms_sentry_dns_url }}"

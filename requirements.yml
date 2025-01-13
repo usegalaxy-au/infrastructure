@@ -86,4 +86,6 @@ roles:
 
 # GMS roles
 - name: geerlingguy.nginx
+  version: 3.2.0
 - name: geerlingguy.postgresql
+  version: 4.0.0
