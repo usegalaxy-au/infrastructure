@@ -258,7 +258,7 @@ tools:
       - pulsar-training-large
     rules:
     - id: hifiasm_small_input_rule
-      if: input_size < 0.2
+      if: input_size < 0.1
       cores: 4
       mem: 15.3
     - id: hifiasm_xlarge_input_rule
