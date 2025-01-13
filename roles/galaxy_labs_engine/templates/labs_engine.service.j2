@@ -7,9 +7,9 @@ After=network.target
 User = root
 Group = root
 WorkingDirectory={{ project_root }}
-ExecStart=docker compose -f {{ config_root }}/docker-compose.yml --profile prod up --remove-orphans
-ExecReload=/bin/kill -s HUP $MAINPID
-ExecStop=/bin/kill -s TERM $MAINPID
+ExecStart=docker compose -f {{ config_root }}/docker-compose.yml --profile prod up --remove-orphans --force-recreate
+ExecReload=docker compose -f {{ config_root }}/docker-compose.yml --profile prod restart
+ExecStop=docker compose -f {{ config_root }}/docker-compose.yml --profile prod down --remove-orphans
 PrivateTmp=true
 
 [Install]

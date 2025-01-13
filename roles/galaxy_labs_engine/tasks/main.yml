@@ -102,8 +102,7 @@
 
 - name: Django run migrations
   shell: >
-    docker compose --profile prod run --rm
-    labs-engine
+    docker compose --profile prod run --rm labs-engine
     python manage.py migrate
   args:
     chdir: "{{ config_root }}"
@@ -114,8 +113,7 @@
 
 - name: Django collect static files
   shell: >
-    docker compose --profile prod run --rm --user root
-    labs-engine
+    docker compose --profile prod run --rm --user root labs-engine
     python manage.py collectstatic --noinput
   args:
     chdir: "{{ config_root }}"
@@ -140,8 +138,7 @@
 
 - name: Django clear cache
   shell: >
-    docker compose --profile prod run --rm
-    labs-engine
+    docker compose --profile prod run --rm labs-engine
     python manage.py shell -c
     "from django.core.cache import cache; cache.clear()"
   args:
@@ -159,6 +156,18 @@
   ansible.builtin.command: "systemctl daemon-reload"
   become: yes
   tags: config
+
+- name: Stop labs_engine service
+  ansible.builtin.systemd:
+    name: labs_engine
+    enabled: yes
+    state: stopped
+  tags: always
+
+- name: Clean up zombie containers
+  shell: |
+    docker rm -f $(docker ps -a -q) || true
+  tags: always
 
 - name: Enable and restart labs_engine service
   ansible.builtin.systemd:

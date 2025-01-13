@@ -103,6 +103,17 @@ services:
       - /var/www/certbot:/var/www/certbot:rw
       - /etc/letsencrypt:/etc/letsencrypt:rw
 
+  certbot-init:
+    profiles:
+      - certbot
+    depends_on:
+      - nginx
+    image: certbot/certbot:latest
+    container_name: certbot
+    volumes:
+      - /var/www/certbot:/var/www/certbot:rw
+      - /etc/letsencrypt:/etc/letsencrypt:rw
+
 networks:
   labs-engine-network:
     driver: bridge

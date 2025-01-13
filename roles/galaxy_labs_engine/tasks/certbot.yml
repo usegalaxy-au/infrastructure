@@ -31,13 +31,13 @@
 
     - name: Request SSL certificate with certbot
       shell: >
-        docker compose --profile certbot run --rm certbot-init certonly \
-          --webroot                                                     \
-          --webroot-path /var/www/certbot/                              \
-          --agree-tos                                                   \
-          --non-interactive                                             \
-          -d "{{ certbot_domain }}"                                     \
-          -m "{{ certbot_renew_email }}"
+        docker compose --profile certbot run --rm certbot-init certonly
+        --webroot
+        --webroot-path /var/www/certbot/
+        --agree-tos
+        --non-interactive
+        -d "{{ certbot_domain }}"
+        -m "{{ certbot_renew_email }}"
       args:
         chdir: "{{ config_root }}"
       tags: certbot
