@@ -84,3 +84,6 @@ roles:
 - name: geerlingguy.java
 - name: geerlingguy.jenkins
 
+# GMS roles
+- name: geerlingguy.nginx
+- name: geerlingguy.postgresql
