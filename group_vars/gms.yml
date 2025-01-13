@@ -1,0 +1,82 @@
+---
+
+# Read vault from secrets.yml:
+# admin_email: <str>
+# admin_password: <str>
+# database_password: <str>
+# django_secret_key: <str>
+# smtp_password: <str>
+
+# If you don't want SSL certs, just flip this:
+certbot_ssl: true
+certbot_renew_email: c.hyde@qcif.edu.au
+
+# 4 web workers should be plenty - increase for machines with >4 CPUs
+gunicorn:
+  web_workers: 4
+
+# Postgres database conf
+postgres_db_name: gms
+postgres_db_user: gms
+
+postgresql_locales:
+  - 'en_US.UTF-8'
+
+postgresql_databases:
+  - name: "{{ postgres_db_name }}"
+    port: 5432
+
+postgresql_users:
+  - name: "{{ postgres_db_user }}"
+    password: "{{ vault_gms_postgres_db_password }}"
+    db: "{{ postgres_db_name }}"
+    priv: ALL
+
+postgres_users_no_log: false
+
+# GMS Webapp configuration
+# -----------------------------------------------------------------------------
+
+# Will git clone galaxy-content-site to here
+project_root: /srv/sites/galaxy-media-site
+
+# This is where service files will be created
+server_root: /srv/config
+
+# App will be served from here
+django_root: "{{ project_root }}/webapp"
+
+# Virtual environment will be created here
+venv_root: "{{ project_root }}/venv"
+
+# Login for django admin portal
+admin_user:
+  first_name: admin
+  last_name: admin
+  email: "{{ vault_gms_admin_email }}"
+  password: "{{ vault_gms_admin_password }}"
+
+smtp:
+  hostname: mail.smtp2go.com
+  port: 2525
+  username: galaxytest
+  password: "{{ vault_gms_smtp_password }}"
+  from_address: noreply@genome.edu.au
+  to_address: help@genome.edu.au
+  use_tls: true
+
+# skip_database_migration: true
+
+# For error notifications
+slack:
+  errors:
+    api_key: "{{ vault_gms_slack_error_api_key }}"  # secrets.yml
+    channel_id: C038ESFSXLN
+    mention_user_id: U024MUHM23W
+  tools:
+    urls: "{{ vault_gms_slack_api_urls }}"  # secrets.yml; comma separated list
+
+# For API authentication (requires admin key)
+galaxy_api:
+  url: https://usegalaxy.org.au
+  key: "{{ vault_gms_galaxy_api_key }}"

@@ -1,0 +1,21 @@
+[Unit]
+Description=Gunicorn for Galaxy Media Site
+Requires=gms.socket
+After=network.target
+
+[Service]
+PIDFile=/run/gunicorn/pid
+User = www-data
+Group = www-data
+RuntimeDirectory=gunicorn
+WorkingDirectory={{ django_root }}
+Environment="PATH={{ venv_root }}/bin:$PATH"
+ExecStart={{ venv_root }}/bin/gunicorn --pid /run/gunicorn/pid   \
+          --bind unix:/run/gms.sock       \
+          -c {{ server_root }}/gunicorn.py webapp.wsgi
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

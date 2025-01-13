@@ -1,0 +1,71 @@
+# Server config for {{ inventory_hostname }} (Galaxy media site)
+
+server {
+    # redirect www to non-www
+    server_name www.{{ inventory_hostname }};
+    return 301 $scheme://{{ inventory_hostname }}$request_uri;
+}
+
+
+server {
+
+    listen 80;
+    server_name  {{ inventory_hostname }};
+    access_log   /var/log/nginx/gms.access.log;
+    error_log    /var/log/nginx/gms.error.log;
+
+    if ( $host !~* ^({{ inventory_hostname }})$ ) {
+        # Reject requests with incorrect host header
+        return 444;
+    }
+
+    location = /biconcave {
+        return  404;
+    }
+
+    location = /favicon.ico {
+        alias  {{ django_root }}/webapp/static/favicon/favicon.ico;
+    }
+
+    location /static {
+        root {{ django_root }}/webapp;
+    }
+
+    location /media {
+        root {{ django_root }}/webapp;
+    }
+
+    location  / {
+        proxy_pass            http://unix:/run/gms.sock;
+        proxy_redirect        off;
+        proxy_set_header      Host                 $host;
+        proxy_set_header      X-Real-IP            $remote_addr;
+        proxy_set_header      X-Forwarded-For      $proxy_add_x_forwarded_for;
+        proxy_hide_header     X-Frame-Options;
+        proxy_read_timeout    600;  # seconds
+        client_max_body_size  1000m;
+    }
+
+    {% if ssl_cert_exists %}
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/gms.neoformit.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/gms.neoformit.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+    {% endif %}
+
+}
+
+{% if ssl_cert_exists %}
+server {
+
+    if ($host = gms.neoformit.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    listen 80;
+    server_name  gms.neoformit.com;
+    return 404; # managed by Certbot
+
+}
+{% endif %}

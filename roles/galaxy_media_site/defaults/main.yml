@@ -1,0 +1,31 @@
+---
+project_root: /srv/galaxy-media-site
+server_root: /srv/config
+django_root: "{{ project_root }}/webapp"
+venv_root: "{{ project_root }}/venv"
+
+gms:
+  templates:
+    - src: "{{ role_path }}/templates/gunicorn.py.j2"
+      dest: "{{ server_root }}/gunicorn.py"
+    - src: "{{ role_path }}/templates/gms.service.j2"
+      dest: /etc/systemd/system/gms.service
+    - src: "{{ role_path }}/templates/nginx.vhost.j2"
+      dest: "/etc/nginx/sites-available/{{ inventory_hostname }}.conf"
+    - src: "{{ role_path }}/templates/.env.j2"
+      dest: "{{ project_root }}/.env"
+    - src: "{{ role_path }}/templates/update.sh.j2"
+      dest: "/home/ubuntu/update.sh"
+
+  files:
+    - src: "{{ role_path }}/files/gms.socket"
+      dest: /etc/systemd/system/gms.socket
+
+certbot_ssl: true
+
+gunicorn:
+  web_workers: 4
+
+skip_database_migration: false
+
+admin_user: null

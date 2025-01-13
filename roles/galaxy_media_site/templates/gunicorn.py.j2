@@ -1,0 +1,12 @@
+"""Add a worker for each available CPU.
+
+Most requests are handled quickly, so 2 workers should be able to handle many
+requests per second and allows one worker to have momentary blocks.
+"""
+
+workers = {{ gunicorn.web_workers }}
+
+# Environment variables
+raw_env = [
+    "DJANGO_SETTINGS_MODULE=webapp.settings.prod"
+    ]

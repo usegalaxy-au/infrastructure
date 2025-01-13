@@ -1,0 +1,15 @@
+---
+- hosts: gms_webservers
+  remote_user: ubuntu
+  become: true
+  vars_files:
+    - group_vars/VAULT
+    - group_vars/gms.yml
+  roles:
+    - role: geerlingguy.nginx
+      tags: init
+    - role: geerlingguy.postgresql
+      become: true
+      tags: init,postgresql
+    - role: galaxy_media_site
+      tags: gms
