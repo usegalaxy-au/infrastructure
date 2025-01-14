@@ -12,37 +12,37 @@ slurm_nodes:
     NodeAddr: "{{ hostvars['galaxy-w1']['internal_ip'] }}"
     CPUs: 16
     RealMemory: 64000
-    Weight: 10
+    Weight: 20
     State: UNKNOWN
   - name: galaxy-w2
     NodeAddr: "{{ hostvars['galaxy-w2']['internal_ip'] }}"
     CPUs: 16
     RealMemory: 64000
-    Weight: 10
+    Weight: 30
     State: UNKNOWN
   - name: galaxy-w3
     NodeAddr: "{{ hostvars['galaxy-w3']['internal_ip'] }}"
     CPUs: 16
     RealMemory: 64000
-    Weight: 10
+    Weight: 40
     State: UNKNOWN
   - name: galaxy-w4
     NodeAddr: "{{ hostvars['galaxy-w4']['internal_ip'] }}"
     CPUs: 16
     RealMemory: 64000
-    Weight: 10
+    Weight: 50
     State: UNKNOWN
   - name: galaxy-w5
     NodeAddr: "{{ hostvars['galaxy-w5']['internal_ip'] }}"
     CPUs: 16
     RealMemory: 64000
-    Weight: 10
+    Weight: 60
     State: UNKNOWN
   - name: galaxy-w6
     NodeAddr: "{{ hostvars['galaxy-w6']['internal_ip'] }}"
     CPUs: 16
     RealMemory: 64000
-    Weight: 10
+    Weight: 70
     State: UNKNOWN
   - name: galaxy-w7
     NodeAddr: "{{ hostvars['galaxy-w7']['internal_ip'] }}"

@@ -22,6 +22,7 @@
   roles:
     - common
     - insspb.hostname
+    - mounts
     - geerlingguy.pip
     - galaxyproject.repos
     - role: galaxyproject.miniconda

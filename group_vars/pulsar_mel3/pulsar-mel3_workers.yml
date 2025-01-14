@@ -31,4 +31,4 @@ docker_daemon_options:
 extra_keys:
   - id: pulsar_internal_hop_key
     type: public
-    from: "{{ hostvars['mel3']['ansible_ssh_host'] }}"
+    from: "{{ hostvars['pulsar-mel3']['ansible_ssh_host'] }}"

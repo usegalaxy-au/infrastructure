@@ -41,7 +41,7 @@ pawsey-user-nfs ansible_ssh_host=146.118.68.13 internal_ip=192.168.0.165
 pulsar-mel3 ansible_ssh_host=115.146.84.200
 
 [pulsar_mel3_nfs]
-pulsar-mel3-nfs ansible_ssh_host=115.146.87.99
+pulsar-mel3-nfs ansible_ssh_host=115.146.85.127
 
 [pulsar_mel3_workers]
 pulsar-mel3-w1 ansible_ssh_host=115.146.84.242
