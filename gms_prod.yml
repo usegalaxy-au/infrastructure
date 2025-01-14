@@ -1,11 +1,12 @@
 ---
-- hosts: gms_dev_webservers
+# Deploy the Galaxy Media Site
+- hosts: gms_webservers
   remote_user: ubuntu
   become: true
   vars_files:
     - group_vars/VAULT
     - group_vars/gms.yml
-    - host_vars/site.usegalaxy.org.au.yml
+    - host_vars/dev-site.gvl.org.au.yml
   pre_tasks:
     - name: Grant USAGE and CREATE privileges on public schema to the user
       shell: >
