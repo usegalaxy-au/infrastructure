@@ -36,11 +36,12 @@
 
 - name: Grant database privileges to postgres_db_user
   ansible.builtin.shell: >
-    sudo -u postgres psql -c
-    "GRANT ALL ON SCHEMA public TO {{ postgres_db_user }};
-    GRANT USAGE, CREATE ON SCHEMA public TO {{ postgres_db_user }};
-    ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO gms;"
+    sudo -u postgres psql -d {{ postgres_db_name }} -c
+    "GRANT ALL PRIVILEGES ON DATABASE {{ postgres_db_name }} TO {{ postgres_db_user }};
+    GRANT ALL ON SCHEMA public TO {{ postgres_db_user }};"
   become: yes
+  tags:
+    - pg-permissions
 
 - name: clone git repository for galaxy-content-site
   ansible.builtin.git:

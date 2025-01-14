@@ -6,11 +6,18 @@
   vars_files:
     - group_vars/VAULT
     - group_vars/gms.yml
-    - host_vars/site.usegalaxy.org.au.yml
+    - host_vars/dev-site.gvl.org.au.yml
+  vars:
+    sentry_dns_url: null
   pre_tasks:
-    - name: Grant USAGE and CREATE privileges on public schema to the user
-      shell: >
-        sudo -u postgres psql -d {{ postgres_db_name }} -c "GRANT USAGE, CREATE ON SCHEMA public TO {{ postgres_db_user }};"
+    - name: update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+    - name: install system dependencies
+      ansible.builtin.package:
+        name:
+          - libpq-dev
+          - python3-pip
   roles:
     - role: geerlingguy.nginx
       tags: init

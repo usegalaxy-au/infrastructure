@@ -35,7 +35,7 @@ postgresql_privs:
   - db: "{{ postgres_db_name }}"
     roles: "{{ postgres_db_user }}"
     objs: ALL_IN_SCHEMA
-    privs: USAGE,CREATE
+    privs: ALL
 
 postgres_users_no_log: false
 
