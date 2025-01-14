@@ -97,6 +97,11 @@ __machine_users:
         - galaxy_admin
       key: files/keys/michaeld.pub
       email: "{{ michaeld_email }}"
+    - name: tristan
+      uid: 7303
+      roles: []
+      key: files/keys/tristan.pub
+      email: "{{ tristan_email }}"
 
 
 host_machine_users: [] # by default - may be overridden in host/group vars files
@@ -251,6 +256,10 @@ internal_ssh_keys:
   internal_hop_key:
     private_key_content: "{{ vault_internal_hop_key }}"
     public_key_src: files/keys/internal_hop_key.pub
+    user: ubuntu
+  pulsar_internal_hop_key:
+    private_key_content: "{{ vault_pulsar_internal_hop_key }}"
+    public_key_src: files/keys/pulsar_internal_hop_key.pub
     user: ubuntu
 
 # Golang

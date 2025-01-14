@@ -91,6 +91,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/bismark/bismark_.*:
     params:
       singularity_enabled: true
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/bgruening/blobtoolkit/blobtoolkit/.*:
     mem: 12
     params:
@@ -257,7 +258,7 @@ tools:
       - pulsar-training-large
     rules:
     - id: hifiasm_small_input_rule
-      if: input_size < 0.2
+      if: input_size < 0.1
       cores: 4
       mem: 15.3
     - id: hifiasm_xlarge_input_rule
@@ -266,6 +267,9 @@ tools:
       #scheduling:
       #  require:
       #  - pulsar-high-mem1
+  toolshed.g2.bx.psu.edu/repos/bgruening/infernal/infernal_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/interproscan/interproscan/.*:
     context:
       max_concurrent_job_count_for_tool_user: 3
@@ -279,7 +283,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/.*:
     cores: 8
-    mem: 24 # TODO: this is 8/16 in shared db. If no further problems update this in shared db
+    mem: 32 # TODO: this is 8/16 in shared db. If no further problems update this in shared db
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/music_.*:
@@ -839,6 +843,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/samtools_idxstats/.*:
     cores: 2
     mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/iuc/samtools_markdup/samtools_markdup/.*:
+    cores: 4
+    mem: 15.3
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/.*:
     cores: 5
     mem: 19.1
@@ -904,6 +911,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/gtf2gene_list/_ensembl_gtf2gene_list/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/retrieve_scxa/retrieve_scxa/.*:
+    params:
+      singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy.*:
     mem: 4 + input_size * 10
     params:
@@ -912,19 +922,19 @@ tools:
       accept:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_multiplet_scrublet/scanpy_multiplet_scrublet/.*:
-    mem: 1 + input_size * 65
+    mem: 4 + input_size * 65
     rules:
     - id: scanpy_multiplet_scrublet_fail_rule
       if: input_size > 10
       fail: Too much data. Total input data must be less than 10GB.
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_scale_data/scanpy_scale_data/.*:
-    mem: 1 + input_size * 32
+    mem: 4 + input_size * 32
     rules:
     - id: scanpy_scale_data_fail_rule
       if: input_size > 10
       fail: Too much data. Total input data must be less than 10GB.
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_run_pca/scanpy_run_pca/.*:
-    mem: 2 + input_size * 10
+    mem: 4 + input_size * 10
     rules:
     - id: scanpy_run_pca_fail_rule
       if: input_size > 20
@@ -952,7 +962,7 @@ tools:
       alphafold_aa_length_max: 3000
       alphafold_max_input_sequences: 10
       alphafold_db: /data/v2.3
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     gpus: 1
     cores: 16
     mem: 130
@@ -1039,6 +1049,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-quick
     rules:
     - id: hifiadapterfilt_large_input_rule
       if: input_size > 40
@@ -1260,7 +1271,7 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/anndata_inspect/anndata_inspect/.*:
-    mem: 2 + (input_size * 7)
+    mem: 4 + (input_size * 7)
     scheduling:
       accept:
         - pulsar  
@@ -1314,6 +1325,8 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_.*:
+    cores: 3
+    mem: 11.5
     env:
       SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
@@ -1418,14 +1431,10 @@ tools:
       - pulsar
     rules:
     - id: bwameth_small_input_rule
-      if: input_size < 0.25
-      cores: 2
-      mem: 7.6
-    - id: bwameth_medium_input_rule
-      if: 0.25 <= input_size < 1
+      if: input_size < 1
       cores: 4
       mem: 15.3
-    - id: bwameth_medium2_input_rule
+    - id: bwameth_medium_input_rule
       if: 1 <= input_size < 20
       cores: 8
       mem: 30.7
@@ -1551,15 +1560,18 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/export2graphlan/export2graphlan/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/falco/falco/.*:
+    cores: 4
+    mem: 15.3
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
-    cores: 3
-    mem: 11.5
-    rules:
-    - id: fasta-stats_small_input_rule
-      if: input_size < 0.01
-      cores: 1
-      mem: 3.8
+    mem: min(3 * input_size + 2, 40)
   toolshed.g2.bx.psu.edu/repos/iuc/fastani/fastani/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 4
+    cores: 4
+    mem: 15.3
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/feelnc/feelnc/.*:
@@ -1859,6 +1871,9 @@ tools:
       reject:
       - pulsar-QLD
   toolshed.g2.bx.psu.edu/repos/iuc/kraken_biom/kraken_biom/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/krakentools_.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/krakentools_extract_kraken_reads/krakentools_extract_kraken_reads/.*:
@@ -2271,6 +2286,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
     cores: 3
     mem: 11.5
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/mummer.*:
     params:
       singularity_enabled: true
@@ -2291,6 +2308,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/nanoplot/.*:
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
+    cores: 3
+    mem: 11.5
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/nextclade/nextclade/.*:
     params:
       singularity_enabled: true
@@ -2486,6 +2508,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
     cores: 16
     mem: 62
     rules:
@@ -2501,10 +2525,15 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/ragtag/ragtag/.*:
-    cores: 4
-    mem: 15.3
+    cores: 8
+    mem: 30.7
     params:
       singularity_enabled: true
+    rules:
+    - id: ragtag_small_input_rule
+      if: input_size < 2
+      cores: 4
+      mem: 15.3
   toolshed.g2.bx.psu.edu/repos/iuc/rapidnj/rapidnj/.*:
     params:
       singularity_enabled: true
@@ -2757,7 +2786,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      # - pulsar-quick # commented out since snippy requires data from all_fasta data table
+      - pulsar-quick
     rules:
     - id: snippy_small_input_rule
       if: input_size < 0.015
@@ -3148,8 +3177,13 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/umi_tools_dedup/umi_tools_dedup/.*:
-    cores: 2
-    mem: 7.6
+    cores: 5
+    mem: 19.1
+    rules:
+    - id: umi_tools_dedup_small_input_rule
+      if: input_size < 0.2
+      cores: 2
+      mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
@@ -3211,6 +3245,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/.*:
     cores: 5
     mem: 19.1
+    rules:
+    - id: cutadapt_singularity_rule
+      if: |
+        minimum_singularity_version = '4.0+galaxy0'  # earlier versions have not been tested and might work
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     cores: 8
     mem: 30.7
@@ -3295,6 +3336,18 @@ tools:
     - id: metaspades_fail_rule
       if: input_size >= 60
       fail: Too much data, please don't use Spades for this
+  toolshed.g2.bx.psu.edu/repos/nml/mob_suite/.*:
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
+  toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/.*:
+    rules:
+      - id: mob_recon_large_input_rule
+        if: input_size > 0.004
+        cores: 2
+        mem: 7.6
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4

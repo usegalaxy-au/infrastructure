@@ -32,3 +32,8 @@ cvmfs_quota_limit: 20000
 # Docker
 docker_daemon_options:
   data-root: /mnt/docker-data
+
+extra_keys:
+  - id: pulsar_internal_hop_key
+    type: public
+    from: "{{ hostvars['pulsar-nci-test']['internal_ip'] }}"

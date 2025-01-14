@@ -318,6 +318,7 @@ users:
               '/shovill/shovill/',
               '/ivar_trim/ivar_trim/',
               '/lofreq_filter/lofreq_filter/',
+              '/cutadapt/cutadapt/',
             ]
             if any([pulsar_tool in tool.id for pulsar_tool in pulsar_tools]):
               tool_id_matched = True
@@ -325,6 +326,7 @@ users:
           scheduling:
             require:
               - pulsar
+              - pulsar-mel2
     selenium_st_regular@genome.edu.au:
       inherits: __selenium_test_user
     selenium_st_minio@genome.edu.au:
@@ -350,3 +352,7 @@ users:
       inherits: __selenium_test_user
       params:
         object_store_id: pawsey_s3_test
+    selenium_st_pawsey_nfs@genome.edu.au:
+      inherits: __selenium_test_user
+      params:
+        object_store_id: pawsey_nfs_test
