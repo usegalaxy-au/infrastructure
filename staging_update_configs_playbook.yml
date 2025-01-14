@@ -7,7 +7,7 @@
       - group_vars/galaxyservers.yml
       - group_vars/staging_slurm.yml
       - host_vars/staging.gvl.org.au.yml
-      - secret_group_vars/ubuntu_maintenance_key
+      - secret_group_vars/ssh_keys
   handlers:
     - include: handlers/galaxy_handlers.yml
   pre_tasks:

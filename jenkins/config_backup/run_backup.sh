@@ -17,4 +17,3 @@ cd $GITLAB_REPO_DIR || exit 1
 git add *
 git commit -am "backup $(date '+%Y-%m-%d')"
 git push
-cd ../workspace

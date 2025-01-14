@@ -110,7 +110,7 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     src: 192.168.205.17:/galaxy-aws-gw-test-bucket-2024-09-06-2fjsq
     opts: 'nolock,hard,noatime,actimeo=1'
     fstype: nfs
-    state: mounted
+    state: absent
 
 galaxy_worker_mounts:
   - path: /mnt/galaxy
