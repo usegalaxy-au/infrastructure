@@ -38,15 +38,18 @@ pawsey-user-nfs ansible_ssh_host=146.118.68.13 internal_ip=192.168.0.165
 
 # GenomicsVL pulsar
 [pulsar_mel3_head]
-pulsar-mel3 ansible_ssh_host=115.146.85.19
+pulsar-mel3 ansible_ssh_host=115.146.84.200
+
+[pulsar_mel3_nfs]
+pulsar-mel3-nfs ansible_ssh_host=115.146.85.127
 
 [pulsar_mel3_workers]
-pulsar-mel3-w1 ansible_ssh_host=115.146.84.200
-pulsar-mel3-w2 ansible_ssh_host=115.146.84.238
-pulsar-mel3-w3 ansible_ssh_host=115.146.87.129
-pulsar-mel3-w4 ansible_ssh_host=115.146.86.181
-pulsar-mel3-w5 ansible_ssh_host=115.146.86.108
-pulsar-mel3-w6 ansible_ssh_host=115.146.86.64
+pulsar-mel3-w1 ansible_ssh_host=115.146.84.242
+pulsar-mel3-w2 ansible_ssh_host=115.146.85.206
+pulsar-mel3-w3 ansible_ssh_host=115.146.87.152
+pulsar-mel3-w4 ansible_ssh_host=115.146.85.209
+pulsar-mel3-w5 ansible_ssh_host=115.146.86.27
+pulsar-mel3-w6 ansible_ssh_host=115.146.85.122
 
 # MelbourneGVL pulsars
 [pulsar_mel2_head]
