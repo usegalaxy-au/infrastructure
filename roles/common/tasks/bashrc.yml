@@ -1,0 +1,117 @@
+---
+- name: Ensure directory for bashrc common files
+  file:
+    state: directory
+    path: "{{ common_bashrc_dir }}"
+- name: Template bashrc_common variables path
+  copy:
+    dest: "{{ common_bashrc_vars_file }}"
+    mode: 0755
+    content: |
+        # Common variables for ubuntu and human users
+
+        # slurm
+        export SINFO_FORMAT="{{ common_sinfo_format }}"
+        export SQUEUE_FORMAT="{{ common_squeue_format }}"
+        export SINFO_FORMAT="{{ common_sacct_format }}"
+
+        # helpful settings
+        export EDITOR=vim
+        HISTSIZE=
+        HISTFILESIZE=
+
+        {% if is_galaxy_head_node %}
+        # galaxy
+        export PGHOST='{{ db_address }}'
+        export PGDATABASE='galaxy'
+        export PGPORT='5432'
+        export GALAXY_CONFIG_DIR={{ galaxy_config_dir }}
+        export GALAXY_MUTABLE_CONFIG_DIR={{ galaxy_mutable_config_dir }}
+        export GALAXY_ROOT={{ galaxy_server_dir }}
+        export GALAXY_CONFIG_FILE={{ galaxy_config_file }}
+        export GALAXY_JWD_PATH="{{ galaxy_job_working_directory }}"
+        export GALAXY_LOG_DIR="{{ galaxy_log_dir }}"
+        export GALAXY_PULSAR_APP_CONF="{{ galaxy_pulsar_app_config_file }}"
+        {% endif %}
+- name: Template common_bashrc functions path
+  copy:
+    dest: "{{ common_bashrc_functions_file }}"
+    mode: 0755
+    content: |
+        # Common functions for ubuntu and human users
+
+        {% if is_galaxy_head_node %}
+        # galaxy
+        jwd() { # print path of job working directory for job id
+            python "{{ common_bashrc_dir }}/get_jwd_path_galaxy.py" $1
+        }
+
+        jwd-size() {
+          du -sh $(jwd $1)
+        }
+
+        go-jwd() { # go to job working directory for job id
+          cd $(jwd $1)
+        }
+
+        tail-stderr() {
+          stderr_filename=$(jwd $1)/outputs/tool_stderr
+          if [ ! -f $stderr_filename ]; then
+            echo "No stderr file for job $1";
+          else
+            tail $stderr_filename;
+          fi
+        }
+        {% endif %}
+
+        {% if ansible_hostname in groups['pulsar_head_nodes'] %}
+        # pulsar
+        jwd() { # print path of job working directory for job id
+            echo {{ pulsar_staging_dir }}/${1}
+        }
+
+        jwd-size() {
+          du -sh $(jwd $1)
+        }
+
+        go-jwd() { # go to job working directory for job id
+          cd $(jwd $1)
+        }
+
+        tail-stderr() {
+          stderr_filename=$(jwd $1)/metadata/tool_stderr
+          if [ ! -f $stderr_filename ]; then
+            echo "No stderr file for job $1";
+          else
+            tail $stderr_filename;
+          fi
+        }
+        {% endif %}
+
+- name: Template helper scripts
+  template:
+    src: "bashrc/{{ item }}.j2"
+    dest: "{{ common_bashrc_dir }}/{{ item }}"
+  with_items:
+    - get_jwd_path_galaxy.py
+
+- name: Add to .bashrc files
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (common role: source common bash env for users)"
+    dest: "/home/{{ item.name }}/.bashrc"
+    block: |
+      source {{ common_bashrc_vars_file }}
+      source {{ common_bashrc_functions_file }}
+
+      {% if is_galaxy_head_node %}
+      # galaxy (per user)
+      {% if item == 'ubuntu' %}
+      export PGUSER='galaxy'
+      {% elif 'tiaas_admin' in item.roles|d([]) %}
+      export PGUSER='tiaasadmin'
+      {% else %}
+      export PGUSER='reader'
+      {% endif %}
+      {% endif %}
+
+  with_items: "{{ machine_users + [{'name': 'ubuntu'}] }}"
