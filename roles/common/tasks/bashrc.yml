@@ -3,11 +3,13 @@
   file:
     state: directory
     path: "{{ common_bashrc_dir }}"
-- name: Template bashrc_common path
+- name: Template bashrc_common variables path
   copy:
     dest: "{{ common_bashrc_vars_file }}"
     mode: 0755
     content: |
+        # Common variables for ubuntu and human users
+
         # slurm
         export SINFO_FORMAT="{{ common_sinfo_format }}"
         export SQUEUE_FORMAT="{{ common_squeue_format }}"
@@ -31,12 +33,12 @@
         export GALAXY_LOG_DIR="{{ galaxy_log_dir }}"
         export GALAXY_PULSAR_APP_CONF="{{ galaxy_pulsar_app_config_file }}"
         {% endif %}
-- name: Template common_bashrc path
+- name: Template common_bashrc functions path
   copy:
     dest: "{{ common_bashrc_functions_file }}"
     mode: 0755
     content: |
-        # Common variables and functions for ubuntu and human users
+        # Common functions for ubuntu and human users
 
         {% if is_galaxy_head_node %}
         # galaxy
