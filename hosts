@@ -143,6 +143,7 @@ pulsar_qld_himems
 pulsar_high_mem2
 pulsar_high_mem1
 pulsar_qld_blast
+pulsar_qld_gpus
 pulsar_nci_training_head
 pulsar_azure_0_head
 
@@ -155,7 +156,6 @@ pulsar_nci_test_head
 
 # All pulsar workers
 [pulsar_workers:children]
-pulsar_paw_workers
 pulsar_mel3_workers
 pulsar_mel2_workers
 pulsar_QLD_workers
