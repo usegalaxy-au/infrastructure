@@ -20,7 +20,7 @@
         HISTSIZE=
         HISTFILESIZE=
 
-        {% if is_galaxy_head_node %}
+        {% if is_galaxy_head_node|d(False) %}
         # galaxy
         export PGHOST='{{ db_address }}'
         export PGDATABASE='galaxy'
@@ -40,7 +40,7 @@
     content: |
         # Common functions for ubuntu and human users
 
-        {% if is_galaxy_head_node %}
+        {% if is_galaxy_head_node|d(False) %}
         # galaxy
         jwd() { # print path of job working directory for job id
             python "{{ common_bashrc_dir }}/get_jwd_path_galaxy.py" $1
@@ -103,7 +103,7 @@
       source {{ common_bashrc_vars_file }}
       source {{ common_bashrc_functions_file }}
 
-      {% if is_galaxy_head_node %}
+      {% if is_galaxy_head_node|d(False) %}
       # galaxy (per user)
       {% if item.name == 'ubuntu' %}
       export PGUSER='galaxy'
