@@ -105,7 +105,7 @@
 
       {% if is_galaxy_head_node %}
       # galaxy (per user)
-      {% if item == 'ubuntu' %}
+      {% if item.name == 'ubuntu' %}
       export PGUSER='galaxy'
       {% elif 'tiaas_admin' in item.roles|d([]) %}
       export PGUSER='tiaasadmin'
