@@ -14,10 +14,10 @@ def main():
     print(jwd_path)
 
 def get_jwd_path(job_id, prefix):
-    if len(str(job_id)) > 6: # on production this is the case
+    if len(str(job_id)) > 5: # on production this is the case
         nine_digit_id = '0'*(9-len(str(job_id))) + str(job_id)
         return os.path.join(prefix, nine_digit_id[:3], nine_digit_id[3:6], str(job_id))
-    elif len(str(job_id)) <= 6:
+    elif len(str(job_id)) <= 5:
         six_digit_id = '0'*(6-len(str(job_id))) + str(job_id)
         return os.path.join(prefix, six_digit_id[:3], str(job_id))
 
