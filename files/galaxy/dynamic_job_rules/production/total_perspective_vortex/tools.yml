@@ -416,6 +416,14 @@ tools:
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_merge_topology_files/gmx_merge_topology_files/.*:
+    rules:
+      - id: gmx_merge_topology_files_singularity_rule
+        if: |
+          minimum_singularity_version = '3.4.3+galaxy0'
+          helpers.tool_version_lt(tool, minimum_singularity_version)
+        params:
+          singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     context:
       max_concurrent_job_count_for_tool_user: 2
