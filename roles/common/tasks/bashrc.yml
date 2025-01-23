@@ -13,7 +13,7 @@
         # slurm
         export SINFO_FORMAT="{{ common_sinfo_format }}"
         export SQUEUE_FORMAT="{{ common_squeue_format }}"
-        export SINFO_FORMAT="{{ common_sacct_format }}"
+        export SACCT_FORMAT="{{ common_sacct_format }}"
 
         # helpful settings
         export EDITOR=vim
