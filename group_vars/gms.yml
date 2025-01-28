@@ -7,14 +7,14 @@
 # django_secret_key: <str>
 # smtp_password: <str>
 
-domain_name: site.usegalaxy.org.au
+gms_domain_name: site.usegalaxy.org.au
 
 # If you don't want SSL certs, just flip this:
-certbot_ssl: true
-certbot_renew_email: c.hyde@qcif.edu.au
+gms_certbot_ssl: true
+gms_certbot_renew_email: c.hyde@qcif.edu.au
 
 # 4 web workers should be plenty - increase for machines with >4 CPUs
-gunicorn:
+gms_gunicorn:
   web_workers: 4
 
 # Postgres database conf
@@ -45,25 +45,25 @@ postgres_users_no_log: false
 # -----------------------------------------------------------------------------
 
 # Will git clone galaxy-content-site to here
-project_root: /srv/sites/galaxy-media-site
+gms_project_root: /srv/sites/galaxy-media-site
 
 # This is where service files will be created
-server_root: /srv/config
+gms_server_root: /srv/config
 
 # App will be served from here
-django_root: "{{ project_root }}/webapp"
+gms_django_root: "{{ project_root }}/webapp"
 
 # Virtual environment will be created here
-venv_root: "{{ project_root }}/venv"
+gms_venv_root: "{{ project_root }}/venv"
 
 # Login for django admin portal
-admin_user:
+gms_admin_user:
   first_name: admin
   last_name: admin
   email: "{{ vault_gms_admin_email }}"
   password: "{{ vault_gms_admin_password }}"
 
-smtp:
+gms_smtp:
   hostname: mail.smtp2go.com
   port: 2525
   username: galaxytest
@@ -72,22 +72,21 @@ smtp:
   to_address: help@genome.edu.au
   use_tls: true
 
-# skip_database_migration: true
-
-# For error notifications
+# For error/tool update notifications
 slack:
   errors:
-    api_key: "{{ vault_gms_slack_error_api_key }}"
+    api_key: "{{ vault_galaxy_australia_slack_api_token }}"
     channel_id: C038ESFSXLN
     mention_user_id: U024MUHM23W
   tools:
     urls: "{{ vault_gms_slack_api_urls }}"  # comma separated list
 
 # For API authentication (requires admin key)
-galaxy_api:
+gms_galaxy_api:
   url: https://usegalaxy.org.au
-  key: "{{ vault_gms_galaxy_api_key }}"
+  key: "{{ vault_jenkins_bot_production_api_key }}"
 
+gms_sentry_dns_url: "{{ vault_gms_sentry_dns_url }}"
 
 # -----------------------------------------------------------------------------
 # Internal networking

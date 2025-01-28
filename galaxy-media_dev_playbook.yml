@@ -5,6 +5,7 @@
   become: true
   vars_files:
     - group_vars/VAULT
+    - secret_group_vars/gms_vault
     - group_vars/gms.yml
     - host_vars/dev-site.gvl.org.au.yml
   vars:
