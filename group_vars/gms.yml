@@ -51,10 +51,10 @@ gms_project_root: /srv/sites/galaxy-media-site
 gms_server_root: /srv/config
 
 # App will be served from here
-gms_django_root: "{{ project_root }}/webapp"
+gms_django_root: "{{ gms_project_root }}/webapp"
 
 # Virtual environment will be created here
-gms_venv_root: "{{ project_root }}/venv"
+gms_venv_root: "{{ gms_project_root }}/venv"
 
 # Login for django admin portal
 gms_admin_user:

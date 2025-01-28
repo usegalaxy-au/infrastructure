@@ -6,6 +6,7 @@
   vars_files:
     - group_vars/all.yml
     - group_vars/VAULT
+    - secret_group_vars/ssh_keys
     - secret_group_vars/gms_vault
     - group_vars/gms.yml
     - host_vars/site.usegalaxy.org.au.yml
