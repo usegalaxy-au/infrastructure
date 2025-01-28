@@ -69,7 +69,6 @@
         - galaxyproject.slurm
         - galaxyproject.cvmfs
         - galaxyproject.gxadmin
-        - pg-post-tasks
         - postfix-mail-relay
         - geerlingguy.docker
         - dj-wasabi.telegraf

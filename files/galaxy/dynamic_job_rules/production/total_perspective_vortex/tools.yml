@@ -416,6 +416,14 @@ tools:
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_merge_topology_files/gmx_merge_topology_files/.*:
+    rules:
+      - id: gmx_merge_topology_files_singularity_rule
+        if: |
+          minimum_singularity_version = '3.4.3+galaxy0'
+          helpers.tool_version_lt(tool, minimum_singularity_version)
+        params:
+          singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     context:
       max_concurrent_job_count_for_tool_user: 2
@@ -712,6 +720,9 @@ tools:
     mem: 3.8
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/devteam/lastz/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/.*:
     cores: 16
     mem: 62
@@ -876,6 +887,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/sicer/peakcalling_sicer/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/squirrel_.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/squirrel_phylo/squirrel_phylo/.*:
+    cores: 5
+    mem: 19.1
   toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/.*:
     cores: 8
     mem: 30.7
@@ -1490,8 +1507,15 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/compleasm/compleasm/.*:
+    cores: 5
+    mem: 19.1
     params:
       singularity_enabled: true
+    rules:
+    - id: compleasm_small_input_rule
+      if: input_size < 1
+      cores: 1
+      mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/control_freec/control_freec/.*:
     params:
       singularity_enabled: true
@@ -1780,6 +1804,9 @@ tools:
     mem: 10  
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/ivar_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_consensus/ivar_consensus/.*:
     cores: 8
     mem: 30.7
@@ -1790,8 +1817,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/ivar_trim/ivar_trim/.*:
     cores: 8
     mem: 30.7
-    params:
-      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -2398,6 +2423,8 @@ tools:
     mem: 62
     env:
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
@@ -2968,15 +2995,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/.*:
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks.*:
+    cores: 2
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/stacks_denovomap/stacks_denovomap/.*:
     cores: 16
     mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2.*:
     params:
       singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_clonefilter/stacks2_clonefilter/.*:
-    cores: 2
-    mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_cstacks/stacks2_cstacks/.*:
     cores: 16
     mem: 62
@@ -2986,18 +3013,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_gstacks/stacks2_gstacks/.*:
     cores: 16
     mem: 62
-  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_kmerfilter/stacks2_kmerfilter/.*:
-    cores: 2
-    mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_populations/stacks2_populations/.*:
     cores: 8
     mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_refmap/stacks2_refmap/.*:
     cores: 8
     mem: 30.7
-  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_shortreads/stacks2_shortreads/.*:
-    cores: 2
-    mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_sstacks/stacks2_sstacks/.*:
     cores: 16
     mem: 62
