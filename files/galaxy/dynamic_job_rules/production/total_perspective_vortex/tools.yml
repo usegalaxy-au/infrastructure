@@ -890,6 +890,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/squirrel_.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/squirrel_phylo/squirrel_phylo/.*:
+    cores: 5
+    mem: 19.1
   toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/.*:
     cores: 8
     mem: 30.7
