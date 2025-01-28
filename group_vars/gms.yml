@@ -7,6 +7,8 @@
 # django_secret_key: <str>
 # smtp_password: <str>
 
+domain_name: site.usegalaxy.org.au
+
 # If you don't want SSL certs, just flip this:
 certbot_ssl: true
 certbot_renew_email: c.hyde@qcif.edu.au
