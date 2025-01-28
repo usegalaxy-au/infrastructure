@@ -11,7 +11,7 @@ gms:
     - src: "{{ role_path }}/templates/gms.service.j2"
       dest: /etc/systemd/system/gms.service
     - src: "{{ role_path }}/templates/nginx.vhost.j2"
-      dest: "/etc/nginx/sites-available/{{ inventory_hostname }}.conf"
+      dest: "/etc/nginx/sites-available/{{ domain_name }}.conf"
     - src: "{{ role_path }}/templates/.env.j2"
       dest: "{{ project_root }}/.env"
     - src: "{{ role_path }}/templates/update.sh.j2"

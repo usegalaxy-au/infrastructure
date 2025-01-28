@@ -26,7 +26,7 @@
 
 - name: Set ssl_cert_exists fact from certbot output
   ansible.builtin.set_fact:
-    ssl_cert_exists: "{{ true if inventory_hostname in certbot_certificates.stdout else false }}"
+    ssl_cert_exists: "{{ true if domain_name in certbot_certificates.stdout else false }}"
   changed_when: false
 
 - name: create server directory
@@ -81,8 +81,8 @@
 
 - name: link to enable nginx virtualhost
   ansible.builtin.file:
-    src: "/etc/nginx/sites-available/{{ inventory_hostname }}.conf"
-    dest: "/etc/nginx/sites-enabled/{{ inventory_hostname }}"
+    src: "/etc/nginx/sites-available/{{ domain_name }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ domain_name }}"
     state: link
 
 - name: Install Python requirements into venv
@@ -97,7 +97,7 @@
   command: >
     certbot --nginx --noninteractive --agree-tos --redirect
       --email {{ certbot_renew_email }}
-      -d {{ inventory_hostname }}
+      -d {{ domain_name }}
   when: certbot_ssl
 
 - name: Run Django collectstatic

@@ -8,7 +8,7 @@
 # smtp_password: <str>
 
 # The domain name that you've registered for the target webserver
-domain_name: "{{ inventory_hostname }}"
+domain_name: site.usegalaxy.org.au
 
 # If you don't want SSL certs, just flip this:
 certbot_ssl: true

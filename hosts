@@ -223,7 +223,9 @@ ansible_user=ubuntu
 ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
 
 [gms_webservers]
-site.usegalaxy.org.au  ansible_connection=ssh  ansible_host=115.146.85.213  ansible_user=ubuntu
+; site.usegalaxy.org.au  ansible_connection=ssh  ansible_host=115.146.85.213  ansible_user=ubuntu
+galaxy-media ansible_ssh_host=115.146.85.213 internal_ip=192.168.205.199 ansible_connection=ssh ansible_user=ubuntu
 
 [gms_dev_webservers]
-dev-site.gvl.org.au  ansible_connection=ssh  ansible_host=203.101.227.51  ansible_user=ubuntu
+; dev-site.gvl.org.au  ansible_connection=ssh  ansible_host=203.101.227.51  ansible_user=ubuntu
+galaxy-media-dev ansible_ssh_host=203.101.227.51 internal_ip=192.168.205.199 ansible_connection=ssh ansible_user=ubuntu
