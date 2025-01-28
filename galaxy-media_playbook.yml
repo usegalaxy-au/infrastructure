@@ -4,6 +4,7 @@
   remote_user: ubuntu
   become: true
   vars_files:
+    - group_vars/all.yml
     - group_vars/VAULT
     - secret_group_vars/gms_vault
     - group_vars/gms.yml
@@ -17,6 +18,11 @@
         name:
           - libpq-dev
   roles:
+    - role: common
+      become: true
+      become_user: root
+    - insspb.hostname
+    - dj-wasabi.telegraf
     - role: geerlingguy.nginx
       tags: init
     - role: geerlingguy.postgresql
