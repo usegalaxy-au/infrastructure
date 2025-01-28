@@ -26,12 +26,12 @@
 
 - name: Set ssl_cert_exists fact from certbot output
   ansible.builtin.set_fact:
-    ssl_cert_exists: "{{ true if domain_name in certbot_certificates.stdout else false }}"
+    ssl_cert_exists: "{{ true if gms_domain_name in certbot_certificates.stdout else false }}"
   changed_when: false
 
 - name: create server directory
   file:
-    path: "{{ server_root }}"
+    path: "{{ gms_server_root }}"
     state: directory
 
 - name: Grant database privileges to postgres_db_user
@@ -46,7 +46,7 @@
 - name: clone git repository for galaxy-content-site
   ansible.builtin.git:
     repo: https://github.com/neoformit/galaxy-content-site.git
-    dest: "{{ project_root }}"
+    dest: "{{ gms_project_root }}"
     clone: yes
     force: yes
     update: yes
@@ -55,12 +55,12 @@
 
 - name: create gms media directory
   file:
-    path: "{{ django_root }}/webapp/media"
+    path: "{{ gms_django_root }}/webapp/media"
     state: directory
 
 - name: create gms logs directory
   file:
-    path: "{{ django_root }}/webapp/logs"
+    path: "{{ gms_django_root }}/webapp/logs"
     state: directory
 
 - name: template webserver configuration
@@ -81,14 +81,14 @@
 
 - name: link to enable nginx virtualhost
   ansible.builtin.file:
-    src: "/etc/nginx/sites-available/{{ domain_name }}.conf"
-    dest: "/etc/nginx/sites-enabled/{{ domain_name }}"
+    src: "/etc/nginx/sites-available/{{ gms_domain_name }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ gms_domain_name }}"
     state: link
 
 - name: Install Python requirements into venv
   pip:
-    requirements: "{{ project_root }}/requirements.txt"
-    virtualenv: "{{ venv_root }}"
+    requirements: "{{ gms_project_root }}/requirements.txt"
+    virtualenv: "{{ gms_venv_root }}"
     virtualenv_python: python3.12
   tags:
     - always
@@ -96,16 +96,16 @@
 - name: create and install SSL certificate with letsencrypt
   command: >
     certbot --nginx --noninteractive --agree-tos --redirect
-      --email {{ certbot_renew_email }}
-      -d {{ domain_name }}
-  when: certbot_ssl
+      --email {{ gms_certbot_renew_email }}
+      -d {{ gms_domain_name }}
+  when: gms_certbot_ssl
 
 - name: Run Django collectstatic
   environment:
     DJANGO_SETTINGS_MODULE: webapp.settings.prod
   args:
-    chdir: "{{ django_root }}"
-  command: "{{ venv_root }}/bin/python manage.py collectstatic --noinput"
+    chdir: "{{ gms_django_root }}"
+  command: "{{ gms_venv_root }}/bin/python manage.py collectstatic --noinput"
   tags:
     - update
 
@@ -113,25 +113,25 @@
   environment:
     DJANGO_SETTINGS_MODULE: webapp.settings.prod
   args:
-    chdir: "{{ django_root }}"
-  command: "{{ venv_root }}/bin/python manage.py migrate"
+    chdir: "{{ gms_django_root }}"
+  command: "{{ gms_venv_root }}/bin/python manage.py migrate"
   tags:
     - update
   when: not skip_database_migration
 
 - name: Ensure gms superuser login
   args:
-    chdir: "{{ django_root }}"
+    chdir: "{{ gms_django_root }}"
   environment:
     DJANGO_SETTINGS_MODULE: webapp.settings.prod
-    DJANGO_SUPERUSER_PASSWORD: "{{ admin_user.password }}"
+    DJANGO_SUPERUSER_PASSWORD: "{{ gms_admin_user.password }}"
   command: >
-    {{ venv_root }}/bin/python manage.py createsuperuser --noinput
-      --email {{ admin_user.email }}
-      --first_name {{ admin_user.first_name }}
-      --last_name {{ admin_user.last_name }}
+    {{ gms_venv_root }}/bin/python manage.py createsuperuser --noinput
+      --email {{ gms_admin_user.email }}
+      --first_name {{ gms_admin_user.first_name }}
+      --last_name {{ gms_admin_user.last_name }}
   ignore_errors: yes
-  when: admin_user and not skip_database_migration
+  when: gms_admin_user and not skip_database_migration
 
 - name: update project ownership
   ansible.builtin.file:
@@ -145,7 +145,7 @@
 
 - name: update media file ownership
   file: >
-    dest={{ django_root }}/webapp/media
+    dest={{ gms_django_root }}/webapp/media
     owner=www-data
     group=www-data
     mode=u=rwX,g=rwX,o=rwX
@@ -155,7 +155,7 @@
 
 - name: update log file ownership
   file: >
-    dest={{ django_root }}/webapp/logs
+    dest={{ gms_django_root }}/webapp/logs
     owner=www-data
     group=www-data
     mode=u=rwX,g=rwX,o=rwX
@@ -167,9 +167,9 @@
   file: dest=/home/ubuntu/update.sh mode=a+x
 
 - name: check whether news scraper in GMS version
-  ansible.builtin.shell: "{{ venv_root }}/bin/python manage.py scrape_news --help"
+  ansible.builtin.shell: "{{ gms_venv_root }}/bin/python manage.py scrape_news --help"
   args:
-    chdir: "{{ django_root }}"
+    chdir: "{{ gms_django_root }}"
   register: check_scraper
 
 - name: add cron job to scrape news feed
@@ -178,7 +178,7 @@
     user: ubuntu
     hour: 9
     minute: 0
-    job: "cd {{ django_root }} && {{ venv_root }}/bin/python manage.py scrape_news"
+    job: "cd {{ gms_django_root }} && {{ gms_venv_root }}/bin/python manage.py scrape_news"
   when: check_scraper.rc == 0
 
 - name: restart nginx

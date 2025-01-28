@@ -1,20 +1,20 @@
-# Server config for {{ domain_name }} (Galaxy media site)
+# Server config for {{ gms_domain_name }} (Galaxy media site)
 
 server {
     # redirect www to non-www
-    server_name www.{{ domain_name }};
-    return 301 $scheme://{{ domain_name }}$request_uri;
+    server_name www.{{ gms_domain_name }};
+    return 301 $scheme://{{ gms_domain_name }}$request_uri;
 }
 
 
 server {
 
     listen 80;
-    server_name  {{ domain_name }};
+    server_name  {{ gms_domain_name }};
     access_log   /var/log/nginx/gms.access.log;
     error_log    /var/log/nginx/gms.error.log;
 
-    if ( $host !~* ^({{ domain_name }})$ ) {
+    if ( $host !~* ^({{ gms_domain_name }})$ ) {
         # Reject requests with incorrect host header
         return 444;
     }
@@ -24,15 +24,15 @@ server {
     }
 
     location = /favicon.ico {
-        alias  {{ django_root }}/webapp/static/favicon/favicon.ico;
+        alias  {{ gms_django_root }}/webapp/static/favicon/favicon.ico;
     }
 
     location /static {
-        root {{ django_root }}/webapp;
+        root {{ gms_django_root }}/webapp;
     }
 
     location /media {
-        root {{ django_root }}/webapp;
+        root {{ gms_django_root }}/webapp;
     }
 
     location  / {

@@ -5,17 +5,17 @@
 # admin_password: <str>
 # database_password: <str>
 # django_secret_key: <str>
-# smtp_password: <str>
+# gms_smtp_password: <str>
 
 # The domain name that you've registered for the target webserver
-domain_name: site.usegalaxy.org.au
+gms_domain_name: site.usegalaxy.org.au
 
 # If you don't want SSL certs, just flip this:
-certbot_ssl: true
-certbot_renew_email: me@example.com
+gms_certbot_ssl: true
+gms_certbot_renew_email: me@example.com
 
 # 4 web workers should be plenty - increase for machines with >4 CPUs
-gunicorn:
+gms_gunicorn:
   web_workers: 4
 
 # Postgres database conf
@@ -40,25 +40,25 @@ postgres_users_no_log: false
 # -----------------------------------------------------------------------------
 
 # Git clone galaxy-content-site here
-project_root: /home/ubuntu/galaxy-content-site
+gms_project_root: /home/ubuntu/galaxy-content-site
 
 # This is where server conf files (nginx/gunicorn) will be created
-server_root: /home/ubuntu/serve
+gms_server_root: /home/ubuntu/serve
 
 # App will be served from here
-django_root: /srv/webapp
+gms_django_root: /srv/webapp
 
 # Virtual environment will be created here
-venv_root: "{{ project_root }}/.venv"
+gms_venv_root: "{{ gms_project_root }}/.venv"
 
 # Admin user login for the admin portal
-admin_user:
+gms_admin_user:
   first_name: admin
   last_name: admin
   email: "{{ admin_email }}"
   password: "{{ admin_password }}"
 
-smtp:
+gms_smtp:
   hostname: mail.usegalaxy.org.au
   port: 22
   username: galaxy-australia

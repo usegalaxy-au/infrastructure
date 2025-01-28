@@ -11,11 +11,11 @@ if [[ $EUID != 0 ]]; then
 fi
 
 # Source virtual environment and git pull
-cd {{ project_root }}
-source '{{ venv_root }}/bin/activate'
+cd {{ gms_project_root }}
+source '{{ gms_venv_root }}/bin/activate'
 git pull
 python -m pip install -r requirements.txt
-cd {{ django_root }}
+cd {{ gms_django_root }}
 
 # Collect any new static files for Nginx if neccessary
 python manage.py collectstatic --noinput
