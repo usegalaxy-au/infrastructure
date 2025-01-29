@@ -1,11 +1,12 @@
 ---
-- hosts: labs_engine
+- hosts: labs_engine_dev
   remote_user: ubuntu
   become: true
   vars_files:
     - group_vars/VAULT
+    - secret_group_vars/labs_engine
     - group_vars/labs_engine.yml
-    - host_vars/labs.usegalaxy.org.au.yml
+    - host_vars/dev-labs.gvl.org.au.yml
   roles:
     - role: geerlingguy.docker
       tags: init
