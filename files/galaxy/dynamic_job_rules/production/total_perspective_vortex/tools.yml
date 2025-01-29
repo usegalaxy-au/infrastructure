@@ -2426,6 +2426,7 @@ tools:
     mem: 62
     env:
       _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     params:
       singularity_enabled: true
     scheduling:
