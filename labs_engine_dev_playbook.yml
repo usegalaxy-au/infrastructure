@@ -3,11 +3,18 @@
   remote_user: ubuntu
   become: true
   vars_files:
+    - group_vars/all.yml
     - group_vars/VAULT
-    - secret_group_vars/labs_engine
+    - secret_group_vars/ssh_keys
+    - secret_group_vars/labs_engine_vault
     - group_vars/labs_engine.yml
     - host_vars/dev-labs.gvl.org.au.yml
   roles:
+    - role: common
+      become: true
+      become_user: root
+    - insspb.hostname
+    - dj-wasabi.telegraf
     - role: geerlingguy.docker
       tags: init
     - role: galaxy_labs_engine
