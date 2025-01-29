@@ -226,4 +226,4 @@ ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
 galaxy-labs ansible_ssh_host=138.44.7.160 internal_ip=192.168.205.41 ansible_connection=ssh ansible_user=ubuntu
 
 [labs_engine_dev]
-dev-labs ansible_ssh_host=203.101.225.162 internal_ip=10.255.132.8 ansible_connection=ssh  ansible_user=ubuntu
+galaxy-labs-dev ansible_ssh_host=203.101.225.162 internal_ip=10.255.132.8 ansible_connection=ssh  ansible_user=ubuntu
