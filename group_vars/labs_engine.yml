@@ -31,10 +31,10 @@ labs_project_root: /srv/labs-engine
 labs_config_root: "/srv/config"
 
 labs_create_directories:
-  - "{{ config_root }}"
-  - "{{ django_root }}/app/media"
-  - "{{ django_root }}/app/logs"
-  - "{{ temp_dir }}"
+  - "{{ labs_config_root }}"
+  - "{{ labs_django_root }}/app/media"
+  - "{{ labs_django_root }}/app/logs"
+  - "{{ labs_temp_dir }}"
 
 # Admin user login for the web admin
 labs_admin_user:
