@@ -22,7 +22,7 @@
   ansible.builtin.git:
     repo: "{{ labs_engine_repo }}"
     version: "{{ labs_engine_branch }}"
-    dest: "{{ project_root }}"
+    dest: "{{ labs_project_root }}"
     clone: yes
     force: yes
     update: yes
@@ -33,12 +33,12 @@
   file:
     path: "{{ item }}"
     state: directory
-  loop: "{{ create_directories }}"
+  loop: "{{ labs_create_directories }}"
   tags: config
 
 - name: check if SSL certificate is installed
   stat:
-    path: /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem
+    path: /etc/letsencrypt/live/{{ labs_domain_name }}/fullchain.pem
   register: certbot_certificates
   tags:
     - config
@@ -46,7 +46,7 @@
 
 - name: obtain initial SSL certificate with certbot
   include_tasks: certbot.yml
-  when: certbot_ssl and certbot_certificates.stat.exists is false
+  when: labs_certbot_ssl and certbot_certificates.stat.exists is false
   tags: certbot
 
 - name: template webserver configuration
@@ -65,27 +65,39 @@
   loop: "{{ labs_engine.files }}"
   tags: config
 
+- name: Update labs_project_root directory permissions
+  file: dest={{ labs_project_root }} mode=u=rwX,g=rwX,o=rX recurse=yes
+  tags:
+    - permissions
+    - update
+
+- name: Update labs_config_root directory permissions
+  file: dest={{ labs_config_root }} mode=u=rwX,g=rwX,o=rX recurse=yes
+  tags:
+    - permissions
+    - update
+
 - name: Set media file ownership
-  file: dest={{ django_root }}/app/media owner=www-data group=www-data mode=u=rwX,g=rwX,o=rwX recurse=yes
+  file: dest={{ labs_django_root }}/app/media owner=www-data group=www-data mode=u=rwX,g=rwX,o=rwX recurse=yes
   tags:
     - permissions
     - update
 
 - name: Set log file ownership
-  file: dest={{ django_root }}/app/logs owner=www-data group=www-data mode=u=rwX,g=rwX,o=rwX recurse=yes
+  file: dest={{ labs_django_root }}/app/logs owner=www-data group=www-data mode=u=rwX,g=rwX,o=rwX recurse=yes
   tags:
     - permissions
     - update
 
 - name: Update sqlite3 database ownership
-  file: dest={{ django_root }}/db.sqlite3 owner=www-data group=www-data mode=u=rw,g=rw,o=r
+  file: dest={{ labs_django_root }}/db.sqlite3 owner=www-data group=www-data mode=u=rw,g=rw,o=r
   tags:
     - permissions
   ignore_errors: yes
 
 - name: Update sqlite3 database directory permissions
   file:
-    dest: "{{ django_root }}"
+    dest: "{{ labs_django_root }}"
     owner: root
     group: www-data
     mode: u=rwx,g=rwx,o=rx
@@ -97,7 +109,7 @@
     docker compose --profile prod run --rm labs-engine
     python manage.py createcachetable
   args:
-    chdir: "{{ config_root }}"
+    chdir: "{{ labs_config_root }}"
   tags: django
 
 - name: Django run migrations
@@ -105,33 +117,33 @@
     docker compose --profile prod run --rm labs-engine
     python manage.py migrate
   args:
-    chdir: "{{ config_root }}"
-  when: not skip_database_migration
+    chdir: "{{ labs_config_root }}"
   tags:
     - django
     - update
+    - migrate
 
 - name: Django collect static files
   shell: >
     docker compose --profile prod run --rm --user root labs-engine
     python manage.py collectstatic --noinput
   args:
-    chdir: "{{ config_root }}"
+    chdir: "{{ labs_config_root }}"
   tags: always
 
 - name: Django ensure superuser login
   shell: >
     docker compose --profile prod run --rm
-    -e DJANGO_SUPERUSER_PASSWORD={{ admin_user.password }}
+    -e DJANGO_SUPERUSER_PASSWORD={{ labs_admin_user.password }}
     labs-engine
     python manage.py createsuperuser --noinput
-    --email {{ admin_user.email }}
-    --first_name {{ admin_user.first_name }}
-    --last_name {{ admin_user.last_name }}
+    --email {{ labs_admin_user.email }}
+    --first_name {{ labs_admin_user.first_name }}
+    --last_name {{ labs_admin_user.last_name }}
   args:
-    chdir: "{{ config_root }}"
+    chdir: "{{ labs_config_root }}"
   ignore_errors: yes
-  when: admin_user.email and not skip_database_migration
+  when: labs_admin_user.email and not skip_database_migration
   tags:
     - init
     - django
@@ -142,7 +154,7 @@
     python manage.py shell -c
     "from django.core.cache import cache; cache.clear()"
   args:
-    chdir: "{{ config_root }}"
+    chdir: "{{ labs_config_root }}"
   tags: clear_cache
 
 - name: enable labs_engine socket

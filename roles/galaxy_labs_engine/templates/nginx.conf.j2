@@ -1,4 +1,4 @@
-{% if certbot_certificates.stat.exists %}# Server config for {{ inventory_hostname }} in docker
+{% if certbot_certificates.stat.exists %}# Server config for {{ labs_domain_name }} in docker
 
 
 {% if nginx_limit_requests_per_minute %}
@@ -14,18 +14,18 @@ upstream {{ docker_container_name }} {
 
 server {
     # redirect www to non-www
-    server_name www.{{ inventory_hostname }};
-    return 301 $scheme://{{ inventory_hostname }}$request_uri;
+    server_name www.{{ labs_domain_name }};
+    return 301 $scheme://{{ labs_domain_name }}$request_uri;
 }
 
 server {
 
-    server_name  {{ inventory_hostname }};
+    server_name  {{ labs_domain_name }};
 
     access_log   /var/log/nginx/{{ docker_container_name }}.access.log;
     error_log    /var/log/nginx/{{ docker_container_name }}.error.log;
 
-    if ( $host !~* ^({{ inventory_hostname }})$ ) {
+    if ( $host !~* ^({{ labs_domain_name }})$ ) {
         # Reject requests with incorrect host header
         return 444;
     }
@@ -65,8 +65,8 @@ server {
     }
 
     listen 443 ssl;
-    ssl_certificate /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/{{ labs_domain_name }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ labs_domain_name }}/privkey.pem;
 
 }
 {% endif %}
@@ -76,7 +76,7 @@ server {
 
 server {
     listen 80;
-    server_name {{ inventory_hostname }};
+    server_name {{ labs_domain_name }};
 
     location /.well-known/acme-challenge/ {
         alias /var/www/certbot/.well-known/acme-challenge/;
@@ -84,7 +84,7 @@ server {
 
     # Redirect all other traffic to HTTPS, but not the challenge
     location / {
-        if ($host = {{ inventory_hostname }}) {
+        if ($host = {{ labs_domain_name }}) {
             return 301 https://$host$request_uri;
         }
     }

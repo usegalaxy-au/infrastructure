@@ -3,9 +3,6 @@
 # Web server configuration
 # -----------------------------------------------------------------------------
 
-# The domain name that you've registered for the target webserver
-domain_name: "{{ inventory_hostname }}"
-
 # The Labs Engine container name defined in docker-compose.yml
 docker_container_name: labs-engine
 
@@ -13,43 +10,40 @@ docker_install_compose: false
 docker_compose_version: "2.29.2"
 
 # If you don't want SSL certs, just flip this:
-certbot_ssl: true
-certbot_domain: "{{ domain_name }}"
-certbot_renew_email: "{{ vault_labs_admin_email }}"
+labs_certbot_ssl: true
+labs_certbot_domain: "{{ domain_name }}"
+labs_certbot_renew_email: "{{ vault_labs_admin_email }}"
 
 # 4 web workers should be plenty - increase for machines with >2 CPUs
-gunicorn:
+labs_gunicorn:
   web_workers: 4
 
 
 # Labs Engine configuration
 # -----------------------------------------------------------------------------
 
-django_secret_key: "{{ vault_labs_django_secret_key }}"
-
-# For manual manipulation of the database
-skip_database_migration: false
+labs_django_secret_key: "{{ vault_labs_django_secret_key }}"
 
 # Git clone here
-project_root: /srv/labs-engine
+labs_project_root: /srv/labs-engine
 
 # This is where server conf files (nginx/gunicorn) will be created
-config_root: "/srv/config"
+labs_config_root: "/srv/config"
 
-create_directories:
+labs_create_directories:
   - "{{ config_root }}"
   - "{{ django_root }}/app/media"
   - "{{ django_root }}/app/logs"
   - "{{ temp_dir }}"
 
 # Admin user login for the web admin
-admin_user:
+labs_admin_user:
   first_name: admin
   last_name: admin
   email: "{{ vault_labs_admin_email }}"
   password: "{{ vault_labs_admin_password }}"
 
-smtp:
+labs_smtp:
   hostname: mail.smtp2go.com
   port: 587
   username: "{{ vault_labs_smtp_username }}"
@@ -58,17 +52,17 @@ smtp:
   to_address: help@genome.edu.au
   use_tls: true
 
-slack:
+labs_slack:
   api_key: "{{ vault_labs_slack_api_key }}"
   channel_id: "{{ vault_labs_slack_channel_id }}"
   mention_user_id: "{{ vault_labs_slack_mention_user_id }}"
 
-github_api_token: "{{ vault_labs_github_api_token }}"
+labs_github_api_token: "{{ vault_labs_github_api_token }}"
 
 # Override log levels for specific loggers
 # Value must be one of DEBUG, INFO, WARNING, ERROR, CRITICAL
-django_log_levels:
+labs_django_log_levels:
   console: INFO
   cache: DEBUG
 
-django_sentry_dns: "{{ vault_labs_sentry_dns }}"
+labs_django_sentry_dns: "{{ vault_labs_sentry_dns }}"

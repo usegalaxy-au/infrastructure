@@ -21,7 +21,7 @@
       shell: >
         docker compose --profile prod down
       args:
-        chdir: "{{ config_root }}"
+        chdir: "{{ labs_config_root }}"
       tags: certbot
 
     - name: run docker container prune
@@ -39,12 +39,12 @@
         -d "{{ certbot_domain }}"
         -m "{{ certbot_renew_email }}"
       args:
-        chdir: "{{ config_root }}"
+        chdir: "{{ labs_config_root }}"
       tags: certbot
 
     - name: Confirm that SSL certificate is installed
       stat:
-        path: /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem
+        path: /etc/letsencrypt/live/{{ labs_domain_name }}/fullchain.pem
       register: certbot_certificates
       tags: certbot
 
@@ -55,11 +55,11 @@
         minute: "0"
         hour: "0"
         job: "sudo certbot renew --webroot --webroot-path /var/www/certbot/"
-      when: certbot_ssl
+      when: labs_certbot_ssl
 
     - name: run docker compose down
       shell: >
         docker compose --profile certbot down
       args:
-        chdir: "{{ config_root }}"
+        chdir: "{{ labs_config_root }}"
       tags: certbot
