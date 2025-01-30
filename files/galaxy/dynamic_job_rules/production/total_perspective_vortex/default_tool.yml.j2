@@ -7,9 +7,6 @@ tools:
     mem: cores * 3.8
     env: 
       HDF5_USE_FILE_LOCKING: "FALSE"
-      SINGULARITYENV_HDF5_USE_FILE_LOCKING: "FALSE"
-      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
-      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     context:
       partition: main
       test_cores: 1  # TODO: test_mem?

@@ -650,6 +650,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
     cores: 8
     mem: 30.7
+    env:
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     scheduling:
       accept:
       - pulsar
@@ -825,6 +828,9 @@ tools:
     mem: 11.5
     params:
       tmp_dir: true
+    env:
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     scheduling: # these jobs can run on pulsar but it may not be worth transferring them because the job walltime is much quicker than the transport time
       accept:
       - pulsar
@@ -1200,6 +1206,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker/.*:
     cores: 7
     mem: 26.8
+    env:
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
   toolshed.g2.bx.psu.edu/repos/galaxyp/pyprophet.*:
     params:
       singularity_enabled: true 
@@ -1339,6 +1347,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_.*:
     cores: 3
     mem: 11.5
+    env:
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/bcftools_mpileup/bcftools_mpileup/.*:
@@ -2413,6 +2424,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/.*:
     cores: 16
     mem: 62
+    env:
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     params:
       singularity_enabled: true
     scheduling:
@@ -3407,6 +3421,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/.*:
     cores: 3
     mem: 11.5
+    env:
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
     scheduling:
       accept:
       - pulsar
