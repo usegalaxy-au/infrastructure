@@ -98,7 +98,7 @@
     certbot --nginx --noninteractive --agree-tos --redirect
       --email {{ gms_certbot_renew_email }}
       -d {{ gms_domain_name }}
-  when: gms_certbot_ssl
+  tags: certbot
 
 - name: Run Django collectstatic
   environment:

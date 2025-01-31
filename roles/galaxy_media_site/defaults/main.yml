@@ -21,8 +21,6 @@ gms:
     - src: "{{ role_path }}/files/gms.socket"
       dest: /etc/systemd/system/gms.socket
 
-gms_certbot_ssl: true
-
 gms_gunicorn:
   web_workers: 4
 
