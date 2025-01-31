@@ -1,0 +1,34 @@
+---
+# Deploy the Galaxy Media Site to a development server
+- hosts: gms_dev_webservers
+  remote_user: ubuntu
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/VAULT
+    - secret_group_vars/ssh_keys
+    - secret_group_vars/gms_vault
+    - group_vars/gms.yml
+    - host_vars/dev-site.gvl.org.au.yml
+  pre_tasks:
+    - name: update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+    - name: install system dependencies
+      ansible.builtin.package:
+        name:
+          - libpq-dev
+          - python3-pip
+  roles:
+    - role: common
+      become: true
+      become_user: root
+    - insspb.hostname
+    - dj-wasabi.telegraf
+    - role: geerlingguy.nginx
+      tags: init
+    - role: geerlingguy.postgresql
+      become: true
+      tags: init,postgresql
+    - role: galaxy_media_site
+      tags: gms

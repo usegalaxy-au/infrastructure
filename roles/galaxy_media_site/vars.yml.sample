@@ -1,0 +1,70 @@
+---
+
+# secrets.yml:
+# admin_email: <str>
+# admin_password: <str>
+# database_password: <str>
+# django_secret_key: <str>
+# gms_smtp_password: <str>
+
+# The domain name that you've registered for the target webserver
+gms_domain_name: site.usegalaxy.org.au
+
+# If you don't want SSL certs, just flip this:
+gms_certbot_ssl: true
+gms_certbot_renew_email: me@example.com
+
+# 4 web workers should be plenty - increase for machines with >4 CPUs
+gms_gunicorn:
+  web_workers: 4
+
+# Postgres database conf
+postgres_db_name: gms
+postgres_db_user: gms
+
+postgresql_locales:
+  - 'en_US.UTF-8'
+
+postgresql_databases:
+  - name: "{{ postgres_db_name }}"
+    port: 5432
+
+postgresql_users:
+  - name: "{{ postgres_db_user }}"
+    password: "{{ database_password }}"
+    db: "{{ postgres_db_name }}"
+
+postgres_users_no_log: false
+
+# GMS Webapp configuration
+# -----------------------------------------------------------------------------
+
+# Git clone galaxy-content-site here
+gms_project_root: /home/ubuntu/galaxy-content-site
+
+# This is where server conf files (nginx/gunicorn) will be created
+gms_server_root: /home/ubuntu/serve
+
+# App will be served from here
+gms_django_root: /srv/webapp
+
+# Virtual environment will be created here
+gms_venv_root: "{{ gms_project_root }}/.venv"
+
+# Admin user login for the admin portal
+gms_admin_user:
+  first_name: admin
+  last_name: admin
+  email: "{{ admin_email }}"
+  password: "{{ admin_password }}"
+
+gms_smtp:
+  hostname: mail.usegalaxy.org.au
+  port: 22
+  username: galaxy-australia
+  from_address: noreply@genome.edu.au
+  to_address: help@genome.edu.au
+  use_tls: true
+
+# For manual manipulation of the database
+skip_database_migration: false

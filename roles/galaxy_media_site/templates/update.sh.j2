@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# For updating Galaxy Media Site directly on server
+
+set -e
+
+# Ensure run as root
+if [[ $EUID != 0 ]]; then
+    echo "Must be run as root - use sudo"
+    exit 0
+fi
+
+# Source virtual environment and git pull
+cd {{ gms_project_root }}
+source '{{ gms_venv_root }}/bin/activate'
+git pull
+python -m pip install -r requirements.txt
+cd {{ gms_django_root }}
+
+# Collect any new static files for Nginx if neccessary
+python manage.py collectstatic --noinput
+
+# Migrate the database (if necessary)
+python manage.py migrate
+
+# Update file ownership to allow www-data to write logs/media
+chown -R www-data:www-data webapp/logs
+chown -R www-data:www-data webapp/media
+
+# Restart the GMS web service
+service gms restart
+
+echo ""
+echo "~~~ Restarted Galaxy Media Site ~~~"
+echo ""

@@ -1,0 +1,6 @@
+[Unit]
+Description=Galaxy content site socket
+[Socket]
+ListenStream=/run/gms.sock
+[Install]
+WantedBy=sockets.target

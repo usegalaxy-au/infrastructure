@@ -86,4 +86,9 @@ roles:
 - name: geerlingguy.java
   version: 2.5.0
 - name: geerlingguy.jenkins
+
+# GMS roles
+- name: geerlingguy.nginx
+  version: 3.2.0
+- name: geerlingguy.postgresql
   version: 5.2.0

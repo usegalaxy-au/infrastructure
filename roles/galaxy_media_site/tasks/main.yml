@@ -1,0 +1,196 @@
+---
+
+- name: Add the deadsnakes PPA repository
+  apt_repository:
+    repo: ppa:deadsnakes/ppa
+    state: present
+
+- name: update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: install systems dependencies
+  ansible.builtin.package:
+    name:
+      - gcc
+      - python3.12
+      - python3-pip
+      - python3-virtualenv
+      - python3.12-dev
+      - python3-certbot-nginx
+
+- name: Check whether SSL certificate is already installed
+  ansible.builtin.shell: "certbot certificates"
+  register: certbot_certificates
+  changed_when: false
+
+- name: Set ssl_cert_exists fact from certbot output
+  ansible.builtin.set_fact:
+    ssl_cert_exists: "{{ true if gms_domain_name in certbot_certificates.stdout else false }}"
+  changed_when: false
+
+- name: create server directory
+  file:
+    path: "{{ gms_server_root }}"
+    state: directory
+
+- name: Grant database privileges to postgres_db_user
+  ansible.builtin.shell: >
+    sudo -u postgres psql -d {{ postgres_db_name }} -c
+    "GRANT ALL PRIVILEGES ON DATABASE {{ postgres_db_name }} TO {{ postgres_db_user }};
+    GRANT ALL ON SCHEMA public TO {{ postgres_db_user }};"
+  become: yes
+  tags:
+    - pg-permissions
+
+- name: clone git repository for galaxy-content-site
+  ansible.builtin.git:
+    repo: https://github.com/neoformit/galaxy-content-site.git
+    dest: "{{ gms_project_root }}"
+    clone: yes
+    force: yes
+    update: yes
+  tags:
+    - update
+
+- name: create gms media directory
+  file:
+    path: "{{ gms_django_root }}/webapp/media"
+    state: directory
+
+- name: create gms logs directory
+  file:
+    path: "{{ gms_django_root }}/webapp/logs"
+    state: directory
+
+- name: template webserver configuration
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop: "{{ gms.templates }}"
+  tags:
+    - config
+
+- name: copy webserver configuration
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop: "{{ gms.files }}"
+  tags:
+    - config
+
+- name: link to enable nginx virtualhost
+  ansible.builtin.file:
+    src: "/etc/nginx/sites-available/{{ gms_domain_name }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ gms_domain_name }}"
+    state: link
+
+- name: Install Python requirements into venv
+  pip:
+    requirements: "{{ gms_project_root }}/requirements.txt"
+    virtualenv: "{{ gms_venv_root }}"
+    virtualenv_python: python3.12
+  tags:
+    - always
+
+- name: create and install SSL certificate with letsencrypt
+  command: >
+    certbot --nginx --noninteractive --agree-tos --redirect
+      --email {{ gms_certbot_renew_email }}
+      -d {{ gms_domain_name }}
+  tags: certbot
+
+- name: Run Django collectstatic
+  environment:
+    DJANGO_SETTINGS_MODULE: webapp.settings.prod
+  args:
+    chdir: "{{ gms_django_root }}"
+  command: "{{ gms_venv_root }}/bin/python manage.py collectstatic --noinput"
+  tags:
+    - update
+
+- name: Run Django migrate
+  environment:
+    DJANGO_SETTINGS_MODULE: webapp.settings.prod
+  args:
+    chdir: "{{ gms_django_root }}"
+  command: "{{ gms_venv_root }}/bin/python manage.py migrate"
+  tags:
+    - update
+  when: not skip_database_migration
+
+- name: Ensure gms superuser login
+  args:
+    chdir: "{{ gms_django_root }}"
+  environment:
+    DJANGO_SETTINGS_MODULE: webapp.settings.prod
+    DJANGO_SUPERUSER_PASSWORD: "{{ gms_admin_user.password }}"
+  command: >
+    {{ gms_venv_root }}/bin/python manage.py createsuperuser --noinput
+      --email {{ gms_admin_user.email }}
+      --first_name {{ gms_admin_user.first_name }}
+      --last_name {{ gms_admin_user.last_name }}
+  ignore_errors: yes
+  when: gms_admin_user and not skip_database_migration
+
+- name: update project ownership
+  ansible.builtin.file:
+    path: /home/ubuntu
+    state: directory
+    recurse: yes
+    owner: ubuntu
+    group: ubuntu
+  tags:
+    - always
+
+- name: update media file ownership
+  file: >
+    dest={{ gms_django_root }}/webapp/media
+    owner=www-data
+    group=www-data
+    mode=u=rwX,g=rwX,o=rwX
+    recurse=yes
+  tags:
+    - always
+
+- name: update log file ownership
+  file: >
+    dest={{ gms_django_root }}/webapp/logs
+    owner=www-data
+    group=www-data
+    mode=u=rwX,g=rwX,o=rwX
+    recurse=yes
+  tags:
+    - always
+
+- name: make update.sh executable
+  file: dest=/home/ubuntu/update.sh mode=a+x
+
+- name: check whether news scraper in GMS version
+  ansible.builtin.shell: "{{ gms_venv_root }}/bin/python manage.py scrape_news --help"
+  args:
+    chdir: "{{ gms_django_root }}"
+  register: check_scraper
+
+- name: add cron job to scrape news feed
+  ansible.builtin.cron:
+    name: "scrape news feed"
+    user: ubuntu
+    hour: 9
+    minute: 0
+    job: "cd {{ gms_django_root }} && {{ gms_venv_root }}/bin/python manage.py scrape_news"
+  when: check_scraper.rc == 0
+
+- name: restart nginx
+  ansible.builtin.systemd:
+    name: nginx
+    state: restarted
+  tags:
+    - config
+
+- name: restart gms
+  ansible.builtin.systemd:
+    name: gms
+    state: restarted
+  tags:
+    - always
