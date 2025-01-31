@@ -56,7 +56,6 @@
     - galaxyproject.slurm
     - galaxyproject.cvmfs
     - galaxyproject.gxadmin
-    - pg-post-tasks
     - remote-pulsar-cron
     - galaxy-pg-cleanup
     - galaxyproject.tiaas2

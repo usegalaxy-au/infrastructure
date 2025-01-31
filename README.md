@@ -75,7 +75,6 @@ There are a few custom roles associated with these playbooks. They are:
 | common    | Performs common tasks on our virtual machines including setting up users, installing some required packages amongst other tasks |
 | mariadb | Sets up MariaDB for Slurm accounting on various clusters |
 | mounts | Sets up NFS mounts for various clusters |
-| pg-post-tasks | Adds some users and extra permissions to the Galaxy Database |
 | slg.db-backup | Role to setup database backups for Galaxy Australia |
 | slg.galaxy_stats | Sets up collection of statistics from Galaxy for Grafana |
 

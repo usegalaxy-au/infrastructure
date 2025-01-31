@@ -38,15 +38,18 @@ pawsey-user-nfs ansible_ssh_host=146.118.68.13 internal_ip=192.168.0.165
 
 # GenomicsVL pulsar
 [pulsar_mel3_head]
-pulsar-mel3 ansible_ssh_host=115.146.85.19
+pulsar-mel3 ansible_ssh_host=115.146.84.200
+
+[pulsar_mel3_nfs]
+pulsar-mel3-nfs ansible_ssh_host=115.146.85.127
 
 [pulsar_mel3_workers]
-pulsar-mel3-w1 ansible_ssh_host=115.146.84.200
-pulsar-mel3-w2 ansible_ssh_host=115.146.84.238
-pulsar-mel3-w3 ansible_ssh_host=115.146.87.129
-pulsar-mel3-w4 ansible_ssh_host=115.146.86.181
-pulsar-mel3-w5 ansible_ssh_host=115.146.86.108
-pulsar-mel3-w6 ansible_ssh_host=115.146.86.64
+pulsar-mel3-w1 ansible_ssh_host=115.146.84.242
+pulsar-mel3-w2 ansible_ssh_host=115.146.85.206
+pulsar-mel3-w3 ansible_ssh_host=115.146.87.152
+pulsar-mel3-w4 ansible_ssh_host=115.146.85.209
+pulsar-mel3-w5 ansible_ssh_host=115.146.86.27
+pulsar-mel3-w6 ansible_ssh_host=115.146.85.122
 
 # MelbourneGVL pulsars
 [pulsar_mel2_head]
@@ -143,18 +146,33 @@ pulsar_qld_himems
 pulsar_high_mem2
 pulsar_high_mem1
 pulsar_qld_blast
+pulsar_qld_gpus
 pulsar_nci_training_head
 pulsar_azure_0_head
 
+# All pulsar head nodes
+[pulsar_head_nodes:children]
+production_pulsars
+dev_pulsar_head
+staging_pulsar_head
+pulsar_nci_test_head
+
+# All pulsar workers
+[pulsar_workers:children]
+pulsar_mel3_workers
+pulsar_mel2_workers
+pulsar_QLD_workers
+pulsar_nci_training_workers
+pulsar_nci_test_workers
+
 # Dev cluster (GenomicsVL_Devt)
-[dev_group]
-dev-pulsar ansible_ssh_host=45.113.233.82
 [dev_group:children]
 dev_db_server
 dev_galaxy_server
 dev_handlers_server
 dev_slurm_head
 dev_workers
+dev_pulsar_head
 
 [dev_db_server]
 dev-db ansible_ssh_host=45.113.232.252
@@ -172,14 +190,16 @@ dev-queue ansible_ssh_host=45.113.232.149
 dev-w1 ansible_ssh_host=45.113.233.251
 dev-w2 ansible_ssh_host=45.113.233.7
 
+[dev_pulsar_head]
+dev-pulsar ansible_ssh_host=45.113.233.82
+
 # Staging cluster (GenomicsVL)
-[staging_group]
-staging-pulsar ansible_ssh_host=115.146.87.193
 [staging_group:children]
 staging_db_server
 staging_galaxy_server
 staging_slurm_head
 staging_workers
+staging_pulsar_head
 
 [staging_db_server]
 staging-db ansible_ssh_host=115.146.87.93
@@ -192,6 +212,9 @@ staging-queue ansible_ssh_host=115.146.84.121
 
 [staging_workers]
 staging-w1 ansible_ssh_host=115.146.87.130
+
+[staging_pulsar_head]
+staging-pulsar ansible_ssh_host=115.146.87.193
 
 # CVMFS
 [cvmfsstratum1servers]

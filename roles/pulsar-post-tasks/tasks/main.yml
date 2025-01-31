@@ -17,7 +17,7 @@
       owner: ubuntu
       group: ubuntu
       state: directory
-      mode: 0750
+      mode: 0755
 # - name: Symlink custom indices directory
 #   file:
 #       src: "{{ pulsar_custom_indices_src_dir }}"

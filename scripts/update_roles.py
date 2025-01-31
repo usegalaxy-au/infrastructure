@@ -40,12 +40,13 @@ for r in role_requirements:
             continue
         role_info_file = os.path.join(here, roles_dir, name, 'meta', '.galaxy_install_info')
         role_info_version = None
-        with open(role_info_file) as handle:
-            role_info_lines = handle.readlines()
-        for line in role_info_lines:
-            content = re.split(':\s+', line.strip())
-            if content[0] == 'version':
-                role_info_version = content[1]
+        if os.path.exists(role_info_file):  # if the role is new there is no such file to consult
+            with open(role_info_file) as handle:
+                role_info_lines = handle.readlines()
+            for line in role_info_lines:
+                content = re.split(':\s+', line.strip())
+                if content[0] == 'version':
+                    role_info_version = content[1]
         if role_info_version and role_info_version == required_version:
             print(f'role {name} is already installed at version {role_info_version}, no need to update')
         else:

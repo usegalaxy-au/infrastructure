@@ -4,13 +4,6 @@
   become_user: root
   block:
 
-  # FIX for deprecated code that added user files in /etc/sudoers.d/ - can be removed in future
-  - name: delete /etc/sudoers.d/username files for machine users
-    file:
-      path: "/etc/sudoers.d/{{ item.name }}"
-      state: absent
-    with_items: "{{ remove_machine_users + machine_users }}"
-
   - name: Ensure group "devs" exists
     group:
       name: devs
@@ -65,18 +58,41 @@
       force: yes 
     with_items: "{{ remove_machine_users }}"
 
-  - name: Add some env_vars to .bashrcs
-    blockinfile:
-      path: "/home/{{ item.name }}/.bashrc"
-      block: |
-        {{ bashrc_env }}
-      marker: "# {mark} MANAGED BY ANSIBLE - DO NOT MODIFY"
-    with_items: "{{ machine_users + [{'name': 'ubuntu'}] }}"
-    when: bashrc_env is defined
-
   - name: Add SSH keys for users
     authorized_key:
       user: "{{ item.name }}"
       key: "{{ lookup('file', item.key) }}"
       state: present
     with_items: "{{ machine_users }}"
+
+  # former pg-post-tasks tasks
+  - name: Pgpass creation and gxadmin user tasks
+    when: is_galaxy_head_node|d(False)
+    block:
+    - name: Create .pgpass files for users
+      copy:
+        dest: "/home/{{ item.name }}/.pgpass"
+        content: "{{ db_address }}:5432:*:{{ db_role }}:{{ db_password }}"
+        mode: "600"
+        group: "{{ item.name }}"
+        owner: "{{ item.name }}"
+      vars:
+        db_role: "{{ 'galaxy' if item.name == 'ubuntu' else ('reader' if not 'tiaas_admin' in item.roles|d([]) else 'tiaasadmin') }}"
+        db_password: "{{ pg_db_password[db_role] }}"
+      with_items: "{{ machine_users + [{'name': 'ubuntu'}] }}"
+    - name: Ensure gxadmin config directory exists for all users including ubuntu
+      file:
+        path: "/home/{{ item }}/.config"
+        state: directory
+        group: "{{ item }}"
+        owner: "{{ item }}"
+      with_items: "{{ (machine_users | map(attribute='name') | list) + ['ubuntu'] }}"
+    - name: Ensure that all users + ubuntu have a copy of gxadmin-local.sh
+      copy: 
+        src: files/galaxy/gxadmin/gxadmin-local.sh
+        dest: "/home/{{ item }}/.config/gxadmin-local.sh"
+        mode: "755"
+        group: "{{ item }}"
+        owner: "{{ item }}"
+        force: yes
+      with_items: "{{ (machine_users | map(attribute='name') | list) + ['ubuntu'] }}"
