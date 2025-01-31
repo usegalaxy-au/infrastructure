@@ -3511,6 +3511,9 @@ tools:
   .*data_manager.*:
     cores: 5
     mem: 19.1
+  .*data_manager_bwa_mem2_index_builder.*:
+    cores: 16
+    mem: 62
   .*data_manager_cat.*:
     cores: 5
     mem: 19.1
