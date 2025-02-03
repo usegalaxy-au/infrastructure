@@ -3512,8 +3512,13 @@ tools:
     cores: 5
     mem: 19.1
   .*data_manager_bwa_mem2_index_builder.*:
-    cores: 16
-    mem: 100
+    cores: 20
+    mem: 250
+    scheduling:
+      accept:
+        - pulsar
+      require:
+        - pulsar-qld-high-mem1
   .*data_manager_cat.*:
     cores: 5
     mem: 19.1
