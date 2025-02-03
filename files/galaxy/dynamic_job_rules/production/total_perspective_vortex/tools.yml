@@ -3511,14 +3511,11 @@ tools:
   .*data_manager.*:
     cores: 5
     mem: 19.1
+    params:
+      singularity_enabled: true
   .*data_manager_bwa_mem2_index_builder.*:
-    cores: 20
-    mem: 250
-    scheduling:
-      accept:
-        - pulsar
-      require:
-        - pulsar-qld-high-mem1
+    cores: 6
+    mem: 125
   .*data_manager_cat.*:
     cores: 5
     mem: 19.1

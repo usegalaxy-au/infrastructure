@@ -66,7 +66,7 @@ destinations:
     inherits: _slurm_destination
     runner: slurm
     max_accepted_cores: 32
-    max_accepted_mem: 122.86
+    max_accepted_mem: 125
     context:
       destination_total_cores: 192
       destination_total_mem: 737
@@ -81,7 +81,7 @@ destinations:
     inherits: _slurm_destination
     runner: slurm
     max_accepted_cores: 32
-    max_accepted_mem: 122.86
+    max_accepted_mem: 125
     context:
       destination_total_cores: 192
       destination_total_mem: 737
@@ -96,7 +96,7 @@ destinations:
         - training
   interactive_pulsar:
     max_accepted_cores: 32
-    max_accepted_mem: 122.86
+    max_accepted_mem: 125
     context:
       destination_total_cores: 192
       destination_total_mem: 737
@@ -120,7 +120,7 @@ destinations:
     inherits: _pulsar_destination
     runner: pulsar_mel2_runner
     max_accepted_cores: 8
-    max_accepted_mem: 31.45
+    max_accepted_mem: 31.25
     context:
       destination_total_cores: 56
       destination_total_mem: 220.15
@@ -134,7 +134,7 @@ destinations:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
     max_accepted_cores: 32
-    max_accepted_mem: 63 # reduced from 122.86 to assist with scheduling
+    max_accepted_mem: 62.5 # can allocate up to 125 but this has been reduced so that those jobs are scheduled to abundant high memory resources
     context:
       destination_total_cores: 144
       destination_total_mem: 553
@@ -260,7 +260,7 @@ destinations:
     inherits: _pulsar_destination
     runner: pulsar-QLD_runner
     max_accepted_cores: 16
-    max_accepted_mem: 62.72
+    max_accepted_mem: 62.5
     context:
       destination_total_cores: 112
       destination_total_mem: 439
