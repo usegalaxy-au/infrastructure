@@ -241,6 +241,7 @@ destinations:
       require:
         - pulsar
         - training
+        - offline
   pulsar-qld-blast:
     inherits: _pulsar_destination
     runner: pulsar-qld-blast_runner
@@ -270,9 +271,10 @@ destinations:
         - pulsar-QLD
         - funannotate
         - bakta_database
+        - training # reroute while pulsar-nci-training is offline
       require:
         - pulsar
-        - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
+        #- pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
   pulsar-azure:
     inherits: _pulsar_destination
     runner: pulsar_azure_0_runner
