@@ -1294,10 +1294,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/annotatemyids/annotatemyids/.*:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/iuc/arriba/arriba/.*:
-    cores: 16
-    mem: 62
+    cores: 12
+    mem: 200
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/arriba_draw_fusions/arriba_draw_fusions/.*:
     params:
       singularity_enabled: true
