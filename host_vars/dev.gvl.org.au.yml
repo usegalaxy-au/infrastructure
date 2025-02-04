@@ -68,7 +68,7 @@ galaxy_tus_upload_store: "{{ galaxy_tmp_dir }}/tus"
 galaxy_job_working_directory: "{{ galaxy_tmp_dir }}/job_working_directory"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_24.1
+galaxy_commit_id: release_24.2
 
 galaxy_file_path: "{{ galaxy_root }}/data-3"
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
