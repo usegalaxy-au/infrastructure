@@ -56,6 +56,8 @@ postgres_users_no_log: false
 # GMS Webapp configuration
 # -----------------------------------------------------------------------------
 
+gms_csrf_cookie_domain: null
+
 # Will git clone galaxy-content-site to here
 gms_project_root: /srv/sites/galaxy-media-site
 

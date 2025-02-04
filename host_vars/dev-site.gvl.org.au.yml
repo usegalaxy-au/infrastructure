@@ -1,2 +1,3 @@
 gms_domain_name: dev-site.gvl.org.au
 gms_sentry_dns_url: null
+gms_csrf_cookie_domain: .gvl.org.au
