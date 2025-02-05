@@ -40,7 +40,6 @@ roles/galaxyproject.pulsar
 roles/dj-wasabi.telegraf
 roles/galaxyproject.gxadmin
 roles/usegalaxy_eu.tiaas2
-roles/usegalaxy_eu.gie_proxy
 roles/cloudalchemy.grafana
 roles/galaxyproject.miniconda
 roles/usegalaxy_eu.influxdb
