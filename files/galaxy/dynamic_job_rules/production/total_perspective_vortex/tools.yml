@@ -2541,6 +2541,12 @@ tools:
       if: 0.01 <= input_size < 1
       cores: 4
       mem: 16
+    - id: quast_singularity_rule
+      if: |
+        minimum_singularity_version = '5.3.0+galaxy0'  # TODO: test older versions with singularity
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/raceid_.*:
     params:
       singularity_enabled: true
