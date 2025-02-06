@@ -1,0 +1,118 @@
+---
+
+# Read from VAULT:
+# admin_email: <str>
+# admin_password: <str>
+# database_password: <str>
+# django_secret_key: <str>
+# smtp_password: <str>
+
+gms_domain_name: site.usegalaxy.org.au
+
+# If you don't want SSL certs, just run with "--skip-tags certbot"
+gms_certbot_renew_email: c.hyde@qcif.edu.au
+
+# 4 web workers should be plenty - increase for machines with >4 CPUs
+gms_gunicorn:
+  web_workers: 4
+
+# Postgres database conf
+postgres_db_name: gms
+postgres_db_user: gms
+
+postgresql_listen_addresses: "127.0.0.1,::1"
+postgresql_hba_entries:
+  - type: "host"
+    database: "all"
+    user: "all"
+    address: "127.0.0.1/32"
+    auth_method: "md5"
+  - type: "host"
+    database: "all"
+    user: "all"
+    address: "::1/128"
+    auth_method: "md5"
+
+postgresql_locales:
+  - 'en_US.UTF-8'
+
+postgresql_databases:
+  - name: "{{ postgres_db_name }}"
+    port: 5432
+
+postgresql_users:
+  - name: "{{ postgres_db_user }}"
+    password: "{{ vault_gms_postgres_db_password }}"
+    db: "{{ postgres_db_name }}"
+
+postgresql_privs:
+  - db: "{{ postgres_db_name }}"
+    roles: "{{ postgres_db_user }}"
+    objs: ALL_IN_SCHEMA
+    privs: ALL
+
+postgres_users_no_log: false
+
+# GMS Webapp configuration
+# -----------------------------------------------------------------------------
+
+gms_csrf_cookie_domain: null
+
+# Will git clone galaxy-content-site to here
+gms_project_root: /srv/sites/galaxy-media-site
+
+# This is where service files will be created
+gms_server_root: /srv/config
+
+# App will be served from here
+gms_django_root: "{{ gms_project_root }}/webapp"
+
+# Virtual environment will be created here
+gms_venv_root: "{{ gms_project_root }}/venv"
+
+# Login for django admin portal
+gms_admin_user:
+  first_name: admin
+  last_name: admin
+  email: "{{ vault_gms_admin_email }}"
+  password: "{{ vault_gms_admin_password }}"
+
+gms_smtp:
+  hostname: mail.smtp2go.com
+  port: 2525
+  username: galaxytest
+  password: "{{ vault_gms_smtp_password }}"
+  from_address: noreply@genome.edu.au
+  to_address: help@genome.edu.au
+  use_tls: true
+
+# For error/tool update notifications
+slack:
+  errors:
+    api_key: "{{ vault_galaxy_australia_slack_api_token }}"
+    channel_id: C038ESFSXLN
+    mention_user_id: U024MUHM23W
+  tools:
+    urls: "{{ vault_gms_slack_api_urls }}"  # comma separated list
+
+# For API authentication (requires admin key)
+gms_galaxy_api:
+  url: https://usegalaxy.org.au
+  key: "{{ vault_jenkins_bot_production_api_key }}"
+
+gms_sentry_dns_url: "{{ vault_gms_sentry_dns_url }}"
+
+# -----------------------------------------------------------------------------
+# Internal networking
+
+extra_keys:
+  - id: internal_hop_key
+    type: private
+  - id: internal_hop_key
+    type: public
+    from: "{{ hostvars['galaxy-backup']['internal_ip'] }},{{ hostvars['galaxy']['internal_ip'] }},{{ hostvars['galaxy-handlers']['internal_ip'] }}"
+
+# ssh config, only for ubuntu
+ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/internal_hop_key"
+ssh_config_user: ubuntu
+ssh_config_hosts: "{{ groups['galaxy_group'] }}"
