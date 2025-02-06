@@ -1,0 +1,65 @@
+---
+
+- block:
+    - name: template certbot webserver configuration
+      # N.B. nginx.conf conditional render on certbot_certificates
+      template:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+      loop: "{{ labs_engine.templates }}"
+      tags: certbot
+
+    - name: Stop labs_engine service
+      ansible.builtin.systemd:
+        name: labs_engine
+        enabled: yes
+        state: stopped
+      tags: certbot
+
+    # Ensure no containers running and run container prune -f
+    - name: run docker compose down
+      shell: >
+        docker compose --profile prod down
+      args:
+        chdir: "{{ labs_config_root }}"
+      tags: certbot
+
+    - name: run docker container prune
+      shell: >
+        docker container prune -f
+      tags: certbot
+
+    - name: Request SSL certificate with certbot
+      shell: >
+        docker compose --profile certbot run --rm certbot-init certonly
+        --webroot
+        --webroot-path /var/www/certbot/
+        --agree-tos
+        --non-interactive
+        -d "{{ certbot_domain }}"
+        -m "{{ certbot_renew_email }}"
+      args:
+        chdir: "{{ labs_config_root }}"
+      tags: certbot
+
+    - name: Confirm that SSL certificate is installed
+      stat:
+        path: /etc/letsencrypt/live/{{ labs_domain_name }}/fullchain.pem
+      register: certbot_certificates
+      tags: certbot
+
+  always:
+    - name: setup certbot renew cron job
+      cron:
+        name: "certbot-renew"
+        minute: "0"
+        hour: "0"
+        job: "sudo certbot renew --webroot --webroot-path /var/www/certbot/"
+      when: labs_certbot_ssl
+
+    - name: run docker compose down
+      shell: >
+        docker compose --profile certbot down
+      args:
+        chdir: "{{ labs_config_root }}"
+      tags: certbot

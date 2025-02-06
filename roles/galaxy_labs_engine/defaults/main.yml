@@ -1,0 +1,46 @@
+---
+
+labs_engine_repo: https://github.com/usegalaxy-au/galaxy-labs-engine.git
+labs_engine_branch: main
+labs_engine_docker_image: neoformit/galaxy-labs-engine:latest
+
+# Rate limit requests by IP address to stop bot attacks
+# 10 r/min allows a user to reload a labs page every 6 seconds
+nginx_limit_requests_per_minute: 10
+
+labs_project_root: /home/ubuntu/labs-engine
+labs_config_root: /home/ubuntu/config
+labs_django_root: "{{ labs_project_root }}/app"
+labs_temp_dir: /tmp/labs_engine
+
+labs_engine:
+  templates:
+    - src: "{{ role_path }}/templates/docker-compose.yml.j2"
+      dest: "{{ labs_config_root }}/docker-compose.yml"
+    - src: "{{ role_path }}/templates/gunicorn.py.j2"
+      dest: "{{ labs_config_root }}/gunicorn.py"
+    - src: "{{ role_path }}/templates/labs_engine.service.j2"
+      dest: /etc/systemd/system/labs_engine.service
+    - src: "{{ role_path }}/templates/nginx.conf.j2"
+      dest: "{{ labs_config_root }}/nginx.conf"
+    - src: "{{ role_path }}/templates/.env.j2"
+      dest: "{{ labs_project_root }}/.env"
+  files:
+    - src: "{{ role_path }}/files/labs_engine.socket"
+      dest: /etc/systemd/system/labs_engine.socket
+
+labs_certbot_ssl: true
+
+labs_gunicorn:
+  web_workers: 4
+
+labs_admin_user: null
+
+# Override log levels for specific loggers
+# Value must be one of DEBUG, INFO, WARNING, ERROR, CRITICAL
+labs_labs_django_log_levels:
+  console: INFO
+  cache: INFO
+
+# Set this to enable logging to sentry
+labs_labs_django_sentry_dns: null

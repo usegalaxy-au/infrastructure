@@ -1,0 +1,83 @@
+---
+
+# Web server configuration
+# -----------------------------------------------------------------------------
+
+# The Labs Engine container name defined in docker-compose.yml
+docker_container_name: labs-engine
+
+docker_install_compose: false
+docker_compose_version: "2.29.2"
+
+# If you don't want SSL certs, just flip this:
+labs_certbot_ssl: true
+labs_certbot_domain: "{{ domain_name }}"
+labs_certbot_renew_email: "{{ vault_labs_admin_email }}"
+
+# 4 web workers should be plenty - increase for machines with >2 CPUs
+labs_gunicorn:
+  web_workers: 4
+
+
+# Labs Engine configuration
+# -----------------------------------------------------------------------------
+
+labs_django_secret_key: "{{ vault_labs_django_secret_key }}"
+
+# Git clone here
+labs_project_root: /srv/labs-engine
+
+# This is where server conf files (nginx/gunicorn) will be created
+labs_config_root: "/srv/config"
+
+labs_create_directories:
+  - "{{ labs_config_root }}"
+  - "{{ labs_django_root }}/app/media"
+  - "{{ labs_django_root }}/app/logs"
+  - "{{ labs_temp_dir }}"
+
+# Admin user login for the web admin
+labs_admin_user:
+  first_name: admin
+  last_name: admin
+  email: "{{ vault_labs_admin_email }}"
+  password: "{{ vault_labs_admin_password }}"
+
+labs_smtp:
+  hostname: mail.smtp2go.com
+  port: 587
+  username: "{{ vault_labs_smtp_username }}"
+  password: "{{ vault_labs_smtp_password }}"
+  from_address: noreply@usegalaxy.org.au
+  to_address: help@genome.edu.au
+  use_tls: true
+
+labs_slack:
+  api_key: "{{ vault_labs_slack_api_key }}"
+  channel_id: "{{ vault_labs_slack_channel_id }}"
+  mention_user_id: "{{ vault_labs_slack_mention_user_id }}"
+
+labs_github_api_token: "{{ vault_labs_github_api_token }}"
+
+# Override log levels for specific loggers
+# Value must be one of DEBUG, INFO, WARNING, ERROR, CRITICAL
+labs_django_log_levels:
+  console: INFO
+  cache: DEBUG
+
+labs_django_sentry_dns: "{{ vault_labs_sentry_dns }}"
+
+# -----------------------------------------------------------------------------
+# Internal networking
+
+extra_keys:
+  - id: internal_hop_key
+    type: private
+  - id: internal_hop_key
+    type: public
+    from: "{{ hostvars['galaxy-backup']['internal_ip'] }},{{ hostvars['galaxy']['internal_ip'] }},{{ hostvars['galaxy-handlers']['internal_ip'] }}"
+
+# ssh config, only for ubuntu
+ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/internal_hop_key"
+ssh_config_user: ubuntu
+ssh_config_hosts: "{{ groups['galaxy_group'] }}"
