@@ -5,7 +5,6 @@ volD_path: /mnt/volD
 
 # volume A (~170 TB)
 nfs_user_data_7_dir: "{{ volA_path }}/user-data-7"
-nfs_data08_dir: "{{ volA_path }}/data08"
 nfs_data11_dir: "{{ volA_path }}/data11"
 nfs_data14_dir: "{{ volA_path }}/data14"
 nfs_data16_dir: "{{ volA_path }}/data16"
@@ -15,6 +14,7 @@ nfs_data22_dir: "{{ volA_path }}/data22"
 nfs_data25_dir: "{{ volA_path }}/data25"
 
 # volume B (~50 TB)
+nfs_data08_dir: "{{ volB_path }}/data08"
 nfs_data09_dir: "{{ volB_path }}/data09"
 nfs_data12_dir: "{{ volB_path }}/data12"
 nfs_data15_dir: "{{ volB_path }}/data15"
