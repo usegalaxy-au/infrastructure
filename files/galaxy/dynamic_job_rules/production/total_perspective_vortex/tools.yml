@@ -1294,10 +1294,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/annotatemyids/annotatemyids/.*:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/iuc/arriba/arriba/.*:
-    cores: 4
-    mem: 15.3
+    cores: 12
+    mem: 200
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/arriba_draw_fusions/arriba_draw_fusions/.*:
     params:
       singularity_enabled: true
@@ -2538,6 +2541,12 @@ tools:
       if: 0.01 <= input_size < 1
       cores: 4
       mem: 16
+    - id: quast_singularity_rule
+      if: |
+        minimum_singularity_version = '5.3.0+galaxy0'  # TODO: test older versions with singularity
+        helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/raceid_.*:
     params:
       singularity_enabled: true
@@ -3511,6 +3520,11 @@ tools:
   .*data_manager.*:
     cores: 5
     mem: 19.1
+    params:
+      singularity_enabled: true
+  .*data_manager_bwa_mem2_index_builder.*:
+    cores: 6
+    mem: 125
   .*data_manager_cat.*:
     cores: 5
     mem: 19.1

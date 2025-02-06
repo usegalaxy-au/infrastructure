@@ -1,0 +1,51 @@
+---
+# Deploy the Galaxy Media Site
+- hosts: gms_webservers
+  remote_user: ubuntu
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/VAULT
+    - secret_group_vars/ssh_keys
+    - secret_group_vars/gms_vault
+    - group_vars/gms.yml
+    - host_vars/site.usegalaxy.org.au.yml
+  pre_tasks:
+    - name: update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+    - name: install system dependencies
+      ansible.builtin.package:
+        name:
+          - libpq-dev
+        state: present
+    - name: Add the deadsnakes PPA repository
+      apt_repository:
+        repo: ppa:deadsnakes/ppa
+        state: present
+    - name: install systems dependencies
+      ansible.builtin.package:
+        name:
+          - gcc
+          - python3.12
+          - python3-pip
+          - python3-virtualenv
+          - python3.12-dev
+          - python3-certbot-nginx
+    - name: Install pip dependencies
+      ansible.builtin.pip:
+        name:
+          - psycopg2-binary
+  roles:
+    - role: common
+      become: true
+      become_user: root
+    - insspb.hostname
+    - dj-wasabi.telegraf
+    - role: geerlingguy.nginx
+      tags: init
+    - role: geerlingguy.postgresql
+      become: true
+      tags: init,postgresql
+    - role: galaxy_media_site
+      tags: gms
