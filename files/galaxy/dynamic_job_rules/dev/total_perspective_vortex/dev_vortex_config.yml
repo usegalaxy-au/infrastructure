@@ -7,6 +7,9 @@ tools:
     scheduling:
       require:
         - interactive_pulsar
+  interactive_tool_rstudio:
+    params:
+      docker_container_id_override: quay.io/galaxy/docker-rstudio-notebook:24.2
   __IMPORT_HISTORY__:
     params:
       tmp_dir: true
