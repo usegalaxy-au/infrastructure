@@ -1,68 +1,82 @@
-$(document).ready( function() {
+(() => {
 
-  const SUBDOMAINS = [
-    {
-      label: "Base site",
-      url: "https://{{ galaxy_subsite_base_domain }}",
-    },
-    {% for subdomain in galaxy_subsites %}
-    {% if 'hidden' not in subdomain or not subdomain.hidden %}
-    {
-      label: "{{ subdomain.brand }}",
-      url: "https://{{ subdomain.name }}.{{ galaxy_subsite_base_domain }}",
-    },
-    {% endif %}
-    {% endfor %}
-  ];
+  $(document).ready( function() {
 
-  function getDropdown() {
-    return document.querySelector('#subdomain_switcher ul');
-  }
+    const SUBDOMAINS = [
+      {
+        label: "Base site",
+        url: "https://{{ galaxy_subsite_base_domain }}",
+      },
+      {% for subdomain in galaxy_subsites %}
+      {% if 'hidden' not in subdomain or not subdomain.hidden %}
+      {
+        label: "{{ subdomain.brand }}",
+        url: "https://{{ subdomain.name }}.{{ galaxy_subsite_base_domain }}",
+      },
+      {% endif %}
+      {% endfor %}
+    ];
 
-  // Close dropdown when clicking outside of it
-  function closeDropdownOnClick(event) {
-    const parent = document.getElementById("subdomain_switcher");
-    const dropdown = getDropdown();
-    if (dropdown && !parent.contains(event.target)) {
-      dropdown.remove();
+    function getDropdown() {
+      return document.querySelector('#subdomain_switcher ul');
     }
-  }
 
-  function showSubdomainSwitcher() {
-    const dropdown = getDropdown();
-    if (dropdown) {
-      dropdown.remove();
-      return;
+    // Close dropdown when clicking outside of it
+    function closeDropdownOnClick(event) {
+      const parent = document.getElementById("subdomain_switcher");
+      const dropdown = getDropdown();
+      if (dropdown && !parent.contains(event.target)) {
+        dropdown.remove();
+      }
     }
-    const listItems = SUBDOMAINS
-      .filter( site => site.url.replace(/\/$/, '') !== window.location.origin )
-      .map(site => `<li>
-        <a class="dropdown-item" role="menuitem" href="${site.url}">${site.label}</a>
-      </li>`);
 
-    const parent = document.getElementById("subdomain_switcher");
-    let ul = document.createElement('ul');
-    ul.className = "dropdown-menu show";
-    ul.innerHTML = listItems.join('\n');
-    parent.style.position = 'relative';
-    parent.append(ul);
+    function showSubdomainSwitcher() {
+      const dropdown = getDropdown();
+      if (dropdown) {
+        dropdown.remove();
+        return;
+      }
+      const listItems = SUBDOMAINS
+        .filter( site => site.url.replace(/\/$/, '') !== window.location.origin )
+        .map(site => `<li>
+          <a class="dropdown-item" role="menuitem" href="${site.url}">${site.label}</a>
+        </li>`);
 
-    // Hide tooltip on click
-    let tip = document.getElementsByClassName('tooltip')[0];
-    if (tip) tip.style.display = 'none';
+      const parent = document.getElementById("subdomain_switcher");
+      let ul = document.createElement('ul');
+      ul.className = "dropdown-menu show";
+      ul.innerHTML = listItems.join('\n');
+      parent.style.position = 'relative';
+      parent.append(ul);
 
-    // Stop tooltips from displaying on top of the dropdown
-    getDropdown().addEventListener('mouseover', function(event) {
+      // Hide tooltip on click
       let tip = document.getElementsByClassName('tooltip')[0];
       if (tip) tip.style.display = 'none';
-    });
-  }
 
-  document.addEventListener('click', closeDropdownOnClick);
-  document.getElementById('galaxy_main').contentDocument
-    .addEventListener('click', closeDropdownOnClick);
+      // Stop tooltips from displaying on top of the dropdown
+      getDropdown().addEventListener('mouseover', function(event) {
+        let tip = document.getElementsByClassName('tooltip')[0];
+        if (tip) tip.style.display = 'none';
+      });
+    }
 
-    setTimeout(() => parent.addEventListener(
-      'click', showSubdomainSwitcher), 1000);
+    function setup() {
+      const parent = document.querySelector("#subdomain_switcher")
+      if (parent) {
+        parent.addEventListener('click', showSubdomainSwitcher)
+        document.addEventListener('click', closeDropdownOnClick);
+        for (const iframe of document.getElementsByTagName('iframe')) {
+          iframe.contentDocument.addEventListener('click', closeDropdownOnClick);
+        }
+      } else {
+        return setTimeout(
+          setClickHandler,
+          100,
+        );
+      }
+    }
+    setTimeout(setup, 300);
 
-});
+  });
+
+})();
