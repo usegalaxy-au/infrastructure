@@ -3501,6 +3501,9 @@ tools:
       if: input_size >= 1
       fail: Too much data, please don't use the Velvet Optimiser for this, it is here
         only for training purposes with small (< 1 GB) datasets. Use SPAdes instead.
+  toolshed.g2.bx.psu.edu/repos/thanhlv/centrifuge/centrifuge/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/thanhlv/clinker/clinker/.*:
     cores: 1
     mem: 3.8
