@@ -9,7 +9,7 @@ tools:
         - interactive_pulsar
   interactive_tool_rstudio:
     params:
-      docker_container_id_override: quay.io/galaxy/docker-rstudio-notebook:24.2
+      docker_container_id_override: quay.io/natefoo/docker-rstudio-notebook:23.1-proxy1
   __IMPORT_HISTORY__:
     params:
       tmp_dir: true
