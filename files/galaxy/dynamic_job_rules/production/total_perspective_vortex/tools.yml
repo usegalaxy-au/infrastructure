@@ -3688,6 +3688,12 @@ tools:
       - interactive_pulsar
       accept:
       - training-exempt
+  interactive_tool_rstudio:
+    params:
+      container_override:
+      - type: docker
+        shell: /bin/bash
+        identifier: quay.io/galaxy/docker-rstudio-notebook:24.2
   join1:
     cores: 5
     mem: 19.1
