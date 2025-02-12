@@ -194,6 +194,7 @@ host_galaxy_config: # renamed from __galaxy_config
     default_panel_view_by_host:
       proteomics.dev.gvl.org.au: proteomics
       singlecell.dev.gvl.org.au: singlecell
+      microbe.dev.gvl.org.au: microgalaxy
     themes_config_file_by_host:
       genome.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_genome.yml"
       proteomics.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_proteomics.yml"
@@ -430,6 +431,24 @@ galaxy_subsites:
       #masthead .navbar-text {
         display: none;
       }
+  - name: microgalaxy
+    brand: Microbe Lab
+    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/microgalaxy/lab/usegalaxy.org.au.yml"
+    wallpaper: false
+    tool_sections: []
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #236c6f !important;
+      }
+      #masthead {
+        background: #209693 !important;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Microbe Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
 
 galaxy_scratch_storage_days: 60
 
@@ -437,7 +456,6 @@ webhook_plugins:
   - subdomain_switcher
   - toolmsg
   # These ones aren't in the playbook as they are included in the galaxy repo:
-  - demo
   - gtn
   - news
 
