@@ -3565,6 +3565,9 @@ tools:
   .*data_manager_interproscan.*:
     cores: 5
     mem: 19.1
+  .*data_manager_sam_fasta_index_builder.*:
+    params:
+      singularity_enabled: false
   .*hisat2_index_builder_data_manager.*:
     cores: 5
     mem: 19.1
