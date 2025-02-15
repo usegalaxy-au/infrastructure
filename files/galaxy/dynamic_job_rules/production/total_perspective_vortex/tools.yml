@@ -1422,7 +1422,7 @@ tools:
     cores: 20
     mem: 250
     scheduling:
-      accept:
+      prefer:
       - pulsar
     rules:
     # TODO: address effect of reference genome size from data table (particularly aPseCor3hap2)
