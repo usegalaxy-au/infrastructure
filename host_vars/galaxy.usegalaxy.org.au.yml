@@ -541,6 +541,14 @@ job_conf_limits:
     value: 6
 
   - type: destination_total_concurrent_jobs
+    id: interactive_pulsar
+    value: 10
+
+  - type: destination_user_concurrent_jobs
+    id: interactive_pulsar
+    value: 2
+
+  - type: destination_total_concurrent_jobs
     id: pulsar-qld-high-mem0
     value: 20
 
