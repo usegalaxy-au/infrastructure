@@ -431,7 +431,7 @@ galaxy_subsites:
       #masthead .navbar-text {
         display: none;
       }
-  - name: microgalaxy
+  - name: microbe
     brand: Microbe Lab
     iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/microgalaxy/lab/usegalaxy.org.au.yml"
     wallpaper: false
