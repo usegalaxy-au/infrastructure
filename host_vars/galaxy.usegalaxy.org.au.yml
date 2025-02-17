@@ -869,6 +869,7 @@ walle_tool: interactive_tool
 walle_virtualenv: "{{ galaxy_venv_dir }}"
 walle_bashrc: "{{ galaxy_root }}/walle/.bashrc"
 walle_malware_database_location: "{{ galaxy_root }}/walle"
+walle_malware_database_force_update: true
 walle_filesize_min: 0
 walle_verbose: false
 walle_kill: false
