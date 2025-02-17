@@ -9,6 +9,11 @@
     - secret_group_vars/labs_engine_vault
     - group_vars/labs_engine.yml
     - host_vars/dev-labs.gvl.org.au.yml
+  post_tasks:
+    - name: Add GitHub SI pub key to authorized_keys
+      authorized_key:
+        user: ubuntu
+        key: "{{ lookup('file', 'keys/gms-labs-ci.pub') }}"
   roles:
     - role: common
       become: true

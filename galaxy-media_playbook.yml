@@ -36,6 +36,11 @@
       ansible.builtin.pip:
         name:
           - psycopg2-binary
+  post_tasks:
+    - name: Add GitHub SI pub key to authorized_keys
+      authorized_key:
+        user: ubuntu
+        key: "{{ lookup('file', 'keys/gms-labs-ci.pub') }}"
   roles:
     - role: common
       become: true
