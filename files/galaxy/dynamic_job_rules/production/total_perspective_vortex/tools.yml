@@ -1636,6 +1636,9 @@ tools:
       if: input_size < 0.1
       cores: 2
       mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/iuc/gem_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/.*:
     cores: 3
     mem: 11.5
