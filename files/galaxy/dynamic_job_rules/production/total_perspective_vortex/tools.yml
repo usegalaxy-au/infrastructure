@@ -267,9 +267,9 @@ tools:
     - id: hifiasm_xlarge_input_rule
       if: input_size > 200
       mem: 1922
-      #scheduling:
-      #  require:
-      #  - pulsar-high-mem1
+      scheduling:
+        prefer:
+        - pulsar-high-mem1
   toolshed.g2.bx.psu.edu/repos/bgruening/infernal/infernal_.*:
     params:
       singularity_enabled: true
