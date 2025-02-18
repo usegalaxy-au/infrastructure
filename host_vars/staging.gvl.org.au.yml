@@ -33,7 +33,7 @@ nfs_exports:
 
 # ansible-galaxy
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_24.1
+galaxy_commit_id: release_24.2
 
 galaxy_infrastructure_url: "https://staging.gvl.org.au"
 
@@ -311,8 +311,8 @@ galaxy_subsites:
       }
 
 webhook_plugins:
-  - subdomain_switcher
-  - toolmsg
+  - subdomain_switcher_24.2
+  - toolmsg_24.2
   # These ones aren't in the playbook as they are included in the galaxy repo:
   - demo
   - gtn
