@@ -15,7 +15,7 @@ pulsar_queue_url: "dev-queue.gvl.org.au"
 pulsar_rabbit_username: "galaxy_au"
 pulsar_rabbit_vhost: "/pulsar/galaxy_au"
 
-pulsar_conda_exec: "mamba"  # Use mamba as replacement for conda
+pulsar_conda_exec: "conda"  # conda uses mamba as resolver in later versions
 
 extra_keys:
   - id: ubuntu_maintenance_key
