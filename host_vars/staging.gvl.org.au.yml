@@ -317,10 +317,10 @@ galaxy_subsites:
     tool_sections: []
     custom_css: |
       #masthead .navbar-nav>li.active {
-        background: #236c6f !important;
+        background: #1b5b62 !important;
       }
       #masthead {
-        background: #209693 !important;
+        background: #1a7b92 !important;
       }
       #masthead a.navbar-brand::after {
         content: "Australia - Microbiology Lab";
