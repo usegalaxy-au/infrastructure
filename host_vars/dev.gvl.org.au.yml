@@ -195,7 +195,7 @@ host_galaxy_config: # renamed from __galaxy_config
     default_panel_view_by_host:
       proteomics.dev.gvl.org.au: proteomics
       singlecell.dev.gvl.org.au: singlecell
-      microbe.dev.gvl.org.au: microgalaxy
+      microbiology.dev.gvl.org.au: microgalaxy
     themes_config_file_by_host:
       genome.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_genome.yml"
       proteomics.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_proteomics.yml"
@@ -432,8 +432,8 @@ galaxy_subsites:
       #masthead .navbar-text {
         display: none;
       }
-  - name: microbe
-    brand: Microbe Lab
+  - name: microbiology
+    brand: Microbiology Lab
     iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/microgalaxy/lab/usegalaxy.org.au.yml"
     wallpaper: false
     tool_sections: []
@@ -445,7 +445,7 @@ galaxy_subsites:
         background: #209693 !important;
       }
       #masthead a.navbar-brand::after {
-        content: "Australia - Microbe Lab";
+        content: "Australia - Microbiology Lab";
       }
       #masthead .navbar-text {
         display: none;
