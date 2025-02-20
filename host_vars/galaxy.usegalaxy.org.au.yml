@@ -31,7 +31,7 @@ nginx_ssl_servers:
 interactive_tools_server_name: "usegalaxy.org.au"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_24.1
+galaxy_commit_id: release_24.2
 
 # TODO: check list concatenation with versions of ansible > 2.12
 shared_mounts: "{{ galaxy_server_and_worker_shared_mounts + galaxy_web_server_mounts }}" # sourced from galaxy_etca.yml
@@ -907,8 +907,8 @@ galaxy_subsites:
       }
 
 webhook_plugins:
-  - subdomain_switcher
-  - toolmsg
+  - subdomain_switcher_24.2
+  - toolmsg_24.2
   # These ones aren't in the playbook as they are included in the galaxy repo:
   - demo
   - gtn
