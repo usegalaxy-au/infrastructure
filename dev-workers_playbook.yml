@@ -11,26 +11,16 @@
       - name: Attach volume to instance
         include_role:
           name: attached-volumes
-      - name: Run the common role first
-        include_role:
-          name: common
-      - name: Include the cvmfs role
-        include_role:
-          name: galaxyproject.cvmfs
-        when: "{{ hostname.startswith('dev-w1') }}"
-      - name: Include the s3fs role
-        include_role:
-          name: galaxyproject.s3fs
-        when: "{{ hostname.startswith('dev-w2') }}"
   roles:
+      - common
       - insspb.hostname
       - geerlingguy.pip
       - mounts
       - galaxyproject.repos
       - galaxyproject.slurm
       - geerlingguy.docker
-      - gantsign.golang
-      - cyverse-ansible.singularity
+      - usegalaxy_eu.apptainer
+      - galaxyproject.cvmfs
       - dj-wasabi.telegraf
       - acl-on-startup
       - clean-tmpdisk
@@ -69,5 +59,3 @@
       - name: Reload cvmfs config
         command:
           cmd: cvmfs_config reload
-        become: yes
-        when: "{{ hostname.startswith('dev-w1') }}"

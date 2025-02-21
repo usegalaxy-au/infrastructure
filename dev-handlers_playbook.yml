@@ -13,6 +13,9 @@
     - secret_group_vars/dev_secrets
     - secret_group_vars/sentry_vault
   pre_tasks:
+    - name: Run common role first to create galaxy user
+      include_role:
+        name: common
     - name: create dir for gravity configuration
       file:
         state: directory
@@ -32,24 +35,22 @@
         - "{{ galaxy_user_singularity_tmpdir }}"
   roles:
     - galaxyproject.repos
-    - common
+    - insspb.hostname
     - mounts
-    # - install-tpv
     - geerlingguy.pip
-    - gantsign.golang
-    - cyverse-ansible.singularity
     - galaxyproject.galaxy
-    # - role: galaxyproject.miniconda
+    # - role: galaxyproject.miniconda  # maybe this is never needed from the handlers playbook, will see
     #   become: true
     #   become_user: galaxy
-    - galaxyproject.nginx
     - nginx-upload-module
+    - galaxyproject.nginx
     - galaxyproject.tusd
     - galaxyproject.slurm
     - galaxyproject.cvmfs
     - galaxyproject.gxadmin
     - postfix-mail-relay
     - geerlingguy.docker
+    - usegalaxy_eu.apptainer
     - dj-wasabi.telegraf
     - usegalaxy_eu.flower
     - acl-on-startup

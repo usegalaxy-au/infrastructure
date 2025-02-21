@@ -1,3 +1,6 @@
+postgresql_flavor: pgdg
+postgresql_version: 14
+
 dev_galaxy_server_address: "{{ hostvars['dev']['ansible_ssh_host'] }}/32"
 dev_handler_server_address: "{{ hostvars['dev-handlers']['ansible_ssh_host'] }}/32"
 

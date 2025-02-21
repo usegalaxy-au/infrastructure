@@ -126,10 +126,16 @@ galaxy_toolbox_filters_dir: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/fi
 
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.yml"
 
-galaxy_extra_privsep_dirs:
+group_galaxy_extra_privsep_dirs:
   - "{{ galaxy_config_dir }}/mail"
   - "{{ galaxy_config_dir }}/tool_panel_filters"
   - "{{ galaxy_config_dir }}/themes"
+
+galaxy_extra_privsep_dirs: "{{ group_galaxy_extra_privsep_dirs + host_galaxy_extra_privsep_dirs|d([]) }}"
+
+group_galaxy_extra_dirs: []
+
+galaxy_extra_dirs: "{{ group_galaxy_extra_dirs + host_galaxy_extra_dirs|d([]) }}"
 
 tpv_version: "2.5.0"
 
