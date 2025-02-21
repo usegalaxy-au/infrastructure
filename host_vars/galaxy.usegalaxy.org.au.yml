@@ -18,6 +18,7 @@ certbot_domains:
   - "genome.usegalaxy.org.au"
   - "proteomics.usegalaxy.org.au"
   - "singlecell.usegalaxy.org.au"
+  - "microbiology.usegalaxy.org.au"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_api_token }}"
