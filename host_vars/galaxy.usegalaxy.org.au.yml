@@ -82,6 +82,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_panel_filters/proteomics.yml"
   - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/singlecell.yml"
     dest: "{{ galaxy_config_dir }}/tool_panel_filters/singlecell.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/microbiology.yml"
+    dest: "{{ galaxy_config_dir }}/tool_panel_filters/microbiology.yml"
 
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.yml.j2"
@@ -193,7 +195,7 @@ host_galaxy_config: # renamed from __galaxy_config
     default_panel_view_by_host:
       proteomics.usegalaxy.org.au: proteomics
       singlecell.usegalaxy.org.au: singlecell
-      microbiology.usegalaxy.org.au: microgalaxy
+      microbiology.usegalaxy.org.au: microbiology
     themes_config_file_by_host:
       genome.usegalaxy.org.au: "{{ galaxy_config_dir }}/themes/themes_genome.yml"
       proteomics.usegalaxy.org.au: "{{ galaxy_config_dir }}/themes/themes_proteomics.yml"
