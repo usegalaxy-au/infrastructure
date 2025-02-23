@@ -10,11 +10,12 @@
     - secret_group_vars/ssh_keys
     - secret_group_vars/stats_server_vault
   pre_tasks:
-    - name: apt update
-      apt:
-        cache_valid_time: 3600
-        update_cache: yes
-      when: ansible_os_family == "Debian"
+    - name: Create pulsar deps path
+      file:
+        path: "{{ pulsar_dependencies_dir }}"
+        state: directory
+        owner: "{{ pulsar_user.name }}"
+        group: "{{ pulsar_user.name }}"
   roles:
     - common
     - insspb.hostname
@@ -28,8 +29,7 @@
     - mariadb
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - gantsign.golang
-    - cyverse-ansible.singularity
+    - usegalaxy_eu.apptainer
     - geerlingguy.docker
     - acl-on-startup
     - dj-wasabi.telegraf

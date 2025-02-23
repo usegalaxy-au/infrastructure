@@ -29,7 +29,7 @@ certbot_domains:
   - "genome.{{ hostname }}"
   - "proteomics.{{ hostname }}"
   - "singlecell.{{ hostname }}"
-  - "microbe.{{ hostname }}"
+  - "microbiology.{{ hostname }}"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_gvl_api_token }}"
@@ -71,10 +71,15 @@ galaxy_job_working_directory: "{{ galaxy_tmp_dir }}/job_working_directory"
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_24.2
 
+# upon upgrade to latest conda
+galaxy_conda_exec: conda
+
 galaxy_file_path: "{{ galaxy_root }}/data-3"
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
+
+galaxy_toolbox_filters_dir: /mnt/galaxy/galaxy-app/lib/galaxy/tool_util/toolbox/filters # don't ask me why. It moves.
 
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/dev_object_store_conf.yml.j2"

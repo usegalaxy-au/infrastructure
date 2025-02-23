@@ -12,9 +12,12 @@
     - secret_group_vars/dev_secrets
     - secret_group_vars/sentry_vault
   pre_tasks:
-    # - name: Attach volume to instance
-    #   include_role:
-    #     name: attached-volumes
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+    - name: Run common role first to create galaxy user
+      include_role:
+        name: common
     - name: create dir for gravity configuration
       file:
         state: directory
@@ -33,13 +36,11 @@
         - "{{ galaxy_user_singularity_cachedir }}"
         - "{{ galaxy_user_singularity_tmpdir }}"
   roles:
+    - geerlingguy.nfs
     - galaxyproject.repos
-    - common
     - mounts
-    - install-tpv
+    # - install-tpv # todo: this needs a when clause
     - geerlingguy.pip
-    - gantsign.golang
-    - cyverse-ansible.singularity
     - role: galaxyproject.galaxy
       tags: galaxy
     - role: galaxyproject.miniconda
@@ -60,6 +61,7 @@
     - galaxy-pg-cleanup
     - galaxyproject.tiaas2
     - geerlingguy.docker
+    - usegalaxy_eu.apptainer
     - dj-wasabi.telegraf
     - postfix-mail-relay
     - acl-on-startup

@@ -7,12 +7,17 @@
       - group_vars/dbservers.yml
       - host_vars/dev-db.gvl.org.au.yml
       - secret_group_vars/stats_server_vault
+  vars:
+    - db_first_run_conditions: False
   pre_tasks:
-      - name: Install psycopg2 for python3
-        apt:
-            name: python3-psycopg2
-            state: present
-        become: true
+    - name: Install psycopg2 for python3
+      apt:
+          name: python3-psycopg2
+          state: present
+    - name: override postgresql_objects_privileges if data directory does not yet exist
+      set_fact:
+          postgresql_objects_privileges: "{{ postgresql_objects_privileges_first_run }}" 
+      when: "{{ db_first_run_conditions|d(False) }}"
   roles:
       - common
       - insspb.hostname

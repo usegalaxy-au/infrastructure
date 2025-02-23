@@ -151,3 +151,13 @@ destinations:
             docker_set_user: '1000'
             docker_memory: '{mem}G'
             docker_sudo: false
+  pulsar-cjb:
+    runner: pulsar_cjb
+    max_accepted_cores: 4
+    max_accepted_mem: 15
+    scheduling:
+      require:
+        - cjb-pulsar
+    params:
+      url: http://115.146.87.182:80
+      private_token: "{{ vault_cjb_pulsar_private_token }}"
