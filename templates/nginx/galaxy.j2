@@ -1,7 +1,7 @@
 upstream galaxy {
 {% set num_gunicorn_processes = galaxy_config.gravity.gunicorn | length %}
 {% for gunicorn_process in galaxy_config.gravity.gunicorn %}
-    server {{ gunicorn_process.bind | replace('unix:', 'unix://') }} weight={{ (100-debug.memray.weight / galaxy_config.gravity.gunicorn|length) | int }};
+    server {{ gunicorn_process.bind }} weight={{ (100-debug.memray.weight / galaxy_config.gravity.gunicorn|length) | int }};
 {% endfor %}
 {% if debug.memray.weight > 0 %}
     server localhost:8082 weight={{ debug.memray.weight | int }};
