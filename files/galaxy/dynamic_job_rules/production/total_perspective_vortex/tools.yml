@@ -3706,16 +3706,16 @@ tools:
           interactive_tool_embargo_days = 28
           may_use_ITs = False
           if user:
-            if 'Trusted_for_ITs' in [r.name for r in user.all_roles() if not r.deleted]:
-              may_use_ITs = True
-            if any([r.name.startswith('training') for r in user.all_roles()]):
-              may_use_ITs = True
             threshold = datetime.now() - timedelta(days=interactive_tool_embargo_days)
-            if user.create_time < threshold:
+            if 'trusted_for_ITs' in [r.name for r in user.all_roles() if not r.deleted]:
+              may_use_ITs = True
+            elif any([r.name.startswith('training') for r in user.all_roles()]):
+              may_use_ITs = True
+            elif user.create_time < threshold:
               may_use_ITs = True
           not may_use_ITs
         fail:
-          This tool is currently not available for your user profile. Please email help@genome.edu.au if you need access or have any questions.
+          'You must wait {interactive_tool_embargo_days} days before being able to use this tool. Please email help@genome.edu.au if you need access sooner or have any questions.'
   interactive_tool_jupyter_notebook:
     inherits: restricted_interactive_tool
   interactive_tool_rstudio:
