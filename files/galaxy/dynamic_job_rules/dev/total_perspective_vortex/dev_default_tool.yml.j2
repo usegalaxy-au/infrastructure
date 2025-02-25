@@ -11,10 +11,14 @@ tools:
       partition: main
       max_concurrent_job_count_for_tool_total: null
       max_concurrent_job_count_for_tool_user: null
+      require_login: false
     scheduling:
       reject:
         - offline
     rules:
+    - id: login_required_rule
+      if: require_login and user is None
+      fail: 'Please log in to use {tool.id}'
     - id: max_concurrent_job_count_for_tool_rule
       if: |
         total_limit_exceeded = False
