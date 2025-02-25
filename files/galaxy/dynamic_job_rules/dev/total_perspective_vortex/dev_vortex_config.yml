@@ -3,6 +3,8 @@ tools:
     params:
       tmp_dir: True
   interactive_tool_.*:
+    context:
+      require_login: true
     cores: 2
     scheduling:
       require:
