@@ -830,84 +830,84 @@ galaxy_subsites:
       #masthead .navbar-text {
         display: none;
       }
-  # - name: microbiology
-  #   brand: Microbiology Lab
-  #   iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/microgalaxy/lab/usegalaxy.org.au.yml"
-  #   wallpaper: false
-  #   tool_sections:
-  #     - getext
-  #     - send
-  #     - collection_operations
-  #     - textutil
-  #     - filter
-  #     - group
-  #     - fastafastq
-  #     - fastq_quality_control
-  #     - sambam
-  #     - bed
-  #     - vcfbcf
-  #     - nanopore
-  #     - convert
-  #     - liftOver
-  #     - bxops
-  #     - mimodd
-  #     - extract_features
-  #     - fetchAlignSeq
-  #     - assembly
-  #     - annotation
-  #     - mapping
-  #     - variant_calling
-  #     - chip_seq
-  #     - rna_seq
-  #     - multiple_alignments
-  #     - bacterial_typing
-  #     - hgv
-  #     - phylogenetics
-  #     - epigenetics
-  #     - expression_tools
-  #     - genome_editing
-  #     - viral_tools
-  #     - mothur
-  #     - metagenomic_analysis
-  #     - dna_metabarcoding
-  #     - proteomics
-  #     - proteomic_ai
-  #     - metabolomics
-  #     - chemicaltoolbox
-  #     - picard
-  #     - deeptools
-  #     - emboss
-  #     - blast
-  #     - rseqc
-  #     - gemini_tools
-  #     - ivar
-  #     - single_cell
-  #     - rad_seq
-  #     - hicexplorer
-  #     - bb_tools
-  #     - presto
-  #     - qiime_2
-  #     - stats
-  #     - plots
-  #     - machine_learning
-  #     - imaging
-  #     - climate_analysis
-  #     - species_abundance
-  #     - hca_single_cell
-  #     - other_tools
-  #   custom_css: |
-  #     #masthead .navbar-nav>li.active {
-  #       background: #1b5b62 !important;
-  #     }
-  #     #masthead {
-  #       background: #1a7b92 !important;
-  #     }
-  #     #masthead a.navbar-brand::after {
-  #       content: "Australia - Microbiology Lab";
-  #     }
-  #     #masthead .navbar-text {
-  #       display: none;
-  #     }
+  - name: microbiology
+    brand: Microbiology Lab
+    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/microgalaxy/lab/usegalaxy.org.au.yml"
+    wallpaper: false
+    tool_sections:
+      - getext
+      - send
+      - collection_operations
+      - textutil
+      - filter
+      - group
+      - fastafastq
+      - fastq_quality_control
+      - sambam
+      - bed
+      - vcfbcf
+      - nanopore
+      - convert
+      - liftOver
+      - bxops
+      - mimodd
+      - extract_features
+      - fetchAlignSeq
+      - assembly
+      - annotation
+      - mapping
+      - variant_calling
+      - chip_seq
+      - rna_seq
+      - multiple_alignments
+      - bacterial_typing
+      - hgv
+      - phylogenetics
+      - epigenetics
+      - expression_tools
+      - genome_editing
+      - viral_tools
+      - mothur
+      - metagenomic_analysis
+      - dna_metabarcoding
+      - proteomics
+      - proteomic_ai
+      - metabolomics
+      - chemicaltoolbox
+      - picard
+      - deeptools
+      - emboss
+      - blast
+      - rseqc
+      - gemini_tools
+      - ivar
+      - single_cell
+      - rad_seq
+      - hicexplorer
+      - bb_tools
+      - presto
+      - qiime_2
+      - stats
+      - plots
+      - machine_learning
+      - imaging
+      - climate_analysis
+      - species_abundance
+      - hca_single_cell
+      - other_tools
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #1b5b62 !important;
+      }
+      #masthead {
+        background: #1a7b92 !important;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Microbiology Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
 
 webhook_plugins:
   - subdomain_switcher_24.2
