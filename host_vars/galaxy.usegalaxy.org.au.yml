@@ -105,7 +105,7 @@ host_galaxy_config_gravity:
     enable: false
     enable_beat: false
   gunicorn:
-    - bind: unix:{{ galaxy_mutable_config_dir }}/gunicorn1.sock
+    - bind: "0.0.0.0:8888"
       workers: 2
       # Other options that will be passed to gunicorn
       extra_args: '--forwarded-allow-ips="*"'
@@ -113,7 +113,7 @@ host_galaxy_config_gravity:
       restart_timeout: 1800
       preload: true
       environment: "{{ galaxy_process_env }}"
-    - bind: unix:{{ galaxy_mutable_config_dir }}/gunicorn2.sock
+    - bind: "0.0.0.0:8889"
       workers: 2
       # Other options that will be passed to gunicorn
       extra_args: '--forwarded-allow-ips="*"'

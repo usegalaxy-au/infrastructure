@@ -97,7 +97,7 @@ host_galaxy_config: # renamed from __galaxy_config
     app_server: gunicorn
     virtualenv: "{{ galaxy_venv_dir }}"
     gunicorn:
-      - bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+      - bind: "0.0.0.0:8888"
         # performance options
         workers: 2
         # Other options that will be passed to gunicorn

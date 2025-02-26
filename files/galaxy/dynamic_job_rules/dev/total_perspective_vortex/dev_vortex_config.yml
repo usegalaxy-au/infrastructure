@@ -3,6 +3,8 @@ tools:
     params:
       tmp_dir: True
   interactive_tool_.*:
+    context:
+      require_login: true
     cores: 2
     scheduling:
       require:
@@ -19,8 +21,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/fubar/mashmap/mashmap/.*:
     mem: 16
   toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
-    context:
-      max_concurrent_job_count_for_tool_user: 1
+    #context:
+    #  max_concurrent_job_count_for_tool_user: 1
     params:
       docker_enabled: true
       tmp_dir: true

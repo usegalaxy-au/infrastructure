@@ -15,6 +15,7 @@ tools:
       test_cores: 1  # TODO: test_mem?
       max_concurrent_job_count_for_tool_total: null
       max_concurrent_job_count_for_tool_user: null
+      require_login: false
 
       # pulsar score
       pulsar_score: null  # scores set in tool_pulsar_scores.yml. Not every tool will have a score
@@ -32,6 +33,9 @@ tools:
       reject:
         - offline
     rules:
+    - id: login_required_rule
+      if: require_login and user is None
+      fail: 'Please log in to use {tool.id}'
     - id: max_concurrent_job_count_for_tool_rule
       if: |
         total_limit_exceeded = False
