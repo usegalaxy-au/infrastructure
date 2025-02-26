@@ -96,6 +96,13 @@ tools:
             group by destination_id, state;
         """
 
+        # Special case: A job requiring a lot of memory that may run on slurm
+        # will probably run sooner on a high memory node.
+        # If there is more than one candidate destination, remove slurm.
+        high_memory_threshold = 62.5
+        if mem > high_memory_threshold:
+          candidate_destinations = [d for d in candidate_destinations if d.id != 'slurm']
+
         try:
           results = app.model.context.execute(text(raw_sql_query))
           db_queue_info = {}
@@ -144,10 +151,6 @@ tools:
               the_score = min(available_cores/cores, available_mem/mem) # returns the number of jobs with cores/mem that could run at destination
               log.info(f"++ ---tpv rank debug: The availablity score for destination {destination.id} is {the_score}")
               return the_score
-
-          # # Previous ranking method
-          # Sort by cpu usage as with previous method. This time queued cpu commitment counts towards CPU usage
-          # candidate_destinations.sort(key=lambda d: (destination_usage_proportion(d), random.randint(0,9)))
 
           # New ranking method: consider memory use at destination as well as CPU use
           # Sort destinations by the number of jobs with these values of entity cores/mem that would be able to run there
