@@ -3703,11 +3703,12 @@ tools:
       - training-exempt
   restricted_interactive_tool:
     inherits: interactive_tool_.*
+    context:
+      interactive_tool_embargo_days: 28      
     rules:
       - id: restricted_interactive_tool_restriction_rule
         if: |
           from datetime import datetime, timedelta
-          interactive_tool_embargo_days = 28
           may_use_ITs = False
           if user:
             threshold = datetime.now() - timedelta(days=interactive_tool_embargo_days)
