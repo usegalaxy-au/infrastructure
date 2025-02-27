@@ -377,7 +377,8 @@ users:
         cores: 1
         mem: 4
         params:
-          singularity_enabled: true
+          docker_enabled: true
+          singularity_enabled: false
         scheduling:
           require:
             - cjb-pulsar
