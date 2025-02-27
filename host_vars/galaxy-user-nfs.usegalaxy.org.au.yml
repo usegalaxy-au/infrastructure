@@ -22,7 +22,7 @@ nfs_data20_dir: "{{ volB_path }}/data20"
 
 # volume C (~42 TB)
 nfs_data10_dir: "{{ volC_path }}/data10"
-nfs_data11_dir: "{{ volA_path }}/data11" # moved from volA Feb '25
+nfs_data11_dir: "{{ volC_path }}/data11" # moved from volA Feb '25
 nfs_data13_dir: "{{ volC_path }}/data13"
 nfs_data21_dir: "{{ volC_path }}/data21"
 
