@@ -107,6 +107,7 @@ galaxy_manage_paths: true
 galaxy_layout: root-dir
 galaxy_root: /mnt/galaxy
 galaxy_shed_tools_dir: "{{ galaxy_tools_indices_dir }}/shed_tools"
+galaxy_log_dir: "{{ galaxy_mutable_data_dir }}/log"  # default in the galaxy role
 galaxy_config_style: yaml
 galaxy_force_checkout: true
 
