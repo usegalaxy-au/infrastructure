@@ -1426,6 +1426,8 @@ tools:
     cores: 20
     mem: 250
     scheduling:
+      accept:
+      - pulsar-quick
       prefer:
       - pulsar
     rules:
