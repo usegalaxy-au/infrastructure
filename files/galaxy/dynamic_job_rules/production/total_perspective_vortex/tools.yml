@@ -72,6 +72,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-quick
     rules:
     - id: augustus_small_input_rule
       if: input_size < 0.01
@@ -1146,6 +1147,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper/.*:
     cores: 6
     mem: 23.0
@@ -1220,6 +1222,8 @@ tools:
     # note: this fails tests with singularity (version 2.4.0)
     mem: 8
   toolshed.g2.bx.psu.edu/repos/genouest/braker3/braker3/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     cores: 16
     mem: 62
     params:
@@ -1334,6 +1338,7 @@ tools:
       scheduling:
         accept:
           - pulsar
+          - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/iuc/baredsc_.*:
     params:
       singularity_enabled: true
