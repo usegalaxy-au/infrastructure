@@ -2157,18 +2157,19 @@ tools:
       cores: 5
       mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_cluster_split/mothur_cluster_split/.*:
-    cores: 60
-    mem: 961
+    cores: 24
+    mem: 800
     scheduling:
       accept:
       - pulsar
       - pulsar-training-large
-      reject: # reject all high mem destinations except pulsar-qld-high-mem2
-      - pulsar-high-mem1
-      - pulsar-high-mem2
-      - pulsar-qld-high-mem0
-      - pulsar-qld-high-mem1
+      prefer:
+      - pulsar-qld-high-mem2
     rules:
+    - id: mothur_cluster_split_medium_input_rule
+      if: 0.00015 <= input_size < 0.1
+      cores: 8
+      mem: 100
     - id: mothur_cluster_split_small_input_rule
       if: input_size < 0.00015
       cores: 1
