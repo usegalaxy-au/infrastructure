@@ -31,7 +31,6 @@ galaxy_root: /mnt/galaxy/galaxy-app/
 galaxy_config_dir: /mnt/galaxy/config/
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.yml"
 galaxy_mutable_config_dir: /mnt/galaxy/var/
-galaxy_log_dir: /var/log/galaxy
 
 #sinfo format string
 sinfo_format: "%24n %.16C %.6t"
