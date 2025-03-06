@@ -3389,10 +3389,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/nml/mob_suite/.*:
     params:
       singularity_enabled: true
-    scheduling:
-      accept:
-        - pulsar
-        - pulsar-quick
+    # scheduling:  # This is a good pulsar tool but galaxy has been going bananas trying to build the container locally prior to sending jobs to pulsar. Fascinating.
+    #   accept:
+    #     - pulsar
+    #     - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/.*:
     rules:
       - id: mob_recon_large_input_rule
