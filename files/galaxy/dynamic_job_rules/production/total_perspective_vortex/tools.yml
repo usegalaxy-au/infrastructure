@@ -3392,6 +3392,7 @@ tools:
     scheduling:
       accept:
         - pulsar
+        - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/.*:
     rules:
       - id: mob_recon_large_input_rule
