@@ -264,9 +264,6 @@ group_galaxy_config:
         cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
       - type: mulled_singularity
         cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-      - type: build_mulled_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-        auto_install: false
 
     # Taken from usegalaxy.org
     tool_name_boost: 0.1
