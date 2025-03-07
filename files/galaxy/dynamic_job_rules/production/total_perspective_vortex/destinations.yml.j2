@@ -177,6 +177,22 @@ destinations:
       require:
         - pulsar
         - pulsar-high-mem2
+  pulsar-mel-blast:  # relief destination while pulsar-qld-blast is offline
+    inherits: _pulsar_destination
+    runner: pulsar-high-mem2_runner
+    max_accepted_cores: 15
+    max_accepted_mem: 225
+    context:
+      destination_total_cores: 60
+      destination_total_mem: 900
+    tags: {{ job_conf_limits.environments['pulsar-mel-blast'].tags }}
+    scheduling:
+      accept:
+        - pulsar-mel-blast
+      require:
+        - pulsar
+        - pulsar-blast
+        - offline
   pulsar-qld-high-mem0:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem0_runner
@@ -258,6 +274,7 @@ destinations:
       require:
         - pulsar
         - pulsar-blast
+        # - offline
   pulsar-QLD:
     inherits: _pulsar_destination
     runner: pulsar-QLD_runner
