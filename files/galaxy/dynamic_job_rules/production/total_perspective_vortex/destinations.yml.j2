@@ -192,7 +192,6 @@ destinations:
       require:
         - pulsar
         - pulsar-blast
-        - offline
   pulsar-qld-high-mem0:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem0_runner
@@ -274,7 +273,7 @@ destinations:
       require:
         - pulsar
         - pulsar-blast
-        # - offline
+        - offline
   pulsar-QLD:
     inherits: _pulsar_destination
     runner: pulsar-QLD_runner
