@@ -41,6 +41,7 @@ destinations:
   _pulsar_destination:
     abstract: true
     params:
+      job_working_directory: "{{ galaxy_pulsar_job_working_directory }}"
       submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
       jobs_directory: /mnt/pulsar/files/staging # TODO: this could be a variable
       transport: curl
