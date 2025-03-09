@@ -43,6 +43,12 @@
   tags:
     - pg-permissions
 
+# since geerlingguy.postgresql doesn't seem to restart pg after config changes:
+- name: restart postgresql
+  ansible.builtin.systemd:
+    name: postgresql
+    state: restarted
+
 - name: clone git repository for galaxy-content-site
   ansible.builtin.git:
     repo: https://github.com/neoformit/galaxy-content-site.git
