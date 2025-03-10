@@ -1,110 +1,84 @@
 type: distributed
 search_for_missing: false
 backends:
-- id: data26
+- id: data27
   weight: 1
   type: disk
   store_by: uuid
-  files_dir: /mnt/user-data-volA/data26
+  files_dir: /mnt/user-data-volA/data27
+- id: data27_pulsar
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volA/data27
   extra_dirs:
   - type: job_work
-    path: /mnt/scratch/job_working_directory
+    path: "{{ galaxy_pulsar_job_working_directory }}"
+- id: data26
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volA/data26
 - id: data25
   weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volA/data25
-  extra_dirs:
-  - type: job_work
-    path: /mnt/scratch/job_working_directory
 - id: data24
   weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volD/data24
-  extra_dirs:
-  - type: job_work
-    path: /mnt/scratch/job_working_directory
 - id: data23
   weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volD/data23
-  extra_dirs:
-  - type: job_work
-    path: /mnt/scratch/job_working_directory
 - id: data22
   weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volA/data22
-  extra_dirs:
-  - type: job_work
-    path: /mnt/scratch/job_working_directory
 - id: data21
   weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volC/data21
-  extra_dirs:
-  - type: job_work
-    path: /mnt/scratch/job_working_directory
 - id: data20
   weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volB/data20
-  extra_dirs:
-  - type: job_work
-    path: /mnt/scratch/job_working_directory
 - id: data19
   weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volA/data19
-  extra_dirs:
-  - type: job_work
-    path: /mnt/scratch/job_working_directory
 - id: data18
   weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volA/data18
-  extra_dirs:
-  - type: job_work
-    path: /mnt/scratch/job_working_directory
 - id: data17
   weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volB/data17
-  extra_dirs:
-  - type: job_work
-    path: /mnt/scratch/job_working_directory
 - id: data16
   weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volC/data16
-  extra_dirs:
-  - type: job_work
-    path: /mnt/tmp/job_working_directory
 - id: data15
   weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volB/data15
-  extra_dirs:
-  - type: job_work
-    path: /mnt/tmp/job_working_directory
 - id: data14
   weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volD/data14
-  extra_dirs:
-  - type: job_work
-    path: /mnt/tmp/job_working_directory
 - id: data13
   weight: 0
   type: disk
