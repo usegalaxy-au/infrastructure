@@ -207,6 +207,7 @@ destinations:
         - pulsar-qld-high-mem0
       require:
         - pulsar
+        - pulsar-quick
   pulsar-qld-high-mem1:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem1_runner
@@ -223,8 +224,7 @@ destinations:
         - gtdbtk_database
       require:
         - pulsar
-        - pulsar-quick # while waiting for one last job to finish, quick jobs may run here (5/3/25 CB)
-        # - offline
+        - offline
   pulsar-qld-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem2_runner
