@@ -10,6 +10,7 @@
     - secret_group_vars/gms_vault
     - group_vars/gms.yml
     - host_vars/dev-site.gvl.org.au.yml
+
   pre_tasks:
     - name: update apt cache
       ansible.builtin.apt:
@@ -19,11 +20,22 @@
         name:
           - libpq-dev
           - python3-pip
+      tags: postgresql
+    - name: Create postgres socket directory
+      ansible.builtin.file:
+        path: /var/run/postgresql
+        state: directory
+        owner: postgres
+        group: postgres
+        mode: '0755'
+      tags: postgresql
+
   post_tasks:
-    - name: Add GitHub SI pub key to authorized_keys
+    - name: Add GitHub CI pub key to authorized_keys
       authorized_key:
         user: ubuntu
         key: "{{ lookup('file', 'keys/gms-labs-ci.pub') }}"
+
   roles:
     - role: common
       become: true
@@ -31,9 +43,8 @@
     - insspb.hostname
     - dj-wasabi.telegraf
     - role: geerlingguy.nginx
-      tags: init
     - role: geerlingguy.postgresql
       become: true
-      tags: init,postgresql
+      tags: postgresql
     - role: galaxy_media_site
       tags: gms
