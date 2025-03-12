@@ -207,7 +207,7 @@ destinations:
         - pulsar-qld-high-mem0
       require:
         - pulsar
-        - pulsar-quick
+        - offline
   pulsar-qld-high-mem1:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem1_runner
@@ -224,7 +224,6 @@ destinations:
         - gtdbtk_database
       require:
         - pulsar
-        - offline
   pulsar-qld-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem2_runner
@@ -240,6 +239,7 @@ destinations:
         - pulsar-qld-high-mem2
       require:
         - pulsar
+        - pulsar-quick
   pulsar-nci-training:
     inherits: _pulsar_destination
     runner: pulsar-nci-training_runner
