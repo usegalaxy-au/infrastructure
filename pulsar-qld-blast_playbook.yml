@@ -3,12 +3,13 @@
   vars_files:
     - group_vars/all.yml
     - group_vars/pulsarservers.yml
-    - group_vars/VAULT
     - host_vars/pulsar-qld-blast.yml
+    - group_vars/VAULT
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ssh_keys
   roles:
     - common
+    - pulsar-pre-tasks
     - insspb.hostname
     - geerlingguy.pip
     - galaxyproject.repos
@@ -19,36 +20,12 @@
     - mariadb
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - gantsign.golang
-    - cyverse-ansible.singularity
+    - usegalaxy_eu.apptainer
     - geerlingguy.docker
     - acl-on-startup
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks
     - slg.galaxy_stats
-  post_tasks:
-    - name: Create worker tmpdir on /mnt
-      file:
-          path: /mnt/tmpdisk
-          state: directory
-          owner: root
-          group: root
-          mode: '1777'
-    - name: stat links
-      stat:
-          path: /tmp
-      register: links
-    - name: remove old tmp
-      file:
-          path: /tmp
-          state: absent
-      when: links.stat.islnk is defined and not links.stat.islnk
-    - name: Link /tmp to /mnt/tmpdisk
-      file:
-          src: /mnt/tmpdisk
-          dest: /tmp
-          state: link
-      become: yes
-      become_user: root
-      when: links.stat.islnk is defined and not links.stat.islnk
+    - tmp-relocation
+    - disable-cgroups-v2

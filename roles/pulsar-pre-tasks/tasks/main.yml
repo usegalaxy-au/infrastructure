@@ -1,0 +1,7 @@
+---
+- name: Create pulsar deps path
+  file:
+    path: "{{ pulsar_dependencies_dir }}"
+    state: directory
+    owner: "{{ pulsar_user.name }}"
+    group: "{{ pulsar_user.name }}"

@@ -1,10 +1,16 @@
 ---
+# Disable v2 cgroups and reboot exactly once
+- name: Stat cgroup grub file
+  stat:
+    path: "{{ disable_cgroups_v2_grub_file }}"
+  register: grub_file_stat
 - name: Disable cgroupv2
   copy:
     content: |
         GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT systemd.unified_cgroup_hierarchy=0 systemd.legacy_systemd_cgroup_controller=1"
-    dest: /etc/default/grub.d/99-cgroupv1.cfg
+    dest: "{{ disable_cgroups_v2_grub_file }}"
     mode: 0644
   notify:
       - update grub
       - reboot
+  when: not grub_file_stat.stat.exists
