@@ -204,7 +204,6 @@ host_galaxy_config: # renamed from __galaxy_config
       usegalaxy.org.au: "{{ galaxy_config_dir }}/themes/themes_main.yml"
 
     sentry_dsn: "{{ vault_sentry_url_galaxy_production }}"
-    log_level: INFO
 
     celery_conf:
       result_backend: "redis://:{{ vault_redis_requirepass }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:6379/0"
