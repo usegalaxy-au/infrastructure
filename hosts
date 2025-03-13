@@ -85,7 +85,7 @@ qld-pulsar-himem-1 ansible_ssh_host=203.101.228.14
 qld-pulsar-himem-2 ansible_ssh_host=203.101.227.201
 
 [pulsar_qld_blast]
-pulsar-qld-blast ansible_ssh_host=203.101.231.166 internal_ip=10.255.138.38
+pulsar-qld-blast ansible_ssh_host=203.101.231.87 internal_ip=10.255.137.182
 
 [pulsar_QLD_head]
 pulsar-QLD ansible_ssh_host=203.101.230.151
