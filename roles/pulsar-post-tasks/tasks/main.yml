@@ -1,45 +1,7 @@
 ---
-- name: Install slurm-drmaa
-  package:
-    name: slurm-drmaa1
-    state: present
-  when: install_drmaa is defined and install_drmaa
-- name: own the pulsar_root dir as ubuntu
-  file:
-      path: "{{ pulsar_root }}"
-      owner: ubuntu
-      group: ubuntu
-      state: directory
-      mode: 0755
-- name: own the pulsar_custom_indices_dir as ubuntu
-  file:
-      path: "{{ pulsar_custom_indices_src_dir|d(pulsar_custom_indices_dir) }}"
-      owner: ubuntu
-      group: ubuntu
-      state: directory
-      mode: 0755
-# - name: Symlink custom indices directory
-#   file:
-#       src: "{{ pulsar_custom_indices_src_dir }}"
-#       dest: "{{ pulsar_custom_indices_dir }}"
-#       state: link
-#   become: yes
-#   become_user: ubuntu
-#   when: pulsar_custom_indices_src_dir is defined
-- name: create singularity cache dir
-  file:
-      path: "{{ pulsar_dependencies_dir }}/singularity"
-      owner: ubuntu
-      group: ubuntu
-      state: directory
-      mode: 0700
-- name: create singularity tmp dir
-  file:
-      path: "{{ pulsar_dependencies_dir }}/singularity/tmp"
-      owner: ubuntu
-      group: ubuntu
-      state: directory
 - name: restart munge
   systemd:
     name: munge
     state: restarted
+- name: Run exportfs -ra if exportfs is available
+  shell: 'if command -v exportfs >/dev/null 2>&1; then exportfs -ra; fi'
