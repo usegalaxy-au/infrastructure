@@ -1,0 +1,1 @@
+disable_cgroups_v2_grub_file: /etc/default/grub.d/99-cgroupv1.cfg

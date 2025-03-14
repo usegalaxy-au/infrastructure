@@ -1,0 +1,23 @@
+---
+- name: Create worker tmpdir
+  file:
+    path: "{{ relocate_tmpdisk_tmp_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '1777'
+- name: stat /tmp
+  stat:
+    path: /tmp
+  register: tmpdisk_stat
+- name: remove old tmp
+  file:
+    path: /tmp
+    state: absent
+  when: tmpdisk_stat.stat.islnk is defined and not tmpdisk_stat.stat.islnk
+- name: Link /tmp to new path
+  file:
+    src: "{{ relocate_tmpdisk_tmp_path }}"
+    dest: /tmp
+    state: link
+  when: tmpdisk_stat.stat.islnk is defined and not tmpdisk_stat.stat.islnk
