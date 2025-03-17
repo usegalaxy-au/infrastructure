@@ -20,15 +20,15 @@ postgresql_conf:
   - max_connections: 300
   - listen_addresses: "'*'"   # Allow remote connections
   - data_directory: "'/data/production'"
-  - shared_buffers: 8GB
-  - effective_cache_size: 12GB
-  - maintenance_work_mem : 2GB
+  - shared_buffers: 16GB
+  - effective_cache_size: 32GB
+  - maintenance_work_mem : 3GB
   - checkpoint_completion_target: 0.7
   - wal_buffers: 16MB
   - default_statistics_target: 100
   - random_page_cost: 4
   - effective_io_concurrency: 2
-  - work_mem: 32MB
+  - work_mem: 54MB
   - min_wal_size: 1GB
   - max_wal_size: 4GB
   - max_worker_processes: 8
