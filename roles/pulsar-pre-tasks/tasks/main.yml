@@ -1,0 +1,27 @@
+---
+- name: Install slurm-drmaa
+  package:
+    name: slurm-drmaa1
+    state: present
+  when: install_drmaa|d(false)
+- name: Create directories owned by pulsar user
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ pulsar_user.name }}"
+    group: "{{ pulsar_user.name }}"
+    state: directory
+    mode: "{{ item.mode|d('0755') }}"
+  with_items:
+  - path: "{{ pulsar_root }}"
+  - path: "{{ pulsar_dependencies_dir }}"
+  - path: "{{ pulsar_custom_indices_dir }}"
+  - path: "{{ pulsar_singularity_cachedir }}"
+    mode: "0700"
+  - path: "{{ pulsar_singularity_tmpdir }}"
+- name: Add SINGULARITY_CACHEDIR and SINGULARITY_TMPDIR to pulsar user's .bashrc
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (Singularity cache and tmp dirs)"
+    path: "/home/{{ pulsar_user.name }}/.bashrc"
+    content: |
+      export SINGULARITY_CACHEDIR="{{ pulsar_singularity_cachedir }}"
+      export SINGULARITY_TMPDIR="{{ pulsar_singularity_tmpdir }}"
