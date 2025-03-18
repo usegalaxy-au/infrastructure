@@ -19,7 +19,7 @@ pulsar_rabbit_vhost: "/pulsar/galaxy_qld_blast"
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
-cvmfs_quota_limit: 1230000
+cvmfs_quota_limit: 1638400
 
 # TODO: carefull remove telegraf_agent_output from everywhere and put it in all.yml
 # Need to make sure that telegraf_influx_db_name is set properly everywhere
