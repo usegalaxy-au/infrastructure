@@ -7,34 +7,6 @@ test_tools = [
         'role': 'maxquant_test',
     },
     {
-        'id': 'fgenesh',
-        'role': 'Fgenesh',
-    },
-    {
-        'id': 'fgenesh_annotate',
-        'role': 'Fgenesh',
-    },
-    {
-        'id': 'fgenesh_get_mrnas_gc',
-        'role': 'Fgenesh',
-    },
-    {
-        'id': 'fgenesh_merge',
-        'role': 'Fgenesh',
-    },
-    {
-        'id': 'fgenesh_split',
-        'role': 'Fgenesh',
-    },
-    {
-        'id': 'fgenesh_to_genbank',
-        'role': 'Fgenesh',
-    },
-    {
-        'id': 'fgenesh_get_proteins',
-        'role': 'Fgenesh',
-    },
-    {
         'id': 'cellranger',
         'role': 'cellranger',
     },
@@ -54,6 +26,19 @@ def hide_test_tools(context, tool):
                     ]
                 )
         return user is not None and user.email in test_tool_users
+    return True
+
+def hide_fgenesh(context, tool):
+    """
+    make fgenesh* visible to members of Fgenesh group
+    """
+    if tool.id.startswith('fgenesh'):
+        user = context.trans.user
+        return user is not None and (
+            user.email in test_tool_users or 'Fgenesh' in [
+                r.name for r in user.all_roles() if not r.deleted
+            ]
+        )
     return True
 
 def restrict_alphafold(context, tool):
