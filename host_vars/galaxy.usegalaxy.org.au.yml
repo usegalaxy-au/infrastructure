@@ -239,7 +239,7 @@ influx_url: "stats.usegalaxy.org.au"
 influx_db_stats: "GA_server"
 stats_db_password: "{{ galaxy_db_reader_password }}"
 influx_salt: "{{ prod_queue_size_salt }}"
-add_daily_stats: false
+add_daily_stats: true
 add_monthly_stats: true
 add_utilisation_info: true
 add_queue_info: true
