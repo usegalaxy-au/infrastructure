@@ -21,14 +21,6 @@
           - libpq-dev
           - python3-pip
       tags: postgresql
-    - name: Create postgres socket directory
-      ansible.builtin.file:
-        path: /var/run/postgresql
-        state: directory
-        owner: postgres
-        group: postgres
-        mode: '0755'
-      tags: postgresql
 
   post_tasks:
     - name: Add GitHub CI pub key to authorized_keys

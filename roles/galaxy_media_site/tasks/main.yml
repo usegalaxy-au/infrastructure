@@ -1,5 +1,9 @@
 ---
 
+- name: Ensure PostgreSQL is restarted immediately after configuration change
+  meta: flush_handlers
+  tags: postgresql
+
 - name: Add the deadsnakes PPA repository
   apt_repository:
     repo: ppa:deadsnakes/ppa
@@ -42,12 +46,6 @@
   become: yes
   tags:
     - pg-permissions
-
-# since geerlingguy.postgresql doesn't seem to restart pg after config changes:
-- name: restart postgresql
-  ansible.builtin.systemd:
-    name: postgresql
-    state: restarted
 
 - name: clone git repository for galaxy-content-site
   ansible.builtin.git:
