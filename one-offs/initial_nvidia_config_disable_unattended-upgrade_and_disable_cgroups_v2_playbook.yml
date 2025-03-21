@@ -54,7 +54,12 @@
         mode: 0644
     - name: update-grub
       command: /usr/sbin/update-grub
-    - name: Reboot for grub update to disable cgroupv2 and after disabling MIG mode on GPU
-      reboot:
-        msg: "Reboot to disable cgroupv2 and MIG mode GPU"
+
+  - name: Reboot for grub update to disable cgroupv2 and for disabling MIG mode on GPU
+    reboot:
+      msg: "Reboot to disable cgroupv2 and MIG mode GPU"
+    tags:
+      - initial
+      - disable_mig
+      - disable_cgroup
 
