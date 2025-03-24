@@ -1910,9 +1910,18 @@ tools:
     scheduling:
       accept:
       - pulsar
-      - training-exempt
+      - pulsar-training-large
       reject:
       - pulsar-QLD
+    rules:
+    - id: kraken2_reference_training_rule
+      # apply training rules exemption unless the database is minikraken2
+      if: |
+        minikraken2_db_key = '2020-02-05T235531Z_minikraken2_v2_8GB'
+        not helpers.job_args_match(job, app, {'kraken2_database': minikraken2_db_key})
+      scheduling:
+        accept:
+        - training-exempt
   toolshed.g2.bx.psu.edu/repos/iuc/kraken_biom/kraken_biom/.*:
     params:
       singularity_enabled: true
