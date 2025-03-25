@@ -80,6 +80,14 @@ resource "openstack_blockstorage_volume_v2" "pulsar-nci-training-volume" {
   size        = 10000
 }
 
+# # Extra volume for /var on pulsar-nci-training
+# resource "openstack_blockstorage_volume_v2" "pulsar-nci-training-var-volume" {
+#   availability_zone = "CloudV3"
+#   name        = "pulsar-nci-training-var-volume"
+#   description = "Pulsar NCI Training Head Node Var Volume"
+#   size        = 10
+# }
+
 #Volumes for worker nodes
 resource "openstack_blockstorage_volume_v2" "worker_tmp_disk" {
   for_each = local.volumes
@@ -98,6 +106,12 @@ resource "openstack_compute_volume_attach_v2" "attach-pulsar-nci-training-volume
   instance_id = openstack_compute_instance_v2.pulsar-nci-training.id
   volume_id   = openstack_blockstorage_volume_v2.pulsar-nci-training-volume.id
 }
+
+# # Attachment between application/web server and var volume
+# resource "openstack_compute_volume_attach_v2" "attach-pulsar-nci-training-var-volume-to-pulsar-nci-training" {
+#   instance_id = openstack_compute_instance_v2.pulsar-nci-training.id
+#   volume_id   = openstack_blockstorage_volume_v2.pulsar-nci-training-var-volume.id
+# }
 
 # Attachment between worker nodes and worker temp volumes
 resource "openstack_compute_volume_attach_v2" "attach-worker-volume-to-worker" {
