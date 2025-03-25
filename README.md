@@ -57,6 +57,7 @@ terraform apply
 These playbooks are designed for [Ansible](https://www.ansible.com) versions 2.9 and above, but we recommend running with ansible-core version `2.12`. This can be installed with pip. Note that PYPI versions are different to the ansible-core version:
 
 ```py
+# Requires python >=3.8; <3.12
 pip install ansible==5.6.0  # this gets you ansible-core==2.12
 ```
 
