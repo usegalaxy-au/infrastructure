@@ -54,9 +54,13 @@ terraform apply
 
 [![ansible_logo.png](images/ansible_logo.png)](https://www.ansible.com/)
 
-These playbooks are designed for [Ansible](https://www.ansible.com) versions 2.9 and above.
+These playbooks are designed for [Ansible](https://www.ansible.com) versions 2.9 and above, but we recommend running with ansible-core version `2.12`. This can be installed with pip. Note that PYPI versions are different to the ansible-core version:
 
-Installation instructions for Ansible can be found [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+```py
+pip install ansible==5.6.0  # this gets you ansible-core==2.12
+```
+
+Further installation instructions for Ansible can be found [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
 #### Ansible Roles Required
 
