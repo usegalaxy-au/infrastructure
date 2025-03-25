@@ -21,10 +21,14 @@ locals {
   avail_zone        = "CloudV3"
   key_pair          = "gvl_2019"
   image_id          = "7120863d-b414-4d16-a13a-c0866f917af4" #Ubuntu Focal Cloud Image 2021-09-08
+  # key_pair          = "galaxy-australia"
+  # image_id          = "192e186a-41ed-4d4c-b674-666bf2a1a60f" # Ubuntu Jammy Minimal 2023-04-11
   worker_flavour    = "c3pl.16c48m60d"
 
   #Loops for worker nodes - do not modify
-  instances = toset(formatlist("%d", range(local.worker_count)))
+  # instances = toset(formatlist("%d", [for i in range(local.worker_count) : i + 1]))
+  instances = toset(["0", "1", "2", "3", "4", "6", "7", "8", "9", "10", "11"])
+  # instances = toset(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"])
   volumes = toset(flatten([ for instance in local.instances : "pulsar-nci-training-w${instance}-volume" ]))
   attachments = toset(flatten([ for instance in local.instances : {
       instance = instance
