@@ -85,6 +85,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_panel_filters/singlecell.yml"
   - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/microbiology.yml"
     dest: "{{ galaxy_config_dir }}/tool_panel_filters/microbiology.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/error_report.yml"
+    dest: "{{ galaxy_config_dir}}/error_report.yml"
 
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.yml.j2"
@@ -217,6 +219,7 @@ host_galaxy_config: # renamed from __galaxy_config
     # only if you have setup a Celery worker for Galaxy. For details, see
     # https://docs.galaxyproject.org/en/master/admin/production.html
     enable_celery_tasks: true
+    error_report_file: "{{ galaxy_config_dir }}/error_report.yml"
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
