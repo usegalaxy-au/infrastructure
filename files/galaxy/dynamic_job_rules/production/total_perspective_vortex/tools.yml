@@ -2481,7 +2481,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/polypolish/polypolish/.*:
-    mem: 12
+    mem: 23
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
