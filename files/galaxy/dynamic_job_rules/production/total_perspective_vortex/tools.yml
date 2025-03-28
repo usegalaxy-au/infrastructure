@@ -1520,6 +1520,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/clair3/clair3/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/compleasm/compleasm/.*:
     cores: 5
     mem: 19.1
