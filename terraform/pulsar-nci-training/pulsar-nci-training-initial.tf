@@ -19,15 +19,12 @@ locals {
   worker_count      = 12
   tmp_disk_size     = 200
   avail_zone        = "CloudV3"
-  key_pair          = "gvl_2019"
-  image_id          = "7120863d-b414-4d16-a13a-c0866f917af4" #Ubuntu Focal Cloud Image 2021-09-08
-  # key_pair          = "galaxy-australia"
-  # image_id          = "192e186a-41ed-4d4c-b674-666bf2a1a60f" # Ubuntu Jammy Minimal 2023-04-11
+  key_pair          = "galaxy-australia"
+  image_id          = "7129f469-93a7-47c6-8a21-d8583a0ca41e" # Ubuntu Jammy Server 2025-03-11
   worker_flavour    = "c3pl.16c48m60d"
 
   #Loops for worker nodes - do not modify
-  # instances = toset(formatlist("%d", [for i in range(local.worker_count) : i + 1]))
-  instances = toset(["0", "1", "2", "3", "4", "6", "7", "8", "9", "10", "11"])
+  instances = toset(formatlist("%d", [for i in range(local.worker_count) : i + 1]))
   # instances = toset(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"])
   volumes = toset(flatten([ for instance in local.instances : "pulsar-nci-training-w${instance}-volume" ]))
   attachments = toset(flatten([ for instance in local.instances : {
@@ -44,7 +41,7 @@ locals {
 resource "openstack_compute_instance_v2" "pulsar-nci-training" {
   name            = "pulsar-nci-training"
   image_id        = local.image_id
-  flavor_name     = "c3.8c16m10d"
+  flavor_name     = "c3pl.16c48m60d"
   key_pair        = local.key_pair
   security_groups = ["ssh", "default"]
   availability_zone = "CloudV3"
@@ -80,14 +77,6 @@ resource "openstack_blockstorage_volume_v2" "pulsar-nci-training-volume" {
   size        = 10000
 }
 
-# # Extra volume for /var on pulsar-nci-training
-# resource "openstack_blockstorage_volume_v2" "pulsar-nci-training-var-volume" {
-#   availability_zone = "CloudV3"
-#   name        = "pulsar-nci-training-var-volume"
-#   description = "Pulsar NCI Training Head Node Var Volume"
-#   size        = 10
-# }
-
 #Volumes for worker nodes
 resource "openstack_blockstorage_volume_v2" "worker_tmp_disk" {
   for_each = local.volumes
@@ -106,12 +95,6 @@ resource "openstack_compute_volume_attach_v2" "attach-pulsar-nci-training-volume
   instance_id = openstack_compute_instance_v2.pulsar-nci-training.id
   volume_id   = openstack_blockstorage_volume_v2.pulsar-nci-training-volume.id
 }
-
-# # Attachment between application/web server and var volume
-# resource "openstack_compute_volume_attach_v2" "attach-pulsar-nci-training-var-volume-to-pulsar-nci-training" {
-#   instance_id = openstack_compute_instance_v2.pulsar-nci-training.id
-#   volume_id   = openstack_blockstorage_volume_v2.pulsar-nci-training-var-volume.id
-# }
 
 # Attachment between worker nodes and worker temp volumes
 resource "openstack_compute_volume_attach_v2" "attach-worker-volume-to-worker" {
