@@ -1199,6 +1199,8 @@ tools:
       accept:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
+    context:
+      partition: msconvert
     cores: 1
     mem: 3.8
     params:
