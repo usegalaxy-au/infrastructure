@@ -100,6 +100,10 @@ slurm_partitions:
     Default: NO
     State: UP
     MaxTime: "10:00:00"
+  - name: msconvert  # these are the slurm workers that will generate .wine folders with the correct permissions (700) for msconvert version 3.0.20287.2
+    nodes: "galaxy-w1,galaxy-w2,galaxy-w3,galaxy-w8"
+    Default: NO
+    State: UP
 
 slurm_controller_host: galaxy-queue
 
