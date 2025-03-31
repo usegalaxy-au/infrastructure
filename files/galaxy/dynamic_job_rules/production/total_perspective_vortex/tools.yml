@@ -1161,6 +1161,9 @@ tools:
     mem: 10
     params:
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/galaxyp/fasta_merge_files_and_filter_unique_sequences/fasta_merge_files_and_filter_unique_sequences/.*:
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/flashlfq/flashlfq/.*:
     scheduling:
       accept:
