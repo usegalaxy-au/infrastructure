@@ -11,17 +11,13 @@
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ssh_keys
   pre_tasks:
-    - name: Remove cloudinit entry in fstab
-      # remove line '/dev/vdb	/mnt	auto	defaults,nofail,x-systemd.requires=cloud-init.service,comment=cloudconfig	0	2'
-      # because this is the same mount point as the one we need for the attached volume + pulsar nfs mount
-      lineinfile:
+    # NCI machines have a /mnt entry already in fstab. Due to legacy crud we really
+    # need to mount the volume at /mnt
+    - name: Comment out the /dev/vdb mount at /mnt
+      replace:
         path: /etc/fstab
-        regexp: "\/dev\/vdb\\s+\/mnt.*"
-        state: absent
-    - name: Create worker extra disk mount point on /mnt
-      file:
-          path: /mnt/tmpdisk
-          state: directory
+        regexp: '^(\s*)/dev/vdb(\s+/mnt\s+)'
+        replace: '\1# /dev/vdb\2'
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
@@ -32,41 +28,11 @@
       - mounts
       - galaxyproject.repos
       - galaxyproject.cvmfs
-      - gantsign.golang
-      - cyverse-ansible.singularity
+      - usegalaxy_eu.apptainer
       - geerlingguy.docker
       - acl-on-startup
       - dj-wasabi.telegraf
+      - tmp-relocation
       - clean-tmpdisk
-  post_tasks:
-      - name: Restart munge service
-        service:
-            name: munge
-            state: restarted
-      - name: Move /tmp to vdb
-        block:
-          - name: Create worker tmpdir on /mnt
-            file:
-                path: /mnt/tmpdisk
-                state: directory
-                owner: root
-                group: root
-                mode: '1777'
-          - name: stat links
-            stat:
-                path: /tmp
-            register: links
-          - name: remove old tmp
-            file:
-                path: /tmp
-                state: absent
-            when: links.stat.islnk is defined and not links.stat.islnk
-          - name: Link /tmp to /mnt/tmpdisk
-            file:
-                src: /mnt/tmpdisk
-                dest: /tmp
-                state: link
-            become: yes
-            become_user: root
-            when: links.stat.islnk is defined and not links.stat.islnk
-        when: attached_volumes is defined
+      - disable-cgroups-v2
+

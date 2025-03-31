@@ -9,11 +9,6 @@ use_internal_ips: true
 slurm_nodes:
     - name: pulsar-nci-training
       NodeAddr: "{{ hostvars['pulsar-nci-training']['internal_ip'] }}"
-      CPUs: 8
-      RealMemory: 16000
-      State: UNKNOWN
-    - name: pulsar-nci-training-w0
-      NodeAddr: "{{ hostvars['pulsar-nci-training-w0']['internal_ip'] }}"
       CPUs: 16
       RealMemory: 48000
       State: UNKNOWN
@@ -72,10 +67,15 @@ slurm_nodes:
       CPUs: 16
       RealMemory: 48000
       State: UNKNOWN
+    - name: pulsar-nci-training-w12
+      NodeAddr: "{{ hostvars['pulsar-nci-training-w12']['internal_ip'] }}"
+      CPUs: 16
+      RealMemory: 48000
+      State: UNKNOWN
 
 slurm_partitions:
     - name: main
-      nodes: "pulsar-nci-training-w[0-11]"
+      nodes: "pulsar-nci-training-w[1-12]"
       Default: YES
       MaxTime: INFINITE
       State: UP

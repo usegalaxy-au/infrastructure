@@ -19,12 +19,13 @@ locals {
   worker_count      = 12
   tmp_disk_size     = 200
   avail_zone        = "CloudV3"
-  key_pair          = "gvl_2019"
-  image_id          = "7120863d-b414-4d16-a13a-c0866f917af4" #Ubuntu Focal Cloud Image 2021-09-08
+  key_pair          = "galaxy-australia"
+  image_id          = "7129f469-93a7-47c6-8a21-d8583a0ca41e" # Ubuntu Jammy Server 2025-03-11
   worker_flavour    = "c3pl.16c48m60d"
 
   #Loops for worker nodes - do not modify
-  instances = toset(formatlist("%d", range(local.worker_count)))
+  instances = toset(formatlist("%d", [for i in range(local.worker_count) : i + 1]))
+  # instances = toset(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"])
   volumes = toset(flatten([ for instance in local.instances : "pulsar-nci-training-w${instance}-volume" ]))
   attachments = toset(flatten([ for instance in local.instances : {
       instance = instance
@@ -40,7 +41,7 @@ locals {
 resource "openstack_compute_instance_v2" "pulsar-nci-training" {
   name            = "pulsar-nci-training"
   image_id        = local.image_id
-  flavor_name     = "c3.8c16m10d"
+  flavor_name     = "c3pl.16c48m60d"
   key_pair        = local.key_pair
   security_groups = ["ssh", "default"]
   availability_zone = "CloudV3"

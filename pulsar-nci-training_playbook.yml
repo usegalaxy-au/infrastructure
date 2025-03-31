@@ -2,22 +2,16 @@
   hosts: pulsar_nci_training_head
   become: true
   pre_tasks:
+    # NCI machines have a /mnt entry already in fstab. Due to legacy crud we really
+    # need to mount the volume at /mnt
+    - name: Comment out the /dev/vdb mount at /mnt
+      replace:
+        path: /etc/fstab
+        regexp: '^(\s*)/dev/vdb(\s+/mnt\s+)'
+        replace: '\1# /dev/vdb\2'
     - name: Attach volume to instance
       include_role:
         name: attached-volumes
-    - name: Remove cloudinit entry in fstab.
-      # Remove line '/dev/vdb	/mnt	auto	defaults,nofail,x-systemd.requires=cloud-init.service,comment=cloudconfig	0	2'
-      # because this is the same mount point as the one we need for the attached volume + pulsar nfs mount
-      lineinfile:
-        path: /etc/fstab
-        regexp: "\/dev\/vdb\\s+\/mnt.*"
-        state: absent
-    - name: Create pulsar deps path
-      file:
-        path: "{{ pulsar_dependencies_dir }}"
-        state: directory
-        owner: "{{ pulsar_user.name }}"
-        group: "{{ pulsar_user.name }}"
   vars_files:
     - group_vars/all.yml
     - group_vars/pulsar_nci_training/pulsar-nci-training.yml
@@ -32,6 +26,7 @@
     - insspb.hostname
     - geerlingguy.pip
     - galaxyproject.repos
+    - pulsar-pre-tasks
     - role: galaxyproject.miniconda
       become: true
       become_user: "{{ pulsar_user.name }}"
@@ -40,14 +35,11 @@
     - mariadb
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - gantsign.golang
-    - cyverse-ansible.singularity
+    - usegalaxy_eu.apptainer
     - geerlingguy.docker
     - acl-on-startup
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks
     - slg.galaxy_stats
-  post_tasks:
-    - name: Reload exportfs
-      command: exportfs -ra
+    - disable-cgroups-v2
