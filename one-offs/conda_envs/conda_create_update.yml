@@ -11,7 +11,7 @@
 # create and update tasks from galaxyproject.miniconda with mamba replacing conda as exec
 - name: Create conda envs
   command: >-
-    {{ miniconda_prefix }}/bin/mamba create --yes
+    {{ miniconda_prefix }}/bin/{{ conda_resolver|d('mamba') }} create --yes
     {{ '--override-channels --channel' if (item.value.channels | default(miniconda_channels)) else '' }}
     {{ (item.value.channels | default(miniconda_channels)) | join(' --channel ') }}
     {{ '--name ' ~ item.key if not item.key.startswith('/') else '--prefix ' ~ item.key }}
@@ -23,7 +23,7 @@
 
 - name: Update conda envs
   command: >-
-    {{ miniconda_prefix }}/bin/mamba install --yes
+    {{ miniconda_prefix }}/bin/{{ conda_resolver|d('mamba') }} install --yes
     {{ '--override-channels --channel' if (item.value.channels | default(miniconda_channels)) else '' }}
     {{ (item.value.channels | default(miniconda_channels)) | join(' --channel ') }}
     {{ '--name ' ~ item.key if not item.key.startswith('/') else '--prefix ' ~ item.key }}
