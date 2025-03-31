@@ -2358,8 +2358,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_mummer/mummer_mummer/.*:
-    cores: 2
-    mem: 10
+    cores: 5
+    mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
     cores: 5
     mem: 19.1
