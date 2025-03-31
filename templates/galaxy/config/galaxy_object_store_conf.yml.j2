@@ -6,14 +6,6 @@ backends:
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volA/data27
-- id: data27_pulsar
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volA/data27
-  extra_dirs:
-  - type: job_work
-    path: "{{ galaxy_pulsar_job_working_directory }}"
 - id: data26
   weight: 0
   type: disk
