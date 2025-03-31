@@ -118,18 +118,18 @@ nci-build ansible_ssh_host=130.56.246.156 internal_ip=10.0.0.249
 pulsar-nci-training ansible_ssh_host=130.56.246.233 internal_ip=10.0.2.95
 
 [pulsar_nci_training_workers]
-pulsar-nci-training-w1 ansible_ssh_host=10.0.1.163 internal_ip=10.0.1.163
-pulsar-nci-training-w2 ansible_ssh_host=10.0.0.156 internal_ip=10.0.0.156
-pulsar-nci-training-w3 ansible_ssh_host=10.0.3.136 internal_ip=10.0.3.136
-pulsar-nci-training-w4 ansible_ssh_host=10.0.2.60 internal_ip=10.0.2.60
-pulsar-nci-training-w5 ansible_ssh_host=10.0.2.250 internal_ip=10.0.2.250
-pulsar-nci-training-w6 ansible_ssh_host=10.0.1.245 internal_ip=10.0.1.245
-pulsar-nci-training-w7 ansible_ssh_host=10.0.2.238 internal_ip=10.0.2.238
-pulsar-nci-training-w8 ansible_ssh_host=10.0.3.239 internal_ip=10.0.3.239
-pulsar-nci-training-w9 ansible_ssh_host=10.0.0.132 internal_ip=10.0.0.132
-pulsar-nci-training-w10 ansible_ssh_host=10.0.1.168 internal_ip=10.0.1.168
-pulsar-nci-training-w11 ansible_ssh_host=10.0.2.127 internal_ip=10.0.2.127
-pulsar-nci-training-w12 ansible_ssh_host=10.0.3.210 internal_ip=10.0.3.210
+pulsar-nci-training-w1 ansible_ssh_host=10.0.1.179 internal_ip=10.0.1.179
+pulsar-nci-training-w2 ansible_ssh_host=10.0.2.91 internal_ip=10.0.2.91
+pulsar-nci-training-w3 ansible_ssh_host=10.0.3.190 internal_ip=10.0.3.190
+pulsar-nci-training-w4 ansible_ssh_host=10.0.0.200 internal_ip=10.0.0.200
+pulsar-nci-training-w5 ansible_ssh_host=10.0.3.180 internal_ip=10.0.3.180
+pulsar-nci-training-w6 ansible_ssh_host=10.0.1.44 internal_ip=10.0.1.44
+pulsar-nci-training-w7 ansible_ssh_host=10.0.3.8 internal_ip=10.0.3.8
+pulsar-nci-training-w8 ansible_ssh_host=10.0.1.190 internal_ip=10.0.1.190
+pulsar-nci-training-w9 ansible_ssh_host=10.0.2.167 internal_ip=10.0.2.167
+pulsar-nci-training-w10 ansible_ssh_host=10.0.1.195 internal_ip=10.0.1.195
+pulsar-nci-training-w11 ansible_ssh_host=10.0.0.103 internal_ip=10.0.0.103
+pulsar-nci-training-w12 ansible_ssh_host=10.0.3.219 internal_ip=10.0.3.219
 
 [pulsar_nci_test_head]
 pulsar-nci-test ansible_ssh_host=130.56.246.138 internal_ip=10.0.2.29
