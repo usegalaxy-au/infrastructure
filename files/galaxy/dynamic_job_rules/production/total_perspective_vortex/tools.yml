@@ -129,6 +129,10 @@ tools:
     mem: 3.8
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/chemical_data_sources/ctb_online_data_fetch/.*:
+    params:
+      singularity_enabled: true
+      singularity_container_id_override: docker://quay.io/biocontainers/openbabel:2.3.2--py27_2
   toolshed.g2.bx.psu.edu/repos/bgruening/circexplorer/circexplorer/.*:
     params:
       singularity_enabled: true
