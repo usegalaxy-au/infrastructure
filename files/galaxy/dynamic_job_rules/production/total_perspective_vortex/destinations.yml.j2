@@ -290,6 +290,7 @@ destinations:
         - bakta_database
       require:
         - pulsar
+        - offline
         # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
   pulsar-azure:
     inherits: _pulsar_destination
