@@ -1,6 +1,5 @@
-- hosts:
-  - galaxy-handlers
-- become: true
+- hosts: galaxy-handlers
+  become: true
   tasks:
   - name: Restart job handlers
     ansible.builtin.systemd:
