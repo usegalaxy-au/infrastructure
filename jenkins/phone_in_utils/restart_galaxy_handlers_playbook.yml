@@ -2,6 +2,4 @@
   become: true
   tasks:
   - name: Restart job handlers
-    ansible.builtin.systemd:
-      name: handler
-      state: restarted
+    command: "sudo galaxyctl restart handler"
