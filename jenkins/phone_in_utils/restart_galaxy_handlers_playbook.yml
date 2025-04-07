@@ -1,5 +1,15 @@
 - hosts: galaxy-handlers
   become: true
+  vars:
+    - galaxy_job_handlers:
+      - "galaxy-handler@0"
+      - "galaxy-handler@1"
+      - "galaxy-handler@2"
+      # - "galaxy-handler@3"
+      - "galaxy-handler@4"
   tasks:
   - name: Restart job handlers
-    command: "sudo galaxyctl restart handler"
+    systemd:
+      name: "{{ item }}"
+      state: restarted
+    with_items: "{{ galaxy_job_handlers }}"
