@@ -11,6 +11,10 @@
         <tool file="/mnt/galaxy/local_tools/glt_tom/tools/pbccs/pbccs.xml" />
         <tool file="/mnt/galaxy/local_tools/maxquant/maxquant.xml" />
         <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh.xml" />
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_renumber.xml" />
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_get_mrnas.xml" />
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_annotate_mrnas.xml" />
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_check_mrna.xml" />
         <tool file="/mnt/galaxy/local_tools/cellranger/cellranger.xml" />
         <tool file="/mnt/galaxy/local_tools/kmc/kmc.xml" />
         <tool file="/mnt/galaxy/local_tools/kmc/kmc_tools_filter.xml" />
