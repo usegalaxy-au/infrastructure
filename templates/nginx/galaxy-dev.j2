@@ -35,8 +35,8 @@ server {
     sendfile    on;
 
     # Special log files for Galaxy Labs
-    access_log /var/log/nginx/labs-welcome.access.log galaxy if=$log_lab_welcome;
-    access_log /var/log/nginx/labs-tools.access.log galaxy if=$log_lab_tool;
+    access_log /var/log/nginx/labs-welcome.access.log if=$log_lab_welcome;
+    access_log /var/log/nginx/labs-tools.access.log if=$log_lab_tool;
     add_header X-Lab $log_lab;
     add_header X-ToolClick $log_tool_click;
     add_header X-Welcome $log_welcome;
