@@ -10,6 +10,10 @@
         <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_get_mrnas_gc.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_to_genbank.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_get_proteins.xml" label="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_renumber.xml" label="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_get_mrnas.xml" label="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_annotate_mrnas.xml" label="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_check_mrna.xml" label="test"/>
         <tool file="/mnt/galaxy/local_tools/cellranger/cellranger.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/alphafold/alphafold.xml" labels="test"/>
     </section>
