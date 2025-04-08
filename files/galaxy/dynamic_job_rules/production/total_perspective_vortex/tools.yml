@@ -2387,6 +2387,15 @@ tools:
     mem: 11.5
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+    rules:
+    - id: ncbi_fcs_gx_job_parameter_rule
+      if: |
+        helpers.job_args_match(job, app, {"mode": {"mode_selector": "screen"}})
+      mem: 480
+      cores: 30  # EU gave it 64 cores
   toolshed.g2.bx.psu.edu/repos/iuc/nextclade/nextclade/.*:
     params:
       singularity_enabled: true
