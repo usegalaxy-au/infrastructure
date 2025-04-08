@@ -1,0 +1,5 @@
+- type: email
+  verbose: true
+  user_submission: true
+- type: sentry
+  user_submission: false
