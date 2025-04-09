@@ -542,6 +542,10 @@ job_conf_limits:
     value: 4
 
   - type: destination_total_concurrent_jobs
+    id: pulsar-nci-training
+    value: 30
+
+  - type: destination_total_concurrent_jobs
     id: pulsar-high-mem1
     value: 6
 
