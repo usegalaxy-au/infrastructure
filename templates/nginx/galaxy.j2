@@ -1,3 +1,25 @@
+map $http_referer $log_lab {
+    # It is a subdomain of dev.gvl.org.au or usegalaxy.org.au
+    default 0;
+    ~*://[^/]+\.(usegalaxy|dev\.gvl)\.org\.au 1;
+}
+map $request $log_tool_click {
+    default 0;
+    ~*/api/tools/toolshed.+build 1;
+}
+map $request $log_welcome {
+    default 0;
+    ~*/welcome 1;
+}
+map "$log_lab:$log_welcome" $log_lab_welcome {
+    default 0;
+    "1:1" 1;
+}
+map "$log_lab:$log_tool_click" $log_lab_tool {
+    default 0;
+    "1:1" 1;
+}
+
 upstream galaxy {
 {% set num_gunicorn_processes = galaxy_config.gravity.gunicorn | length %}
 {% for gunicorn_process in galaxy_config.gravity.gunicorn %}
@@ -19,6 +41,10 @@ server {
     error_log   /var/log/nginx/error.log;
     sendfile    on;
 
+    # Special log files for Galaxy Labs
+    access_log /var/log/nginx/labs-welcome.access.log combined if=$log_lab_welcome;
+    access_log /var/log/nginx/labs-tools.access.log combined if=$log_lab_tool;
+
     uwsgi_buffer_size 16k;
     uwsgi_busy_buffers_size 24k;
 
@@ -32,6 +58,13 @@ server {
         proxy_set_header   X-Forwarded-Proto $scheme;
         
         add_header X-Clacks-Overhead 'GNU James Taylor (@jxtx) Simon Gladman (@slugger70)';
+
+        # For DEBUGGING ONLY, remove when confirmed working:
+        add_header X-Lab $log_lab;
+        add_header X-ToolClick $log_tool_click;
+        add_header X-Welcome $log_welcome;
+        add_header X-LabWelcome $log_lab_welcome;
+        add_header X-LabTool $log_lab_tool;
     }
 
     location ~ ^/api/dataset_collections/([^/]+)/download/?$ {
