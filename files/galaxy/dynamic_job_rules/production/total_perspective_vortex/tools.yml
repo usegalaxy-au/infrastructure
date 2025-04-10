@@ -3796,6 +3796,9 @@ tools:
       - pulsar-qld-high-mem1
       accept:
       - pulsar
+  qual_stats_boxplot:
+    params:
+      singularity_enabled: true
   random_lines1:
     mem: 16
     params:
