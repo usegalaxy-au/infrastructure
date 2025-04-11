@@ -324,6 +324,10 @@ tools:
         params:
           singularity_enabled: true
           dependency_resolution: none
+  toolshed.g2.bx.psu.edu/repos/iuc/data_manager_salmon_index_builder/salmon_index_builder_data_manager/.*:
+    mem: 20
+    params:
+      singularity_enabled: true
 
 users:
   test_user:
