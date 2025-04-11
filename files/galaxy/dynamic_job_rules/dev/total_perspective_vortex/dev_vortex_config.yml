@@ -18,6 +18,11 @@ tools:
   __IMPORT_HISTORY__:
     params:
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:
+    cores: 5
+    mem: 19.1
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/fubar/mashmap/mashmap/.*:
     mem: 16
   toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
