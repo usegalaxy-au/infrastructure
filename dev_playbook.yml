@@ -50,8 +50,10 @@
       tags: webhooks
     - role: usegalaxy_eu.galaxy_subdomains
       tags: galaxy_subdomains
-    - nginx-upload-module
-    - galaxyproject.nginx
+    - name: nginx-upload-module
+      tags: nginx
+    - name: galaxyproject.nginx
+      tags: nginx
     - galaxyproject.tusd
     - geerlingguy.nfs
     - galaxyproject.slurm
@@ -111,6 +113,7 @@
       with_items:
         - "{{ nginx_log_olddir_root }}"
         - "{{ nginx_long_term_log_dir }}"
+      tags: nginx
     - name: Add lines to main block in nginx logrotate conf
       lineinfile:
         path: /etc/logrotate.d/nginx
@@ -119,6 +122,7 @@
       with_items:
         - "\tdateext"
         - "\tolddir {{ nginx_log_olddir_root }}"
+      tags: nginx
     - name: Add lines to postrotate task in nginx logrotate conf
       lineinfile:
         path: /etc/logrotate.d/nginx
@@ -126,3 +130,4 @@
         insertafter: "\tpostrotate"
       with_items:
         - "\t\tcp {{ nginx_log_olddir_root }}/* {{ nginx_long_term_log_dir }}/"
+      tags: nginx
