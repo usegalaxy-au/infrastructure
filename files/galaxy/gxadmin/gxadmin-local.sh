@@ -396,17 +396,15 @@ EOF
 }
 
 local_query-job-input-datasets() { ##? [job_id] : Show job input datasets with sizes for a job
-	# similar to gxadmin query-job-inputs but with sizes
+	# similar to gxadmin query-job-inputs but with sizes and dataset uuids
 	arg_id="$1"
 	handle_help "$@" <<-EOF
 	Shows a table of job input datasets with file_size and total size for a given job id
 	
-	$ gxadmin local query-job-input-datasets 4092986755
-
-	 hda_id  |            hda_name             |  d_id   | d_state | d_file_size | d_total_size
-	---------+---------------------------------+---------+---------+-------------+--------------
-	91237625 | SRR7692603:forward uncompressed | 3545195 | ok      | 4810 MB     | 4810 MB
-	91237627 | SRR7692603:reverse uncompressed | 3545196 | ok      | 4845 MB     | 4845 MB
+	$ gxadmin local query-job-input-datasets 12340321
+	  hda_id  |    hda_name    |   d_id   | d_state | file_size | total_size |              d_uuid              | object_store_id
+	----------+----------------+----------+---------+-----------+------------+----------------------------------+-----------------
+	 28413333 | maternal.fasta | 24586666 | ok      | 1024 kB   | 1024 kB    | ababad77df21419c9e9f91b1b419f00d | data27
 
 	EOF
 
@@ -416,8 +414,10 @@ local_query-job-input-datasets() { ##? [job_id] : Show job input datasets with s
 				hda.name AS hda_name,
 				d.id AS d_id,
 				d.state AS d_state,
-				pg_size_pretty(d.file_size) AS d_file_size,
-				pg_size_pretty(d.total_size) AS d_total_size
+				pg_size_pretty(d.file_size) AS file_size,
+				pg_size_pretty(d.total_size) AS total_size,
+				d.uuid as d_uuid,
+				d.object_store_id as object_store_id
 			FROM job j
 				JOIN job_to_input_dataset jtid
 					ON j.id = jtid.job_id
@@ -429,6 +429,40 @@ local_query-job-input-datasets() { ##? [job_id] : Show job input datasets with s
 	EOF
 }
 
+local_query-job-output-datasets() { ##? [job_id] : Show job output datasets with sizes for a job
+	# similar to gxadmin query-job-outputs but with sizes and dataset uuids
+	arg_id="$1"
+	handle_help "$@" <<-EOF
+	Shows a table of job input datasets with file_size and total size for a given job id
+	
+	$ gxadmin local query-job-output-datasets 12340321
+
+	  hda_id  |                  hda_name                   |   d_id   | d_state | file_size | total_size |              d_uuid              | object_store_id
+	----------+---------------------------------------------+----------+---------+-----------+------------+----------------------------------+-----------------
+	 28444455 | Meryl on data 4 and data 3: read-db.meryldb | 24586662 | ok      | 21 kB     | 21 kB      | ababaad70f5244dd9d052565daa2f00d | data27
+
+	EOF
+
+	read -r -d '' QUERY <<-EOF
+			SELECT
+				hda.id AS hda_id,
+				hda.name AS hda_name,
+				d.id AS d_id,
+				d.state AS d_state,
+				pg_size_pretty(d.file_size) AS file_size,
+				pg_size_pretty(d.total_size) AS total_size,
+				d.uuid as d_uuid,
+				d.object_store_id as object_store_id
+			FROM job j
+				JOIN job_to_output_dataset jtod
+					ON j.id = jtod.job_id
+				JOIN history_dataset_association hda
+					ON hda.id = jtod.dataset_id
+				JOIN dataset d
+					ON hda.dataset_id = d.id
+			WHERE j.id = $arg_id
+	EOF
+}
 
 local_query-job-input-size() { ##? [job_id]: Shows details of a job including the sum of input dataset sizes
 	job_id="$1"
