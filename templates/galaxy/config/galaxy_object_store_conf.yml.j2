@@ -108,21 +108,11 @@ backends:
   files_dir: /mnt/user-data-volA/user-data-7
 
 {% if pawsey_file_mounts_available|d(True) %}
-- id: aarnetNFS6
-  weight: 0
-  type: disk
-  store_by: id
-  files_dir: {{ pawsey_file_mounts_path }}/user-data/aarnetNFS6
 - id: aarnetNFS5
   weight: 0
   type: disk
   store_by: id
   files_dir: {{ pawsey_file_mounts_path }}/user-data/aarnetNFS5
-- id: perthNFS1
-  weight: 0
-  type: disk
-  store_by: id
-  files_dir: {{ pawsey_file_mounts_path }}/user-data/perthNFS1
 - id: perthNFS4
   weight: 0
   type: disk
@@ -133,11 +123,6 @@ backends:
   type: disk
   store_by: id
   files_dir: {{ pawsey_file_mounts_path }}/user-data-2/perthNFS2
-- id: perthNFS3
-  weight: 0
-  type: disk
-  store_by: id
-  files_dir: {{ pawsey_file_mounts_path }}/user-data-3/perthNFS3
 {% endif %}
 {% if qld_file_mounts_available|d(True) %}
 - id: qldNFS1
@@ -150,6 +135,21 @@ backends:
   type: disk
   store_by: id
   files_dir: {{ qld_file_mounts_path }}/files/qldNFS2
+- id: perthNFS1
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: {{ qld_file_mounts_path }}/files/perthNFS1
+- id: perthNFS3
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: {{ qld_file_mounts_path }}/files/perthNFS3
+- id: aarnetNFS6
+  weight: 0
+  type: disk
+  store_by: id
+  files_dir: {{ qld_file_mounts_path }}/files/aarnetNFS6
 {% endif %}
 
 {% if test_object_store_paths_enabled|d(False) %}
