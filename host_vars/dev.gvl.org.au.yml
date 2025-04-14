@@ -365,6 +365,7 @@ slurm_singularity_volumes_list:
   - "/mnt/galaxy/data-3:ro"
   - "/mnt/galaxy/data-scratch:ro"
   - "/mnt/test_mount:ro"
+  - "/mnt/galaxy/custom-indices:ro"
   - "/cvmfs/data.galaxyproject.org:ro"
   - "/mnt/galaxy/local_tools:ro"
   - "/tmp:rw"
