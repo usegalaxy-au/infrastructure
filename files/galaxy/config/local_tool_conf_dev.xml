@@ -31,6 +31,7 @@
     <section id="interactivetools" name="Interactive Tools">
         <tool file="/mnt/galaxy/local_tools/lfq/interactivetool_lfqanalyst.xml" />
         <tool file="/mnt/galaxy/local_tools/lfq/interactivetool_tmtanalyst.xml" />
+        <tool file="/mnt/galaxy/local_tools/lfq/interactivetool_olink.xml" />
         <tool file="/mnt/galaxy/local_tools/ena_upload/interactivetool_ena_upload.xml" />
     </section>
     <section id="send" name="Send Data">
