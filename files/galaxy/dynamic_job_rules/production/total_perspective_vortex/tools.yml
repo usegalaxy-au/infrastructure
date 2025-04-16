@@ -194,6 +194,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond_view/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/diff/diff/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
     mem: 48
     rules:
@@ -376,6 +379,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/split_file_on_column/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/tapscan/tapscan_classify/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/.*:
     mem: 10
     params:
@@ -397,6 +403,9 @@ tools:
       if: 0.02 <= input_size < 0.2
       cores: 3
       mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/bgruening/wordcloud/wordcloud/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/chemteam/.*:
     params:
       singularity_enabled: true
@@ -2357,6 +2366,9 @@ tools:
       if: 0.02 <= input_size < 2
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/multigsea/multigsea/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
     cores: 3
     mem: 11.5
@@ -3822,6 +3834,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/tbprofiler/tb_profiler_profile/.*:
     cores: 3
     mem: 11.5
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/omark/omark/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/optitype/optitype/.*:
