@@ -3862,6 +3862,7 @@ tools:
       require:
       - pulsar-qld-gpu-other
       - pulsar-qld-gpu
+      - pulsar-qld-gpu4  # temporarily stop dorado mixing with helixir 18/4/25
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*:
     cores: 8
     mem: 540  # updated from 69 to 130 to lower the concurrency, not because his needs a lot of RAM, the next day updated to 540 so only one will run at once
@@ -3876,6 +3877,7 @@ tools:
       require:
       - pulsar-qld-gpu-other
       - pulsar-qld-gpu
+      - pulsar-qld-gpu5  # temporarily stop dorado mixing with helixir 18/4/25
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_pod5_convert/dorado_pod5_convert/.*:
     cores: 8
     params:
