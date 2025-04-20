@@ -2446,7 +2446,6 @@ tools:
     scheduling:
       accept:
       - pulsar
-      - pulsar-training-large
   toolshed.g2.bx.psu.edu/repos/iuc/picrust.*:
     cores: 2
     mem: 10
