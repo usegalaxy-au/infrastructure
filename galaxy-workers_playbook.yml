@@ -18,7 +18,6 @@
           path: "{{ item }}"
         with_items:
           - "{{ qld_file_mounts_path }}"
-          - "{{ pawsey_file_mounts_path }}"
   roles:
       - common
       - insspb.hostname

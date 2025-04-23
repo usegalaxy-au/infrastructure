@@ -150,15 +150,6 @@ backends:
   files_dir: {{ qld_file_mounts_path }}/files/aarnetNFS6
 {% endif %}
 
-- id: pawsey_nfs_test
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: {{ pawsey_file_mounts_path }}/user-data/pawsey_nfs_test
-  extra_dirs:
-    - type: job_work
-      path: /mnt/scratch/job_working_directory
-
 {% if test_object_store_paths_enabled|d(False) %}
 - id: minio_test
   weight: 0
