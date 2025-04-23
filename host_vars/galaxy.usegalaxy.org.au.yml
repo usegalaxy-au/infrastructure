@@ -632,7 +632,6 @@ slurm_singularity_volumes_list:
   - /mnt/user-data-volC:ro
   - /mnt/user-data-volD:ro
   - "{{ qld_file_mounts_path }}:ro"
-  - "{{ pawsey_file_mounts_path }}:ro"
   - /mnt/custom-indices:ro
   - /cvmfs/data.galaxyproject.org:ro
   - /tmp:rw

@@ -48,7 +48,6 @@
         path: "{{ item }}"
       with_items:
         - "{{ qld_file_mounts_path }}"
-        - "{{ pawsey_file_mounts_path }}"
     - name: create celery tmp dir
       file:
         state: directory
