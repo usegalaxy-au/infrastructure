@@ -2441,8 +2441,6 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
-    cores: 60
-    mem: 961
     scheduling:
       accept:
       - pulsar
