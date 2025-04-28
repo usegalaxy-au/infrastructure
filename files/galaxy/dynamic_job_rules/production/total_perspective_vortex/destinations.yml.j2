@@ -148,6 +148,7 @@ destinations:
         # - pulsar-blast  # alternate location for pulsar blast jobs when pulsar-qld-blast is unavailable
       require:
         - pulsar
+        - training  # 28/4/25 set pmel3 to training only because there is a chance NCI pulsar will not be back this week
   pulsar-high-mem1:
     inherits: _pulsar_destination
     runner: pulsar-high-mem1_runner
