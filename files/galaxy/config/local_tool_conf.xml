@@ -20,6 +20,7 @@
     <section id="interactivetools" name="Interactive Tools">
 	<tool file="/mnt/galaxy/local_tools/interactive_tool/lfq/interactivetool_lfqanalyst.xml" />
 	<tool file="/mnt/galaxy/local_tools/interactive_tool/tmt/interactivetool_tmtanalyst.xml" />
+	<tool file="/mnt/galaxy/local_tools/interactive_tool/usegalaxy_eu/interactivetool_phyloseq.xml" />
         <tool file="/mnt/galaxy/local_tools/interactivetool_ena_upload_table_builder.xml"/>
     </section>
 </toolbox>
