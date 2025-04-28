@@ -538,6 +538,10 @@ job_conf_limits:
     value: 30
 
   - type: destination_user_concurrent_jobs
+    id: pulsar-mel3
+    value: 4  # Note: this limit is only for when pulsar-mel3 is being used as the training pulsar, there should be no user limit otherwise
+
+  - type: destination_user_concurrent_jobs
     id: pulsar-nci-training
     value: 4
 
