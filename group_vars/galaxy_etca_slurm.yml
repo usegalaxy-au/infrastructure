@@ -88,7 +88,8 @@ slurm_nodes:
 
 slurm_partitions:
   - name: main
-    nodes: "galaxy-w1,galaxy-w2,galaxy-w3,galaxy-w4,galaxy-w5,galaxy-w6,galaxy-w8,galaxy-w9,galaxy-w10"
+    # nodes: "galaxy-w1,galaxy-w2,galaxy-w3,galaxy-w4,galaxy-w5,galaxy-w6,galaxy-w8,galaxy-w9,galaxy-w10"
+    nodes: "galaxy-w1,galaxy-w2,galaxy-w3,galaxy-w4,galaxy-w5,galaxy-w8,galaxy-w9,galaxy-w10" # 30/4/25 temporary removal of w6 from non-training
     Default: YES
     State: UP
   - name: training
@@ -96,7 +97,8 @@ slurm_partitions:
     Default: NO
     State: UP
   - name: interactive_tools
-    nodes: "galaxy-w4,galaxy-w5,galaxy-w6"
+    # nodes: "galaxy-w4,galaxy-w5,galaxy-w6"
+    nodes: "galaxy-w4,galaxy-w5" # 30/4/25 temporary removal of w6 from non-training
     Default: NO
     State: UP
     MaxTime: "10:00:00"
