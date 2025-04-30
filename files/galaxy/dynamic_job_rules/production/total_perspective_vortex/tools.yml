@@ -147,7 +147,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 30.7
     params:
@@ -158,7 +158,7 @@ tools:
       - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 30.7
     params:
@@ -703,7 +703,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 30.7
     params:
@@ -3554,7 +3554,7 @@ tools:
       fail: Too much data, please don't use MAFFT for this.
   toolshed.g2.bx.psu.edu/repos/rnateam/sortmerna/bg_sortmerna/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 30.7
   toolshed.g2.bx.psu.edu/repos/rnateam/targetfinder/targetfinder/.*:
