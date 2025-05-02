@@ -3793,6 +3793,9 @@ tools:
           'You must wait {interactive_tool_embargo_days} days before being able to use this tool. Please email help@genome.edu.au if you need access sooner or have any questions.'
   interactive_tool_jupyter_notebook:
     inherits: restricted_interactive_tool
+  interactive_tool_phyloseq:
+    params:
+      docker_run_extra_arguments: "--user $UID:$GID"
   interactive_tool_rstudio:
     inherits: restricted_interactive_tool
     params:
