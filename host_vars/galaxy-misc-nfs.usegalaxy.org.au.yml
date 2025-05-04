@@ -11,12 +11,8 @@ attached_volumes:
     path: "{{ nfs_tools_dir }}"
     fstype: ext4
     partition: 1
-  - device: /dev/vdd
-    path: "{{ nfs_custom_indices_dir }}"
-    fstype: ext4
-    partition: 1
   - device: /dev/vde
-    path: "/mnt/indices2" # new volume for custom-indices data, will replace /mnt/custom-indices
+    path: "{{ nfs_custom_indices_dir }}"
     fstype: ext4
     partition: 1
 
