@@ -20,7 +20,7 @@ locals {
   tmp_disk_size     = 200
   avail_zone        = "CloudV3"
   key_pair          = "galaxy-australia"
-  image_id          = "7129f469-93a7-47c6-8a21-d8583a0ca41e" # Ubuntu Jammy Server 2025-03-11
+  image_id          = "b6f837e1-49fe-495d-905a-f4ddb2f6b669" # Ubuntu Jammy Cloud Image 2023-02-15
   worker_flavour    = "c3pl.16c48m60d"
 
   #Loops for worker nodes - do not modify

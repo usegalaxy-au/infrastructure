@@ -13,3 +13,16 @@ telegraf_agent_output:
       - urls = ["{{ grafana_server_url }}"]
       - database = "pulsar-nci-test"
       - precision = "s"
+
+# miniconda: stop pinning conda!
+
+# this is to override what is in all.yml with the role default
+miniconda_installer: >-
+  Miniconda3-{{ 'py' ~ (miniconda_python | replace('.', '')) ~ '_' ~ miniconda_version if miniconda_installer_version != 'latest' else 'latest' }}-{{ miniconda_installer_os }}-{{ miniconda_installer_arch }}.sh
+
+miniconda_version: latest
+
+miniconda_channels:  # defaults is no longer used in galaxy conda building
+  - conda-forge
+  - bioconda
+miniconda_base_env_packages: []

@@ -1,9 +1,9 @@
 # application server / web server
 resource "openstack_compute_instance_v2" "pulsar-nci-test" {
   name            = "pulsar-nci-test"
-  image_name      = "Ubuntu Focal Cloud Image 2020-05-28"
+  image_id        = "b6f837e1-49fe-495d-905a-f4ddb2f6b669" # Ubuntu Jammy Cloud Image 2023-02-15
   flavor_name     = "c3.8c16m10d"
-  key_pair        = "gvl_2019"
+  key_pair        = "galaxy-australia"
   security_groups = ["ssh", "default"]
   availability_zone = "CloudV3"
   network {
@@ -14,9 +14,9 @@ resource "openstack_compute_instance_v2" "pulsar-nci-test" {
 # worker nodes
 resource "openstack_compute_instance_v2" "pulsar-nci-test-w1" {
   name            = "pulsar-nci-test-w1"
-  image_name      = "Ubuntu Focal Cloud Image 2020-05-28"
+  image_id        = "b6f837e1-49fe-495d-905a-f4ddb2f6b669" # Ubuntu Jammy Cloud Image 2023-02-15
   flavor_name     = "c3pl.16c48m60d"
-  key_pair        = "gvl_2019"
+  key_pair        = "galaxy-australia"
   security_groups = ["ssh", "default"]
   availability_zone = "CloudV3"
   network {
@@ -26,9 +26,9 @@ resource "openstack_compute_instance_v2" "pulsar-nci-test-w1" {
 
 resource "openstack_compute_instance_v2" "pulsar-nci-test-w2" {
   name            = "pulsar-nci-test-w2"
-  image_name      = "Ubuntu Focal Cloud Image 2020-05-28"
+  image_id        = "b6f837e1-49fe-495d-905a-f4ddb2f6b669" # Ubuntu Jammy Cloud Image 2023-02-15
   flavor_name     = "c3pl.16c48m60d"
-  key_pair        = "gvl_2019"
+  key_pair        = "galaxy-australia"
   security_groups = ["ssh", "default"]
   availability_zone = "CloudV3"
   network {

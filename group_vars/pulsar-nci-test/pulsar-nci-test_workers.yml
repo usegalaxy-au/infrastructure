@@ -8,7 +8,7 @@ attached_volumes:
   - device: /dev/vdb
     path: /mnt
     fstype: ext4
-    label: msdos
+    partition: 1
 
 shared_mounts:
     - path: /mnt/custom-indices
@@ -19,11 +19,6 @@ shared_mounts:
       src: pulsar-nci-test:/mnt/pulsar
       fstype: nfs
       state: mounted
-    - path: /mnt/tools-indices
-      src: pulsar-nci-test:/mnt/tools-indices
-      fstype: nfs
-      state: absent
-
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
