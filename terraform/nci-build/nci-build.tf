@@ -1,28 +1,14 @@
 # Build server
 resource "openstack_compute_instance_v2" "nci-build" {
   name            = "nci-build"
-  image_name      = "Ubuntu Focal Cloud Image 2020-05-28"
+  image_id        = "b6f837e1-49fe-495d-905a-f4ddb2f6b669" # Ubuntu Jammy Cloud Image 2023-02-15
   flavor_name     = "c3.2c4m10d"
-  key_pair        = "gvl_2019"
+  key_pair        = "galaxy-australia"
   security_groups = ["ssh", "default"]
   availability_zone = "CloudV3"
   network {
     name = "aa63"
   }
-}
-
-# Volume for application/web server
-resource "openstack_blockstorage_volume_v2" "nci-build-volume" {
-  availability_zone = "CloudV3"
-  name        = "nci-build-volume"
-  description = "NCI Build Machine Volume"
-  size        = 200
-}
-
-# Attachment between application/web server and volume
-resource "openstack_compute_volume_attach_v2" "attach-nci-build-volume-to--nci-build" {
-  instance_id = "${openstack_compute_instance_v2.nci-build.id}"
-  volume_id   = "${openstack_blockstorage_volume_v2.nci-build-volume.id}"
 }
 
 #floating ips for project

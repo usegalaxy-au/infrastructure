@@ -10,9 +10,16 @@
     - group_vars/VAULT
     - secret_group_vars/ssh_keys
   pre_tasks:
-    # - name: Attach volume to instance
-    #  include_role:
-    #    name: attached-volumes
+    # NCI machines have a /mnt entry already in fstab. Due to legacy crud we really
+    # need to mount the volume at /mnt
+    - name: Comment out the /dev/vdb mount at /mnt
+      replace:
+        path: /etc/fstab
+        regexp: '^(\s*)/dev/vdb(\s+/mnt\s+)'
+        replace: '\1# /dev/vdb\2'
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
   roles:
       - common
       - insspb.hostname
@@ -20,40 +27,10 @@
       - mounts
       - galaxyproject.repos
       - galaxyproject.cvmfs
-      - gantsign.golang
-      - cyverse-ansible.singularity
+      - usegalaxy_eu.apptainer
       - geerlingguy.docker
       - acl-on-startup
       - dj-wasabi.telegraf
-  post_tasks:
-      - name: Restart munge service
-        service:
-            name: munge
-            state: restarted
-      - name: Move /tmp to vdc
-        block:
-          - name: Create worker tmpdir on vdb
-            file:
-                path: /mnt/tmpdisk
-                state: directory
-                owner: root
-                group: root
-                mode: '1777'
-          - name: stat links
-            stat:
-                path: /tmp
-            register: links
-          - name: remove old tmp
-            file:
-                path: /tmp
-                state: absent
-            when: links.stat.islnk is defined and not links.stat.islnk
-          - name: Link /tmp to /mnt/tmpdisk
-            file:
-                src: /mnt/tmpdisk
-                dest: /tmp
-                state: link
-            become: yes
-            become_user: root
-            when: links.stat.islnk is defined and not links.stat.islnk
-        when: attached_volumes is defined
+      - tmp-relocation
+      - clean-tmpdisk
+      - disable-cgroups-v2
