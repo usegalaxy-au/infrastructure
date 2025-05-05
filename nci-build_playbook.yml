@@ -38,6 +38,6 @@
     - name: Add venv activation to ubuntu's .bashrc
       lineinfile:
         path: /home/ubuntu/.bashrc
-        line: ". {{ galaxy_backup_ansible_venv }}/bin/activate"
+        line: ". {{ build_machines_ansible_venv }}/bin/activate"
 
   
