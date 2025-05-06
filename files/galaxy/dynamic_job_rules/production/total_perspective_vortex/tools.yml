@@ -1572,6 +1572,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/control_freec/control_freec/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/coverm_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
     cores: 3
     mem: 11.5
