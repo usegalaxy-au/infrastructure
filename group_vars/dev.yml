@@ -39,6 +39,11 @@ host_machine_users:
         - galaxy_admin
       key: files/keys/tom.pub
       email: "{{ tom_email }}"
+    - name: jonathan
+      uid: 7401
+      roles: []
+      key: files/keys/jonathan.pub
+      email: "{{ jonathan_email }}"
 
 # miniconda: stop pinning conda!
 
