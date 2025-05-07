@@ -3569,6 +3569,11 @@ tools:
       max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 30.7
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/rnateam/targetfinder/targetfinder/.*:
     cores: 4
     mem: 15.3
