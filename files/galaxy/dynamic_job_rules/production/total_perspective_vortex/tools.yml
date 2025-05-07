@@ -84,6 +84,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina_prepare_ligand/prepare_ligand/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/bioimage_inference/bioimage_inference/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     cores: 16
     mem: 62
