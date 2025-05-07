@@ -35,6 +35,7 @@
         <tool file="/mnt/galaxy/local_tools/lfq/interactivetool_tmtanalyst.xml" />
         <tool file="/mnt/galaxy/local_tools/lfq/interactivetool_olink.xml" />
         <tool file="/mnt/galaxy/local_tools/ena_upload/interactivetool_ena_upload.xml" />
+        <tool file="/mnt/galaxy/local_tools/interactive_tool/usegalaxy_eu/interactivetool_phyloseq.xml" />
     </section>
     <section id="send" name="Send Data">
     </section>
