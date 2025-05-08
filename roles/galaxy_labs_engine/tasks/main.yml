@@ -17,6 +17,7 @@
     force_source: yes  # Ensures it re-checks the remote registry
     state: present
   tags: update
+  notify: update labs cache
 
 - name: clone git repository for galaxy-labs-engine
   ansible.builtin.git:
@@ -27,7 +28,7 @@
     force: yes
     update: yes
   tags: always
-  register: git
+  notify: update labs cache
 
 - name: create directories
   file:
@@ -147,15 +148,6 @@
   tags:
     - init
     - django
-
-- name: Django clear cache
-  shell: >
-    docker compose --profile prod run --rm labs-engine
-    python manage.py shell -c
-    "from django.core.cache import cache; cache.clear()"
-  args:
-    chdir: "{{ labs_config_root }}"
-  tags: clear_cache
 
 - name: enable labs_engine socket
   ansible.builtin.systemd:
