@@ -936,6 +936,10 @@ tools:
     mem: 16  # TODO - follow up with shared-db PR for this
     params:
       singularity_enabled: true
+    rules:
+    - id: lotus2_small_input_rule  # override rule from shared db which would set mem to 8 here
+      if: input_size < 0.1
+      mem: 16
   toolshed.g2.bx.psu.edu/repos/ebi-gxa.*:  # singularity for all tools owned by ebi-gxa
     params:
       singularity_enabled: true
