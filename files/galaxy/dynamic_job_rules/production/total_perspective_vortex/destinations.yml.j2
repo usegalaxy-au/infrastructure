@@ -125,14 +125,16 @@ destinations:
     max_accepted_mem: 31.25
     context:
       destination_total_cores: 56
-      destination_total_mem: 220.15
+      destination_total_mem: 218.75
     tags: {{ job_conf_limits.environments['pulsar-mel2'].tags }}
     scheduling:
       accept:
+        - pulsar-mel2
         - bakta_database
         - eggnog
       require:
         - pulsar
+        - offline
   pulsar-mel3:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
