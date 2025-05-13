@@ -129,6 +129,7 @@ destinations:
     tags: {{ job_conf_limits.environments['pulsar-mel2'].tags }}
     scheduling:
       accept:
+        - pulsar-mel2
         - bakta_database
         - eggnog
       require:
