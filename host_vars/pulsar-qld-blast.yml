@@ -64,13 +64,3 @@ extra_keys:
 # docker
 docker_daemon_options:
   data-root: /mnt/docker-data
-
-# miniconda: stop pinning conda!
-
-# this is to override what is in all.yml with the role default
-miniconda_installer: >-
-  Miniconda3-{{ 'py' ~ (miniconda_python | replace('.', '')) ~ '_' ~ miniconda_version if miniconda_installer_version != 'latest' else 'latest' }}-{{ miniconda_installer_os }}-{{ miniconda_installer_arch }}.sh
-
-miniconda_version: latest
-
-miniconda_base_env_packages: []
