@@ -3736,8 +3736,12 @@ tools:
   CONVERTER.*:
     params:
       tmp_dir: true
+  CONVERTER_bam_to_bigwig_0:
+    inherits: wig_to_bigWig  
   CONVERTER_bedgraph_to_bigwig:
     inherits: wig_to_bigWig
+  CONVERTER_wig_to_bigwig:
+    inherits: wig_to_bigWig  
   fgenesh_tool:
     abstract: true
     params:
