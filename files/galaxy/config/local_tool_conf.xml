@@ -4,16 +4,17 @@
         <!-- <tool file="galaxy-local-tools/tools/canu/canu.xml" labels="test"/> -->
         <tool file="/mnt/galaxy/local_tools/gtdbtk/gtdbtk_classify_wf.xml" labels="test"/>
         <!-- <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh.xml" labels="test"/> -->
-        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_annotate.xml" labels="test"/>
-        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_split.xml" labels="test"/>
-        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_merge.xml" labels="test"/>
-        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_get_mrnas_gc.xml" labels="test"/>
-        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_to_genbank.xml" labels="test"/>
-        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_get_proteins.xml" label="test"/>
-        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_renumber.xml" label="test"/>
-        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_get_mrnas.xml" label="test"/>
-        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_annotate_mrnas.xml" label="test"/>
-        <tool file="/mnt/galaxy/local_tools/fgenesh/fgenesh_check_mrna.xml" label="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/7.2.2/fgenesh_annotate.xml" labels="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/7.2.2/fgenesh_split.xml" labels="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/7.2.2/fgenesh_merge.xml" labels="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/7.2.2/fgenesh_get_mrnas_gc.xml" labels="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/7.2.2/fgenesh_to_genbank.xml" labels="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/7.2.2/fgenesh_get_proteins.xml" label="test"/>
+	<tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_annotate.xml" labels="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_renumber.xml" label="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_get_mrnas.xml" label="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_annotate_mrnas.xml" label="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_check_mrna.xml" label="test"/>
         <tool file="/mnt/galaxy/local_tools/cellranger/cellranger.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/alphafold/alphafold.xml" labels="test"/>
     </section>
