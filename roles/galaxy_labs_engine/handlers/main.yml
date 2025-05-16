@@ -1,7 +1,7 @@
 - name: update labs cache
   ansible.builtin.command: >
     docker compose --profile prod run --rm labs-engine
-    python manage.py update_cache
+    python manage.py update_cache -y
   args:
     chdir: "{{ labs_config_root }}"
   tags:
