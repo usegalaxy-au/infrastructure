@@ -965,7 +965,7 @@ toolmsg_messages:
       <strong>datasets that exceed several GB</strong>.
       Please contact
       <a href="mailto:help@genome.edu.au">help@genome.edu.au</a>
-      for support on how to move large data sets.
+      for support on how to move large datasets.
     class: info
 
 # ssh config, only for ubuntu
