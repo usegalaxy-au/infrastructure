@@ -23,7 +23,7 @@ roles:
 #  version: 0.0.4
 - src: insspb.hostname
 - src: galaxyproject.slurm
-  version: 1.0.4
+  version: 1.0.5
 - name: galaxyproject.s3fs
   src: https://github.com/usegalaxy-au/ansible-s3fs
   version: main
@@ -48,7 +48,7 @@ roles:
 - src: geerlingguy.docker  # TODO: test upgrading to latest version
   version: 4.1.3
 - name: galaxyproject.miniconda
-  version: 0.3.1
+  version: 0.3.2
 - name: usegalaxy_eu.influxdb
   version: v6.0.8
 - name: cloudalchemy.grafana

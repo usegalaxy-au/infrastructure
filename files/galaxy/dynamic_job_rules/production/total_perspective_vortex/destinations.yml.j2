@@ -69,7 +69,7 @@ destinations:
     max_accepted_mem: 125
     context:
       destination_total_cores: 192
-      destination_total_mem: 737
+      destination_total_mem: 750
     tags: {{ job_conf_limits.environments['slurm'].tags }}
     scheduling:
       accept:
@@ -77,6 +77,7 @@ destinations:
         - gtdbtk_database
         - bakta_database
         - funannotate
+        - eggnog
   slurm-training:
     inherits: _slurm_destination
     runner: slurm
@@ -92,6 +93,7 @@ destinations:
         - gtdbtk_database
         - bakta_database
         - funannotate
+        - eggnog
       require:
         - training
   interactive_pulsar:
@@ -123,13 +125,16 @@ destinations:
     max_accepted_mem: 31.25
     context:
       destination_total_cores: 56
-      destination_total_mem: 220.15
+      destination_total_mem: 218.75
     tags: {{ job_conf_limits.environments['pulsar-mel2'].tags }}
     scheduling:
       accept:
+        - pulsar-mel2
         - bakta_database
+        - eggnog
       require:
         - pulsar
+        - offline
   pulsar-mel3:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
@@ -144,6 +149,7 @@ destinations:
         - pulsar-mel3
         - bakta_database
         - funannotate
+        - eggnog
         # - training # Temporary reroute while training pulsar is offline
         # - pulsar-blast  # alternate location for pulsar blast jobs when pulsar-qld-blast is unavailable
       require:
@@ -198,7 +204,7 @@ destinations:
     runner: pulsar-qld-high-mem0_runner
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
-    min_accepted_mem: 62.51
+    min_accepted_mem: 35
     context:
       destination_total_cores: 240
       destination_total_mem: 3845.07
@@ -206,6 +212,9 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-high-mem0
+        - bakta_database
+        - funannotate
+        - eggnog
       require:
         - pulsar
   pulsar-qld-high-mem1:
@@ -254,6 +263,7 @@ destinations:
         - pulsar-blast # allow training jobs with require: pulsar-blast to run here
         - bakta_database
         - funannotate
+        - eggnog
       require:
         - pulsar
         - training
@@ -402,4 +412,3 @@ destinations:
       accept:
         - pulsar-qld-gpu5
         - pulsar-qld-gpu-other
-

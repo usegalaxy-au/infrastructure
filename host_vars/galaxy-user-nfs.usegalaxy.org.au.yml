@@ -5,11 +5,11 @@ volD_path: /mnt/volD
 
 # volume A (~171 TB)
 nfs_user_data_7_dir: "{{ volA_path }}/user-data-7"
-nfs_data18_dir: "{{ volA_path }}/data18"
 nfs_data22_dir: "{{ volA_path }}/data22"
 nfs_data25_dir: "{{ volA_path }}/data25"
 nfs_data26_dir: "{{ volA_path }}/data26"
 nfs_data27_dir: "{{ volA_path }}/data27"
+nfs_data28_dir: "{{ volA_path }}/data28"
 
 # volume B (~49 TB)
 nfs_data08_dir: "{{ volB_path }}/data08"  # moved from volA Feb '25
@@ -24,6 +24,7 @@ nfs_data10_dir: "{{ volC_path }}/data10"
 nfs_data11_dir: "{{ volC_path }}/data11" # moved from volA Feb '25
 nfs_data13_dir: "{{ volC_path }}/data13"
 nfs_data16_dir: "{{ volC_path }}/data16" # moved from volA March '25
+nfs_data18_dir: "{{ volC_path }}/data18" # moved from volA May '25
 nfs_data21_dir: "{{ volC_path }}/data21"
 
 # volume D (~107 TB)
@@ -72,6 +73,7 @@ nfs_dirs:
   - "{{ nfs_data25_dir }}"
   - "{{ nfs_data26_dir }}"
   - "{{ nfs_data27_dir }}"
+  - "{{ nfs_data28_dir }}"
 
 nfs_exports:
   - "{{ volA_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"

@@ -4,6 +4,7 @@ attached_volumes:
   - device: /dev/vdb
     path: /mnt
     fstype: ext4
+    partition: 1
 
 # Keys and shares
 
@@ -23,9 +24,6 @@ rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_nci_test }}"
 pulsar_queue_url: "dev-queue.gvl.org.au"
 pulsar_rabbit_username: "galaxy_nci_test"
 pulsar_rabbit_vhost: "/pulsar/galaxy_nci_test"
-
-# Use mamba as replacement for conda
-pulsar_conda_exec: "mamba"
 
 # Docker
 docker_daemon_options:

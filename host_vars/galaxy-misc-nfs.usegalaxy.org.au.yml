@@ -11,7 +11,7 @@ attached_volumes:
     path: "{{ nfs_tools_dir }}"
     fstype: ext4
     partition: 1
-  - device: /dev/vdd
+  - device: /dev/vde
     path: "{{ nfs_custom_indices_dir }}"
     fstype: ext4
     partition: 1

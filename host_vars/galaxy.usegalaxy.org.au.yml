@@ -520,7 +520,7 @@ job_conf_limits:
     value: 80
   - type: destination_user_concurrent_jobs
     id: slurm
-    value: 6
+    value: 5
 
   - type: destination_total_concurrent_jobs
     id: slurm-training
@@ -536,6 +536,10 @@ job_conf_limits:
   - type: destination_total_concurrent_jobs
     id: pulsar-mel3
     value: 30
+
+  - type: destination_user_concurrent_jobs
+    id: pulsar-mel3
+    value: 4  # Note: this limit is only for when pulsar-mel3 is being used as the training pulsar, there should be no user limit otherwise
 
   - type: destination_user_concurrent_jobs
     id: pulsar-nci-training
@@ -632,7 +636,6 @@ slurm_singularity_volumes_list:
   - /mnt/user-data-volC:ro
   - /mnt/user-data-volD:ro
   - "{{ qld_file_mounts_path }}:ro"
-  - "{{ pawsey_file_mounts_path }}:ro"
   - /mnt/custom-indices:ro
   - /cvmfs/data.galaxyproject.org:ro
   - /tmp:rw

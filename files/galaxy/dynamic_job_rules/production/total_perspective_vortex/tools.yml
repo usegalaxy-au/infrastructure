@@ -84,6 +84,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina_prepare_ligand/prepare_ligand/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/bioimage_inference/bioimage_inference/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     cores: 16
     mem: 62
@@ -146,6 +149,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 30.7
     params:
@@ -155,6 +160,8 @@ tools:
       - pulsar
       - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 30.7
     params:
@@ -192,6 +199,9 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond_view/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/diff/diff/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
@@ -362,7 +372,7 @@ tools:
       if: input_size < 0.2
       cores: 1
       mem: 3.8
-  toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:
+  toolshed.g2.bx.psu.edu/repos/bgruening/salmon.*:
     cores: 5
     mem: 19.1
     params:
@@ -374,6 +384,9 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/split_file_on_column/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/tapscan/tapscan_classify/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/.*:
@@ -397,6 +410,9 @@ tools:
       if: 0.02 <= input_size < 0.2
       cores: 3
       mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/bgruening/wordcloud/wordcloud/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/chemteam/.*:
     params:
       singularity_enabled: true
@@ -689,6 +705,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 30.7
     params:
@@ -915,9 +933,8 @@ tools:
     cores: 8 
     mem: 42 # TODO: this is part of shared db already but can't be merged because linting is out of order
   toolshed.g2.bx.psu.edu/repos/earlhaminst/lotus2/lotus2/.*:
-    mem: 16  # TODO - follow up with shared-db PR for this
     params:
-      singularity_enabled: true
+      singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/ebi-gxa.*:  # singularity for all tools owned by ebi-gxa
     params:
       singularity_enabled: true
@@ -1155,6 +1172,8 @@ tools:
       accept:
       - pulsar
       - pulsar-quick
+      require:
+      - eggnog
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper/.*:
     cores: 6
     mem: 23.0
@@ -1390,6 +1409,9 @@ tools:
       if: input_size < 0.5
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/beacon2_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/.*:
@@ -1530,6 +1552,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/clair3/clair3/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/cnv_vcf2json/cnv_vcf2json/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/cnvkit_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
     params:
       tmp_dir: true
@@ -1544,6 +1572,9 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/control_freec/control_freec/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/coverm_.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
@@ -1892,9 +1923,6 @@ tools:
     mem: 19.1
     params:
       singularity_enabled: true
-    scheduling:
-      accept:
-      - pulsar
     rules:
     - id: kallisto_quant_small_input_rule
       if: input_size < 0.1
@@ -2357,6 +2385,9 @@ tools:
       if: 0.02 <= input_size < 2
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/multigsea/multigsea/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
     cores: 3
     mem: 11.5
@@ -2429,12 +2460,9 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/phyml/phyml/.*:
-    cores: 60
-    mem: 961
     scheduling:
       accept:
       - pulsar
-      - pulsar-training-large
   toolshed.g2.bx.psu.edu/repos/iuc/picrust.*:
     cores: 2
     mem: 10
@@ -2623,7 +2651,7 @@ tools:
       singularity_enabled: true
     rules:
     - id: ragtag_small_input_rule
-      if: input_size < 2
+      if: input_size < 0.2
       cores: 4
       mem: 15.3
   toolshed.g2.bx.psu.edu/repos/iuc/rapidnj/rapidnj/.*:
@@ -2819,7 +2847,7 @@ tools:
       if: 10 <= input_size < 20
       cores: 4
       mem: 15.3
-  toolshed.g2.bx.psu.edu/repos/iuc/seurat/seurat/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/seurat.*:
     mem: 10
     params:
       singularity_enabled: true
@@ -3295,7 +3323,7 @@ tools:
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/ucsc_wigtobigwig/ucsc_wigtobigwig/.*:
-    mem: 20
+    inherits: wig_to_bigWig
   toolshed.g2.bx.psu.edu/repos/iuc/varscan_.*:
     params:
       singularity_enabled: true
@@ -3342,6 +3370,7 @@ tools:
     mem: 30.7
     params:
       singularity_enabled: true
+      tmp_dir: true
     scheduling:
       accept:
       - pulsar
@@ -3535,8 +3564,15 @@ tools:
       if: input_size >= 0.5
       fail: Too much data, please don't use MAFFT for this.
   toolshed.g2.bx.psu.edu/repos/rnateam/sortmerna/bg_sortmerna/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 30.7
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/rnateam/targetfinder/targetfinder/.*:
     cores: 4
     mem: 15.3
@@ -3697,8 +3733,12 @@ tools:
   CONVERTER.*:
     params:
       tmp_dir: true
+  CONVERTER_bam_to_bigwig_0:
+    inherits: wig_to_bigWig  
   CONVERTER_bedgraph_to_bigwig:
-    mem: 30
+    inherits: wig_to_bigWig
+  CONVERTER_wig_to_bigwig:
+    inherits: wig_to_bigWig  
   fgenesh_tool:
     abstract: true
     params:
@@ -3773,6 +3813,9 @@ tools:
           'You must wait {interactive_tool_embargo_days} days before being able to use this tool. Please email help@genome.edu.au if you need access sooner or have any questions.'
   interactive_tool_jupyter_notebook:
     inherits: restricted_interactive_tool
+  interactive_tool_phyloseq:
+    params:
+      docker_run_extra_arguments: "--user $UID:$GID"
   interactive_tool_rstudio:
     inherits: restricted_interactive_tool
     params:
@@ -3814,13 +3857,16 @@ tools:
       cores: 1
       mem: 3.8
   wig_to_bigWig:
-    mem: 19.1
+    mem: min(max(input_size * 20, 28), 58)
     scheduling:
       accept:
       - training-exempt   # these jobs are exempt from training rules that would reduce allocated memory
   toolshed.g2.bx.psu.edu/repos/iuc/tbprofiler/tb_profiler_profile/.*:
     cores: 3
     mem: 11.5
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/omark/omark/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/optitype/optitype/.*:
