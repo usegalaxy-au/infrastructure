@@ -3890,6 +3890,7 @@ tools:
       - pulsar
       - training-exempt
       require:
+      - pulsar-qld-gpu4
       - pulsar-qld-gpu-other
       - pulsar-qld-gpu
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*:
@@ -3904,6 +3905,7 @@ tools:
       - pulsar
       - training-exempt
       require:
+      - pulsar-qld-gpu3  # TODO: change this to gpu5 when is it is no longer jammed with helixir job
       - pulsar-qld-gpu-other
       - pulsar-qld-gpu
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_pod5_convert/dorado_pod5_convert/.*:

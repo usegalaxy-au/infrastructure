@@ -397,7 +397,8 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-gpu3
-        - pulsar-qld-gpu-alphafold
+        # - pulsar-qld-gpu-alphafold
+        - pulsar-qld-gpu-other  # switched to other temporarily to solve helixir/dorado jam 23/5/25
   pulsar-qld-gpu4:
     inherits: _pulsar_qld_gpu
     runner: pulsar-qld-gpu4_runner
