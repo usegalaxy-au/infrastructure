@@ -78,30 +78,14 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     fstype: nfs
     opts: "{{ galaxy_user_data_nfs_opts }}"
     state: mounted
-  # pawsey data volumes
-  - path: "{{ pawsey_file_mounts_path }}/user-data"
-    src: "pawsey-user-nfs.usegalaxy.org.au:/mnt/user-data"
-    fstype: nfs
-    opts: 'noatime,defaults'
-    state: absent
-  - path: "{{ pawsey_file_mounts_path }}/user-data-2"
-    src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-2"
-    fstype: nfs
-    opts: 'noatime,defaults'
-    state: absent
-  - path: "{{ pawsey_file_mounts_path }}/user-data-3"
-    src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-3"
-    fstype: nfs
-    opts: 'noatime,defaults'
-    state: absent
-  - path: "{{ pawsey_file_mounts_path }}/user-data-4"
-    src: "pawsey-user-nfs.usegalaxy.org.au:/user-data-4"
-    fstype: nfs
-    opts: 'noatime,defaults'
-    state: absent
   # QLD data volumes
   - path: "{{ qld_file_mounts_path }}/files"
     src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
+    fstype: nfs
+    opts: 'noatime,defaults'
+    state: "{{ 'mounted' if qld_file_mounts_available else 'absent_from_fstab' }}"
+  - path: "{{ qld_file_mounts_path }}/files2"
+    src: "galaxy-aust-exports.genome.edu.au:/mnt/user-data"
     fstype: nfs
     opts: 'noatime,defaults'
     state: "{{ 'mounted' if qld_file_mounts_available else 'absent_from_fstab' }}"
