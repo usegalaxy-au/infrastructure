@@ -959,6 +959,15 @@ toolmsg_messages:
       This tool has been updated in line with best practice recommendations. <a href="https://site.usegalaxy.org.au/notice/32" target="_blank">Click for more information.</a>
     class: info
 
+  - tool_id: toolshed.g2.bx.psu.edu/repos/iuc/ena_upload/ena_upload
+    message: >
+      Please note, this upload tool is suitable for small datasets only and may not perform well for
+      <strong>datasets that exceed several GB</strong>.
+      Please contact
+      <a href="mailto:help@genome.edu.au">help@genome.edu.au</a>
+      for support on how to move large datasets.
+    class: info
+
 # ssh config, only for ubuntu
 ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/internal_hop_key"
 ssh_config_user: ubuntu
