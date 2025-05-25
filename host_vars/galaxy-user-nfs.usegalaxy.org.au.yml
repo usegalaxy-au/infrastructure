@@ -4,7 +4,6 @@ volC_path: /mnt/volC
 volD_path: /mnt/volD
 
 # volume A (~171 TB)
-nfs_user_data_7_dir: "{{ volA_path }}/user-data-7"
 nfs_data22_dir: "{{ volA_path }}/data22"
 nfs_data25_dir: "{{ volA_path }}/data25"
 nfs_data26_dir: "{{ volA_path }}/data26"
@@ -52,7 +51,6 @@ attached_volumes:
     fstype: ext4
 
 nfs_dirs:
-  - "{{ nfs_user_data_7_dir }}"
   - "{{ nfs_data08_dir }}"
   - "{{ nfs_data09_dir }}"
   - "{{ nfs_data10_dir }}"
