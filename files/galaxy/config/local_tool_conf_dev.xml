@@ -18,6 +18,8 @@
         <tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_annotate_mrnas.xml" />
         <tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_check_mrna.xml" />
         <tool file="/mnt/galaxy/local_tools/cellranger/cellranger.xml" />
+        <tool file="/mnt/galaxy/local_tools/ubcg/ubcg_extract.xml" />
+        <tool file="/mnt/galaxy/local_tools/ubcg/ubcg_align.xml" />
         <tool file="/mnt/galaxy/local_tools/kmc/kmc.xml" />
         <tool file="/mnt/galaxy/local_tools/kmc/kmc_tools_filter.xml" />
         <tool file="/mnt/galaxy/local_tools/kmc/kmc_tools_simple.xml" />
