@@ -147,6 +147,7 @@ destinations:
     scheduling:
       accept:
         - pulsar-mel3
+        - cvmfs_cache_100plus
         - bakta_database
         - funannotate
         - eggnog
@@ -167,6 +168,8 @@ destinations:
     scheduling:
       accept:
         - pulsar-high-mem1
+        - cvmfs_cache_100plus
+        - cvmfs_cache_800plus
       require:
         - pulsar
   pulsar-high-mem2:
@@ -180,6 +183,9 @@ destinations:
     # min_accepted_mem: 62.51 # 2/10/23 accept all job sizes
     tags: {{ job_conf_limits.environments['pulsar-high-mem2'].tags }}
     scheduling:
+      accept:
+        - cvmfs_cache_100plus
+        - cvmfs_cache_800plus
       require:
         - pulsar
         - pulsar-high-mem2
@@ -195,6 +201,8 @@ destinations:
     scheduling:
       accept:
         - pulsar-mel-blast
+        - cvmfs_cache_100plus
+        - cvmfs_cache_800plus
       require:
         - pulsar
         - pulsar-blast
@@ -212,6 +220,8 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-high-mem0
+        - cvmfs_cache_100plus
+        - cvmfs_cache_800plus
         - bakta_database
         - funannotate
         - eggnog
@@ -230,6 +240,8 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-high-mem1
+        - cvmfs_cache_100plus
+        - cvmfs_cache_800plus
         - gtdbtk_database
       require:
         - pulsar
@@ -246,6 +258,8 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-high-mem2
+        - cvmfs_cache_100plus
+        - cvmfs_cache_800plus
       require:
         - pulsar
   pulsar-nci-training:
@@ -260,6 +274,7 @@ destinations:
     scheduling:
       accept:
         - pulsar-nci-training
+        - cvmfs_cache_100plus
         - pulsar-blast # allow training jobs with require: pulsar-blast to run here
         - bakta_database
         - funannotate
@@ -279,6 +294,8 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-blast
+        - cvmfs_cache_100plus
+        - cvmfs_cache_800plus
       require:
         - pulsar
         - pulsar-blast
@@ -294,6 +311,7 @@ destinations:
     scheduling:
       accept:
         - pulsar-QLD
+        - cvmfs_cache_100plus
         - funannotate
         - bakta_database
       require:

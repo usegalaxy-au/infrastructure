@@ -1362,6 +1362,8 @@ tools:
     params:
       singularity_enabled: true
     scheduling:
+      prefer:
+        - cvmfs_cache_100plus
       require:
         - bakta_database
     rules:
@@ -1949,14 +1951,38 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     context:
       max_concurrent_job_count_for_tool_user: 3
+    # Galaxy Main's kraken2 memory rule
     cores: 16
-    mem: 200
+    mem: |
+      import os
+      mem = 64
+      table_name = "kraken2_databases"
+      lookup_column = "value"
+      value_column = "path"
+      value_template = "{value}/hash.k2d"
+      options = job.get_param_values(app)
+      lookup_value = options["kraken2_database"]
+      table_value = app.tool_data_tables.get(table_name).get_entry(lookup_column, lookup_value, value_column)
+      if table_value is not None:
+          table_value = value_template.format(value=table_value)
+          try:
+              mem = int(os.path.getsize(table_value)/1024**3 * 1.2)
+              log.debug("Data table '%s' lookup '%s=%s: %s=%s': %s GB",
+                        table_name, lookup_column, lookup_value, value_column, table_value, mem)
+          except OSError:
+              log.exception("Failed to get size of: %s", table_value)
+      else:
+          log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
+                      table_name, lookup_column, lookup_value, value_column, mem)
+      min(mem + 48, 980)
     params:
       singularity_enabled: true
     scheduling:
       accept:
       - pulsar
       - pulsar-training-large
+      prefer:
+      - cvmfs_cache_100plus
       reject:
       - pulsar-QLD
     rules:
