@@ -75,7 +75,7 @@ host_galaxy_extra_dirs:
   - "{{ galaxy_pulsar_job_working_directory }}"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_24.2
+galaxy_commit_id: release_25.0
 
 # upon upgrade to latest conda
 galaxy_conda_exec: conda
