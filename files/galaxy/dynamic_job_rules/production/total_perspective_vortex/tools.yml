@@ -2667,6 +2667,9 @@ tools:
         helpers.tool_version_gte(tool, minimum_singularity_version)
       params:
         singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/qiime_extract_viz/qiime_extract_viz/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/raceid_.*:
     params:
       singularity_enabled: true
