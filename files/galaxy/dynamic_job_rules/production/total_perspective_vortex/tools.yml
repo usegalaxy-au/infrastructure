@@ -1464,11 +1464,22 @@ tools:
       if: 0.01 <= input_size < 0.3
       cores: 8
       mem: 30.7
+  toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2_idx/.*:
+    cores: 20
+    mem: 250
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:  # TODO: revisit setting mem based on reference size (https://github.com/usegalaxy-au/infrastructure/issues/1835)
     context:
       max_concurrent_job_count_for_tool_user: 2
     cores: 20
     mem: 250
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar-quick
