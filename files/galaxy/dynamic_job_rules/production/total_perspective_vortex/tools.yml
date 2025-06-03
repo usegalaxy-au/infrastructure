@@ -1473,6 +1473,7 @@ tools:
       accept:
       - pulsar
       - pulsar-quick
+      - training-exempt
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:  # TODO: revisit setting mem based on reference size (https://github.com/usegalaxy-au/infrastructure/issues/1835)
     context:
       max_concurrent_job_count_for_tool_user: 2
@@ -1483,6 +1484,7 @@ tools:
     scheduling:
       accept:
       - pulsar-quick
+      - training-exempt
       prefer:
       - pulsar
     rules:
