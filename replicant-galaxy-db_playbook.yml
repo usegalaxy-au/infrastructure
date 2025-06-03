@@ -1,0 +1,172 @@
+- hosts: replicant-galaxy-db
+  become: true
+  vars_files:
+      - group_vars/all.yml
+      - group_vars/VAULT
+      - secret_group_vars/stats_server_vault
+  vars:
+    - db_replication_ready_for_user_tasks: no  # change to yes initial sync has been run and db roles exist
+    - db_replication_origin: galaxy-db
+    - db_replication_origin_db_ip: "{{ hostvars[db_replication_origin]['ansible_ssh_host'] }}"
+    - galaxy_db_reader_password: "{{ vault_galaxy_db_reader_password }}"
+
+    - attached_volumes:
+      - device: /dev/vdb # TODO: check mount point
+        path: /data
+        partition: 1
+        fstype: ext4
+    - postgresql_flavor: pgdg
+    - postgresql_version: 14
+    - postgresql_pgdata: "/data/replicant_db"
+    - postgresql_conf:
+      - data_directory: "'/data/replicant_db'"
+    # I think none of the variables are necessary
+    # Am keeping them in comment for now
+    # - postgresql_objects_databases:
+    #   - name: galaxy
+    #     owner: galaxy
+    # - postgresql_objects_users:
+    #   - name: galaxy
+    #     password: "{{ vault_replicant_db_galaxy_password }}"
+    #     db: galaxy
+    #   - name: reader
+    #     password: "{{ vault_replicant_db_reader_password }}"
+    #     db: galaxy
+    # - postgresql_objects_privileges:
+    #   - database: galaxy
+    #     roles: galaxy
+    #     objs: ALL_IN_SCHEMA
+    #     privs: ALL
+    #   - database: galaxy
+    #     roles: reader
+    #     objs: ALL_IN_SCHEMA
+    #     privs: SELECT
+  pre_tasks:
+      - name: Attach volume to instance
+        include_role:
+          name: attached-volumes
+      - name: Install psycopg2 for python3
+        apt:
+            name: python3-psycopg2
+            state: present
+        become: true
+      - name: stat data directory
+        stat:
+          path: "{{ postgresql_pgdata }}"
+        register: data_directory_stat
+      - name: override postgresql_objects_privileges if data directory does not yet exist
+        set_fact:
+          postgresql_objects_privileges: "{{ postgresql_objects_privileges_first_run }}"
+        when: not data_directory_stat.stat.exists
+  roles:
+      - common
+      - insspb.hostname
+      - geerlingguy.pip
+      - galaxyproject.postgresql
+      - move-postgresql-data-directory
+      - role: galaxyproject.postgresql_objects
+        become: true
+        become_user: postgres
+      - dj-wasabi.telegraf
+      # Note: After running this playbook for the first time the postgresql services
+      # may have stopped with errors due to the moving of the data directory.
+      # A reboot should fix this.
+  post_tasks:
+  - name: Write postgresql.auto.conf with replication settings
+    copy:
+      dest: "{{ postgresql_pgdata }}/postgresql.auto.conf"
+      content: |
+        primary_conninfo = 'host={{ db_replication_origin_db_ip }} port=5432 user=replicator password={{ vault_galaxy_db_replicator_password }} application_name=galaxy_db_replica'
+        primary_slot_name = '{{ galaxy_db_replication_slot_name }}'
+      owner: postgres
+      group: postgres
+      mode: '0600'
+  - name: Deploy manual replication activation script to Melbourne with templated data directory
+    copy:
+      dest: /root/start_replication.sh
+      mode: '0750'
+      owner: root
+      group: root
+      content: |
+        #!/bin/bash
+        set -e
+
+        DATA_DIR="{{ postgresql_pgdata }}"
+
+        echo "Creating standby.signal file..."
+        touch "$DATA_DIR/standby.signal"
+
+        echo "Restarting PostgreSQL..."
+        systemctl restart postgresql@{{ postgresql_version }}-main
+
+        echo "Replication startup script completed."
+  - name: Deploy base backup initialization script to Melbourne
+    copy:
+      dest: /root/init_replica.sh
+      mode: '0750'
+      owner: root
+      group: root
+      content: |
+        #!/bin/bash
+        set -e
+
+        DATA_DIR="{{ postgresql_pgdata }}"
+
+        echo "Stopping PostgreSQL..."
+        systemctl stop postgresql@{{ postgresql_version }}-main
+
+        echo "Clearing existing data directory: $DATA_DIR"
+        rm -rf "$DATA_DIR"/*
+
+        echo "Pulling base backup directly from Sydney..."
+        PGPASSWORD='{{ vault_galaxy_db_replicator_password }}' \
+        pg_basebackup -h {{ db_replication_origin_db_ip }} -p 5432 -U replicator -D "$DATA_DIR" \
+          -X stream -S {{ galaxy_db_replication_slot_name }} -v -R
+
+        echo "Fixing permissions on $DATA_DIR"
+        chown -R postgres:postgres "$DATA_DIR"
+
+        echo "Base backup complete. Standby not yet activated."
+  - name: Template bashrc_common variables path
+    blockinfile:
+      dest: "{{ common_bashrc_vars_file }}"
+      marker: "# {mark} ANSIBLE MANAGED BLOCK (replicant db user bash vars)"
+      block: |
+          export PGHOST=localhost
+          export PGDATABASE='galaxy'
+          export PGUSER='reader'
+  # TODO: These tasks are from the common role but with minor changes
+  # Everyone is accesses the db as 'reader' here, even ubuntu
+  # This is suprisingly hard to fix in the common role so I settled for copy paste
+  - name: Pgpass creation and gxadmin user tasks
+    tags: users
+    when: db_replication_ready_for_user_tasks
+    block:
+    - name: Create .pgpass files for users
+      copy:
+        dest: "/home/{{ item.name }}/.pgpass"
+        content: "{{ db_address }}:5432:galaxy:{{ db_role }}:{{ db_password }}"
+        mode: "600"
+        group: "{{ item.name }}"
+        owner: "{{ item.name }}"
+      vars:
+        db_address: localhost
+        db_role: reader
+        db_password: "{{ galaxy_db_reader_password }}"
+      with_items: "{{ machine_users + [{'name': 'ubuntu'}] }}"
+    - name: Ensure gxadmin config directory exists for all users including ubuntu
+      file:
+        path: "/home/{{ item }}/.config"
+        state: directory
+        group: "{{ item }}"
+        owner: "{{ item }}"
+      with_items: "{{ (machine_users | map(attribute='name') | list) + ['ubuntu'] }}"
+    - name: Ensure that all users + ubuntu have a copy of gxadmin-local.sh
+      copy: 
+        src: files/galaxy/gxadmin/gxadmin-local.sh
+        dest: "/home/{{ item }}/.config/gxadmin-local.sh"
+        mode: "755"
+        group: "{{ item }}"
+        owner: "{{ item }}"
+        force: yes
+      with_items: "{{ (machine_users | map(attribute='name') | list) + ['ubuntu'] }}"
