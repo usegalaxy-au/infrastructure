@@ -876,6 +876,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/samtools.*:
     params:
       singularity_enabled: true
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/samtools_idxstats/.*:
     cores: 2
     mem: 7.6
@@ -2792,6 +2793,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/samtools.*:
     params:
       singularity_enabled: true
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_.*:
     params:
       singularity_enabled: true
