@@ -6,13 +6,13 @@ const debugLog = (msg) => enableDebug && console.debug("[ToolMsg]: " + msg);
 const WAIT_TOOL_MAX_TRIES = 3;
 const WAIT_TOOL_INTERVAL = 500;
 const toolMessages = [
+    {% for message in toolmsg_messages %}
     {
-        {% for message in toolmsg_messages %}
         tool_id: "{{ message.tool_id }}",
         message: `{{ message.message }}`,
         class: "{{ message.class }}",
-        {% endfor %}
     },
+    {% endfor %}
 ];
 
 function waitToolFormLoad() {
