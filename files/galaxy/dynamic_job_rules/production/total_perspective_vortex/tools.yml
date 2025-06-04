@@ -24,7 +24,7 @@ tools:
     cores: 8
     mem: 30.7
     scheduling:
-      accept:
+      prefer:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/artbio/gsc_scran_normalize/.*:
     params:
@@ -96,6 +96,9 @@ tools:
     params:
       singularity_enabled: true
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/bismark/bismark_bowtie2/*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
   toolshed.g2.bx.psu.edu/repos/bgruening/blobtoolkit/blobtoolkit/.*:
     mem: 12
     params:
@@ -3142,6 +3145,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_cstacks/stacks2_cstacks/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     cores: 16
     mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_denovomap/stacks2_denovomap/.*:
