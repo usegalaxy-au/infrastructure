@@ -32,28 +32,6 @@
         roles: []
         key: files/keys/jonathan.pub
         email: "{{ jonathan_email }}"
-
-    # I think none of the variables are necessary
-    # Am keeping them in comment for now
-    # - postgresql_objects_databases:
-    #   - name: galaxy
-    #     owner: galaxy
-    # - postgresql_objects_users:
-    #   - name: galaxy
-    #     password: "{{ vault_replicant_db_galaxy_password }}"
-    #     db: galaxy
-    #   - name: reader
-    #     password: "{{ vault_replicant_db_reader_password }}"
-    #     db: galaxy
-    # - postgresql_objects_privileges:
-    #   - database: galaxy
-    #     roles: galaxy
-    #     objs: ALL_IN_SCHEMA
-    #     privs: ALL
-    #   - database: galaxy
-    #     roles: reader
-    #     objs: ALL_IN_SCHEMA
-    #     privs: SELECT
   pre_tasks:
       - name: Attach volume to instance
         include_role:
@@ -77,9 +55,6 @@
       - geerlingguy.pip
       - galaxyproject.postgresql
       - move-postgresql-data-directory
-      - role: galaxyproject.postgresql_objects
-        become: true
-        become_user: postgres
       - dj-wasabi.telegraf
       # Note: After running this playbook for the first time the postgresql services
       # may have stopped with errors due to the moving of the data directory.
