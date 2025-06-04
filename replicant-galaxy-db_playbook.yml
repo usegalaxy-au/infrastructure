@@ -8,6 +8,7 @@
     - db_replication_ready_for_user_tasks: no  # change to yes initial sync has been run and db roles exist
     - db_replication_origin: galaxy-db
     - db_replication_origin_db_ip: "{{ hostvars[db_replication_origin]['ansible_ssh_host'] }}"
+    - db_replication_basebackup_max_rate: 5MB
     - galaxy_db_reader_password: "{{ vault_galaxy_db_reader_password }}"
 
     - attached_volumes:
@@ -20,6 +21,18 @@
     - postgresql_pgdata: "/data/replicant_db"
     - postgresql_conf:
       - data_directory: "'/data/replicant_db'"
+    - host_machine_users:
+      - name: uwe
+        uid: 7400
+        roles: []
+        key: files/keys/uwe.pub
+        email: "{{ uwe_email }}"
+      - name: jonathan
+        uid: 7401
+        roles: []
+        key: files/keys/jonathan.pub
+        email: "{{ jonathan_email }}"
+
     # I think none of the variables are necessary
     # Am keeping them in comment for now
     # - postgresql_objects_databases:
@@ -121,7 +134,8 @@
         echo "Pulling base backup directly from Sydney..."
         PGPASSWORD='{{ vault_galaxy_db_replicator_password }}' \
         pg_basebackup -h {{ db_replication_origin_db_ip }} -p 5432 -U replicator -D "$DATA_DIR" \
-          -X stream -S {{ galaxy_db_replication_slot_name }} -v -R
+          -X stream -S {{ galaxy_db_replication_slot_name }} -v -R \
+          --max-rate {{ db_replication_basebackup_max_rate }}
 
         echo "Fixing permissions on $DATA_DIR"
         chown -R postgres:postgres "$DATA_DIR"
