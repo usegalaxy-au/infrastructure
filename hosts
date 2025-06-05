@@ -230,6 +230,9 @@ cvmfsp-mel.gvl.org.au ansible_ssh_host=115.146.87.203
 cvmfsp-paw.gvl.org.au ansible_ssh_host=146.118.70.86 internal_ip=192.168.0.131
 
 # Miscellaneous
+[replicant_galaxy_db]
+replicant-galaxy-db ansible_ssh_host=115.146.84.74
+
 [qld_ref_nfs]
 qld-ref-nfs ansible_ssh_host=203.101.226.198 # aka cjh-20220906-alphafold-dev
 
