@@ -327,6 +327,3 @@ mariadb_users:
     priv: '{{ slurm_database }}.*:ALL'
 mariadb_databases:
   - name: '{{ slurm_database }}'
-
-
-galaxy_db_replication_slot_name: galaxy_db_replication_slot

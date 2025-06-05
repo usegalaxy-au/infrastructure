@@ -65,7 +65,6 @@
       dest: "{{ postgresql_pgdata }}/postgresql.auto.conf"
       content: |
         primary_conninfo = 'host={{ db_replication_origin_db_ip }} port=5432 user=replicator password={{ vault_galaxy_db_replicator_password }} application_name=galaxy_db_replica'
-        primary_slot_name = '{{ galaxy_db_replication_slot_name }}'
       owner: postgres
       group: postgres
       mode: '0600'
@@ -109,8 +108,7 @@
         echo "Pulling base backup directly from Sydney..."
         PGPASSWORD='{{ vault_galaxy_db_replicator_password }}' \
         pg_basebackup -h {{ db_replication_origin_db_ip }} -p 5432 -U replicator -D "$DATA_DIR" \
-          -X stream -S {{ galaxy_db_replication_slot_name }} -v -R \
-          --max-rate {{ db_replication_basebackup_max_rate }}
+          -X stream -v -R --max-rate {{ db_replication_basebackup_max_rate }}
 
         echo "Fixing permissions on $DATA_DIR"
         chown -R postgres:postgres "$DATA_DIR"
