@@ -41,7 +41,7 @@ postgresql_conf:
   # - logging_collector: on  # altering this requires a restart
   - wal_level: replica
   - max_wal_senders: 5
-  - wal_keep_size: 1GB
+  - wal_keep_size: 2GB
 
 postgresql_pgdata: "/data/production"
 
