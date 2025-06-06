@@ -234,7 +234,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     context:
       test_cores: 2
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 3
     cores: 60
     mem: 961
     params:
@@ -455,7 +455,7 @@ tools:
           singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 30.7
     scheduling:
@@ -740,7 +740,7 @@ tools:
     mem: 19.1
   toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 100
     scheduling:
@@ -1480,7 +1480,7 @@ tools:
       - training-exempt
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:  # TODO: revisit setting mem based on reference size (https://github.com/usegalaxy-au/infrastructure/issues/1835)
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     cores: 20
     mem: 250
     params:
@@ -1791,7 +1791,7 @@ tools:
       fail: Too much data, please don't use the gubbins for this.
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
     params:
       tmp_dir: true
     rules:
@@ -1812,7 +1812,7 @@ tools:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
     cores: 16
     mem: 62
     rules:
@@ -1838,7 +1838,7 @@ tools:
     cores: 6
     mem: 150
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
     params:
       singularity_enabled: true
     scheduling:
@@ -1916,7 +1916,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 3
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/jcvi_gff_stats/jcvi_gff_stats/.*:
@@ -1967,7 +1967,7 @@ tools:
       singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
     # Galaxy Main's kraken2 memory rule
     cores: 16
     mem: |
@@ -2116,7 +2116,7 @@ tools:
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2  # TODO: this tool could go to high memory pulsars instead
+      max_concurrent_job_count_for_tool_user: 3  # TODO: this tool could go to high memory pulsars instead
     cores: 16
     mem: 62
     params:
@@ -2748,7 +2748,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
     cores: 12
     mem: 46.0
     params:
@@ -3739,7 +3739,7 @@ tools:
     mem: 3.8
   __DATA_FETCH__:
     context:
-      max_concurrent_job_count_for_tool_total: 20
+      max_concurrent_job_count_for_tool_total: 25
       max_concurrent_job_count_for_tool_user: 4
     cores: 1
     mem: 10
