@@ -4,7 +4,6 @@ volC_path: /mnt/volC
 volD_path: /mnt/volD
 
 # volume A (~171 TB)
-nfs_data22_dir: "{{ volA_path }}/data22"
 nfs_data25_dir: "{{ volA_path }}/data25"
 nfs_data26_dir: "{{ volA_path }}/data26"
 nfs_data27_dir: "{{ volA_path }}/data27"
@@ -18,6 +17,7 @@ nfs_data12_dir: "{{ volB_path }}/data12"
 nfs_data15_dir: "{{ volB_path }}/data15"
 nfs_data17_dir: "{{ volB_path }}/data17"
 nfs_data20_dir: "{{ volB_path }}/data20"
+nfs_data22_dir: "{{ volB_path }}/data22"  # moved from volA June '25
 
 # volume C (~37 TB)
 nfs_data10_dir: "{{ volC_path }}/data10"
