@@ -299,6 +299,9 @@ tools:
     params:
       singularity_enabled: true
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/iuc/isescan/isescan/.*:
+    cores: 2
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/bgruening/itsx/itsx/.*:
     params:
       singularity_enabled: true
