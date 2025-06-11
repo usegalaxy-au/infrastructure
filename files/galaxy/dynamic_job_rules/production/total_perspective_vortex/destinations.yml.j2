@@ -171,6 +171,7 @@ destinations:
         - cvmfs_cache_800plus
       require:
         - pulsar
+        - offline
   pulsar-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-high-mem2_runner
@@ -188,6 +189,7 @@ destinations:
       require:
         - pulsar
         - pulsar-high-mem2
+        - offline
   pulsar-mel-blast:  # relief destination while pulsar-qld-blast is offline
     inherits: _pulsar_destination
     runner: pulsar-high-mem2_runner
@@ -263,7 +265,6 @@ destinations:
         - cvmfs_cache_800plus
       require:
         - pulsar
-        - offline
   pulsar-nci-training:
     inherits: _pulsar_destination
     runner: pulsar-nci-training_runner
