@@ -1561,6 +1561,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+      prefer:
+      - pulsar-qld-rescue
   toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
     cores: 1
     mem: 3.8
