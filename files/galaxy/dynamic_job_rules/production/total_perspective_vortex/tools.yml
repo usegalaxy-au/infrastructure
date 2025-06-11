@@ -1454,6 +1454,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
       reject:
       - pulsar-qld-high-mem2
     rules:
@@ -1847,6 +1849,8 @@ tools:
     scheduling:
       accept:
         - pulsar
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/iuc/hybpiper/hybpiper/.*:
     params:
       singularity_enabled: true
@@ -3532,6 +3536,8 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
     - id: spades_small_input_rule
       if: input_size < 0.005
