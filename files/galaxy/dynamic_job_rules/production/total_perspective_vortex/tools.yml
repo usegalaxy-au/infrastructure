@@ -760,6 +760,8 @@ tools:
       - pulsar
       prefer:
       - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
+      reject:
+      - pulsar-high-mem1  # As above, and not sure why this was necessary
   toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/.*:
     cores: 1
     mem: 3.8
