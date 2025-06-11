@@ -3362,6 +3362,8 @@ tools:
       - pulsar
       - pulsar-quick
       - pulsar-training-large
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
     - id: unicycler_singularity_rule
       if: |
