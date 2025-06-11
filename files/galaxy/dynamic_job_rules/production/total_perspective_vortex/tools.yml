@@ -750,6 +750,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/.*:
     cores: 1
     mem: 3.8
@@ -1355,6 +1357,8 @@ tools:
     scheduling:
       accept:
         - pulsar
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/iuc/arriba_draw_fusions/arriba_draw_fusions/.*:
     params:
       singularity_enabled: true
