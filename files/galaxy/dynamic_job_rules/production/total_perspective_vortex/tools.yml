@@ -2588,6 +2588,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
     - id: porechop_small_input_rule
       if: input_size < 0.8
