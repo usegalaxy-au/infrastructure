@@ -12,7 +12,7 @@
   ansible.builtin.apt_key:
     url: https://repos.influxdata.com/influxdata-archive_compat.key
     state: present
-  when: ansible_facts['distribution'] == 'Ubuntu' and ansible_facts['distribution_version'] is version('22.04', '<')
+  when: ansible_distribution == "Ubuntu" and (ansible_distribution_version is version('22.04', '<'))
 
 - name: Update the apt repos and base OS
   apt:
@@ -53,7 +53,7 @@
           - python3.11
           - python3.11-venv
         state: present  
-  when: install_python_311|d(False)
+  when: ansible_distribution == "Ubuntu" and (ansible_distribution_version is version('22.04', '>='))
 
 - name: Add Galaxy group to relevant machines
   group:
