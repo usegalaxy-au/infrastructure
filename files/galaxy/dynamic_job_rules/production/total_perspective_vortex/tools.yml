@@ -428,21 +428,29 @@ tools:
     scheduling:
       accept:
       - pulsar
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_pca_visualize/bio3d_pca_visualize/.*:
     mem: 64
     scheduling:
       accept:
       - pulsar
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_rmsd/bio3d_rmsd/.*:
     mem: 500
     scheduling:
       accept:
       - pulsar
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_rmsf/bio3d_rmsf/.*:
     mem: 500
     scheduling:
       accept:
       - pulsar
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/chemteam/biopdb_align_and_rmsd/biopdb_align_and_rmsd/.*:
     params:
       singularity_enabled: true  
@@ -1490,6 +1498,8 @@ tools:
       - pulsar
       - pulsar-quick
       - training-exempt
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:  # TODO: revisit setting mem based on reference size (https://github.com/usegalaxy-au/infrastructure/issues/1835)
     context:
       max_concurrent_job_count_for_tool_user: 4
@@ -2789,6 +2799,8 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
     - id: rnaspades_small_input_rule
       if: input_size < 0.005
@@ -3008,6 +3020,8 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
     - id: spades_biosyntheticspades_small_input_rule
       if: input_size < 0.005
@@ -3028,6 +3042,8 @@ tools:
       - pulsar-paw
       - pulsar
       - pulsar-training-large
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
     - id: spades_coronaspades_singularity_rule
       if: |
@@ -3057,6 +3073,8 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
     - id: spades_metaplasmidspades_small_input_rule
       if: input_size < 0.005
