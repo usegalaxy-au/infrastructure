@@ -1324,6 +1324,8 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/iuc/aegean_.*:
     params:
       singularity_enabled: true
@@ -2007,6 +2009,7 @@ tools:
       - pulsar
       - pulsar-training-large
       prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
       - cvmfs_cache_100plus
       reject:
       - pulsar-QLD
@@ -2161,6 +2164,8 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+      prefer:
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
     - id: meryl_small_input_rule
       if: input_size < 0.001
