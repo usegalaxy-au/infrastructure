@@ -193,6 +193,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/.*:
+    mem: 40  # TODO: this is down from shared db's 90 but it probably needs even less
     params:
       singularity_enabled: true
     scheduling:
