@@ -2625,7 +2625,7 @@ tools:
       mem: 12
     - id: porechop_large_input_rule
       if: input_size > 8
-      mem: 120
+      mem: 240
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_events/poretools_events/.*:
     cores: 3
     mem: 11.5
