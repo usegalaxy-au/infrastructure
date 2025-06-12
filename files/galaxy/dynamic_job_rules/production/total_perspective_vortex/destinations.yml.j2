@@ -160,8 +160,8 @@ destinations:
     max_accepted_cores: 126
     max_accepted_mem: 3845.1
     context:
-      destination_total_cores: 30 # 126  # TODO: these numbers have been altered so that jobs will not go here during high mem pulsar crisis
-      destination_total_mem: 400 # 3845.1
+      destination_total_cores: 126
+      destination_total_mem: 3845.1
     min_accepted_mem: 62.51
     tags: {{ job_conf_limits.environments['pulsar-high-mem1'].tags }}
     scheduling:
