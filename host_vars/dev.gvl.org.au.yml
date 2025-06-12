@@ -77,6 +77,8 @@ host_galaxy_extra_dirs:
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_25.0
 
+galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
+
 # upon upgrade to latest conda
 galaxy_conda_exec: conda
 
