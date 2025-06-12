@@ -188,7 +188,6 @@ destinations:
       require:
         - pulsar
         - pulsar-high-mem2
-        - offline
   pulsar-mel-blast:  # relief destination while pulsar-qld-blast is offline
     inherits: _pulsar_destination
     runner: pulsar-high-mem2_runner
