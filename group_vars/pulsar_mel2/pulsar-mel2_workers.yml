@@ -11,15 +11,6 @@ shared_mounts:
       src: pulsar-mel2:/mnt/pulsar
       fstype: nfs
       state: mounted
-    - path: /mnt/pulsar/files
-      src: pulsar-mel2:/mnt/pulsar/files
-      fstype: nfs
-      state: mounted
-    - path: /mnt/tools-indices
-      src: pulsar-mel2:/mnt/tools-indices
-      fstype: nfs
-      state: absent
-
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
