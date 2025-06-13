@@ -77,6 +77,13 @@ host_galaxy_extra_dirs:
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_25.0
 
+additional_packages:
+  - redis
+  - flower
+  - watchdog==2.2.1
+  # - fs.dropboxfs==1.0.1  # (latest version requires python 3.11)
+  - tensorflow==2.15.1
+
 # upon upgrade to latest conda
 galaxy_conda_exec: conda
 
