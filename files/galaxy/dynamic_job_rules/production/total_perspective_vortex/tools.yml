@@ -24,7 +24,7 @@ tools:
     cores: 8
     mem: 30.7
     scheduling:
-      accept:
+      prefer:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/artbio/gsc_scran_normalize/.*:
     params:
@@ -96,6 +96,9 @@ tools:
     params:
       singularity_enabled: true
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/bismark/bismark_bowtie2/*:
+    context:
+      max_concurrent_job_count_for_tool_user: 3
   toolshed.g2.bx.psu.edu/repos/bgruening/blobtoolkit/blobtoolkit/.*:
     mem: 12
     params:
@@ -190,6 +193,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/.*:
+    mem: 40  # TODO: this is down from shared db's 90 but it probably needs even less
     params:
       singularity_enabled: true
     scheduling:
@@ -231,7 +235,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     context:
       test_cores: 2
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 3
     cores: 60
     mem: 961
     params:
@@ -296,6 +300,9 @@ tools:
     params:
       singularity_enabled: true
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/iuc/isescan/isescan/.*:
+    cores: 2
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/bgruening/itsx/itsx/.*:
     params:
       singularity_enabled: true
@@ -452,7 +459,7 @@ tools:
           singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 30.7
     scheduling:
@@ -737,12 +744,13 @@ tools:
     mem: 19.1
   toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 100
     scheduling:
       accept:
       - pulsar
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/.*:
     cores: 1
     mem: 3.8
@@ -876,6 +884,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/samtools.*:
     params:
       singularity_enabled: true
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/samtools_idxstats/.*:
     cores: 2
     mem: 7.6
@@ -1344,7 +1353,8 @@ tools:
       singularity_enabled: true
     scheduling:
       accept:
-        - pulsar
+      - pulsar
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/iuc/arriba_draw_fusions/arriba_draw_fusions/.*:
     params:
       singularity_enabled: true
@@ -1356,12 +1366,14 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 5
     cores: 8
     mem: 30.7
     params:
       singularity_enabled: true
     scheduling:
+      prefer:
+        - cvmfs_cache_100plus
       require:
         - bakta_database
     rules:
@@ -1462,14 +1474,27 @@ tools:
       if: 0.01 <= input_size < 0.3
       cores: 8
       mem: 30.7
-  toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:  # TODO: revisit setting mem based on reference size (https://github.com/usegalaxy-au/infrastructure/issues/1835)
-    context:
-      max_concurrent_job_count_for_tool_user: 2
+  toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2_idx/.*:
     cores: 20
     mem: 250
+    params:
+      singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-quick
+      - training-exempt
+  toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:  # TODO: revisit setting mem based on reference size (https://github.com/usegalaxy-au/infrastructure/issues/1835)
+    context:
+      max_concurrent_job_count_for_tool_user: 4
+    cores: 20
+    mem: 250
+    params:
+      singularity_enabled: true
     scheduling:
       accept:
       - pulsar-quick
+      - training-exempt
       prefer:
       - pulsar
     rules:
@@ -1518,6 +1543,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+      prefer:
+      - pulsar-qld-rescue
   toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
     cores: 1
     mem: 3.8
@@ -1643,8 +1670,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/falco/falco/.*:
-    cores: 4
-    mem: 15.3
+    cores: 6
+    mem: 23
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
@@ -1772,7 +1799,7 @@ tools:
       fail: Too much data, please don't use the gubbins for this.
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
     params:
       tmp_dir: true
     rules:
@@ -1793,7 +1820,7 @@ tools:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
     cores: 16
     mem: 62
     rules:
@@ -1819,12 +1846,13 @@ tools:
     cores: 6
     mem: 150
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
     params:
       singularity_enabled: true
     scheduling:
       accept:
-        - pulsar
+      - pulsar
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/iuc/hybpiper/hybpiper/.*:
     params:
       singularity_enabled: true
@@ -1897,7 +1925,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 3
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/jcvi_gff_stats/jcvi_gff_stats/.*:
@@ -1948,15 +1976,40 @@ tools:
       singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
+    # Galaxy Main's kraken2 memory rule
     cores: 16
-    mem: 200
+    mem: |
+      import os
+      mem = 64
+      table_name = "kraken2_databases"
+      lookup_column = "value"
+      value_column = "path"
+      value_template = "{value}/hash.k2d"
+      options = job.get_param_values(app)
+      lookup_value = options["kraken2_database"]
+      table_value = app.tool_data_tables.get(table_name).get_entry(lookup_column, lookup_value, value_column)
+      if table_value is not None:
+          table_value = value_template.format(value=table_value)
+          try:
+              mem = int(os.path.getsize(table_value)/1024**3 * 1.2)
+              log.debug("Data table '%s' lookup '%s=%s: %s=%s': %s GB",
+                        table_name, lookup_column, lookup_value, value_column, table_value, mem)
+          except OSError:
+              log.exception("Failed to get size of: %s", table_value)
+      else:
+          log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
+                      table_name, lookup_column, lookup_value, value_column, mem)
+      min(mem + 48, 980)
     params:
       singularity_enabled: true
     scheduling:
       accept:
       - pulsar
       - pulsar-training-large
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
+      prefer:
+      - cvmfs_cache_100plus
       reject:
       - pulsar-QLD
     rules:
@@ -2073,7 +2126,7 @@ tools:
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2  # TODO: this tool could go to high memory pulsars instead
+      max_concurrent_job_count_for_tool_user: 3  # TODO: this tool could go to high memory pulsars instead
     cores: 16
     mem: 62
     params:
@@ -2125,11 +2178,10 @@ tools:
     rules:
     - id: metaphlan_small_input_rule
       if: input_size < 0.001
-      cores: 1
-      mem: 8
+      cores: 4
+      mem: 15.3
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan2/metaphlan2/.*:
-    cores: 4
-    mem: 15.3
+    inherits: toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/.*
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/.*:
@@ -2228,6 +2280,7 @@ tools:
       - pulsar-training-large
       prefer:
       - pulsar-qld-high-mem2
+      - pulsar-qld-rescue
     rules:
     - id: mothur_cluster_split_medium_input_rule
       if: 0.00015 <= input_size < 0.1
@@ -2407,7 +2460,7 @@ tools:
       - pulsar
     rules:
     - id: mummer_nucmer_small_input_rule
-      if: input_size < 0.1
+      if: input_size < 0.01
       cores: 2
       mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/nanoplot/.*:
@@ -2479,11 +2532,13 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/picrust2_pipeline/picrust2_pipeline/.*:
-    cores: 7
-    mem: 26.8
+    cores: 8
+    mem: 31.2
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/picrust2_place_seqs/picrust2_place_seqs/.*:
+    cores: 8
+    mem: 31.2
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/picrust2_shuffle_predictions/picrust2_shuffle_predictions/.*:
@@ -2541,13 +2596,14 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
     - id: porechop_small_input_rule
       if: input_size < 0.8
       mem: 12
     - id: porechop_large_input_rule
       if: input_size > 8
-      mem: 120
+      mem: 240
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_events/poretools_events/.*:
     cores: 3
     mem: 11.5
@@ -2641,6 +2697,9 @@ tools:
         helpers.tool_version_gte(tool, minimum_singularity_version)
       params:
         singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/qiime_extract_viz/qiime_extract_viz/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/raceid_.*:
     params:
       singularity_enabled: true
@@ -2701,7 +2760,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
     cores: 12
     mem: 46.0
     params:
@@ -2749,6 +2808,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/samtools.*:
     params:
       singularity_enabled: true
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/scanpy_.*:
     params:
       singularity_enabled: true
@@ -3097,6 +3157,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_cstacks/stacks2_cstacks/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     cores: 16
     mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_denovomap/stacks2_denovomap/.*:
@@ -3307,6 +3369,7 @@ tools:
       - pulsar
       - pulsar-quick
       - pulsar-training-large
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
     - id: unicycler_singularity_rule
       if: |
@@ -3689,7 +3752,7 @@ tools:
     mem: 3.8
   __DATA_FETCH__:
     context:
-      max_concurrent_job_count_for_tool_total: 20
+      max_concurrent_job_count_for_tool_total: 25
       max_concurrent_job_count_for_tool_user: 4
     cores: 1
     mem: 10
@@ -3737,6 +3800,8 @@ tools:
     inherits: wig_to_bigWig  
   CONVERTER_bedgraph_to_bigwig:
     inherits: wig_to_bigWig
+  CONVERTER_fasta_to_fai:
+    mem: 10
   CONVERTER_wig_to_bigwig:
     inherits: wig_to_bigWig  
   fgenesh_tool:
@@ -3925,4 +3990,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/aarnet_filesender/aarnet_filesender/.*:
     params:
       singularity_enabled: true
-  
+
+  dorado_error_correct:
+    inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*

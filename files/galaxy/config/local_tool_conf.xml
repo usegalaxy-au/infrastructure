@@ -15,6 +15,7 @@
         <tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_get_mrnas.xml" label="test"/>
         <tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_annotate_mrnas.xml" label="test"/>
         <tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_check_mrna.xml" label="test"/>
+	<tool file="/mnt/galaxy/local_tools/dorado_0_9_5/dorado_error_correct.xml" label="test"/>
         <tool file="/mnt/galaxy/local_tools/cellranger/cellranger.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/alphafold/alphafold.xml" labels="test"/>
     </section>

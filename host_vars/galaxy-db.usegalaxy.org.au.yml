@@ -39,6 +39,9 @@ postgresql_conf:
   # - log_filename: "'postgresql-%Y-%m-%d.log'"
   # - log_statement: all
   # - logging_collector: on  # altering this requires a restart
+  - wal_level: replica
+  - max_wal_senders: 5
+  - wal_keep_size: 2GB
 
 postgresql_pgdata: "/data/production"
 
@@ -46,8 +49,15 @@ postgresql_pg_hba_conf:
   - host all all "{{ hostvars['galaxy']['internal_ip'] }}/32" md5
   - host all all "{{ hostvars['galaxy-handlers']['internal_ip'] }}/32" md5
   - host all all "{{ hostvars['galaxy-backup']['internal_ip'] }}/32" md5
+  - host replication replicator "{{ hostvars['replicant-galaxy-db']['ansible_ssh_host'] }}/32" md5
 
 extra_keys:
   - id: internal_hop_key
     type: public
     from: "{{ hostvars['galaxy']['internal_ip'] }},{{ hostvars['galaxy-backup']['internal_ip'] }},{{ hostvars['galaxy-handlers']['internal_ip'] }},{{ hostvars['galaxy-queue']['internal_ip'] }}"
+
+host_postgresql_objects_users:
+  - name: replicator
+    password: "{{ vault_galaxy_db_replicator_password }}"
+    role_attr_flags: "REPLICATION,LOGIN"
+    db: galaxy

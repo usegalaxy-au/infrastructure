@@ -134,7 +134,6 @@ destinations:
         - eggnog
       require:
         - pulsar
-        - offline
   pulsar-mel3:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
@@ -147,6 +146,7 @@ destinations:
     scheduling:
       accept:
         - pulsar-mel3
+        - cvmfs_cache_100plus
         - bakta_database
         - funannotate
         - eggnog
@@ -167,6 +167,8 @@ destinations:
     scheduling:
       accept:
         - pulsar-high-mem1
+        - cvmfs_cache_100plus
+        - cvmfs_cache_800plus
       require:
         - pulsar
   pulsar-high-mem2:
@@ -180,6 +182,9 @@ destinations:
     # min_accepted_mem: 62.51 # 2/10/23 accept all job sizes
     tags: {{ job_conf_limits.environments['pulsar-high-mem2'].tags }}
     scheduling:
+      accept:
+        - cvmfs_cache_100plus
+        - cvmfs_cache_800plus
       require:
         - pulsar
         - pulsar-high-mem2
@@ -195,6 +200,8 @@ destinations:
     scheduling:
       accept:
         - pulsar-mel-blast
+        - cvmfs_cache_100plus
+        - cvmfs_cache_800plus
       require:
         - pulsar
         - pulsar-blast
@@ -204,7 +211,7 @@ destinations:
     runner: pulsar-qld-high-mem0_runner
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
-    min_accepted_mem: 35
+    min_accepted_mem: 62.51
     context:
       destination_total_cores: 240
       destination_total_mem: 3845.07
@@ -212,11 +219,14 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-high-mem0
+        - cvmfs_cache_100plus
+        - cvmfs_cache_800plus
         - bakta_database
         - funannotate
         - eggnog
       require:
         - pulsar
+        - offline
   pulsar-qld-high-mem1:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem1_runner
@@ -230,9 +240,12 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-high-mem1
+        - cvmfs_cache_100plus
+        - cvmfs_cache_800plus
         - gtdbtk_database
       require:
         - pulsar
+        - offline
   pulsar-qld-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem2_runner
@@ -246,6 +259,8 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-high-mem2
+        - cvmfs_cache_100plus
+        - cvmfs_cache_800plus
       require:
         - pulsar
   pulsar-nci-training:
@@ -260,6 +275,7 @@ destinations:
     scheduling:
       accept:
         - pulsar-nci-training
+        - cvmfs_cache_100plus
         - pulsar-blast # allow training jobs with require: pulsar-blast to run here
         - bakta_database
         - funannotate
@@ -279,6 +295,8 @@ destinations:
     scheduling:
       accept:
         - pulsar-qld-blast
+        - cvmfs_cache_100plus
+        - cvmfs_cache_800plus
       require:
         - pulsar
         - pulsar-blast
@@ -294,6 +312,7 @@ destinations:
     scheduling:
       accept:
         - pulsar-QLD
+        - cvmfs_cache_100plus
         - funannotate
         - bakta_database
       require:
@@ -377,6 +396,25 @@ destinations:
             docker_set_user: '1000'
             docker_memory: '{mem}G'
             docker_sudo: false
+  _pulsar_qld_gpu_rescue_mode:  # when gpu pulsars have to run normal jobs
+    abstract: true
+    inherits: _pulsar_destination
+    max_accepted_cores: 64
+    max_accepted_mem: 582
+    max_accepted_gpus: 1
+    context:
+      destination_total_cores: 64
+      destination_total_mem: 582
+    scheduling:
+      require:
+        - pulsar
+    rules:
+      - id: pulsar_destination_docker_rule
+        params:
+            docker_volumes: $job_directory:ro,$job_directory/home:rw,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold:/data:ro
+            docker_set_user: '1000'
+            docker_memory: '{mem}G'
+            docker_sudo: false
   pulsar-qld-gpu1:
     inherits: _pulsar_qld_gpu
     runner: pulsar-qld-gpu1_runner
@@ -392,12 +430,14 @@ destinations:
         - pulsar-qld-gpu2
         - pulsar-qld-gpu-alphafold
   pulsar-qld-gpu3:
-    inherits: _pulsar_qld_gpu
+    inherits: _pulsar_qld_gpu_rescue_mode
     runner: pulsar-qld-gpu3_runner
     scheduling:
       accept:
         - pulsar-qld-gpu3
         - pulsar-qld-gpu-alphafold
+      require:
+        - pulsar-qld-rescue
   pulsar-qld-gpu4:
     inherits: _pulsar_qld_gpu
     runner: pulsar-qld-gpu4_runner
