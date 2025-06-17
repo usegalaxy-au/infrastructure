@@ -80,9 +80,9 @@ pulsar-high-mem2 ansible_ssh_host=115.146.85.27
 
 # GenomicsVL_QLD pulsars
 [pulsar_qld_himems]
-qld-pulsar-himem-0 ansible_ssh_host=203.101.225.122
-qld-pulsar-himem-1 ansible_ssh_host=203.101.228.14
-qld-pulsar-himem-2 ansible_ssh_host=203.101.227.201
+pulsar-qld-high-mem0 ansible_ssh_host=203.101.227.94
+pulsar-qld-high-mem1 ansible_ssh_host=203.101.227.127
+pulsar-qld-high-mem2 ansible_ssh_host=203.101.227.201
 
 [pulsar_qld_blast]
 pulsar-qld-blast ansible_ssh_host=203.101.231.87 internal_ip=10.255.137.182

@@ -134,7 +134,6 @@ destinations:
         - eggnog
       require:
         - pulsar
-        - offline
   pulsar-mel3:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
@@ -264,7 +263,6 @@ destinations:
         - cvmfs_cache_800plus
       require:
         - pulsar
-        - offline
   pulsar-nci-training:
     inherits: _pulsar_destination
     runner: pulsar-nci-training_runner
@@ -398,6 +396,25 @@ destinations:
             docker_set_user: '1000'
             docker_memory: '{mem}G'
             docker_sudo: false
+  _pulsar_qld_gpu_rescue_mode:  # when gpu pulsars have to run normal jobs
+    abstract: true
+    inherits: _pulsar_destination
+    max_accepted_cores: 64
+    max_accepted_mem: 582
+    max_accepted_gpus: 1
+    context:
+      destination_total_cores: 64
+      destination_total_mem: 582
+    scheduling:
+      require:
+        - pulsar
+    rules:
+      - id: pulsar_destination_docker_rule
+        params:
+            docker_volumes: $job_directory:ro,$job_directory/home:rw,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold:/data:ro
+            docker_set_user: '1000'
+            docker_memory: '{mem}G'
+            docker_sudo: false
   pulsar-qld-gpu1:
     inherits: _pulsar_qld_gpu
     runner: pulsar-qld-gpu1_runner
@@ -413,12 +430,14 @@ destinations:
         - pulsar-qld-gpu2
         - pulsar-qld-gpu-alphafold
   pulsar-qld-gpu3:
-    inherits: _pulsar_qld_gpu
+    inherits: _pulsar_qld_gpu_rescue_mode
     runner: pulsar-qld-gpu3_runner
     scheduling:
       accept:
         - pulsar-qld-gpu3
         - pulsar-qld-gpu-alphafold
+      require:
+        - pulsar-qld-rescue
   pulsar-qld-gpu4:
     inherits: _pulsar_qld_gpu
     runner: pulsar-qld-gpu4_runner

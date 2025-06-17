@@ -193,6 +193,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/.*:
+    mem: 40  # TODO: this is down from shared db's 90 but it probably needs even less
     params:
       singularity_enabled: true
     scheduling:
@@ -749,6 +750,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/.*:
     cores: 1
     mem: 3.8
@@ -1351,7 +1353,8 @@ tools:
       singularity_enabled: true
     scheduling:
       accept:
-        - pulsar
+      - pulsar
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/iuc/arriba_draw_fusions/arriba_draw_fusions/.*:
     params:
       singularity_enabled: true
@@ -1540,6 +1543,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+      prefer:
+      - pulsar-qld-rescue
   toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
     cores: 1
     mem: 3.8
@@ -1846,7 +1851,8 @@ tools:
       singularity_enabled: true
     scheduling:
       accept:
-        - pulsar
+      - pulsar
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/iuc/hybpiper/hybpiper/.*:
     params:
       singularity_enabled: true
@@ -2001,6 +2007,7 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
       prefer:
       - cvmfs_cache_100plus
       reject:
@@ -2273,6 +2280,7 @@ tools:
       - pulsar-training-large
       prefer:
       - pulsar-qld-high-mem2
+      - pulsar-qld-rescue
     rules:
     - id: mothur_cluster_split_medium_input_rule
       if: 0.00015 <= input_size < 0.1
@@ -2588,13 +2596,14 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
     - id: porechop_small_input_rule
       if: input_size < 0.8
       mem: 12
     - id: porechop_large_input_rule
       if: input_size > 8
-      mem: 120
+      mem: 240
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_events/poretools_events/.*:
     cores: 3
     mem: 11.5
@@ -3360,6 +3369,7 @@ tools:
       - pulsar
       - pulsar-quick
       - pulsar-training-large
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
     - id: unicycler_singularity_rule
       if: |
