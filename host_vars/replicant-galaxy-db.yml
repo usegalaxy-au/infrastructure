@@ -1,0 +1,29 @@
+db_replication_origin: galaxy-db
+db_replication_origin_db_ip: "{{ hostvars[db_replication_origin]['ansible_ssh_host'] }}"
+db_replication_basebackup_max_rate: 10M
+galaxy_db_reader_password: "{{ vault_galaxy_db_reader_password }}"
+
+attached_volumes:
+- device: /dev/vdb
+  path: /data
+  partition: 1
+  fstype: ext4
+
+postgresql_flavor: pgdg
+postgresql_version: 14
+postgresql_pgdata: "/data/replicant_db"
+postgresql_conf:
+- data_directory: "'/data/replicant_db'"
+
+host_machine_users:
+- name: uwe
+  uid: 7400
+  roles: []
+  key: files/keys/uwe.pub
+  email: "{{ uwe_email }}"
+- name: jonathan
+  uid: 7401
+  roles: []
+  key: files/keys/jonathan.pub
+  email: "{{ jonathan_email }}"
+  
