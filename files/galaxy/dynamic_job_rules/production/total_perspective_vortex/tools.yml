@@ -859,6 +859,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/picard/.*:
     cores: 3
     mem: 11.5
+    env: 
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     params:
       tmp_dir: true
     scheduling: # these jobs can run on pulsar but it may not be worth transferring them because the job walltime is much quicker than the transport time
