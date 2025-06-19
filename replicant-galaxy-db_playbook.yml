@@ -2,36 +2,11 @@
   become: true
   vars_files:
       - group_vars/all.yml
+      - host_vars/replicant-galaxy-db.yml
       - group_vars/VAULT
       - secret_group_vars/stats_server_vault
   vars:
-    - db_replication_ready_for_user_tasks: no  # change to yes initial sync has been run and db roles exist
-    - db_replication_origin: galaxy-db
-    - db_replication_origin_db_ip: "{{ hostvars[db_replication_origin]['ansible_ssh_host'] }}"
-    - db_replication_basebackup_max_rate: 5MB
-    - galaxy_db_reader_password: "{{ vault_galaxy_db_reader_password }}"
-
-    - attached_volumes:
-      - device: /dev/vdb # TODO: check mount point
-        path: /data
-        partition: 1
-        fstype: ext4
-    - postgresql_flavor: pgdg
-    - postgresql_version: 14
-    - postgresql_pgdata: "/data/replicant_db"
-    - postgresql_conf:
-      - data_directory: "'/data/replicant_db'"
-    - host_machine_users:
-      - name: uwe
-        uid: 7400
-        roles: []
-        key: files/keys/uwe.pub
-        email: "{{ uwe_email }}"
-      - name: jonathan
-        uid: 7401
-        roles: []
-        key: files/keys/jonathan.pub
-        email: "{{ jonathan_email }}"
+    - db_replication_ready_for_user_tasks: yes  # change to yes initial sync has been run and db roles exist
   pre_tasks:
       - name: Attach volume to instance
         include_role:
