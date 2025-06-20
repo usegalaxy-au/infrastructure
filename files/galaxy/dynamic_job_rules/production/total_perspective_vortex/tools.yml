@@ -2440,6 +2440,8 @@ tools:
       if: 0.02 <= input_size < 2
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_venn/mothur_venn/.*:  # does not work on pulsar
+      mem: 2
   toolshed.g2.bx.psu.edu/repos/iuc/multigsea/multigsea/.*:
     params:
       singularity_enabled: true
