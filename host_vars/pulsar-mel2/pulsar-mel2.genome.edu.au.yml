@@ -1,20 +1,12 @@
-hostname: "{{ ansible_hostname }}.genome.edu.au"
-
+# attached_volumes
 attached_volumes:
   - device: /dev/vdb
     path: /mnt
     fstype: ext4
     partition: 1
 
-#NFS shares
-
-nfs_exports:
-    - "{{ pulsar_custom_indices_dir }}  *(rw,async,no_root_squash,no_subtree_check)"
-    - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
-    - "/mnt/pulsar/files *(rw,async,no_root_squash,no_subtree_check)"
-
-# Keys and shares
-
+# common
+hostname: "{{ ansible_hostname }}.genome.edu.au"
 create_ssh_key: yes  # Only the first time.
 ssl_country: "AU"
 ssl_state: "Vic"
@@ -23,20 +15,22 @@ ssl_organisation: "Galaxy Australia"
 ssl_operational_unit: "Pulsar Mel2"
 ssl_email: "help@genome.edu.au"
 
-#host specific pulsar settings
-
-rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_mel2_prod }}"
-pulsar_queue_url: "galaxy-queue.usegalaxy.org.au"
-pulsar_rabbit_username: "galaxy_mel2"
-pulsar_rabbit_vhost: "/pulsar/galaxy_mel2"
-
-pulsar_conda_exec: "mamba"  # Use mamba as replacement for conda
-
 extra_keys:
   - id: ubuntu_maintenance_key
     type: public
     from: "{{ hostvars['galaxy']['ansible_ssh_host'] }},{{ hostvars['galaxy-handlers']['ansible_ssh_host'] }},{{ hostvars['galaxy-backup']['ansible_ssh_host'] }}"
 
-# docker
+# galaxyproject.pulsar 
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_mel2_prod }}"
+pulsar_queue_url: "galaxy-queue.usegalaxy.org.au"
+pulsar_rabbit_username: "galaxy_mel2"
+pulsar_rabbit_vhost: "/pulsar/galaxy_mel2"
+
+# geerlingguy.nfs
+nfs_exports:  # TODO: These should not be exported to everywhere
+    - "{{ pulsar_custom_indices_dir }}  *(rw,async,no_root_squash,no_subtree_check)"
+    - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
+
+# geerlingguy.docker
 docker_daemon_options:
   data-root: /mnt/docker-data

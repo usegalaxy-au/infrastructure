@@ -1,3 +1,4 @@
+# attached_volumes
 attached_volumes:
   # no partition on volume because
   # the volume has been retained from previous pulsar-mel3 build
@@ -5,13 +6,15 @@ attached_volumes:
     path: /mnt
     fstype: ext4
 
-custom_indices_dir: /mnt/custom-indices
-
-nfs_exports:
-  - "{{ custom_indices_dir }} 115.146.84.0/22(rw,async,no_root_squash,no_subtree_check)"
-
-# internal ssh key
+# common
 extra_keys:
   - id: pulsar_internal_hop_key
     type: public
     from: "{{ hostvars['pulsar-mel3']['ansible_ssh_host'] }}"
+
+custom_indices_dir: /mnt/custom-indices
+
+# geerlingguy.nfs
+nfs_exports:
+  - "{{ custom_indices_dir }} 115.146.84.0/22(rw,async,no_root_squash,no_subtree_check)"
+

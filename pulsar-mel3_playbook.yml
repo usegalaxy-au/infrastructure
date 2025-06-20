@@ -10,21 +10,15 @@
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ssh_keys
   pre_tasks:
-    - name: Attach volume to instance If we need to run this role again we should add parition to the attached_volumes entries for this VM
+    - name: Attach volume to instance
       include_role:
         name: attached-volumes
-    - name: Create pulsar deps path
-      file:
-        path: "{{ pulsar_dependencies_dir }}"
-        state: directory
-        owner: "{{ pulsar_user.name }}"
-        group: "{{ pulsar_user.name }}"
   roles:
     - common
     - insspb.hostname
-    - mounts
     - geerlingguy.pip
     - galaxyproject.repos
+    - pulsar-pre-tasks
     - role: galaxyproject.miniconda
       become: true
       become_user: "{{ pulsar_user.name }}"
@@ -40,9 +34,4 @@
     - pulsar-post-tasks
     - slurm-post-tasks
     - slg.galaxy_stats
-  post_tasks:
-    - name: Reload exportfs
-      command: exportfs -ra
-    - name: Run disable-cgroups-v2 role
-      include_role:
-        name: disable-cgroups-v2
+    - disable-cgroups-v2

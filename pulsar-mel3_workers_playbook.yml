@@ -25,39 +25,13 @@
     - geerlingguy.docker
     - acl-on-startup
     - dj-wasabi.telegraf
+    - tmp-relocation
     - clean-tmpdisk
   post_tasks:
     - name: Restart munge service
       service:
           name: munge
           state: restarted
-    - name: Move /tmp to vdb
-      block:
-        - name: Create worker tmpdir on vdb
-          file:
-              path: /mnt/tmpdisk
-              state: directory
-              owner: root
-              group: root
-              mode: '1777'
-        - name: stat links
-          stat:
-              path: /tmp
-          register: links
-        - name: remove old tmp
-          file:
-              path: /tmp
-              state: absent
-          when: links.stat.islnk is defined and not links.stat.islnk
-        - name: Link /tmp to /mnt/tmpdisk
-          file:
-              src: /mnt/tmpdisk
-              dest: /tmp
-              state: link
-          become: yes
-          become_user: root
-          when: links.stat.islnk is defined and not links.stat.islnk
-      when: attached_volumes is defined
     - name: Reload cvmfs config
       command:
         cmd: cvmfs_config reload
