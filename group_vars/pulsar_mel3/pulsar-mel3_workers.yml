@@ -1,7 +1,19 @@
-slurm_roles: ['exec']
+# attached_volumes 
+attached_volumes:
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
+    partition: 1
 
+# common
 add_hosts_head: yes
 
+extra_keys:
+  - id: pulsar_internal_hop_key
+    type: public
+    from: "{{ hostvars['pulsar-mel3']['ansible_ssh_host'] }}"
+
+# mounts
 shared_mounts:
     - path: /mnt/custom-indices
       src: "{{ hostvars['pulsar-mel3-nfs']['ansible_ssh_host'] }}:/mnt/custom-indices"
@@ -12,23 +24,13 @@ shared_mounts:
       fstype: nfs
       state: mounted
 
-# cvmfs
+# galaxyproject.slurm
+slurm_roles: ['exec']
+
+# galaxyproject.cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 cvmfs_quota_limit: 102400
 
-#Attached volume
-attached_volumes:
-  - device: /dev/vdb
-    path: /mnt
-    fstype: ext4
-    partition: 1
-
-# docker
+# geerlingguy.docker
 docker_daemon_options:
   data-root: /mnt/docker-data
-
-# internal ssh key
-extra_keys:
-  - id: pulsar_internal_hop_key
-    type: public
-    from: "{{ hostvars['pulsar-mel3']['ansible_ssh_host'] }}"

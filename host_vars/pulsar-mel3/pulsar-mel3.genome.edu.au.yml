@@ -1,12 +1,11 @@
-hostname: "{{ ansible_hostname }}.genome.edu.au"
+# attached_volumes 
+attached_volumes:
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
+    partition: 1
 
-# Keys and shares
-
-#NFS shares
-
-nfs_exports:
-  - "/mnt/pulsar  115.146.84.0/22(rw,async,no_root_squash,no_subtree_check)"
- 
+# common
 create_ssh_key: yes  # Only the first time.
 ssl_country: "AU"
 ssl_state: "Vic"
@@ -15,27 +14,7 @@ ssl_organisation: "Galaxy Australia"
 ssl_operational_unit: "Pulsar Mel3"
 ssl_email: "help@genome.edu.au"
 
-#host specific pulsar settings
-
-rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_mel3_prod }}"
-pulsar_queue_url: "galaxy-queue.usegalaxy.org.au"
-pulsar_rabbit_username: "galaxy_mel3"
-pulsar_rabbit_vhost: "/pulsar/galaxy_mel3"
-
-pulsar_conda_exec: "mamba"  # Use mamba as replacement for conda
-
-#Attached volume
-attached_volumes:
-  - device: /dev/vdb
-    path: /mnt
-    fstype: ext4
-    partition: 1
-
-shared_mounts:
-    - path: /mnt/custom-indices
-      src: "{{ hostvars['pulsar-mel3-nfs']['ansible_ssh_host'] }}:/mnt/custom-indices"
-      fstype: nfs
-      state: mounted
+hostname: "{{ ansible_hostname }}.genome.edu.au"
 
 extra_keys:
   - id: ubuntu_maintenance_key
@@ -44,10 +23,26 @@ extra_keys:
   - id: pulsar_internal_hop_key
     type: private
 
-# ssh config for ubuntu to ssh to worker machines
 ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/pulsar_internal_hop_key"
 ssh_config_user: ubuntu
 ssh_config_hosts: "{{ groups['pulsar_mel3_workers'] + groups['pulsar_mel3_nfs'] }}"
+
+# mounts
+shared_mounts:
+    - path: /mnt/custom-indices
+      src: "{{ hostvars['pulsar-mel3-nfs']['ansible_ssh_host'] }}:/mnt/custom-indices"
+      fstype: nfs
+      state: mounted
+
+# geerlingguy.nfs
+nfs_exports:
+  - "/mnt/pulsar  115.146.84.0/22(rw,async,no_root_squash,no_subtree_check)"
+
+# galaxyproject.pulsar
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_mel3_prod }}"
+pulsar_queue_url: "galaxy-queue.usegalaxy.org.au"
+pulsar_rabbit_username: "galaxy_mel3"
+pulsar_rabbit_vhost: "/pulsar/galaxy_mel3"
 
 # docker
 docker_daemon_options:
