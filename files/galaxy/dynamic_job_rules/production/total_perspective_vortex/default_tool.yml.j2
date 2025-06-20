@@ -24,6 +24,9 @@ tools:
       pulsar_score_slurm_max_cores: 12  # if cores >= this number, do not set preference for slurm
       pulsar_score_slurm_max_mem: 48  # if mem >= this number, do not set preference for slurm
  
+      # resolver selection
+      minimum_singularity_version: null
+
       # singularity and docker volumes
       slurm_singularity_volumes: "{{ slurm_singularity_volumes }}"
       slurm_docker_volumes: "{{ slurm_docker_volumes }}"
@@ -36,6 +39,14 @@ tools:
     - id: login_required_rule
       if: require_login and user is None
       fail: 'Please log in to use {tool.id}'
+    - id: minimum_singularity_version_positive_rule
+      if: minimum_singularity_version is not None and helpers.tool_version_gte(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: true
+    - id: minimum_singularity_version_negative_rule
+      if: minimum_singularity_version is not None and helpers.tool_version_lt(tool, minimum_singularity_version)
+      params:
+        singularity_enabled: false
     - id: max_concurrent_job_count_for_tool_rule
       if: |
         total_limit_exceeded = False

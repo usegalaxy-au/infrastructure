@@ -45,6 +45,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/10x_bamtofastq/10x_bamtofastq/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/add_line_to_file/add_line_to_file/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/agat/agat/.*:
     params:
       singularity_enabled: true
@@ -78,10 +81,19 @@ tools:
       if: input_size < 0.01
       cores: 2
       mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/bgruening/augustus_training/augustus_training/.*:
+    params:
+      singularity_enabled: false  # TODO: Test with singularity. Built-in tool tests fail by design, testing is difficult.
   toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina/docking/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina_prepare_box/prepare_box/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina_prepare_ligand/prepare_ligand/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina_prepare_receptor/prepare_receptor/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/bioimage_inference/bioimage_inference/.*:
@@ -106,6 +118,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/canu/canu/.*:
     context:
       max_concurrent_job_count_for_tool_user: 2
+      minimum_singularity_version: '2.2+galaxy0'
     cores: 60
     mem: 961
     scheduling:
@@ -942,7 +955,10 @@ tools:
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/dnbenso/masurca_simple/masurca_simple/.*:
     cores: 8 
-    mem: 42 # TODO: this is part of shared db already but can't be merged because linting is out of order
+    mem: 120
+    scheduling:
+      prefer:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/earlhaminst/lotus2/lotus2/.*:
     params:
       singularity_enabled: false
