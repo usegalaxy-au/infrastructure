@@ -70,6 +70,9 @@ destinations:
     context:
       destination_total_cores: 192
       destination_total_mem: 750
+      shared_resource_destination_ids:
+        - slurm-training
+        - interactive_pulsar
     tags: {{ job_conf_limits.environments['slurm'].tags }}
     scheduling:
       accept:
