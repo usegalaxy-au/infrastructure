@@ -1,21 +1,16 @@
-hostname: "{{ ansible_hostname }}.genome.edu.au"
-
-add_hosts_workers: yes
-add_hosts_head: yes
-
+# attached_volumes
 attached_volumes:
   - device: /dev/vdb
     partition: 1
     path: /mnt
     fstype: ext4
 
-shared_mounts:
-    - path: /mnt/custom-indices
-      src: "{{ hostvars['pulsar-QLD-nfs']['ansible_ssh_host'] }}:/mnt/custom-indices"
-      fstype: nfs
-      state: mounted
+# common
+hostname: "{{ ansible_hostname }}.genome.edu.au"
 
-# Keys and shares
+add_hosts_workers: yes
+add_hosts_head: yes
+
 create_ssh_key: yes  # Only the first time.
 ssl_country: "AU"
 ssl_state: "Vic"
@@ -24,18 +19,24 @@ ssl_organisation: "Galaxy Australia"
 ssl_operational_unit: "Pulsar QLD"
 ssl_email: "help@genome.edu.au"
 
-#host specific pulsar settings
-rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_QLD_prod }}"
-pulsar_queue_url: "galaxy-queue.usegalaxy.org.au"
-pulsar_rabbit_username: "galaxy_QLD"
-pulsar_rabbit_vhost: "/pulsar/galaxy_QLD"
-
-pulsar_conda_exec: "mamba"  # Use mamba as replacement for conda
-
 extra_keys:
   - id: ubuntu_maintenance_key
     type: public
     from: "{{ hostvars['galaxy']['ansible_ssh_host'] }},{{ hostvars['galaxy-handlers']['ansible_ssh_host'] }},{{ hostvars['galaxy-backup']['ansible_ssh_host'] }}"
 
+# mounts
+shared_mounts:
+    - path: /mnt/custom-indices
+      src: "{{ hostvars['pulsar-QLD-nfs']['ansible_ssh_host'] }}:/mnt/custom-indices"
+      fstype: nfs
+      state: mounted
+
+# geerlingguy.nfs
 nfs_exports:
     - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
+
+# galaxyproject.pulsar 
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_QLD_prod }}"
+pulsar_queue_url: "galaxy-queue.usegalaxy.org.au"
+pulsar_rabbit_username: "galaxy_QLD"
+pulsar_rabbit_vhost: "/pulsar/galaxy_QLD"
