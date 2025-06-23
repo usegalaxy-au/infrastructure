@@ -4010,6 +4010,3 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/aarnet_filesender/aarnet_filesender/.*:
     params:
       singularity_enabled: true
-
-  dorado_error_correct:
-    inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*
