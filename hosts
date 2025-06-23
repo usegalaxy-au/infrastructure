@@ -40,10 +40,6 @@ galaxy-labs ansible_ssh_host=138.44.7.160 internal_ip=192.168.205.41 ansible_con
 [gms_webservers]
 galaxy-media ansible_ssh_host=138.44.7.159 internal_ip=192.168.205.199 ansible_connection=ssh ansible_user=ubuntu
 
-# Pawsey
-[pawsey_group]  # 6/6/23 hosts removed except for pawsey-user-nfs which is still in use
-pawsey-user-nfs ansible_ssh_host=146.118.68.13 internal_ip=192.168.0.165
-
 # GenomicsVL pulsar
 [pulsar_mel3_head]
 pulsar-mel3 ansible_ssh_host=115.146.84.200

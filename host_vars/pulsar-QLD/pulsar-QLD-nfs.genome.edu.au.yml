@@ -7,4 +7,4 @@ attached_volumes:
 custom_indices_dir: /mnt/custom-indices
 
 nfs_exports:
-  - "{{ custom_indices_dir }} 203.101.224.0/19(rw,async,no_root_squash,no_subtree_check)"
+  - "{{ custom_indices_dir }} 203.101.224.0/21(rw,async,no_root_squash,no_subtree_check)"
