@@ -5,12 +5,6 @@ slurm_roles: ['controller', 'exec', 'dbd']
 mariadb_password_root: "{{ vault_mariadb_password_root }}"
 mariadb_password_slurm: "{{ vault_mariadb_password_slurm }}"
 
-#NFS shares
-
-nfs_exports:
-    - "{{ pulsar_custom_indices_dir }}  *(rw,async,no_root_squash,no_subtree_check)"
-    - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
-
 # Pulsar
 pulsar_package_name: git+https://github.com/galaxyproject/pulsar
 pulsar_package_version: 973f7b3
