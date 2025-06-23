@@ -33,7 +33,7 @@ shared_mounts:
 
 # geerlingguy.nfs
 nfs_exports:
-    - "/mnt/pulsar  *(rw,async,no_root_squash,no_subtree_check)"
+    - "/mnt/pulsar  203.101.224.0/21(rw,async,no_root_squash,no_subtree_check)"
 
 # galaxyproject.pulsar 
 rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_QLD_prod }}"
