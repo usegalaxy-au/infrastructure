@@ -1644,6 +1644,9 @@ tools:
     mem: 11.5
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/dexseq/dexseq/.*:
     cores: 9
     mem: 34.5
