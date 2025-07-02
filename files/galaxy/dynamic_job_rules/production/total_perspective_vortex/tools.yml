@@ -2736,6 +2736,13 @@ tools:
       if: input_size < 0.2
       cores: 4
       mem: 15.3
+    - id: ragtag_large_input_rule
+      if: input_size > 1.4
+      cores: 8
+      mem: 200
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/rapidnj/rapidnj/.*:
     params:
       singularity_enabled: true
