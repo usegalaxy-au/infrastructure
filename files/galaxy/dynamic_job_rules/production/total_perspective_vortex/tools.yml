@@ -1639,6 +1639,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     cores: 1
     mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/deg_annotate/deg_annotate/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/.*:
     cores: 3
     mem: 11.5
