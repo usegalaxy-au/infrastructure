@@ -2740,6 +2740,9 @@ tools:
       if: input_size > 1.4
       cores: 8
       mem: 200
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/rapidnj/rapidnj/.*:
     params:
       singularity_enabled: true
