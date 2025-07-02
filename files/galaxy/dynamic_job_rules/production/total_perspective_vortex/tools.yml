@@ -151,7 +151,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/chemical_data_sources/ctb_online_data_fetch/.*:
     params:
       singularity_enabled: true
-      singularity_container_id_override: docker://quay.io/biocontainers/openbabel:2.3.2--py27_2
+      singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/openbabel:2.3.2--py27_2
   toolshed.g2.bx.psu.edu/repos/bgruening/circexplorer/circexplorer/.*:
     params:
       singularity_enabled: true
@@ -380,7 +380,7 @@ tools:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/4\.1\.5.*:
     params:
-      singularity_container_id_override: docker://quay.io/biocontainers/repeatmasker:4.1.5--pl5321hdfd78af_0
+      singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/repeatmasker:4.1.5--pl5321hdfd78af_0
   toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/.*:
     cores: 4
     mem: 15.3
