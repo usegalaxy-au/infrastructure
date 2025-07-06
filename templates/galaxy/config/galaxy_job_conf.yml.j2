@@ -3,6 +3,11 @@ handling:
     - db-skip-locked
   max_grab: 8
   ready_window_size: 120  # Increased from 20 to 120 on 17/10/24 due to jobs not scheduling when there are many jobs in new state with TPV limits, see issue https://github.com/usegalaxy-au/infrastructure/issues/2254
+tools:
+  - id: __DATA_FETCH__
+    handler: handler_0
+  - id: upload1
+    handler: handler_0
 runners:
   local:
     load: galaxy.jobs.runners.local:LocalJobRunner
