@@ -3892,7 +3892,7 @@ tools:
   restricted_interactive_tool:
     inherits: interactive_tool_.*
     context:
-      interactive_tool_embargo_days: 28      
+      interactive_tool_embargo_days: 7      
     rules:
       - id: restricted_interactive_tool_restriction_rule
         if: |
