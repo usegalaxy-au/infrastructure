@@ -4,6 +4,10 @@
         <columns>value, name, path</columns>
         <file path="/mnt/tools/tool-data/fgenesh_db.loc" />
     </table>
+    <table name="fgenesh_db_v2024" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, name, path</columns>
+        <file path="/mnt/tools/tool-data/fgenesh_db_v2024.loc" />
+    </table>
     <table name="fgenesh_matrix" comment_char="#" allow_duplicate_entries="False">
         <columns>value, name, path</columns>
         <file path="/mnt/tools/tool-data/fgenesh_matrix.loc" />
