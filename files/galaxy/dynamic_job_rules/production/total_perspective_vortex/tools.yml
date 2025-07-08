@@ -2481,9 +2481,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
     cores: 5
     mem: 19.1
-    scheduling:
-      accept:
-      - pulsar
+    # This tool was running on pulsar with singularity_enabled: true until July '25 because the latest version
+    # (4.0.0+galaxy1) does not pass all of its tests with the singularity container but does pass
+    # them with the conda environment, unlike previous versions
+    params:
+      singularity_enabled: false
     rules:
     - id: mummer_nucmer_small_input_rule
       if: input_size < 0.01
