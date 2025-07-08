@@ -1,4 +1,6 @@
 ---
+- name: Add functions to bashrc for managing pulsar jobs
+  import_tasks: ghost_jobs_functions.yml
 - name: restart munge
   systemd:
     name: munge

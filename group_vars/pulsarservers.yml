@@ -6,8 +6,8 @@ mariadb_password_root: "{{ vault_mariadb_password_root }}"
 mariadb_password_slurm: "{{ vault_mariadb_password_slurm }}"
 
 # Pulsar
-pulsar_package_name: git+https://github.com/galaxyproject/pulsar
-pulsar_package_version: 973f7b3
+# pulsar_package_name: git+https://github.com/galaxyproject/pulsar  # uncomment this if specifying a commit hash as 'pulsar_package_version'
+pulsar_package_version: 0.15.8
 
 pulsar_root: /mnt/pulsar
 pulsar_server_dir: /mnt/pulsar/server
@@ -70,7 +70,7 @@ pulsar_yaml_config:
   message_queue_url: "pyamqp://{{ pulsar_rabbit_username }}:{{ rabbitmq_password_galaxy_au }}@{{ pulsar_queue_url }}:5671/{{ pulsar_rabbit_vhost }}?ssl=1"
   min_polling_interval: 0.5
   amqp_publish_retry: True
-  amqp_publish_retry_max_retries: 5
+  amqp_publish_retry_max_retries: 20
   amqp_publish_retry_interval_start: 10
   amqp_publish_retry_interval_step: 10
   amqp_publish_retry_interval_max: 60

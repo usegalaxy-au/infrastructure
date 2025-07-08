@@ -151,7 +151,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/chemical_data_sources/ctb_online_data_fetch/.*:
     params:
       singularity_enabled: true
-      singularity_container_id_override: docker://quay.io/biocontainers/openbabel:2.3.2--py27_2
+      singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/openbabel:2.3.2--py27_2
   toolshed.g2.bx.psu.edu/repos/bgruening/circexplorer/circexplorer/.*:
     params:
       singularity_enabled: true
@@ -380,7 +380,7 @@ tools:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/4\.1\.5.*:
     params:
-      singularity_container_id_override: docker://quay.io/biocontainers/repeatmasker:4.1.5--pl5321hdfd78af_0
+      singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/repeatmasker:4.1.5--pl5321hdfd78af_0
   toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/.*:
     cores: 4
     mem: 15.3
@@ -1639,11 +1639,17 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     cores: 1
     mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/deg_annotate/deg_annotate/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/.*:
     cores: 3
     mem: 11.5
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/dexseq/dexseq/.*:
     cores: 9
     mem: 34.5
@@ -2475,9 +2481,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
     cores: 5
     mem: 19.1
-    scheduling:
-      accept:
-      - pulsar
+    # This tool was running on pulsar with singularity_enabled: true until July '25 because the latest version
+    # (4.0.0+galaxy1) does not pass all of its tests with the singularity container but does pass
+    # them with the conda environment, unlike previous versions
+    params:
+      singularity_enabled: false
     rules:
     - id: mummer_nucmer_small_input_rule
       if: input_size < 0.01
@@ -2733,6 +2741,13 @@ tools:
       if: input_size < 0.2
       cores: 4
       mem: 15.3
+    - id: ragtag_large_input_rule
+      if: input_size > 1.4
+      cores: 8
+      mem: 200
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/rapidnj/rapidnj/.*:
     params:
       singularity_enabled: true
