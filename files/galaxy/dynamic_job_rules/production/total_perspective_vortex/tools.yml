@@ -4008,6 +4008,10 @@ tools:
       - pulsar-qld-gpu5
       - pulsar-qld-gpu-other
       - pulsar-qld-gpu
+
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_error_correct/dorado_error_correct/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*
+    
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_pod5_convert/dorado_pod5_convert/.*:
     cores: 8
     params:
@@ -4017,7 +4021,6 @@ tools:
     params:
       singularity_enabled: true
 
-
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/plot_ragtag_paf/plot_ragtag_paf/.*:
     params:
       singularity_enabled: true
@@ -4025,6 +4028,3 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/aarnet_filesender/aarnet_filesender/.*:
     params:
       singularity_enabled: true
-
-  dorado_error_correct:
-    inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*
