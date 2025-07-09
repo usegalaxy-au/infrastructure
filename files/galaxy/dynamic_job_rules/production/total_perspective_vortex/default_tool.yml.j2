@@ -151,13 +151,15 @@ tools:
               if not destination.context.get('destination_total_mem') or not destination.context.get('destination_total_cores'):
                 raise Exception(f"++ ---tpv rank debug: At least one of destination_total_mem, destination_total_cores is unavailable")
               destination_ids = [destination.id] + destination.context.get('shared_resource_destination_ids', [])
-              destination_cores_committed = sum([
-                sum([db_queue_info.get(d_id, {}).get(state, {}).get('sum_cores', 0) for state in ['queued', 'running']])
-                for d in destination_ids]
+              destination_cores_committed = sum(
+                  db_queue_info.get(d_id, {}).get(state, {}).get('sum_cores', 0)
+                  for d_id in destination_ids
+                  for state in ['queued', 'running']
               )
-              destination_mem_committed = sum([
-                sum([db_queue_info.get(destination.id, {}).get(state, {}).get('sum_mem', 0.0) for state in ['queued', 'running']])
-                for d_id in destination_ids]
+              destination_mem_committed = sum(
+                  db_queue_info.get(d_id, {}).get(state, {}).get('sum_mem', 0.0)
+                  for d_id in destination_ids
+                  for state in ['queued', 'running']
               )
               available_cores = destination.context['destination_total_cores'] - destination_cores_committed
               available_mem = float(destination.context['destination_total_mem']) - (float(destination_mem_committed)/1024)
