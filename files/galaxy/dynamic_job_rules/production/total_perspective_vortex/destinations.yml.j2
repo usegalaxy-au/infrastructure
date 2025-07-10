@@ -71,8 +71,8 @@ destinations:
     max_accepted_cores: 32
     max_accepted_mem: 125
     context:
-      destination_total_cores: 192
-      destination_total_mem: 750
+      destination_total_cores: 176  # reduced from 192 while galaxy-w3 is training-only
+      destination_total_mem: 687  # reduced from 750 while galaxy-w3 is training-only
     tags: {{ job_conf_limits.environments['slurm'].tags }}
     scheduling:
       accept:

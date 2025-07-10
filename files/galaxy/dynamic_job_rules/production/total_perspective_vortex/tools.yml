@@ -1719,6 +1719,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/.*:
     cores: 5
     mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/fastplong/fastplong/.*:
+    cores: 8
+    mem: 31
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate.*:
     params:
       singularity_enabled: true
@@ -2197,13 +2202,8 @@ tools:
       cores: 16
       mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/.*:
-    cores: 16
-    mem: 62
-    rules:
-    - id: metaphlan_small_input_rule
-      if: input_size < 0.001
-      cores: 4
-      mem: 15.3
+    cores: 8
+    mem: 31
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan2/metaphlan2/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/.*
     params:
@@ -2481,9 +2481,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
     cores: 5
     mem: 19.1
-    scheduling:
-      accept:
-      - pulsar
+    # This tool was running on pulsar with singularity_enabled: true until July '25 because the latest version
+    # (4.0.0+galaxy1) does not pass all of its tests with the singularity container but does pass
+    # them with the conda environment, unlike previous versions
+    params:
+      singularity_enabled: false
     rules:
     - id: mummer_nucmer_small_input_rule
       if: input_size < 0.01
@@ -4006,6 +4008,10 @@ tools:
       - pulsar-qld-gpu5
       - pulsar-qld-gpu-other
       - pulsar-qld-gpu
+
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_error_correct/dorado_error_correct/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*
+    
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_pod5_convert/dorado_pod5_convert/.*:
     cores: 8
     params:
@@ -4015,7 +4021,6 @@ tools:
     params:
       singularity_enabled: true
 
-
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/plot_ragtag_paf/plot_ragtag_paf/.*:
     params:
       singularity_enabled: true
@@ -4023,6 +4028,3 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/aarnet_filesender/aarnet_filesender/.*:
     params:
       singularity_enabled: true
-
-  dorado_error_correct:
-    inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*
