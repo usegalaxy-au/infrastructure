@@ -12,6 +12,14 @@ tools:
       max_concurrent_job_count_for_tool_total: null
       max_concurrent_job_count_for_tool_user: null
       require_login: false
+
+      # singularity and docker
+      singularity_default_container_id: "{{ singularity_default_container_id }}"
+      slurm_singularity_volumes: "{{ slurm_singularity_volumes }}"
+      slurm_docker_volumes: "{{ slurm_docker_volumes }}"
+      pulsar_singularity_volumes: "{{ pulsar_singularity_volumes }}"
+      pulsar_docker_volumes: "{{ pulsar_docker_volumes }}"
+
     scheduling:
       reject:
         - offline

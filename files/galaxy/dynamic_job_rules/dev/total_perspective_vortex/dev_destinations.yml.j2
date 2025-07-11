@@ -3,15 +3,12 @@ destinations:
     runner: slurm # abstract: this runner will be overridden
     abstract: true
     params:
-      tpv_cores: '{cores}'
-      tpv_gpus: '{gpus}'
-      tpv_mem: '{mem}'
     # having rules on default abstract dest then rules on descendant abstract dest seems to prevent the descendant rules from applying
     # rules:
     #   - id: default_destination_singularity_rule
     #     if: entity.params.get('singularity_enabled') # TODO: check that this is boolean and not string
     #     params:
-    #         singularity_default_container_id: "{{ singularity_default_container_id }}"
+    #         singularity_default_container_id: '{ singularity_default_container_id }'
     #   - id: default_destination_docker_rule 
     #     if: entity.params.get('docker_enabled')
     #     params:
@@ -30,18 +27,18 @@ destinations:
       - id: slurm_destination_singularity_rule
         if: entity.params.get('singularity_enabled')
         params:
-            singularity_volumes: "{{ slurm_singularity_volumes }}"
-            singularity_default_container_id: "{{ singularity_default_container_id }}" # default dest
+            singularity_volumes: '{ slurm_singularity_volumes }'
+            singularity_default_container_id: '{ singularity_default_container_id }'
       - id: slurm_destination_docker_rule
         if: entity.params.get('docker_enabled')
         params:
-            docker_volumes: "{{ slurm_docker_volumes }}"
-            docker_memory: '{mem}G' # default dest
-            docker_sudo: false # default dest
+            docker_volumes: '{ slurm_docker_volumes }'
+            docker_memory: '{mem}G'
+            docker_sudo: false
   _pulsar_destination:
     abstract: true
     params:
-      job_working_directory: "{{ galaxy_pulsar_job_working_directory }}"
+      job_working_directory: "{{ galaxy_pulsar_job_working_directory }}"  # TODO: overriding JWD here does not work, try to fix this
       submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
       jobs_directory: /mnt/pulsar/files/staging # TODO: this could be a variable
       transport: curl
@@ -57,21 +54,21 @@ destinations:
       - id: pulsar_destination_singularity_rule
         if: entity.params.get('singularity_enabled')
         params:
-            singularity_volumes: "{{ pulsar_singularity_volumes }}"
+            singularity_volumes: '{ pulsar_singularity_volumes }'
             container_resolvers: 
                 - type: explicit_singularity
                 - type: mulled_singularity
-            singularity_default_container_id: "{{ singularity_default_container_id }}" # default dest
+            singularity_default_container_id: '{ singularity_default_container_id }'
         env:
           SINGULARITY_CACHEDIR: /mnt/pulsar/deps/singularity
           SINGULARITY_TMPDIR: /mnt/pulsar/deps/singularity/tmp
       - id: pulsar_destination_docker_rule
         if: entity.params.get('docker_enabled')
         params:
-            docker_volumes: "{{ pulsar_docker_volumes }}"
+            docker_volumes: '{ pulsar_docker_volumes }'
             docker_set_user: '1000'
-            docker_memory: '{mem}G' # default dest
-            docker_sudo: false # default dest
+            docker_memory: '{mem}G'
+            docker_sudo: false
   
   slurm:
     inherits: _slurm_destination
