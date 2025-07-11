@@ -72,18 +72,15 @@ destinations:
             docker_set_user: '1000'
             docker_memory: '{mem}G' # default dest
             docker_sudo: false # default dest
-      # - id: pulsar_destination_silly_rule # leave debugging rule in comments for now
-      #   if: 1 == 1
-      #   params:
-      #     hello_cat: HELLO
-      #   execute: |
-      #     log.debug("PRINTING ENTITY PARAMS")
-      #     for x in entity.params:
-      #       log.debug(str(x))
-      #       log.debug(str(entity.params.get(x)))
   
   slurm:
     inherits: _slurm_destination
+    runner: slurm
+    context:
+      destination_total_cores: 16
+      destination_total_mem: 62.5
+      shared_resource_destination_ids:
+        - interactive_pulsar
     tags: {{ job_conf_limits.environments['slurm'].tags }}
     max_cores: 16
     max_mem: 62.5
@@ -92,6 +89,9 @@ destinations:
         - slurm
   interactive_pulsar:
     runner: pulsar_embedded
+    context:
+      destination_total_cores: 16
+      destination_total_mem: 62.5
     tags: {{ job_conf_limits.environments['interactive_pulsar'].tags }}
     max_accepted_cores: 8
     max_accepted_mem: 32
@@ -113,6 +113,9 @@ destinations:
   pulsar_destination:
     inherits: _pulsar_destination
     runner: pulsar_au_01
+    context:
+      destination_total_cores: 2
+      destination_total_mem: 7.76
     tags: {{ job_conf_limits.environments['pulsar_destination'].tags }}
     max_accepted_cores: 2
     max_accepted_mem: 7.76
@@ -124,6 +127,9 @@ destinations:
   pulsar-nci-test:
     inherits: _pulsar_destination
     runner: pulsar_nci_test_runner
+    context:
+      destination_total_cores: 32
+      destination_total_mem: 96.38
     tags: {{ job_conf_limits.environments['pulsar-nci-test'].tags }}
     max_cores: 16
     max_mem: 48.19
@@ -137,6 +143,9 @@ destinations:
   pulsar-qld-gpu-dev:
     inherits: _pulsar_destination
     runner: pulsar_qldgpu_dev_runner
+    context:
+      destination_total_cores: 64
+      destination_total_mem: 582
     tags: {{ job_conf_limits.environments['pulsar-qld-gpu-dev'].tags }}
     max_accepted_cores: 64
     max_accepted_mem: 582
@@ -155,6 +164,9 @@ destinations:
             docker_sudo: false
   pulsar-cjb:
     runner: pulsar_cjb
+    context:
+      destination_total_cores: 4
+      destination_total_mem: 15
     max_accepted_cores: 4
     max_accepted_mem: 15
     scheduling:
