@@ -1386,7 +1386,7 @@ tools:
     context:
       max_concurrent_job_count_for_tool_user: 5
     cores: 8
-    mem: 30.7
+    mem: 70
     params:
       singularity_enabled: true
     scheduling:
