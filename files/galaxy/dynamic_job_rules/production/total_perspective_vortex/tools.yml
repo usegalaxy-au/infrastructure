@@ -1743,6 +1743,11 @@ tools:
         - pulsar
       require:
         - funannotate  # both funannotate dbs in /mnt/custom-indices on destination VM
+    rules:
+      - id: funnannotate_v1_8_17_container_override_rule
+        if: tool.version.startswith('1.8.17')
+        params:
+          singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/funannotate:1.8.17--pyhdfd78af_1
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_compare/funannotate_compare/.*:
     cores: 8
     mem: 40
