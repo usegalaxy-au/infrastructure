@@ -18,7 +18,7 @@ const toolMessages = [
 function waitToolFormLoad() {
     tries++;
     let matched = false;
-    const element = document.querySelector('div[tool_id]');
+    const element = document.getElementById('tool-card-body');
     if (element) {
         debugLog('Tool form has been loaded');
         matched = showToolMessages();
