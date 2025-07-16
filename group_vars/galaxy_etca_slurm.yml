@@ -24,7 +24,7 @@ slurm_nodes:
     NodeAddr: "{{ hostvars['galaxy-w3']['internal_ip'] }}"
     CPUs: 16
     RealMemory: 64000
-    Weight: 4  # usually 40, set low while w3 is training only
+    Weight: 40
     State: UNKNOWN
   - name: galaxy-w4
     NodeAddr: "{{ hostvars['galaxy-w4']['internal_ip'] }}"
@@ -88,8 +88,7 @@ slurm_nodes:
 
 slurm_partitions:
   - name: main
-    # nodes: "galaxy-w1,galaxy-w2,galaxy-w3,galaxy-w4,galaxy-w5,galaxy-w6,galaxy-w8,galaxy-w9,galaxy-w10"
-    nodes: "galaxy-w1,galaxy-w2,galaxy-w4,galaxy-w5,galaxy-w6,galaxy-w8,galaxy-w9,galaxy-w10"  #  exclude w3 for SBL training
+    nodes: "galaxy-w1,galaxy-w2,galaxy-w3,galaxy-w4,galaxy-w5,galaxy-w6,galaxy-w8,galaxy-w9,galaxy-w10"
     Default: YES
     State: UP
   - name: training
