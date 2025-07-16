@@ -12,6 +12,14 @@ tools:
       max_concurrent_job_count_for_tool_total: null
       max_concurrent_job_count_for_tool_user: null
       require_login: false
+
+      # singularity and docker
+      singularity_default_container_id: "{{ singularity_default_container_id }}"
+      slurm_singularity_volumes: "{{ slurm_singularity_volumes }}"
+      slurm_docker_volumes: "{{ slurm_docker_volumes }}"
+      pulsar_singularity_volumes: "{{ pulsar_singularity_volumes }}"
+      pulsar_docker_volumes: "{{ pulsar_docker_volumes }}"
+
     scheduling:
       reject:
         - offline
@@ -39,5 +47,93 @@ tools:
         log.debug(f'mem: {str(entity.mem)}')
 
     rank: |
-      final_destinations = helpers.weighted_random_sampling(candidate_destinations)
+      if len(candidate_destinations) <= 1:
+        log.info("++ ---tpv rank debug: 1 or fewer destinations: returning candidate_destinations")
+        final_destinations = candidate_destinations
+      else:
+        log.info(f"++ ---tpv rank debug: ranking destinations for job with tool {tool.id}, cores: {cores}, mem: {mem}")
+        import random
+        from sqlalchemy import text
+        from tpv.core.entities import TagType
+
+        raw_sql_query = """
+            select destination_id, state, count(id), sum(cores), sum(mem)
+            from (
+                select id,
+                      CAST((REGEXP_MATCHES(encode(destination_params, 'escape'),'ntasks=(\d+)'))[1] as INTEGER)  as cores,
+                      CAST((REGEXP_MATCHES(encode(destination_params, 'escape'),'mem=(\d+)'))[1] as INTEGER)  as mem,
+                      state,
+                      destination_id
+                from job
+                where state='queued' or state='running'
+                order by destination_id
+            ) as foo
+            group by destination_id, state;
+        """
+
+        # Special case: A job requiring a lot of memory that may run on slurm
+        # will probably run sooner on a high memory node.
+        # If there is more than one candidate destination, remove slurm.
+        high_memory_threshold = 62.5
+        if mem > high_memory_threshold:
+          candidate_destinations = [d for d in candidate_destinations if d.id != 'slurm']
+
+        try:
+          results = app.model.context.execute(text(raw_sql_query))
+          db_queue_info = {}
+          for row in results:
+              # log.info(f"++ ---tpv rank debug: row returned by db query: {str(row)}")
+              destination_id, state, count_id, sum_cores, sum_mem = row
+              if not destination_id in db_queue_info:
+                  db_queue_info[destination_id] = {
+                    'queued': {'sum_cores': 0, 'sum_mem': 0.0, 'job_count': 0},
+                    'running': {'sum_cores': 0, 'sum_mem': 0.0, 'job_count': 0},
+                  }
+              db_queue_info[destination_id][state] = {'sum_cores': sum_cores, 'sum_mem': sum_mem, 'job_count': count_id}
+
+          def score_preferred(dest, ent):
+              """
+              Computes a compatibility score between tag sets based only on a 'prefer' tag in one matching a positive tag in the other.
+              :param ent:
+              :return:
+              """
+              def a_prefers_b(a_tags, b_tags):
+                  return any(
+                    tag for tag in a_tags.filter(tag_type = TagType.PREFER)
+                    if list(b_tags.filter(tag_type = [TagType.ACCEPT, TagType.PREFER, TagType.REQUIRE], tag_value = tag.value))
+                  )
+              dest_tags = dest.tpv_dest_tags
+              ent_tags = ent.tpv_tags
+              score = 1 if a_prefers_b(dest_tags, ent_tags) or a_prefers_b(ent_tags, dest_tags) else 0
+              return score
+
+          def destination_availability_score(destination):
+              if not destination.context.get('destination_total_mem') or not destination.context.get('destination_total_cores'):
+                raise Exception(f"++ ---tpv rank debug: At least one of destination_total_mem, destination_total_cores is unavailable")
+              destination_ids = [destination.id] + destination.context.get('shared_resource_destination_ids', [])
+              destination_cores_committed = sum(
+                  db_queue_info.get(d_id, {}).get(state, {}).get('sum_cores', 0)
+                  for d_id in destination_ids
+                  for state in ['queued', 'running']
+              )
+              destination_mem_committed = sum(
+                  db_queue_info.get(d_id, {}).get(state, {}).get('sum_mem', 0.0)
+                  for d_id in destination_ids
+                  for state in ['queued', 'running']
+              )
+              available_cores = destination.context['destination_total_cores'] - destination_cores_committed
+              available_mem = float(destination.context['destination_total_mem']) - (float(destination_mem_committed)/1024)
+ 
+              the_score = min(available_cores/cores, available_mem/mem) # returns the number of jobs with cores/mem that could run at destination
+              log.info(f"++ ---tpv rank debug: The availablity score for destination {destination.id} is {the_score}")
+              return the_score
+
+          # Sort destinations by the number of jobs with these values of entity cores/mem that would be able to run there
+          candidate_destinations.sort(key=lambda d: (-1 * score_preferred(d, entity), -1 * destination_availability_score(d), random.randint(0,9)))
+
+          final_destinations = candidate_destinations
+          log.info(f"++ ---tpv rank debug: destinations ranked: {[d.id for d in final_destinations]}")
+        except Exception:
+          log.exception("++ ---tpv rank debug: An error occurred with database query and/or surrounding logic. Using a weighted random candidate destination")
+          final_destinations = helpers.weighted_random_sampling(candidate_destinations)
       final_destinations

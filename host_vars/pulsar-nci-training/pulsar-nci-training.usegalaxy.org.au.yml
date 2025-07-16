@@ -1,12 +1,10 @@
-hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
-
+# attached_volumes
 attached_volumes:
   - device: /dev/vdc
     path: /mnt
     fstype: ext4
 
-# Keys and shares
-
+# common
 create_ssh_key: yes  # Only the first time.
 ssl_country: "AU"
 ssl_state: "ACT"
@@ -17,12 +15,7 @@ ssl_email: "help@genome.edu.au"
 
 add_hosts_workers: yes
 
-#host specific pulsar settings
-
-rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_nci_training_prod }}"
-pulsar_queue_url: "galaxy-queue.usegalaxy.org.au"
-pulsar_rabbit_username: "galaxy_nci_training"
-pulsar_rabbit_vhost: "/pulsar/galaxy_nci_training"
+hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
 
 extra_keys:
   - id: ubuntu_maintenance_key
@@ -31,11 +24,21 @@ extra_keys:
   - id: pulsar_internal_hop_key
     type: private
 
-# ssh config for ubuntu to ssh to worker machines
 ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/pulsar_internal_hop_key"
 ssh_config_user: ubuntu
 ssh_config_hosts: "{{ groups['pulsar_nci_training_workers'] }}"
 
-# docker
+# geerlingguy.nfs
+nfs_exports:
+    - "{{ pulsar_custom_indices_dir }}  10.0.0.0/22(rw,async,no_root_squash,no_subtree_check)"
+    - "/mnt/pulsar  10.0.0.0/22(rw,async,no_root_squash,no_subtree_check)"
+
+# galaxyproject.pulsar
+rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_nci_training_prod }}"
+pulsar_queue_url: "galaxy-queue.usegalaxy.org.au"
+pulsar_rabbit_username: "galaxy_nci_training"
+pulsar_rabbit_vhost: "/pulsar/galaxy_nci_training"
+
+# geerlingguy.docker
 docker_daemon_options:
   data-root: /mnt/docker-data

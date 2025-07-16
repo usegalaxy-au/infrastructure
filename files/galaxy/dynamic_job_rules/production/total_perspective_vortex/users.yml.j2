@@ -93,6 +93,18 @@ users:
             singularity_enabled: True
             docker_enabled: False
             dependency_resolution: none
+        - id: conda_test_user_rule
+          if: |
+            disable_docker_and_singularity = False
+            if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+              try:
+                disable_docker_and_singularity = 'conda' in [hta.user_tname for hta in job.history.tags]
+              except:
+                pass
+            disable_docker_and_singularity
+          params:
+            singularity_enabled: False
+            docker_enabled: False
     jenkins_bot@usegalaxy.org.au:
       inherits: test_user
       cores: test_cores

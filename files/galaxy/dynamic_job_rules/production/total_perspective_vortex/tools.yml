@@ -45,6 +45,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/10x_bamtofastq/10x_bamtofastq/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/add_line_to_file/add_line_to_file/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/agat/agat/.*:
     params:
       singularity_enabled: true
@@ -78,10 +81,19 @@ tools:
       if: input_size < 0.01
       cores: 2
       mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/bgruening/augustus_training/augustus_training/.*:
+    params:
+      singularity_enabled: false  # TODO: Test with singularity. Built-in tool tests fail by design, testing is difficult.
   toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina/docking/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina_prepare_box/prepare_box/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina_prepare_ligand/prepare_ligand/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina_prepare_receptor/prepare_receptor/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/bioimage_inference/bioimage_inference/.*:
@@ -106,6 +118,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/canu/canu/.*:
     context:
       max_concurrent_job_count_for_tool_user: 2
+      minimum_singularity_version: '2.2+galaxy0'
     cores: 60
     mem: 961
     scheduling:
@@ -138,7 +151,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/chemical_data_sources/ctb_online_data_fetch/.*:
     params:
       singularity_enabled: true
-      singularity_container_id_override: docker://quay.io/biocontainers/openbabel:2.3.2--py27_2
+      singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/openbabel:2.3.2--py27_2
   toolshed.g2.bx.psu.edu/repos/bgruening/circexplorer/circexplorer/.*:
     params:
       singularity_enabled: true
@@ -367,7 +380,7 @@ tools:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/4\.1\.5.*:
     params:
-      singularity_container_id_override: docker://quay.io/biocontainers/repeatmasker:4.1.5--pl5321hdfd78af_0
+      singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/repeatmasker:4.1.5--pl5321hdfd78af_0
   toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/.*:
     cores: 4
     mem: 15.3
@@ -839,7 +852,8 @@ tools:
       cores: 15
       mem: cores * 3.1
       scheduling:
-        require: pulsar-blast
+        require:
+        - pulsar-blast
         accept:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastx_wrapper/.*:
@@ -859,6 +873,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/picard/.*:
     cores: 3
     mem: 11.5
+    env: 
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     params:
       tmp_dir: true
     scheduling: # these jobs can run on pulsar but it may not be worth transferring them because the job walltime is much quicker than the transport time
@@ -940,7 +956,10 @@ tools:
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/dnbenso/masurca_simple/masurca_simple/.*:
     cores: 8 
-    mem: 42 # TODO: this is part of shared db already but can't be merged because linting is out of order
+    mem: 120
+    scheduling:
+      prefer:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/earlhaminst/lotus2/lotus2/.*:
     params:
       singularity_enabled: false
@@ -1364,11 +1383,21 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/artic.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/.*:
+    mem: 16
+    params:
+      singularity_enabled: true
+    rules:
+    - id: bandage_large_input_rule
+      if: input_size > 5
+      mem: 42
+  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_info/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/.*
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
     context:
       max_concurrent_job_count_for_tool_user: 5
     cores: 8
-    mem: 30.7
+    mem: 70
     params:
       singularity_enabled: true
     scheduling:
@@ -1621,11 +1650,17 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     cores: 1
     mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/deg_annotate/deg_annotate/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/.*:
     cores: 3
     mem: 11.5
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/dexseq/dexseq/.*:
     cores: 9
     mem: 34.5
@@ -1695,6 +1730,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/.*:
     cores: 5
     mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/fastplong/fastplong/.*:
+    cores: 8
+    mem: 31
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate.*:
     params:
       singularity_enabled: true
@@ -1703,6 +1743,11 @@ tools:
         - pulsar
       require:
         - funannotate  # both funannotate dbs in /mnt/custom-indices on destination VM
+    rules:
+      - id: funnannotate_v1_8_17_container_override_rule
+        if: tool.version.startswith('1.8.17')
+        params:
+          singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/funannotate:1.8.17--pyhdfd78af_1
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_compare/funannotate_compare/.*:
     cores: 8
     mem: 40
@@ -2173,13 +2218,8 @@ tools:
       cores: 16
       mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/.*:
-    cores: 16
-    mem: 62
-    rules:
-    - id: metaphlan_small_input_rule
-      if: input_size < 0.001
-      cores: 4
-      mem: 15.3
+    cores: 8
+    mem: 31
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan2/metaphlan2/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/.*
     params:
@@ -2438,6 +2478,8 @@ tools:
       if: 0.02 <= input_size < 2
       cores: 5
       mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_venn/mothur_venn/.*:  # does not work on pulsar
+      mem: 2
   toolshed.g2.bx.psu.edu/repos/iuc/multigsea/multigsea/.*:
     params:
       singularity_enabled: true
@@ -2455,9 +2497,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
     cores: 5
     mem: 19.1
-    scheduling:
-      accept:
-      - pulsar
+    # This tool was running on pulsar with singularity_enabled: true until July '25 because the latest version
+    # (4.0.0+galaxy1) does not pass all of its tests with the singularity container but does pass
+    # them with the conda environment, unlike previous versions
+    params:
+      singularity_enabled: false
     rules:
     - id: mummer_nucmer_small_input_rule
       if: input_size < 0.01
@@ -2713,6 +2757,13 @@ tools:
       if: input_size < 0.2
       cores: 4
       mem: 15.3
+    - id: ragtag_large_input_rule
+      if: input_size > 1.4
+      cores: 8
+      mem: 200
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/rapidnj/rapidnj/.*:
     params:
       singularity_enabled: true
@@ -3859,7 +3910,7 @@ tools:
   restricted_interactive_tool:
     inherits: interactive_tool_.*
     context:
-      interactive_tool_embargo_days: 28      
+      interactive_tool_embargo_days: 7      
     rules:
       - id: restricted_interactive_tool_restriction_rule
         if: |
@@ -3973,6 +4024,10 @@ tools:
       - pulsar-qld-gpu5
       - pulsar-qld-gpu-other
       - pulsar-qld-gpu
+
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_error_correct/dorado_error_correct/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*
+    
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_pod5_convert/dorado_pod5_convert/.*:
     cores: 8
     params:
@@ -3982,7 +4037,6 @@ tools:
     params:
       singularity_enabled: true
 
-
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/plot_ragtag_paf/plot_ragtag_paf/.*:
     params:
       singularity_enabled: true
@@ -3990,6 +4044,3 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/aarnet_filesender/aarnet_filesender/.*:
     params:
       singularity_enabled: true
-
-  dorado_error_correct:
-    inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*

@@ -23,6 +23,8 @@ galaxy_db_reader_password: "{{ vault_dev_db_reader_password }}"
 galaxy_db_tiaasadmin_password: "{{ vault_dev_db_tiaasadmin_password }}"
 galaxy_db_tiaas_password: "{{ vault_dev_db_tiaas_password }}"
 
+install_python_311: True
+
 # Override permission level for tool devs on dev
 host_machine_users:
     - name: mike

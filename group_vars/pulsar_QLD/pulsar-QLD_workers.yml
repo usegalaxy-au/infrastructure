@@ -1,7 +1,14 @@
-slurm_roles: ['exec']
+# attached_volumes
+attached_volumes:
+  - device: /dev/vdb
+    partition: 1
+    path: /mnt
+    fstype: ext4
 
+# common
 add_hosts_head: yes
 
+# mounts
 shared_mounts:
     - path: /mnt/custom-indices
       src: "{{ hostvars['pulsar-QLD-nfs']['ansible_ssh_host'] }}:/mnt/custom-indices"
@@ -12,14 +19,13 @@ shared_mounts:
       fstype: nfs
       state: mounted
 
+# galaxyproject.slurm
+slurm_roles: ['exec']
 
-# cvmfs
+# galaxyproject.cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 cvmfs_quota_limit: 102400
 
-#Attached volume
-attached_volumes:
-  - device: /dev/vdb
-    partition: 1
-    path: /mnt
-    fstype: ext4
+# geerlingguy.docker
+docker_daemon_options:
+  data-root: /mnt/docker-data

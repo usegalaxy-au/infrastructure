@@ -1,0 +1,60 @@
+---
+- name: Add pulsar "ghost job" functions to the pulsar user's bashrc
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (pulsar-post-tasks role: ghost jobs functions)"
+    dest: "/home/{{ pulsar_user.name }}/.bashrc"
+    block: |
+        # Experimental functions for restarting postprocessing of pulsar jobs
+        # if jobs are in 'running' state in galaxy but have long since finished
+        # postprocessing in pulsar logs
+        #
+        # Usage: retry_ghost_jobs 1234567 2345678
+        #
+        # where 1234567 2345678 are galaxy job IDs
+        #
+        # It may sometimes be useful to invoke functions individually.
+        # If it works, it will immediately be apparent from running 
+        # 'sudo systemctl status pulsar' that the postprocessing steps have restarted.
+
+        pulsar_staging_dir="{{ pulsar_staging_dir }}"
+        pulsar_active_jobs_dir="{{ pulsar_persistence_dir }}/_default_-active-jobs"
+
+        remove_final_status_file () {
+            job_id="$1"
+            [ ! $job_id ] && echo 'job ID is required for remove_final_status';
+            rm "${pulsar_staging_dir}/${job_id}/final_status";
+        }
+
+        set_final_status_file () {
+            job_id="$1"
+            [ ! $job_id ] && echo 'job ID is required for set_final_status';
+            echo -n '"complete"' > "${pulsar_staging_dir}/${job_id}/final_status";
+        }
+
+        remove_postprocessed_file () {
+            job_id="$1"
+            [ ! $job_id ] && echo 'job ID is required for remove_postprocessed_file';
+            rm "${pulsar_staging_dir}/${job_id}/postprocessed";
+        }
+
+        set_active_job_file () {
+            job_id="$1"
+            [ ! $job_id ] && echo 'job ID is required for set_active_job_file';
+            touch "${pulsar_active_jobs_dir}/${job_id}"
+        }
+
+        retry_ghost_jobs () {
+            for x in $@; do
+                set_active_job_file $x;
+            done
+            sudo systemctl restart pulsar;
+            sleep 10;
+            for x in $@; do
+                remove_postprocessed_file $x;
+                remove_final_status_file $x;
+            done
+            sleep 10;
+            for x in $@; do
+                set_final_status_file $x;
+            done
+        }

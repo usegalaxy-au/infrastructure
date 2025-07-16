@@ -1,8 +1,20 @@
-slurm_roles: ['exec']
+# attached_volumes 
+attached_volumes:
+  - device: /dev/vdc
+    path: /mnt
+    fstype: ext4
+    partition: 1
 
+# common
 add_hosts_head: yes
 use_internal_ips: true
 
+extra_keys:
+  - id: pulsar_internal_hop_key
+    type: public
+    from: "{{ hostvars['pulsar-nci-training']['internal_ip'] }}"
+
+# mounts
 shared_mounts:
     - path: /mnt/custom-indices
       src: pulsar-nci-training:/mnt/custom-indices
@@ -12,28 +24,14 @@ shared_mounts:
       src: pulsar-nci-training:/mnt/pulsar
       fstype: nfs
       state: mounted
-    - path: /mnt/tools-indices
-      src: pulsar-nci-training:/mnt/tools-indices
-      fstype: nfs
-      state: absent
 
+# galaxyproject.slurm
+slurm_roles: ['exec']
 
-# cvmfs
+# galaxyproject.cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs
 cvmfs_quota_limit: 102400
 
-#Attached volume
-attached_volumes:
-  - device: /dev/vdc
-    path: /mnt
-    fstype: ext4
-    partition: 1
-
-# docker
+# geerlingguy.docker
 docker_daemon_options:
   data-root: /mnt/docker-data
-
-extra_keys:
-  - id: pulsar_internal_hop_key
-    type: public
-    from: "{{ hostvars['pulsar-nci-training']['internal_ip'] }}"

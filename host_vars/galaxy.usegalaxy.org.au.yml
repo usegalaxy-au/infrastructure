@@ -32,7 +32,9 @@ nginx_ssl_servers:
 interactive_tools_server_name: "usegalaxy.org.au"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_24.2
+galaxy_commit_id: release_25.0
+
+galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
 
 # TODO: check list concatenation with versions of ansible > 2.12
 shared_mounts: "{{ galaxy_server_and_worker_shared_mounts + galaxy_web_server_mounts }}" # sourced from galaxy_etca.yml
@@ -129,7 +131,6 @@ host_galaxy_config_gravity:
     upload_dir: "{{ galaxy_tus_upload_store }}"
   gx_it_proxy:
     enable: true
-    version: 0.0.6  # this is the only version that will work on 11/2/25
     ip: "{{ gie_proxy_ip }}"
     port: "{{ gie_proxy_port }}"
     sessions: "{{ gie_proxy_sessions_path }}"
@@ -327,22 +328,22 @@ rpc_pulsar_machines:
     keep_error_days: 7
     cron_hour: "17"
     cron_minute: "40"
-  - pulsar_name: qld-pulsar-himem-0
-    pulsar_ip_address: "{{ hostvars['qld-pulsar-himem-0']['ansible_ssh_host'] }}"
+  - pulsar_name: pulsar-qld-high-mem0
+    pulsar_ip_address: "{{ hostvars['pulsar-qld-high-mem0']['ansible_ssh_host'] }}"
     ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
     delete_jwds: true
     keep_error_days: 7
     cron_hour: "17"
     cron_minute: "50"
-  - pulsar_name: qld-pulsar-himem-1
-    pulsar_ip_address: "{{ hostvars['qld-pulsar-himem-1']['ansible_ssh_host'] }}"
+  - pulsar_name: pulsar-qld-high-mem1
+    pulsar_ip_address: "{{ hostvars['pulsar-qld-high-mem1']['ansible_ssh_host'] }}"
     ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
     delete_jwds: true
     keep_error_days: 7
     cron_hour: "18"
     cron_minute: "00"
-  - pulsar_name: qld-pulsar-himem-2
-    pulsar_ip_address: "{{ hostvars['qld-pulsar-himem-2']['ansible_ssh_host'] }}"
+  - pulsar_name: pulsar-qld-high-mem2
+    pulsar_ip_address: "{{ hostvars['pulsar-qld-high-mem2']['ansible_ssh_host'] }}"
     ssh_key: /home/ubuntu/.ssh/ubuntu_maintenance_key
     delete_jwds: true
     keep_error_days: 7
@@ -524,7 +525,7 @@ job_conf_limits:
 
   - type: destination_total_concurrent_jobs
     id: slurm-training
-    value: 40
+    value: 100
   - type: destination_user_concurrent_jobs
     id: slurm-training
     value: 4
@@ -668,7 +669,7 @@ dt_connection_string: "postgres://reader:{{ galaxy_db_reader_password }}@{{ host
 
 # NFS stuff (for exporting so galaxy-handlers can mount)
 nfs_exports:
-  - "{{ galaxy_root }}  *(rw,async,no_root_squash,no_subtree_check)"
+  - "{{ galaxy_root }}  {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
 
 # Subdomains
 galaxy_subsite_base_domain: "usegalaxy.org.au"

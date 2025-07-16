@@ -694,20 +694,37 @@ local_query-queue() { ##? [--all] [--seconds] [--since-update]: Detailed overvie
 	EOF
 }
 
-local_query-galaxy-session-user(){ ## [username]: Query user session information
-    handle_help "$@" <<-EOF
-        Find session information about the given user, specified by username
+local_query-galaxy-session-user(){ ## [username] <limit>: Query user session information
+	[ ! "$2" ] && limit="50" || limit="$2"
+	handle_help "$@" <<-EOF
+		Find session information about the given user, specified by username.
+		Optional argument of number of rows to return (default: 50).
 
-        $ gxadmin local query-galaxy-session-user username
+		$ gxadmin local query-galaxy-session-user cat-bro 2
+		    id     |        create_time     | user_id |  email        | remote_host  | remote_addr  |                      referer                       | is_valid |        last_action
+		-----------+------------------------+---------+---------------+--------------+--------------+----------------------------------------------------+----------+----------------------------
+		 169657124 | 2025-06-10 04:44:10.37 |  99900  | cat@email.com | 123.123.12.3 | 123.123.12.3 | https://usegalaxy.org.au/login/start?redirect=None | t        | 2025-06-10 04:44:10.356125
+		 169656477 | 2025-06-10 04:05:06.56 |  99900  | cat@email.com | 123.123.12.3 | 123.123.12.3 | https://usegalaxy.org.au/login/start?redirect=None | f        | 2025-06-10 04:05:06.357365
 EOF
 
-    if (( $# > 0 )); then
-        read -r -d '' QUERY <<-EOF
-            SELECT *
-            FROM galaxy_session
-            LEFT JOIN galaxy_user AS galaxy_session_user
-            ON galaxy_session.user_id = galaxy_session_user.id
-            WHERE galaxy_session_user.username = '$1';
+	if (( $# > 0 )); then
+		read -r -d '' QUERY <<-EOF
+			SELECT
+				galaxy_session.id as id,
+				galaxy_session.create_time as create_time,
+				user_id,
+				email,
+				remote_host,
+				remote_addr,
+				referer,
+				is_valid,
+				last_action
+			FROM galaxy_session
+			LEFT JOIN galaxy_user AS galaxy_session_user
+			ON galaxy_session.user_id = galaxy_session_user.id
+			WHERE galaxy_session_user.username = '$1'
+			ORDER BY galaxy_session.create_time DESC
+			LIMIT $limit;
 EOF
     fi
 }
