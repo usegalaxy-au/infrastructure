@@ -1516,6 +1516,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:  # TODO: revisit setting mem based on reference size (https://github.com/usegalaxy-au/infrastructure/issues/1835)
     context:
       max_concurrent_job_count_for_tool_user: 4
+      minimum_singularity_version: '2.2.1+galaxy4'
     cores: 20
     mem: 250
     params:
