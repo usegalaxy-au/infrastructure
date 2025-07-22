@@ -4,5 +4,7 @@
     python manage.py update_cache -y
   args:
     chdir: "{{ labs_config_root }}"
+  async: 600
+  poll: 5
   tags:
     - always
