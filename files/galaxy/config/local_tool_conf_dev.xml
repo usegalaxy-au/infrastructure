@@ -26,6 +26,18 @@
         <tool file="/mnt/galaxy/local_tools/kmc/kmc_tools_transform.xml" />
         <tool file="/mnt/galaxy/local_tools/xnatutils/xnatutils.xml" />
         <tool file="/mnt/galaxy/local_tools/panaroo/panaroo.xml"/>
+        <tool file="/mnt/galaxy/local_tools/autocycler/autocycler_clean.xml" />
+        <tool file="/mnt/galaxy/local_tools/autocycler/autocycler_cluster.xml" />
+        <tool file="/mnt/galaxy/local_tools/autocycler/autocycler_combine.xml" />
+        <tool file="/mnt/galaxy/local_tools/autocycler/autocycler_compress.xml" />
+        <tool file="/mnt/galaxy/local_tools/autocycler/autocycler_decompress.xml" />
+        <tool file="/mnt/galaxy/local_tools/autocycler/autocycler_dotplot.xml" />
+        <tool file="/mnt/galaxy/local_tools/autocycler/autocycler_gfa2fasta.xml" />
+        <tool file="/mnt/galaxy/local_tools/autocycler/autocycler_helper.xml" />
+        <tool file="/mnt/galaxy/local_tools/autocycler/autocycler_resolve.xml" />
+        <tool file="/mnt/galaxy/local_tools/autocycler/autocycler_subsample.xml" />
+        <tool file="/mnt/galaxy/local_tools/autocycler/autocycler_table.xml" />
+        <tool file="/mnt/galaxy/local_tools/autocycler/autocycler_trim.xml" />
 
         <!-- AAGI tools -->
         <tool file="/mnt/galaxy/local_tools/aagi/aagi_001/aagi_001.xml" labels="aagi"/>
