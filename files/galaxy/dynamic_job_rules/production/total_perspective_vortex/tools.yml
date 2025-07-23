@@ -892,6 +892,10 @@ tools:
       if: input_size < 1
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/.*:
+    params:
+      singularity_enabled: true
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/.*:
     cores: 3
     mem: 11.5
