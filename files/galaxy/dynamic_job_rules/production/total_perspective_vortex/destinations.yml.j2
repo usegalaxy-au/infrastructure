@@ -346,6 +346,7 @@ destinations:
     max_accepted_mem: 209
     max_accepted_gpus: 1
     context:
+      pulsar_docker_volumes: "{{ pulsar_docker_volumes }},/data/alphafold_databases:/data:ro"
       destination_total_cores: 64
       destination_total_mem: 558
     tags: {{ job_conf_limits.environments['pulsar-azure-gpu'].tags }}
@@ -354,13 +355,6 @@ destinations:
         - pulsar
         - pulsar-azure-gpu
         - offline
-    rules:
-      - id: pulsar_destination_docker_rule
-        params:
-            docker_volumes: $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro
-            docker_set_user: '1000'
-            docker_memory: '{mem}G'
-            docker_sudo: false
   pulsar-azure-1-gpu:
     inherits: _pulsar_destination
     runner: pulsar_azure_0_runner
@@ -368,6 +362,7 @@ destinations:
     max_accepted_mem: 209
     max_accepted_gpus: 1
     context:
+      pulsar_docker_volumes: "{{ pulsar_docker_volumes }},/data/alphafold_databases:/data:ro"
       destination_total_cores: 64
       destination_total_mem: 558
     tags: {{ job_conf_limits.environments['pulsar-azure-1-gpu'].tags }}
@@ -376,13 +371,6 @@ destinations:
         - pulsar
         - pulsar-azure-1-gpu
         - offline
-    rules:
-      - id: pulsar_destination_docker_rule
-        params:
-            docker_volumes: $job_directory:ro,$tool_directory:ro,$job_directory/home:rw,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro
-            docker_set_user: '1000'
-            docker_memory: '{mem}G'
-            docker_sudo: false
   _pulsar_qld_gpu:
     abstract: true
     inherits: _pulsar_destination
@@ -390,19 +378,13 @@ destinations:
     max_accepted_mem: 582
     max_accepted_gpus: 1
     context:
+      pulsar_docker_volumes: "{{ pulsar_docker_volumes }},/data/alphafold_databases:/data:ro"
       destination_total_cores: 64
       destination_total_mem: 582
     scheduling:
       require:
         - pulsar
         - pulsar-qld-gpu
-    rules:
-      - id: pulsar_destination_docker_rule
-        params:
-            docker_volumes: $job_directory:ro,$job_directory/home:rw,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold:/data:ro
-            docker_set_user: '1000'
-            docker_memory: '{mem}G'
-            docker_sudo: false
   _pulsar_qld_gpu_rescue_mode:  # when gpu pulsars have to run normal jobs
     abstract: true
     inherits: _pulsar_destination
@@ -410,18 +392,12 @@ destinations:
     max_accepted_mem: 582
     max_accepted_gpus: 1
     context:
+      pulsar_docker_volumes: "{{ pulsar_docker_volumes }},/data/alphafold_databases:/data:ro"
       destination_total_cores: 64
       destination_total_mem: 582
     scheduling:
       require:
         - pulsar
-    rules:
-      - id: pulsar_destination_docker_rule
-        params:
-            docker_volumes: $job_directory:ro,$job_directory/home:rw,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold:/data:ro
-            docker_set_user: '1000'
-            docker_memory: '{mem}G'
-            docker_sudo: false
   pulsar-qld-gpu1:
     inherits: _pulsar_qld_gpu
     runner: pulsar-qld-gpu1_runner
