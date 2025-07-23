@@ -7,4 +7,4 @@ clean_tmpdisk_user: ubuntu
 clean_tmpdisk_cron_hour: "19"
 clean_tmpdisk_cron_minute: "00"
 
-clean_tmpdisk_enable_cron_job: false  # set this to false for testing phase, then default to true
+clean_tmpdisk_enable_cron_job: true

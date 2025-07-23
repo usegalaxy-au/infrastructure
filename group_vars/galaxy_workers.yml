@@ -34,3 +34,6 @@ extra_keys:
   - id: internal_hop_key
     type: public
     from: "{{ hostvars['galaxy']['internal_ip'] }},{{ hostvars['galaxy-backup']['internal_ip'] }},{{ hostvars['galaxy-queue']['internal_ip'] }},{{ hostvars['galaxy-handlers']['internal_ip'] }}"
+
+# clean-tmpdisk role
+clean_tmpdisk_enable_cron_job: false
