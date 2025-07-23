@@ -2,8 +2,7 @@
 
 add_hosts_handlers: yes
 
-# Login override - checksum for Login.vue
-galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
+common_logrotate_manage_rsyslog: true
 
 # total perspective vortex
 # tpv_version: "2.2.4"
@@ -74,8 +73,8 @@ galaxy_pulsar_job_working_directory: "{{ galaxy_tmp_dir }}/pulsar_jwds"
 host_galaxy_extra_dirs:
   - "{{ galaxy_pulsar_job_working_directory }}"
 
-galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_25.0
+galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
+galaxy_commit_id: release_25.0_au_dev
 
 galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
 

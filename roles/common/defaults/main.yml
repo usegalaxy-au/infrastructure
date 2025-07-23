@@ -16,3 +16,8 @@ common_sacct_format: "jobid%8,partition%9,jobname%30,alloccpus,elapsed,totalcpu,
 common_bashrc_dir: /etc/bashrc_common
 common_bashrc_vars_file: "{{ common_bashrc_dir }}/common_variables"
 common_bashrc_functions_file: "{{ common_bashrc_dir }}/common_functions"
+
+common_logrotate_manage_rsyslog: false
+common_logrotate_rsyslog_file: /etc/logrotate.d/rsyslog
+common_logrotate_rsyslog_rotate_count: 14
+common_logrotate_rsyslog_frequency: daily
