@@ -224,6 +224,7 @@ host_galaxy_config: # renamed from __galaxy_config
       singlecell.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_singlecell.yml"
       dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_main.yml"
     welcome_directory: plugins/welcome_page/new_user/static/topics/
+    enable_beta_tool_formats: true  # user defined tools new as of release_25.0
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
