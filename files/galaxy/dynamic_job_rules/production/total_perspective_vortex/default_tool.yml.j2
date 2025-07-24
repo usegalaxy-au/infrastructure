@@ -8,8 +8,8 @@ tools:
     env: 
       HDF5_USE_FILE_LOCKING: "FALSE"
       SINGULARITYENV_HDF5_USE_FILE_LOCKING: "FALSE"
-      _JAVA_OPTIONS: -Xmx{int(mem or 3.8)}G -Xms1G
-      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem or 3.8)}G -Xms1G
+      _JAVA_OPTIONS: -Xmx{int(mem or 3.8)}G -Xms1G -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem or 3.8)}G -Xms1G -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     context:
       partition: main
       test_cores: 1  # TODO: test_mem?
