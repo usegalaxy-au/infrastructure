@@ -83,7 +83,7 @@ users:
         - id: singularity_test_user_rule
           if: |
             enable_singularity = False
-            if tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"]):
+            if tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed.")):
               try:
                 enable_singularity = job.history is not None and 'singularity' in [hta.user_tname for hta in job.history.tags]
               except:
@@ -96,7 +96,7 @@ users:
         - id: conda_test_user_rule
           if: |
             disable_docker_and_singularity = False
-            if tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"]):
+            if tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed.")):
               try:
                 disable_docker_and_singularity = job.history is not None and 'conda' in [hta.user_tname for hta in job.history.tags]
               except:
@@ -132,7 +132,7 @@ users:
     pulsar_mel2_user@usegalaxy.org.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar # pulsar must be in require/prefer/accept for a job to be scheduled to pulsar
@@ -142,7 +142,7 @@ users:
     pulsar_mel3_user@usegalaxy.org.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar
@@ -152,7 +152,7 @@ users:
     pulsar_paw_user@usegalaxy.org.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar
@@ -162,7 +162,7 @@ users:
     phm1@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar
@@ -172,7 +172,7 @@ users:
     phm2@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"]) or any([tool.id == x for x in ['fgenesh']])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed.", "fgenesh_annotate"))
           scheduling:
             accept:
               - pulsar
@@ -182,7 +182,7 @@ users:
     pncitrain@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar
@@ -193,7 +193,7 @@ users:
     pqhm0@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar
@@ -203,7 +203,7 @@ users:
     pqhm1@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar
@@ -213,7 +213,7 @@ users:
     pqhm2@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar
@@ -223,7 +223,7 @@ users:
     pblast@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar
@@ -234,7 +234,7 @@ users:
     pqld@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar
@@ -245,7 +245,7 @@ users:
     qldgpu1@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar
@@ -256,7 +256,7 @@ users:
     qldgpu2@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar
@@ -267,7 +267,7 @@ users:
     qldgpu3@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar
@@ -278,7 +278,7 @@ users:
     qldgpu4@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar
@@ -289,7 +289,7 @@ users:
     qldgpu5@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar
@@ -300,7 +300,7 @@ users:
     qldgpu6@genome.edu.au:
       inherits: test_user
       rules:
-        - if: tool.id is not None and any(tool.id.startswith(f"{ts}.") for ts in ["toolshed", "testtoolshed"])
+        - if: tool.id is not None and tool.id.startswith(("toolshed.", "testtoolshed."))
           scheduling:
             accept:
               - pulsar

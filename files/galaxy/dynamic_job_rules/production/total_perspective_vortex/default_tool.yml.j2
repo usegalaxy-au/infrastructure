@@ -79,7 +79,7 @@ tools:
           and pulsar_score_slurm_threshold is not None
           and pulsar_score_slurm_max_cores is not None
           and pulsar_score_slurm_max_mem is not None
-          and any(isinstance(entity.mem, ntype) for ntype in [int, float]) and (
+          and isinstance(entity.mem, (int, float)) and (
             helpers.tag_values_match(entity, ['pulsar'], [])  # tool is eligible to run on pulsar
             and pulsar_score < pulsar_score_slurm_threshold  # tool has a low score for resources used * runtime per GB of input/output data
             and int(entity.cores or 1) < pulsar_score_slurm_max_cores  # job resource requirements are not so high as to make automatic slurm assignment difficult 
