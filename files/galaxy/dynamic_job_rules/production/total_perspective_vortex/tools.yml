@@ -797,7 +797,7 @@ tools:
       if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
-      mem: cores * 3.1
+      mem: int(cores or 1) * 3.1
       scheduling:
         require:
         - pulsar-blast
@@ -811,7 +811,7 @@ tools:
       if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
-      mem: cores * 3.1
+      mem: int(cores or 1) * 3.1
       scheduling:
         require:
         - pulsar-blast
@@ -825,7 +825,7 @@ tools:
       if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
-      mem: cores * 3.1
+      mem: int(cores or 1) * 3.1
       scheduling:
         require:
         - pulsar-blast
@@ -850,7 +850,7 @@ tools:
       if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
-      mem: cores * 3.1
+      mem: int(cores or 1) * 3.1
       scheduling:
         require:
         - pulsar-blast
@@ -864,7 +864,7 @@ tools:
       if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
-      mem: cores * 3.1
+      mem: int(cores or 1) * 3.1
       scheduling:
         require:
         - pulsar-blast
@@ -1046,14 +1046,20 @@ tools:
       tmp_dir: true
     rules:
     - if: |
-        user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        'Alphafold_plus' in user_roles
+        user_has_access = False
+        if user is not None:
+          user_roles = [role.name for role in user.all_roles() if not role.deleted]
+          user_has_role = 'Alphafold_plus' in user_roles
+        user_has_access
       context:
         alphafold_aa_length_max: 3000
         alphafold_max_input_sequences: 20
     - if: |
-        user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        user and 'Alphafold' in user_roles and not 'pulsar_gpu_test' in user_roles
+        user_has_access = False
+        if user is not None:
+          user_roles = [role.name for role in user.all_roles() if not role.deleted]
+          user_has_access = user and 'Alphafold' in user_roles and not 'pulsar_gpu_test' in user_roles
+        user_has_access
       scheduling:
         require:
         - pulsar
@@ -1062,8 +1068,11 @@ tools:
         accept:
         - training-exempt
     - if: |
-        user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        user.username in [f'qldgpu{x+1}' for x in range(6)] or 'pulsar_gpu_test' in user_roles
+        user_has_access = False
+        if user is not None:
+          user_roles = [role.name for role in user.all_roles() if not role.deleted]
+          user_has_access = user.username in [f'qldgpu{x+1}' for x in range(6)] or 'pulsar_gpu_test' in user_roles
+        user_has_access
       scheduling:
         accept:
         - pulsar
