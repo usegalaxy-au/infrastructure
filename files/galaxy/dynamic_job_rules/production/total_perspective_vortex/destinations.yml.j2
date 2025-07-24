@@ -346,7 +346,6 @@ destinations:
     max_accepted_mem: 209
     max_accepted_gpus: 1
     context:
-      pulsar_docker_volumes: "{{ pulsar_docker_volumes }},/data/alphafold_databases:/data:ro"
       destination_total_cores: 64
       destination_total_mem: 558
     tags: {{ job_conf_limits.environments['pulsar-azure-gpu'].tags }}
@@ -362,7 +361,6 @@ destinations:
     max_accepted_mem: 209
     max_accepted_gpus: 1
     context:
-      pulsar_docker_volumes: "{{ pulsar_docker_volumes }},/data/alphafold_databases:/data:ro"
       destination_total_cores: 64
       destination_total_mem: 558
     tags: {{ job_conf_limits.environments['pulsar-azure-1-gpu'].tags }}
@@ -378,7 +376,6 @@ destinations:
     max_accepted_mem: 582
     max_accepted_gpus: 1
     context:
-      pulsar_docker_volumes: "{{ pulsar_docker_volumes }},/data/alphafold_databases:/data:ro"
       destination_total_cores: 64
       destination_total_mem: 582
     scheduling:
@@ -392,7 +389,6 @@ destinations:
     max_accepted_mem: 582
     max_accepted_gpus: 1
     context:
-      pulsar_docker_volumes: "{{ pulsar_docker_volumes }},/data/alphafold_databases:/data:ro"
       destination_total_cores: 64
       destination_total_mem: 582
     scheduling:
