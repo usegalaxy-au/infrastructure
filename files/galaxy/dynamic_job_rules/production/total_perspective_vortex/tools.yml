@@ -1047,7 +1047,7 @@ tools:
         user_has_access = False
         if user is not None:
           user_roles = [role.name for role in user.all_roles() if not role.deleted]
-          user_has_role = 'Alphafold_plus' in user_roles
+          user_has_access = 'Alphafold_plus' in user_roles
         user_has_access
       context:
         alphafold_aa_length_max: 3000
@@ -1056,7 +1056,7 @@ tools:
         user_has_access = False
         if user is not None:
           user_roles = [role.name for role in user.all_roles() if not role.deleted]
-          user_has_access = user and 'Alphafold' in user_roles and not 'pulsar_gpu_test' in user_roles
+          user_has_access = 'Alphafold' in user_roles and not 'pulsar_gpu_test' in user_roles
         user_has_access
       scheduling:
         require:
@@ -1482,7 +1482,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/3.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/3\.0.*:
     cores: 2
     mem: 7.6
     rules:
