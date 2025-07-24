@@ -37,7 +37,7 @@ tools:
         - offline
     rules:
     - id: login_required_rule
-      if: require_login and user is None
+      if: require_login is True and user is None
       fail: 'Please log in to use {tool.id}'
     - id: minimum_singularity_version_positive_rule
       if: minimum_singularity_version is not None and helpers.tool_version_gte(tool, minimum_singularity_version)
@@ -61,7 +61,7 @@ tools:
         raise JobNotReadyException()
     - id: pulsar_score_prefer_pulsar_rule
       if: |
-        result = pulsar_score is not None and (
+        result = pulsar_score is not None and pulsar_score_pulsar_threshold is not None and (
           helpers.tag_values_match(entity, ['pulsar'], [])  # tool is eligible to run on pulsar
           and pulsar_score > pulsar_score_pulsar_threshold  # tool scores highly for resources used * runtime per GB of input/output data
         )
@@ -73,13 +73,18 @@ tools:
           - pulsar
     - id: pulsar_score_prefer_slurm_rule
       if: |
-        from numbers import Number
-        result = pulsar_score is not None and isinstance(entity.mem, Number) and (
-          helpers.tag_values_match(entity, ['pulsar'], [])  # tool is eligible to run on pulsar
-          and pulsar_score < pulsar_score_slurm_threshold  # tool has a low score for resources used * runtime per GB of input/output data
-          and int(entity.cores or 1) < pulsar_score_slurm_max_cores  # job resource requirements are not so high as to make automatic slurm assignment difficult 
-          and float(entity.mem or 3.8) < pulsar_score_slurm_max_mem
-        )
+        result = (
+          # all(v is not None for v in [pulsar_score, pulsar_score_slurm_threshold, pulsar_score_slurm_max_cores, pulsar_score_slurm_max_mem])  # null checks in bulk like this do not seem to work
+          pulsar_score is not None
+          and pulsar_score_slurm_threshold is not None
+          and pulsar_score_slurm_max_cores is not None
+          and pulsar_score_slurm_max_mem is not None
+          and any(isinstance(entity.mem, ntype) for ntype in [int, float]) and (
+            helpers.tag_values_match(entity, ['pulsar'], [])  # tool is eligible to run on pulsar
+            and pulsar_score < pulsar_score_slurm_threshold  # tool has a low score for resources used * runtime per GB of input/output data
+            and int(entity.cores or 1) < pulsar_score_slurm_max_cores  # job resource requirements are not so high as to make automatic slurm assignment difficult 
+            and float(entity.mem or 3.8) < pulsar_score_slurm_max_mem
+        ))
         if result:
           log.info(f"++ ---tpv rank debug::: preferring slurm for tool {tool.id} (pulsar score {pulsar_score})")
         result
