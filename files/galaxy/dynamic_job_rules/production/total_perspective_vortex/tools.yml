@@ -1576,8 +1576,6 @@ tools:
     scheduling:
       accept:
       - pulsar
-      prefer:
-      - pulsar-qld-rescue
   toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
     cores: 1
     mem: 3.8
@@ -2324,7 +2322,6 @@ tools:
       - pulsar-training-large
       prefer:
       - pulsar-qld-high-mem2
-      - pulsar-qld-rescue
     rules:
     - id: mothur_cluster_split_medium_input_rule
       if: 0.00015 <= input_size < 0.1
