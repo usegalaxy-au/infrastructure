@@ -9,6 +9,8 @@ attached_volumes: # TODO: check this
     fstype: ext4
     partition: 1
 
+common_logrotate_manage_rsyslog: true
+
 certbot_domains:
   - "{{ hostname }}" # galaxy.usegalaxy.org.au
   - "usegalaxy.org.au"
