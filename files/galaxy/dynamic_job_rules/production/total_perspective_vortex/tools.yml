@@ -392,11 +392,15 @@ tools:
       if: input_size < 0.2
       cores: 1
       mem: 3.8
-  toolshed.g2.bx.psu.edu/repos/bgruening/salmon.*:
-    cores: 5
-    mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:  # TODO: memory requirements could be a linear function of input_size in shared db
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+  toolshed.g2.bx.psu.edu/repos/bgruening/salmonquantmerge/salmonquantmerge/.*:
+    cores: 2
+    mem: 7.6
   toolshed.g2.bx.psu.edu/repos/bgruening/sdf_to_tab/sdf_to_tab/.*:
     params:
       singularity_enabled: true
