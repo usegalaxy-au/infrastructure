@@ -3864,6 +3864,8 @@ tools:
     inherits: wig_to_bigWig
   CONVERTER_fasta_to_fai:
     mem: 10
+  CONVERTER_interval_to_bigwig_0:
+    inherits: wig_to_bigWig
   CONVERTER_wig_to_bigwig:
     inherits: wig_to_bigWig  
   fgenesh_tool:
