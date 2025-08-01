@@ -756,6 +756,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+      require:
+      - pulsar-qld-high-mem2
   toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/.*:
     cores: 5
     mem: 19.1
