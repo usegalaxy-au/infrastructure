@@ -751,13 +751,13 @@ tools:
       if: input_size >= 50
       fail: Too much data, please don't use the FreeBayes for this
   toolshed.g2.bx.psu.edu/repos/devteam/gffread/gffread/.*:
-    cores: 8 # was 9 - reduced for pulsar-mel2
-    mem: 31.25 # was 34.5 - reduced for pulsar-mel2
+    cores: 9
+    mem: 65 # was 34.5 - increased to match pulsar-qld-high-mem2 requirements (62.51)
     scheduling:
       accept:
       - pulsar
       require:
-      - pulsar-mel2
+      - pulsar-qld-high-mem2
   toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/.*:
     cores: 5
     mem: 19.1
