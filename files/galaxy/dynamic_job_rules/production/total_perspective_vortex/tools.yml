@@ -756,8 +756,8 @@ tools:
     scheduling:
       accept:
       - pulsar
-      require:
-      - pulsar-qld-high-mem2
+  #    require:
+  #    - pulsar-qld-high-mem2 # fails with No destinations are available to fulfill request: pulsar_score_prefer_slurm_rule, Rule: pulsar_score_prefer_slurm_rule
   toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/.*:
     cores: 5
     mem: 19.1
