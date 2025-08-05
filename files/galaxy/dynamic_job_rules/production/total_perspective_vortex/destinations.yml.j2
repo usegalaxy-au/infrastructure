@@ -157,7 +157,7 @@ destinations:
         - bakta_database
         - funannotate
         - eggnog
-        - training # Temporary reroute while training pulsar is offline
+        # - training # Temporary reroute while training pulsar is offline
         # - pulsar-blast  # alternate location for pulsar blast jobs when pulsar-qld-blast is unavailable
       require:
         - pulsar
@@ -288,7 +288,6 @@ destinations:
       require:
         - pulsar
         - training
-        - offline
 
   pulsar-qld-blast:
     inherits: _pulsar_destination
