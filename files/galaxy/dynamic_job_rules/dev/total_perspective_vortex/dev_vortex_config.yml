@@ -321,6 +321,11 @@ tools:
     params:
       singularity_enabled: True
       singularity_volumes: '$defaults,/cvmfs:ro'
+  GlyComboCLI:
+    cores: 4
+    params:
+      singularity_enabled: True
+      singularity_volumes: '$defaults,/cvmfs:ro'
   toolshed.g2.bx.psu.edu/repos/iracooke/protk_proteogenomics/.*:
     cores: 1
     params:
