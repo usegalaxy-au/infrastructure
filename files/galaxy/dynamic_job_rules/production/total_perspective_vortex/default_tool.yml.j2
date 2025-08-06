@@ -4,12 +4,12 @@ global:
 tools:
   default:
     cores: 1
-    mem: cores * 3.8
+    mem: int(cores or 1) * 3.8
     env: 
       HDF5_USE_FILE_LOCKING: "FALSE"
       SINGULARITYENV_HDF5_USE_FILE_LOCKING: "FALSE"
-      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
-      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      _JAVA_OPTIONS: -Xmx{int(mem or 3.8)}G -Xms1G -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem or 3.8)}G -Xms1G -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     context:
       partition: main
       test_cores: 1  # TODO: test_mem?
@@ -37,7 +37,7 @@ tools:
         - offline
     rules:
     - id: login_required_rule
-      if: require_login and user is None
+      if: require_login is True and user is None
       fail: 'Please log in to use {tool.id}'
     - id: minimum_singularity_version_positive_rule
       if: minimum_singularity_version is not None and helpers.tool_version_gte(tool, minimum_singularity_version)
@@ -61,7 +61,7 @@ tools:
         raise JobNotReadyException()
     - id: pulsar_score_prefer_pulsar_rule
       if: |
-        result = pulsar_score is not None and (
+        result = pulsar_score is not None and pulsar_score_pulsar_threshold is not None and (
           helpers.tag_values_match(entity, ['pulsar'], [])  # tool is eligible to run on pulsar
           and pulsar_score > pulsar_score_pulsar_threshold  # tool scores highly for resources used * runtime per GB of input/output data
         )
@@ -73,13 +73,18 @@ tools:
           - pulsar
     - id: pulsar_score_prefer_slurm_rule
       if: |
-        from numbers import Number
-        result = pulsar_score is not None and isinstance(entity.mem, Number) and (
-          helpers.tag_values_match(entity, ['pulsar'], [])  # tool is eligible to run on pulsar
-          and pulsar_score < pulsar_score_slurm_threshold  # tool has a low score for resources used * runtime per GB of input/output data
-          and entity.cores < pulsar_score_slurm_max_cores  # job resource requirements are not so high as to make automatic slurm assignment difficult 
-          and entity.mem < pulsar_score_slurm_max_mem
-        )
+        result = (
+          # all(v is not None for v in [pulsar_score, pulsar_score_slurm_threshold, pulsar_score_slurm_max_cores, pulsar_score_slurm_max_mem])  # null checks in bulk like this do not seem to work
+          pulsar_score is not None
+          and pulsar_score_slurm_threshold is not None
+          and pulsar_score_slurm_max_cores is not None
+          and pulsar_score_slurm_max_mem is not None
+          and isinstance(entity.mem, (int, float)) and (
+            helpers.tag_values_match(entity, ['pulsar'], [])  # tool is eligible to run on pulsar
+            and pulsar_score < pulsar_score_slurm_threshold  # tool has a low score for resources used * runtime per GB of input/output data
+            and int(entity.cores or 1) < pulsar_score_slurm_max_cores  # job resource requirements are not so high as to make automatic slurm assignment difficult 
+            and float(entity.mem or 3.8) < pulsar_score_slurm_max_mem
+        ))
         if result:
           log.info(f"++ ---tpv rank debug::: preferring slurm for tool {tool.id} (pulsar score {pulsar_score})")
         result
@@ -111,11 +116,15 @@ tools:
             group by destination_id, state;
         """
 
+        # clarify cores/mem values to avoid mypy warnings throughout rank function
+        entity_cores = int(cores or 1)
+        entity_mem = float(mem or 3.8)
+
         # Special case: A job requiring a lot of memory that may run on slurm
         # will probably run sooner on a high memory node.
         # If there is more than one candidate destination, remove slurm.
         high_memory_threshold = 62.5
-        if mem > high_memory_threshold:
+        if entity_mem > high_memory_threshold:
           candidate_destinations = [d for d in candidate_destinations if d.id != 'slurm']
 
         try:
@@ -164,7 +173,7 @@ tools:
               available_cores = destination.context['destination_total_cores'] - destination_cores_committed
               available_mem = float(destination.context['destination_total_mem']) - (float(destination_mem_committed)/1024)
  
-              the_score = min(available_cores/cores, available_mem/mem) # returns the number of jobs with cores/mem that could run at destination
+              the_score = min(available_cores/entity_cores, available_mem/entity_mem) # returns the number of jobs with cores/mem that could run at destination
               log.info(f"++ ---tpv rank debug: The availablity score for destination {destination.id} is {the_score}")
               return the_score
 
