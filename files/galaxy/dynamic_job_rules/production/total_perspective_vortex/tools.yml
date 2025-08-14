@@ -392,11 +392,15 @@ tools:
       if: input_size < 0.2
       cores: 1
       mem: 3.8
-  toolshed.g2.bx.psu.edu/repos/bgruening/salmon.*:
-    cores: 5
-    mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:  # TODO: memory requirements could be a linear function of input_size in shared db
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
+  toolshed.g2.bx.psu.edu/repos/bgruening/salmonquantmerge/salmonquantmerge/.*:
+    cores: 2
+    mem: 7.6
   toolshed.g2.bx.psu.edu/repos/bgruening/sdf_to_tab/sdf_to_tab/.*:
     params:
       singularity_enabled: true
@@ -748,10 +752,12 @@ tools:
       fail: Too much data, please don't use the FreeBayes for this
   toolshed.g2.bx.psu.edu/repos/devteam/gffread/gffread/.*:
     cores: 9
-    mem: 34.5
+    mem: 65 # was 34.5 - increased to match pulsar-qld-high-mem2 requirements (62.51)
     scheduling:
       accept:
       - pulsar
+      require:
+      - pulsar-qld-high-mem2
   toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/.*:
     cores: 5
     mem: 19.1
@@ -892,15 +898,24 @@ tools:
       if: input_size < 1
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/.*:
+    params:
+      singularity_enabled: true
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/.*:
     cores: 3
     mem: 11.5
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/samtools.*:
+    cores: 2
+    mem: 7.6
     params:
       singularity_enabled: true
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
+    cores: 4
+    mem: 15.5
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/samtools_idxstats/.*:
     cores: 2
     mem: 7.6
@@ -1026,19 +1041,20 @@ tools:
   toolshed.g2.bx.psu.edu/repos/ecology/pampa_presabs/pampa_presabs/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/ecology/sanntis_marine/sanntis_marine/.*:
+    mem: 15.5
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     context:
       alphafold_aa_length_max: 3000
       alphafold_max_input_sequences: 10
       alphafold_db: /data/v2.3
       max_concurrent_job_count_for_tool_user: 4
+      pulsar_docker_volumes: $job_directory:ro,$job_directory/home:rw,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold:/data:ro
     gpus: 1
     cores: 16
     mem: 130
     params:
       docker_enabled: true
-      docker_volumes: 
-        $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro
       docker_run_extra_arguments: '--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=5 --env ALPHAFOLD_AA_LENGTH_MAX={alphafold_aa_length_max} --env ALPHAFOLD_MAX_SEQUENCES={alphafold_max_input_sequences} --env ALPHAFOLD_DB={alphafold_db}'
       tmp_dir: true
     rules:
@@ -1516,6 +1532,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:  # TODO: revisit setting mem based on reference size (https://github.com/usegalaxy-au/infrastructure/issues/1835)
     context:
       max_concurrent_job_count_for_tool_user: 4
+      minimum_singularity_version: '2.2.1+galaxy4'
     cores: 20
     mem: 250
     params:
@@ -1572,8 +1589,6 @@ tools:
     scheduling:
       accept:
       - pulsar
-      prefer:
-      - pulsar-qld-rescue
   toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
     cores: 1
     mem: 3.8
@@ -1631,6 +1646,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/coverm_.*:
+    mem: 12
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
@@ -2320,7 +2336,6 @@ tools:
       - pulsar-training-large
       prefer:
       - pulsar-qld-high-mem2
-      - pulsar-qld-rescue
     rules:
     - id: mothur_cluster_split_medium_input_rule
       if: 0.00015 <= input_size < 0.1
@@ -3815,12 +3830,11 @@ tools:
   alphafold_test.*:
     context:
       alphafold_db: /data
+      pulsar_docker_volumes: $job_directory:ro,$job_directory/home:rw,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold:/data:ro
     cores: 16
     mem: 130
     params:
       docker_enabled: true
-      docker_volumes:
-        $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold:/data:ro
       docker_run_extra_arguments: --gpus all --env ALPHAFOLD_AA_LENGTH_MIN=16 --env
         ALPHAFOLD_AA_LENGTH_MAX=3000 --env ALPHAFOLD_DB={alphafold_db}
       tmp_dir: true
@@ -3853,6 +3867,8 @@ tools:
     inherits: wig_to_bigWig
   CONVERTER_fasta_to_fai:
     mem: 10
+  CONVERTER_interval_to_bigwig_0:
+    inherits: wig_to_bigWig
   CONVERTER_wig_to_bigwig:
     inherits: wig_to_bigWig  
   fgenesh_tool:

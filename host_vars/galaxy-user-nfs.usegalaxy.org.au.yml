@@ -33,6 +33,7 @@ nfs_data14_dir: "{{ volD_path }}/data14"  # moved from volA Feb '25
 nfs_data19_dir: "{{ volD_path }}/data19"  # moved from volA April '25
 nfs_data23_dir: "{{ volD_path }}/data23"
 nfs_data24_dir: "{{ volD_path }}/data24"
+nfs_data31_dir: "{{ volD_path }}/data31"
 
 attached_volumes:
   - device: /dev/vdb
@@ -76,6 +77,7 @@ nfs_dirs:
   - "{{ nfs_data28_dir }}"
   - "{{ nfs_data29_dir }}"
   - "{{ nfs_data30_dir }}"
+  - "{{ nfs_data31_dir }}"
 
 nfs_exports:
   - "{{ volA_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"

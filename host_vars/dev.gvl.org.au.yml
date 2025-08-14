@@ -2,8 +2,7 @@
 
 add_hosts_handlers: yes
 
-# Login override - checksum for Login.vue
-galaxy_login_checksum_expected: fd733fa7ea21a22f6f99a095f8c2646b
+common_logrotate_manage_rsyslog: true
 
 # total perspective vortex
 # tpv_version: "2.2.4"
@@ -74,8 +73,8 @@ galaxy_pulsar_job_working_directory: "{{ galaxy_tmp_dir }}/pulsar_jwds"
 host_galaxy_extra_dirs:
   - "{{ galaxy_pulsar_job_working_directory }}"
 
-galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_25.0
+galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
+galaxy_commit_id: release_25.0_au_dev
 
 galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
 
@@ -194,6 +193,7 @@ host_galaxy_config: # renamed from __galaxy_config
     nginx_upload_job_files_path: "/_job_files"
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
+    conda_auto_install: true  # false on production (default)
     cleanup_job: never
     job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
     tool_data_table_config_path: "{{ galaxy_config_dir }}/local_tool_data_table_conf.xml,{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
@@ -225,6 +225,7 @@ host_galaxy_config: # renamed from __galaxy_config
       singlecell.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_singlecell.yml"
       dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_main.yml"
     welcome_directory: plugins/welcome_page/new_user/static/topics/
+    enable_beta_tool_formats: true  # user defined tools new as of release_25.0
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 

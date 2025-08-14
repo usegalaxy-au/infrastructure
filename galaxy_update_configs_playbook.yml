@@ -18,7 +18,8 @@
       listen: "remote restart galaxy"
   tasks:
     - name: Template and copy config files
-      when: not ansible_user == 'jenkins_bot'  # do not let the automatic process object store or restart galaxy
+      # jenkins_bot does not update object store etc unless jenkins_exec has been set to true in command
+      when: (ansible_user != 'jenkins_bot') or (ansible_user == 'jenkins_bot' and jenkins_exec|d(False))
       block: 
       - name: copy job_conf file
         # Note: This step requires only the restart of galaxy processes running on galaxy-handlers VM

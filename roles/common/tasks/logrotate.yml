@@ -1,0 +1,12 @@
+---
+- name: Set logrotate frequency for rsyslog
+  ansible.builtin.replace:
+      path: "{{ common_logrotate_rsyslog_file }}"
+      regexp: '^(\s*)(daily|weekly|monthly)\b'
+      replace: '\1{{ common_logrotate_rsyslog_frequency }}'
+- name: Set logrotate count for rsyslog
+  ansible.builtin.replace:
+      path: "{{ common_logrotate_rsyslog_file }}"
+      regexp: '^(\s*)rotate\s+\d+'
+      replace: '\1rotate {{ common_logrotate_rsyslog_rotate_count }}'
+

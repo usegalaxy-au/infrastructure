@@ -91,6 +91,10 @@
   tags:
     - users
 
+- name: Update logrotate rsyslog config
+  import_tasks: logrotate.yml
+  when: common_logrotate_manage_rsyslog
+
 - name: Add extra ssh keys
   include_tasks: extra_keys.yml
   loop: "{{ extra_keys }}"
