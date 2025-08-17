@@ -1,4 +1,7 @@
 # Copy local webhooks into webhooks folder
+- name: copy default webhooks to Galaxy plugins directory
+  include_tasks: copy_builtin_webhooks.yml
+
 - name: copy webhooks to Galaxy plugins directory
   include_tasks: copy_webhooks.yml
   loop: "{{ webhook_plugins }}"
@@ -9,7 +12,7 @@
   shell: ls -1 {{ webhook_plugins_dest_dir }}
   register: existing_webhook_plugin_dirs
 
-- name: remove old webhook directories
+- name: remove unwanted webhook directories
   file:
     path: "{{ webhook_plugins_dest_dir }}/{{ item }}"
     state: absent
