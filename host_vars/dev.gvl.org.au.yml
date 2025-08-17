@@ -482,6 +482,7 @@ galaxy_scratch_storage_days: 60
 webhook_plugins:
   - subdomain_switcher_24.2
   - toolmsg_24.2
+  - tips
   # These ones aren't in the playbook as they are included in the galaxy repo:
   - gtn
   - news
