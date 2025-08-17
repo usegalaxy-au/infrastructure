@@ -1,4 +1,4 @@
 webhook_plugins: ['demo', 'gtn', 'news'] # webhook dir names to install
 webhook_plugins_src_dir: "templates/galaxy/webhooks"
 webhook_plugins_builtin_dir: "{{ galaxy_server_dir }}/config/plugins/webhooks"
-webhook_plugins_dest_dir: "{{ galaxy.webhooks_dir }}"
+webhook_plugins_dest_dir: "{{ group_galaxy_config.galaxy.webhooks_dir }}"
