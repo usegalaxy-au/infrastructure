@@ -25,16 +25,16 @@
   opacity: 0;
   transform: translateX(50px);
   animation: flyIn 1s ease-out forwards;
-  animation-delay: 1s;
+  animation-delay: 0.25s;
 }
 .loaded .fly-in-1 {
-  animation-delay: 1s;
+  animation-delay: 0.25s;
 }
 .loaded .fly-in-2 {
-  animation-delay: 1.5s;
+  animation-delay: 1s;
 }
 .loaded .fly-in-3 {
-  animation-delay: 2s;
+  animation-delay: 1.75s;
 }
 
 @keyframes flyIn {
