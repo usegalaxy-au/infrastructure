@@ -7,7 +7,7 @@ var loadGalaxyTipFunction;
 
 $(document).ready( () => {
 
-  const GITHUB_BRANCH = "dev"; // Change to "dev" to use development branch
+  const GITHUB_BRANCH = "{% if 'dev' in inventory_hostname %}dev{% else %}main{% endif %}";
   const TIPS_GITHUB_URL = `https://api.github.com/repos/usegalaxy-au/galaxy-tips/contents/tips?ref=${GITHUB_BRANCH}`;
   const TIPS_GITHUB_RAW_BASE_URL = `https://raw.githubusercontent.com/usegalaxy-au/galaxy-tips/refs/heads/${GITHUB_BRANCH}/tips/`
   const TIPS_HEADER_IMG_URL = "https://github.com/usegalaxy-au/galaxy-tips/blob/main/static/img/header.png?raw=true";
