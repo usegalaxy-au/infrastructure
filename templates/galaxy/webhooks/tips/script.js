@@ -3,7 +3,7 @@
 // Use this func in the console to load a specific Galaxy tip for review:
 // To load tip 5.html (when currently on a tool/workflow submission page):
 // >>> loadGalaxyTipFunction(5);
-let loadGalaxyTipFunction;
+var loadGalaxyTipFunction;
 
 $(document).ready( () => {
 
