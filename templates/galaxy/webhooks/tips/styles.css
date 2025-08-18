@@ -14,6 +14,9 @@
 .galaxy-tip.loaded {
   opacity: 1;
 }
+.galaxy-tip a {
+  color: cyan;
+}
 .galaxy-tips-logo {
   width: 100%;
   margin-bottom: 2rem;
