@@ -1,6 +1,9 @@
 // Custom messages for tool forms
 
-let enableDebug = true;
+// => WARNING: this script works for Galaxy versions prior to 24.2 only!
+// => WARNING: see toolmsg_24.2 for updated version
+
+let enableDebug = false;
 const debugLog = (msg) => enableDebug && console.debug("[ToolMsg]: " + msg);
 
 const WAIT_TOOL_MAX_TRIES = 3;
@@ -14,25 +17,21 @@ const toolMessages = [
     },
     {% endfor %}
 ];
-let tries = 0;
-let lastUrlPath = null;
 
 function waitToolFormLoad() {
     tries++;
+    let matched = false;
     const element = document.getElementById('tool-card-body');
     if (element) {
         debugLog('Tool form has been loaded');
-        showToolMessages();
+        matched = showToolMessages();
+        tries = WAIT_TOOL_MAX_TRIES;
     } else {
         debugLog("No tool form detected (tries: " + tries + ")");
-        tries < (
-            WAIT_TOOL_MAX_SECONDS * 1000
-            / WAIT_TOOL_INTERVAL_MS
-         ) && setTimeout(
-            waitToolFormLoad,
-            WAIT_TOOL_INTERVAL_MS,
-        );
     }
+    tries < WAIT_TOOL_MAX_TRIES
+        && !matched
+        && setTimeout(waitToolFormLoad, WAIT_TOOL_INTERVAL);
 }
 
 function isCurrentToolForm(toolId) {
@@ -53,32 +52,26 @@ function showToolMessages() {
     toolMessages.forEach( (toolMessage, i) => {
         if (isCurrentToolForm(toolMessage.tool_id)) {
             const msgId = `toolmsg-${i}`
-            const msgElement = document.createElement('p');
-            msgElement.id = msgId;
-            msgElement.className = 'alert alert-' + toolMessage.class + ' my-3';
-            msgElement.innerHTML = toolMessage.message;
-            let refElement = document.getElementById('tool-card-body');
-            insertToolMsgElement(msgId, msgElement, refElement)
+            const newElement = document.createElement('p');
+            newElement.id = msgId;
+            newElement.className = 'alert alert-' + toolMessage.class + ' my-3';
+            newElement.innerHTML = toolMessage.message;
+            const referenceElement = document.getElementById('tool-card-body');
+            if (referenceElement) {
+                // Ensure that message is not inserted twice
+                document.getElementById(msgId)
+                || referenceElement.parentNode.insertBefore(newElement, referenceElement);
+            } else {
+                debugLog('Reference element with id="tool-card-body" not found.');
+            }
             match = true;
         }
     })
     return match;
 }
 
-// Ensure the reference element is really available - it seems to appear and
-// disappear on more complex tool form renders
-function insertToolMsgElement(msgId, msgElement, refElement) {
-    if (!refElement) {
-        debugLog('Waiting for reference element with id="tool-card-body"...');
-        setTimeout(
-            () => insertToolMsgElement(msgId, msgElement, refElement),
-            WAIT_TOOL_INTERVAL_MS);
-        return;
-    }
-    // Only insert if the message is not already present
-    document.getElementById(msgId)
-    || refElement.parentNode.insertBefore(msgElement, refElement);
-}
+let tries = 0;
+let lastUrlPath = null;
 
 // Add observer for Vue pathname changes
 const observer = new MutationObserver( () => {
@@ -86,7 +79,7 @@ const observer = new MutationObserver( () => {
         debugLog("Triggered mutation observer");
         tries = 0;
         lastUrlPath = window.location.href;
-        setTimeout(waitToolFormLoad, WAIT_TOOL_INTERVAL_MS);
+        setTimeout(waitToolFormLoad, 500);
     }
 });
 
