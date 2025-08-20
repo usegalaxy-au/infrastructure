@@ -1,6 +1,12 @@
 [Unit]
-Description=Galaxy content site socket
+Description=Socket for Galaxy Media Site (Gunicorn)
+
 [Socket]
 ListenStream=/run/gms.sock
+SocketMode=0660
+SocketUser=www-data
+SocketGroup=www-data
+RemoveOnStop=true
+
 [Install]
 WantedBy=sockets.target
