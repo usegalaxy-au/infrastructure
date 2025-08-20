@@ -178,6 +178,7 @@ destinations:
         - cvmfs_cache_800plus
       require:
         - pulsar
+        - offline
   pulsar-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-high-mem2_runner
