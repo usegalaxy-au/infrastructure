@@ -1,10 +1,10 @@
 // Custom messages for tool forms
 
-let enableDebug = true;
-const debugLog = (msg) => enableDebug && console.info("[ToolMsg]: " + msg);
+let enableDebug = false;
+const debugLog = (msg) => enableDebug && console.debug("[ToolMsg]: " + msg);
 
-const WAIT_TOOL_MAX_SECONDS = 5;
-const WAIT_TOOL_INTERVAL_MS = 500;
+const WAIT_TOOL_MAX_TRIES = 3;
+const WAIT_TOOL_INTERVAL = 500;
 const toolMessages = [
     {% for message in toolmsg_messages %}
     {
@@ -19,7 +19,7 @@ let lastUrlPath = null;
 
 function waitToolFormLoad() {
     tries++;
-    const element = document.querySelector('div[tool_id]');
+    const element = document.getElementById('tool-card-body');
     if (element) {
         debugLog('Tool form has been loaded');
         showToolMessages();
@@ -50,21 +50,34 @@ function isCurrentToolForm(toolId) {
 
 function showToolMessages() {
     let match = false;
-    toolMessages.forEach( (toolMessage) => {
+    toolMessages.forEach( (toolMessage, i) => {
         if (isCurrentToolForm(toolMessage.tool_id)) {
-            const newElement = document.createElement('p');
-            newElement.className = 'alert alert-' + toolMessage.class + ' my-3';
-            newElement.innerHTML = toolMessage.message;
-            const referenceElement = document.getElementById('tool-card-body');
-            if (referenceElement) {
-                referenceElement.parentNode.insertBefore(newElement, referenceElement);
-            } else {
-                debugLog('Reference element with id="tool-card-body" not found.');
-            }
+            const msgId = `toolmsg-${i}`
+            const msgElement = document.createElement('p');
+            msgElement.id = msgId;
+            msgElement.className = 'alert alert-' + toolMessage.class + ' my-3';
+            msgElement.innerHTML = toolMessage.message;
+            let refElement = document.getElementById('tool-card-body');
+            insertToolMsgElement(msgId, msgElement, refElement)
             match = true;
         }
     })
     return match;
+}
+
+// Ensure the reference element is really available - it seems to appear and
+// disappear on more complex tool form renders
+function insertToolMsgElement(msgId, msgElement, refElement) {
+    if (!refElement) {
+        debugLog('Waiting for reference element with id="tool-card-body"...');
+        setTimeout(
+            () => insertToolMsgElement(msgId, msgElement, refElement),
+            WAIT_TOOL_INTERVAL_MS);
+        return;
+    }
+    // Only insert if the message is not already present
+    document.getElementById(msgId)
+    || refElement.parentNode.insertBefore(msgElement, refElement);
 }
 
 // Add observer for Vue pathname changes
