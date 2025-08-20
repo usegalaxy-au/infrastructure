@@ -1,21 +1,36 @@
 [Unit]
 Description=Gunicorn for Galaxy Media Site
 Requires=gms.socket
-After=network.target
+After=network-online.target
+Wants=network-online.target
 
 [Service]
+Type=simple
+User=www-data
+Group=www-data
+UMask=027
 PIDFile=/run/gunicorn/pid
-User = www-data
-Group = www-data
 RuntimeDirectory=gunicorn
+RuntimeDirectoryMode=0750
 WorkingDirectory={{ gms_django_root }}
 Environment="PATH={{ gms_venv_root }}/bin:$PATH"
+
 ExecStart={{ gms_venv_root }}/bin/gunicorn --pid /run/gunicorn/pid   \
           --bind unix:/run/gms.sock       \
           -c {{ gms_server_root }}/gunicorn.py webapp.wsgi
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
-PrivateTmp=true
+KillSignal=SIGQUIT
+TimeoutStopSec=30s
+KillMode=mixed
+
+Restart=on-failure
+RestartSec=5s
+StartLimitIntervalSec=60
+StartLimitBurst=10
+OOMPolicy=kill
+
+
 
 [Install]
-WantedBy=multi-user.target
+# Intentionally omitted: socket triggers service

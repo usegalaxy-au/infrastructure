@@ -4,14 +4,11 @@
   meta: flush_handlers
   tags: postgresql
 
-- name: Add the deadsnakes PPA repository
-  apt_repository:
+- name: Add deadsnakes repo  # Requires Ansible >=2.16
+  ansible.builtin.apt_repository:
     repo: ppa:deadsnakes/ppa
     state: present
-
-- name: update apt cache
-  ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
 
 - name: install systems dependencies
   ansible.builtin.package:
@@ -43,7 +40,7 @@
     sudo -u postgres psql -d {{ postgres_db_name }} -c
     "GRANT ALL PRIVILEGES ON DATABASE {{ postgres_db_name }} TO {{ postgres_db_user }};
     GRANT ALL ON SCHEMA public TO {{ postgres_db_user }};"
-  become: yes
+  become: true
   tags:
     - pg-permissions
 
@@ -134,7 +131,7 @@
       --email {{ gms_admin_user.email }}
       --first_name {{ gms_admin_user.first_name }}
       --last_name {{ gms_admin_user.last_name }}
-  ignore_errors: yes
+  ignore_errors: true
   when: gms_admin_user and not skip_database_migration
 
 - name: update project ownership
@@ -185,16 +182,22 @@
     job: "cd {{ gms_django_root }} && {{ gms_venv_root }}/bin/python manage.py scrape_news"
   when: check_scraper.rc == 0
 
+- name: Enable and start gms.service
+  ansible.builtin.systemd:
+    name: gms.service
+    enabled: yes
+    state: restarted
+  tags: always
+
+- name: Enable and start gms.socket
+  ansible.builtin.systemd:
+    name: gms.socket
+    enabled: yes
+    state: started
+
 - name: restart nginx
   ansible.builtin.systemd:
     name: nginx
     state: restarted
   tags:
     - config
-
-- name: restart gms
-  ansible.builtin.systemd:
-    name: gms
-    state: restarted
-  tags:
-    - always

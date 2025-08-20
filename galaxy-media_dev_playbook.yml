@@ -15,12 +15,19 @@
     - name: update apt cache
       ansible.builtin.apt:
         update_cache: yes
+      tags: always
     - name: install system dependencies
       ansible.builtin.package:
         name:
+          - software-properties-common
           - libpq-dev
-          - python3-pip
-      tags: postgresql
+    - name: Create postgres socket directory
+      ansible.builtin.file:
+        path: /var/run/postgresql
+        state: directory
+        owner: postgres
+        group: postgres
+        mode: '0755'
 
   post_tasks:
     - name: Add GitHub CI pub key to authorized_keys

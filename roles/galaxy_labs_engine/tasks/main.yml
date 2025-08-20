@@ -94,7 +94,7 @@
   file: dest={{ labs_django_root }}/db.sqlite3 owner=www-data group=www-data mode=u=rw,g=rw,o=r
   tags:
     - permissions
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Update sqlite3 database directory permissions
   file:
@@ -143,23 +143,24 @@
     --last_name {{ labs_admin_user.last_name }}
   args:
     chdir: "{{ labs_config_root }}"
-  ignore_errors: yes
+  ignore_errors: true
   when: labs_admin_user.email
   tags:
     - init
     - django
 
-- name: enable labs_engine socket
-  ansible.builtin.systemd:
-    name: labs_engine.socket
-    enabled: yes
-    state: started
-  tags: init
-
 - name: Run systemctl daemon-reload
   ansible.builtin.command: "systemctl daemon-reload"
-  become: yes
+  become: true
   tags: config
+
+- name: Ensure that system Nginx is not running
+  ansible.builtin.systemd:
+    name: nginx
+    enabled: no
+    state: stopped
+  tags: always
+  ignore_errors: true
 
 - name: Stop labs_engine service
   ansible.builtin.systemd:

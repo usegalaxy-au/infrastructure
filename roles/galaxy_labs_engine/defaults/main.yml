@@ -25,9 +25,7 @@ labs_engine:
       dest: "{{ labs_config_root }}/nginx.conf"
     - src: "{{ role_path }}/templates/.env.j2"
       dest: "{{ labs_project_root }}/.env"
-  files:
-    - src: "{{ role_path }}/files/labs_engine.socket"
-      dest: /etc/systemd/system/labs_engine.socket
+  files: []
 
 labs_certbot_ssl: true
 

@@ -15,24 +15,12 @@
     - name: update apt cache
       ansible.builtin.apt:
         update_cache: yes
-    - name: install system dependencies
-      ansible.builtin.package:
-        name:
-          - libpq-dev
-        state: present
-    - name: Add the deadsnakes PPA repository
-      apt_repository:
-        repo: ppa:deadsnakes/ppa
-        state: present
+      tags: always
     - name: install systems dependencies
       ansible.builtin.package:
         name:
-          - gcc
-          - python3.12
-          - python3-pip
-          - python3-virtualenv
-          - python3.12-dev
-          - python3-certbot-nginx
+          - software-properties-common
+          - libpq-dev
     - name: Install pip dependencies
       ansible.builtin.pip:
         name:
