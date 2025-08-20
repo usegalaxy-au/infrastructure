@@ -1,16 +1,21 @@
 [Unit]
-Description=Gunicorn for Galaxy Labs Engine
-Requires=labs_engine.socket
-After=network.target
+Description=Gunicorn for Galaxy Labs Engine (docker compose)
+After=network-online.target docker.service
+Wants=network-online.target
+Requires=docker.service
 
 [Service]
-User = root
-Group = root
+Type=simple
+User=root
+Group=root
 WorkingDirectory={{ labs_project_root }}
-ExecStart=docker compose -f {{ labs_config_root }}/docker-compose.yml --profile prod up --remove-orphans --force-recreate
-ExecReload=docker compose -f {{ labs_config_root }}/docker-compose.yml --profile prod restart
+ExecStart=docker compose -f {{ labs_config_root }}/docker-compose.yml --profile prod up --remove-orphans
+ExecReload=docker compose -f {{ labs_config_root }}/docker-compose.yml --profile prod up --remove-orphans --force-recreate
 ExecStop=docker compose -f {{ labs_config_root }}/docker-compose.yml --profile prod down --remove-orphans
 PrivateTmp=true
+Restart=always
+RestartSec=5s
+TimeoutStopSec=90
 
 [Install]
 WantedBy=multi-user.target

@@ -149,13 +149,6 @@
     - init
     - django
 
-- name: enable labs_engine socket
-  ansible.builtin.systemd:
-    name: labs_engine.socket
-    enabled: yes
-    state: started
-  tags: init
-
 - name: Run systemctl daemon-reload
   ansible.builtin.command: "systemctl daemon-reload"
   become: yes
