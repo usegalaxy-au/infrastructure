@@ -1,0 +1,14 @@
+- name: Find built in webhooks dirs on the host
+  find:
+    paths: "{{ webhook_plugins_builtin_dir }}"
+    patterns: "*"
+    file_type: "directory"
+  register: found_dirs
+
+- name: copy built in webhooks to plugins directory
+  copy:
+    src: "{{ item.path }}"
+    dest: "{{ webhook_plugins_dest_dir }}"
+    mode: '0755'
+    remote_src: yes
+  loop: "{{ found_dirs.files }}"
