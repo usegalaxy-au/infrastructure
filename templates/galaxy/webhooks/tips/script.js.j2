@@ -5,7 +5,31 @@
 // >>> loadGalaxyTipFunction(5);
 var loadGalaxyTipFunction;
 
+
 $(document).ready( () => {
+
+  function fiftyFifty() {
+    return Date.now() % 2 === 0;
+  }
+
+  function removeToolRecommendationElement() {
+    let attempts = 0;
+    const maxAttempts = 10;
+    const interval = setInterval(() => {
+      const el = document.getElementById('tool-recommendation');
+      if (el && el.parentElement) {
+        el.parentElement.remove();
+        clearInterval(interval);
+      } else if (attempts >= maxAttempts) {
+        clearInterval(interval);
+      }
+      attempts++;
+    }, 100);
+  }
+
+  // Either show tips or tool recommender
+  fiftyFifty() && return;
+  removeToolRecommendationElement();
 
   const GITHUB_BRANCH = "{% if 'dev' in inventory_hostname %}dev{% else %}main{% endif %}";
   const TIPS_GITHUB_URL = `https://api.github.com/repos/usegalaxy-au/galaxy-tips/contents/tips?ref=${GITHUB_BRANCH}`;
