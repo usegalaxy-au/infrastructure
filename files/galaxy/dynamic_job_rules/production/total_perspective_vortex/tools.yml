@@ -4004,6 +4004,14 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/optitype/optitype/.*:
     params:
       singularity_enabled: true
+    rules:
+    - id: optitype_large_input
+      if: input_size > 1
+      cores: 8
+      mem: 120
+      scheduling:
+        accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/orthofinder_onlygroups/orthofinder_onlygroups/.*:
     context:
       max_concurrent_job_count_for_tool_user: 2
