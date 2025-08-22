@@ -1941,14 +1941,20 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/iqtree/iqtree/.*:
-    cores: 5
-    mem: 19.1
+    context:
+      max_concurrent_job_count_for_tool_user: 2
+    cores: 16
+    mem: 62
     params:
       singularity_enabled: true
     scheduling:
       accept:
       - pulsar
     rules:
+    - id: iqtree_medium_input_rule
+      if: 0.000002 <= input_size < 0.002
+      cores: 5
+      mem: 19.1
     - id: iqtree_small_input_rule
       if: input_size < 0.000002
       cores: 1
