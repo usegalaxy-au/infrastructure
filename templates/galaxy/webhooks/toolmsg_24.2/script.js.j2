@@ -4,7 +4,7 @@ let enableDebug = true;
 const debugLog = (msg) => enableDebug && console.debug("[ToolMsg]: " + msg);
 
 const WAIT_TOOL_MAX_TRIES = 3;
-const WAIT_TOOL_INTERVAL = 500;
+const WAIT_TOOL_INTERVAL_MS = 500;
 const toolMessages = [
     {% for message in toolmsg_messages %}
     {
