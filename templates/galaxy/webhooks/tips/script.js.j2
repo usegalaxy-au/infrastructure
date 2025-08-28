@@ -28,7 +28,9 @@ $(document).ready( () => {
   }
 
   // Either show tips or tool recommender
-  fiftyFifty() && return;
+  if (fiftyFifty()) {
+    return
+  };
   removeToolRecommendationElement();
 
   const GITHUB_BRANCH = "{% if 'dev' in inventory_hostname %}dev{% else %}main{% endif %}";
