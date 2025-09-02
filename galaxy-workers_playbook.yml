@@ -54,7 +54,7 @@
           owner: root
           group: root
           mode: "0644"
-    become: true
+        become: true
 
   roles:
       - common
