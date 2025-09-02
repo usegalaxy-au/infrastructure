@@ -1,6 +1,11 @@
 type: distributed
 search_for_missing: false
 backends:
+- id: data32
+  weight: 1
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volA/data32
 - id: data31
   weight: 1
   type: disk
