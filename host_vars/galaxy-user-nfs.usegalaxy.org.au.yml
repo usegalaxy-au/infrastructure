@@ -10,7 +10,6 @@ nfs_data27_dir: "{{ volA_path }}/data27"
 nfs_data28_dir: "{{ volA_path }}/data28"
 nfs_data29_dir: "{{ volA_path }}/data29"
 nfs_data30_dir: "{{ volA_path }}/data30"
-nfs_data32_dir: "{{ volA_path }}/data32"
 
 # volume B (~49 TB)
 nfs_data08_dir: "{{ volB_path }}/data08"  # moved from volA Feb '25
@@ -35,6 +34,7 @@ nfs_data19_dir: "{{ volD_path }}/data19"  # moved from volA April '25
 nfs_data23_dir: "{{ volD_path }}/data23"
 nfs_data24_dir: "{{ volD_path }}/data24"
 nfs_data31_dir: "{{ volD_path }}/data31"
+nfs_data32_dir: "{{ volD_path }}/data32"
 
 attached_volumes:
   - device: /dev/vdb
