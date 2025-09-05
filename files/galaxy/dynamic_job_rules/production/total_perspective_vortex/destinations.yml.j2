@@ -14,7 +14,7 @@ destinations:
   _slurm_destination:
     abstract: true
     params:
-        nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
+        nativeSpecification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(float(mem or 3.8)*1024)} --partition={partition}"
         metadata_strategy: extended
     rules:
       - id: slurm_destination_singularity_rule
@@ -31,7 +31,7 @@ destinations:
   _pulsar_destination:
     abstract: true
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(float(mem or 3.8)*1024)} --partition={partition}"
       jobs_directory: /mnt/pulsar/files/staging
       transport: curl
       remote_metadata: 'false'
@@ -111,7 +111,7 @@ destinations:
     runner: pulsar_embedded
     tags: {{ job_conf_limits.environments['interactive_pulsar'].tags }}
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(float(mem or 3.8)*1024)} --partition={partition}"
       docker_enabled: true
       docker_volumes: "{{ slurm_docker_volumes }}"
       docker_sudo: false

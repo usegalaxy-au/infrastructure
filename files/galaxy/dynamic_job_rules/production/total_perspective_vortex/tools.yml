@@ -803,7 +803,7 @@ tools:
       if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
-      mem: cores * 3.1
+      mem: int(cores or 1) * 3.1
       scheduling:
         require:
         - pulsar-blast
@@ -817,7 +817,7 @@ tools:
       if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
-      mem: cores * 3.1
+      mem: int(cores or 1) * 3.1
       scheduling:
         require:
         - pulsar-blast
@@ -831,7 +831,7 @@ tools:
       if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
-      mem: cores * 3.1
+      mem: int(cores or 1) * 3.1
       scheduling:
         require:
         - pulsar-blast
@@ -856,7 +856,7 @@ tools:
       if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
-      mem: cores * 3.1
+      mem: int(cores or 1) * 3.1
       scheduling:
         require:
         - pulsar-blast
@@ -870,7 +870,7 @@ tools:
       if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 15
-      mem: cores * 3.1
+      mem: int(cores or 1) * 3.1
       scheduling:
         require:
         - pulsar-blast
@@ -879,8 +879,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/picard/.*:
     cores: 3
     mem: 11.5
-    env: 
-      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     params:
       tmp_dir: true
     scheduling: # these jobs can run on pulsar but it may not be worth transferring them because the job walltime is much quicker than the transport time
@@ -1059,14 +1057,20 @@ tools:
       tmp_dir: true
     rules:
     - if: |
-        user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        'Alphafold_plus' in user_roles
+        user_has_access = False
+        if user is not None:
+          user_roles = [role.name for role in user.all_roles() if not role.deleted]
+          user_has_access = 'Alphafold_plus' in user_roles
+        user_has_access
       context:
         alphafold_aa_length_max: 3000
         alphafold_max_input_sequences: 20
     - if: |
-        user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        user and 'Alphafold' in user_roles and not 'pulsar_gpu_test' in user_roles
+        user_has_access = False
+        if user is not None:
+          user_roles = [role.name for role in user.all_roles() if not role.deleted]
+          user_has_access = 'Alphafold' in user_roles and not 'pulsar_gpu_test' in user_roles
+        user_has_access
       scheduling:
         require:
         - pulsar
@@ -1075,8 +1079,11 @@ tools:
         accept:
         - training-exempt
     - if: |
-        user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        user.username in [f'qldgpu{x+1}' for x in range(6)] or 'pulsar_gpu_test' in user_roles
+        user_has_access = False
+        if user is not None:
+          user_roles = [role.name for role in user.all_roles() if not role.deleted]
+          user_has_access = user.username in [f'qldgpu{x+1}' for x in range(6)] or 'pulsar_gpu_test' in user_roles
+        user_has_access
       scheduling:
         accept:
         - pulsar
@@ -1491,7 +1498,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/3.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/3\.0.*:
     cores: 2
     mem: 7.6
     rules:
