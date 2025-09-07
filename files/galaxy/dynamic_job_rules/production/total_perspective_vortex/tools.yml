@@ -3473,9 +3473,14 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/verkko/verkko/.*:
     cores: 16
-    mem: 62
-    # params:
-    #   singularity_enabled: true
+    mem: 200
+    params:
+      singularity_enabled: false  # use specific conda env with pinned snakemake version
+    scheduling:
+      accept:
+      - pulsar
+      require:
+      - verkko_venv
   toolshed.g2.bx.psu.edu/repos/iuc/vsearch/.*:
     mem: 8
     params:
