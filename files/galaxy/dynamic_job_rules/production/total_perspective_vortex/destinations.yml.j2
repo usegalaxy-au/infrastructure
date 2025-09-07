@@ -84,6 +84,7 @@ destinations:
         - bakta_database
         - funannotate
         - eggnog
+        - verkko_venv
   slurm-training:
     inherits: _slurm_destination
     runner: slurm
@@ -100,6 +101,7 @@ destinations:
         - bakta_database
         - funannotate
         - eggnog
+        - verkko_venv
       require:
         - training
   interactive_pulsar:
@@ -249,6 +251,7 @@ destinations:
         - cvmfs_cache_100plus
         - cvmfs_cache_800plus
         - gtdbtk_database
+        - verkko_venv
       require:
         - pulsar
   pulsar-qld-high-mem2:
