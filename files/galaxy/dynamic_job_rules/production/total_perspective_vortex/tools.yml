@@ -2245,6 +2245,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/.*:
     cores: 8
     mem: 31
+    scheduling:
+      accept:
+      - training-exempt  # TODO: test metaphlan/metaphlan2 on pulsar where memory allocations for training jobs are more flexible
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan2/metaphlan2/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/.*
     params:
