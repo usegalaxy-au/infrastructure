@@ -128,6 +128,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/cellpose/cellpose/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/chembl/chembl/.*:
+    params:
+      singularity_enabled: false  # cannot make API calls when container is activated, no /etc/resolv.conf in container
+  toolshed.g2.bx.psu.edu/repos/bgruening/chembl/chembl_structure_pipeline/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/chemfp/ctb_chemfp_butina_clustering/.*:
     cores: 1
     mem: 3.8
@@ -148,20 +154,29 @@ tools:
     mem: 3.8
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/chemical_data_sources/.*:
+    params:
+      singularity_enabled: true  # may as well, they don't have conda requirements. TODO - do these work? Would they benefit from py2.7 container?
   toolshed.g2.bx.psu.edu/repos/bgruening/chemical_data_sources/ctb_online_data_fetch/.*:
     params:
       singularity_enabled: true
-      singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/openbabel:2.3.2--py27_2
+      singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/openbabel:2.3.2--py27_2  # TODO - does this work? Does separate online_data repo tool work?
   toolshed.g2.bx.psu.edu/repos/bgruening/circexplorer/circexplorer/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/column_arrange_by_header/bg_column_arrange_by_header/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/cp_.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/cpat/cpat/.*:
     params:
       singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/bgruening/ctb_im_conformers/ctb_im_conformers/.*:
+  toolshed.g2.bx.psu.edu/repos/bgruening/ctb_.*:
     params:
       singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/bgruening/ctb_im_rxn_maker/ctb_im_rxn_maker/.*:
+  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
@@ -245,6 +260,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/find_subsequences/bg_find_subsequences/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/fpocket/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     context:
       test_cores: 2
@@ -266,6 +284,9 @@ tools:
       if: 0.25 <= input_size < 5
       cores: 16
       mem: 150
+  toolshed.g2.bx.psu.edu/repos/bgruening/get_pdb/get_pdb/.*:
+    params:
+      singularity_enabled: false  # cannot download data when running with container
   toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
     cores: 4
     mem: 15.3
@@ -319,6 +340,18 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/itsx/itsx/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/join_files_on_column_fuzzy/join_files_on_column_fuzzy/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/keras_.*:
+    context:
+      minimum_singularity_version: 1.0.11.0  # older versions have not been tested
+  toolshed.g2.bx.psu.edu/repos/bgruening/ml_visualization_ex/ml_visualization_ex/.*:
+    context:
+      minimum_singularity_version: 1.0.11.0  # older versions have not been tested
+  toolshed.g2.bx.psu.edu/repos/bgruening/model_prediction/model_prediction/.*:
+    context:
+      minimum_singularity_version: 1.0.11.0  # older versions have not been tested
   toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/.*:
     cores: 8
     mem: 32 # TODO: this is 8/16 in shared db. If no further problems update this in shared db
@@ -327,21 +360,23 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/music_.*:
     params:
       singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_eventalign/nanopolish_eventalign/.*:
-    cores: 3
-    mem: 11.5
-  toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_methylation/nanopolish_methylation/.*:
-    cores: 3
-    mem: 11.5
-  toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_polya/nanopolish_polya/.*:
+  toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_.*:
+    context:
+      minimum_singularity_version: 0.13.2+galaxy1  # older versions fail tests seemingly due to tar version
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/bgruening/nanopolish_variants/nanopolish_variants/.*:
     cores: 5
     mem: 20
+  toolshed.g2.bx.psu.edu/repos/bgruening/natural_product_likeness/ctb_np-likeness-calculator/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/openbabel.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/pileometh/pileometh/.*:
+    context:
+      minimum_singularity_version: 0.5.2+galaxy0    # older version fails tests
   toolshed.g2.bx.psu.edu/repos/bgruening/pfamscan/pfamscan/.*:
     params:
       singularity_enabled: true
