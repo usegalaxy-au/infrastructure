@@ -3950,24 +3950,19 @@ tools:
       - training-exempt
   restricted_interactive_tool:
     inherits: interactive_tool_.*
-    context:
-      interactive_tool_embargo_days: 7      
     rules:
       - id: restricted_interactive_tool_restriction_rule
         if: |
           from datetime import datetime, timedelta
           may_use_ITs = False
           if user:
-            threshold = datetime.now() - timedelta(days=interactive_tool_embargo_days)
             if 'trusted_for_ITs' in [r.name for r in user.all_roles() if not r.deleted]:
               may_use_ITs = True
             elif any([r.name.startswith('training') for r in user.all_roles()]):
               may_use_ITs = True
-            elif user.create_time < threshold:
-              may_use_ITs = True
           not may_use_ITs
         fail:
-          'You must wait {interactive_tool_embargo_days} days before being able to use this tool. Please email help@genome.edu.au if you need access sooner or have any questions.'
+          'Use of this tool is restricted to users from Australian research institutions and training groups. Please email help@genome.edu.au if you require access to this tool.'
   interactive_tool_jupyter_notebook:
     inherits: restricted_interactive_tool
   interactive_tool_phyloseq:
