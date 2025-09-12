@@ -3222,14 +3222,14 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fasterq_dump/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     cores: 3
     mem: 11.5
     params:
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     cores: 3
     mem: 11.5
     params:
