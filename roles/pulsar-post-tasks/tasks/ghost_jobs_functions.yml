@@ -45,6 +45,10 @@
 
         retry_ghost_jobs () {
             for x in $@; do
+                if [ ! -d "${pulsar_staging_dir}/${x}" ]; then
+                    echo "Directory ${pulsar_staging_dir}/${x} does not exist. Please check the destination of this job. Exiting.";
+                    exit 1;
+                fi
                 set_active_job_file $x;
             done
             sudo systemctl restart pulsar;
