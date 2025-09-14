@@ -920,6 +920,8 @@ tools:
     cores: 2
     mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_markdup/samtools_markdup/.*:
+    context:
+      test_cores: 2
     cores: 4
     mem: 15.3
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/.*:
@@ -1541,6 +1543,7 @@ tools:
     context:
       max_concurrent_job_count_for_tool_user: 4
       minimum_singularity_version: '2.2.1+galaxy4'
+      test_cores: 4
     cores: 20
     mem: 250
     params:
