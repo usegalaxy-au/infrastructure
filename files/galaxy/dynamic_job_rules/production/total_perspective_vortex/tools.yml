@@ -283,6 +283,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
+    context:
+      test_cores: 4
     cores: 60
     mem: 961
     params:
@@ -413,6 +415,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/tapscan/tapscan_classify/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_replace_in_line/.*:
+    mem: 12
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/.*:
     mem: 10
     params:
@@ -914,8 +918,8 @@ tools:
       singularity_enabled: true
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
-    cores: 4
-    mem: 15.5
+    cores: 8
+    mem: 31
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/samtools_idxstats/.*:
     cores: 2
     mem: 7.6
@@ -1043,6 +1047,8 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/ecology/sanntis_marine/sanntis_marine/.*:
     mem: 15.5
+  toolshed.g2.bx.psu.edu/repos/ethevenot/profia/profia/.*:
+    mem: 12
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     context:
       alphafold_aa_length_max: 3000
@@ -1296,6 +1302,7 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxyp/rawtools/rawtools/.*:
+    mem: 15.5
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/uniprotxml_downloader/uniprotxml_downloader/.*:
@@ -1658,8 +1665,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
-    cores: 3
-    mem: 11.5
+    cores: 8
+    mem: 31
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*:
@@ -1720,6 +1727,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/exonerate/exonerate/.*:
+    context:
+      test_cores: 4
     cores: 30
     mem: 480.5
     scheduling:
@@ -1893,6 +1902,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
+      test_cores: 2
     cores: 16
     mem: 62
     rules:
@@ -1919,6 +1929,7 @@ tools:
     mem: 150
     context:
       max_concurrent_job_count_for_tool_user: 4
+      test_cores: 2
     params:
       singularity_enabled: true
     scheduling:
@@ -2122,8 +2133,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/links/links/.*:
-    cores: 4
-    mem: 15.3
+    cores: 8
+    mem: 31
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/.*:
     cores: 5
     mem: 19.1
