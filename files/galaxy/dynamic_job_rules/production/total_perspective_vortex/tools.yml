@@ -84,6 +84,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/augustus_training/augustus_training/.*:
     params:
       singularity_enabled: false  # TODO: Test with singularity. Built-in tool tests fail by design, testing is difficult.
+    mem: min(2 + input_size * 4, 24)
   toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina/docking/.*:
     params:
       singularity_enabled: true
@@ -283,6 +284,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
+    context:
+      test_cores: 4
     cores: 60
     mem: 961
     params:
@@ -413,6 +416,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/tapscan/tapscan_classify/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_replace_in_line/.*:
+    mem: 12
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/.*:
     mem: 10
     params:
@@ -914,8 +919,8 @@ tools:
       singularity_enabled: true
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
-    cores: 4
-    mem: 15.5
+    cores: 8
+    mem: 31
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/samtools_idxstats/.*:
     cores: 2
     mem: 7.6
@@ -1048,6 +1053,10 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/ecology/sanntis_marine/sanntis_marine/.*:
     mem: 15.5
+  toolshed.g2.bx.psu.edu/repos/ethevenot/profia/profia/.*:
+    context:
+      test_cores: 2  # this is single-threaded but test_cores controls test mem
+    mem: 12
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     context:
       alphafold_aa_length_max: 3000
@@ -1301,6 +1310,7 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxyp/rawtools/rawtools/.*:
+    mem: 15.5
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/uniprotxml_downloader/uniprotxml_downloader/.*:
@@ -1664,8 +1674,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
-    cores: 3
-    mem: 11.5
+    cores: 8
+    mem: 31
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*:
@@ -1677,6 +1687,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_learnerrors/dada2_learnErrors/.*:
     cores: 2
     mem: 10
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_plotqualityprofile/dada2_plotQualityProfile/.*:
+    mem: 12 
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     cores: 1
     mem: 3.8
@@ -1707,6 +1719,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dropletutils/dropletutils/.*:
+    mem: 12
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/edger/edger/.*:
@@ -1726,6 +1739,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/exonerate/exonerate/.*:
+    context:
+      test_cores: 4
     cores: 30
     mem: 480.5
     scheduling:
@@ -1899,6 +1914,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
+      test_cores: 2
     cores: 16
     mem: 62
     rules:
@@ -1925,6 +1941,7 @@ tools:
     mem: 150
     context:
       max_concurrent_job_count_for_tool_user: 4
+      test_cores: 2
     params:
       singularity_enabled: true
     scheduling:
@@ -2128,8 +2145,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/links/links/.*:
-    cores: 4
-    mem: 15.3
+    cores: 8
+    mem: 31
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/.*:
     cores: 5
     mem: 19.1
@@ -2551,6 +2568,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/nanoplot/.*:
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/iuc/ncbi_acc_download/ncbi_acc_download/.*:
+    mem: 12
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
     cores: 3
     mem: 11.5
@@ -3502,6 +3523,10 @@ tools:
       - pulsar
       require:
       - verkko_venv
+  toolshed.g2.bx.psu.edu/repos/iuc/volcanoplot/volcanoplot/.*:
+    mem: 12
+    params:
+      singularity_enabled: true 
   toolshed.g2.bx.psu.edu/repos/iuc/vsearch/.*:
     mem: 8
     params:
@@ -3620,16 +3645,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/nml/mob_suite/.*:
     params:
       singularity_enabled: true
-    # scheduling:  # This is a good pulsar tool but galaxy has been going bananas trying to build the container locally prior to sending jobs to pulsar. Fascinating.
-    #   accept:
-    #     - pulsar
-    #     - pulsar-quick
-  toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/.*:
+    scheduling:
+      accept:
+        - pulsar
+        - pulsar-quick
     rules:
-      - id: mob_recon_large_input_rule
+      - id: mob_suite_large_input_rule
         if: input_size > 0.004
         cores: 2
-        mem: 7.6
+        mem: 10
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
@@ -3695,6 +3719,7 @@ tools:
       cores: 2
       mem: 7.6
   toolshed.g2.bx.psu.edu/repos/q2d2/qiime2.*:
+    mem: 8
     params:
       docker_enabled: true
       tmp_dir: true
