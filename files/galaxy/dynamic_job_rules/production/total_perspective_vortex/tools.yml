@@ -1049,6 +1049,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/ecology/sanntis_marine/sanntis_marine/.*:
     mem: 15.5
   toolshed.g2.bx.psu.edu/repos/ethevenot/profia/profia/.*:
+    context:
+      test_cores: 2  # this is single-threaded but test_cores controls test mem
     mem: 12
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     context:
