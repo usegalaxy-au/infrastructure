@@ -2549,6 +2549,8 @@ tools:
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
+    context:
+      pulsar_singularity_volumes: "$job_directory:rw,$tool_directory:ro,/mnt/custom-indices:ro,/cvmfs/data.galaxyproject.org:ro,/tmp:rw,/mnt/ncbi_fcs_gx_db:rw"
     cores: 3
     mem: 11.5
     params:
