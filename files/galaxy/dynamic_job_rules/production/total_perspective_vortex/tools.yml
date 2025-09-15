@@ -2549,8 +2549,6 @@ tools:
     cores: 3
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
-    context:
-      pulsar_singularity_volumes: "$job_directory:rw,$tool_directory:ro,/mnt/custom-indices:ro,/cvmfs/data.galaxyproject.org:ro,/tmp:rw,/mnt/ncbi_fcs_gx_db:rw"
     cores: 3
     mem: 11.5
     params:
@@ -2562,11 +2560,15 @@ tools:
     - id: ncbi_fcs_gx_job_parameter_rule
       if: |
         helpers.job_args_match(job, app, {"mode": {"mode_selector": "screen"}})
+      context:
+        pulsar_singularity_volumes: "$job_directory:rw,$tool_directory:ro,/mnt/custom-indices:ro,/cvmfs/data.galaxyproject.org:ro,/tmp:rw,/mnt/ncbi_fcs_gx_db:rw"
       mem: 480
       cores: 30  # EU gave it 64 cores
       env:
         TMPDIR: /mnt/ncbi_fcs_gx_db
       scheduling:
+        accept:
+          - training-exempt
         require:
           - ncbi_fcs_gx_db
   toolshed.g2.bx.psu.edu/repos/iuc/newick_utils/newick_display/.*:
