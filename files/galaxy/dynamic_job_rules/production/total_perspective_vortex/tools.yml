@@ -954,6 +954,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/sicer/peakcalling_sicer/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/spaln/.*:
+    params:
+      singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/squirrel_.*:
     params:
       singularity_enabled: true
