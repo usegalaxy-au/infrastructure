@@ -2562,6 +2562,11 @@ tools:
         helpers.job_args_match(job, app, {"mode": {"mode_selector": "screen"}})
       mem: 480
       cores: 30  # EU gave it 64 cores
+      env:
+        TMPDIR: /mnt/ncbi_fcs_gx_db
+      scheduling:
+        require:
+          - ncbi_fcs_gx_db
   toolshed.g2.bx.psu.edu/repos/iuc/newick_utils/newick_display/.*:
     mem: 12
     params:
