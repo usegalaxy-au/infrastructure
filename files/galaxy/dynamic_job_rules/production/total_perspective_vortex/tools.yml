@@ -84,6 +84,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/augustus_training/augustus_training/.*:
     params:
       singularity_enabled: false  # TODO: Test with singularity. Built-in tool tests fail by design, testing is difficult.
+    mem: 2 + input_size * 4
   toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina/docking/.*:
     params:
       singularity_enabled: true
@@ -1678,6 +1679,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_learnerrors/dada2_learnErrors/.*:
     cores: 2
     mem: 10
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_plotqualityprofile/dada2_plotQualityProfile/.*:
+    mem: 12 
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     cores: 1
     mem: 3.8
@@ -1708,6 +1711,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dropletutils/dropletutils/.*:
+    mem: 12
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/edger/edger/.*:
@@ -2556,6 +2560,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/nanoplot/.*:
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/iuc/ncbi_acc_download/ncbi_acc_download/.*:
+    mem: 12
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
     cores: 3
     mem: 11.5
@@ -3507,6 +3515,10 @@ tools:
       - pulsar
       require:
       - verkko_venv
+  toolshed.g2.bx.psu.edu/repos/iuc/volcanoplot/volcanoplot/.*:
+    mem: 12
+    params:
+      singularity_enabled: true 
   toolshed.g2.bx.psu.edu/repos/iuc/vsearch/.*:
     mem: 8
     params:
@@ -3625,16 +3637,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/nml/mob_suite/.*:
     params:
       singularity_enabled: true
-    # scheduling:  # This is a good pulsar tool but galaxy has been going bananas trying to build the container locally prior to sending jobs to pulsar. Fascinating.
-    #   accept:
-    #     - pulsar
-    #     - pulsar-quick
-  toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/.*:
+    scheduling:
+      accept:
+        - pulsar
+        - pulsar-quick
     rules:
-      - id: mob_recon_large_input_rule
+      - id: mob_suite_large_input_rule
         if: input_size > 0.004
         cores: 2
-        mem: 7.6
+        mem: 10
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
@@ -3700,6 +3711,7 @@ tools:
       cores: 2
       mem: 7.6
   toolshed.g2.bx.psu.edu/repos/q2d2/qiime2.*:
+    mem: 8
     params:
       docker_enabled: true
       tmp_dir: true
