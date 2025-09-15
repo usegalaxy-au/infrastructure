@@ -84,7 +84,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/augustus_training/augustus_training/.*:
     params:
       singularity_enabled: false  # TODO: Test with singularity. Built-in tool tests fail by design, testing is difficult.
-    mem: 2 + input_size * 4
+    mem: min(2 + input_size * 4, 24)
   toolshed.g2.bx.psu.edu/repos/bgruening/autodock_vina/docking/.*:
     params:
       singularity_enabled: true
