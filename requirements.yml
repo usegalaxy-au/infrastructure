@@ -33,8 +33,9 @@ roles:
   version: 0.0.3
 - src: galaxyproject.pulsar
   version: 1.0.11
-- src: dj-wasabi.telegraf
-  version: 0.14.1
+- name: dj-wasabi.telegraf
+  src: https://github.com/dj-wasabi/ansible-telegraf
+  version: 17cb94c1fb92a00f3d50786c73d97bc2baae8f91
 - src: galaxyproject.gxadmin
   version: 0.0.14
 - src: galaxyproject.tiaas2
