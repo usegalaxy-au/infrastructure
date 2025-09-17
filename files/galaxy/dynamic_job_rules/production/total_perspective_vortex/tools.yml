@@ -4109,7 +4109,7 @@ tools:
       cores: 1
       mem: 3.8
   ucsc_bigbedtobed:
-    mem: 15.5  # TODO: a linear rule for mem might be appropriate here
+    inherits: wig_to_bigWig
     params:
       singularity_enabled: true
   wig_to_bigWig:
