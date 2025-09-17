@@ -4108,6 +4108,9 @@ tools:
       if: input_size < 1
       cores: 1
       mem: 3.8
+  ucsc_bigbedtobed:
+    params:
+      singularity_enabled: true
   wig_to_bigWig:
     mem: min(max(input_size * 20, 28), 58)
     scheduling:
