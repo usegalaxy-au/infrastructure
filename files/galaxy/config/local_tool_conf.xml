@@ -9,7 +9,7 @@
         <tool file="/mnt/galaxy/local_tools/fgenesh/7.2.2/fgenesh_merge.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/fgenesh/7.2.2/fgenesh_get_mrnas_gc.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/fgenesh/7.2.2/fgenesh_to_genbank.xml" labels="test"/>
-        <tool file="/mnt/galaxy/local_tools/fgenesh/7.2.2/fgenesh_get_proteins.xml" labels="test"/>
+        <tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_get_proteins.xml" labels="test"/>
 	    <tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_annotate.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_renumber.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_get_mrnas.xml" labels="test"/>
