@@ -72,6 +72,7 @@ galaxy_pulsar_job_working_directory: "{{ galaxy_tmp_dir }}/pulsar_jwds"
 
 host_galaxy_extra_dirs:
   - "{{ galaxy_pulsar_job_working_directory }}"
+  - "{{ galaxy_root }}/object_store_cache"
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
 galaxy_commit_id: release_25.0_au_dev
@@ -99,8 +100,8 @@ host_galaxy_config_templates:
     dest: "{{ galaxy_toolbox_filters_dir }}/ga_filters.py"
   - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/aagi_filters.py.j2"
     dest: "{{ galaxy_toolbox_filters_dir }}/aagi_filters.py"
-  - src: "{{ galaxy_config_file_src_dir }}/config/web-gravity.yml"
-    dest: /opt/galaxy/web-gravity.yml
+  - src: "{{ galaxy_config_template_src_dir }}/config/object_store_templates.yml.j2"
+    dest: "{{ galaxy_config_dir }}/object_store_templates.yml"
 
 host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
@@ -173,59 +174,66 @@ host_galaxy_config: # renamed from __galaxy_config
   gravity: "{{ host_galaxy_config_gravity }}"
 
   galaxy:
+    activation_email: <activation-noreply@usegalaxy.org.au>
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},{{ uwe_email }},{{ ross_email }}" # everyone is an admin on dev
-    amqp_internal_connection: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_dev }}@dev-queue.gvl.org.au:5671//galaxy/galaxy_queues?ssl=1"
-    brand: "Australia Dev"
-    database_connection: "postgresql://galaxy:{{ vault_dev_db_user_password }}@dev-db.gvl.org.au:5432/galaxy"
-    enable_celery_tasks: true
-    id_secret: "{{ vault_dev_id_secret }}"
-    file_path: "{{ galaxy_file_path }}"
-    object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.yml"
-    enable_oidc: true
-    enable_notification_system: true
-    oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
-    oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
     ai_api_key: "{{ vault_biocommons_galaxy_openai_api_key }}"
     ai_model: gpt-4o  # this is the default but there are many with varied prices
-    nginx_upload_store: "{{ nginx_upload_store_dir }}"
-    nginx_upload_path: "/_upload"
-    nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
-    nginx_upload_job_files_path: "/_job_files"
-    interactivetools_enable: true
-    interactivetools_map: "{{ gie_proxy_sessions_path }}"
-    conda_auto_install: true  # false on production (default)
+    amqp_internal_connection: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_dev }}@dev-queue.gvl.org.au:5671//galaxy/galaxy_queues?ssl=1"
+    brand: "Australia Dev"
+    celery_conf:
+      task_routes:
+        galaxy.fetch_data: disabled
+        galaxy.set_job_metadata: galaxy.external
     cleanup_job: never
-    job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
-    tool_data_table_config_path: "{{ galaxy_config_dir }}/local_tool_data_table_conf.xml,{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
-    show_welcome_with_login: false
-    enable_mulled_containers: true
-    enable_beta_containers_interface: true
-    watch_job_rules: true # important for total perspective vortex
-    sentry_dsn: "{{ vault_sentry_dsn_dev }}"
-    tool_filters: ga_filters:hide_test_tools, aagi_filters:restrict_aagi_tools
-    tool_section_filters: global_host_filters:per_host_tool_sections
-    tool_label_filters: global_host_filters:per_host_tool_labels
-    #TRS - workflowhub
-    trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
-    # TUS
-    tus_upload_store: "{{ galaxy_tus_upload_store }}"
+    conda_auto_install: true  # false on production (default)
+    database_connection: "postgresql://galaxy:{{ vault_dev_db_user_password }}@dev-db.gvl.org.au:5432/galaxy"
     datatypes_config_file: "{{ galaxy_server_dir }}/lib/galaxy/config/sample/datatypes_conf.xml.sample,{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
-    smtp_server: localhost
-    email_from: <galaxy-no-reply@usegalaxy.org.au>
-    user_activation_on: true
-    activation_email: <activation-noreply@usegalaxy.org.au>
-    panel_views_dir: "{{ galaxy_config_dir }}/tool_panel_filters"
     default_panel_view_by_host:
       proteomics.dev.gvl.org.au: proteomics
       singlecell.dev.gvl.org.au: singlecell
       microbiology.dev.gvl.org.au: microbiology
+    email_from: <galaxy-no-reply@usegalaxy.org.au>
+    enable_beta_containers_interface: true
+    enable_beta_tool_formats: true  # user defined tools new as of release_25.0
+    enable_celery_tasks: true
+    enable_mulled_containers: true
+    enable_notification_system: true
+    enable_oidc: true
+    file_path: "{{ galaxy_file_path }}"
+    id_secret: "{{ vault_dev_id_secret }}"
+    interactivetools_enable: true
+    interactivetools_map: "{{ gie_proxy_sessions_path }}"
+    job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
+    nginx_upload_job_files_path: "/_job_files"
+    nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
+    nginx_upload_path: "/_upload"
+    nginx_upload_store: "{{ nginx_upload_store_dir }}"
+    object_store_cache_path: "{{ galaxy_root }}/object_store_cache"  # Note for production: this should be close to current object store rw folder and nginx-upload-store
+    object_store_cache_size: 50  # Note for production: It might be safe to start with a small amount like 1000 (1TB) but need to be prepared to expand it (EU has 10TB)
+    object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.yml"
+    object_store_templates_config_file: "{{ galaxy_config_dir }}/object_store_templates.yml"
+    oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
+    oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
+    panel_views_dir: "{{ galaxy_config_dir }}/tool_panel_filters"
+    sentry_dsn: "{{ vault_sentry_dsn_dev }}"
+    show_welcome_with_login: false
+    smtp_server: localhost
     themes_config_file_by_host:
       genome.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_genome.yml"
       proteomics.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_proteomics.yml"
       singlecell.dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_singlecell.yml"
       dev.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_main.yml"
+    tool_data_table_config_path: "{{ galaxy_config_dir }}/local_tool_data_table_conf.xml,{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
+    tool_filters: ga_filters:hide_test_tools, aagi_filters:restrict_aagi_tools
+    tool_label_filters: global_host_filters:per_host_tool_labels
+    tool_section_filters: global_host_filters:per_host_tool_sections
+    #TRS - workflowhub
+    trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+    # TUS
+    tus_upload_store: "{{ galaxy_tus_upload_store }}"
+    user_activation_on: true
+    watch_job_rules: true # important for total perspective vortex
     welcome_directory: plugins/welcome_page/new_user/static/topics/
-    enable_beta_tool_formats: true  # user defined tools new as of release_25.0
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
