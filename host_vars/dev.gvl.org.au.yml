@@ -72,6 +72,7 @@ galaxy_pulsar_job_working_directory: "{{ galaxy_tmp_dir }}/pulsar_jwds"
 
 host_galaxy_extra_dirs:
   - "{{ galaxy_pulsar_job_working_directory }}"
+  - "{{ galaxy_root }}/object_store_cache"
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
 galaxy_commit_id: release_25.0_au_dev
@@ -207,6 +208,8 @@ host_galaxy_config: # renamed from __galaxy_config
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
     nginx_upload_path: "/_upload"
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
+    object_store_cache_path: "{{ galaxy_root }}/object_store_cache"  # Note for production: this should be close to current object store rw folder and nginx-upload-store
+    object_store_cache_size: 50  # Note for production: It might be safe to start with a small amount like 1000 (1TB) but need to be prepared to expand it (EU has 10TB)
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.yml"
     object_store_templates_config_file: "{{ galaxy_config_dir }}/object_store_templates.yml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
