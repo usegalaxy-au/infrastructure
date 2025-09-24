@@ -56,76 +56,11 @@ backends:
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volB/data22
-- id: data21
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volC/data21
-- id: data20
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volB/data20
 - id: data19
   weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volD/data19
-- id: data18
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volC/data18
-- id: data17
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volB/data17
-- id: data16
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volC/data16
-- id: data15
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volB/data15
-- id: data14
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volD/data14
-- id: data13
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volC/data13
-- id: data12
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volB/data12
-- id: data11
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volC/data11
-- id: data10
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volC/data10
-- id: data09
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volB/data09
-- id: data08
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volB/data08
 
 {% if qld_file_mounts_available|d(True) %}
 - id: qldNFS1
@@ -173,6 +108,71 @@ backends:
   type: disk
   store_by: id
   files_dir: {{ qld_file_mounts_path }}/files2/aarnetNFS7
+- id: data08
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: {{ qld_file_mounts_path }}/files2/data08
+- id: data09
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: {{ qld_file_mounts_path }}/files2/data09
+- id: data10
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: {{ qld_file_mounts_path }}/files2/data10
+- id: data11
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: {{ qld_file_mounts_path }}/files2/data11
+- id: data12
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: {{ qld_file_mounts_path }}/files2/data12
+- id: data13
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: {{ qld_file_mounts_path }}/files2/data13
+- id: data14
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: {{ qld_file_mounts_path }}/files2/data14
+- id: data15
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: {{ qld_file_mounts_path }}/files2/data15
+- id: data16
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: {{ qld_file_mounts_path }}/files2/data16
+- id: data17
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: {{ qld_file_mounts_path }}/files2/data17
+- id: data18
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: {{ qld_file_mounts_path }}/files2/data18
+- id: data20
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: {{ qld_file_mounts_path }}/files2/data20
+- id: data21
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: {{ qld_file_mounts_path }}/files2/data21
 {% endif %}
 
 {% if test_object_store_paths_enabled|d(False) %}
