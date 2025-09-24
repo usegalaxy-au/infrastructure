@@ -11,6 +11,7 @@ SKIP_TABLES = [
 KNOWN_CVMFS_DUPLICATES = {
     "bowtie2_indexes": ["loxAfr1", "rheMac2", "rheMac3"],
     "tophat2_indexes": ["loxAfr1", "rheMac2", "rheMac3"],
+    "ncbi_fcs_gx_divisions": ["prok:CFB group bacteria", "unkn:unknown"],
 }
 
 
