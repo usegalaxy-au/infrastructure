@@ -21,15 +21,10 @@ nfs_data20_dir: "{{ volB_path }}/data20"
 nfs_data22_dir: "{{ volB_path }}/data22"  # moved from volA June '25
 
 # volume C (~37 TB)
-nfs_data10_dir: "{{ volC_path }}/data10"
-nfs_data11_dir: "{{ volC_path }}/data11" # moved from volA Feb '25
-nfs_data13_dir: "{{ volC_path }}/data13"
-nfs_data16_dir: "{{ volC_path }}/data16" # moved from volA March '25
-nfs_data18_dir: "{{ volC_path }}/data18" # moved from volA May '25
-nfs_data21_dir: "{{ volC_path }}/data21"
+# data folders moved to QLD, September 2025 (data10, data11, data13, data16, data18, data21)
 
 # volume D (~107 TB)
-nfs_data14_dir: "{{ volD_path }}/data14"  # moved from volA Feb '25
+# data folder data14 moved to QLD, September 2025
 nfs_data19_dir: "{{ volD_path }}/data19"  # moved from volA April '25
 nfs_data23_dir: "{{ volD_path }}/data23"
 nfs_data24_dir: "{{ volD_path }}/data24"
@@ -57,18 +52,11 @@ attached_volumes:
 nfs_dirs:
   - "{{ nfs_data08_dir }}"
   - "{{ nfs_data09_dir }}"
-  - "{{ nfs_data10_dir }}"
-  - "{{ nfs_data11_dir }}"
   - "{{ nfs_data12_dir }}"
-  - "{{ nfs_data13_dir }}"
-  - "{{ nfs_data14_dir }}"
   - "{{ nfs_data15_dir }}"
-  - "{{ nfs_data16_dir }}"
   - "{{ nfs_data17_dir }}"
-  - "{{ nfs_data18_dir }}"
   - "{{ nfs_data19_dir }}"
   - "{{ nfs_data20_dir }}"
-  - "{{ nfs_data21_dir }}"
   - "{{ nfs_data22_dir }}"
   - "{{ nfs_data23_dir }}"
   - "{{ nfs_data24_dir }}"
