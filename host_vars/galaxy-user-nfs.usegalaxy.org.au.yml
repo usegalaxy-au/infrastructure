@@ -12,12 +12,7 @@ nfs_data29_dir: "{{ volA_path }}/data29"
 nfs_data30_dir: "{{ volA_path }}/data30"
 
 # volume B (~49 TB)
-nfs_data08_dir: "{{ volB_path }}/data08"  # moved from volA Feb '25
-nfs_data09_dir: "{{ volB_path }}/data09"
-nfs_data12_dir: "{{ volB_path }}/data12"
-nfs_data15_dir: "{{ volB_path }}/data15"
-nfs_data17_dir: "{{ volB_path }}/data17"
-nfs_data20_dir: "{{ volB_path }}/data20"
+# data folders moved to QLD, September 2025 (data08, data09, data12, data15, data17, data20)
 nfs_data22_dir: "{{ volB_path }}/data22"  # moved from volA June '25
 
 # volume C (~37 TB)
@@ -50,13 +45,7 @@ attached_volumes:
     fstype: ext4
 
 nfs_dirs:
-  - "{{ nfs_data08_dir }}"
-  - "{{ nfs_data09_dir }}"
-  - "{{ nfs_data12_dir }}"
-  - "{{ nfs_data15_dir }}"
-  - "{{ nfs_data17_dir }}"
   - "{{ nfs_data19_dir }}"
-  - "{{ nfs_data20_dir }}"
   - "{{ nfs_data22_dir }}"
   - "{{ nfs_data23_dir }}"
   - "{{ nfs_data24_dir }}"
