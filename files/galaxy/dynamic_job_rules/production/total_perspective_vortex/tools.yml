@@ -1840,6 +1840,10 @@ tools:
     mem: 30.7
     params:
       tmp_dir: true
+    rules:
+    - id: funannotate_predict_large_input  # TODO: Review memory metrics after a month or so (added 25/9/25)
+      if: input_size > 0.2
+      mem: 100
   toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/.*:
     cores: 8
     mem: 30.7
