@@ -1533,6 +1533,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/binette/binette/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/biom_convert/biom_convert/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/bracken/est_abundance/.*:
@@ -1648,6 +1651,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/checkm2/checkm2/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/iuc/checkm_.*
   toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
     cores: 1
     mem: 3.8
@@ -1691,6 +1696,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
     params:
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/iuc/concoct/concoct/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/compleasm/compleasm/.*:
     cores: 5
     mem: 19.1
@@ -3052,6 +3060,9 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/schicexplorer_.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/semibin/semibin/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/seqkit_.*:
