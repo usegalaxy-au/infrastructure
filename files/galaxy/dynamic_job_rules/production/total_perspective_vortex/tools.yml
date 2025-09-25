@@ -4008,6 +4008,10 @@ tools:
     inherits: wig_to_bigWig
   CONVERTER_fasta_to_fai:
     mem: 10
+  CONVERTER_gff_to_fli_0:
+    mem: 12
+  CONVERTER_gff_to_interval_index_0:
+    mem: 12
   CONVERTER_interval_to_bigwig_0:
     inherits: wig_to_bigWig
   CONVERTER_wig_to_bigwig:
