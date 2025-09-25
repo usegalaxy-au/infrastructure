@@ -3054,6 +3054,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/sceasy_convert/sceasy_convert/.*:
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/seq2hla/seq2hla/.*:
