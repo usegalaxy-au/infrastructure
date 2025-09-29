@@ -1761,6 +1761,9 @@ tools:
     mem: 3.8
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/drep_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/dropletutils/dropletutils/.*:
     mem: 12
     params:
@@ -1799,6 +1802,9 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
     mem: min(3 * input_size + 2, 40)
+  toolshed.g2.bx.psu.edu/repos/iuc/fasta_to_contig2bin/Fasta_to_Contig2Bin/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/fastani/fastani/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
@@ -2320,6 +2326,9 @@ tools:
       if: 0.001 <= input_size < 5
       cores: 16
       mem: 62
+  toolshed.g2.bx.psu.edu/repos/iuc/metabat2.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/.*:
     cores: 8
     mem: 31
