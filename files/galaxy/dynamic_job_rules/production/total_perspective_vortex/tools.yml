@@ -1696,7 +1696,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
     params:
       tmp_dir: true
-  toolshed.g2.bx.psu.edu/repos/iuc/concoct/concoct/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/concoct.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/compleasm/compleasm/.*:
@@ -3063,7 +3063,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/schicexplorer_.*:
     params:
       singularity_enabled: true
-  toolshed.g2.bx.psu.edu/repos/iuc/semibin/semibin/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/semibin.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/seqkit_.*:
