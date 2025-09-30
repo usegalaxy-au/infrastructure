@@ -1068,6 +1068,8 @@ tools:
     - id: scanpy_run_pca_fail_rule
       if: input_size > 20
       fail: Too much data. Total input data must be less than 20GB.
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/seurat.*:
+    mem: 20  # TODO: linear equation for this once there is more data
   toolshed.g2.bx.psu.edu/repos/ecology/.*:
     params:
       singularity_enabled: true
