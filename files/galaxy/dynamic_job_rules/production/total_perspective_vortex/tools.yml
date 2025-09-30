@@ -318,8 +318,8 @@ tools:
     rules:
     - id: hifiasm_small_input_rule
       if: input_size < 0.1
-      cores: 4
-      mem: 15.3
+      cores: 8
+      mem: 31.2
     - id: hifiasm_xlarge_input_rule
       if: input_size > 200
       mem: 1922
