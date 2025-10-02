@@ -4227,6 +4227,9 @@ tools:
     params:
       singularity_enabled: true
 
+  dorado_error_correct_alpha:
+    inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*
+
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/aarnet_filesender/aarnet_filesender/.*:
     params:
       singularity_enabled: true
