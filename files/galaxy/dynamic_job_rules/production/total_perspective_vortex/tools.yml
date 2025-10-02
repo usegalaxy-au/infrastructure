@@ -1474,14 +1474,15 @@ tools:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/.*
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 5
-    cores: 8
-    mem: 70
+      max_concurrent_job_count_for_tool_user: 4
+    cores: 16
+    mem: 62
     params:
       singularity_enabled: true
     scheduling:
       prefer:
-        - cvmfs_cache_100plus
+        - pulsar-QLD
+        # - cvmfs_cache_100plus
       require:
         - bakta_database
     rules:
