@@ -17,6 +17,7 @@
         <tool file="/mnt/galaxy/local_tools/fgenesh/2024.2/fgenesh_check_mrna.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/cellranger/cellranger.xml" labels="test"/>
         <tool file="/mnt/galaxy/local_tools/alphafold/alphafold.xml" labels="test"/>
+		<tool file="/mnt/galaxy/local_tools/dorado_0_9_5/dorado_error_correct_alpha.xml" labels="test"/>
     </section>
     <section id="interactivetools" name="Interactive Tools">
 	    <tool file="/mnt/galaxy/local_tools/interactive_tool/lfq/interactivetool_lfqanalyst.xml" />
