@@ -373,6 +373,7 @@ slurm_singularity_volumes_list:
   - "/mnt/galaxy/data:ro"
   - "/mnt/galaxy/data-2:ro"
   - "/mnt/galaxy/data-3:ro"
+  - "/mnt/galaxy/object_store_cache:ro"  # for user defined storage
   - "/mnt/galaxy/data-scratch:ro"
   - "/mnt/test_mount:ro"
   - "/mnt/galaxy/custom-indices:ro"
