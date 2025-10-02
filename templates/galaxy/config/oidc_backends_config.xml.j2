@@ -17,6 +17,7 @@
         <redirect_uri>{{ galaxy_config['galaxy']['galaxy_infrastructure_url'] }}/authnz/oidc/callback</redirect_uri>
         <oidc_endpoint>{{ auth0_oidc_endpoint }}</oidc_endpoint>
         <accepted_audiences>{{ auth0_audience }}</accepted_audiences>
+        <username_key>https://biocommons.org.au/username</username_key>
         <extra_scopes>roles</extra_scopes>
         <custom_button_text>BioCommons (via Auth0)</custom_button_text>        
     </provider>
