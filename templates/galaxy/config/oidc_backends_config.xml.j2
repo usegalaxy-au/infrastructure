@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <OIDC>
+{% if not inventory_hostname.startswith('dev') %}
     <provider name="Keycloak">
         <label>AAF</label>
         <require_create_confirmation>true</require_create_confirmation>
@@ -10,6 +11,7 @@
         <well_known_oidc_config_uri>{{ aaf_issuer_url }}.well-known/openid-configuration</well_known_oidc_config_uri>
         <icon>https://swift.rc.nectar.org.au/v1/AUTH_377/public/Galaxy/AAF_BTN_Sign_in_med_gradient_orange_FIN2020.png</icon>
     </provider>
+{% endif %}
 {% if inventory_hostname.startswith('dev') %}
     <provider name="oidc">
         <client_id>{{ auth0_client_id }}</client_id>
