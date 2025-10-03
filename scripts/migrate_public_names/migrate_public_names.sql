@@ -6,8 +6,8 @@
 DROP TABLE IF EXISTS migration_mapping_tmp;
 
 -- perform actions on a copy of the table
---DROP TABLE IF EXISTS galaxy_user;
---CREATE TABLE galaxy_user AS SELECT * FROM galaxy_user;
+--DROP TABLE IF EXISTS copy_galaxy_user;
+--CREATE TABLE copy_galaxy_user AS SELECT * FROM galaxy_user;
 
 BEGIN;
 
