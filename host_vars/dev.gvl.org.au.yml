@@ -201,6 +201,8 @@ host_galaxy_config: # renamed from __galaxy_config
     allow_local_account_creation: false
     disable_local_accounts: true
     enable_oidc: true
+    oidc_auth_pipeline_extra:
+      - "galaxy.authnz.auth0_authnz.sync_user_groups"
     file_path: "{{ galaxy_file_path }}"
     id_secret: "{{ vault_dev_id_secret }}"
     interactivetools_enable: true
@@ -538,3 +540,4 @@ auth0_client_id: "{{ vault_auth0_client_id_dev }}"
 auth0_client_secret: "{{ vault_auth0_client_secret_dev }}"
 auth0_oidc_endpoint: "{{ vault_auth0_oidc_endpoint_dev }}"
 auth0_audience: "{{ vault_auth0_audience_dev }}"
+auth0_registration_endpoint: "{{ vault_auth0_registration_endpoint_dev }}"
