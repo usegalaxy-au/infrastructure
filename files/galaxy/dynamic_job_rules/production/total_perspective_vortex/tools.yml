@@ -1542,6 +1542,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/binette/binette/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/biobox_add_taxid/biobox_add_taxid/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/biom_convert/biom_convert/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/bracken/est_abundance/.*:
@@ -1640,6 +1643,9 @@ tools:
       if: 1 <= input_size < 20
       cores: 8
       mem: 30.7
+  toolshed.g2.bx.psu.edu/repos/iuc/cami_amber.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/cat_bins/cat_bins/.*:
     cores: 5
     mem: 19.1
@@ -1737,7 +1743,10 @@ tools:
     cores: 2
     mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_plotqualityprofile/dada2_plotQualityProfile/.*:
-    mem: 12 
+    mem: 12
+  toolshed.g2.bx.psu.edu/repos/iuc/das_tool/das_tool/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     cores: 1
     mem: 3.8
@@ -1929,6 +1938,9 @@ tools:
       - gtdbtk_database
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/gtdb_to_taxdump/gtdb_to_taxdump/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/gtftobed12/gtftobed12/.*:
     params:
       singularity_enabled: true
@@ -2630,6 +2642,9 @@ tools:
       if: input_size < 0.01
       cores: 2
       mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/iuc/name2taxid/name2taxid/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/nanoplot/.*:
     cores: 3
     mem: 11.5
