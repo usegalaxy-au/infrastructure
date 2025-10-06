@@ -3675,6 +3675,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/mbernt/maxbin2/maxbin2/.*:
     cores: 12
     mem: 46.0
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/mvdbeek/add_input_name_as_column/addName/.*:
     params:
       singularity_enabled: true
