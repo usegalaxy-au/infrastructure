@@ -16,7 +16,6 @@
       when: ansible_os_family == "Debian"
   roles:
     - common
-    - insspb.hostname
     - geerlingguy.pip
     - galaxyproject.repos
     - role: galaxyproject.miniconda

@@ -6,6 +6,5 @@
     - group_vars/all.yml
   roles:
     - common
-    - insspb.hostname
     - galaxyproject.repos
     - galaxyproject.cvmfs

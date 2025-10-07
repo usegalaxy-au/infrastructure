@@ -13,7 +13,6 @@
           name: attached-volumes
   roles:
       - common
-      - insspb.hostname
       - geerlingguy.pip
       - mounts
       - galaxyproject.repos

@@ -27,7 +27,6 @@
         when: not data_directory_stat.stat.exists
   roles:
       - common
-      - insspb.hostname
       - geerlingguy.pip
       - galaxyproject.postgresql
       - move-postgresql-data-directory

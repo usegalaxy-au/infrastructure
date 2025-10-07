@@ -18,7 +18,6 @@
         state: directory
   roles:
     - common
-    - insspb.hostname
     - geerlingguy.pip
     - geerlingguy.nfs
     - dj-wasabi.telegraf

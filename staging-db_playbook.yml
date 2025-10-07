@@ -15,7 +15,6 @@
         become: true
   roles:
       - common
-      - insspb.hostname
       - geerlingguy.pip
       - galaxyproject.postgresql
       - role: galaxyproject.postgresql_objects

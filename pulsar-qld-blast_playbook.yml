@@ -9,7 +9,6 @@
     - secret_group_vars/ssh_keys
   roles:
     - common
-    - insspb.hostname
     - geerlingguy.pip
     - galaxyproject.repos
     - pulsar-pre-tasks

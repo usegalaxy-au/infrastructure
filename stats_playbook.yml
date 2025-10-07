@@ -26,7 +26,6 @@
 
   roles:
     - common
-    - insspb.hostname
     - galaxyproject.nginx
     - usegalaxy_eu.influxdb
     - slg.influx_objects

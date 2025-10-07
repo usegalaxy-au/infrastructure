@@ -12,7 +12,6 @@
       - secret_group_vars/ssh_keys
   roles:
       - common
-      - insspb.hostname
       - geerlingguy.pip
       - geerlingguy.docker
       - galaxyproject.nginx
