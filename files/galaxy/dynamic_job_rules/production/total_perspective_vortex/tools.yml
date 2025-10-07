@@ -1273,11 +1273,11 @@ tools:
       require:
       - eggnog
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper/.*:
-    cores: 6
-    mem: 23.0
+    cores: 8
+    mem: 31.2
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper_search/.*:
-    cores: 4
-    mem: 20
+    cores: 8
+    mem: 31.2
   toolshed.g2.bx.psu.edu/repos/galaxyp/encyclopedia_searchtolib/encyclopedia_searchtolib/.*:
     mem: 10
     params:
@@ -1292,8 +1292,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxyp/fragpipe/fragpipe/.*:
     context:
       test_cores: 4
-    cores: 16
-    mem: 62  # TODO: enable on pulsar once tested on local cluster
+    cores: 32
+    mem: 125  # TODO: monitor "fragpipe cannot run on pulsar" issue in tools-galaxyp
   toolshed.g2.bx.psu.edu/repos/galaxyp/maldi_quant_peak_detection/maldi_quant_peak_detection/.*:
     mem: 92
   toolshed.g2.bx.psu.edu/repos/galaxyp/maldi_quant_preprocessing/maldi_quant_preprocessing/.*:
@@ -3170,8 +3170,8 @@ tools:
     params:
       singularity_enabled: true 
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/.*:
-    cores: 6
-    mem: 23
+    cores: 8
+    mem: 31.2
     params:
       singularity_enabled: true
       tmp_dir: true
@@ -3181,9 +3181,9 @@ tools:
       - pulsar-quick
     rules:
     - id: snippy_small_input_rule
-      if: input_size < 0.015
-      cores: 3
-      mem: 11.5
+      if: input_size < 0.010
+      cores: 4
+      mem: 15.6
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_core/.*:
     mem: 12
     params:
