@@ -58,7 +58,6 @@
 
   roles:
       - common
-      - insspb.hostname
       - geerlingguy.pip
       - mounts
       - galaxyproject.repos

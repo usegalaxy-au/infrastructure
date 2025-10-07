@@ -18,7 +18,6 @@
     - role: common
       become: true
       become_user: root
-    - insspb.hostname
     - dj-wasabi.telegraf
     - role: geerlingguy.docker
       tags: init

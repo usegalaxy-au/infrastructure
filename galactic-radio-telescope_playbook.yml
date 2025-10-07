@@ -18,7 +18,6 @@
           state: present
   roles:
     - common ###
-    - insspb.hostname
     - galaxyproject.postgresql ###
     - move-postgresql-data-directory
     - role: galaxyproject.postgresql_objects

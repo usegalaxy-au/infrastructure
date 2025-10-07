@@ -19,7 +19,6 @@
       with_items: "{{ nfs_dirs }}"
   roles:
       - common
-      - insspb.hostname
       - geerlingguy.pip
       - geerlingguy.nfs
       - dj-wasabi.telegraf

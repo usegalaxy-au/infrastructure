@@ -21,7 +21,6 @@ roles:
   version: 0.1.11
 #- src: jasonroyle.rabbitmq - Had to modify download URL for rabbitMQ
 #  version: 0.0.4
-- src: insspb.hostname
 - src: galaxyproject.slurm
   version: 1.0.5
 - name: galaxyproject.s3fs

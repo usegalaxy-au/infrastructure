@@ -10,7 +10,6 @@
       - secret_group_vars/dev_secrets
   roles:
       - common
-      - insspb.hostname
       - geerlingguy.pip
       - galaxyproject.nginx
       - geerlingguy.docker

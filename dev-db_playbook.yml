@@ -20,7 +20,6 @@
       when: "{{ db_first_run_conditions|d(False) }}"
   roles:
       - common
-      - insspb.hostname
       - geerlingguy.pip
       - galaxyproject.postgresql
       - role: galaxyproject.postgresql_objects

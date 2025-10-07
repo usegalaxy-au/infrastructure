@@ -18,7 +18,6 @@
         mode: 0440
   roles:
     - common
-    - insspb.hostname
     - geerlingguy.java
     - geerlingguy.jenkins
     - galaxyproject.nginx

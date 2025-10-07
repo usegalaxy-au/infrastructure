@@ -24,7 +24,6 @@
         group: "{{ pulsar_user.name }}"
   roles:
     - common
-    - insspb.hostname
     - mounts
     - geerlingguy.pip
     - galaxyproject.repos
