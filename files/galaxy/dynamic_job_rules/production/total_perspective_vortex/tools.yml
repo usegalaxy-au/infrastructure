@@ -2842,7 +2842,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_yield_plot/poretools_yield_plot/.*:
     cores: 3
     mem: 11.5
-  toolshed.g2.bx.psu.edu/repos/iuc/presto_.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/presto.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/prodigal/prodigal/.*:
