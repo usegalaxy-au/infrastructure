@@ -1542,7 +1542,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/binette/binette/.*:
     params:
       singularity_enabled: true
-      cleanup_job: never  # TODO: this should be temporary (take note of whether this actually works)
   toolshed.g2.bx.psu.edu/repos/iuc/biobox_add_taxid/biobox_add_taxid/.*:
     params:
       singularity_enabled: true
