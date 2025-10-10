@@ -3100,6 +3100,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/semibin.*:
+    cores: 16
+    mem: 62  # TODO: shared db has cores 16 mem 16, review this when we have more data
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/seqkit_.*:
