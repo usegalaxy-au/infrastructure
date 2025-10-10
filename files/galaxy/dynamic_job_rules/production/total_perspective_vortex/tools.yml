@@ -255,6 +255,9 @@ tools:
         scheduling:
           accept:
             - pulsar  # older versions might be OK with pulsar but are not OK with singularity
+  toolshed.g2.bx.psu.edu/repos/bgruening/edta/edta/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/enumerate_charges/enumerate_charges/.*:
     params:
       singularity_enabled: true
@@ -3623,6 +3626,9 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/ucsc_wigtobigwig/ucsc_wigtobigwig/.*:
     inherits: wig_to_bigWig
+  toolshed.g2.bx.psu.edu/repos/iuc/vapor/vapor/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/varscan_.*:
     params:
       singularity_enabled: true
