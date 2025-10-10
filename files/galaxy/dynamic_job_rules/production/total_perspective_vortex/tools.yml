@@ -3736,6 +3736,9 @@ tools:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_read_duplication/.*:
     mem: 8
+  toolshed.g2.bx.psu.edu/repos/nml/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/nml/csvtk_.*:
     params:
       singularity_enabled: true
