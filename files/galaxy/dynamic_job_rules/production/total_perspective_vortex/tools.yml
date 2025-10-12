@@ -1462,6 +1462,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/artic.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/bamtools_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/.*:
     mem: 62
     params:
