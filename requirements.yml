@@ -75,6 +75,9 @@ roles:
   version: 2.5.0
 - name: geerlingguy.jenkins
   version: 5.2.0
+- name: usegalaxy-au.history_mailer
+  src: https://github.com/usegalaxy-au/ansible-history-mailer
+  version: d6a5120 # TODO: at the very least add a commit ID here
 
 # GMS roles
 - name: geerlingguy.nginx

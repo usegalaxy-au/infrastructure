@@ -62,3 +62,70 @@ host_machine_users:
       roles: []
       key: files/keys/jonathan.pub
       email: "{{ jonathan_email }}"
+
+### History mailer
+
+# config
+history_mailer_warn_days: 365
+history_mailer_delete_days: 379
+history_mailer_email_days_threshold: 14
+history_mailer_purge_days_threshold: 6
+
+history_mailer_galaxy_url: https://usegalaxy.org.au
+history_mailer_galaxy_api_key: "{{ vault_jenkins_bot_production_api_key }}"  # TODO: add this!
+history_mailer_staging_galaxy_url: https://staging.gvl.org.au
+history_mailer_staging_galaxy_api_key: "{{ vault_jenkins_bot_staging_api_key }}"  # TODO: add this!
+
+history_mailer_galaxy_keeplist_group: "History Retention Keeplist"
+
+history_mailer_postal_base_url: "https://mail.usegalaxy.org.au/api/v1/"
+history_mailer_postal_api_key: "{{ vault_history_mailer_postal_api_key }}"
+
+history_mailer_email_template_warning: "{{ history_mailer_email_template_dir }}/email_warning.html"
+history_mailer_email_template_deletion: "{{ history_mailer_email_template_dir }}/email_deletion.html"
+
+history_mailer_mail_from: "Galaxy Australia <no-reply@usegalaxy.org.au>"
+history_mailer_mail_replyto: "help@genome.edu.au"
+
+history_mailer_slack_token: "{{ vault_history_mailer_slack_token }}"
+history_mailer_slack_alert_channel: "#alerts"
+history_mailer_slack_log_channel: "#galaxy-logs"
+history_mailer_alert_mentions: "<@Catherine>"
+history_mailer_log_mentions: "<@Catherine>"
+
+# settings for ansible role
+history_mailer_user: ubuntu
+history_mailer_dir: "/home/{{ history_mailer_user }}/hm_TEST"
+
+history_mailer_use_postal: true # Must be true for history mailer to work
+
+history_mailer_enable_cron_jobs: false # When not enabled, cron jobs will be entered in crontab in a disabled state
+
+history_mailer_files:
+  - src: templates/history_mailer/email_warning.html
+    dest: "{{ history_mailer_email_template_warning }}"
+  - src: templates/history_mailer/email_deletion.html
+    dest: "{{ history_mailer_email_template_deletion }}"
+
+history_mailer_cron_jobs:
+- name: warn_and_delete
+  weekday: "3"
+  hour: "11"
+  options:
+    - production
+    - warn
+    - delete
+    - notify
+- name: purge_histories
+  weekday: "2"
+  hour: "12"
+  options:
+    - production
+    - purge
+    - notify
+
+# Delete these and use vault variables
+vault_history_mailer_postal_api_key: nottherealkey # ##
+vault_history_mailer_slack_token: "xoxb"
+vault_jenkins_bot_production_api_key: abcdefg # TODO: add the real one, add these to vault
+vault_jenkins_bot_staging_api_key: xyz # TODO: add the real one, add these to vault
