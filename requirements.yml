@@ -77,6 +77,9 @@ roles:
 - name: geerlingguy.jenkins
   version: 5.3.1
 - name: galaxyproject.galaxy_extensions
+- name: usegalaxy-au.history_mailer
+  src: https://github.com/usegalaxy-au/ansible-history-mailer
+  version: aed72d367bf0101481f035fc95a1bc34961a6a6a
 
 # GMS roles
 - name: geerlingguy.nginx

@@ -177,6 +177,7 @@ common_packages:
     - iftop
     - sysstat
     - dstat
+    - sqlite3
 
 problematic_packages_ubuntu_24_04:
     - libgl1-mesa-glx
