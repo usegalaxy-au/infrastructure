@@ -11,6 +11,7 @@
     - secret_group_vars/stats_server_vault
     - secret_group_vars/dev_secrets
     - secret_group_vars/sentry_vault
+    - secret_group_vars/history_mailer_vault
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -69,6 +70,8 @@
     - acl-on-startup
     - role: usegalaxy_eu.walle
       tags: walle
+    - role: usegalaxy-au.history_mailer
+      tags: history_mailer
   post_tasks:
     - name: Ensure object store paths exist
       file:
@@ -104,7 +107,6 @@
       command: exportfs -ra
       become: yes
       become_user: root
-
     # Nginx logrotate: keep nginx logs forever on /mnt disk
     - name: Make sure extra nginx log dirs exist
       file:
