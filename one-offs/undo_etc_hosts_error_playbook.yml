@@ -1,0 +1,41 @@
+---
+- name: Undo the actions of the now deprecated insspb.hostname role
+  hosts: dev_group
+  become: true
+  vars:
+    hostname: "{{ ansible_hostname }}"
+
+  tasks:
+    - name: Slurp file content prior to replacement
+      ansible.builtin.slurp:
+        src: /etc/hosts
+      register: hosts_before
+    - name: Revert IPv4 change while ensuring whitespace
+      ansible.builtin.replace:
+        path: /etc/hosts
+        regexp: "^127\\.0\\.0\\.1\\t+{{ hostname }}.*$"
+        replace: "127.0.0.1{{ '\t' }}localhost"
+        backup: true
+    - name: Revert IPv6 change
+      ansible.builtin.replace:
+        path: /etc/hosts
+        regexp: "^::1\\t+{{ hostname }}.*ip6-localhost ip6-loopback$"
+        replace: "::1{{ '\t' }}ip6-localhost{{ '\t' }}ip6-loopback"
+        backup: true
+    - name: Slurp file content after replacement
+      ansible.builtin.slurp:
+        src: /etc/hosts
+      register: hosts_after
+    - name: Show line-by-line differences
+      ansible.builtin.debug:
+        msg: |
+          {% set before = (hosts_before.content | b64decode).split('\n') %}
+          {% set after  = (hosts_after.content  | b64decode).split('\n') %}
+          {% for i in range(0, [before|length, after|length]|max) %}
+          {% set a = before[i] if i < before|length else '' %}
+          {% set b = after[i]  if i < after|length else '' %}
+          {% if a != b %}
+          - before: {{ a }}
+            after:  {{ b }}
+          {% endif %}
+          {% endfor %}
