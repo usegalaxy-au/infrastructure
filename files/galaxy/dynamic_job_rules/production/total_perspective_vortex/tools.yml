@@ -461,6 +461,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/tapscan/tapscan_classify/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/.*:
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_replace_in_line/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/.*:
