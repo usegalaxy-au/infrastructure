@@ -5,7 +5,7 @@ add_hosts_handlers: yes
 common_logrotate_manage_rsyslog: true
 
 # total perspective vortex
-# tpv_version: "2.2.4"
+tpv_version: "3.1.1"
 # tpv_repo: https://github.com/usegalaxy-au/total-perspective-vortex
 # tpv_commit_id: d8e336b1cc889237c155d0ad318051c36e5636e6
 
@@ -75,7 +75,7 @@ host_galaxy_extra_dirs:
   - "{{ galaxy_root }}/object_store_cache"
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
-galaxy_commit_id: release_25.0_au_dev
+galaxy_commit_id: release_25.1_au_dev
 
 galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
 
