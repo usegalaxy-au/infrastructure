@@ -144,10 +144,7 @@ tpv_packages: |
   {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
 
 additional_packages:
-  - redis
   - flower
-  - watchdog==2.2.1
-  - fs.dropboxfs==1.0.1  # (latest version requires python 3.11)
 
 galaxy_additional_venv_packages: "{{ tpv_packages + additional_packages }}"
 
