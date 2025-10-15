@@ -153,6 +153,7 @@ destinations:
         - pulsar
     rules:
       - id: pulsar_destination_docker_rule
+        if: entity.params.get('docker_enabled')
         params:
             docker_volumes: $job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold:/data:ro
             docker_set_user: '1000'
