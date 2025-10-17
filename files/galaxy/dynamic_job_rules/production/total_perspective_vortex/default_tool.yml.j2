@@ -20,7 +20,7 @@ tools:
       # pulsar score
       pulsar_score: null  # scores set in tool_pulsar_scores.yml. Not every tool will have a score
       pulsar_score_pulsar_threshold: 10  # above this score, prefer to send jobs to pulsar
-      pulsar_score_slurm_threshold: 0.25  # below this score, prefer to send jobs to slurm  # adjusted from 0.3 to 0.25 to reduce slurm jam 2/10/25
+      pulsar_score_slurm_threshold: 0.3  # below this score, prefer to send jobs to slurm
       pulsar_score_slurm_max_cores: 12  # if cores >= this number, do not set preference for slurm
       pulsar_score_slurm_max_mem: 48  # if mem >= this number, do not set preference for slurm
  
