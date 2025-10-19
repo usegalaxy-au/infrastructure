@@ -3413,6 +3413,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/stacks_denovomap/stacks_denovomap/.*:
     cores: 16
     mem: 62
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks_refmap/stacks_refmap/.*:  # TODO: linear in terms of input_size
+    cores: 16
+    mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2.*:
     params:
       singularity_enabled: true
@@ -3430,9 +3433,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_populations/stacks2_populations/.*:
     cores: 8
     mem: 30.7
-  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_refmap/stacks2_refmap/.*:
-    cores: 8
-    mem: 30.7
+  toolshed.g2.bx.psu.edu/repos/iuc/stacks2_refmap/stacks2_refmap/.*:  # TODO: linear in terms of input_size
+    cores: 16
+    mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/stacks2_sstacks/stacks2_sstacks/.*:
     cores: 16
     mem: 62
