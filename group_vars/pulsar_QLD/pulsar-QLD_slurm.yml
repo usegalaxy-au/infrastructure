@@ -14,36 +14,43 @@ slurm_nodes:
     NodeAddr: "{{ hostvars['pulsar-QLD-w1']['ansible_ssh_host'] }}"
     CPUs: 16
     RealMemory: 64000
+    Weight: 10
     State: UNKNOWN
   - name: pulsar-QLD-w2
     NodeAddr: "{{ hostvars['pulsar-QLD-w2']['ansible_ssh_host'] }}"
     CPUs: 16
     RealMemory: 64000
+    Weight: 20
     State: UNKNOWN
   - name: pulsar-QLD-w3
     NodeAddr: "{{ hostvars['pulsar-QLD-w3']['ansible_ssh_host'] }}"
     CPUs: 16
     RealMemory: 64000
+    Weight: 30
     State: UNKNOWN
   - name: pulsar-QLD-w4
     NodeAddr: "{{ hostvars['pulsar-QLD-w4']['ansible_ssh_host'] }}"
     CPUs: 16
     RealMemory: 64000
+    Weight: 40
     State: UNKNOWN
   - name: pulsar-QLD-w5
     NodeAddr: "{{ hostvars['pulsar-QLD-w5']['ansible_ssh_host'] }}"
     CPUs: 16
     RealMemory: 64000
+    Weight: 50
     State: UNKNOWN
   - name: pulsar-QLD-w6
     NodeAddr: "{{ hostvars['pulsar-QLD-w6']['ansible_ssh_host'] }}"
     CPUs: 16
     RealMemory: 64000
+    Weight: 60
     State: UNKNOWN
   - name: pulsar-QLD-w7
     NodeAddr: "{{ hostvars['pulsar-QLD-w7']['ansible_ssh_host'] }}"
     CPUs: 16
     RealMemory: 64000
+    Weight: 70
     State: UNKNOWN
 
 slurm_partitions:
