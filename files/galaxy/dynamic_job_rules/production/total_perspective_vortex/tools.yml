@@ -1472,6 +1472,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/artic.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/b2btools_single_sequence/b2btools_single_sequence/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/bamtools_.*:
     params:
       singularity_enabled: true
@@ -1739,6 +1742,9 @@ tools:
       if: input_size < 1
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/constava/constava/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/control_freec/control_freec/.*:
     params:
       singularity_enabled: true
@@ -3035,6 +3041,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/rrmscorer/rrmscorer/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/salsa/salsa/.*:
     params:
       singularity_enabled: true
