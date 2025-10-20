@@ -3234,27 +3234,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/.*:
     cores: 3
     mem: 11.5
-    rules:
-    - id: snpeff_singularity_rule
-      if: |
-        # do not use singularity for this version due to a problem with snpeff data urls, manually fixed in conda env
-        snpeff_use_conda = False
-        if helpers.tool_version_eq(tool, '5.2+galaxy0'):
-          snpeff_use_conda = True
-        snpeff_use_conda
-      params:
-        singularity_enabled: false
-  toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_download/.*:
-    rules:
-    - id: snpeff_singularity_rule
-      if: |
-        # Same issue as snpEff above
-        snpeff_use_conda = False
-        if helpers.tool_version_eq(tool, '5.2+galaxy0'):
-          snpeff_use_conda = True
-        snpeff_use_conda
-      params:
-        singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_get_chr_names/.*:
     params:
       singularity_enabled: false  # both installed versions pass tests without singularity enabled, fail 1/2 with singularity enabled
