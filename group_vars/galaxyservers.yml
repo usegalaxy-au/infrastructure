@@ -145,7 +145,6 @@ tpv_packages: |
 
 additional_packages:
   - flower
-  - 'fastapi<0.118' # TODO: follow up with galaxy
 
 galaxy_additional_venv_packages: "{{ tpv_packages + additional_packages }}"
 
