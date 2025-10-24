@@ -6,6 +6,7 @@
         state: directory
       with_items:
         - galaxy_mutable_config
+        - galaxy_venv
         - tiaas
         - history_mailer
 - hosts:
@@ -34,6 +35,16 @@
         dest: "{{ config_backup_dir }}/tiaas/"
       with_items:
         - db.sqlite3
+    - name: Copy list of venv packages
+      block:
+      - name: Get list of packages
+        command: /mnt/galaxy/venv/bin/pip list --format=freeze
+        register: pip_packages
+      - name: Save package list locally
+        local_action:
+          module: copy
+          content: "{{ pip_packages.stdout }}"
+          dest: "{{ config_backup_dir }}/galaxy_venv/venv_packages.txt"
 - hosts:
     - galaxy-backup
   become: true
