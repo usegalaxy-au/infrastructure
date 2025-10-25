@@ -26,6 +26,7 @@ nfs_data23_dir: "{{ volD_path }}/data23"
 nfs_data24_dir: "{{ volD_path }}/data24"
 nfs_data31_dir: "{{ volD_path }}/data31"
 nfs_data32_dir: "{{ volD_path }}/data32"
+nfs_data34_dir: "{{ volD_path }}/data34"
 
 attached_volumes:
   - device: /dev/vdb
@@ -59,6 +60,7 @@ nfs_dirs:
   - "{{ nfs_data31_dir }}"
   - "{{ nfs_data32_dir }}"
   - "{{ nfs_data33_dir }}"
+  - "{{ nfs_data34_dir }}"
 
 nfs_exports:
   - "{{ volA_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
