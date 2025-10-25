@@ -1,8 +1,13 @@
 type: distributed
 search_for_missing: false
 backends:
-- id: data33
+- id: data34
   weight: 1
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volD/data34
+- id: data33
+  weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volA/data33
