@@ -15,7 +15,7 @@ services:
         source: "{{ labs_project_root }}"
         target: "{{ labs_project_root }}"
     environment:
-      - DJANGO_SETTINGS_MODULE=app.settings.dev
+      - DJANGO_SETTINGS_MODULE=labs_engine.app.settings.dev
     command: python manage.py runserver 0.0.0.0:8000
     restart: always
     working_dir: "{{ labs_django_root }}"
@@ -36,7 +36,7 @@ services:
         source: "{{ labs_project_root }}"
         target: "{{ labs_project_root }}"
     environment:
-      - DJANGO_SETTINGS_MODULE=app.settings.dev
+      - DJANGO_SETTINGS_MODULE=labs_engine.app.settings.dev
     command: >
       python -m debugpy
         --listen 0.0.0.0:5678
@@ -58,7 +58,7 @@ services:
     volumes:
       - /srv:/srv
     environment:
-      - DJANGO_SETTINGS_MODULE=app.settings.prod
+      - DJANGO_SETTINGS_MODULE=labs_engine.app.settings.prod
     command: >
       gunicorn
         --bind 0.0.0.0:8000
