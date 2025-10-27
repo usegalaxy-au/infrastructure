@@ -416,6 +416,10 @@ tools:
       if: 0.05 <= input_size < 5
       cores: 8
       mem: 30.7
+    - id: racon_version_1_5_0_container_override_rule
+      if: tool.version is not None and tool.version.startswith('1.5.0')
+      params:
+        singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/racon:1.5.0--h21ec9f0_2
   toolshed.g2.bx.psu.edu/repos/bgruening/rdconf/rdconf/.*:
     params:
       singularity_enabled: true
