@@ -1566,8 +1566,13 @@ tools:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/binette/binette/.*:
+    cores: 16
+    mem: 62  # TODO: This is more than shared db allocates. Update shared db if this fixes user issues.
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/biobox_add_taxid/biobox_add_taxid/.*:
     params:
       singularity_enabled: true
