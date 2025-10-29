@@ -663,14 +663,6 @@ tools:
       if: 1 <= input_size < 20
       cores: 8
       mem: 30.7
-  toolshed.g2.bx.psu.edu/repos/devteam/correlation/cor2/.*:
-    params:
-      singularity_enabled: true
-    rules:
-    - id: cor2_version_1_0_0_container_override_rule
-      if: tool.version is not None and tool.version.startswith('1.0.0')
-      params:
-        singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/rpy2:2.7.8--py27r3.3.2_1
   toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/.*:
     context:
       max_concurrent_job_count_for_tool_user: 2
