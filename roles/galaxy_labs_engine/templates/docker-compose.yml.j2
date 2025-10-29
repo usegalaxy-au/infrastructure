@@ -67,7 +67,7 @@ services:
         --capture-output
         --log-level info
         -c {{ labs_config_root }}/gunicorn.py
-        app.wsgi:application
+        labs_engine.app.wsgi:application
     restart: always
     working_dir: "{{ labs_django_root }}"
 
