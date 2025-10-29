@@ -79,13 +79,13 @@
     - update
 
 - name: Set media file ownership
-  file: dest={{ labs_django_root }}/labs_engine/app/media owner=www-data group=www-data mode=u=rwX,g=rwX,o=rwX recurse=yes
+  file: dest={{ labs_django_root }}/media owner=www-data group=www-data mode=u=rwX,g=rwX,o=rwX recurse=yes
   tags:
     - permissions
     - update
 
 - name: Set log file ownership
-  file: dest={{ labs_django_root }}/labs_engine/app/logs owner=www-data group=www-data mode=u=rwX,g=rwX,o=rwX recurse=yes
+  file: dest={{ labs_django_root }}/logs owner=www-data group=www-data mode=u=rwX,g=rwX,o=rwX recurse=yes
   tags:
     - permissions
     - update
