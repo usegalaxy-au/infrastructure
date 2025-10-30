@@ -83,8 +83,8 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - "{{ labs_django_root }}/app/static:/var/www/static:ro"
-      - "{{ labs_django_root }}/app/media:/var/www/media:ro"
+      - "{{ labs_django_root }}/static:/var/www/static:ro"
+      - "{{ labs_django_root }}/media:/var/www/media:ro"
       - "{{ labs_config_root }}/nginx/ssl:/etc/nginx/ssl:ro"
       - "{{ labs_config_root }}/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro"
       - /var/log/nginx:/var/log/nginx:rw
