@@ -38,7 +38,7 @@
     - name: Copy list of venv packages
       block:
       - name: Get list of packages
-        command: /mnt/galaxy/venv/bin/pip list --format=freeze
+        command: /mnt/galaxy/venv/bin/pip freeze
         register: pip_packages
       - name: Save package list locally
         local_action:
