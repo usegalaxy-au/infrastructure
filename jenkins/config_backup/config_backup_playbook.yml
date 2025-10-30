@@ -41,10 +41,10 @@
         command: /mnt/galaxy/venv/bin/pip freeze
         register: pip_packages
       - name: Save package list locally
-        local_action:
-          module: copy
+        copy:
           content: "{{ pip_packages.stdout }}"
           dest: "{{ config_backup_dir }}/galaxy_venv/venv_packages.txt"
+        delegate_to: localhost
 - hosts:
     - galaxy-backup
   become: true
