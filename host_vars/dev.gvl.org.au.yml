@@ -217,7 +217,7 @@ host_galaxy_config: # renamed from __galaxy_config
     enable_mulled_containers: true
     enable_notification_system: true
     allow_local_account_creation: false
-    disable_local_accounts: true
+    disable_local_accounts: false
     enable_oidc: true
     oidc_auth_pipeline_extra:
       - "galaxy.authnz.auth0_authnz.sync_user_groups"
