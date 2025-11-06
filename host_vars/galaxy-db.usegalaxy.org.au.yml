@@ -39,6 +39,7 @@ postgresql_conf:
   # - log_filename: "'postgresql-%Y-%m-%d.log'"
   # - log_statement: all
   # - logging_collector: on  # altering this requires a restart
+  - log_min_duration_statement: 1000
   - wal_level: replica
   - max_wal_senders: 5
   - wal_keep_size: 2GB
