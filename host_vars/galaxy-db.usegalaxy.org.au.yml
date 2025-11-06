@@ -37,8 +37,9 @@ postgresql_conf:
   - max_parallel_maintenance_workers: 4
   - temp_buffers: 64MB
   # - log_filename: "'postgresql-%Y-%m-%d.log'"
-  # - log_statement: all
-  # - logging_collector: on  # altering this requires a restart
+  - log_destination: syslog
+  - log_statement: none
+  - logging_collector: off  # altering this requires a restart
   - log_min_duration_statement: 1000
   - wal_level: replica
   - max_wal_senders: 5
