@@ -1,6 +1,5 @@
 volA_path: /mnt/volA
 volB_path: /mnt/volB
-volC_path: /mnt/volC
 volD_path: /mnt/volD
 
 # volume A (~171 TB)
@@ -16,9 +15,6 @@ nfs_data33_dir: "{{ volA_path }}/data33"
 # data folders moved to QLD, September 2025 (data08, data09, data12, data15, data17, data20)
 nfs_data22_dir: "{{ volB_path }}/data22"  # moved from volA June '25
 nfs_data35_dir: "{{ volB_path }}/data35"
-
-# volume C (~37 TB)
-# data folders moved to QLD, September 2025 (data10, data11, data13, data16, data18, data21)
 
 # volume D (~107 TB)
 # data folder data14 moved to QLD, September 2025
@@ -37,10 +33,6 @@ attached_volumes:
   - device: /dev/vdc
     partition: 1
     path: "{{ volB_path }}"
-    fstype: ext4
-  - device: /dev/vdd
-    partition: 1
-    path: "{{ volC_path }}"
     fstype: ext4
   - device: /dev/vde
     partition: 1
@@ -67,7 +59,6 @@ nfs_dirs:
 nfs_exports:
   - "{{ volA_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
   - "{{ volB_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
-  - "{{ volC_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
   - "{{ volD_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
 
 # internal ssh keys
