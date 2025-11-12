@@ -1,0 +1,217 @@
+---
+- name: Compare CVMFS Stratum 1 cache fill timings
+  hosts:
+    - pulsar-mel2-w7
+    - pulsar-QLD-w7
+    - galaxy-w7
+  become: true
+  vars:
+    cvmfs_domain_config: /etc/cvmfs/domain.d/galaxyproject.org.conf
+    cvmfs_singularity_file_path: "/cvmfs/singularity.galaxyproject.org/all/mulled-v2-4eea244974a53a81efc346a4fa9bdfd103e1c9df:e8360df15ed14ce0294477d85f8763fa15108270-0"
+    cvmfs_data_file_path: "/cvmfs/data.galaxyproject.org/managed/kraken2_databases/2023-08-17T071759Z_standard_prebuilt_standard_16gb_2022-06-07/hash.k2d"  # 15GB
+    cvmfs_cache_dir: /mnt/var/lib/cvmfs
+    cvmfs_timing_result_file: "{{ playbook_dir }}/cvmfs_timing_results.log"
+    cvmfs_scenario_a:
+      name: cvmfs1-mel0
+      description: Existing GVL stratum 1
+      server_url: 'http://cvmfs1-mel0.gvl.org.au/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@'
+      config_content: |
+        ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+        CVMFS_SERVER_URL="http://cvmfs1-mel0.gvl.org.au/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
+        CVMFS_KEYS_DIR=/etc/cvmfs/keys/galaxyproject.org
+        CVMFS_USE_GEOAPI="no"
+    cvmfs_scenario_b:
+      name: cvmfs-s1-biocommons
+      description: New BioCommons stratum 1
+      server_url: 'http://cvmfs-s1-biocommons.aarnet.edu.au/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@'
+      config_content: |
+        ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+        CVMFS_SERVER_URL="http://cvmfs-s1-biocommons.aarnet.edu.au/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
+        CVMFS_KEYS_DIR=/etc/cvmfs/keys/galaxyproject.org
+        CVMFS_USE_GEOAPI="no"
+    cvmfs_test_paths:
+      - label: singularity_payload
+        path: "{{ cvmfs_singularity_file_path }}"
+      - label: supporting_data
+        path: "{{ cvmfs_data_file_path }}"
+
+  pre_tasks:
+    - name: Ensure CVMFS test files are provided
+      # Users should override the defaults (CHANGE_ME) before running this play.
+      ansible.builtin.assert:
+        that:
+          - cvmfs_singularity_file_path is defined
+          - cvmfs_singularity_file_path | length > 0
+          - cvmfs_singularity_file_path is not match('CHANGE_ME')
+          - cvmfs_data_file_path is defined
+          - cvmfs_data_file_path | length > 0
+          - cvmfs_data_file_path is not match('CHANGE_ME')
+        fail_msg: >
+          Set cvmfs_singularity_file_path and cvmfs_data_file_path to real files
+          (e.g. via --extra-vars) before running this play.
+
+    - name: Capture current CVMFS config
+      ansible.builtin.slurp:
+        path: "{{ cvmfs_domain_config }}"
+      register: cvmfs_domain_conf_raw
+
+    - name: Store original CVMFS config content
+      ansible.builtin.set_fact:
+        original_cvmfs_config_content: "{{ cvmfs_domain_conf_raw.content | b64decode }}"
+
+  tasks:
+    - name: Run CVMFS timing scenario A
+      vars:
+        scenario: "{{ cvmfs_scenario_a }}"
+      block:
+        - name: Write CVMFS config for {{ scenario.name }}
+          ansible.builtin.copy:
+            dest: "{{ cvmfs_domain_config }}"
+            content: "{{ scenario.config_content }}"
+            owner: root
+            group: root
+            mode: '0644'
+
+        - name: Stop autofs service before {{ scenario.name }}
+          ansible.builtin.service:
+            name: autofs
+            state: stopped
+
+        - name: Unmount CVMFS repositories before {{ scenario.name }}
+          ansible.builtin.command: cvmfs_config umount -a
+          register: cvmfs_umount_result
+          changed_when: "'unmounted' in cvmfs_umount_result.stdout"
+          failed_when: cvmfs_umount_result.rc not in [0]
+
+        - name: Clear CVMFS cache directory before {{ scenario.name }}
+          ansible.builtin.shell: "rm -rf {{ cvmfs_cache_dir }}/*"
+          args:
+            warn: false
+
+        - name: Start autofs service for {{ scenario.name }}
+          ansible.builtin.service:
+            name: autofs
+            state: started
+
+        - name: Reload CVMFS config for {{ scenario.name }}
+          ansible.builtin.command: cvmfs_config reload
+
+        - name: Time cache fill for {{ scenario.name }} - {{ test_item.label }}
+          ansible.builtin.shell: >
+            /usr/bin/env time -p bash -c 'cat {{ test_item.path | quote }} > /dev/null'
+          args:
+            warn: false
+          loop: "{{ cvmfs_test_paths }}"
+          loop_control:
+            loop_var: test_item
+            label: "{{ scenario.name }}:{{ test_item.label }}"
+          register: scenario_timing
+          changed_when: false
+
+        - name: Emit timing report for {{ scenario.name }}
+          ansible.builtin.debug:
+            msg:
+              scenario: "{{ scenario.name }}"
+              description: "{{ scenario.description }}"
+              server_url: "{{ scenario.server_url }}"
+              timing_output: "{{ scenario_timing.results | map(attribute='stderr') | list }}"
+
+        - name: Append timing results for {{ scenario.name }} to local log
+          ansible.builtin.blockinfile:
+            path: "{{ cvmfs_timing_result_file }}"
+            create: true
+            insertafter: EOF
+            marker: "# {mark} CVMFS timing {{ scenario.name }} {{ inventory_hostname }} {{ ansible_date_time.iso8601 }}"
+            block: |
+              timestamp,host,scenario,label,path,real_seconds,raw_timing
+              {% for result in scenario_timing.results | default([]) %}
+              {% set result_item = result.get('test_item') or result.get('item') or {} %}
+              {{ ansible_date_time.iso8601 }},{{ inventory_hostname }},{{ scenario.name }},{{ result_item.get('label', 'unknown') }},{{ result_item.get('path', 'unknown') }},{{ (result.get('stderr', '') | regex_findall('real\\s+([0-9.]+)') | first) | default('n/a', true) }},{{ (result.get('stderr', '') | trim | replace('\n', ' | ')) }}
+              {% endfor %}
+          delegate_to: localhost
+    - name: Run CVMFS timing scenario B
+      vars:
+        scenario: "{{ cvmfs_scenario_b }}"
+      block:
+        - name: Write CVMFS config for {{ scenario.name }}
+          ansible.builtin.copy:
+            dest: "{{ cvmfs_domain_config }}"
+            content: "{{ scenario.config_content }}"
+            owner: root
+            group: root
+            mode: '0644'
+
+        - name: Stop autofs service before {{ scenario.name }}
+          ansible.builtin.service:
+            name: autofs
+            state: stopped
+
+        - name: Unmount CVMFS repositories before {{ scenario.name }}
+          ansible.builtin.command: cvmfs_config umount -a
+          register: cvmfs_umount_result
+          changed_when: "'unmounted' in cvmfs_umount_result.stdout"
+          failed_when: cvmfs_umount_result.rc not in [0]
+
+        - name: Clear CVMFS cache directory before {{ scenario.name }}
+          ansible.builtin.shell: "rm -rf {{ cvmfs_cache_dir }}/*"
+          args:
+            warn: false
+
+        - name: Start autofs service for {{ scenario.name }}
+          ansible.builtin.service:
+            name: autofs
+            state: started
+
+        - name: Reload CVMFS config for {{ scenario.name }}
+          ansible.builtin.command: cvmfs_config reload
+
+        - name: Time cache fill for {{ scenario.name }} - {{ test_item.label }}
+          ansible.builtin.shell: >
+            /usr/bin/env time -p bash -c 'cat {{ test_item.path | quote }} > /dev/null'
+          args:
+            warn: false
+          loop: "{{ cvmfs_test_paths }}"
+          loop_control:
+            loop_var: test_item
+            label: "{{ scenario.name }}:{{ test_item.label }}"
+          register: scenario_timing
+          changed_when: false
+
+        - name: Emit timing report for {{ scenario.name }}
+          ansible.builtin.debug:
+            msg:
+              scenario: "{{ scenario.name }}"
+              description: "{{ scenario.description }}"
+              server_url: "{{ scenario.server_url }}"
+              timing_output: "{{ scenario_timing.results | map(attribute='stderr') | list }}"
+
+        - name: Append timing results for {{ scenario.name }} to local log
+          ansible.builtin.blockinfile:
+            path: "{{ cvmfs_timing_result_file }}"
+            create: true
+            insertafter: EOF
+            marker: "# {mark} CVMFS timing {{ scenario.name }} {{ inventory_hostname }} {{ ansible_date_time.iso8601 }}"
+            block: |
+              timestamp,host,scenario,label,path,real_seconds,raw_timing
+              {% for result in scenario_timing.results | default([]) %}
+              {% set result_item = result.get('test_item') or result.get('item') or {} %}
+              {{ ansible_date_time.iso8601 }},{{ inventory_hostname }},{{ scenario.name }},{{ result_item.get('label', 'unknown') }},{{ result_item.get('path', 'unknown') }},{{ (result.get('stderr', '') | regex_findall('real\\s+([0-9.]+)') | first) | default('n/a', true) }},{{ (result.get('stderr', '') | trim | replace('\n', ' | ')) }}
+              {% endfor %}
+          delegate_to: localhost
+
+    - name: Restore original CVMFS config content
+      ansible.builtin.copy:
+        dest: "{{ cvmfs_domain_config }}"
+        content: "{{ original_cvmfs_config_content }}"
+        owner: root
+        group: root
+        mode: '0644'
+      when:
+        - original_cvmfs_config_content is defined
+        - original_cvmfs_config_content | length > 0
+
+    - name: Reload CVMFS config after restore
+      ansible.builtin.command: cvmfs_config reload
+      when:
+        - original_cvmfs_config_content is defined
+        - original_cvmfs_config_content | length > 0
