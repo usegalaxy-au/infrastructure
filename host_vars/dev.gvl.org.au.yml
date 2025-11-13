@@ -12,17 +12,6 @@ tpv_version: "3.1.2"
 tpv_packages: |
   {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
 
-additional_packages:
-  - flower
-  # specific pinnings of packages so that boto3 installation will work
-  # boto3 is used for s3 file sources on dev, not used on production yet
-  - boto3==1.40.18
-  - botocore==1.40.18
-  - aiobotocore==2.24.2
-  - s3fs==2024.9.0
-
-galaxy_additional_venv_packages: "{{ tpv_packages + additional_packages }}"
-
 # variables for attaching mounted volume to application server
 attached_volumes:
   - device: /dev/vdb
@@ -116,8 +105,6 @@ host_galaxy_config_templates:
     dest: "{{ galaxy_toolbox_filters_dir }}/aagi_filters.py"
   - src: "{{ galaxy_config_template_src_dir }}/config/object_store_templates.yml.j2"
     dest: "{{ galaxy_config_dir }}/object_store_templates.yml"
-  - src: "{{ galaxy_config_template_src_dir }}/config/file_source_templates.yml.j2"
-    dest: "{{ galaxy_config_dir }}/file_source_templates.yml"
 
 host_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
@@ -222,7 +209,6 @@ host_galaxy_config: # renamed from __galaxy_config
     oidc_auth_pipeline_extra:
       - "galaxy.authnz.auth0_authnz.sync_user_groups"
     file_path: "{{ galaxy_file_path }}"
-    file_source_templates_config_file: "{{ galaxy_config_dir }}/file_source_templates.yml"
     id_secret: "{{ vault_dev_id_secret }}"
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
