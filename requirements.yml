@@ -43,7 +43,7 @@ roles:
 - src: geerlingguy.docker  # TODO: test upgrading to latest version
   version: 4.1.3
 - name: galaxyproject.miniconda
-  version: 0.3.3
+  version: 0.3.4
 - name: usegalaxy_eu.influxdb
   version: v6.0.8
 - name: cloudalchemy.grafana
