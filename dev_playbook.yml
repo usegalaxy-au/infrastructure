@@ -14,6 +14,14 @@
   vars:
     # These variable are workarounds while deploying dev with new release_25.1 (19/10/25) before
     # the galaxy role has been updated to handle having nodejs already in galaxy's venv
+
+    # How to build the client on dev while this workaround is in place:
+    # As root user:
+    # cd /mnt/galaxy/galaxy-app
+    # . /mnt/galaxy/venv/bin/activate
+    # export PATH="/mnt/galaxy/venv/lib/python3.11/site-packages/nodejs_wheel/bin:$PATH"
+    # make client-production-maps
+
     - galaxy_node_version: '22.20.0'
     - galaxy_build_client: false
   pre_tasks:
