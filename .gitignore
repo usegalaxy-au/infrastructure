@@ -50,6 +50,7 @@ roles/galaxyproject.repos
 roles/usegalaxy_eu.apptainer
 roles/usegalaxy_eu.rabbitmqserver
 roles/*.walle
+roles/galaxy_extensions
 
 # integration-testing virtual environment
 integration-testing/venv
