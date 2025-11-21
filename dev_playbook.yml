@@ -47,7 +47,7 @@
     # - install-tpv # todo: this needs a when clause
     - geerlingguy.pip
     - role: galaxyproject.galaxy
-      tags: galaxy,extensions
+      tags: galaxy
     - role: galaxyproject.miniconda
       become: true
       become_user: galaxy
