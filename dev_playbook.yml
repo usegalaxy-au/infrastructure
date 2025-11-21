@@ -47,12 +47,12 @@
     # - install-tpv # todo: this needs a when clause
     - geerlingguy.pip
     - role: galaxyproject.galaxy
-      tags: galaxy,webhooks
+      tags: galaxy,extensions
     - role: galaxyproject.miniconda
       become: true
       become_user: galaxy
-    - role: webhooks
-      tags: webhooks
+    - role: galaxy_extensions
+      tags: extensions
     - role: usegalaxy_eu.galaxy_subdomains
       tags: galaxy_subdomains
     - name: nginx-upload-module
