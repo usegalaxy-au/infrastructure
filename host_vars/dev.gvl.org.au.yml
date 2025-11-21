@@ -511,13 +511,17 @@ galaxy_subsites:
 
 galaxy_scratch_storage_days: 60
 
-webhook_plugins:
-  - subdomain_switcher_24.2
-  - toolmsg_24.2
-  - tips
-  # These ones aren't in the playbook as they are included in the galaxy repo:
+# Galaxy extensions role:
+galaxy_version: 25.1
+galaxy_base_domain: "dev.gvl.org.au"
+galaxy_extensions_dir: "{{ group_galaxy_config.galaxy.webhooks_dir }}"
+galaxy_labs: "{{ galaxy_subsites + [ {'name': 'main', 'brand': 'Galaxy Australia Dev'} ] }}"
+galaxy_extensions_enabled:
   - gtn
   - news
+  - lab_switcher
+  - toolmsg
+  # - tips
 
 # toolmsg webhook plugin:
 toolmsg_messages:
@@ -527,7 +531,7 @@ toolmsg_messages:
 #   message: A custom HTML message to be displayed for this tool
 #   class: bootstrap class [primary, info, success, warning, danger]
 
-  - tool_id: toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe
+  - tool_id: toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt
     message: >
       [TEST] Access rights to this tool have changed, please
       <a href="https://site.usegalaxy.org.au/request/access/diann"
@@ -537,6 +541,20 @@ toolmsg_messages:
       </a>
       to continue using this tool.
     class: warning
+  - tool_id: toolshed.g2.bx.psu.edu/repos/iuc/berokka/berokka
+    message: >
+      [TEST] Access rights to this tool have changed, please
+      <a href="https://site.usegalaxy.org.au/request/access/diann"
+         target="_blank"
+      >
+        apply for access
+      </a>
+      to continue using this tool.
+    class: warning
+  - tool_id: toolshed.g2.bx.psu.edu/repos/nml/fasta_extract/fa-extract-sequence
+    message: >
+      [TEST] Another toolmsg message that has been successfully deployed.
+    class: info
 
 walle_user_name: ubuntu
 walle_user_group: ubuntu
