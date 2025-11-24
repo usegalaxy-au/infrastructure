@@ -131,8 +131,8 @@ retention_policy_8w_dbs:
 
 ###### Grafana
 
-# set version (currently installed version on Ubuntu 20.04.5 LTS) so doesn't update Grafana when role is executed again
-grafana_version: "9.1.2"
+# TODO set version (installed version on Ubuntu 24.04 LTS) so doesn't update Grafana when role is executed again
+#grafana_version: "12.3.0"
 
 # Grafana General
 grafana_data_dir: /mnt/grafana_data
