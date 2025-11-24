@@ -332,31 +332,16 @@ galaxy_subsites:
         display: none;
       }
 
-webhook_plugins:
-  - subdomain_switcher_24.2
-  - toolmsg_24.2
-  # These ones aren't in the playbook as they are included in the galaxy repo:
-  - demo
+# Galaxy extensions role:
+galaxy_extensions_dir: "{{ group_galaxy_config.galaxy.webhooks_dir }}"
+galaxy_extensions_enabled:
   - gtn
   - news
-
-toolmsg_messages:
-# - tool_id: to match subject.startsWith(tool_id)
-#            Best to use remove version numbers and trailing slash
-#            e.g. toolshed.g2.bx.psu.edu/repos/galaxyp/diann/diann
-#   message: A custom HTML message to be displayed for this tool
-#   class: bootstrap class [primary, info, success, warning, danger]
-
-  - tool_id: toolshed.g2.bx.psu.edu/repos/galaxyp/diann/diann
-    message: >
-      Access rights to this tool have changed, please
-      <a href="https://site.usegalaxy.org.au/request/access/diann"
-         target="_blank"
-      >
-        apply for access
-      </a>
-      to continue using this tool.
-    class: warning
+  - lab_switcher
+  - toolmsg
+  - tips
+galaxy_base_domain: "{{ galaxy_subsite_base_domain }}"
+galaxy_labs: "{{ galaxy_subsites }}"
 
 walle_user_name: ubuntu
 walle_user_group: ubuntu

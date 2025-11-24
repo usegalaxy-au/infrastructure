@@ -512,18 +512,19 @@ galaxy_subsites:
 galaxy_scratch_storage_days: 60
 
 # Galaxy extensions role:
-galaxy_base_domain: "dev.gvl.org.au"
 galaxy_extensions_dir: "{{ group_galaxy_config.galaxy.webhooks_dir }}"
-galaxy_labs: "{{ galaxy_subsites + [ {'name': 'main', 'brand': 'Galaxy Australia Dev'} ] }}"
 galaxy_extensions_enabled:
   - gtn
   - news
   - lab_switcher
   - toolmsg
-  # - tips
+  - tips
+galaxy_base_domain: "{{ galaxy_subsite_base_domain }}"
+galaxy_labs: "{{ galaxy_subsites }}"
 
 # toolmsg webhook plugin:
 toolmsg_messages:
+
 # - tool_id: to match subject.startsWith(tool_id)
 #            Best to use remove version numbers and trailing slash
 #            e.g. toolshed.g2.bx.psu.edu/repos/galaxyp/diann/diann
