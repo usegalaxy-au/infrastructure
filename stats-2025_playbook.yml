@@ -1,0 +1,35 @@
+- hosts: stats-2025
+  become: true
+  vars_files:
+    - group_vars/VAULT
+    - secret_group_vars/stats_server_vault
+  pre_tasks:
+    - name: install xfsprogs
+      package:
+        name: xfsprogs
+        state: latest
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+    # the following is required as grafana may already be installed
+    # and common (the first task) runs apt upgrades
+    # so placing a hold on the package after grafana install (in cloudalchemy.grafana)
+    # will not prevent a grafana update in the common role
+    - name: Gather package facts
+      package_facts:
+        manager: apt
+    - name: Place hold on package version if grafana has already been installed
+      dpkg_selections:
+        name: grafana
+        selection: hold
+      when: "'grafana' in ansible_facts.packages"
+
+  roles:
+    - common
+    - galaxyproject.nginx
+    - usegalaxy_eu.influxdb
+    - slg.influx_objects
+    - cloudalchemy.grafana
+    - geerlingguy.docker
+    - dj-wasabi.telegraf
+  
