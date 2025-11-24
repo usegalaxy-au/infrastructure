@@ -103,3 +103,6 @@ galaxy_web_server_mounts:
     fstype: nfs
     opts: 'noatime,defaults'
     state: mounted
+
+# Control whether AAI settings are being used
+aai_enabled: false

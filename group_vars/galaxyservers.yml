@@ -1,3 +1,5 @@
+add_galaxy_user: yes
+
 group_packages:
   - make
   - python3-psycopg2
@@ -160,11 +162,17 @@ galaxy_process_env:  # environment variables for gunicorn and handlers processes
 # host specific variables such as admin_users, brand, database_connection, id_secret and galaxy_infrastructure_url are in host_galaxy_config
 # variables are set in group_galaxy_config if they are variables used on all hosts or are sensible defaults
 #
-# **As we migrate to 22.05 we will need to put the uwsgi/gunicorn/gravity sections into the individual hostvars files.**
+# galaxy_config.gravity settings are specific to each host and must be set in host_galaxy_config.gravity
 #
 #########################################
 group_galaxy_config:
   galaxy:
+    # Config options that vary with AAI rollout
+    allow_local_account_creation: "{{ not aai_enabled }}"
+    disable_local_accounts: "{{ aai_logins_only }}"
+    user_activation_on: "{{ not aai_enabled }}"
+    oidc_auth_pipeline_extra: "{{ aai_enabled | ternary(['galaxy.authnz.auth0_authnz.sync_user_groups'], [])}}"
+
     check_migrate_tools: false
     log_level: TRACE
     new_file_path: "{{ galaxy_tmp_dir }}/scratch"

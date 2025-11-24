@@ -1,0 +1,41 @@
+postgresql_flavor: pgdg
+postgresql_version: 14
+
+attached_volumes:
+  - device: /dev/vdb
+    path: /data
+    partition: 1
+    fstype: ext4
+
+postgresql_conf:
+  - max_connections: 300
+  - listen_addresses: "'*'"
+  - data_directory: "'/data/production'"
+  - shared_buffers: 16GB
+  - effective_cache_size: 32GB
+  - maintenance_work_mem: 3GB
+  - checkpoint_completion_target: 0.7
+  - wal_buffers: 16MB
+  - default_statistics_target: 100
+  - random_page_cost: 4
+  - effective_io_concurrency: 2
+  - work_mem: 54MB
+  - min_wal_size: 1GB
+  - max_wal_size: 4GB
+  - max_worker_processes: 8
+  - max_parallel_workers_per_gather: 4
+  - max_parallel_workers: 8
+  - max_parallel_maintenance_workers: 4
+  - temp_buffers: 64MB
+  - log_destination: syslog
+  - log_statement: none
+  - logging_collector: off
+  - log_min_duration_statement: 1000
+  - wal_level: replica
+  - max_wal_senders: 5
+  - wal_keep_size: 2GB
+
+postgresql_pgdata: "/data/production"
+
+postgresql_pg_hba_conf:
+  - host all all "{{ hostvars['qaai']['ansible_ssh_host'] }}/32" md5

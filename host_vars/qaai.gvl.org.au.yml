@@ -1,0 +1,434 @@
+# Specific settings for qaai server
+
+galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
+galaxy_commit_id: release_25.1_au_dev
+
+host_galaxy_config: # renamed from __galaxy_config
+  gravity: "{{ host_galaxy_config_gravity }}"
+
+  galaxy:
+    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},{{ uwe_email }},{{ ross_email }}" # everyone is an admin on dev
+    brand: "AAI QA"  # or something
+    celery_conf:
+      task_routes:
+        galaxy.fetch_data: disabled
+        galaxy.set_job_metadata: galaxy.external
+    cleanup_job: onsuccess
+    conda_auto_install: true  # false on production (default)
+    database_connection: "postgresql://galaxy:{{ vault_qaai_db_user_password }}@{{ hostvars['qaai-db']['ansible_ssh_host'] }}:5432/galaxy"
+    # default_panel_view_by_host:
+    #   proteomics.qaai.gvl.org.au: proteomics
+    #   singlecell.qaai.gvl.org.au: singlecell
+    #   microbiology.qaai.gvl.org.au: microbiology
+    email_from: <galaxy-no-reply@usegalaxy.org.au>
+    enable_beta_containers_interface: true
+    enable_beta_tool_formats: true  # user defined tools new as of release_25.0
+    enable_celery_tasks: true
+    enable_mulled_containers: true
+    enable_notification_system: true
+    allow_local_account_creation: "{{ not aai_enabled }}"
+    disable_local_accounts: "{{ aai_logins_only }}"
+    # enable_oidc: true
+    oidc_auth_pipeline_extra: "{{ aai_enabled | ternary(['galaxy.authnz.auth0_authnz.sync_user_groups'], [])}}"
+    file_path: "{{ galaxy_file_path }}"
+    file_source_templates_config_file: "{{ galaxy_config_dir }}/file_source_templates.yml"
+    id_secret: "{{ vault_qaai_id_secret }}" # TODO : make this exist
+    # interactivetools_enable: true
+    interactivetools_map: "{{ gie_proxy_sessions_path }}"
+    job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
+    nginx_upload_job_files_path: "/_job_files"
+    nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
+    nginx_upload_path: "/_upload"
+    nginx_upload_store: "{{ nginx_upload_store_dir }}"
+    object_store_templates_config_file: "{{ galaxy_config_dir }}/object_store_templates.yml"
+    # oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
+    oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
+    panel_views_dir: "{{ galaxy_config_dir }}/tool_panel_filters"
+    show_welcome_with_login: false
+    smtp_server: localhost
+    themes_config_file_by_host:
+      genome.qaai.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_genome.yml"
+      proteomics.qaai.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_proteomics.yml"
+      singlecell.qaai.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_singlecell.yml"
+      qaai.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_main.yml"
+    tool_data_table_config_path: "{{ galaxy_config_dir }}/local_tool_data_table_conf.xml,{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
+    # tool_filters: ga_filters:hide_test_tools, aagi_filters:restrict_aagi_tools. # initially skip toolbox filtering in AAI server
+    # tool_label_filters: global_host_filters:per_host_tool_labels
+    # tool_section_filters: global_host_filters:per_host_tool_sections
+    #TRS - workflowhub
+    trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+    # TUS
+    tus_upload_store: "{{ galaxy_tus_upload_store }}"
+    user_activation_on: "{{ not aai_active }}"
+    watch_job_rules: true # important for total perspective vortex
+    welcome_directory: plugins/welcome_page/new_user/static/topics/
+
+common_logrotate_manage_rsyslog: true
+
+# total perspective vortex
+tpv_version: "3.1.2"
+
+tpv_packages: |
+  {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
+
+additional_packages:
+  - flower
+  # specific pinnings of packages so that boto3 installation will work
+  # boto3 is used for s3 file sources on dev, not used on production yet
+  - boto3==1.40.18
+  - botocore==1.40.18
+  - aiobotocore==2.24.2
+  - s3fs==2024.9.0
+
+galaxy_additional_venv_packages: "{{ tpv_packages + additional_packages }}"
+
+# variables for attaching mounted volume to application server
+attached_volumes:
+  - device: /dev/vdb
+    path: /mnt
+    fstype: ext4
+    partition: 1
+
+# shared_mounts:
+#   - path: /mnt/test_mount
+#     src: 115.146.87.37:/galaxy-backup-au
+#     fstype: nfs
+#     state: mounted
+
+certbot_domains:
+  - "{{ hostname }}"
+  - "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
+  - "*.ep.interactivetool.{{ hostname }}"
+  # No subsites as yet
+  # - "genome.{{ hostname }}"
+  # - "proteomics.{{ hostname }}"
+  # - "singlecell.{{ hostname }}"
+  # - "microbiology.{{ hostname }}"
+certbot_dns_provider: cloudflare
+certbot_dns_credentials:
+  api_token: "{{ vault_dns_cloudflare_gvl_api_token }}"
+certbot_dns_provider_propagation_seconds: 60
+
+nginx_ssl_servers:
+  - galaxy
+  - galaxy-gie-proxy
+
+#gie proxy hostname
+interactive_tools_server_name: "{{ hostname }}"
+
+galaxy_db_user_password: "{{ vault_qaai_db_user_password }}"
+
+# # ansible-galaxy
+# galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/dev
+# galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
+# galaxy_dynamic_job_rules:
+#   - total_perspective_vortex/dev_default_tool.yml.j2
+#   - total_perspective_vortex/dev_vortex_config.yml
+#   - total_perspective_vortex/dev_destinations.yml.j2
+#   - total_perspective_vortex/dev_tools.yml.j2
+#   - readme.txt
+
+galaxy_infrastructure_url: "https://qaai.gvl.org.au"
+
+galaxy_systemd_mode: gravity
+galaxy_systemd_env:
+  [DRMAA_LIBRARY_PATH="/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"]
+galaxy_gravity_state_dir: "/opt/galaxy"
+
+galaxy_tools_indices_dir: "{{ galaxy_root }}"
+galaxy_custom_indices_dir: "{{ galaxy_root }}/custom-indices"
+galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
+galaxy_tus_upload_store: "{{ galaxy_tmp_dir }}/tus"
+
+galaxy_job_working_directory: "{{ galaxy_tmp_dir }}/job_working_directory"
+
+galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
+
+# upon upgrade to latest conda
+galaxy_conda_exec: conda
+
+galaxy_file_path: "{{ galaxy_root }}/data"
+nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
+nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
+nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
+
+galaxy_toolbox_filters_dir: /mnt/galaxy/galaxy-app/lib/galaxy/tool_util/toolbox/filters # don't ask me why. It moves.
+
+host_galaxy_config_templates:
+  - src: "{{ galaxy_config_template_src_dir }}/config/oidc_backends_config.xml.j2"
+    dest: "{{ galaxy_config_dir}}/oidc_backends_config.xml"
+  - src: "{{ galaxy_config_template_src_dir }}/toolbox/filters/ga_filters.py.j2"
+    dest: "{{ galaxy_toolbox_filters_dir }}/ga_filters.py"
+  - src: "{{ galaxy_config_template_src_dir }}/config/object_store_templates.yml.j2"
+    dest: "{{ galaxy_config_dir }}/object_store_templates.yml"
+  - src: "{{ galaxy_config_template_src_dir }}/config/file_source_templates.yml.j2"
+    dest: "{{ galaxy_config_dir }}/file_source_templates.yml"
+  - src: "{{ galaxy_config_template_src_dir }}/config/qaai_job_conf.yml.j2"
+    dest: "{{ galaxy_config_dir}}/job_conf.yml"
+
+host_galaxy_config_files:
+  - src: "{{ galaxy_config_file_src_dir }}/config/oidc_config.xml"
+    dest: "{{ galaxy_config_dir}}/oidc_config.xml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
+    dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/local_tool_data_table_conf.xml"
+    dest: "{{ galaxy_config_dir }}/local_tool_data_table_conf.xml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/proteomics.yml"
+    dest: "{{ galaxy_config_dir }}/tool_panel_filters/proteomics.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/singlecell.yml"
+    dest: "{{ galaxy_config_dir }}/tool_panel_filters/singlecell.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/config/tool_panel_filters/microbiology.yml"
+    dest: "{{ galaxy_config_dir }}/tool_panel_filters/microbiology.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/aai/auth0_authnz.py"
+    dest: "{{ galaxy_server_dir }}/lib/galaxy/authnz/auth0_authnz.py"
+
+galaxy_config_file: /opt/galaxy/galaxy.yml
+
+host_galaxy_config_gravity:
+  process_manager: systemd
+  galaxy_root: "{{ galaxy_server_dir }}"
+  galaxy_user: "{{ galaxy_user.name }}"
+  app_server: gunicorn
+  virtualenv: "{{ galaxy_venv_dir }}"
+  gunicorn:
+    - bind: "0.0.0.0:8888"
+      # performance options
+      workers: 1
+      # Other options that will be passed to gunicorn
+      extra_args: '--forwarded-allow-ips="*"'
+      preload: true
+      environment: "{{ galaxy_process_env }}"
+    - bind: "0.0.0.0:8889"
+      # performance options
+      workers: 1
+      # Other options that will be passed to gunicorn
+      extra_args: '--forwarded-allow-ips="*"'
+      preload: true
+      environment: "{{ galaxy_process_env }}"
+  # gx_it_proxy:  # interactivetools_enable is set to false so running gx_it_proxy fails
+  #   enable: true
+  #   ip: "{{ gie_proxy_ip }}"
+  #   port: "{{ gie_proxy_port }}"
+  #   sessions: "{{ gie_proxy_sessions_path }}"
+  #   verbose: true
+  reports:
+    enable: true
+    url_prefix: /reports
+    bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
+    config_file: "{{ galaxy_config_dir }}/reports.yml"
+  tusd:
+    enable: true
+    tusd_path: /usr/local/sbin/tusd
+    upload_dir: "{{ galaxy_tus_upload_store }}"
+  celery:
+    concurrency: 2
+    loglevel: DEBUG
+  handlers:
+    handler:
+      processes: 2
+      environment: "{{ galaxy_process_env }}"
+      pools:
+        - job-handlers
+        - workflow-schedulers
+
+# galaxy vault key
+galaxy_vault_encryption_key: "{{ vault_galaxy_vault_encryption_key_nonprod }}"
+
+galaxy_handler_count: 2
+
+# cvmfs
+cvmfs_cache_base: /mnt/var/lib/cvmfs
+
+# vars for setting up .pgpass
+pg_db_password:
+  galaxy: "{{ vault_qaai_db_user_password }}"
+  reader: "{{ vault_qaai_db_reader_password }}"
+  tiaasadmin: "{{ vault_qaai_db_tiaasadmin_password }}"
+db_address: "qaai-db.gvl.org.au"
+gxadmin_ubuntu_config_dir: /home/ubuntu/.config
+
+# host-specific settings for postfix
+postfix_host_domain: "gvl.org.au"
+postfix_hostname: "qaai"
+smtp_login: "{{ vault_smtp_login_qaai }}"
+smtp_password: "{{ vault_smtp_password_qaai }}"
+
+# TIaaS specific settings
+tiaas_galaxy_db_host: "qaai-db.gvl.org.au"
+tiaas_galaxy_db_port: "5432"
+tiaas_galaxy_db_user: "tiaasadmin"
+tiaas_galaxy_db_pass: "{{ vault_qaai_db_tiaasadmin_password }}"
+tiaas_info:
+  owner: "Galaxy Australia AAI QA Server"
+  owner_email: help@genome.edu.au
+  owner_site: https://site.usegalaxy.org.au
+  domain: qaai.gvl.org.au
+
+# Create a cron job to disassociate training roles from groups after trainings have expired, set to `false` to disable
+tiaas_disassociate_training_roles:
+  hour: 9 # optional, defaults to 0
+  minute: 0 # optional, defaults to 0
+
+tiaas_show_advertising: false
+tiaas_retain_contact_consent: false
+
+# Templates to override web content:
+tiaas_templates_dir: files/tiaas/html
+# Static files referenced by above templates:
+# tiaas_extra_static_dir: files/tiaas/static
+
+# Docker
+docker_users:
+  - "{{ galaxy_user.name }}"
+docker_daemon_options:
+  data-root: /mnt/docker-data
+
+# Singularity and docker volumes
+slurm_singularity_volumes_list:
+  - "$job_directory:rw"
+  - "$galaxy_root:ro"
+  - "$tool_directory:ro"
+  - "/mnt/galaxy/data:ro"
+  - "/mnt/galaxy/custom-indices:ro"
+  - "/cvmfs/data.galaxyproject.org:ro"
+  - "/mnt/galaxy/local_tools:ro"
+  - "/tmp:rw"
+
+pulsar_singularity_volumes_list:
+  - "$job_directory:rw"
+  - "$tool_directory:ro"
+  - "/cvmfs/data.galaxyproject.org:ro"
+  - "/tmp:rw"
+
+slurm_docker_volumes_list: "{{ slurm_singularity_volumes_list }}"
+pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
+
+# comma separated strings for the job conf
+slurm_singularity_volumes: "{{ slurm_singularity_volumes_list | join(',') }}"
+pulsar_singularity_volumes: "{{ pulsar_singularity_volumes_list | join(',') }}"
+slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
+pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
+
+singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
+
+# # multisite stuff
+
+# galaxy_subsite_base_domain: "qaai.gvl.org.au"
+# galaxy_subsite_default_welcome: "https://site.usegalaxy.org.au"
+# galaxy_subsite_dir: /mnt/galaxy/subsites
+# #galaxy_subsite_base_css: '#masthead { background-color: #003399;}'
+# galaxy_subsites:
+#   - name: genome
+#     brand: Genome Lab
+#     iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/genome/lab/usegalaxy.org.au.yml"
+#     # If wallpaper is true, then files/subsites/{name}.png will be copied to
+#     # /static/dist/{name}.png, and can be used exactly like that in the CSS.
+#     wallpaper: false
+#     tool_sections:
+#       - hicexplorer
+#       - plots
+#       - assembly
+#       - annotation
+#       - phylogenetics
+#       - multiple_alignments
+#     custom_css: |
+#       #masthead .navbar-nav>li.active {
+#         background: #2c3067 !important;
+#       }
+#       #masthead {
+#         background: #3a3e87 !important;
+#       }
+#       #masthead a.navbar-brand::after {
+#           content: "Australia - Genome Lab";
+#       }
+#       #masthead .navbar-text {
+#           display: none;
+#       }
+#   - name: proteomics
+#     brand: Proteomics Lab
+#     iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/proteomics/lab/usegalaxy.org.au.yml"
+#     wallpaper: false
+#     tool_sections: []
+#     custom_css: |
+#       #masthead .navbar-nav>li.active {
+#         background: #402668 !important;
+#       }
+#       #masthead {
+#         background: #542a95 !important;
+#       }
+#       #masthead a.navbar-brand::after {
+#         content: "Australia - Proteomics Lab";
+#       }
+#       #masthead .navbar-text {
+#         display: none;
+#       }
+#   - name: singlecell
+#     brand: Single Cell Lab
+#     iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/spoc/lab/usegalaxy.org.au.yml"
+#     wallpaper: false
+#     tool_sections: []
+#     custom_css: |
+#       #masthead .navbar-nav>li.active {
+#         background: #236c6f !important;
+#       }
+#       #masthead {
+#         background: #209693 !important;
+#       }
+#       #masthead a.navbar-brand::after {
+#         content: "Australia - Single Cell Lab";
+#       }
+#       #masthead .navbar-text {
+#         display: none;
+#       }
+#   - name: microbiology
+#     brand: Microbiology Lab
+#     iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/microgalaxy/lab/usegalaxy.org.au.yml"
+#     wallpaper: false
+#     tool_sections: []
+#     custom_css: |
+#       #masthead .navbar-nav>li.active {
+#         background: #1b5b62 !important;
+#       }
+#       #masthead {
+#         background: #1a7b92 !important;
+#       }
+#       #masthead a.navbar-brand::after {
+#         content: "Australia - Microbiology Lab";
+#       }
+#       #masthead .navbar-text {
+#         display: none;
+#       }
+
+webhook_plugins:
+  # - subdomain_switcher_24.2  # TODO yes we do probably want subdomains but start without them. When we do, 'galaxy_subsite_base_domain' needs be set
+  - toolmsg_24.2
+  - tips
+  # These ones aren't in the playbook as they are included in the galaxy repo:
+  - gtn
+  - news
+
+# toolmsg webhook plugin:
+toolmsg_messages:
+# - tool_id: to match subject.startsWith(tool_id)
+#            Best to use remove version numbers and trailing slash
+#            e.g. toolshed.g2.bx.psu.edu/repos/galaxyp/diann/diann
+#   message: A custom HTML message to be displayed for this tool
+#   class: bootstrap class [primary, info, success, warning, danger]
+
+  - tool_id: toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe
+    message: >
+      [TEST] Access rights to this tool have changed, please
+      <a href="https://site.usegalaxy.org.au/request/access/diann"
+         target="_blank"
+      >
+        apply for access
+      </a>
+      to continue using this tool.
+    class: warning
+
+# # auth0. # THESE NEED TO EXIST TO ENABLE AAI
+# auth0_client_id: "{{ vault_auth0_client_id_qaai }}"
+# auth0_client_secret: "{{ vault_auth0_client_secret_qaai }}"
+# auth0_oidc_endpoint: "{{ vault_auth0_oidc_endpoint_qaai }}"
+# auth0_audience: "{{ vault_auth0_audience_qaai }}"
+# auth0_registration_endpoint: "{{ vault_auth0_registration_endpoint_qaai }}"

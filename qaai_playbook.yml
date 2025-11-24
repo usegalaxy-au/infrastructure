@@ -1,0 +1,115 @@
+- hosts: qaai
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/qaai.yml # machine_users overridden in this file
+    - group_vars/galaxyservers.yml
+    - host_vars/qaai.gvl.org.au.yml
+    - secret_group_vars/stats_server_vault
+    - secret_group_vars/qaai
+  vars:
+    # These variable are workarounds while deploying dev with new release_25.1 (19/10/25) before
+    # the galaxy role has been updated to handle having nodejs already in galaxy's venv
+    - galaxy_node_version: '22.20.0'
+    - galaxy_build_client: false
+  pre_tasks:
+    - name: Attach volume to instance
+      include_role:
+        name: attached-volumes
+    - name: Run common role first to create galaxy user
+      include_role:
+        name: common
+    - name: create dir for gravity configuration
+      file:
+        state: directory
+        path: /opt/galaxy
+        owner: root
+        group: galaxy
+        mode: 0775
+    - name: create dir for galaxy's singularity cache
+      file:
+        state: directory
+        path: "{{ item }}"
+        owner: galaxy
+        group: galaxy
+        mode: 0700
+      with_items:
+        - "{{ galaxy_user_singularity_cachedir }}"
+        - "{{ galaxy_user_singularity_tmpdir }}"
+    - name: Ensure object store paths exist
+      file:
+        state: directory
+        path: "{{ item }}"
+        owner: galaxy
+        group: galaxy
+      with_items:
+        - /mnt/galaxy/data
+  roles:
+    - geerlingguy.nfs
+    - galaxyproject.repos
+    # - mounts
+    # - install-tpv # todo: this needs a when clause
+    - geerlingguy.pip
+    - galaxyproject.cvmfs  # this has to run before galaxy. why don't we always?
+    - role: galaxyproject.galaxy
+      tags: galaxy,webhooks
+    - role: galaxyproject.miniconda
+      become: true
+      become_user: galaxy
+    - role: webhooks
+      tags: webhooks
+    # - role: usegalaxy_eu.galaxy_subdomains  # TODO: maybe we want this for QAAI server
+    #   tags: galaxy_subdomains
+    - name: nginx-upload-module
+      tags: nginx
+    - name: galaxyproject.nginx
+      tags: nginx
+    - galaxyproject.tusd
+    # - geerlingguy.nfs
+    # - galaxyproject.slurm
+    - galaxyproject.gxadmin
+    # - remote-pulsar-cron
+    # - galaxy-pg-cleanup
+    - galaxyproject.tiaas2
+    - geerlingguy.docker
+    - usegalaxy_eu.apptainer
+    # - dj-wasabi.telegraf
+    # - postfix-mail-relay
+    - acl-on-startup
+    # - role: usegalaxy_eu.walle
+    #   tags: walle
+  post_tasks:
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa1
+    # - name: Reload exportfs
+    #   command: exportfs -ra
+    #   become: yes
+    #   become_user: root
+
+    # Nginx logrotate: keep nginx logs forever on /mnt disk
+    - name: Make sure extra nginx log dirs exist
+      file:
+        state: directory
+        path: "{{ item }}"
+      with_items:
+        - "{{ nginx_log_olddir_root }}"
+        - "{{ nginx_long_term_log_dir }}"
+      tags: nginx
+    - name: Add lines to main block in nginx logrotate conf
+      lineinfile:
+        path: /etc/logrotate.d/nginx
+        line: "{{ item }}"
+        insertafter: ".*{"
+      with_items:
+        - "\tdateext"
+        - "\tolddir {{ nginx_log_olddir_root }}"
+      tags: nginx
+    - name: Add lines to postrotate task in nginx logrotate conf
+      lineinfile:
+        path: /etc/logrotate.d/nginx
+        line: "{{ item }}"
+        insertafter: "\tpostrotate"
+      with_items:
+        - "\t\tcp {{ nginx_log_olddir_root }}/* {{ nginx_long_term_log_dir }}/"
+      tags: nginx
