@@ -237,7 +237,7 @@ qld-nvme ansible_ssh_host=203.101.231.166
 
 [stats_servers]
 stats.usegalaxy.org.au ansible_ssh_host=115.146.84.128
-stats-2025.usegalaxy.org.au ansible_ssh_host=115.146.87.139
+stats-2025 ansible_ssh_host=115.146.87.139
 
 [failover_servers]
 failover.usegalaxy.org.au ansible_ssh_host=203.101.225.168
