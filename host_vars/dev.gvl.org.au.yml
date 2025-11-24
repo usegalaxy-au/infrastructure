@@ -512,7 +512,6 @@ galaxy_subsites:
 galaxy_scratch_storage_days: 60
 
 # Galaxy extensions role:
-galaxy_version: 25.1
 galaxy_base_domain: "dev.gvl.org.au"
 galaxy_extensions_dir: "{{ group_galaxy_config.galaxy.webhooks_dir }}"
 galaxy_labs: "{{ galaxy_subsites + [ {'name': 'main', 'brand': 'Galaxy Australia Dev'} ] }}"
