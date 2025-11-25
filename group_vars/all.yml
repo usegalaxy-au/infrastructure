@@ -175,6 +175,11 @@ common_packages:
     - software-properties-common
     - pigz
     - iotop
+    - nfsiostat
+    - iftop
+    - sysstat
+    - pidstat
+    - dstat
 
 problematic_packages_ubuntu_24_04:
     - libgl1-mesa-glx
