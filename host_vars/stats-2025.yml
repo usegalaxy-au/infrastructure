@@ -336,6 +336,8 @@ docker_users:
   - ubuntu
 
 # Telegraf
+# this overrides the dj-wasabi.telegraf internal set_fact when it creates telegraf.list
+telegraf_repository_params: "[signed-by=/etc/apt/keyrings/influxdata-archive.gpg]"
 
 # Monitoring
 influx_url: "{{ hostname }}"
