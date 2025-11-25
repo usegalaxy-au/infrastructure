@@ -32,6 +32,9 @@
     state: absent
   ignore_errors: true
 
+- name: Add workaround for dj-wasabi.telegraf role on Ubuntu 22.04 and newer VMs
+  import_tasks: telegraf_install_dearmored_apt-key.yml
+
 - name: Update the apt repos and base OS
   apt:
       upgrade: dist
