@@ -20,7 +20,7 @@ shared_mounts: "{{ galaxy_server_and_worker_shared_mounts + galaxy_worker_mounts
 
 # cvmfs
 cvmfs_cache_base: /mnt/var/lib/cvmfs # TODO: Uncomment as soon as there is a volume
-cvmfs_quota_limit: 20000
+cvmfs_quota_limit: 30000
 
 # Docker
 docker_install_compose: false
