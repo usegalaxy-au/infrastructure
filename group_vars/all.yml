@@ -175,7 +175,6 @@ common_packages:
     - software-properties-common
     - pigz
     - iotop
-    - nfsiostat
     - iftop
     - sysstat
     - pidstat
