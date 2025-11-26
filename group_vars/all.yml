@@ -177,7 +177,6 @@ common_packages:
     - iotop
     - iftop
     - sysstat
-    - pidstat
     - dstat
 
 problematic_packages_ubuntu_24_04:
