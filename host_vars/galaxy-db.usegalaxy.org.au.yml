@@ -41,9 +41,9 @@ postgresql_conf:
   - log_statement: none
   - logging_collector: off  # altering this requires a restart
   - log_min_duration_statement: 1000
-  - wal_level: replica
-  - max_wal_senders: 5
-  - wal_keep_size: 2GB
+  # - wal_level: replica
+  # - max_wal_senders: 5
+  # - wal_keep_size: 2GB
 
 postgresql_pgdata: "/data/production"
 
@@ -51,7 +51,7 @@ postgresql_pg_hba_conf:
   - host all all "{{ hostvars['galaxy']['internal_ip'] }}/32" md5
   - host all all "{{ hostvars['galaxy-handlers']['internal_ip'] }}/32" md5
   - host all all "{{ hostvars['galaxy-backup']['internal_ip'] }}/32" md5
-  - host replication replicator "{{ hostvars['replicant-galaxy-db']['ansible_ssh_host'] }}/32" md5
+  # - host replication replicator "{{ hostvars['replicant-galaxy-db']['ansible_ssh_host'] }}/32" md5
 
 extra_keys:
   - id: internal_hop_key
