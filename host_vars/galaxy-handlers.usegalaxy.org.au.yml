@@ -111,3 +111,6 @@ postfix_hostname: "galaxy-handlers"
 smtp_login: "{{ vault_smtp_login_prod }}"
 smtp_password: "{{ vault_smtp_password_prod }}"
 
+# CVMFS
+cvmfs_cache_base: /pvol/var/lib/cvmfs
+cvmfs_quota_limit: 40000
