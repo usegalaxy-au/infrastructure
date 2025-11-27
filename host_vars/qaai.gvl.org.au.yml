@@ -16,8 +16,8 @@ host_galaxy_config: # renamed from __galaxy_config
     cleanup_job: onsuccess
     conda_auto_install: true  # false on production (default)
     database_connection: "postgresql://galaxy:{{ vault_qaai_db_user_password }}@{{ hostvars['qaai-db']['ansible_ssh_host'] }}:5432/galaxy"
-    # default_panel_view_by_host:
-    #   proteomics.qaai.gvl.org.au: proteomics
+    default_panel_view_by_host:
+      proteomics.qaai.gvl.org.au: proteomics
     #   singlecell.qaai.gvl.org.au: singlecell
     #   microbiology.qaai.gvl.org.au: microbiology
     email_from: <galaxy-no-reply@usegalaxy.org.au>
@@ -53,8 +53,8 @@ host_galaxy_config: # renamed from __galaxy_config
       qaai.gvl.org.au: "{{ galaxy_config_dir }}/themes/themes_main.yml"
     tool_data_table_config_path: "{{ galaxy_config_dir }}/local_tool_data_table_conf.xml,{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
     # tool_filters: ga_filters:hide_test_tools, aagi_filters:restrict_aagi_tools. # initially skip toolbox filtering in AAI server
-    # tool_label_filters: global_host_filters:per_host_tool_labels
-    # tool_section_filters: global_host_filters:per_host_tool_sections
+    tool_label_filters: global_host_filters:per_host_tool_labels
+    tool_section_filters: global_host_filters:per_host_tool_sections
     #TRS - workflowhub
     trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
     # TUS
@@ -100,10 +100,10 @@ certbot_domains:
   - "*.interactivetoolentrypoint.interactivetool.{{ hostname }}"
   - "*.ep.interactivetool.{{ hostname }}"
   # No subsites as yet
-  # - "genome.{{ hostname }}"
-  # - "proteomics.{{ hostname }}"
-  # - "singlecell.{{ hostname }}"
-  # - "microbiology.{{ hostname }}"
+  - "genome.{{ hostname }}"
+  - "proteomics.{{ hostname }}"
+  - "singlecell.{{ hostname }}"
+  - "microbiology.{{ hostname }}"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_gvl_api_token }}"
@@ -311,96 +311,96 @@ pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
 
 singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
 
-# # multisite stuff
+# multisite stuff
 
-# galaxy_subsite_base_domain: "qaai.gvl.org.au"
-# galaxy_subsite_default_welcome: "https://site.usegalaxy.org.au"
-# galaxy_subsite_dir: /mnt/galaxy/subsites
-# #galaxy_subsite_base_css: '#masthead { background-color: #003399;}'
-# galaxy_subsites:
-#   - name: genome
-#     brand: Genome Lab
-#     iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/genome/lab/usegalaxy.org.au.yml"
-#     # If wallpaper is true, then files/subsites/{name}.png will be copied to
-#     # /static/dist/{name}.png, and can be used exactly like that in the CSS.
-#     wallpaper: false
-#     tool_sections:
-#       - hicexplorer
-#       - plots
-#       - assembly
-#       - annotation
-#       - phylogenetics
-#       - multiple_alignments
-#     custom_css: |
-#       #masthead .navbar-nav>li.active {
-#         background: #2c3067 !important;
-#       }
-#       #masthead {
-#         background: #3a3e87 !important;
-#       }
-#       #masthead a.navbar-brand::after {
-#           content: "Australia - Genome Lab";
-#       }
-#       #masthead .navbar-text {
-#           display: none;
-#       }
-#   - name: proteomics
-#     brand: Proteomics Lab
-#     iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/proteomics/lab/usegalaxy.org.au.yml"
-#     wallpaper: false
-#     tool_sections: []
-#     custom_css: |
-#       #masthead .navbar-nav>li.active {
-#         background: #402668 !important;
-#       }
-#       #masthead {
-#         background: #542a95 !important;
-#       }
-#       #masthead a.navbar-brand::after {
-#         content: "Australia - Proteomics Lab";
-#       }
-#       #masthead .navbar-text {
-#         display: none;
-#       }
-#   - name: singlecell
-#     brand: Single Cell Lab
-#     iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/spoc/lab/usegalaxy.org.au.yml"
-#     wallpaper: false
-#     tool_sections: []
-#     custom_css: |
-#       #masthead .navbar-nav>li.active {
-#         background: #236c6f !important;
-#       }
-#       #masthead {
-#         background: #209693 !important;
-#       }
-#       #masthead a.navbar-brand::after {
-#         content: "Australia - Single Cell Lab";
-#       }
-#       #masthead .navbar-text {
-#         display: none;
-#       }
-#   - name: microbiology
-#     brand: Microbiology Lab
-#     iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/microgalaxy/lab/usegalaxy.org.au.yml"
-#     wallpaper: false
-#     tool_sections: []
-#     custom_css: |
-#       #masthead .navbar-nav>li.active {
-#         background: #1b5b62 !important;
-#       }
-#       #masthead {
-#         background: #1a7b92 !important;
-#       }
-#       #masthead a.navbar-brand::after {
-#         content: "Australia - Microbiology Lab";
-#       }
-#       #masthead .navbar-text {
-#         display: none;
-#       }
+galaxy_subsite_base_domain: "qaai.gvl.org.au"
+galaxy_subsite_default_welcome: "https://site.usegalaxy.org.au"
+galaxy_subsite_dir: /mnt/galaxy/subsites
+#galaxy_subsite_base_css: '#masthead { background-color: #003399;}'
+galaxy_subsites:
+  - name: genome
+    brand: Genome Lab
+    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/genome/lab/usegalaxy.org.au.yml"
+    # If wallpaper is true, then files/subsites/{name}.png will be copied to
+    # /static/dist/{name}.png, and can be used exactly like that in the CSS.
+    wallpaper: false
+    tool_sections:
+      - hicexplorer
+      - plots
+      - assembly
+      - annotation
+      - phylogenetics
+      - multiple_alignments
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #2c3067 !important;
+      }
+      #masthead {
+        background: #3a3e87 !important;
+      }
+      #masthead a.navbar-brand::after {
+          content: "Australia - Genome Lab";
+      }
+      #masthead .navbar-text {
+          display: none;
+      }
+  - name: proteomics
+    brand: Proteomics Lab
+    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/proteomics/lab/usegalaxy.org.au.yml"
+    wallpaper: false
+    tool_sections: []
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #402668 !important;
+      }
+      #masthead {
+        background: #542a95 !important;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Proteomics Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
+  - name: singlecell
+    brand: Single Cell Lab
+    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/spoc/lab/usegalaxy.org.au.yml"
+    wallpaper: false
+    tool_sections: []
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #236c6f !important;
+      }
+      #masthead {
+        background: #209693 !important;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Single Cell Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
+  - name: microbiology
+    brand: Microbiology Lab
+    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/galaxyproject/galaxy_codex/blob/main/communities/microgalaxy/lab/usegalaxy.org.au.yml"
+    wallpaper: false
+    tool_sections: []
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #1b5b62 !important;
+      }
+      #masthead {
+        background: #1a7b92 !important;
+      }
+      #masthead a.navbar-brand::after {
+        content: "Australia - Microbiology Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
 
 webhook_plugins:
-  # - subdomain_switcher_24.2  # TODO yes we do probably want subdomains but start without them. When we do, 'galaxy_subsite_base_domain' needs be set
+  - subdomain_switcher_24.2  # TODO yes we do probably want subdomains but start without them. When we do, 'galaxy_subsite_base_domain' needs be set
   - toolmsg_24.2
   - tips
   # These ones aren't in the playbook as they are included in the galaxy repo:
@@ -427,8 +427,8 @@ toolmsg_messages:
     class: warning
 
 # # auth0. # THESE NEED TO EXIST TO ENABLE AAI
-# auth0_client_id: "{{ vault_auth0_client_id_qaai }}"
-# auth0_client_secret: "{{ vault_auth0_client_secret_qaai }}"
-# auth0_oidc_endpoint: "{{ vault_auth0_oidc_endpoint_qaai }}"
-# auth0_audience: "{{ vault_auth0_audience_qaai }}"
-# auth0_registration_endpoint: "{{ vault_auth0_registration_endpoint_qaai }}"
+auth0_client_id: "{{ vault_auth0_client_id_qaai }}"
+auth0_client_secret: "{{ vault_auth0_client_secret_qaai }}"
+auth0_oidc_endpoint: "{{ vault_auth0_oidc_endpoint_qaai }}"
+auth0_audience: "{{ vault_auth0_audience_qaai }}"
+auth0_registration_endpoint: "{{ vault_auth0_registration_endpoint_qaai }}"

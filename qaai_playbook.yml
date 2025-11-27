@@ -58,8 +58,8 @@
       become_user: galaxy
     - role: webhooks
       tags: webhooks
-    # - role: usegalaxy_eu.galaxy_subdomains  # TODO: maybe we want this for QAAI server
-    #   tags: galaxy_subdomains
+    - role: usegalaxy_eu.galaxy_subdomains  # TODO: maybe we want this for QAAI server
+      tags: galaxy_subdomains
     - name: nginx-upload-module
       tags: nginx
     - name: galaxyproject.nginx
