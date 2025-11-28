@@ -7,6 +7,9 @@ host_galaxy_config: # renamed from __galaxy_config
   gravity: "{{ host_galaxy_config_gravity }}"
 
   galaxy:
+    # Allow cross-subdomain cookie sharing:
+    cookie_domain: qaai.gvl.org.au
+
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},{{ uwe_email }},{{ ross_email }}" # everyone is an admin on dev
     brand: "AAI QA"  # or something
     celery_conf:
@@ -18,8 +21,8 @@ host_galaxy_config: # renamed from __galaxy_config
     database_connection: "postgresql://galaxy:{{ vault_qaai_db_user_password }}@{{ hostvars['qaai-db']['ansible_ssh_host'] }}:5432/galaxy"
     default_panel_view_by_host:
       proteomics.qaai.gvl.org.au: proteomics
-    #   singlecell.qaai.gvl.org.au: singlecell
-    #   microbiology.qaai.gvl.org.au: microbiology
+      singlecell.qaai.gvl.org.au: singlecell
+      microbiology.qaai.gvl.org.au: microbiology
     email_from: <galaxy-no-reply@usegalaxy.org.au>
     enable_beta_containers_interface: true
     enable_beta_tool_formats: true  # user defined tools new as of release_25.0
@@ -59,7 +62,7 @@ host_galaxy_config: # renamed from __galaxy_config
     trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
     # TUS
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
-    user_activation_on: "{{ not aai_active }}"
+    user_activation_on: false # disable activation for preliminary testing "{{ not aai_active }}"
     watch_job_rules: true # important for total perspective vortex
     welcome_directory: plugins/welcome_page/new_user/static/topics/
 
