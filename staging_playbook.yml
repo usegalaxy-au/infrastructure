@@ -6,6 +6,7 @@
     - group_vars/VAULT
     - group_vars/galaxyservers.yml
     - group_vars/staging_slurm.yml
+    - group_vars/tool_messages.yml
     - host_vars/staging.gvl.org.au.yml
     - secret_group_vars/stats_server_vault
   pre_tasks:
@@ -32,7 +33,8 @@
       become: true
       become_user: galaxy
     - usegalaxy_eu.galaxy_subdomains
-    - webhooks
+    - role: galaxy_extensions
+      tags: extensions
     - nginx-upload-module
     - galaxyproject.nginx
     - galaxyproject.tusd
