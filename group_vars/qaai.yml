@@ -62,6 +62,6 @@ __machine_users:
 
 
 # Control whether AAI settings are being used
-aai_enabled: false  # No OIDC variables yet so set this to false for initial run
+aai_enabled: true  # No OIDC variables yet so set this to false for initial run
 
 aaf_enabled: false

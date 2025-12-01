@@ -6,6 +6,8 @@
       - group_vars/dbservers.yml
       - host_vars/qaai-db.gvl.org.au.yml
       - secret_group_vars/qaai
+  vars:
+     - rerun_initial: false
   pre_tasks:
       - name: Attach volume to instance
         include_role:
@@ -22,7 +24,7 @@
       - name: override postgresql_objects_privileges if data directory does not yet exist
         set_fact:
           postgresql_objects_privileges: "{{ postgresql_objects_privileges_first_run }}"
-        when: not data_directory_stat.stat.exists
+        when: not data_directory_stat.stat.exists or rerun_initial
   roles:
       - common
       - geerlingguy.pip
