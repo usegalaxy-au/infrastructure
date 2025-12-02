@@ -571,6 +571,9 @@ tools:
     mem: 30.7
     params:
       singularity_enabled: true
+    scheduling:
+      require:
+        - slurm  # prokka inherits 'accept: pulsar' from tpv-shared-db
     # scheduling:  # prokka is normally a good tool to have running on pulsar. It is switching to slurm-only while galaxy-handlers VM is under stress (cause unknown as of 27/11/25)
     #   accept:
     #   - pulsar
