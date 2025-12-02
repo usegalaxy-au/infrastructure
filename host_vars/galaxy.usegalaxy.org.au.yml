@@ -550,11 +550,11 @@ job_conf_limits:
 
   - type: destination_total_concurrent_jobs
     id: pulsar-high-mem1
-    value: 6
+    value: 20
 
   - type: destination_total_concurrent_jobs
     id: pulsar-high-mem2
-    value: 6
+    value: 15
 
   - type: destination_total_concurrent_jobs
     id: interactive_pulsar
