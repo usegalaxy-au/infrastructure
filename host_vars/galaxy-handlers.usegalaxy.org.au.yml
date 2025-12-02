@@ -65,7 +65,7 @@ host_galaxy_config_gravity:
   celery: # TODO: what is this doing?
     enable: true
     enable_beat: true
-    concurrency: 2
+    concurrency: 6
     loglevel: DEBUG
     environment:
       TMPDIR: "{{ galaxy_celery_tmp_dir }}"
