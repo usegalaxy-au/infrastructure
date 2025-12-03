@@ -1771,6 +1771,7 @@ tools:
     mem: 12
     params:
       singularity_enabled: true
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
     cores: 8
     mem: 31
