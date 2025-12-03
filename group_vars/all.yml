@@ -333,3 +333,9 @@ mariadb_users:
     priv: '{{ slurm_database }}.*:ALL'
 mariadb_databases:
   - name: '{{ slurm_database }}'
+
+# Control whether AAI settings are being used
+aai_enabled: false
+aai_logins_only: "{{ aai_enabled }}"  # finer point of control in order to continue allowing local logins on dev
+
+aaf_enabled: "{{ not aai_enabled }}"  # legacy AAF login option will disappear (I think)

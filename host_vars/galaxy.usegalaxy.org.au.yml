@@ -192,8 +192,6 @@ host_galaxy_config: # renamed from __galaxy_config
 
     # Allow cross-subdomain cookie sharing:
     cookie_domain: usegalaxy.org.au
-
-    user_activation_on: true
     activation_email: <activation-noreply@usegalaxy.org.au>
 
     # Panel views / themes

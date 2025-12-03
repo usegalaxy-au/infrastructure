@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <OIDC>
-{% if not inventory_hostname.startswith('dev') %}
+{% if aaf_enabled %}
     <provider name="Keycloak">
         <label>AAF</label>
         <require_create_confirmation>true</require_create_confirmation>
@@ -12,7 +12,7 @@
         <icon>https://swift.rc.nectar.org.au/v1/AUTH_377/public/Galaxy/AAF_BTN_Sign_in_med_gradient_orange_FIN2020.png</icon>
     </provider>
 {% endif %}
-{% if inventory_hostname.startswith('dev') %}
+{% if aai_enabled %}
     <provider name="oidc">
         <client_id>{{ auth0_client_id }}</client_id>
         <client_secret>{{ auth0_client_secret }}</client_secret>

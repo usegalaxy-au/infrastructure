@@ -217,6 +217,10 @@ staging-w1 ansible_ssh_host=115.146.87.130
 [staging_pulsar_head]
 staging-pulsar ansible_ssh_host=115.146.87.193
 
+[qaai_group]
+qaai ansible_ssh_host=115.146.84.207
+qaai-db ansible_ssh_host=115.146.86.251
+
 # CVMFS
 [cvmfsstratum1servers]
 cvmfs1-mel0.gvl.org.au ansible_user=ec2-user ansible_ssh_host=115.146.85.207

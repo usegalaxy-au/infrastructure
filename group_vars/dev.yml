@@ -46,3 +46,10 @@ host_machine_users:
       roles: []
       key: files/keys/jonathan.pub
       email: "{{ jonathan_email }}"
+
+
+# Control whether AAI settings are being used
+aai_enabled: true
+aai_logins_only: false  # finer point of control in order to continue allowing local logins on dev
+
+aaf_enabled: false
