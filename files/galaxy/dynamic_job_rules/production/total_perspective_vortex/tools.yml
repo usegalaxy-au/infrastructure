@@ -2364,6 +2364,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-mel2
       - pulsar-training-large
     rules:
     - id: megahit_small_input_rule
