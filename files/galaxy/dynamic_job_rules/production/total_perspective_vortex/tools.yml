@@ -1652,6 +1652,7 @@ tools:
     scheduling:
       accept:
       - pulsar-quick
+      - pulsar-high-mem2
       - training-exempt
       prefer:
       - pulsar
@@ -1951,6 +1952,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-high-mem2
     rules:
       - id: get_organelle_from_reads_large_input_rule
         if: input_size > 2
