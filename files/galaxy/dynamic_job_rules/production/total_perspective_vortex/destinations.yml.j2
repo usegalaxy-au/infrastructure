@@ -179,6 +179,7 @@ destinations:
         - cvmfs_cache_800plus
       require:
         - pulsar
+        - offline
   pulsar-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-high-mem2_runner
@@ -254,7 +255,7 @@ destinations:
         - verkko_venv
       require:
         - pulsar
-        - offline
+        - pulsar-quick
   pulsar-qld-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem2_runner
