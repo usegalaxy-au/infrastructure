@@ -1705,6 +1705,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/iuc/checkm2/checkm2/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/checkm_.*
     context:
