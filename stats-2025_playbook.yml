@@ -29,7 +29,7 @@
   roles:
     - common
     - galaxyproject.nginx
-    - usegalaxy_eu.influxdb
+    - usegalaxy_eu.influxdbserver
     - slg.influx_objects
     - cloudalchemy.grafana
     - geerlingguy.docker
