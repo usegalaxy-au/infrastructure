@@ -1136,13 +1136,13 @@ tools:
       tmp_dir: true
     rules:
     - if: |
-        user_roles = [role.name for role in user.all_roles() if not role.deleted]
+        user_roles = [role.name for role in user.all_roles() if not role.deleted] if user else []
         'Alphafold_plus' in user_roles
       context:
         alphafold_aa_length_max: 3000
         alphafold_max_input_sequences: 20
     - if: |
-        user_roles = [role.name for role in user.all_roles() if not role.deleted]
+        user_roles = [role.name for role in user.all_roles() if not role.deleted] if user else []
         user and 'Alphafold' in user_roles and not 'pulsar_gpu_test' in user_roles
       scheduling:
         require:
@@ -1152,8 +1152,8 @@ tools:
         accept:
         - training-exempt
     - if: |
-        user_roles = [role.name for role in user.all_roles() if not role.deleted]
-        user.username in [f'qldgpu{x+1}' for x in range(6)] or 'pulsar_gpu_test' in user_roles
+        user_roles = [role.name for role in user.all_roles() if not role.deleted] if user else []
+        user and user.username in [f'qldgpu{x+1}' for x in range(6)] or 'pulsar_gpu_test' in user_roles
       scheduling:
         accept:
         - pulsar
