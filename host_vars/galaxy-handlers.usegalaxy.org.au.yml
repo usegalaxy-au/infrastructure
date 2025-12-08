@@ -46,7 +46,7 @@ host_galaxy_config_gravity:
   gunicorn:
     - bind: "0.0.0.0:8888"
       # performance options
-      workers: 2
+      workers: 4
       # Other options that will be passed to gunicorn
       extra_args: '--forwarded-allow-ips="*"'
       preload: true
@@ -55,7 +55,7 @@ host_galaxy_config_gravity:
       environment: "{{ galaxy_process_env }}"
     - bind: "0.0.0.0:8889"
       # performance options
-      workers: 2
+      workers: 4
       # Other options that will be passed to gunicorn
       extra_args: '--forwarded-allow-ips="*"'
       preload: true
