@@ -79,6 +79,7 @@ extra_keys:
 
 # ssh config, only for ubuntu
 ssh_config_entries:
-- id_file: "/home/ubuntu/.ssh/internal_hop_key"
+- id_file: /home/ubuntu/.ssh/internal_hop_key
   user: ubuntu
   hosts: "{{ groups['galaxy_group'] }}"
+  ip_field: internal_ip

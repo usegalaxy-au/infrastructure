@@ -7,7 +7,7 @@
         {% for host_group in ssh_config_entries %}
         {% for item in host_group.hosts %}
         Host {{ item }}
-            HostName {{ item }}
+            HostName {{ hostvars[item][host_group.ip_field] }}
             User {{ host_group.user }}
             IdentityFile {{ host_group.id_file }}
         {% endfor %}

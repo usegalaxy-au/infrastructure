@@ -24,9 +24,10 @@ extra_keys:
     type: private
 
 ssh_config_entries:
-- id_file: "/home/ubuntu/.ssh/pulsar_internal_hop_key"
+- id_file: /home/ubuntu/.ssh/pulsar_internal_hop_key
   user: ubuntu
   hosts: "{{ groups['pulsar_mel3_workers'] + groups['pulsar_mel3_nfs'] }}"
+  ip_field: ansible_ssh_host
 
 # mounts
 shared_mounts:

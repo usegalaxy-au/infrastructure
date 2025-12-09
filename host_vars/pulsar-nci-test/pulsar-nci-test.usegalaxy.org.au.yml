@@ -35,6 +35,7 @@ extra_keys:
 
 # ssh config for ubuntu to ssh to worker machines
 ssh_config_entries:
-- id_file: "/home/ubuntu/.ssh/pulsar_internal_hop_key"
+- id_file: /home/ubuntu/.ssh/pulsar_internal_hop_key
   user: ubuntu
   hosts: "{{ groups['pulsar_nci_test_workers'] }}"
+  ip_field: internal_ip
