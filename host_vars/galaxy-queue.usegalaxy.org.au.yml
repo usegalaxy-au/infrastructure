@@ -218,6 +218,8 @@ extra_keys:
     from: "{{ hostvars['galaxy-backup']['internal_ip'] }},{{ hostvars['galaxy']['internal_ip'] }},{{ hostvars['galaxy-handlers']['internal_ip'] }}"
 
 # ssh config, only for ubuntu
-ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/internal_hop_key"
-ssh_config_user: ubuntu
-ssh_config_hosts: "{{ groups['galaxy_group'] }}"
+ssh_config_entries:
+- id_file: /home/ubuntu/.ssh/internal_hop_key
+  user: ubuntu
+  hosts: "{{ groups['galaxy_group'] }}"
+  ip_field: internal_ip

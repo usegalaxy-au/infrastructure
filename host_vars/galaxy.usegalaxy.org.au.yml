@@ -936,9 +936,15 @@ galaxy_base_domain: "{{ galaxy_subsite_base_domain }}"
 galaxy_labs: "{{ galaxy_subsites }}"
 
 # ssh config, only for ubuntu
-ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/internal_hop_key"
-ssh_config_user: ubuntu
-ssh_config_hosts: "{{ groups['galaxy_group'] }}"
+ssh_config_entries:
+- id_file: /home/ubuntu/.ssh/internal_hop_key
+  user: ubuntu
+  hosts: "{{ groups['galaxy_group'] }}"
+  ip_field: internal_ip
+- id_file: /home/ubuntu/.ssh/ubuntu_maintenance_key
+  user: ubuntu
+  hosts: "{{ groups['production_pulsars'] }}"
+  ip_field: ansible_ssh_host
 
 walle_user_name: ubuntu
 walle_user_group: ubuntu

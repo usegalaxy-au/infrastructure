@@ -122,9 +122,9 @@
   loop_control:
     loop_var: extra_key
 
-- name: Add ssh config
+- name: Add ssh config entries for ubuntu user
   import_tasks: ssh_config.yml
-  when: ssh_config_hosts is defined
+  when: ssh_config_entries is defined
 
 - name: Make sure cloud configured hostname control is not present
   file:
