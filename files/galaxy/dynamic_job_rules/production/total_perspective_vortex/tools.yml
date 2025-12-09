@@ -1652,7 +1652,6 @@ tools:
     scheduling:
       accept:
       - pulsar-quick
-      - pulsar-high-mem2
       - training-exempt
       prefer:
       - pulsar
