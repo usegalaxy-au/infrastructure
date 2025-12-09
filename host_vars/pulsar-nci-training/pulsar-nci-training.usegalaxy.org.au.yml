@@ -24,9 +24,10 @@ extra_keys:
   - id: pulsar_internal_hop_key
     type: private
 
-ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/pulsar_internal_hop_key"
-ssh_config_user: ubuntu
-ssh_config_hosts: "{{ groups['pulsar_nci_training_workers'] }}"
+ssh_config_entries:
+- id_file: "/home/ubuntu/.ssh/pulsar_internal_hop_key"
+  user: ubuntu
+  hosts: "{{ groups['pulsar_nci_training_workers'] }}"
 
 # geerlingguy.nfs
 nfs_exports:
