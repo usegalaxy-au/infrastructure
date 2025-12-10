@@ -8,6 +8,9 @@ collections:
     type: galaxy
   - name: grafana.grafana
     version: 5.3.0
+  - name: ansible.windows # NOTE: used by dj-wasabi.telegraf
+    version: 1.14.0
+    source: https://galaxy.ansible.com
 
 roles:
   # roles used by stats-2025
