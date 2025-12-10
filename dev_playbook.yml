@@ -101,6 +101,7 @@
         group: devs
         mode: 0775
         state: directory
+      tags: galaxy
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1
