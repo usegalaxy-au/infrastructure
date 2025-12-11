@@ -3049,6 +3049,7 @@ tools:
       max_concurrent_job_count_for_tool_user: 3
     params:
       singularity_enabled: true
+      tmp_dir: true
     scheduling:
       accept:
       - pulsar
@@ -3277,6 +3278,7 @@ tools:
     mem: 500
     params:
       singularity_enabled: true
+      tmp_dir: true
     scheduling:
       accept:
       - pulsar
@@ -3296,18 +3298,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/spades_coronaspades/spades_coronaspades/.*:
     cores: 20
     mem: 500
+    params:
+      singularity_enabled: true
+      tmp_dir: true
     scheduling:
       accept:
       - pulsar-paw
       - pulsar
       - pulsar-training-large
     rules:
-    - id: spades_coronaspades_singularity_rule
-      if: |
-        minimum_singularity_version = '3.15.4+galaxy0'
-        helpers.tool_version_gte(tool, minimum_singularity_version)
-      params:
-        singularity_enabled: true
     - id: spades_coronaspades_small_input_rule
       if: input_size < 0.005
       cores: 2
@@ -3326,6 +3325,7 @@ tools:
     mem: 500
     params:
       singularity_enabled: true
+      tmp_dir: true
     scheduling:
       accept:
       - pulsar
@@ -3347,6 +3347,7 @@ tools:
     mem: 500
     params:
       singularity_enabled: true
+      tmp_dir: true
     scheduling:
       accept:
       - pulsar
@@ -3370,6 +3371,7 @@ tools:
     mem: 500
     params:
       singularity_enabled: true
+      tmp_dir: true
     scheduling:
       accept:
       - pulsar
@@ -3391,17 +3393,14 @@ tools:
       max_concurrent_job_count_for_tool_user: 3
     cores: 10
     mem: 250
+    params:
+      singularity_enabled: true
+      tmp_dir: true
     scheduling:
       accept:
       - pulsar
       - pulsar-training-large
     rules:
-    - id: spades_rnaviralspades_singularity_rule
-      if: |
-        minimum_singularity_version = '3.15.4+galaxy1'
-        helpers.tool_version_gte(tool, minimum_singularity_version)
-      params:
-        singularity_enabled: true
     - id: spades_rnaviralspades_small_input_rule
       if: input_size < 0.005
       cores: 2
@@ -3835,6 +3834,7 @@ tools:
     mem: 500
     params:
       singularity_enabled: true
+      tmp_dir: true
     scheduling:
       accept:
       - pulsar
