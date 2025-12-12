@@ -56,6 +56,7 @@ influxdb_container:
   image: "influxdb:{{ influxdb_ver }}"
   hostname: "{{ hostname }}"
 
+influxdb_https_enabled: "true"
 influxdb_container_pause: 20
 
 influxdb_base_data_dir: /mnt/influx_data
@@ -166,6 +167,8 @@ influxdb_retention_policy:
 influxdb_container_standalone_setup_details:
   volumes:
     - "{{ influxdb_data_dir }}:/var/lib/influxdb"
+    - "{{ influxdb_http_https_certificate }}:{{ influxdb_http_https_certificate }}:ro"
+    - "{{ influxdb_http_https_private_key }}:{{ influxdb_http_https_private_key }}:ro"
   ports:
     - "8086:8086"
   env:
