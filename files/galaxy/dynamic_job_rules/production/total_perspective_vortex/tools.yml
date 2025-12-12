@@ -1990,7 +1990,7 @@ tools:
     scheduling:
       require:
       - gtdbtk_database
-      accept:
+      prefer:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/gtdb_to_taxdump/gtdb_to_taxdump/.*:
     params:
