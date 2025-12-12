@@ -176,9 +176,9 @@ influxdb_container_standalone_setup_details:
     INFLUXDB_HTTP_HTTPS_PRIVATE_KEY: "{{ influxdb_http_https_private_key }}"
     INFLUXDB_HTTP_LOG_ENABLED: "{{ influxdb_http_log_enabled }}"
     INFLUXDB_DATA_INDEX_VERSION: "{{ influxdb_index_version }}"
-    INFLUXDB_DATA_CACHE_MAX_MEMORY_SIZE: "{{ influxdb_data_cache_max_memory_size }}"
+    INFLUXDB_DATA_CACHE_MAX_MEMORY_SIZE: "{{ influxdb_data_cache_max_memory_size | string }}"
     INFLUXDB_DATA_CACHE_SNAPSHOT_WRITE_COLD_DURATION: "{{ influxdb_data_cache_snapshot_write_cold_duration }}"
-    INFLUXDB_DATA_MAX_VALUES_PER_TAG: "{{ influxdb_data_max_values_per_tag }}"
+    INFLUXDB_DATA_MAX_VALUES_PER_TAG: "{{ influxdb_data_max_values_per_tag | string }}"
     INFLUXDB_LOGGING_LEVEL: "{{ influxdb_logging_level }}"
 
 
