@@ -32,9 +32,9 @@
   roles:
     - common
     - galaxyproject.nginx
+    - geerlingguy.docker
     - usegalaxy_eu.influxdbserver
     - slg.influx_objects
-    - grafana
-    - geerlingguy.docker
     - dj-wasabi.telegraf
+    - grafana
 
