@@ -2,7 +2,7 @@ volA_path: /mnt/volA
 volB_path: /mnt/volB
 volD_path: /mnt/volD
 
-# volume A (~171 TB)
+# volume A (208 TB)
 nfs_data25_dir: "{{ volA_path }}/data25"
 nfs_data26_dir: "{{ volA_path }}/data26"
 nfs_data27_dir: "{{ volA_path }}/data27"
@@ -10,13 +10,14 @@ nfs_data28_dir: "{{ volA_path }}/data28"
 nfs_data29_dir: "{{ volA_path }}/data29"
 nfs_data30_dir: "{{ volA_path }}/data30"
 nfs_data33_dir: "{{ volA_path }}/data33"
+nfs_data36_dir: "{{ volA_path }}/data36"
 
-# volume B (~49 TB)
+# volume B (50 TB)
 # data folders moved to QLD, September 2025 (data08, data09, data12, data15, data17, data20)
 nfs_data22_dir: "{{ volB_path }}/data22"  # moved from volA June '25
 nfs_data35_dir: "{{ volB_path }}/data35"
 
-# volume D (~107 TB)
+# volume D (107 TB)
 # data folder data14 moved to QLD, September 2025
 nfs_data19_dir: "{{ volD_path }}/data19"  # moved from volA April '25
 nfs_data23_dir: "{{ volD_path }}/data23"
@@ -55,6 +56,7 @@ nfs_dirs:
   - "{{ nfs_data33_dir }}"
   - "{{ nfs_data34_dir }}"
   - "{{ nfs_data35_dir }}"
+  - "{{ nfs_data36_dir }}"
 
 nfs_exports:
   - "{{ volA_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
