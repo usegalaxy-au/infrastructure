@@ -176,6 +176,7 @@ group_galaxy_config:
     # Config options that vary with AAI rollout
     allow_local_account_creation: "{{ not aai_enabled }}"
     disable_local_accounts: "{{ aai_enabled and aai_logins_only }}"
+    enable_account_interface: "{{ not aai_enabled }}"
     user_activation_on: "{{ not aai_enabled }}"
     oidc_auth_pipeline_extra: "{{ aai_enabled | ternary(['galaxy.authnz.auth0_authnz.sync_user_groups'], [])}}"
 
