@@ -51,13 +51,14 @@ server {
 
 {% endif %}
 
-    location /api {
+    location ~ ^/api/jobs/[^/]+/files$ {
         proxy_pass         http://galaxy;
         proxy_redirect     off;
         proxy_set_header   Host              $host;
         proxy_set_header   X-Real-IP         $remote_addr;
         proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header   X-Forwarded-Proto $scheme;
+	    proxy_read_timeout 7200;
     }
 
     # error docs
@@ -66,5 +67,10 @@ server {
     location /error {
         ssi on;
         root /etc/nginx;
+    }
+
+    # block everything else
+    location / {
+        return 403;
     }
 }
