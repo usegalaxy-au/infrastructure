@@ -52,6 +52,7 @@ server {
 
     location /internal {
         root /var/www/tmp;
+        disable_symlinks on;
         internal;
     }
 
