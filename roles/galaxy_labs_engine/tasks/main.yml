@@ -90,6 +90,12 @@
     - permissions
     - update
 
+- name: Set temp dir permissions
+  file: dest={{ labs_temp_dir }} owner=www-data group=www-data mode=02770
+  tags:
+    - permissions
+    - update
+
 - name: Update sqlite3 database ownership
   file: dest={{ labs_django_root }}/db.sqlite3 owner=www-data group=www-data mode=u=rw,g=rw,o=r
   tags:
