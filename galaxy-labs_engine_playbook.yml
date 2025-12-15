@@ -20,6 +20,5 @@
       become_user: root
     - dj-wasabi.telegraf
     - role: geerlingguy.docker
-      tags: init
     - role: galaxy_labs_engine
       tags: always

@@ -50,6 +50,11 @@ server {
         root /var/www;
     }
 
+    location /internal {
+        root /var/www/tmp;
+        internal;
+    }
+
     location  / {
         proxy_pass            http://{{ docker_container_name }};
         proxy_redirect        off;

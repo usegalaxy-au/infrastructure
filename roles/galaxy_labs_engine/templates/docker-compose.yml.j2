@@ -11,9 +11,7 @@ services:
       - "8000:8000"
       - "5678:5678"
     volumes:
-      - type: bind
-        source: "{{ labs_project_root }}"
-        target: "{{ labs_project_root }}"
+      - "{{ labs_project_root }}:{{ labs_project_root }}"
     environment:
       - DJANGO_SETTINGS_MODULE=labs_engine.app.settings.dev
     command: python manage.py runserver 0.0.0.0:8000
@@ -32,9 +30,8 @@ services:
       - "8000:8000"
       - "5678:5678"  # attach vscode debug
     volumes:
-      - type: bind
-        source: "{{ labs_project_root }}"
-        target: "{{ labs_project_root }}"
+      - "{{ labs_project_root }}:{{ labs_project_root }}"
+
     environment:
       - DJANGO_SETTINGS_MODULE=labs_engine.app.settings.dev
     command: >
@@ -57,6 +54,7 @@ services:
       - "8000:8000"
     volumes:
       - /srv:/srv
+      - "{{ labs_temp_dir }}:{{ labs_temp_dir }}"
     environment:
       - DJANGO_SETTINGS_MODULE=labs_engine.app.settings.prod
     command: >
@@ -87,6 +85,7 @@ services:
       - "{{ labs_django_root }}/media:/var/www/media:ro"
       - "{{ labs_config_root }}/nginx/ssl:/etc/nginx/ssl:ro"
       - "{{ labs_config_root }}/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro"
+      - "{{ labs_temp_dir }}:/var/www/tmp:ro"
       - /var/log/nginx:/var/log/nginx:rw
       - /var/www/certbot/:/var/www/certbot/:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro
