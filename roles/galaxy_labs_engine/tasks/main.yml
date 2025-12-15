@@ -91,7 +91,7 @@
     - update
 
 - name: Set temp dir permissions
-  file: dest={{ labs_temp_dir }} mode=u=rwX,g=rwX,o=rwX
+  file: dest={{ labs_temp_dir }} owner=www-data group=www-data mode=02770
   tags:
     - permissions
     - update
