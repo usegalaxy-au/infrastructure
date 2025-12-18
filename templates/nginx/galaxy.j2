@@ -75,8 +75,8 @@ server {
 
     {% if aai_enabled %}
 
-    location = /authnz/keycloak/login {
-        proxy_pass http://galaxy_upstream;
+    location = /authnz/oidc/login {
+        proxy_pass http://galaxy;
         # Only add CORS for cross-origin callers we allow
         if ($cors_allow_origin != "") {
             add_header Access-Control-Allow-Origin $cors_allow_origin always;
