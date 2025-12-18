@@ -6,7 +6,7 @@ servers:
   "{{ s.identifier }}": "{{ s.name }}"
   {% endfor %}
 
-log_file: "{{ nfs_monitor_install_path }}/logs/events.log"
-state_dir: "{{ nfs_monitor_install_path }}/state"
+log_file: "{{ nfs_monitor_dir }}/logs/events.log"
+state_dir: "{{ nfs_monitor_dir }}/state"
 debounce_minutes: {{ nfs_monitor_debounce_minutes }}
 
