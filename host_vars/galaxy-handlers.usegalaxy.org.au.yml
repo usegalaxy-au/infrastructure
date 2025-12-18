@@ -115,3 +115,7 @@ smtp_password: "{{ vault_smtp_password_prod }}"
 # CVMFS
 cvmfs_cache_base: /pvol/var/lib/cvmfs
 cvmfs_quota_limit: 40000
+
+nfs_monitor_servers_host:
+- identifier: "{{ hostvars['galaxy']['internal_ip'] }}"
+  name: galaxy

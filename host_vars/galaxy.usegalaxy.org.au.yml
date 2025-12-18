@@ -965,5 +965,21 @@ walle_extra_env_vars:
   PGHOST: "{{ db_address }}"
   GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
 
-monitor_nfs_slack_channel: "#alerts"
-monitor_nfs_slack_token: "{{ vault_galaxy_australia_slack_api_token }}"
+nfs_monitor_slack_channel: "#alerts"
+nfs_monitor_slack_token: "{{ vault_galaxy_australia_slack_api_token }}"
+
+nfs_monitor_servers_galaxy_and_galaxy_handlers:
+  - identifier: "galaxy-aust-exports@genome.edu.au"
+    name: "galaxy-aust-exports"
+  - identifier: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}"
+    name: "galaxy-user-nfs"
+  - identifier: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}"
+    name: "galaxy-misc-nfs"
+  - identifier: "{{ hostvars['galaxy-job-nfs']['internal_ip'] }}"
+    name: "galaxy-job-nfs"
+  - identifier: "nsw-etca-pfnfs1.aarnet.net.au"
+    name: "nsw-etca-pfnfs1.aarnet.net.au"
+
+nfs_monitor_servers_host: []
+
+nfs_monitor_servers: "{{ nfs_monitor_servers_galaxy_and_galaxy_handlers + nfs_monitor_servers_host }}"
