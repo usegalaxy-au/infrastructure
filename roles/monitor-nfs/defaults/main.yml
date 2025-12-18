@@ -1,0 +1,22 @@
+nfs_monitor_slack_webhook: "https://hooks.slack.com/services/XXX/YYY/ZZZ"
+
+# nfs_monitor_servers:
+#   - identifier: "galaxy-aust-exports@genome.edu.au"
+#     name: "galaxy-aust-exports"
+#   - identifier: "192.168.205.249"
+#     name: "galaxy-user-nfs"
+
+nfs_monitor_debounce_minutes: 0
+
+nfs_monitor_user: ubuntu
+nfs_monitor_dir: "/home/{{ nfs_monitor_user }}/nfs_monitor"
+nfs_monitor_virtualenv_path: "/home/{{ nfs_monitor_dir }}/nfs_monitor"
+nfs_monitor_python: "/usr/bin/python3"
+
+# Cron schedule (standard Ansible idiom)
+nfs_monitor_cron_enabled: true
+nfs_monitor_cron_minute: "*/2"
+nfs_monitor_cron_hour: "*"
+nfs_monitor_cron_day: "*"
+nfs_monitor_cron_month: "*"
+nfs_monitor_cron_weekday: "*"

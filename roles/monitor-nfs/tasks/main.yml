@@ -1,0 +1,62 @@
+- name: Ensure Python venv directory exists
+  file:
+    path: "{{ nfs_monitor_virtualenv_path }}"
+    state: directory
+
+- name: Create virtualenv
+  ansible.builtin.command:
+    cmd: "python3 -m venv {{ nfs_monitor_virtualenv_path }}"
+    creates: "{{ nfs_monitor_virtualenv_path }}/bin/activate"
+
+- name: Install Python requirements into venv
+  pip:
+    requirements: "{{ nfs_monitor_dir }}/requirements.txt"
+    virtualenv: "{{ nfs_monitor_virtualenv_path }}"
+    virtualenv_command: "python3 -m venv"
+
+- name: Copy requirements.txt
+  copy:
+    src: requirements.txt
+    dest: "{{ nfs_monitor_dir }}/requirements.txt"
+    mode: "0644"
+
+- name: Ensure monitor install dirs exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ nfs_monitor_user }}"
+    group: "{{ nfs_monitor_user }}"
+    mode: "0755"
+  loop:
+    - "{{ nfs_monitor_dir }}"
+    - "{{ nfs_monitor_dir }}/logs"
+    - "{{ nfs_monitor_dir }}/state"
+
+- name: Deploy config.json
+  template:
+    src: config.json.j2
+    dest: "{{ nfs_monitor_dir }}/config.json"
+    owner: "{{ nfs_monitor_user }}"
+    group: "{{ nfs_monitor_user }}"
+    mode: "0644"
+
+- name: Deploy monitor.py
+  copy:
+    src: monitor.py
+    dest: "{{ nfs_monitor_dir }}/monitor.py"
+    mode: "0755"
+    owner: "{{ nfs_monitor_user }}"
+    group: "{{ nfs_monitor_user }}"
+
+- name: Ensure cron job is present
+  cron:
+    name: "nfs-monitor"
+    user: "{{ nfs_monitor_user }}"
+    job: "{{ nfs_monitor_python }} {{ nfs_monitor_dir }}/monitor.py"
+    minute: "{{ nfs_monitor_cron_minute }}"
+    hour: "{{ nfs_monitor_cron_hour }}"
+    day: "{{ nfs_monitor_cron_day }}"
+    month: "{{ nfs_monitor_cron_month }}"
+    weekday: "{{ nfs_monitor_cron_weekday }}"
+  when: nfs_monitor_cron_enabled
+
