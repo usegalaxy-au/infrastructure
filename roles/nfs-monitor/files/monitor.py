@@ -15,7 +15,7 @@ from slack_sdk.errors import SlackApiError
 # ------------------------
 
 parser = argparse.ArgumentParser(description="Monitor NFS server status via kernel logs.")
-parser.add_argument("--config", default="/opt/nfs-monitor/config.yml", help="Path to YAML config file")
+parser.add_argument("--config", required=True, help="Path to YAML config file")
 parser.add_argument("--dry-run", action="store_true", help="Do not send Slack messages or write state/logs")
 args = parser.parse_args()
 
@@ -31,6 +31,7 @@ SLACK_CHANNEL = config["slack_channel"]
 SERVERS = config["servers"]  # dict: { identifier: name }
 STATE_DIR = config["state_dir"]
 LOG_FILE = config["log_file"]
+SENDER = config["sender"]
 DEBOUNCE = timedelta(minutes=config.get("debounce_minutes", 10))
 
 slack_client = WebClient(token=SLACK_TOKEN)
@@ -115,8 +116,8 @@ for identifier in SERVERS:
         recently_changed = last_changed and (datetime.now() - last_changed < DEBOUNCE)
 
         if not recently_changed:
-            emoji = ":green_circle:" if new == "OK" else ":red_circle:"
-            send_slack(f"{emoji} NFS server *{name} ({identifier})* status: *{new}*")
+            emoji = ":large_green_circle:" if new == "OK" else ":red_circle:"
+            send_slack(f"{emoji} NFS monitor for *{SENDER}*: *{name} ({identifier})* status: *{new}*")
             log_event(f"{identifier} ({name}) → {new}")
         else:
             if args.dry_run:

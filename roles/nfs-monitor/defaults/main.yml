@@ -9,9 +9,10 @@
 
 nfs_monitor_debounce_minutes: 0
 
+nfs_monitor_sender: "{{ ansible_hostname }}"
 nfs_monitor_user: ubuntu
 nfs_monitor_dir: "/home/{{ nfs_monitor_user }}/nfs_monitor"
-nfs_monitor_virtualenv_path: "/home/{{ nfs_monitor_dir }}/nfs_monitor"
+nfs_monitor_virtualenv_path: "{{ nfs_monitor_dir }}/venv"
 nfs_monitor_python: "/usr/bin/python3"
 
 # Cron schedule (standard Ansible idiom)

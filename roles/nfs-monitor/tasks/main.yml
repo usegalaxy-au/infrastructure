@@ -1,26 +1,5 @@
-- name: Ensure Python venv directory exists
-  file:
-    path: "{{ nfs_monitor_virtualenv_path }}"
-    state: directory
-
-- name: Create virtualenv
-  ansible.builtin.command:
-    cmd: "python3 -m venv {{ nfs_monitor_virtualenv_path }}"
-    creates: "{{ nfs_monitor_virtualenv_path }}/bin/activate"
-
-- name: Install Python requirements into venv
-  pip:
-    requirements: "{{ nfs_monitor_dir }}/requirements.txt"
-    virtualenv: "{{ nfs_monitor_virtualenv_path }}"
-    virtualenv_command: "python3 -m venv"
-
-- name: Copy requirements.txt
-  copy:
-    src: requirements.txt
-    dest: "{{ nfs_monitor_dir }}/requirements.txt"
-    mode: "0644"
-
-- name: Ensure monitor install dirs exist
+---
+- name: Ensure required directories exist
   file:
     path: "{{ item }}"
     state: directory
@@ -32,31 +11,38 @@
     - "{{ nfs_monitor_dir }}/logs"
     - "{{ nfs_monitor_dir }}/state"
 
-- name: Deploy config.json
+- name: Template config.yml
   template:
-    src: config.json.j2
-    dest: "{{ nfs_monitor_dir }}/config.json"
+    src: config.yml.j2
+    dest: "{{ nfs_monitor_dir }}/config.yml"
     owner: "{{ nfs_monitor_user }}"
     group: "{{ nfs_monitor_user }}"
-    mode: "0644"
+    mode: "0755"
 
-- name: Deploy monitor.py
+- name: Copy monitor.py etc
   copy:
-    src: monitor.py
-    dest: "{{ nfs_monitor_dir }}/monitor.py"
+    src: "{{ item }}"
+    dest: "{{ nfs_monitor_dir }}/{{ item }}"
     mode: "0755"
     owner: "{{ nfs_monitor_user }}"
     group: "{{ nfs_monitor_user }}"
+  with_items:
+  - monitor.py
+  - requirements.txt
+
+- name: Install dependencies
+  pip:
+    requirements: "{{ nfs_monitor_dir }}/requirements.txt"
+    virtualenv: "{{ nfs_monitor_virtualenv_path }}"
 
 - name: Ensure cron job is present
   cron:
     name: "nfs-monitor"
     user: "{{ nfs_monitor_user }}"
-    job: "{{ nfs_monitor_python }} {{ nfs_monitor_dir }}/monitor.py"
+    job: "{{ nfs_monitor_virtualenv_path }}/bin/python {{ nfs_monitor_dir }}/monitor.py --config {{ nfs_monitor_dir }}/config.yml"
     minute: "{{ nfs_monitor_cron_minute }}"
     hour: "{{ nfs_monitor_cron_hour }}"
     day: "{{ nfs_monitor_cron_day }}"
     month: "{{ nfs_monitor_cron_month }}"
     weekday: "{{ nfs_monitor_cron_weekday }}"
-  when: nfs_monitor_cron_enabled
-
+    disabled: "{{ not nfs_monitor_cron_enabled }}"

@@ -1,5 +1,6 @@
 slack_token: "{{ nfs_monitor_slack_token }}"
 slack_channel: "{{ nfs_monitor_slack_channel }}"
+sender: "{{ nfs_monitor_sender }}"
 
 servers:
   {% for s in nfs_monitor_servers %}
@@ -9,4 +10,3 @@ servers:
 log_file: "{{ nfs_monitor_dir }}/logs/events.log"
 state_dir: "{{ nfs_monitor_dir }}/state"
 debounce_minutes: {{ nfs_monitor_debounce_minutes }}
-
