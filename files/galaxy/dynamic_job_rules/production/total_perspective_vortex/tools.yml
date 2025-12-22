@@ -2243,9 +2243,9 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
-      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
+      - pulsar-high-mem2
       prefer:
-      - cvmfs_cache_100plus
+      - cvmfs_cache_1600plus
       reject:
       - pulsar-QLD
     rules:
