@@ -11,7 +11,7 @@
       - secret_group_vars/ssh_keys
       - secret_group_vars/dev_secrets
   handlers:
-    - include: handlers/galaxy_handlers.yml
+    - import_tasks: handlers/galaxy_handlers.yml
   pre_tasks:
     - name: copy job_conf file
       template:
