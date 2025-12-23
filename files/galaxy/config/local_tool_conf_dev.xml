@@ -39,6 +39,7 @@
         <tool file="/mnt/galaxy/local_tools/autocycler/autocycler_table.xml" />
         <tool file="/mnt/galaxy/local_tools/autocycler/autocycler_trim.xml" />
         <tool file="/mnt/galaxy/local_tools/GlyComboCLI/GlyComboCLI.xml" />
+        <tool file="/mnt/galaxy/local_tools/phastest/phastest.xml" />
 
         <!-- AAGI tools -->
         <tool file="/mnt/galaxy/local_tools/aagi/aagi_001/aagi_001.xml" labels="aagi"/>
