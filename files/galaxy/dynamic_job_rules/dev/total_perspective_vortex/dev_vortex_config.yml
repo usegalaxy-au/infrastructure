@@ -294,6 +294,16 @@ tools:
     params:
       singularity_enabled: True
       singularity_volumes: '$defaults,/cvmfs:ro'
+  phastest:
+    cores: 2
+    params:
+      docker_enabled: true
+      docker_sudo: false
+      docker_volumes: "$job_directory:ro,$job_directory/home:rw,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/mnt/galaxy/local_tools/db/phastest:/home/phastest/phastest-app/DB:ro"
+      require_container: true
+    scheduling:
+      require:
+        - slurm
   toolshed.g2.bx.psu.edu/repos/iracooke/protk_proteogenomics/.*:
     cores: 1
     params:
