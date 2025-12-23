@@ -73,6 +73,7 @@
         - dj-wasabi.telegraf
         - usegalaxy_eu.flower
         - acl-on-startup
+        - nfs-monitor
   post_tasks:
     - name: Make local_tool directory group-writable by machine users
       # TODO: This path is problematic because the galaxyproject.galaxy role will chown it to root:root

@@ -1,0 +1,48 @@
+---
+- name: Ensure required directories exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ nfs_monitor_user }}"
+    group: "{{ nfs_monitor_user }}"
+    mode: "0755"
+  loop:
+    - "{{ nfs_monitor_dir }}"
+    - "{{ nfs_monitor_dir }}/logs"
+    - "{{ nfs_monitor_dir }}/state"
+
+- name: Template config.yml
+  template:
+    src: config.yml.j2
+    dest: "{{ nfs_monitor_dir }}/config.yml"
+    owner: "{{ nfs_monitor_user }}"
+    group: "{{ nfs_monitor_user }}"
+    mode: "0755"
+
+- name: Copy monitor.py etc
+  copy:
+    src: "{{ item }}"
+    dest: "{{ nfs_monitor_dir }}/{{ item }}"
+    mode: "0755"
+    owner: "{{ nfs_monitor_user }}"
+    group: "{{ nfs_monitor_user }}"
+  with_items:
+  - monitor.py
+  - requirements.txt
+
+- name: Install dependencies
+  pip:
+    requirements: "{{ nfs_monitor_dir }}/requirements.txt"
+    virtualenv: "{{ nfs_monitor_virtualenv_path }}"
+
+- name: Ensure cron job is present
+  cron:
+    name: "nfs-monitor"
+    user: "{{ nfs_monitor_user }}"
+    job: "{{ nfs_monitor_virtualenv_path }}/bin/python {{ nfs_monitor_dir }}/monitor.py --config {{ nfs_monitor_dir }}/config.yml"
+    minute: "{{ nfs_monitor_cron_minute }}"
+    hour: "{{ nfs_monitor_cron_hour }}"
+    day: "{{ nfs_monitor_cron_day }}"
+    month: "{{ nfs_monitor_cron_month }}"
+    weekday: "{{ nfs_monitor_cron_weekday }}"
+    disabled: "{{ not nfs_monitor_cron_enabled }}"
