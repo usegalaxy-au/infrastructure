@@ -2373,6 +2373,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-high-mem2
       - pulsar-training-large
     rules:
     - id: megahit_small_input_rule
