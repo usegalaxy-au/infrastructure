@@ -1241,9 +1241,12 @@ tools:
       minimum_singularity_version: '1.5.2+galaxy0'
     cores: 8
     mem: 31.2
-    scheduling:
-      accept:
-      - pulsar
+    rules:
+    - id: panaroo_pulsar_rule
+      if: helpers.tool_version_gte(tool, '1.5.2+galaxy0')
+      scheduling:
+        accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/smudgeplot/smudgeplot/.*:
     cores: 8
     mem: 500
