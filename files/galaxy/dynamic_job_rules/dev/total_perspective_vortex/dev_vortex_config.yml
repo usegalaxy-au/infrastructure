@@ -296,10 +296,22 @@ tools:
       singularity_volumes: '$defaults,/cvmfs:ro'
   phastest:
     cores: 2
+    context:
+      slurm_docker_volumes: "$defaults,/mnt/galaxy/local_tools/db/phastest:/home/phastest/phastest-app/DB:ro"
     params:
       docker_enabled: true
       docker_sudo: false
-      docker_volumes: "$job_directory:ro,$job_directory/home:rw,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/mnt/galaxy/local_tools/db/phastest:/home/phastest/phastest-app/DB:ro"
+      require_container: true
+    scheduling:
+      require:
+        - slurm
+  phastest_dev:
+    cores: 2
+    context:
+      slurm_docker_volumes: "$defaults,/mnt/galaxy/local_tools/db/phastest:/home/phastest/phastest-app/DB:ro"
+    params:
+      docker_enabled: true
+      docker_sudo: false
       require_container: true
     scheduling:
       require:
