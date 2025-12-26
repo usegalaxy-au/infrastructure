@@ -266,8 +266,16 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/edta/edta/.*:
     context:
       test_cores: 2
+    mem: 19.1
     params:
       singularity_enabled: true
+    rules:
+    - id: edta_small_input_rule
+      if: input_size < 0.2
+      mem: 3.8
+    - id: edta_small_input_rule
+      if: 0.2 <= input_size < 1
+      mem: 11.5
   toolshed.g2.bx.psu.edu/repos/bgruening/enumerate_charges/enumerate_charges/.*:
     params:
       singularity_enabled: true
@@ -4292,7 +4300,6 @@ tools:
       - pulsar-qld-gpu5
       - pulsar-qld-gpu-other
       - pulsar-qld-gpu
-
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_error_correct/dorado_error_correct/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*
     
