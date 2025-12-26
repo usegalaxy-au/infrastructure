@@ -264,6 +264,7 @@ tools:
           accept:
             - pulsar  # older versions might be OK with pulsar but are not OK with singularity
   toolshed.g2.bx.psu.edu/repos/bgruening/edta/edta/.*:
+    mem: 24  # TODO: review allocation in '26, this may be excessive (26/12/25)
     context:
       test_cores: 2
     params:
