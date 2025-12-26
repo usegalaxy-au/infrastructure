@@ -1048,6 +1048,9 @@ tools:
       if: input_size < 0.5
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfsort/vcfsort/.*:
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/dnbenso/masurca_simple/masurca_simple/.*:
     cores: 8 
     mem: 120
