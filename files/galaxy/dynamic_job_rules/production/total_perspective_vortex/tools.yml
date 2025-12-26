@@ -264,15 +264,15 @@ tools:
           accept:
             - pulsar  # older versions might be OK with pulsar but are not OK with singularity
   toolshed.g2.bx.psu.edu/repos/bgruening/edta/edta/.*:
-    mem: 19.1
     context:
       test_cores: 2
+    mem: 19.1
     params:
       singularity_enabled: true
     rules:
     - id: edta_small_input_rule
       if: input_size < 0.2
-       mem: 3.8
+      mem: 3.8
     - id: edta_small_input_rule
       if: 0.2 <= input_size < 1
       mem: 11.5
