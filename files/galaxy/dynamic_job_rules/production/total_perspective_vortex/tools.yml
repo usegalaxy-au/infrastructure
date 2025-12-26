@@ -4292,7 +4292,18 @@ tools:
       - pulsar-qld-gpu5
       - pulsar-qld-gpu-other
       - pulsar-qld-gpu
-
+  toolshed.g2.bx.psu.edu/repos/bgruening/edta/edta.*:
+    cores: 5
+    mem: 19.1
+    rules:
+    - id: edta_small_input_rule
+      if: input_size < 0.2
+      cores: 1
+      mem: 3.8
+    - id: edta_medium_input_rule
+      if: 0.2 <= input_size < 1
+      cores: 3
+      mem: 11.5
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_error_correct/dorado_error_correct/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*
     
