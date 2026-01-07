@@ -98,4 +98,21 @@ jobs:
             if not t == job_conf_template:
               tpv_files.append(templated_file)
 
-        subprocess.check_output(f'tpv lint {" ".join(tpv_files)}', shell=True)
+        # subprocess.check_output(f'tpv lint {" ".join(tpv_files)}', shell=True)
+        result = subprocess.run(
+            ["tpv", "lint"] + tpv_files,
+            capture_output=True,
+            text=True,
+        )
+
+        # Always show output
+        if result.stdout:
+            print("STDOUT:")
+            print(result.stdout)
+
+        if result.stderr:
+            print("STDERR:")
+            print(result.stderr)
+
+        if result.returncode != 0:
+            raise RuntimeError(f"tpv lint failed")
