@@ -7,6 +7,8 @@ tools:   # lint check (remove this comment)
       if: input_size < 0.15
       cores: 2
       mem: 7.6
+    scheduling:
+      require: oxygen  # this ought to fail lint
   testtoolshed.g2.bx.psu.edu/repos/jchung/generate_count_matrix/generate_count_matrix/.*:
     cores: 2
     mem: 7.6
