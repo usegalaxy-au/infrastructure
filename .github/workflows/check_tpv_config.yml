@@ -100,7 +100,7 @@ jobs:
 
         # subprocess.check_output(f'tpv lint {" ".join(tpv_files)}', shell=True)
         result = subprocess.run(
-            ["tpv", "lint"] + tpv_files,
+            ["tpv", "-vv", "lint"] + tpv_files,
             capture_output=True,
             text=True,
         )
