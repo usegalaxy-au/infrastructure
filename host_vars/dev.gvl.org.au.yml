@@ -5,12 +5,9 @@ add_hosts_handlers: yes
 common_logrotate_manage_rsyslog: true
 
 # total perspective vortex
-tpv_version: "3.1.2"
+# Use these variables if running 'install-tpv' role
 # tpv_repo: https://github.com/usegalaxy-au/total-perspective-vortex
 # tpv_commit_id: d8e336b1cc889237c155d0ad318051c36e5636e6
-
-tpv_packages: |
-  {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
 
 # variables for attaching mounted volume to application server
 attached_volumes:
