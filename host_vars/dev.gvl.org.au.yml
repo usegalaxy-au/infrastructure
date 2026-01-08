@@ -5,7 +5,7 @@ add_hosts_handlers: yes
 common_logrotate_manage_rsyslog: true
 
 # total perspective vortex
-# Use these variables if running 'install-tpv' role
+# Use tpv_repo and tpv_commit_id variables if running 'install-tpv' role
 # tpv_repo: https://github.com/usegalaxy-au/total-perspective-vortex
 # tpv_commit_id: d8e336b1cc889237c155d0ad318051c36e5636e6
 
