@@ -126,49 +126,27 @@ jobs:
         report_lines.append("# TPV lint report\n")
 
         result = subprocess.run(
-            ["tpv", "-vv", "lint"] + tpv_files,
+            ["tpv", "lint"] + tpv_files,
             capture_output=True,
             text=True,
         )
 
         # ---- PRINT EVERYTHING TO THE CHECKS LOG ----
-        if result.stdout:
-            print(result.stdout, flush=True)
-
-        if result.stderr:
-            print(result.stderr, flush=True)
-
-        # ---- WRITE FULL REPORT FOR ARTIFACT ----
-        report_lines.append("## Command\n```bash")
-        report_lines.append("tpv -vv lint " + " ".join(tpv_files))
-        report_lines.append("```\n")
-
-        if result.stdout:
-            report_lines.append("## STDOUT\n```text")
-            report_lines.append(result.stdout)
-            report_lines.append("```")
-
-        if result.stderr:
-            report_lines.append("## STDERR\n```text")
-            report_lines.append(result.stderr)
-            report_lines.append("```")
 
         if result.returncode != 0:
             lint_failed = True
-            report_lines.append("\n❌ **TPV lint failed**\n")
+            print("\n❌ **TPV lint failed**\n")
         else:
-            report_lines.append("\n✅ **TPV lint passed**\n")
+            print("\n✅ **TPV lint passed**\n")
 
-        with open("tpv-lint-report.md", "w") as f:
-            f.write("\n".join(report_lines))
+        if result.stdout:
+            print('STDOUT:')
+            print(result.stdout, flush=True)
+
+        if result.stderr:
+            print('STDERR:')
+            print(result.stderr, flush=True)
 
         # ---- FAIL AFTER ALL OUTPUT IS VISIBLE ----
         if lint_failed:
             raise RuntimeError("tpv lint failed")
-
-    - name: Upload TPV lint report
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: tpv-lint-report
-        path: tpv-lint-report.md
