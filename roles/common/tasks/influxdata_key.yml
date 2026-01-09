@@ -3,6 +3,11 @@
 # and accommodating cruft from the telegraf role that insists on creating a telegraf.list file
 # (TODO: make a PR to telegraf role)
 
+# This dearmors the downloaded key which was already being done for telegraf 
+# The dearmored key location is in all.yml as `influxdata_key_path`
+
+# NOTE: influxdata-archive_compat-exp2029.key intentionally contains both old and new
+# signing keys to bridge the 2025 rotation window.
 - name: Check if telegraf.list exists
   ansible.builtin.stat:
     path: /etc/apt/sources.list.d/telegraf.list
@@ -41,28 +46,26 @@
     url: https://repos.influxdata.com/influxdata-archive_compat-exp2029.key
     dest: /etc/apt/keyrings/influxdata-archive_compat.asc
     mode: "0644"
-  register: influx_key
 
-- name: Add Influxdata repository if key has changed
-  when: influx_key.changed
-  block:
-  - name: Dearmor into a binary keyring
-    ansible.builtin.command: >
-      gpg --batch --yes --dearmor
-      -o {{ influxdata_key_path }}
-      /etc/apt/keyrings/influxdata-archive_compat.asc
+- name: Dearmor into a binary keyring
+  ansible.builtin.command: >
+    gpg --batch --yes --dearmor
+    -o {{ influxdata_key_path }}
+    /etc/apt/keyrings/influxdata-archive_compat.asc
+  args:
+      creates: "{{ influxdata_key_path }}"
 
-  - name: Ensure permissions on keyring
-    ansible.builtin.file:
-      path: "{{ influxdata_key_path }}"
-      owner: root
-      group: root
-      mode: "0644"
+- name: Ensure permissions on keyring
+  ansible.builtin.file:
+    path: "{{ influxdata_key_path }}"
+    owner: root
+    group: root
+    mode: "0644"
 
-  - name: Add InfluxData repository
-    ansible.builtin.apt_repository:
-      repo: >
-        deb [signed-by={{ influxdata_key_path }}]
-        https://repos.influxdata.com/ubuntu stable main
-      filename: influxdata
-      update_cache: false
+- name: Add InfluxData repository
+  ansible.builtin.apt_repository:
+    repo: >
+      deb [signed-by={{ influxdata_key_path }}]
+      https://repos.influxdata.com/ubuntu stable main
+    filename: influxdata
+    update_cache: false
