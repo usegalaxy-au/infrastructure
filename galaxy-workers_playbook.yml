@@ -64,9 +64,6 @@
       - galaxyproject.slurm
       - galaxyproject.cvmfs
       - role: dj-wasabi.telegraf
-        vars:
-          # override the role’s internal set_fact when create telegraf.list
-          telegraf_repository_params: "[signed-by=/etc/apt/keyrings/influxdata-archive.gpg]"
       - usegalaxy_eu.apptainer
       - geerlingguy.docker
       - acl-on-startup

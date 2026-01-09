@@ -1,0 +1,68 @@
+---
+# Enable smooth influxdb key rotation while removing cruft from previous key rotations
+# and accommodating cruft from the telegraf role that insists on creating a telegraf.list file
+# (TODO: make a PR to telegraf role)
+
+- name: Check if telegraf.list exists
+  ansible.builtin.stat:
+    path: /etc/apt/sources.list.d/telegraf.list
+  register: telegraf_list
+
+- name: Remove InfluxData repo line using legacy keyring from telegraf.list
+  ansible.builtin.lineinfile:
+    path: /etc/apt/sources.list.d/telegraf.list
+    regexp: "{{ item }}"
+    state: absent
+  with_items:
+  - 'signed-by=/usr/share/keyrings/influxdata-archive\.asc'
+  - 'signed-by=/etc/apt/keyrings/influxdata-archive\.gpg'
+  when: telegraf_list.stat.exists
+
+- name: Check if influxdata.list exists
+  ansible.builtin.stat:
+    path: /etc/apt/sources.list.d/influxdata.list
+  register: influxdata_list
+
+- name: Remove InfluxData Debian repo on Ubuntu
+  ansible.builtin.lineinfile:
+    path: /etc/apt/sources.list.d/influxdata.list
+    regexp: '^deb .*repos\.influxdata\.com/debian'
+    state: absent
+  when: influxdata_list.stat.exists
+
+- name: Ensure /etc/apt/keyrings exists
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Download InfluxData compat signing key
+  ansible.builtin.get_url:
+    url: https://repos.influxdata.com/influxdata-archive_compat-exp2029.key
+    dest: /etc/apt/keyrings/influxdata-archive_compat.asc
+    mode: "0644"
+  register: influx_key
+
+- name: Add Influxdata repository if key has changed
+  when: influx_key.changed
+  block:
+  - name: Dearmor into a binary keyring
+    ansible.builtin.command: >
+      gpg --batch --yes --dearmor
+      -o {{ influxdata_key_path }}
+      /etc/apt/keyrings/influxdata-archive_compat.asc
+
+  - name: Ensure permissions on keyring
+    ansible.builtin.file:
+      path: "{{ influxdata_key_path }}"
+      owner: root
+      group: root
+      mode: "0644"
+
+  - name: Add InfluxData repository
+    ansible.builtin.apt_repository:
+      repo: >
+        deb [signed-by={{ influxdata_key_path }}]
+        https://repos.influxdata.com/ubuntu stable main
+      filename: influxdata
+      update_cache: false

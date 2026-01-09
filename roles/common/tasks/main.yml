@@ -8,12 +8,6 @@
     hosts_filename: "{{ hosts_template_file }}"
   when: hosts_template_file is defined
 
-- name: Add Influx apt repository key (pre ubuntu 22.04)
-  ansible.builtin.apt_key:
-    url: https://repos.influxdata.com/influxdata-archive_compat.key
-    state: present
-  when: ansible_facts['distribution'] == 'Ubuntu' and ansible_facts['distribution_version'] is version('22.04', '<')
-
 - name: Remove problematic CernVM GPG key from legacy keyring
   ansible.builtin.apt_key:
     url: https://cvmrepo.web.cern.ch/cvmrepo/apt/cernvm.gpg
@@ -32,8 +26,8 @@
     state: absent
   ignore_errors: true
 
-- name: Add workaround for dj-wasabi.telegraf role on Ubuntu 22.04 and newer VMs
-  import_tasks: telegraf_install_dearmored_apt-key.yml
+- name: Install InfluxData signing key
+  import_tasks: influxdata_key.yml
 
 - name: Update the apt repos and base OS
   apt:

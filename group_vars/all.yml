@@ -224,6 +224,9 @@ telegraf_agent_package_state: latest
 telegraf_agent_package_method: repo
 telegraf_agent_hostname: "{{ inventory_hostname }}"
 
+influxdata_key_path: /usr/share/keyrings/influxdata-archive_compat.gpg
+telegraf_repository_params: "[signed-by={{ influxdata_key_path }}]"
+
 # enable tools with 'test' tag for certain users
 test_tool_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | list + [anna_email] }}"
 
