@@ -28,11 +28,13 @@
     path: /etc/apt/sources.list.d/influxdata.list
   register: influxdata_list
 
-- name: Remove InfluxData Debian repo on Ubuntu
+- name: Remove InfluxData repo legacy lines
   ansible.builtin.lineinfile:
     path: /etc/apt/sources.list.d/influxdata.list
-    regexp: '^deb .*repos\.influxdata\.com/debian'
+    regexp: "{{ item }}"
     state: absent
+  with_items:
+  - 'signed-by=/etc/apt/keyrings/influxdata-archive\.gpg'
   when: influxdata_list.stat.exists
 
 - name: Ensure /etc/apt/keyrings exists
@@ -66,6 +68,6 @@
   ansible.builtin.apt_repository:
     repo: >
       deb [signed-by={{ influxdata_key_path }}]
-      https://repos.influxdata.com/ubuntu stable main
+      https://repos.influxdata.com/debian stable main
     filename: influxdata
     update_cache: false
