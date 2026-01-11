@@ -36,6 +36,8 @@ nfs_exports:
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_24.2
 
+tpv_version: "2.5.0"
+
 galaxy_infrastructure_url: "https://staging.gvl.org.au"
 
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/staging

@@ -1,102 +1,152 @@
 name: Check tool destinations and job configuration
 
-# # Controls when the action will run. Triggers the workflow on push or pull request
-# # events but only for the master branch
 on:
   pull_request:
     branches: [ master ]
     paths:
       - templates/galaxy/config/galaxy_job_conf.yml.j2
-      - files/galaxy/dynamic_job_rules/production/total_perspective_vortex/*  # check
+      - files/galaxy/dynamic_job_rules/production/total_perspective_vortex/*
 
-# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
       with:
-        fetch-depth: 0 # number of commits to fetch. 0 indicates all history for all branches and tags
-    # Set up python environment
+        fetch-depth: 0
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
-    # Install python dependencies for check_files script
+        python-version: 3.11
+
     - name: Install dependencies
+      env:
+        TPV_VERSION: '3.1.3'
       run: |
         python -m pip install --upgrade pip
-        pip install total-perspective-vortex==$TPV_VERSION pyyaml galaxy-app==23.1.4 galaxy-auth==23.1.4 galaxy-config==23.1.4 galaxy-data==23.1.4 galaxy-files==23.1.4 galaxy-job-execution==23.1.4 galaxy-job-metrics==23.1.4 galaxy-navigation==23.1.4 galaxy-objectstore==23.1.4 galaxy-tool-util==23.1.4 galaxy-tours==23.1.4 galaxy-util==23.1.4 galaxy-web-framework==23.1.4 galaxy-web-stack==23.1.4
-      env:
-        TPV_VERSION: '2.3.2'
+        pip install \
+          total-perspective-vortex==$TPV_VERSION \
+          'pydantic<2.12' \
+          pyyaml \
+          galaxy-app
+
     - name: Check TPV files and job conf
       env:
         SETTING: github
       shell: python
       run: |
-        """This code uses ansible to template out the jinja templates for tpv configs and job config,
-              then runs the tpv linter on the resultant files."""
         import re
         import subprocess
         import os
         import shutil
+
+        # ------------------------------------------------------------------
+        # Setup working directories
+        # ------------------------------------------------------------------
 
         working_dir = '.github/workflows/check_tpv_config'
         hosts_file = os.path.join(working_dir, 'hosts')
         playbook_file = os.path.join(working_dir, 'template_playbook.yml')
         files_dir = os.path.join(working_dir, 'files')
         templates_dir = os.path.join(working_dir, 'templates')
+
         os.mkdir(files_dir)
         os.mkdir(templates_dir)
+
+        # ------------------------------------------------------------------
+        # Collect TPV and job config files
+        # ------------------------------------------------------------------
 
         tpv_dir = 'files/galaxy/dynamic_job_rules/production/total_perspective_vortex'
         tpv_config_files = [os.path.join(tpv_dir, f) for f in os.listdir(tpv_dir)]
         job_conf_template = 'templates/galaxy/config/galaxy_job_conf.yml.j2'
         tpv_files = []
 
-        replace_patterns = ['\{\{\s?vault_\w+\s?\}\}', '\{\{\s?hostname\s?\}\}']
+        replace_patterns = [
+            r'\{\{\s?vault_\w+\s?\}\}',
+            r'\{\{\s?hostname\s?\}\}',
+        ]
 
         with open('.vault_pass.txt', 'w') as password_file:
-          password_file.write('FalsePassword')
+            password_file.write('FalsePassword')
+
+        # ------------------------------------------------------------------
+        # Helper functions
+        # ------------------------------------------------------------------
 
         def template_file(fname):
-          output_fname = fname.replace(templates_dir, files_dir).replace('.j2', '')
-          extra_vars = f'src={fname.replace(templates_dir+"/", "")} dest={os.path.realpath(output_fname)}'
-          ansible_command = f'ansible-playbook -i {hosts_file} {playbook_file} --extra-vars \'{extra_vars}\''
-          try:
-            subprocess.check_output(ansible_command, shell=True)
-          except subprocess.CalledProcessError as e:
-            print(e.output)
-            raise Exception('Failed to template {os.path.basename(fname)}')
-          return output_fname
+            output_fname = fname.replace(templates_dir, files_dir).replace('.j2', '')
+            extra_vars = (
+                f"src={fname.replace(templates_dir + '/', '')} "
+                f"dest={os.path.realpath(output_fname)}"
+            )
+            ansible_command = (
+                f"ansible-playbook -i {hosts_file} {playbook_file} "
+                f"--extra-vars '{extra_vars}'"
+            )
+            subprocess.check_call(ansible_command, shell=True)
+            return output_fname
 
         def sanitize_text(fname):
-          """Replaces any references to vault variables with a constant string as the
-               vault is not decrypted during tests"""
-          with open(fname) as handle:
-            text = handle.read()
+            with open(fname) as handle:
+                text = handle.read()
             for rp in replace_patterns:
-              text = re.sub(rp, 'text_replaced', text)
-          with open(fname, 'w') as handle:
-            handle.write(text)
+                text = re.sub(rp, 'text_replaced', text)
+            with open(fname, 'w') as handle:
+                handle.write(text)
+
+        # ------------------------------------------------------------------
+        # Prepare files for linting
+        # ------------------------------------------------------------------
 
         for t in tpv_config_files + [job_conf_template]:
-          if t.endswith('.yml'):
-            test_fname = os.path.join(files_dir, os.path.basename(t))
-            shutil.copy(t, test_fname)
-            tpv_files.append(test_fname)
-          elif t.endswith('.yml.j2'):
-            test_fname = os.path.join(templates_dir, os.path.basename(t))
-            shutil.copy(t, test_fname)
-            sanitize_text(test_fname)
-            templated_file = template_file(test_fname)
-            if 'tpv_dir' in t:
-              tpv_files.append(templated_file)
+            if t.endswith('.yml'):
+                test_fname = os.path.join(files_dir, os.path.basename(t))
+                shutil.copy(t, test_fname)
+                tpv_files.append(test_fname)
 
-        for t in tpv_files:
-          subprocess.check_output(f'tpv lint {t}', shell=True)
+            elif t.endswith('.yml.j2'):
+                test_fname = os.path.join(templates_dir, os.path.basename(t))
+                shutil.copy(t, test_fname)
+                sanitize_text(test_fname)
+                templated_file = template_file(test_fname)
+                if t != job_conf_template:
+                    tpv_files.append(templated_file)
+
+        # ------------------------------------------------------------------
+        # Run TPV lint
+        # ------------------------------------------------------------------
+
+        report_lines = []
+        lint_failed = False
+
+        report_lines.append("# TPV lint report\n")
+
+        result = subprocess.run(
+            ["tpv", "lint"] + tpv_files,
+            capture_output=True,
+            text=True,
+        )
+
+        # ---- PRINT EVERYTHING TO THE CHECKS LOG ----
+
+        if result.returncode != 0:
+            lint_failed = True
+            print("\n❌ **TPV lint failed**\n")
+        else:
+            print("\n✅ **TPV lint passed**\n")
+
+        if result.stdout:
+            print('STDOUT:')
+            print(result.stdout, flush=True)
+
+        if result.stderr:
+            print('STDERR:')
+            print(result.stderr, flush=True)
+
+        # ---- FAIL AFTER ALL OUTPUT IS VISIBLE ----
+        if lint_failed:
+            raise RuntimeError("tpv lint failed")
