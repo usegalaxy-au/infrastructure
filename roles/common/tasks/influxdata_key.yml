@@ -34,7 +34,7 @@
     regexp: "{{ item }}"
     state: absent
   with_items:
-  - 'signed-by=/etc/apt/keyrings/influxdata-archive\.gpg'
+  - 'signed-by=/usr/share/keyrings/influxdata-archive\.gpg'
   when: influxdata_list.stat.exists
 
 - name: Ensure /etc/apt/keyrings exists
