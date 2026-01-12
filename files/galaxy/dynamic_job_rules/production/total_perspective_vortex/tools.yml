@@ -3170,9 +3170,13 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/sceasy_convert/sceasy_convert/.*:
-    mem: 16
+    mem: 32
     params:
       singularity_enabled: true
+    rules:
+    - id: sceasy_convert_small_input_rule
+    if: input_size < 0.5
+    mem: 16
   toolshed.g2.bx.psu.edu/repos/iuc/seq2hla/seq2hla/.*:
     params:
       singularity_enabled: true
