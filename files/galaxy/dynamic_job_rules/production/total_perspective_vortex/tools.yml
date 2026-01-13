@@ -2959,23 +2959,26 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/.*:
     context:
       max_concurrent_job_count_for_tool_user: 3
-    cores: 16
-    mem: 62
+    cores: 4
+    mem: 16
     rules:
     - id: quast_small_input_rule
       if: input_size < 0.01
       cores: 2
       mem: 10
-    - id: quast_medium_input_rule
-      if: 0.01 <= input_size < 1
-      cores: 4
-      mem: 16
     - id: quast_singularity_rule
       if: |
         minimum_singularity_version = '5.3.0+galaxy0'  # TODO: test older versions with singularity
         helpers.tool_version_gte(tool, minimum_singularity_version)
       params:
         singularity_enabled: true
+    - id: tpvdb_quast_memory
+      # Quast has a vastly greater memory requirement when it generates alignments between scaffolds and a user-
+      # provided reference. This is particularly true if the ref genome is large.
+      if: |
+        helpers.job_args_match(job, app, {"assembly": {"ref": {"use_ref": "true"}}, "large": True})
+      cores: 16
+      mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/qiime_extract_viz/qiime_extract_viz/.*:
     params:
       singularity_enabled: true
