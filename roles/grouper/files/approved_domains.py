@@ -116,7 +116,6 @@ approved_domains = {
     "biocommons.org.au",
     "bioplatforms.com",
     "ccia.org.au",
-    "gebri.usc.edu.eg",
     "microbialscreening.com",
     "myco.org.au",
     "parrastu.catholic.edu.au",
