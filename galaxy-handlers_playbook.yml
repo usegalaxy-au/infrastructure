@@ -58,7 +58,7 @@
         - mounts
         - geerlingguy.pip
         - usegalaxy_eu.apptainer
-        - galaxyproject.galaxy
+        - galaxyproject.galaxy_release_25.1  # until client-25.1 branch is merged in ansible role
         # - role: galaxyproject.miniconda
         #   become: true
         #   become_user: galaxy
