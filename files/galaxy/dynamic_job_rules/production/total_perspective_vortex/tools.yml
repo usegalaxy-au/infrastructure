@@ -3173,7 +3173,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/sceasy_convert/sceasy_convert/.*:
     mem: 62
     params:
-      singularity_enabled: true
+      singularity_enabled: false  # 2026-01-13: test using conda environment
     rules:
     - id: sceasy_convert_small_input_rule
       if: input_size < 0.5
