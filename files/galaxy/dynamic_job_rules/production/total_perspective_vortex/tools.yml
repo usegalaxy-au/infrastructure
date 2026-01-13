@@ -3233,6 +3233,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/shovill/shovill/.*:
     cores: 10
     mem: 38.3
+    env:
+      SHOVILL_RAM: '{ max(mem, 8) }'  # shovill 1.4.1+ sets a minimum of 8 for --ram argument
+      SINGULARITYENV_SHOVILL_RAM: '{ max(mem, 8) }'
     params:
       singularity_enabled: true
     scheduling:
