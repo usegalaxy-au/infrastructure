@@ -39,7 +39,7 @@
     - common
     - mounts
     - geerlingguy.pip
-    - galaxyproject.galaxy
+    - galaxyproject.galaxy_release_25.1  # until client-25.1 branch is merged in ansible role
     # - role: galaxyproject.miniconda # this role is needed for a fresh installation, but for subsequent playbook runs can take far too much time. TODO: fix this somehow
     #   become: true
     #   become_user: galaxy

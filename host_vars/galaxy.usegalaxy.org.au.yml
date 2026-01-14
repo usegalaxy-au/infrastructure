@@ -34,7 +34,7 @@ nginx_ssl_servers:
 interactive_tools_server_name: "usegalaxy.org.au"
 
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_25.0
+galaxy_commit_id: release_25.1
 
 galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
 
