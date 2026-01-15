@@ -461,6 +461,8 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-quick
+      - pulsar-high-mem2
   toolshed.g2.bx.psu.edu/repos/bgruening/salmonquantmerge/salmonquantmerge/.*:
     cores: 2
     mem: 7.6
