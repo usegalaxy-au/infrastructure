@@ -1026,12 +1026,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/samtools_stats/.*:
     cores: 2
     mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/iuc/seacr/seacr/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/sicer/peakcalling_sicer/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/spaln/.*:
     params:
-      singularity_enabled: true  
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/squirrel_.*:
     params:
       singularity_enabled: true
