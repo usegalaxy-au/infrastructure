@@ -11,6 +11,12 @@ DROP TABLE IF EXISTS migration_mapping_tmp;
 
 BEGIN;
 
+\if :COMMIT_MODE
+CREATE TEMP TABLE migration_run_ts (run_ts text) ON COMMIT DROP;
+INSERT INTO migration_run_ts (run_ts)
+VALUES (to_char(clock_timestamp(), 'YYYYMMDD_HH24MISSMS'));
+\endif
+
 -- 1) Build temp table with proposed mappings
 CREATE TABLE migration_mapping_tmp AS
 WITH norm AS (
@@ -66,6 +72,20 @@ SELECT
   END AS change_type
 FROM proposed;
 
+-- In commit mode, persist a full backup of the original user table per run
+\if :COMMIT_MODE
+DO $$
+DECLARE
+  v_run_ts text;
+  v_backup_table text;
+BEGIN
+  SELECT run_ts INTO v_run_ts FROM migration_run_ts;
+  v_backup_table := 'galaxy_user_backup_' || v_run_ts;
+  EXECUTE format('CREATE TABLE %I AS TABLE galaxy_user', v_backup_table);
+  RAISE NOTICE 'Created backup user table: %', v_backup_table;
+END $$;
+\endif
+
 -- 2) Apply the update on the scratch table for REAL validation
 SAVEPOINT do_update;
 
@@ -102,6 +122,20 @@ BEGIN
       USING ERRCODE = 'unique_violation';
   END IF;
 END $$;
+
+-- In commit mode, persist a backup mapping table per run for rollback/inspection
+\if :COMMIT_MODE
+DO $$
+DECLARE
+  v_run_ts text;
+  v_backup_table text;
+BEGIN
+  SELECT run_ts INTO v_run_ts FROM migration_run_ts;
+  v_backup_table := 'migration_mapping_backup_' || v_run_ts;
+  EXECUTE format('CREATE TABLE %I AS TABLE migration_mapping_tmp', v_backup_table);
+  RAISE NOTICE 'Created backup mapping table: %', v_backup_table;
+END $$;
+\endif
 
 -- Build a compact JSON report into a TEMP TABLE
 CREATE TEMP TABLE migration_report_tmp AS
@@ -153,10 +187,6 @@ SELECT jsonb_build_object(
   ), '[]'::jsonb)
 ) AS report;
 
--- EXPORTS
-\copy migration_report_tmp TO 'migration_report.json'
-\copy (SELECT id, old_username, new_username, change_type FROM migration_mapping_tmp WHERE change_type != 'unchanged' ORDER BY id ) TO 'migration_mapping.csv' CSV HEADER
-
 -- if COMMIT_MODE == 1
 \if :COMMIT_MODE
 COMMIT;
@@ -171,6 +201,10 @@ ROLLBACK TO do_update;
 COMMIT;
 \echo 'Dry-run complete.'
 \endif
+
+-- EXPORTS (run after transaction so report write failures do not roll back data)
+\copy migration_report_tmp TO 'migration_report.json'
+\copy (SELECT id, old_username, new_username, change_type FROM migration_mapping_tmp WHERE change_type != 'unchanged' ORDER BY id ) TO 'migration_mapping.csv' CSV HEADER
 
 \echo 'JSON report: migration_report.json'
 \echo 'CSV mapping: migration_mapping.csv'
