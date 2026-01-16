@@ -1035,6 +1035,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/spaln/.*:
+    cores: 3
+    mem: 11.5
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/squirrel_.*:
