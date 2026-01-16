@@ -2008,10 +2008,21 @@ tools:
     params:
       singularity_enabled: true
     scheduling:
-      require:
-      - gtdbtk_database
       prefer:
       - pulsar
+    rules:
+    - id: gtdbtk_reference_data_scheduling_rule
+    - if: |
+        require_custom_indices_db = True
+        min_cvmfs_version = '2.4.0+galaxy0'
+        # above a certain version of gtdbtk, reference data
+        # is in cvmfs and tool can run anywhere with cvmfs
+        if helpers.tool_version_gte(tool, min_cvmfs_version):
+          require_custom_indices_db = False
+        require_custom_indices_db
+      scheduling:
+        require:
+        - gtdbtk_database
   toolshed.g2.bx.psu.edu/repos/iuc/gtdb_to_taxdump/gtdb_to_taxdump/.*:
     params:
       singularity_enabled: true
