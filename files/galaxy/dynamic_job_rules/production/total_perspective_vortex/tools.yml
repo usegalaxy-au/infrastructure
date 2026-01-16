@@ -2012,7 +2012,7 @@ tools:
       - pulsar
     rules:
     - id: gtdbtk_reference_data_scheduling_rule
-    - if: |
+      if: |
         require_custom_indices_db = True
         min_cvmfs_version = '2.4.0+galaxy0'
         # above a certain version of gtdbtk, reference data
