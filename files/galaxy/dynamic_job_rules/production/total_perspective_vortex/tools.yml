@@ -4238,6 +4238,8 @@ tools:
   join1:
     cores: 5
     mem: 19.1
+    params:
+      singularity_enabled: true
     rules:
     - id: join1_small_input_rule
       if: input_size < 10
