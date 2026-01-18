@@ -493,7 +493,6 @@ galaxy_scratch_storage_days: 60
 galaxy_extensions_dir: "{{ group_galaxy_config.galaxy.webhooks_dir }}"
 galaxy_extensions_enabled:
   - gtn
-  - news
   - lab_switcher
   - toolmsg
   - tips
