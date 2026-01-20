@@ -1,4 +1,26 @@
 tools:
+  __resubmittable_tool:
+    abstract: true
+    context:
+      base_mem: 3.8
+      mem_increment: 10
+    mem: |
+      # add mem_increment if job has been seen before, hence job.destination_params is populated
+      base_mem + mem_increment if job.destination_params else base_mem
+    resubmit:
+      resubmit_job_once_due_to_oom_error:
+        condition: memory_limit_reached and attempt <= 3  # this will only work once but keep attempt limit just in case it starts working 
+        destination: tpv_dispatcher
+  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/.*:
+    inherits: __resubmittable_tool
+    context:
+      base_mem: 2  # this would be 16 in production but set it low for testing
+      mem_increment: 20
+  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_info/.*:
+    inherits: __resubmittable_tool
+    context:
+      base_mem: 2
+      mem_increment: 20
   __DATA_FETCH__:
     params:
       tmp_dir: True
