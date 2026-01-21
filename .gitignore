@@ -19,47 +19,21 @@ terraform/pulsar-mel3/.terraform
 terraform/high-mem1/.terraform
 
 # from requirements.yml
-roles/galaxyproject.galaxy/
-roles/galaxyproject.nginx/
-roles/galaxyproject.cvmfs/
-roles/galaxyproject.postgresql/
-roles/galaxyproject.tusd
-roles/galaxyproject.tiaas2
-roles/galaxyproject.slurm
-# roles/galaxyproject.repos/ # Commented out as Simon made a modification so ppa is added to ubuntu 20.04
-roles/geerlingguy.*/
-roles/galaxyproject.postgresql_objects/
-roles/uchida.miniconda/
-roles/galaxyproject.miniconda
-roles/usegalaxy_eu.certbot/
-roles/usegalaxy_eu.galaxy_systemd/
-roles/usegalaxy_eu.gxadmin
-# roles/jasonroyle.rabbitmq # Commented out as we have made modifications to this role to update it for py3.
-roles/insspb.hostname
-roles/galaxyproject.pulsar
-roles/dj-wasabi.telegraf
-roles/galaxyproject.gxadmin
-roles/usegalaxy_eu.tiaas2
-roles/cloudalchemy.grafana
-roles/galaxyproject.miniconda
-roles/usegalaxy_eu.influxdb
-roles/cloudalchemy.grafana
-roles/cyverse-ansible.singularity
-roles/gantsign.golang
-roles/galaxyproject.repos
-roles/usegalaxy_eu.apptainer
-roles/usegalaxy_eu.rabbitmqserver
-roles/*.walle
+roles/*.*/
 roles/galaxy_extensions
+
+# We have made modifications to this role to update it for py3:
+!roles/jasonroyle.rabbitmq/*
+
+# Track Simon's roles:
+!roles/slg.*/*
+
+# Track galactic radiotelescope:
+!roles/usegalaxy-eu.galactic-radio-telescope/*
 
 # integration-testing virtual environment
 integration-testing/venv
 
-#dev roles
+# dev roles
 roles/dev-tiaas2
-
-roles/galaxyproject.s3fs
-roles/usegalaxy_eu.flower
-roles/usegalaxy_eu.galaxy_subdomains
-
 collections/ansible_collections/*
