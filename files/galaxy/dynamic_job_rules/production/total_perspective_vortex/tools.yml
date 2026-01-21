@@ -4359,3 +4359,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/aarnet_filesender/aarnet_filesender/.*:
     params:
       singularity_enabled: true
+
+  toolshed.g2.bx.psu.edu/repos/proteaglycosciences/glycombo/glycombo/.*:
+    params:
+      docker_enabled: true
+      singularity_enabled: false
