@@ -4359,3 +4359,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/aarnet_filesender/aarnet_filesender/.*:
     params:
       singularity_enabled: true
+
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/phastest/phastest/.*:
+    params:
+      singularity_enabled: false
+      docker_enabled: true
+      docker_volumes: "$defaults,/mnt/custom-indices:/mnt/custom-indices:ro"
+      docker_run_extra_arguments: "-e PHASTEST_DB_DIR=/mnt/custom-indices/phastest"
+    scheduling:
+      require:
+      - slurm
