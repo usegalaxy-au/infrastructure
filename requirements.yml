@@ -80,7 +80,7 @@ roles:
   version: 5.2.0
 - name: galaxy_extensions
   src: https://github.com/galaxyproject/ansible-role-extensions
-  version: 3b3b068
+  version: 75978c5
 
 # GMS roles
 - name: geerlingguy.nginx
