@@ -4364,7 +4364,7 @@ tools:
     params:
       singularity_enabled: false
       docker_enabled: true
-      docker_run_extra_arguments: "-e PHASTEST_DB_DIR=/mnt/custom-indices/phastest"
+      docker_run_extra_arguments: "-e PHASTEST_DB_PATH=/mnt/custom-indices/phastest"
     scheduling:
       require:
       - slurm
