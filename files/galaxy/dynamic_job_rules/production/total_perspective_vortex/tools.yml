@@ -4368,3 +4368,7 @@ tools:
     scheduling:
       require:
       - slurm
+  toolshed.g2.bx.psu.edu/repos/proteaglycosciences/glycombo/glycombo/.*:
+    params:
+      docker_enabled: true
+      singularity_enabled: false
