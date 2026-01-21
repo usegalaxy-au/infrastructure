@@ -4364,7 +4364,6 @@ tools:
     params:
       singularity_enabled: false
       docker_enabled: true
-      docker_volumes: "$defaults,/mnt/custom-indices:/mnt/custom-indices:ro"
       docker_run_extra_arguments: "-e PHASTEST_DB_DIR=/mnt/custom-indices/phastest"
     scheduling:
       require:
