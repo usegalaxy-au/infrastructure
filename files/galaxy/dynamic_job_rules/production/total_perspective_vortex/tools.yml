@@ -1307,6 +1307,9 @@ tools:
     mem: 20
     params:
       singularity_enabled: false
+  toolshed.g2.bx.psu.edu/repos/galaxyp/dbbuilder/dbbuilder/.*:
+    params:
+      singularity_enabled: false  # tests for version 0.3.4 fail with singularity enabled
   toolshed.g2.bx.psu.edu/repos/galaxyp/diann/diann/.*:
     params:
       docker_enabled: true
