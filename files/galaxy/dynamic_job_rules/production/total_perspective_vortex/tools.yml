@@ -282,7 +282,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/find_subsequences/bg_find_subsequences/.*:
     params:
       singularity_enabled: true
-      singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/biopython:1.70--np112py36_1
   toolshed.g2.bx.psu.edu/repos/bgruening/fpocket/.*:
     params:
       singularity_enabled: true
