@@ -1,0 +1,12 @@
+runners:
+  local:
+    load: galaxy.jobs.runners.local:LocalJobRunner
+    workers: 4
+handling:
+  assign:
+    - db-skip-locked
+execution:
+  default: local
+  environments:
+    local:
+      runner: local
