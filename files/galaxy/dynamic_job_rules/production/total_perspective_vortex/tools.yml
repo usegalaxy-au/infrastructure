@@ -4370,9 +4370,6 @@ tools:
       singularity_enabled: false
       docker_enabled: true
       docker_run_extra_arguments: "-e PHASTEST_DB_PATH=/mnt/custom-indices/phastest"
-    scheduling:
-      require:
-      - slurm
   toolshed.g2.bx.psu.edu/repos/proteaglycosciences/glycombo/glycombo/.*:
     params:
       docker_enabled: true
