@@ -1,3 +1,5 @@
+DROP VIEW IF EXISTS aaf_user_flags;
+
 CREATE TEMP VIEW aaf_user_flags AS
 WITH custos_tokens AS (
   SELECT
@@ -30,7 +32,10 @@ custos_agg AS (
         )
       )
     ) AS last_aaf_login_at,
-    max(ct.expiration_time) AS max_token_exp
+    max(ct.expiration_time) AS max_token_exp,
+    max(ct.claims->>'email') FILTER (
+      WHERE ct.claims->>'iss' = 'https://central.aaf.edu.au' AND ct.claims->>'email' IS NOT NULL
+    ) AS aaf_email
   FROM custos_tokens ct
   GROUP BY ct.user_id
 ),
@@ -55,6 +60,10 @@ SELECT
   ca.has_aaf,
   ca.last_aaf_login_at,
   ca.max_token_exp,
+  CASE
+    WHEN ca.aaf_email IS NOT NULL AND lower(ca.aaf_email) <> lower(u.email) THEN ca.aaf_email
+    ELSE NULL
+  END AS mismatching_aaf_email,
   GREATEST(sa.last_session_action, ha.last_history_update) AS last_activity_time,
   CASE
     WHEN ca.has_aaf
@@ -77,7 +86,7 @@ LEFT JOIN history_agg ha ON ha.user_id = u.id;
 
 
 -- Export detailed results
-\copy (SELECT id, email, username, has_aaf, last_aaf_login_at, last_activity_time, last_login_method_guess FROM aaf_user_flags ORDER BY id) TO 'aaf_user_flags.csv' WITH (FORMAT csv, HEADER true);
+\copy (SELECT id, email, username, has_aaf, last_aaf_login_at, mismatching_aaf_email, last_activity_time, last_login_method_guess FROM aaf_user_flags ORDER BY id) TO 'aaf_user_flags.csv' WITH (FORMAT csv, HEADER true);
 
 -- Export aggregate counts
-\copy (SELECT count(*) AS total_users, count(*) FILTER (WHERE last_login_method_guess = 'local') AS local_count, count(*) FILTER (WHERE last_login_method_guess = 'likely_local') AS likely_local_count, count(*) FILTER (WHERE last_login_method_guess = 'likely_aaf') AS likely_aaf_count, count(*) FILTER (WHERE last_login_method_guess = 'unknown') AS unknown_count, count(*) FILTER (WHERE has_aaf) AS has_aaf_count FROM aaf_user_flags) TO 'aaf_user_flags_aggregate.csv' WITH (FORMAT csv, HEADER true);
+\copy (SELECT count(*) AS total_users, count(*) FILTER (WHERE last_login_method_guess = 'local') AS local_count, count(*) FILTER (WHERE last_login_method_guess = 'likely_local') AS likely_local_count, count(*) FILTER (WHERE last_login_method_guess = 'likely_aaf') AS likely_aaf_count, count(*) FILTER (WHERE last_login_method_guess = 'unknown') AS unknown_count, count(*) FILTER (WHERE has_aaf) AS has_aaf_count, count(*) FILTER (WHERE mismatching_aaf_email IS NOT NULL) AS mismatching_email_count FROM aaf_user_flags) TO 'aaf_user_flags_aggregate.csv' WITH (FORMAT csv, HEADER true);
