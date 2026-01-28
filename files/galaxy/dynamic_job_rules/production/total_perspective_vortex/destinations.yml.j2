@@ -85,6 +85,7 @@ destinations:
         - funannotate
         - eggnog
         - verkko_venv
+        - phastest
   slurm-training:
     inherits: _slurm_destination
     runner: slurm
@@ -102,6 +103,7 @@ destinations:
         - funannotate
         - eggnog
         - verkko_venv
+        - phastest
       require:
         - training
   interactive_pulsar:
@@ -195,6 +197,7 @@ destinations:
       accept:
         - cvmfs_cache_100plus
         - cvmfs_cache_800plus
+        - phastest
       require:
         - pulsar
         - pulsar-high-mem2
