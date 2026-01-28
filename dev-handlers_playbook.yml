@@ -37,7 +37,7 @@
     - galaxyproject.repos
     - mounts
     - geerlingguy.pip
-    - galaxyproject.galaxy_release_25.1
+    - galaxyproject.galaxy
     # - role: galaxyproject.miniconda  # maybe this is never needed from the handlers playbook, will see
     #   become: true
     #   become_user: galaxy
