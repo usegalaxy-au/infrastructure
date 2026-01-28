@@ -4364,12 +4364,15 @@ tools:
       singularity_enabled: true
 
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/phastest/phastest/.*:
-    context:
-      max_concurrent_job_count_for_tool_user: 1
     params:
       singularity_enabled: false
       docker_enabled: true
       docker_run_extra_arguments: "-e PHASTEST_DB_PATH=/mnt/custom-indices/phastest"
+    scheduling:
+      prefer:
+        - pulsar
+      require:
+        - phastest
   toolshed.g2.bx.psu.edu/repos/proteaglycosciences/glycombo/glycombo/.*:
     params:
       docker_enabled: true
