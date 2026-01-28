@@ -41,7 +41,7 @@
     - mounts
     # - install-tpv # todo: this needs a when clause
     - geerlingguy.pip
-    - role: galaxyproject.galaxy_release_25.1
+    - role: galaxyproject.galaxy
       tags: galaxy
     - role: galaxyproject.miniconda
       become: true

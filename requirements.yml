@@ -4,10 +4,8 @@ collections:
 
 roles:
 - name: galaxyproject.galaxy
-  version: 0.12.0
-- name: galaxyproject.galaxy_release_25.1
   src: https://github.com/galaxyproject/ansible-galaxy
-  version: client-25.1
+  version: 0a5970e
 - name: galaxyproject.nginx
   version: 0.7.1  # NOTE: version 1.0.0 exists but fails on dev (16/09/2025)
 - name: galaxyproject.postgresql
