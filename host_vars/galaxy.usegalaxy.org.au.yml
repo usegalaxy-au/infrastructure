@@ -964,7 +964,7 @@ walle_extra_env_vars:
   PGHOST: "{{ db_address }}"
   GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
 
-nfs_monitor_slack_channel: "#dev-test-alerts"
+nfs_monitor_slack_channel: "#alerts"
 nfs_monitor_slack_token: "{{ vault_galaxy_australia_slack_api_token }}"
 # nfs_monitor_cron_enabled: false
 
