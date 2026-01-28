@@ -180,6 +180,7 @@ destinations:
         - cvmfs_cache_800plus
       require:
         - pulsar
+        - offline  # pending return of hifiasm job, 28/1/26
   pulsar-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-high-mem2_runner
