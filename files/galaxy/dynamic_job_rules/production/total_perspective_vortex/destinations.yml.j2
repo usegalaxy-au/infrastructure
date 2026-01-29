@@ -86,6 +86,7 @@ destinations:
         - eggnog
         - verkko_venv
         - phastest
+        - medaka_venv_211
   slurm-training:
     inherits: _slurm_destination
     runner: slurm
@@ -104,6 +105,7 @@ destinations:
         - eggnog
         - verkko_venv
         - phastest
+        - medaka_venv_211
       require:
         - training
   interactive_pulsar:
@@ -161,6 +163,7 @@ destinations:
         - bakta_database
         - funannotate
         - eggnog
+        - medaka_venv_211
         - training # Temporary reroute while training pulsar is offline
         # - pulsar-blast  # alternate location for pulsar blast jobs when pulsar-qld-blast is unavailable
       require:
@@ -259,6 +262,7 @@ destinations:
         - funannotate
         - gtdbtk_database
         - verkko_venv
+        - medaka_venv_211
       require:
         - pulsar
   pulsar-qld-high-mem2:
