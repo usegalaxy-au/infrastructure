@@ -34,7 +34,6 @@
     - galaxyproject.nginx
     - geerlingguy.docker
     - usegalaxy_eu.influxdbserver
-    - slg.influx_objects
     - dj-wasabi.telegraf
     - grafana
 
