@@ -195,9 +195,8 @@ grafana_data_dir: /mnt/grafana_data
 grafana_instance: "{{ hostname }}"
 grafana_address: "127.0.0.1"
 grafana_url: "https://{{ hostname }}"
-grafana_server:
-    domain: "{{ hostname }}"
-    root_url: "https://%(domain)s/"
+grafana_domain: "{{ hostname }}"
+#grafana_server: {} # deprecated
 
 
 grafana_users:
