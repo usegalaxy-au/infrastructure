@@ -23,6 +23,6 @@ roles:
     version: 17cb94c1fb92a00f3d50786c73d97bc2baae8f91
   - src: geerlingguy.docker  # TODO: test upgrading to latest version
     version: 4.1.3
-  - name: usegalaxy_eu.influxdbserver
+  - name: usegalaxy_eu.influxdbserver # TODO update to galaxyau version with fixes integrated
     version: 1.1.2
 
