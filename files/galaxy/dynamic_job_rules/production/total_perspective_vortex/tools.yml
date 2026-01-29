@@ -2361,19 +2361,24 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_.*:
     params:
       singularity_enabled: true
+    rules:
+    - id: medaka_conda_rule
+      if: helpers.tool_version_eq(tool, "2.1.1+galaxy0") 
+      params:
+        singularity_enabled: false  # cffi installed in conda env alongside requirements
+      scheduling:
+        require:
+        - medaka_venv_211
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus/medaka_consensus/.*:
     cores: 4
     mem: 15.3
-    params:
-      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus_pipeline/medaka_consensus_pipeline/.*:
     cores: 20
     mem: 200
-    params:
-      singularity_enabled: true
     scheduling:
       accept:
       - pulsar
+      - pulsar-quick
     rules:
     - id: medaka_consensus_pipeline_small_input_rule
       if: input_size < 0.5
