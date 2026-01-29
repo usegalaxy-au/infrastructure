@@ -2378,6 +2378,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-quick
     rules:
     - id: medaka_consensus_pipeline_small_input_rule
       if: input_size < 0.5
