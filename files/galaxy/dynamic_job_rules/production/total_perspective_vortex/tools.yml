@@ -1785,8 +1785,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/compleasm/compleasm/.*:
-    cores: 5
-    mem: 19.1
+    cores: 9
+    mem: 34.5
     params:
       singularity_enabled: true
     rules:
