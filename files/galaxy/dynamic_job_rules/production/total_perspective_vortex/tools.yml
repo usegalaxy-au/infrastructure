@@ -1329,6 +1329,9 @@ tools:
       require:
       - eggnog
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper/.*:
+    env:
+      EGGNOG_DBMEM: ""
+      SINGULARITYENV_EGGNOG_DBMEM: ""
     cores: 8
     mem: 31.2
   toolshed.g2.bx.psu.edu/repos/galaxyp/eggnog_mapper/eggnog_mapper_search/.*:
