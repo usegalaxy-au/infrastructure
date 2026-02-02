@@ -4377,6 +4377,8 @@ tools:
       docker_enabled: true
       docker_run_extra_arguments: "-e PHASTEST_DB_PATH=/mnt/custom-indices/phastest"
     scheduling:
+      accept:
+        - pulsar-high-mem2
       prefer:
         - pulsar
       require:
