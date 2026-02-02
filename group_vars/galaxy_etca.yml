@@ -32,20 +32,20 @@ test_object_store_paths_enabled: False # assume false unless set to true
 qld_file_mounts_path: /mnt/user-data-qld
 pawsey_file_mounts_path: /mnt/user-data-pawsey
 
-galaxy_user_data_nfs_opts: 'noatime,defaults'
+galaxy_user_data_nfs_opts: 'noatime,rsize=1048576,wsize=1048576,defaults'  # overridden in host_vars/galaxy to include actimeo=1
 
 galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_handlers and workers
   # scratch server: the new home of job working directories (May 2024)
   - path: /mnt/scratch
     src: nsw-etca-pfnfs1.aarnet.net.au:/data/galaxy/scratch
-    opts: proto=tcp,noatime
+    opts: proto=tcp,rsize=1048576,wsize=1048576,noatime
     fstype: nfs
     state: mounted
   # galaxy-misc-nfs
   - path: /mnt/tools
     src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/tools"
     fstype: nfs
-    opts: 'noatime,defaults'
+    opts: 'noatime,rsize=1048576,wsize=1048576,defaults'
     state: mounted
   - path: /mnt/custom-indices
     src: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}:/mnt/custom-indices"
@@ -56,7 +56,7 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     src: "{{ hostvars['galaxy-job-nfs']['internal_ip'] }}:/mnt/tmp"
     fstype: nfs
     state: mounted
-    opts: 'noatime,defaults'
+    opts: 'noatime,rsize=1048576,wsize=1048576,defaults'
   # galaxy-user-nfs
   - path: /mnt/user-data-volA # 208T volume
     src: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}:/mnt/volA"
@@ -77,12 +77,12 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
   - path: "{{ qld_file_mounts_path }}/files"
     src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
     fstype: nfs
-    opts: 'noatime,defaults'
+    opts: 'noatime,rsize=1048576,wsize=1048576,defaults'
     state: "{{ 'mounted' if qld_file_mounts_available else 'absent_from_fstab' }}"
   - path: "{{ qld_file_mounts_path }}/files2"
     src: "galaxy-aust-exports.genome.edu.au:/mnt/user-data"
     fstype: nfs
-    opts: 'noatime,defaults'
+    opts: 'noatime,rsize=1048576,wsize=1048576,defaults'
     state: "{{ 'mounted' if qld_file_mounts_available else 'absent_from_fstab' }}"
 
 galaxy_worker_mounts:
