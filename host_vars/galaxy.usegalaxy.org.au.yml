@@ -210,6 +210,7 @@ host_galaxy_config: # renamed from __galaxy_config
 
     celery_conf:
       result_backend: "redis://:{{ vault_redis_requirepass }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:6379/0"
+      result_expires: 259200  # in sec = 3 days (default is 1 day)
       # result_backend: "{{ redis_connection_string }}"
       task_routes:
         galaxy.fetch_data: disabled
