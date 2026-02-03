@@ -1256,6 +1256,7 @@ tools:
       SINGULARITYENV_USE_OPENMP: 1
     params:
       singularity_enabled: true
+      cleanup_job: never   # THIS IS FOR A SINGLE TEST!!! REVERT THIS IMMEDIATELY
     #scheduling:
     #  accept:
     #  - pulsar
