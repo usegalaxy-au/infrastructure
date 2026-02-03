@@ -1355,7 +1355,7 @@ tools:
     mem: 125
     rules:
       - id: fragpipe_pulsar_rule
-        if: helpers.tool_version_gte(tool, '23.0+galaxy2')  # actually make this whatever version my PR gets merged into
+        if: helpers.tool_version_gte(tool, '23.0+galaxy3')
         mem: 350
         scheduling:
           accept:
