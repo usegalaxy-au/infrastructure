@@ -1249,11 +1249,13 @@ tools:
     context:
       test_cores: 10
       max_concurrent_job_count_for_tool_user: 1
+    env:
+      OPENBLAS_NUM_THREADS: 1
+      SINGULARITYENV_OPENBLAS_NUM_THREADS: 1
     cores: 16
     mem: 62
     params:
       singularity_enabled: true
-      cleanup_job: never   # THIS IS FOR A SINGLE TEST!!! REVERT THIS IMMEDIATELY
     #scheduling:
     #  accept:
     #  - pulsar
