@@ -1256,7 +1256,6 @@ tools:
     mem: 62
     params:
       singularity_enabled: true
-      cleanup_job: never   # THIS IS FOR A SINGLE TEST!!! REVERT THIS IMMEDIATELY
     #scheduling:
     #  accept:
     #  - pulsar
