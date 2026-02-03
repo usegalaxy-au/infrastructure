@@ -1250,8 +1250,8 @@ tools:
       test_cores: 10
       max_concurrent_job_count_for_tool_user: 1
     env:
-      OPENBLAS_NUM_THREADS: 1
-      SINGULARITYENV_OPENBLAS_NUM_THREADS: 1
+      OPENBLAS_NUM_THREADS: 4
+      SINGULARITYENV_OPENBLAS_NUM_THREADS: 4
     cores: 16
     mem: 62
     params:
