@@ -1251,11 +1251,9 @@ tools:
       max_concurrent_job_count_for_tool_user: 1
     cores: 16
     mem: 62
-    env:
-      USE_OPENMP: 1
-      SINGULARITYENV_USE_OPENMP: 1
     params:
       singularity_enabled: true
+      cleanup_job: never   # THIS IS FOR A SINGLE TEST!!! REVERT THIS IMMEDIATELY
     #scheduling:
     #  accept:
     #  - pulsar
