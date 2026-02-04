@@ -152,17 +152,20 @@ retention_policy_dbs:
   - 'mdu-phl'
   - 'mdu-research'
 
-retention_policy_8w_dbs:
-  - 'galaxy_etca'
-
-# the influxdb-container role only suports creating a single retention policy
-# retention_policy_8w_dbs will need to be created separately
 influxdb_retention_policy:
   policy_name: twoweeks
   duration: 14d
   replication: 1
   default: "DEFAULT"
   databases: "{{ retention_policy_dbs }}"
+
+influxdb_custom_retention_policy:
+  policy_name: two_months
+  duration: 8w
+  replication: 1
+  default: "DEFAULT"
+  databases:
+    - galaxy_etca
 
 # influxdb container volumes, ports and environment
 # We override the whole env dict so we can fix the SYZE typo
