@@ -107,8 +107,10 @@ influxdb_users:
   regular:
     - username: "{{ influxdb.grafana.username }}"
       password: "{{ influxdb.grafana.password }}"
+      perms: "READ"
     - username: "{{ influxdb.node.username }}"
       password: "{{ influxdb.node.password }}"
+      perms: "ALL"
 
 #Influx DB objects
 influxdb_databases:
