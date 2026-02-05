@@ -11,6 +11,7 @@ nfs_data29_dir: "{{ volA_path }}/data29"
 nfs_data30_dir: "{{ volA_path }}/data30"
 nfs_data33_dir: "{{ volA_path }}/data33"
 nfs_data36_dir: "{{ volA_path }}/data36"
+nfs_data37_dir: "{{ volA_path }}/data37"
 
 # volume B (50 TB)
 # data folders moved to QLD, September 2025 (data08, data09, data12, data15, data17, data20)
@@ -57,6 +58,7 @@ nfs_dirs:
   - "{{ nfs_data34_dir }}"
   - "{{ nfs_data35_dir }}"
   - "{{ nfs_data36_dir }}"
+  - "{{ nfs_data37_dir }}"
 
 nfs_exports:
   - "{{ volA_path }} {{ hostvars['galaxy'].internal_ip.split('.')[:-1] | join('.') }}.0/24(rw,async,no_root_squash,no_subtree_check)"
