@@ -33,7 +33,7 @@
     - common
     - galaxyproject.nginx
     - geerlingguy.docker
-    - usegalaxy_eu.influxdbserver
+    - usegalaxy-au.influxdbserver
     - dj-wasabi.telegraf
     - grafana
 
