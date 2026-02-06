@@ -26,12 +26,14 @@
         selection: hold
       when: "'grafana' in ansible_facts.packages"
 
+  collections:
+    - grafana.grafana
+
   roles:
     - common
     - galaxyproject.nginx
-    - usegalaxy_eu.influxdb
-    - slg.influx_objects
-    - cloudalchemy.grafana
     - geerlingguy.docker
+    - usegalaxy-au.influxdbserver
     - dj-wasabi.telegraf
-  
+    - grafana
+
