@@ -1699,22 +1699,38 @@ tools:
       params:
         singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/mulled-v2-e5d375990341c5aef3c9aff74f96f66f65375ef6:c5b8c4b7735290369693e2b63cfc1ea0732fde07-0
     # override all shared-db file size rules for bwa_mem2 because they do not have higher enough mem values
-    - id: tpvdb_bwa_mem2_small_input_rule
+    # - id: tpvdb_bwa_mem2_small_input_rule
+    #   if: input_size < 0.25
+    #   cores: 4
+    #   mem: 15.5
+    # - id: tpvdb_bwa_mem2_medium_input_rule
+    #   if: 0.25 <= input_size < 16
+    #   cores: 8
+    #   mem: 100
+    # - id: tpvdb_bwa_mem2_large_input_rule
+    #   if: 16 <= input_size < 32
+    #   cores: 20
+    #   mem: 250
+    # - id: tpvdb_bwa_mem2_xlarge_input_rule
+    #   if: 32 <= input_size < 64
+    #   cores: 20
+    #   mem: 250
+    - id: bwa_mem2_small_input_rule
       if: input_size < 0.25
       cores: 4
       mem: 15.5
-    - id: tpvdb_bwa_mem2_medium_input_rule
+    - id: bwa_mem2_medium_input_rule
       if: 0.25 <= input_size < 16
       cores: 8
       mem: 100
-    - id: tpvdb_bwa_mem2_large_input_rule
+    - id: bwa_mem2_large_input_rule
       if: 16 <= input_size < 32
       cores: 20
       mem: 250
-    - id: tpvdb_bwa_mem2_xlarge_input_rule
-      if: 32 <= input_size < 64
+    - id: bwa_mem2_xlarge_input_rule
+      if: 32 <= input_size
       cores: 20
-      mem: 250   
+      mem: 250    
     - id: bwa_mem2_fail_rule
       if: input_size > 200
       fail: "Too much data: There is a limit of 200GB of input for bwa_mem2 jobs. Please note that bwa_mem2 will accept compressed fastsanger.gz input data. Email help@genome.edu.au with any enquiries."
