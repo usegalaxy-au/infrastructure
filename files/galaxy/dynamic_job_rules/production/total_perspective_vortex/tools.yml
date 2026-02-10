@@ -347,6 +347,9 @@ tools:
       scheduling:
         prefer:
         - pulsar-high-mem1
+  toolshed.g2.bx.psu.edu/repos/bgruening/imagemagick_image_montage/imagemagick_image_montage/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/infernal/infernal_.*:
     params:
       singularity_enabled: true
@@ -1750,6 +1753,9 @@ tools:
       if: 1 <= input_size < 20
       cores: 8
       mem: 30.7
+  toolshed.g2.bx.psu.edu/repos/iuc/calculate_numeric_param/calculate_numeric_param/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/cami_amber.*:
     params:
       singularity_enabled: true
@@ -2820,6 +2826,9 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/nextclade/nextclade/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/pairtools_.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/pathview/pathview/.*:
