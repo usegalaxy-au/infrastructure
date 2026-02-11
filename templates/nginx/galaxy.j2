@@ -19,6 +19,12 @@ map "$log_lab:$log_tool_click" $log_lab_tool {
     default 0;
     "1:1" 1;
 }
+{% if aai_enabled %}
+map $http_origin $cors_allow_origin {
+    default "";
+    "~^https://({{ hostname }}|{{ auth0_registration_endpoint | replace('https://', '') | split('/') | first }})$" $http_origin;
+}
+{% endif %}
 
 upstream galaxy {
 {% set num_gunicorn_processes = galaxy_config.gravity.gunicorn | length %}
@@ -66,6 +72,29 @@ server {
         add_header X-LabWelcome $log_lab_welcome;
         add_header X-LabTool $log_lab_tool;
     }
+
+    {% if aai_enabled %}
+
+    location = /authnz/oidc/login {
+        proxy_pass http://galaxy;
+        # Only add CORS for cross-origin callers we allow
+        if ($cors_allow_origin != "") {
+            add_header Access-Control-Allow-Origin $cors_allow_origin always;
+            add_header Access-Control-Allow-Methods "GET, OPTIONS" always;
+            add_header Access-Control-Allow-Headers "Content-Type, Authorization" always;
+            # If you need cookies/tokens across origins (you might have to test this):
+            add_header Access-Control-Allow-Credentials "true" always;
+        }
+        # Preflight for cross-origin callers
+        if ($request_method = OPTIONS) {
+            add_header Access-Control-Max-Age 86400 always;
+            add_header Content-Length 0 always;
+            add_header Content-Type text/plain always;
+            return 204;
+        }
+    }
+
+    {% endif %}
 
     location ~ ^/api/dataset_collections/([^/]+)/download/?$ {
         proxy_buffering off;
