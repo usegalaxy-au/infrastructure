@@ -52,41 +52,67 @@ history_agg AS (
     max(h.update_time) AS last_history_update
   FROM history h
   GROUP BY h.user_id
+),
+base AS (
+  SELECT
+    u.id,
+    u.email,
+    u.username,
+    u.create_time,
+    u.password,
+    ca.has_aaf,
+    ca.last_aaf_login_at,
+    ca.max_token_exp,
+    CASE
+      WHEN ca.aaf_email IS NOT NULL AND lower(ca.aaf_email) <> lower(u.email) THEN ca.aaf_email
+      ELSE NULL
+    END AS mismatching_aaf_email,
+    GREATEST(sa.last_session_action, ha.last_history_update) AS last_activity_time,
+    CASE
+      WHEN ca.has_aaf
+           AND ca.last_aaf_login_at IS NOT NULL
+           AND GREATEST(sa.last_session_action, ha.last_history_update) BETWEEN ca.last_aaf_login_at - interval '7 days'
+                                           AND ca.last_aaf_login_at + interval '7 days'
+        THEN 'likely_aaf'
+      WHEN ca.has_aaf
+           AND ca.last_aaf_login_at IS NOT NULL
+           AND GREATEST(sa.last_session_action, ha.last_history_update) > ca.last_aaf_login_at + interval '7 days'
+        THEN 'likely_local'
+      WHEN COALESCE(ca.has_aaf, false) = false THEN 'local'
+      ELSE 'unknown'
+    END AS last_login_method_guess
+  FROM galaxy_user u
+  LEFT JOIN custos_agg ca ON ca.user_id = u.id
+  LEFT JOIN session_agg sa ON sa.user_id = u.id
+  LEFT JOIN history_agg ha ON ha.user_id = u.id
+  WHERE u.purged = false
+),
+proposed AS (
+  SELECT
+    b.*,
+    CASE
+      WHEN b.mismatching_aaf_email IS NULL THEN NULL
+      WHEN b.last_login_method_guess = 'likely_aaf' THEN b.mismatching_aaf_email
+      WHEN b.last_login_method_guess = 'likely_local' THEN b.email
+      ELSE NULL
+    END AS proposed_email
+  FROM base b
 )
 SELECT
-  u.id,
-  u.email,
-  u.username,
-  ca.has_aaf,
-  ca.last_aaf_login_at,
-  ca.max_token_exp,
+  p.*,
   CASE
-    WHEN ca.aaf_email IS NOT NULL AND lower(ca.aaf_email) <> lower(u.email) THEN ca.aaf_email
-    ELSE NULL
-  END AS mismatching_aaf_email,
-  GREATEST(sa.last_session_action, ha.last_history_update) AS last_activity_time,
-  CASE
-    WHEN ca.has_aaf
-         AND ca.last_aaf_login_at IS NOT NULL
-         AND GREATEST(sa.last_session_action, ha.last_history_update) BETWEEN ca.last_aaf_login_at - interval '7 days'
-                                         AND ca.last_aaf_login_at + interval '7 days'
-      THEN 'likely_aaf'
-    WHEN ca.has_aaf
-         AND ca.last_aaf_login_at IS NOT NULL
-         AND GREATEST(sa.last_session_action, ha.last_history_update) > ca.last_aaf_login_at + interval '7 days'
-      THEN 'likely_local'
-    WHEN COALESCE(ca.has_aaf, false) = false THEN 'local'
-    ELSE 'unknown'
-  END AS last_login_method_guess
-FROM galaxy_user u
-LEFT JOIN custos_agg ca ON ca.user_id = u.id
-LEFT JOIN session_agg sa ON sa.user_id = u.id
-LEFT JOIN history_agg ha ON ha.user_id = u.id;
-
-
+    WHEN p.proposed_email IS NULL THEN false
+    ELSE EXISTS (
+      SELECT 1
+      FROM base b2
+      WHERE lower(b2.email) = lower(p.proposed_email)
+        AND b2.id <> p.id
+    )
+  END AS proposed_email_conflict
+FROM proposed p;
 
 -- Export detailed results
-\copy (SELECT id, email, username, has_aaf, last_aaf_login_at, mismatching_aaf_email, last_activity_time, last_login_method_guess FROM aaf_user_flags ORDER BY id) TO 'aaf_user_flags.csv' WITH (FORMAT csv, HEADER true);
+\copy (SELECT id, email, username, create_time, password, has_aaf, last_aaf_login_at, mismatching_aaf_email, proposed_email, proposed_email_conflict, last_activity_time, last_login_method_guess FROM aaf_user_flags ORDER BY id) TO 'aaf_user_flags.csv' WITH (FORMAT csv, HEADER true);
 
 -- Export aggregate counts
-\copy (SELECT count(*) AS total_users, count(*) FILTER (WHERE last_login_method_guess = 'local') AS local_count, count(*) FILTER (WHERE last_login_method_guess = 'likely_local') AS last_login_likely_local, count(*) FILTER (WHERE last_login_method_guess = 'likely_aaf') AS last_login_likely_aaf, count(*) FILTER (WHERE last_login_method_guess = 'unknown') AS unknown_count, count(*) FILTER (WHERE has_aaf) AS has_aaf_count, count(*) FILTER (WHERE mismatching_aaf_email IS NOT NULL) AS mismatching_email_count, count(*) FILTER (WHERE mismatching_aaf_email IS NOT NULL AND last_login_method_guess = 'likely_aaf') AS mismatching_emails_last_login_aaf_count FROM aaf_user_flags) TO 'aaf_user_flags_aggregate.csv' WITH (FORMAT csv, HEADER true);
+\copy (SELECT count(*) AS total_users, count(*) FILTER (WHERE last_login_method_guess = 'local') AS local_count, count(*) FILTER (WHERE last_login_method_guess = 'likely_local') AS last_login_likely_local, count(*) FILTER (WHERE last_login_method_guess = 'likely_aaf') AS last_login_likely_aaf, count(*) FILTER (WHERE last_login_method_guess = 'unknown') AS unknown_count, count(*) FILTER (WHERE has_aaf) AS has_aaf_count, count(*) FILTER (WHERE mismatching_aaf_email IS NOT NULL) AS mismatching_email_count, count(*) FILTER (WHERE mismatching_aaf_email IS NOT NULL AND last_login_method_guess = 'likely_aaf') AS mismatching_emails_last_login_aaf_count, count(*) FILTER (WHERE proposed_email_conflict) AS conflict_count FROM aaf_user_flags) TO 'aaf_user_flags_aggregate.csv' WITH (FORMAT csv, HEADER true);
