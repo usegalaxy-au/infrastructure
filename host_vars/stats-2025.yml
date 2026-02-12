@@ -1,5 +1,5 @@
 #Hostname
-hostname: stats-2025.usegalaxy.org.au
+hostname: "{{ inventory_hostname }}.usegalaxy.org.au"
 
 # Volume
 attached_volumes:
@@ -117,11 +117,8 @@ influxdb_databases:
   # Clusters
   - 'pulsar-mel2'
   - 'pulsar-mel3'
-  - 'pulsar-paw'
   - 'pulsar-nci-training'
   - 'galaxy_etca'
-  - 'aarnet'
-  - 'pawsey'
   - 'pulsar-QLD'
   # Others
   - 'pulsar-special'
@@ -132,16 +129,12 @@ influxdb_databases:
   - 'dev'
   - 'mdu-phl'
   - 'mdu-research'
-  - 'aarnet-testing'
 
 retention_policy_dbs:
   # Clusters
   - 'pulsar-mel2'
   - 'pulsar-mel3'
-  - 'pulsar-paw'
   - 'pulsar-nci-training'
-  - 'aarnet'
-  - 'pawsey'
   - 'pulsar-QLD'
   # Others
   - 'pulsar-special'
@@ -188,12 +181,13 @@ influxdb_container_standalone_setup_details:
     INFLUXDB_DATA_CACHE_SNAPSHOT_WRITE_COLD_DURATION: "{{ influxdb_data_cache_snapshot_write_cold_duration }}"
     INFLUXDB_DATA_MAX_VALUES_PER_TAG: "{{ influxdb_data_max_values_per_tag | string }}"
     INFLUXDB_LOGGING_LEVEL: "{{ influxdb_logging_level }}"
+  ulimits:
+   - "nofile:96000:96000"
 
 
 ###### Grafana
 
-# TODO set version (installed version on Ubuntu 24.04 LTS) so doesn't update Grafana when role is executed again
-#grafana_version: "12.3.0"
+grafana_version: "12.3.2"
 
 # Grafana General
 grafana_data_dir: /mnt/grafana_data
