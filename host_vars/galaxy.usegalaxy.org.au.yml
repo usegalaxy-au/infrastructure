@@ -522,7 +522,7 @@ job_conf_limits:
     value: 80
   - type: destination_user_concurrent_jobs
     id: slurm
-    value: 5
+    value: 7
 
   - type: destination_total_concurrent_jobs
     id: slurm-training
