@@ -108,11 +108,28 @@ SELECT
       WHERE lower(b2.email) = lower(p.proposed_email)
         AND b2.id <> p.id
     )
-  END AS proposed_email_conflict
+  END AS proposed_email_conflict,
+  CASE
+    WHEN p.proposed_email IS NULL THEN NULL
+    WHEN EXISTS (
+      SELECT 1
+      FROM base b2
+      WHERE lower(b2.email) = lower(p.proposed_email)
+        AND b2.id <> p.id
+    ) THEN p.proposed_email
+    ELSE NULL
+  END AS conflicting_email,
+  (
+    SELECT string_agg(b2.id::text, ',' ORDER BY b2.id)
+    FROM base b2
+    WHERE p.proposed_email IS NOT NULL
+      AND lower(b2.email) = lower(p.proposed_email)
+      AND b2.id <> p.id
+  ) AS conflicting_user_ids
 FROM proposed p;
 
 -- Export detailed results
-\copy (SELECT id, email, username, create_time, password, has_aaf, last_aaf_login_at, mismatching_aaf_email, proposed_email, proposed_email_conflict, last_activity_time, last_login_method_guess FROM aaf_user_flags ORDER BY id) TO 'aaf_user_flags.csv' WITH (FORMAT csv, HEADER true);
+\copy (SELECT id, email, username, create_time, password, has_aaf, last_aaf_login_at, mismatching_aaf_email, proposed_email, proposed_email_conflict, conflicting_email, conflicting_user_ids, last_activity_time, last_login_method_guess FROM aaf_user_flags ORDER BY id) TO 'aaf_user_flags.csv' WITH (FORMAT csv, HEADER true);
 
 -- Export aggregate counts
 \copy (SELECT count(*) AS total_users, count(*) FILTER (WHERE last_login_method_guess = 'local') AS local_count, count(*) FILTER (WHERE last_login_method_guess = 'likely_local') AS last_login_likely_local, count(*) FILTER (WHERE last_login_method_guess = 'likely_aaf') AS last_login_likely_aaf, count(*) FILTER (WHERE last_login_method_guess = 'unknown') AS unknown_count, count(*) FILTER (WHERE has_aaf) AS has_aaf_count, count(*) FILTER (WHERE mismatching_aaf_email IS NOT NULL) AS mismatching_email_count, count(*) FILTER (WHERE mismatching_aaf_email IS NOT NULL AND last_login_method_guess = 'likely_aaf') AS mismatching_emails_last_login_aaf_count, count(*) FILTER (WHERE proposed_email_conflict) AS conflict_count FROM aaf_user_flags) TO 'aaf_user_flags_aggregate.csv' WITH (FORMAT csv, HEADER true);
