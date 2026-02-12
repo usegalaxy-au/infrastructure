@@ -93,7 +93,7 @@ proposed AS (
     CASE
       WHEN b.mismatching_aaf_email IS NULL THEN NULL
       WHEN b.last_login_method_guess = 'likely_aaf' THEN b.mismatching_aaf_email
-      WHEN b.last_login_method_guess = 'likely_local' THEN b.email
+      WHEN b.last_login_method_guess = 'likely_local' THEN b.mismatching_aaf_email
       ELSE NULL
     END AS proposed_email
   FROM base b
