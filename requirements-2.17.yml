@@ -25,4 +25,5 @@ roles:
     version: 4.1.3
   - name: usegalaxy-au.influxdbserver
     src: https://github.com/usegalaxy-au/ansible-influxdb-container
+    version: 2669ec8
 
