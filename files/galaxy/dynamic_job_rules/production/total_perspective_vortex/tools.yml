@@ -1401,14 +1401,15 @@ tools:
       accept:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
-    context:
-      partition: msconvert
-    cores: 1
-    mem: 3.8
     params:
       docker_enabled: true
       singularity_enabled: false
       tmp_dir: true
+    rules:
+      - id: msconvert_partition_rule
+        if: helpers.tool_version_lt(tool, '3.0.20287.6')
+        context:
+          partition: msconvert
   toolshed.g2.bx.psu.edu/repos/galaxyp/openms_openswathworkflow/OpenSwathWorkflow/.*:
     mem: 62
   toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker/.*:
