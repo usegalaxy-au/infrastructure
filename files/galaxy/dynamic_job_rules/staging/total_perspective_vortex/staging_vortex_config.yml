@@ -21,7 +21,7 @@ tools:
       partition: main
   toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
     context:
-      partition: msconvert
+      partition: main
 
 
 users:
