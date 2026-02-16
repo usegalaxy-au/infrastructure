@@ -31,6 +31,10 @@ slurm_partitions:
       Default: YES
       MaxTime: '30-00:00:00'
       State: UP
+    - name: msconvert
+      nodes: "staging-w1"
+      Default: NO
+      State: UP
 
 slurm_controller_host: staging-queue
 
