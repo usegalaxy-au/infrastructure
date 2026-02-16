@@ -19,6 +19,10 @@ tools:
   interactive_tool_.*:
     context:
       partition: main
+  toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
+    context:
+      partition: msconvert
+
 
 users:
   test_user:
