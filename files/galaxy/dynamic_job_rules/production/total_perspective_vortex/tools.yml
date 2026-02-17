@@ -4023,6 +4023,14 @@ tools:
     - id: rbc_mafft_fail_rule
       if: input_size >= 0.5
       fail: Too much data, please don't use MAFFT for this.
+  toolshed.g2.bx.psu.edu/repos/devteam/fasta_formatter/cshl_fasta_formatter/.*:
+    cores: 1
+    mem: 11.5
+    rules:
+    - id: fasta_formatter_small_input_rule
+      if: input_size < 3
+      cores: 1
+      mem: 3.8
   toolshed.g2.bx.psu.edu/repos/rnateam/sortmerna/bg_sortmerna/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
