@@ -2533,6 +2533,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/iuc/modify_loom/modify_loom/.*:
     params:
       singularity_enabled: true

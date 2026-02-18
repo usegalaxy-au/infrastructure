@@ -146,7 +146,7 @@ destinations:
         - eggnog
       require:
         - pulsar
-        - offline
+
   pulsar-mel3:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
@@ -336,6 +336,7 @@ destinations:
         - cvmfs_cache_100plus
         - funannotate
         - bakta_database
+        - eggnog
       require:
         - pulsar
         - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
