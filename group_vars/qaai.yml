@@ -60,6 +60,18 @@ __machine_users:
       galaxy_admin: true
       email: "{{ nuwan_email }}"
 
+    - name: igor
+      uid: 7101
+      roles:
+        - galaxy_admin
+      key: files/keys/igor.pub
+      email: "{{ igor_email }}"
+    - name: gareth
+      uid: 7102
+      roles:
+        - galaxy_admin
+      key: files/keys/gareth.pub
+      email: "{{ gareth_email }}"
 
 # Control whether AAI settings are being used
 aai_enabled: true  # No OIDC variables yet so set this to false for initial run
