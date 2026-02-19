@@ -69,6 +69,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/bgruening/augustus/augustus/.*:
     cores: 8
     mem: 30.7
