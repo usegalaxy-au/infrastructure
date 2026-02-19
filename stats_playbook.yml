@@ -1,10 +1,10 @@
-- hosts: stats-2025
+- hosts: stats
   become: true
   vars_files:
     - group_vars/all.yml
     - group_vars/VAULT
     - secret_group_vars/stats_server_vault
-    - host_vars/stats-2025.yml
+    - host_vars/stats.usegalaxy.org.au.yml
   pre_tasks:
     - name: install xfsprogs
       package:
