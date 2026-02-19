@@ -2291,7 +2291,7 @@ tools:
       singularity_enabled: true  
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 4
+      max_concurrent_job_count_for_tool_user: 2  # reduced from 4 on 19/2/26 due to unusually slow jobs causing a queue
     # Galaxy Main's kraken2 memory rule
     cores: 16
     mem: |
