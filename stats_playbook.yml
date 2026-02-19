@@ -1,8 +1,10 @@
-- hosts: stats_servers
+- hosts: stats
   become: true
   vars_files:
+    - group_vars/all.yml
     - group_vars/VAULT
     - secret_group_vars/stats_server_vault
+    - host_vars/stats.usegalaxy.org.au.yml
   pre_tasks:
     - name: install xfsprogs
       package:
@@ -24,12 +26,14 @@
         selection: hold
       when: "'grafana' in ansible_facts.packages"
 
+  collections:
+    - grafana.grafana
+
   roles:
     - common
     - galaxyproject.nginx
-    - usegalaxy_eu.influxdb
-    - slg.influx_objects
-    - cloudalchemy.grafana
     - geerlingguy.docker
+    - usegalaxy-au.influxdbserver
     - dj-wasabi.telegraf
-  
+    - grafana
+
