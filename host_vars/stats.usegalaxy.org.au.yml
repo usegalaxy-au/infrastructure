@@ -169,7 +169,7 @@ grafana_datasources:
   - name: "pulsar-mel2"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "pulsar-mel2"
     user: "{{ influxdb.grafana.username }}"
@@ -178,7 +178,7 @@ grafana_datasources:
   - name: "pulsar-mel3"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "pulsar-mel3"
     user: "{{ influxdb.grafana.username }}"
@@ -187,7 +187,7 @@ grafana_datasources:
   - name: "pulsar-paw"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "pulsar-paw"
     user: "{{ influxdb.grafana.username }}"
@@ -196,7 +196,7 @@ grafana_datasources:
   - name: "pulsar-nci-training"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "pulsar-nci-training"
     user: "{{ influxdb.grafana.username }}"
@@ -205,7 +205,7 @@ grafana_datasources:
   - name: "galaxy_etca"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "galaxy_etca"
     user: "{{ influxdb.grafana.username }}"
@@ -214,7 +214,7 @@ grafana_datasources:
   - name: "aarnet"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "aarnet"
     user: "{{ influxdb.grafana.username }}"
@@ -223,7 +223,7 @@ grafana_datasources:
   - name: "pawsey"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "pawsey"
     user: "{{ influxdb.grafana.username }}"
@@ -232,7 +232,7 @@ grafana_datasources:
   - name: "pulsar-QLD"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "pulsar-QLD"
     user: "{{ influxdb.grafana.username }}"
@@ -241,7 +241,7 @@ grafana_datasources:
   - name: "pulsar-special"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "pulsar-special"
     user: "{{ influxdb.grafana.username }}"
@@ -250,7 +250,7 @@ grafana_datasources:
   - name: "ancillary"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "ancillary"
     user: "{{ influxdb.grafana.username }}"
@@ -259,7 +259,7 @@ grafana_datasources:
   - name: "queues"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "queues"
     user: "{{ influxdb.grafana.username }}"
@@ -268,7 +268,7 @@ grafana_datasources:
   - name: "GA_server"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "GA_server"
     user: "{{ influxdb.grafana.username }}"
@@ -277,7 +277,7 @@ grafana_datasources:
   - name: "InfluxDB - internal"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "_internal"
     user: "{{ influxdb.grafana.username }}"
@@ -286,7 +286,7 @@ grafana_datasources:
   - name: "staging_cluster"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "staging"
     user: "{{ influxdb.grafana.username }}"
@@ -295,7 +295,7 @@ grafana_datasources:
   - name: "dev_cluster"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "dev"
     user: "{{ influxdb.grafana.username }}"
@@ -304,7 +304,7 @@ grafana_datasources:
   - name: "mdu_phl"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "mdu-phl"
     user: "{{ influxdb.grafana.username }}"
@@ -313,7 +313,7 @@ grafana_datasources:
   - name: "mdu_research"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "mdu-research"
     user: "{{ influxdb.grafana.username }}"
@@ -322,7 +322,7 @@ grafana_datasources:
   - name: "aarnet-testing"
     type: influxdb
     url: "{{ influxdb.url }}"
-    version: 1
+    version: 2
     editable: false
     database: "aarnet-testing"
     user: "{{ influxdb.grafana.username }}"
