@@ -2323,6 +2323,7 @@ tools:
       - pulsar
       - pulsar-training-large
       - pulsar-high-mem2
+      - pulsar-qld-high-mem2
       prefer:
       - cvmfs_cache_1600plus
       reject:
