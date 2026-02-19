@@ -18,9 +18,10 @@ toolmsg_messages:
     class: warning
 
   - tool_id: toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold
+    # TODO: Remove this on Feb 28
     message: >
-      This tool has been updated in line with best practice recommendations. <a href="https://site.usegalaxy.org.au/notice/32" target="_blank">Click for more information.</a>
-    class: info
+      Due to an infrastructure outage, this tool will not be functional on February 27 from 08:00-10:00 AEST.
+    class: warning
 
   - tool_id: toolshed.g2.bx.psu.edu/repos/iuc/ena_upload/ena_upload
     message: >
