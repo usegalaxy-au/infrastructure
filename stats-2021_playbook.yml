@@ -1,8 +1,9 @@
-- hosts: stats_servers
+- hosts: stats-2021
   become: true
   vars_files:
     - group_vars/VAULT
     - secret_group_vars/stats_server_vault
+    - host_vars/stats-2021.usegalaxy.org.au.yml
   pre_tasks:
     - name: install xfsprogs
       package:

@@ -240,7 +240,7 @@ qld-ref-nfs ansible_ssh_host=203.101.226.198 # aka cjh-20220906-alphafold-dev
 qld-nvme ansible_ssh_host=203.101.231.166
 
 [stats_servers]
-stats.usegalaxy.org.au ansible_ssh_host=115.146.84.128
+stats-2021 ansible_ssh_host=115.146.84.128
 stats-2025 ansible_ssh_host=115.146.87.139
 
 [failover_servers]
