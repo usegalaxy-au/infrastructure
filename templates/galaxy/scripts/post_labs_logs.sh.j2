@@ -1,0 +1,26 @@
+#!/usr/bin/bash
+
+# Run this after 6am UTC and the olddir log file should be created
+
+file_suffix=$(date +%Y%m%d)
+welcome_file="{{ nginx_log_olddir_root }}/labs-welcome.access.log-$file_suffix"
+tools_file="{{ nginx_log_olddir_root }}/labs-tools.access.log-$file_suffix"
+
+# Post to dev server
+if [[ -f $welcome_file ]]; then
+curl -X POST \
+    -F "file=@$welcome_file" \
+    -F "log_type=nginx_welcome" \
+    -H 'X-API-KEY: {{ vault_labs_engine_dev_api_key }}' \
+    https://dev-labs.gvl.org.au/reporting/api/logs/upload
+fi
+
+sleep 5
+
+if [[ -f $tools_file ]]; then
+curl -X POST \
+    -F "file=@$tools_file" \
+    -F "log_type=nginx_tool" \
+    -H 'X-API-KEY: {{ vault_labs_engine_dev_api_key }}' \
+    https://dev-labs.gvl.org.au/reporting/api/logs/upload
+fi
