@@ -113,3 +113,20 @@
         insertafter: "\tpostrotate"
       with_items:
         - "\t\tcp -up {{ nginx_log_olddir_root }}/* {{ nginx_long_term_log_dir }}/"
+    - name: Create labs engine reporting dir
+      ansible.builtin.file:
+        path: /home/ubuntu/labs_engine_reporting
+        state: directory
+        owner: ubuntu
+    - name: template script to post nginx logs to the labs engine
+      template:
+        src: galaxy/scripts/post_labs_logs.sh.j2
+        dest: /home/ubuntu/labs_engine_reporting/post_logs.sh
+        mode: 0755
+        owner: ubuntu
+    - name: Setup labs engine reporting cron job
+      ansible.builtin.cron:
+        name: "labs-engine-reporting"
+        minute: "0"
+        hour: "6"
+        job: "/home/ubuntu/labs_engine_reporting/post_logs.sh > /home/ubuntu/labs_engine_reporting/post_logs.out 2>&1"
