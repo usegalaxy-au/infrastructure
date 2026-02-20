@@ -1412,6 +1412,8 @@ tools:
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/openms_openswathworkflow/OpenSwathWorkflow/.*:
     mem: 62
+  toolshed.g2.bx.psu.edu/repos/galaxyp/pepquery2/pepquery2/.*:
+    mem: 48  # increased from shared-db's mem: 20 which is not enough for 20GB input. TODO: linear rule
   toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker/.*:
     cores: 7
     mem: 26.8
