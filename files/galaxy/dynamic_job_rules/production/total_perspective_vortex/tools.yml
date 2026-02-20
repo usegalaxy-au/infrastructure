@@ -1999,6 +1999,8 @@ tools:
       if: input_size > 0.2
       mem: 100
   toolshed.g2.bx.psu.edu/repos/iuc/gecko/gecko/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 1
     cores: 8
     mem: 30.7
     rules:
