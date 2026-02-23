@@ -970,7 +970,7 @@ nfs_monitor_slack_token: "{{ vault_galaxy_australia_slack_api_token }}"
 # nfs_monitor_cron_enabled: false
 
 nfs_monitor_servers_galaxy_and_galaxy_handlers:
-  - identifier: "galaxy-aust-exports@genome.edu.au"
+  - identifier: "galaxy-aust-exports.genome.edu.au"
     name: "galaxy-aust-exports"
   - identifier: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}"
     name: "galaxy-user-nfs"
