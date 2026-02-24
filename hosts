@@ -111,7 +111,7 @@ pulsar-qld-gpu-dev ansible_ssh_host=203.101.227.161
 nci-build ansible_ssh_host=130.56.245.173 internal_ip=10.0.3.96
 
 [pulsar_nci_training_head]
-pulsar-nci-training ansible_ssh_host=130.56.245.74 internal_ip=10.0.2.121
+pulsar-nci-training ansible_ssh_host=130.56.245.74 internal_ip=10.0.1.121
 
 [pulsar_nci_training_workers]
 pulsar-nci-training-w1 ansible_ssh_host=10.0.2.52 internal_ip=10.0.2.52
