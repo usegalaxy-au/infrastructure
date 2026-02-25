@@ -586,12 +586,9 @@ tools:
     params:
       singularity_enabled: true
     scheduling:
-      require:
-        - slurm  # prokka inherits 'accept: pulsar' from tpv-shared-db
-    # scheduling:  # prokka is normally a good tool to have running on pulsar. It is switching to slurm-only while galaxy-handlers VM is under stress (cause unknown as of 27/11/25)
-    #   accept:
-    #   - pulsar
-    #   - pulsar-quick
+      accept:
+      - pulsar
+      - pulsar-quick
     rules:
     - id: prokka_small_input_rule
       if: input_size < 0.001
@@ -637,8 +634,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie_wrappers/bowtie_wrapper/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*
     scheduling:
-      require:
-        - slurm  # this can run on pulsar but has high input+output size per CPU-time
+      accept:
+        - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 8
     mem: 30.7
@@ -797,11 +794,6 @@ tools:
       if: 0.01 <= input_size < 2
       cores: 4
       mem: 15.3
-    - id: fastqc_large_input_rule
-      if: input_size > 20
-      scheduling:
-        require:
-          - slurm
   toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/.*:
     params:
       singularity_enabled: true
@@ -836,7 +828,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      require:
+      prefer:
       - pulsar-qld-high-mem2
   toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/.*:
     cores: 5
@@ -1235,12 +1227,6 @@ tools:
       accept:
       - pulsar
       - pulsar-quick
-    rules:
-    - id: hifiadapterfilt_large_input_rule
-      if: input_size > 40
-      scheduling:
-        require:
-          - slurm
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiasm_meta/hifiasm_meta/.*:
     cores: 16
     mem: 62
@@ -2078,6 +2064,8 @@ tools:
           require_custom_indices_db = False
         require_custom_indices_db
       scheduling:
+        accept:
+        - training-exempt
         require:
         - gtdbtk_database
   toolshed.g2.bx.psu.edu/repos/iuc/gtdb_to_taxdump/gtdb_to_taxdump/.*:
@@ -3797,6 +3785,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - training-exempt
       require:
       - verkko_venv
   toolshed.g2.bx.psu.edu/repos/iuc/volcanoplot/volcanoplot/.*:
