@@ -1041,6 +1041,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/squirrel_phylo/squirrel_phylo/.*:
     cores: 5
     mem: 19.1
+  toolshed.g2.bx.psu.edu/repos/iuc/syri/syri/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/.*:
     cores: 8
     mem: 30.7
@@ -2349,6 +2352,9 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/length_and_gc_content/.*:
     mem: 10
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/liftoff/liftoff/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/.*:
