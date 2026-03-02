@@ -241,6 +241,7 @@ group_galaxy_config:
     library_import_dir: "{{ galaxy_tmp_dir }}/library_import_dir"
     cluster_files_directory: "{{ galaxy_tmp_dir }}/pbs"
     short_term_storage_dir: "{{ galaxy_tmp_dir }}/short_term_web_storage"
+    short_term_storage_default_duration: 259200  # Keep files for 3 days
 
     templates_dir: "{{ galaxy_config_dir }}"
 
