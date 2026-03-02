@@ -226,7 +226,7 @@ destinations:
     runner: pulsar-qld-high-mem0_runner
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
-    min_accepted_mem: 400
+    min_accepted_mem: 60
     context:
       destination_total_cores: 240
       destination_total_mem: 3845.07
@@ -242,7 +242,6 @@ destinations:
         - eggnog
       require:
         - pulsar
-        - offline
   pulsar-qld-high-mem1:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem1_runner
