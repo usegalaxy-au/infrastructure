@@ -36,7 +36,7 @@ from sqlalchemy import create_engine
 #       | tail -1
 # and copy the hex string from the URL.
 
-TEST_ENCODED_WORKFLOW_ID = 'e4d20320d61c4f83'
+TEST_ENCODED_WORKFLOW_ID = '1346aa3b2ee8c0a3'
 
 # =====================================================================
 

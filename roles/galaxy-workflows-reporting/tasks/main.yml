@@ -43,5 +43,5 @@
   ansible.builtin.systemd:
     name: collect-workflow-invocations
     enabled: true
-    state: started
+    state: "{{ 'started' if workflows_reporting_enabled else 'stopped' }}"
     daemon_reload: true

@@ -67,7 +67,8 @@
     - dj-wasabi.telegraf
     - postfix-mail-relay
     - acl-on-startup
-    - galaxy-workflows-reporting
+    - role: galaxy-workflows-reporting
+      tags: workflows_reporting
     - role: usegalaxy_eu.walle
       tags: walle
   post_tasks:
