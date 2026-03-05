@@ -1,0 +1,14 @@
+[Unit]
+Description=Collect Galaxy workflow invocations from nginx logs
+After=nginx.service
+
+[Service]
+ExecStart=/bin/bash -c 'tail -n 0 -F {{ nginx_access_log }} | grep 'POST /api/workflows/' | {{ workflow_invocations_venv }}/bin/python {{ workflow_invocations_dir }}/collect_workflow_invocations.py'
+Restart=always
+RestartSec=10
+User=ubuntu
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

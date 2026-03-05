@@ -1,0 +1,47 @@
+---
+- name: Create workflow invocations directory
+  ansible.builtin.file:
+    path: "{{ workflow_invocations_dir }}"
+    state: directory
+    owner: ubuntu
+
+- name: Copy workflow invocations requirements file
+  ansible.builtin.copy:
+    src: requirements.txt
+    dest: "{{ workflow_invocations_dir }}/requirements.txt"
+  register: _wf_requirements
+
+- name: Create workflow invocations virtualenv
+  ansible.builtin.pip:
+    virtualenv: "{{ workflow_invocations_venv }}"
+    requirements: "{{ workflow_invocations_dir }}/requirements.txt"
+  when: _wf_requirements.changed
+
+- name: Template workflow invocations .env file
+  ansible.builtin.template:
+    src: .env.j2
+    dest: "{{ workflow_invocations_dir }}/.env"
+    mode: "0600"
+    owner: ubuntu
+  notify: restart collect-workflow-invocations
+
+- name: Template workflow invocations Python script
+  ansible.builtin.template:
+    src: collect_workflow_invocations.py.j2
+    dest: "{{ workflow_invocations_dir }}/collect_workflow_invocations.py"
+    mode: "0755"
+    owner: ubuntu
+  notify: restart collect-workflow-invocations
+
+- name: Template workflow invocations systemd service
+  ansible.builtin.template:
+    src: collect_workflow_invocations.service.j2
+    dest: /etc/systemd/system/collect-workflow-invocations.service
+  notify: restart collect-workflow-invocations
+
+- name: Enable and start workflow invocations service
+  ansible.builtin.systemd:
+    name: collect-workflow-invocations
+    enabled: true
+    state: "{{ 'started' if workflows_reporting_enabled else 'stopped' }}"
+    daemon_reload: true

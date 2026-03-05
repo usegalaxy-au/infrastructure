@@ -1,0 +1,6 @@
+---
+- name: restart collect-workflow-invocations
+  ansible.builtin.systemd:
+    name: collect-workflow-invocations
+    state: restarted
+    daemon_reload: true

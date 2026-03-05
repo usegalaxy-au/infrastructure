@@ -1,0 +1,213 @@
+#!{{ workflow_invocations_venv }}/bin/python
+"""Collect workflow invocation data from Nginx logs into InfluxDB.
+
+Reads Galaxy's Nginx access logs from stdin (streaming) and for each
+workflow invocation request:
+
+- Decodes the StoredWorkflow ID using Galaxy's IdEncodingHelper algorithm
+- Queries the Galaxy database for workflow name and source_metadata
+- Resolves a canonical workflow identity (TRS tool ID if available)
+- Writes the data point to InfluxDB
+
+Usage:
+    tail -F /var/log/nginx/access.log \
+    | python collect_workflow_invocations.py
+"""
+
+import codecs
+import json
+import logging
+import os
+import re
+import sys
+from datetime import datetime
+from pathlib import Path
+
+import yaml
+from Crypto.Cipher import Blowfish
+from dotenv import load_dotenv
+from influxdb import InfluxDBClient
+from sqlalchemy import create_engine, text
+
+load_dotenv(Path(__file__).parent / '.env')
+
+LOG_FORMAT = '%(levelname)s: %(message)s'
+logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
+logger = logging.getLogger(__name__)
+
+GALAXY_ID_SECRET = os.environ['GALAXY_ID_SECRET']
+GALAXY_DATABASE_URL = os.environ['GALAXY_DATABASE_URL']
+SECRETS_FILE = os.environ['INFLUXDB_SECRETS_FILE']
+INFLUXDB_DATABASE = os.environ['INFLUXDB_DATABASE']
+MEASUREMENT_NAME = 'workflow_invocation'
+
+# Regex patterns for Nginx combined log format
+INVOCATION_PATTERN = re.compile(
+    r'POST /api/workflows/([a-f0-9]+)/invocations'
+)
+DATETIME_PATTERN = re.compile(
+    r'\[(\d{2}/\w{3}/\d{4}:\d{2}:\d{2}:\d{2})'
+)
+DATETIME_FORMAT = '%d/%b/%Y:%H:%M:%S'
+DOMAIN_PATTERN = re.compile(
+    r'https?://([^/"\s]+)'
+)
+
+WORKFLOW_QUERY = text("""
+    SELECT sw.id, sw.name, sw.user_id, w.uuid, w.source_metadata
+    FROM stored_workflow sw
+    JOIN workflow w ON w.id = sw.latest_workflow_id
+    WHERE sw.id = :id
+""")
+
+
+def decode_galaxy_id(encoded_id: str, id_cipher) -> int:
+    """Decode a Galaxy hex-encoded ID to an integer database ID.
+
+    Replicates Galaxy's IdEncodingHelper.decode_id algorithm:
+    hex decode -> Blowfish ECB decrypt -> strip padding -> int.
+    """
+    raw = codecs.decode(encoded_id, 'hex')
+    decrypted = id_cipher.decrypt(raw)
+    return int(decrypted.decode('utf-8').lstrip('!'))
+
+
+def parse_log_line(line: str) -> dict | None:
+    """Extract workflow invocation data from an Nginx log line.
+
+    Returns a dict with 'encoded_id', 'datetime', and 'domain' keys,
+    or None if the line does not match a workflow invocation request.
+    """
+    inv_match = INVOCATION_PATTERN.search(line)
+    if not inv_match:
+        return None
+
+    dt_match = DATETIME_PATTERN.search(line)
+    if not dt_match:
+        logger.warning("No datetime found in line: %s", line.strip())
+        return None
+    dt = datetime.strptime(dt_match.group(1), DATETIME_FORMAT)
+
+    domain_match = DOMAIN_PATTERN.search(line)
+    domain = domain_match.group(1) if domain_match else 'unknown'
+
+    return {
+        'encoded_id': inv_match.group(1),
+        'datetime': dt,
+        'domain': domain,
+    }
+
+
+def resolve_canonical_id(source_metadata) -> tuple[str, str, str]:
+    """Resolve canonical workflow identity from source_metadata.
+
+    Returns (canonical_id, trs_server, trs_version_id).
+    """
+    if not source_metadata:
+        return ('', '', '')
+
+    if isinstance(source_metadata, str):
+        source_metadata = json.loads(source_metadata)
+
+    trs_tool_id = source_metadata.get('trs_tool_id', '')
+    trs_server = source_metadata.get('trs_server', '')
+    trs_version_id = source_metadata.get('trs_version_id', '')
+
+    if trs_tool_id:
+        canonical_id = (
+            f"{trs_server}:{trs_tool_id}" if trs_server
+            else trs_tool_id
+        )
+        return (canonical_id, trs_server, trs_version_id)
+
+    url = source_metadata.get('url', '')
+    if url:
+        return (url, '', '')
+
+    return ('', '', '')
+
+
+def create_influxdb_client() -> InfluxDBClient:
+    """Create an InfluxDB client from the shared secrets file."""
+    with open(SECRETS_FILE) as f:
+        secrets = yaml.safe_load(f)
+    influx_config = dict(secrets['influxdb'])
+    influx_config['database'] = INFLUXDB_DATABASE
+    return InfluxDBClient(**influx_config)
+
+
+def main():
+    id_cipher = Blowfish.new(
+        GALAXY_ID_SECRET.encode('utf-8'),
+        mode=Blowfish.MODE_ECB,
+    )
+    engine = create_engine(GALAXY_DATABASE_URL)
+    influx_client = create_influxdb_client()
+
+    logger.info("Listening for workflow invocations on stdin...")
+
+    with engine.connect() as conn:
+        for line in sys.stdin:
+            parsed = parse_log_line(line)
+            if not parsed:
+                continue
+
+            try:
+                workflow_id = decode_galaxy_id(
+                    parsed['encoded_id'], id_cipher)
+            except (ValueError, TypeError) as e:
+                logger.warning(
+                    "Failed to decode ID '%s': %s",
+                    parsed['encoded_id'], e,
+                )
+                continue
+
+            result = conn.execute(
+                WORKFLOW_QUERY,
+                {'id': workflow_id},
+            ).fetchone()
+
+            if not result:
+                logger.warning(
+                    "StoredWorkflow %d not found in database",
+                    workflow_id,
+                )
+                continue
+
+            _, name, user_id, uuid, source_metadata = result
+            canonical_id, trs_server, trs_version_id = (
+                resolve_canonical_id(source_metadata)
+            )
+
+            point = {
+                'measurement': MEASUREMENT_NAME,
+                'time': parsed['datetime'].strftime(
+                    '%Y-%m-%dT%H:%M:%SZ'),
+                'tags': {
+                    'domain': parsed['domain'],
+                    'workflow_name': name,
+                    'canonical_id': canonical_id or name,
+                    'trs_server': trs_server,
+                },
+                'fields': {
+                    'count': 1.0,
+                    'workflow_id': workflow_id,
+                    'user_id': user_id,
+                    'trs_version_id': trs_version_id,
+                },
+            }
+
+            try:
+                influx_client.write_points([point])
+                logger.info(
+                    "Recorded invocation: %s (%s) from %s",
+                    name, canonical_id or 'local', parsed['domain'],
+                )
+            except Exception as e:
+                logger.error(
+                    "Failed to write to InfluxDB: %s", e,
+                )
+
+
+if __name__ == '__main__':
+    main()
