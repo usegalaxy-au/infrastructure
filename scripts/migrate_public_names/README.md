@@ -8,7 +8,7 @@ Removes invalid characters, dedupes and makes sure public names conform to const
 # switch to any writable directory
 cd /tmp
 # run migration script
-psql -f migrate.sql
+psql -f migrate_public_names.sql
 ```
 
 * By default, the script runs in dry-run mode, so no modifications are made to the database.
@@ -30,3 +30,17 @@ CSV mapping: migration_mapping.csv
 * Make sure the script is run from a writable directory, so output reports can be written.
 * Drop the migration_mapping_tmp table if no longer required.
 * Drop the galaxy_user_backup_<timestamp> table and migration_mapping_backup_<timestamp> table if no longer required.
+
+
+Migration day notes
+
+1. Make a copy of the galaxy_user table named galaxy_user_backup: `CREATE TABLE galaxy_user_backup AS TABLE galaxy_user;`
+2. Run the migration script in dry-run mode: `psql -f migrate_public_names.sql`
+3. Set COMMIT mode to 1
+4. Run the migration script in commit mode: `psql -f migrate_public_names.sql`
+5. Copy the output indicating backup tables and store safely for future reference
+6. Verify migration by running `select count(*) from migration_mapping_tmp where change_type != 'unchanged';`
+7. TODO: Prefix all legacy purged users with double underscore - new ones are already obfuscated.
+8. Export galaxy_user table `\copy (SELECT * FROM galaxy_user where purged = false) TO 'galaxy_user.csv' WITH CSV HEADER;`
+9. Send to Marius
+

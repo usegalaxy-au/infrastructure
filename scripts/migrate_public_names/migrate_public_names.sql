@@ -1,6 +1,9 @@
 -- Set this to 1 if you want to commit, 0 if you want a dry-run
 \set COMMIT_MODE 0
 
+-- Group name for users changed by this stage
+\set GROUP_NAME migration_public_name_changes
+
 \set ON_ERROR_STOP on
 
 DROP TABLE IF EXISTS migration_mapping_tmp;
@@ -123,6 +126,29 @@ BEGIN
   END IF;
 END $$;
 
+-- 4) Add users changed by this stage to a dedicated Galaxy group
+-- This runs inside the same savepoint scope; dry-run mode rolls it back.
+INSERT INTO galaxy_group (name, deleted, create_time, update_time)
+SELECT :'GROUP_NAME', false, now(), now()
+WHERE NOT EXISTS (
+  SELECT 1
+  FROM galaxy_group g
+  WHERE g.name = :'GROUP_NAME'
+);
+
+INSERT INTO user_group_association (user_id, group_id, create_time, update_time)
+SELECT m.id, g.id, now(), now()
+FROM migration_mapping_tmp m
+JOIN galaxy_group g ON g.name = :'GROUP_NAME'
+WHERE m.old_username IS DISTINCT FROM m.new_username
+  AND m.change_type != 'unchanged'
+  AND NOT EXISTS (
+    SELECT 1
+    FROM user_group_association uga
+    WHERE uga.user_id = m.id
+      AND uga.group_id = g.id
+  );
+
 -- In commit mode, persist a backup mapping table per run for rollback/inspection
 \if :COMMIT_MODE
 DO $$
@@ -196,6 +222,7 @@ ALTER TABLE galaxy_user
   ADD CONSTRAINT username_format_chk
   CHECK (username ~ '^[a-z0-9][-a-z0-9_]{2,127}$');
 \echo 'Constraint added to prevent future deviations.'
+\echo 'Affected users grouped in: ' :GROUP_NAME
 \else
 ROLLBACK TO do_update;
 COMMIT;
