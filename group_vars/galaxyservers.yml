@@ -421,7 +421,7 @@ telegraf_plugins_extra:
   listen_galaxy_nfs:
     plugin: "inputs.nfsclient"
     config:
-      - fullstat = "true"
+      - fullstat = true
       - include_operations = ["READ", "WRITE", "GETATTR", "LOOKUP", "ACCESS"]
       - include_mounts = ["/mnt/scratch", "/mnt/user-data-volA", "/mnt/user-data-volB","/mnt/user-data-volD"]
 
