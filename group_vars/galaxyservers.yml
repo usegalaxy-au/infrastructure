@@ -419,7 +419,7 @@ telegraf_plugins_extra:
       - service_address = ":8125"
       - metric_separator = "."
   listen_galaxy_nfs:
-    plugin: "inputs.nfsclient"
+    plugin: "nfsclient"
     config:
       - fullstat = true
       - include_operations = ["READ", "WRITE", "GETATTR", "LOOKUP", "ACCESS"]
