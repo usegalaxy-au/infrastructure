@@ -1,3 +1,6 @@
-pyyaml
-psycopg2-binary
 influxdb
+psycopg2-binary
+pyyaml
+pycryptodome
+python-dotenv
+sqlalchemy

@@ -1,17 +1,22 @@
-"""End-to-end test for the workflow invocation reporting pipeline.
+"""End-to-end test for the workflow invocation metric collection.
 
 Imports and exercises collect_workflow_invocations.py against the live
-Galaxy database, printing the InfluxDB data point that would be written
-for a given encoded workflow ID. No data is written to InfluxDB.
+Galaxy database, printing the InfluxDB line protocol output that would
+be produced for a given encoded workflow ID.
 
 Requires:
     - collect_workflow_invocations.py in the same directory (deployed)
-    - .env file with GALAXY_ID_SECRET, GALAXY_DATABASE_URL,
-      INFLUXDB_SECRETS_FILE, and INFLUXDB_DATABASE
+    - .env file with GALAXY_ID_SECRET and GALAXY_DATABASE_URL
 
 Usage:
+
+    # Set TEST_ENCODED_WORKFLOW_ID to a real workflow ID from nginx logs
+    #   grep 'workflows/.*/invocations' /var/log/nginx/access.log \
+    #       | tail -1
+    # and copy the hex string from the URL.
+
     cd /home/ubuntu/workflow_invocations
-    ./venv/bin/python test_workflow_id_mapping.py
+    ../stats_collection/stats_venv/bin/python test_workflow_id_mapping.py
 """
 
 import json
@@ -25,6 +30,7 @@ from collect_workflow_invocations import (
     MEASUREMENT_NAME,
     WORKFLOW_QUERY,
     decode_galaxy_id,
+    format_line_protocol,
     resolve_canonical_id,
 )
 from Crypto.Cipher import Blowfish
@@ -90,27 +96,27 @@ def main():
     print(f"  trs_server:     {trs_server or '(none)'}")
     print(f"  trs_version_id: {trs_version_id or '(none)'}")
 
-    # Step 4: Build the InfluxDB data point (what would be written)
+    # Step 4: Build and print influx line protocol output
     now = datetime.utcnow()
-    point = {
-        'measurement': MEASUREMENT_NAME,
-        'time': now.strftime('%Y-%m-%dT%H:%M:%SZ'),
-        'tags': {
+    output = format_line_protocol(
+        measurement=MEASUREMENT_NAME,
+        tags={
             'domain': SAMPLE_DOMAIN,
             'workflow_name': name,
             'canonical_id': canonical_id or name,
             'trs_server': trs_server,
         },
-        'fields': {
+        fields={
             'count': 1.0,
             'workflow_id': workflow_id,
             'user_id': user_id,
             'trs_version_id': trs_version_id,
         },
-    }
+        timestamp=now,
+    )
 
-    print("\n[4] InfluxDB data point (would be written):")
-    print(json.dumps(point, indent=4))
+    print("\n[4] InfluxDB line protocol output:")
+    print(output)
 
     print("\n" + "=" * 60)
     print("PASS: All steps completed successfully")

@@ -1,6 +1,4 @@
 ---
 workflows_reporting_enabled: true
 workflow_invocations_dir: "{{ galaxy_root }}/workflows_reporting"
-workflow_invocations_venv: "{{ workflow_invocations_dir }}/venv"
-workflow_invocations_influxdb_database: workflow_invocations
-nginx_access_log: /var/log/nginx/access.log
+nginx_workflows_log: /var/log/nginx/workflows.access.log
