@@ -43,4 +43,7 @@ Migration day notes
 7. TODO: Prefix all legacy purged users with double underscore - new ones are already obfuscated.
 8. Export galaxy_user table `\copy (SELECT * FROM galaxy_user where purged = false) TO 'galaxy_user.csv' WITH CSV HEADER;`
 9. Send to Marius
-
+10. Place 'galaxy_username_changes.csv' in a folder accessible to psql.
+11. Run `psql -f import_from_aai.sql`. The script assumes that 'galaxy_username_changes.csv' is in current folder.
+12. Export galaxy_user table again `\copy (SELECT * FROM galaxy_user where purged = false) TO 'galaxy_user_final.csv' WITH CSV HEADER;`
+13. Send to Marius
