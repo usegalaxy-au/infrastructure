@@ -261,6 +261,7 @@ destinations:
         - gtdbtk_database
         - verkko_venv
         - medaka_venv_211
+        - gffread_destination  # while pqhm2 is offline
       require:
         - pulsar
   pulsar-qld-high-mem2:
@@ -282,6 +283,7 @@ destinations:
         - gffread_destination  # special mapping because gffread is a dangerous tool that can take over jwd space
       require:
         - pulsar
+        - offline
         # - pulsar-qld-high-mem2
   pulsar-nci-training:
     inherits: _pulsar_destination

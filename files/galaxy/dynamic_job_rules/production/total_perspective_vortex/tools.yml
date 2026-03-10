@@ -829,7 +829,7 @@ tools:
       accept:
       - pulsar
       prefer:
-      - pulsar-qld-high-mem2
+      - gffread_destination
   toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/.*:
     cores: 5
     mem: 19.1
