@@ -7,7 +7,7 @@
 
 - name: Copy workflow invocations requirements file
   ansible.builtin.copy:
-    src: requirements.txt
+    src: workflows_reporting/workflows_reporting_requirements.txt
     dest: "{{ workflow_invocations_dir }}/requirements.txt"
   register: _wf_requirements
 
@@ -19,7 +19,7 @@
 
 - name: Template workflow invocations .env file
   ansible.builtin.template:
-    src: .env.j2
+    src: workflows_reporting/env.j2
     dest: "{{ workflow_invocations_dir }}/.env"
     mode: "0600"
     owner: ubuntu
@@ -27,15 +27,16 @@
 
 - name: Template workflow invocations Python script
   ansible.builtin.template:
-    src: collect_workflow_invocations.py.j2
+    src: workflows_reporting/collect_workflow_invocations.py.j2
     dest: "{{ workflow_invocations_dir }}/collect_workflow_invocations.py"
     mode: "0755"
     owner: ubuntu
   notify: restart collect-workflow-invocations
 
 - name: Template workflow invocations systemd service
+  become: true
   ansible.builtin.template:
-    src: collect_workflow_invocations.service.j2
+    src: workflows_reporting/collect_workflow_invocations.service.j2
     dest: /etc/systemd/system/collect-workflow-invocations.service
   notify: restart collect-workflow-invocations
 

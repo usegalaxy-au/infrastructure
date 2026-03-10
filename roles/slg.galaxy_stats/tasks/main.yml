@@ -1,4 +1,8 @@
 ---
+- name: Load workflows reporting defaults
+  include_vars:
+    file: workflows_reporting.yml
+
 - name: Create stats files and cron jobs for stats collection user
   become: yes
   become_user: "{{ stats_collection_user }}"
@@ -97,3 +101,7 @@
       hour: "19"
       job: "{{ virtualenv_dir }}/bin/python {{ stats_dir }}/galaxy_disk_usage.py"
     when: add_volume_usage_info
+
+- name: Include workflows reporting tasks
+  include_tasks: workflows_reporting.yml
+  when: workflows_reporting_enabled
