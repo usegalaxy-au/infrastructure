@@ -3130,6 +3130,9 @@ tools:
     mem: 8
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/reshape2_melt/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
@@ -4009,6 +4012,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/q2d2/qiime2__longitudinal__nmit/qiime2__longitudinal__nmit/.*:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/recetox/.*:
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/richard-burhans/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/rnateam/chipseeker/chipseeker/.*:
