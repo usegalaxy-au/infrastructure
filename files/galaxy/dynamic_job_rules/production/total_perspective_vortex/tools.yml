@@ -2833,6 +2833,10 @@ tools:
         require:
           - ncbi_fcs_gx_db
   toolshed.g2.bx.psu.edu/repos/iuc/necat/necat/.*:
+    context:
+      test_cores: 2
+    cores: 4
+    mem: 15.5
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/newick_utils/newick_display/.*:
