@@ -2832,6 +2832,9 @@ tools:
           - training-exempt
         require:
           - ncbi_fcs_gx_db
+  toolshed.g2.bx.psu.edu/repos/iuc/necat/necat/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/newick_utils/newick_display/.*:
     mem: 12
     params:
@@ -3007,7 +3010,10 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/prodigal/prodigal/.*:
     params:
-      singularity_enabled: true  
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/progressivemauve/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/purge_dups/purge_dups/.*:
     cores: 8
     mem: 30.7
@@ -3593,6 +3599,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie_merge/.*:
     cores: 1
     mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/structure.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/tetoolkit_tetranscripts/tetoolkit_tetranscripts/.*:
     mem: 12
     params:
