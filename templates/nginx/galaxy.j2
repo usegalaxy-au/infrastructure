@@ -11,6 +11,10 @@ map $request $log_welcome {
     default 0;
     ~*/welcome 1;
 }
+map $request $log_workflow_invocation {
+    default 0;
+    ~*POST\ /api/workflows/.+/invocations 1;
+}
 map "$log_lab:$log_welcome" $log_lab_welcome {
     default 0;
     "1:1" 1;
@@ -50,6 +54,7 @@ server {
     # Special log files for Galaxy Labs
     access_log /var/log/nginx/labs-welcome.access.log combined if=$log_lab_welcome;
     access_log /var/log/nginx/labs-tools.access.log combined if=$log_lab_tool;
+    access_log {{ nginx_workflows_log }} combined if=$log_workflow_invocation;
 
     uwsgi_buffer_size 16k;
     uwsgi_busy_buffers_size 24k;
