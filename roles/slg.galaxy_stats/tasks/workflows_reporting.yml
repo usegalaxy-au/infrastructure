@@ -12,9 +12,9 @@
     mode: "0600"
     owner: ubuntu
 
-- name: Template workflow invocations Python script
-  ansible.builtin.template:
-    src: workflows_reporting/collect_workflow_invocations.py.j2
+- name: Copy workflow invocations Python script
+  ansible.builtin.copy:
+    src: workflows_reporting/collect_workflow_invocations.py
     dest: "{{ workflow_invocations_dir }}/collect_workflow_invocations.py"
     mode: "0755"
     owner: ubuntu

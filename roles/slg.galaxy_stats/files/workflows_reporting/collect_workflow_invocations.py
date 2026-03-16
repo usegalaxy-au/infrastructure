@@ -1,4 +1,3 @@
-#!{{ virtualenv_dir }}/bin/python
 """Collect workflow invocation data from Nginx logs.
 
 Reads a filtered Nginx access log file containing workflow invocation
@@ -7,9 +6,9 @@ requests, tracks file position between runs, and for each new line:
 - Decodes the StoredWorkflow ID using Galaxy's IdEncodingHelper algorithm
 - Queries the Galaxy database for workflow name and source_metadata
 - Resolves a canonical workflow identity (TRS tool ID if available)
-- Outputs the data point in InfluxDB line protocol format to stdout
+- Sends the data point to InfluxDB via the HTTP write API
 
-Designed to run as a Telegraf exec plugin (interval-based).
+Designed to run as a cron job.
 
 Usage:
     collect_workflow_invocations.py /var/log/nginx/workflows.access.log
@@ -21,6 +20,7 @@ import logging
 import os
 import re
 import sys
+import urllib.request
 from datetime import datetime
 from pathlib import Path
 
@@ -36,6 +36,9 @@ logger = logging.getLogger(__name__)
 
 GALAXY_ID_SECRET = os.environ['GALAXY_ID_SECRET']
 GALAXY_DATABASE_URL = os.environ['GALAXY_DATABASE_URL']
+INFLUX_URL = os.environ['INFLUX_URL']
+INFLUX_DB = os.environ['INFLUX_DB']
+INFLUX_TOKEN = os.environ['INFLUX_TOKEN']
 MEASUREMENT_NAME = 'workflow_invocation'
 POSITION_FILE = Path(__file__).parent / '.collect_position'
 
@@ -179,6 +182,30 @@ def save_position(inode: int, offset: int):
     POSITION_FILE.write_text(f"{inode} {offset}\n")
 
 
+def write_to_influxdb(lines: list[str]):
+    """Write line protocol data points to InfluxDB via the HTTP write API."""
+    payload = '\n'.join(lines).encode('utf-8')
+    url = f"{INFLUX_URL}/write?db={INFLUX_DB}"
+    req = urllib.request.Request(
+        url,
+        data=payload,
+        headers={
+            'Authorization': f'Token {INFLUX_TOKEN}',
+            'Content-Type': 'application/octet-stream',
+        },
+        method='POST',
+    )
+    try:
+        with urllib.request.urlopen(req) as response:
+            logger.info(
+                "Wrote %d data points to InfluxDB (HTTP %d)",
+                len(lines), response.status,
+            )
+    except urllib.error.URLError as e:
+        logger.error("Failed to write to InfluxDB: %s", e)
+        sys.exit(1)
+
+
 def read_new_lines(log_path: str) -> list[str]:
     """Read lines added since last run, tracking position by inode."""
     stat = os.stat(log_path)
@@ -223,6 +250,8 @@ def main():
     if not lines:
         sys.exit(0)
 
+    data_points = []
+
     with engine.connect() as conn:
         for line in lines:
             parsed = parse_log_line(line)
@@ -256,7 +285,7 @@ def main():
                 resolve_canonical_id(source_metadata)
             )
 
-            output = format_line_protocol(
+            data_points.append(format_line_protocol(
                 measurement=MEASUREMENT_NAME,
                 tags={
                     'domain': parsed['domain'],
@@ -271,8 +300,10 @@ def main():
                     'trs_version_id': trs_version_id,
                 },
                 timestamp=parsed['datetime'],
-            )
-            print(output)
+            ))
+
+    if data_points:
+        write_to_influxdb(data_points)
 
 
 if __name__ == '__main__':
