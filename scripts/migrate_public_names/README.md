@@ -40,10 +40,11 @@ Migration day notes
 4. Run the migration script in commit mode: `psql -f migrate_public_names.sql`
 5. Copy the output indicating backup tables and store safely for future reference
 6. Verify migration by running `select count(*) from migration_mapping_tmp where change_type != 'unchanged';`
-7. TODO: Prefix all legacy purged users with double underscore - new ones are already obfuscated.
+7. TODO: Prefix all legacy purged users with double underscore - new ones are already obfuscated. (add to migration script itself)
 8. Export galaxy_user table `\copy (SELECT * FROM galaxy_user where purged = false) TO 'galaxy_user.csv' WITH CSV HEADER;`
 9. Send to Marius
 10. Place 'galaxy_username_changes.csv' in a folder accessible to psql.
 11. Run `psql -f import_from_aai.sql`. The script assumes that 'galaxy_username_changes.csv' is in current folder.
-12. Export galaxy_user table again `\copy (SELECT * FROM galaxy_user where purged = false) TO 'galaxy_user_final.csv' WITH CSV HEADER;`
-13. Send to Marius
+12. Invalidate all PSQL sessions (also add to script?)
+13. Export galaxy_user table again `\copy (SELECT * FROM galaxy_user where purged = false) TO 'galaxy_user_final.csv' WITH CSV HEADER;`
+14. Send to Marius
