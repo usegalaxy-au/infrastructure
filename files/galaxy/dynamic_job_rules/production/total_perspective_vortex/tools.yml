@@ -3632,10 +3632,10 @@ tools:
       if: input_size < 0.1
       cores: 8
       mem: 30.7
-    - id: trinity_fail_rule
+    - id: tpvdb_trinity_fail_rule
       if: input_size >= 30
       fail: Too much data, we cannot support such large Trinity assemblies with our
-        backend. Please use another server for your job.
+        backend.
   toolshed.g2.bx.psu.edu/repos/iuc/trinity_abundance_estimates_to_matrix/trinity_abundance_estimates_to_matrix/.*:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/trinity_align_and_estimate_abundance/.*:
