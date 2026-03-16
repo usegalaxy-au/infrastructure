@@ -417,13 +417,6 @@ telegraf_plugins_extra:
     config:
       - service_address = ":8125"
       - metric_separator = "."
-  collect_workflow_metrics:
-    plugin: "exec"
-    config:
-      - commands = [ "{{ virtualenv_dir }}/bin/python {{ workflow_invocations_dir }}/collect_workflow_invocations.py {{ nginx_workflows_log }}" ]
-      - data_format = "influx"
-      - timeout = "15s"
-      - interval = "60s"
 
 # lsyncd
 lsyncd_source: /mnt/galaxy
