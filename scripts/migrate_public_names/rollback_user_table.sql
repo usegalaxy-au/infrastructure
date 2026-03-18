@@ -1,8 +1,12 @@
+-- before running, update the galaxy_user_backup_<timestamp> to the correct table
 -- Set this to 1 if you want to commit, 0 if you want a dry-run
 \set COMMIT_MODE 0
 
 BEGIN;
-UPDATE galaxy_session SET is_valid = false WHERE is_valid = true;
+UPDATE galaxy_user g
+SET username = b.username
+FROM galaxy_user_backup_<timestamp> b
+WHERE g.id = b.id;
 
 \if :COMMIT_MODE
 COMMIT;

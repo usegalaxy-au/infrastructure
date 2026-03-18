@@ -217,11 +217,6 @@ SELECT jsonb_build_object(
 \if :COMMIT_MODE
 COMMIT;
 \echo 'Commit complete.'
-ALTER TABLE galaxy_user DROP CONSTRAINT IF EXISTS username_format_chk;
-ALTER TABLE galaxy_user
-  ADD CONSTRAINT username_format_chk
-  CHECK (username ~ '^[a-z0-9][-a-z0-9_]{2,127}$');
-\echo 'Constraint added to prevent future deviations.'
 \echo 'Affected users grouped in: ' :GROUP_NAME
 \else
 ROLLBACK TO do_update;
