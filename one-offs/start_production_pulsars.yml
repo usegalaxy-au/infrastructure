@@ -1,0 +1,7 @@
+- hosts: production_pulsars
+  become: true
+  tasks:
+  - name: Start pulsar
+    systemd:
+      name: pulsar
+      state: started
