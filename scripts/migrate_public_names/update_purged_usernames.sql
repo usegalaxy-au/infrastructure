@@ -1,5 +1,5 @@
 -- Set this to 1 if you want to commit, 0 if you want a dry-run
-\set COMMIT_MODE 1
+\set COMMIT_MODE 0
 
 BEGIN;
 UPDATE galaxy_user SET username = '__' || username WHERE purged = true AND username ~ '^[^0-9]' AND username !~ '^__';
