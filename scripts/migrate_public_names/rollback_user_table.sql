@@ -4,7 +4,7 @@
 
 BEGIN;
 UPDATE galaxy_user g
-SET username = b.new_username
+SET username = b.username
 FROM galaxy_user_backup_<timestamp> b
 WHERE g.id = b.id;
 
