@@ -3,9 +3,8 @@
 \set COMMIT_MODE 0
 
 BEGIN;
-UPDATE galaxy_session SET is_valid = false WHERE is_valid = true;
 UPDATE galaxy_user g
-SET username = p.new_username
+SET username = b.new_username
 FROM galaxy_user_backup_<timestamp> b
 WHERE g.id = b.id;
 
