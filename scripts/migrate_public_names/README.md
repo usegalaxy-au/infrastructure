@@ -47,3 +47,4 @@ Migration day notes
 11. Run `psql -f import_from_aai.sql`. The script assumes that 'galaxy_username_changes.csv' is in current folder.
 12. Export galaxy_user table again `\copy (SELECT * FROM galaxy_user where purged = false) TO 'galaxy_user_final.csv' WITH CSV HEADER;`
 13. Send to Marius
+14. (last db step) Run `invalidate_user_sessions.sql` (update COMMIT_MODE value to 1 in script)
