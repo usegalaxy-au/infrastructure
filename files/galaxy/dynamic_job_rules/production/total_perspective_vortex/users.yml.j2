@@ -29,8 +29,8 @@ users:
               )
               training_job_matches_specs = slurm_preferred_for_training or helpers.tag_values_match(entity, include_tags, exclude_tags)
             training_job_matches_specs
-          max_cores: 2
-          max_mem: max_cores * 3.8
+          max_cores: slurm_training_max_cores
+          max_mem: slurm_training_max_mem
           context:
             partition: training
           scheduling:

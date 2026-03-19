@@ -34,6 +34,10 @@ tools:
       pulsar_docker_volumes: "{{ pulsar_docker_volumes }}"
       singularity_default_container_id: "{{ singularity_default_container_id }}"
 
+      # training destination overridable cores/mem values
+      slurm_training_max_cores: 2
+      slurm_training_max_mem: 7.6
+
     scheduling:
       reject:
         - offline

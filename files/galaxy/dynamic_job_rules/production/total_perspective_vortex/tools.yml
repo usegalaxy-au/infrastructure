@@ -2256,6 +2256,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/.*:
     context:
       max_concurrent_job_count_for_tool_user: 3
+      slurm_training_max_cores: 4
+      slurm_training_max_mem: 15.5
     cores: 5
     mem: 19.1
     params:
