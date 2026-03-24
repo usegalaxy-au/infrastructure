@@ -39,7 +39,7 @@ Migration day notes
 3. Set COMMIT mode to 1
 4. Run the migration script in commit mode: `psql -f migrate_public_names.sql`
 5. Copy the output indicating backup tables and store safely for future reference
-6. Verify migration by running `select count(*) from migration_mapping_tmp where change_type != 'unchanged';`
+6. Verify migration by repeating command `psql -f migrate_public_names.sql`, then running `select count(*) from migration_mapping_tmp where change_type != 'unchanged';`. The count should be 0.
 7. Export galaxy_user table `\copy (SELECT * FROM galaxy_user where purged = false) TO 'galaxy_user.csv' WITH CSV HEADER;`
 8. Send to Marius
 9. Prefix all legacy purged users with double underscore - new ones are already obfuscated: `psql -f update_purged_usernames.sql`
