@@ -2,7 +2,7 @@
 \set COMMIT_MODE 0
 
 BEGIN;
-UPDATE galaxy_session SET is_valid = false WHERE is_valid = true;
+UPDATE galaxy_session SET is_valid = false WHERE is_valid = true AND user_id is not null;
 
 \if :COMMIT_MODE
 COMMIT;
