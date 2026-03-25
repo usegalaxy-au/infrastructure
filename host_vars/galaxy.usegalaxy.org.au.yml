@@ -92,6 +92,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_panel_filters/microbiology.yml"
   - src: "{{ galaxy_config_file_src_dir }}/config/error_report.yml"
     dest: "{{ galaxy_config_dir}}/error_report.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/aai/auth0_authnz.py"
+    dest: "{{ galaxy_server_dir }}/lib/galaxy/authnz/auth0_authnz.py"
 
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.yml.j2"
