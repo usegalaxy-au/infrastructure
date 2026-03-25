@@ -100,4 +100,4 @@ galaxy_web_server_mounts:
     state: mounted
 
 # Control whether AAI settings are being used
-aai_enabled: false
+aai_enabled: true

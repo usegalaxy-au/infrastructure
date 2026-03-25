@@ -33,9 +33,9 @@ nginx_ssl_servers:
 # gie proxy hostname
 interactive_tools_server_name: "usegalaxy.org.au"
 
-# Using release_25.1 branch of AU's fork of the galaxy codebase to enforce username rules prior to aai
+# Using release_25.1_au_dev branch of AU's fork of the galaxy codebase for AAI compatibility
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
-galaxy_commit_id: release_25.1
+galaxy_commit_id: release_25.1_au_dev
 
 galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
 
@@ -999,3 +999,11 @@ telegraf_plugins_extra:
       - fullstat = true
       - include_operations = ["READ", "WRITE", "GETATTR", "LOOKUP", "ACCESS"]
       - include_mounts = ["/mnt/scratch", "/mnt/user-data-volA", "/mnt/user-data-volB","/mnt/user-data-volD"]
+
+# # auth0. # THESE NEED TO EXIST TO ENABLE AAI
+auth0_client_id: "{{ vault_auth0_client_id_production }}"
+auth0_client_secret: "{{ vault_auth0_client_secret_production }}"
+auth0_oidc_endpoint: "{{ vault_auth0_oidc_endpoint_production }}"
+auth0_audience: "{{ vault_auth0_audience_production }}"
+auth0_registration_endpoint: "{{ vault_auth0_registration_endpoint_production }}"
+auth0_profile_url: "{{ vault_auth0_profile_url_production }}"
