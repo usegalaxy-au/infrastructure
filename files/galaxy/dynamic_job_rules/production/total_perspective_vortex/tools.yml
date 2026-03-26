@@ -2832,6 +2832,7 @@ tools:
       scheduling:
         accept:
           - training-exempt
+          - pulsar-qld-high-mem2
         require:
           - ncbi_fcs_gx_db
   toolshed.g2.bx.psu.edu/repos/iuc/necat/necat/.*:
