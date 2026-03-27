@@ -323,6 +323,7 @@ destinations:
       require:
         - pulsar
         - pulsar-blast
+        - offline
   pulsar-QLD:
     inherits: _pulsar_destination
     runner: pulsar-QLD_runner
@@ -341,8 +342,8 @@ destinations:
         - eggnog
       require:
         - pulsar
-        - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
-        - offline
+        # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
+        - pulsar-blast  # stand in pulsar-blast location of hypervisor restart March-April 2026
   pulsar-azure:
     inherits: _pulsar_destination
     runner: pulsar_azure_0_runner
