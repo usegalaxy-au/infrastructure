@@ -344,6 +344,7 @@ destinations:
         - pulsar
         # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
         - pulsar-blast  # stand in pulsar-blast location of hypervisor restart March-April 2026
+        # NOTE: when removing pulsar-blast tag also remove destination_user_concurrent_jobs for pulsar-QLD from host_vars/galaxy
   pulsar-azure:
     inherits: _pulsar_destination
     runner: pulsar_azure_0_runner
