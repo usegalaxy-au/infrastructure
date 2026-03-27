@@ -2267,6 +2267,9 @@ tools:
       if: input_size < 0.1
       cores: 2
       mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/iuc/kegg_pathways_completeness/kegg_pathways_completeness/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/khmer_.*:
     params:
       singularity_enabled: true
@@ -3611,6 +3614,9 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/tetoolkit_tetranscripts/tetoolkit_tetranscripts/.*:
     mem: 12
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/tooldistillator.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/transit_.*:
