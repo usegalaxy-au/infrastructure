@@ -1,0 +1,26 @@
+Q0028_files_dir: /Q0028_files
+Q0028_files_destinations:
+  - 146.118.64.0/21(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=99) 
+  - 138.44.80.40/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=99) 
+  - 138.44.80.112/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=99) 
+  - 138.44.7.153/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=99) 
+  - 138.44.7.157/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=99) 
+  - 138.44.7.152/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=99)
+
+user-data_dir: /mnt/user-data
+user-data_destinations: 
+  - 146.118.64.0/21(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=100) 
+  - 138.44.80.40/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=100) 
+  - 138.44.80.112/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=100) 
+  - 138.44.7.153/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=100) 
+  - 138.44.7.157/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=100) 
+  - 138.44.7.152/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=100)
+
+nfs_dirs:
+  - "{{ Q0028_files_dir }} "
+  - "{{ user-data_dir }}"
+
+nfs_exports:
+  - "{{ Q0028_files_dir }} {{ Q0028_files_destinations | join(' ') }}"
+  - "{{ user-data_dir }} {{ user-data_destinations | join(' ') }}"
+
