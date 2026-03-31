@@ -265,7 +265,7 @@ destinations:
         # - gffread_destination  # while pqhm2 is offline
       require:
         - pulsar
-        - pulsar-quick
+        - offline
   pulsar-qld-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem2_runner
