@@ -47,7 +47,7 @@ galaxy_user_data_nfs_opts: 'noatime,actimeo=1,rsize=1048576,wsize=1048576,defaul
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/production
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
-  - total_perspective_vortex/tools.yml
+  - total_perspective_vortex/tools.yml.j2
   - total_perspective_vortex/destinations.yml.j2
   - total_perspective_vortex/tool_pulsar_scores.yml
   - total_perspective_vortex/users.yml.j2
