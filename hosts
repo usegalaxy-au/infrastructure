@@ -236,6 +236,9 @@ replicant-galaxy-db ansible_ssh_host=115.146.84.74
 [qld_ref_nfs]
 qld-ref-nfs ansible_ssh_host=203.101.226.198 # aka cjh-20220906-alphafold-dev
 
+[qld_nfs_exports]
+galaxy-aust-exports-2026 ansible_ssh_host=203.101.227.234
+
 [nvme]
 qld-nvme ansible_ssh_host=203.101.231.166
 
