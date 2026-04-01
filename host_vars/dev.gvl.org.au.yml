@@ -48,7 +48,7 @@ galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/dev
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
   - total_perspective_vortex/dev_default_tool.yml.j2
-  - total_perspective_vortex/dev_vortex_config.yml
+  - total_perspective_vortex/dev_vortex_config.yml.j2
   - total_perspective_vortex/dev_destinations.yml.j2
   - total_perspective_vortex/dev_tools.yml.j2
   - readme.txt
