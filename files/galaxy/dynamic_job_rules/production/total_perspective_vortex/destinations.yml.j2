@@ -242,7 +242,6 @@ destinations:
         - eggnog
       require:
         - pulsar
-        - offline
   pulsar-qld-high-mem1:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem1_runner
@@ -265,7 +264,6 @@ destinations:
         # - gffread_destination  # while pqhm2 is offline
       require:
         - pulsar
-        - offline
   pulsar-qld-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem2_runner
@@ -323,7 +321,6 @@ destinations:
       require:
         - pulsar
         - pulsar-blast
-        - offline
   pulsar-QLD:
     inherits: _pulsar_destination
     runner: pulsar-QLD_runner
@@ -343,8 +340,6 @@ destinations:
       require:
         - pulsar
         # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
-        - pulsar-blast  # stand in pulsar-blast location of hypervisor restart March-April 2026
-        # NOTE: when removing pulsar-blast tag also remove destination_user_concurrent_jobs for pulsar-QLD from host_vars/galaxy
   pulsar-azure:
     inherits: _pulsar_destination
     runner: pulsar_azure_0_runner
