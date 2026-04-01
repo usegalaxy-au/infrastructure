@@ -1,3 +1,9 @@
+# data in NFS volumes belongs to the galaxy user so need to create galaxy user
+add_galaxy_user: yes
+# set galaxy user UID and GID
+galaxy_uid: 10010
+galaxy_gid: 10010
+
 Q0028_files_dir: /Q0028_files
 Q0028_files_destinations:
   - 146.118.64.0/21(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=99) 
