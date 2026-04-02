@@ -316,6 +316,8 @@ tools:
     params:
       singularity_enabled: true 
   toolshed.g2.bx.psu.edu/repos/bgruening/hicexplorer_.*:
+    cores: 4
+    mem: 15.5
     params:
       singularity_enabled: true 
   toolshed.g2.bx.psu.edu/repos/bgruening/hicexplorer_hicbuildmatrix/hicexplorer_hicbuildmatrix/.*:
@@ -400,6 +402,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/openbabel.*:
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/pileometh/pileometh/.*:
@@ -509,6 +512,7 @@ tools:
       cores: 3
       mem: 11.5
   toolshed.g2.bx.psu.edu/repos/bgruening/wordcloud/wordcloud/.*:
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/chemteam/.*:
@@ -1253,6 +1257,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/metawrapmg_binning/metawrapmg_bin_refinement/*:
+    cores: 4
+    mem: 15.5
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/panaroo/panaroo/.*:
     context:
       minimum_singularity_version: '1.5.2+galaxy0'
@@ -1816,9 +1823,11 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
+    mem: 10
     params:
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/concoct.*:
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/compleasm/compleasm/.*:
@@ -1846,6 +1855,8 @@ tools:
     params:
       singularity_enabled: true
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2.*:
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
     cores: 8
     mem: 31
@@ -2014,6 +2025,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/geneiobio/gene_iobio_display_generation_iframe/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/genrich/genrich/.*:
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/getorganelle/get_annotated_regions_from_gb/.*:
     params:
       singularity_enabled: true
@@ -2119,6 +2132,8 @@ tools:
       if: input_size >= 12
       cores: 36
       mem: 500
+  toolshed.g2.bx.psu.edu/repos/iuc/humann.*:
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
@@ -2362,6 +2377,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/liftoff/liftoff/.*:
+    cores: 4
+    mem: 15.5
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/.*:
@@ -2458,6 +2475,8 @@ tools:
       if: input_size < 0.5
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant_pipeline/medaka_variant_pipeline/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant/medaka_variant/.*:
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
     context:
       max_concurrent_job_count_for_tool_user: 3  # TODO: this tool could go to high memory pulsars instead
@@ -2513,6 +2532,7 @@ tools:
     cores: 2
     mem : 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/metabat2.*:
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/.*:
@@ -2558,6 +2578,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/mosdepth/mosdepth/.*:
+    cores: 2
+    mem: 7.6
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/mothur.*:
@@ -3027,6 +3049,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/progressivemauve/.*:
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/purge_dups/purge_dups/.*:
@@ -3317,6 +3340,14 @@ tools:
       if: 10 <= input_size < 20
       cores: 4
       mem: 15.3
+  toolshed.g2.bx.psu.edu/repos/iuc/seqkit_sort/seqkit_sort/.*:
+    cores: 4
+    mem: 15.5
+    params:
+      tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_subseq/.*:
+    cores: 2
+    mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/seurat.*:
     mem: 20
     params:
@@ -3364,6 +3395,7 @@ tools:
       if: input_size >= 10
       fail: Your input data exceeds 10GB and therefore is not suitable for Shovill.
   toolshed.g2.bx.psu.edu/repos/iuc/sinto_.*:
+    mem: 10
     params:
       singularity_enabled: true 
   toolshed.g2.bx.psu.edu/repos/iuc/snapatac2_.*:
@@ -3599,6 +3631,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/star_fusion/star_fusion/.*:
+    cores: 4
+    mem: 15.5
   toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/.*:
     cores: 5
     mem: 19.1
@@ -4256,14 +4291,24 @@ tools:
     inherits: wig_to_bigWig  
   CONVERTER_bedgraph_to_bigwig:
     inherits: wig_to_bigWig
+  CONVERTER_bam_to_coodinate_sorted_bam:  # TODO: linear input size rule
+    mem: 8
+  CONVERTER_fasta_to_bowtie_base_index:  # TODO: linear input size rule
+    mem: 8
   CONVERTER_fasta_to_fai:
     mem: 10
+  CONVERTER_fasta_to_tabular:  # TODO: linear input size rule, possible mem optimization for tool
+    mem: 8
+  CONVERTER_fastq_to_fqtoc0:  # TODO: linear input size rule
+    mem: 8
   CONVERTER_gff_to_fli_0:
     mem: 12
   CONVERTER_gff_to_interval_index_0:
     mem: 12
   CONVERTER_interval_to_bigwig_0:
     inherits: wig_to_bigWig
+  CONVERTER_mdconvert:  # TODO: linear input size rule
+    mem: 8
   CONVERTER_wig_to_bigwig:
     inherits: wig_to_bigWig  
   fgenesh_tool:
