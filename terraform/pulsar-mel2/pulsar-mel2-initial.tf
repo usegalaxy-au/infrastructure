@@ -1,3 +1,6 @@
+## Note: Worker volumes were extended from 100GB to 200GB in place
+## so any state file for this will not be accurate (30/3/26)
+
 # Pulsar-mel2
 resource "openstack_compute_instance_v2" "pulsar-mel2" {
   name            = "pulsar-mel2"
@@ -85,49 +88,49 @@ resource "openstack_blockstorage_volume_v2" "pulsar-mel2-w1-volume" {
   availability_zone = "melbourne-qh2"
   name        = "pulsar-mel2-w1-volume"
   description = "Pulsar-mel2 W1 volume"
-  size        = 100
+  size        = 200
 }
 
 resource "openstack_blockstorage_volume_v2" "pulsar-mel2-w2-volume" {
   availability_zone = "melbourne-qh2"
   name        = "pulsar-mel2-w2-volume"
   description = "Pulsar-mel2 W2 volume"
-  size        = 100
+  size        = 200
 }
 
 resource "openstack_blockstorage_volume_v2" "pulsar-mel2-w3-volume" {
   availability_zone = "melbourne-qh2"
   name        = "pulsar-mel2-w3-volume"
   description = "Pulsar-mel2 W3 volume"
-  size        = 100
+  size        = 200
 }
 
 resource "openstack_blockstorage_volume_v2" "pulsar-mel2-w4-volume" {
   availability_zone = "melbourne-qh2"
   name        = "pulsar-mel2-w4-volume"
   description = "Pulsar-mel2 W4 volume"
-  size        = 100
+  size        = 200
 }
 
 resource "openstack_blockstorage_volume_v2" "pulsar-mel2-w5-volume" {
   availability_zone = "melbourne-qh2"
   name        = "pulsar-mel2-w5-volume"
   description = "Pulsar-mel2 W5 volume"
-  size        = 100
+  size        = 200
 }
 
 resource "openstack_blockstorage_volume_v2" "pulsar-mel2-w6-volume" {
   availability_zone = "melbourne-qh2"
   name        = "pulsar-mel2-w6-volume"
   description = "Pulsar-mel2 W6 volume"
-  size        = 100
+  size        = 200
 }
 
 resource "openstack_blockstorage_volume_v2" "pulsar-mel2-w7-volume" {
   availability_zone = "melbourne-qh2"
   name        = "pulsar-mel2-w7-volume"
   description = "Pulsar-mel2 W7 volume"
-  size        = 100
+  size        = 200
 }
 
 # Attachment between application/web server and volume
