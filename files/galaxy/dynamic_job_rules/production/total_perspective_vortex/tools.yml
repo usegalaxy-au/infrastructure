@@ -1858,10 +1858,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/dada2.*:
     mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
-    cores: 8
-    mem: 31
+    cores: 16
+    mem: 62
     params:
       singularity_enabled: true
+    rules:
+    - id: dada2_assignTaxonomyAddspecies_small_input_rule
+      if: input_size < 0.03
+      cores: 8
+      mem: 31
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*:
     cores: 2
     mem: 10
