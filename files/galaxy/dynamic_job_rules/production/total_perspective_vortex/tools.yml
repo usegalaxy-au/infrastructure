@@ -3823,6 +3823,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
+      minimum_singularity_version: '0.4.7.0'
     cores: 16
     mem: 150
     scheduling:
@@ -3832,12 +3833,6 @@ tools:
       - pulsar-training-large
       - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
-    - id: unicycler_singularity_rule
-      if: |
-        minimum_singularity_version = '0.5.0+galaxy0'
-        helpers.tool_version_gte(tool, minimum_singularity_version)
-      params:
-        singularity_enabled: true
     - id: unicycler_small_input_rule
       if: input_size < 0.05
       cores: 2
