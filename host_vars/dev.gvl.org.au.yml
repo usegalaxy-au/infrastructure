@@ -178,8 +178,8 @@ host_galaxy_config: # renamed from __galaxy_config
   galaxy:
     activation_email: <activation-noreply@usegalaxy.org.au>
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},{{ uwe_email }},{{ ross_email }}" # everyone is an admin on dev
-    # ai_api_key: "{{ vault_biocommons_galaxy_openai_api_key }}"  # NEEDS UPDATE IN VAULT (15/4/26, CB)
-    # ai_model: gpt-4o  # this is the default but there are many with varied prices  # MAY NEED TO UPDATE MODEL CHOICE
+    ai_api_key: "{{ vault_biocommons_galaxy_openai_api_key }}"  # NEEDS UPDATE IN VAULT (15/4/26, CB)
+    ai_model: gpt-5.4-nano  # CB chose this for no good reason, update me
     amqp_internal_connection: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_dev }}@dev-queue.gvl.org.au:5671//galaxy/galaxy_queues?ssl=1"
     brand: "Australia Dev"
     celery_conf:
