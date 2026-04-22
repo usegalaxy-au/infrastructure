@@ -29,7 +29,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install \
           total-perspective-vortex==$TPV_VERSION \
-          'pydantic<2.12' \
           pyyaml \
           galaxy-app
 
