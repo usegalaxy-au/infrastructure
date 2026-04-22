@@ -3066,6 +3066,8 @@ tools:
     # scheduling:  # moved off pulsar due to very large jobs being staged out, though the pulsar score of this tool is ~1 and it should in theory be worth it to send to pulsar
     #   accept:
     #   - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/pycoqc/pycoqc/.*:
+    mem: 16
   toolshed.g2.bx.psu.edu/repos/iuc/qualimap_.*:
     params:
       singularity_enabled: true  
