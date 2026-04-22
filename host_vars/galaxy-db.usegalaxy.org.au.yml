@@ -44,6 +44,7 @@ postgresql_conf:
   # - wal_level: replica
   # - max_wal_senders: 5
   # - wal_keep_size: 2GB
+  - temp_file_limit: 20GB
 
 postgresql_pgdata: "/data/production"
 
