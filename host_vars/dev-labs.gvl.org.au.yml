@@ -1,2 +1,3 @@
 labs_domain_name: dev-labs.gvl.org.au
 labs_engine_branch: dev
+labs_openai_api_key: "{{ vault_labs_engine_openai_api_key }}"
