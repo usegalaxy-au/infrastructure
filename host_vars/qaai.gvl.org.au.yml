@@ -1,7 +1,7 @@
 # Specific settings for qaai server
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
-galaxy_commit_id: release_25.1_au_dev
+galaxy_commit_id: release_26.0_au
 
 host_galaxy_config: # renamed from __galaxy_config
   gravity: "{{ host_galaxy_config_gravity }}"
