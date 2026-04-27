@@ -1994,6 +1994,11 @@ tools:
         if: tool.version.startswith('1.8.17')
         params:
           singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/funannotate:1.8.17--pyhdfd78af_1
+  toolshed.g2.bx.psu.edu/repos/iuc/funannotate_annotate/funannotate_annotate/.*:
+    rules:
+    - id: tpvdb_funannotate_annotate_large_input_rule
+      if: input_size > 3.2
+      mem: 120  # TODO: shared-db has 62 for this, could it be changed to a linear function instead of size rule?
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_compare/funannotate_compare/.*:
     cores: 8
     mem: 40
