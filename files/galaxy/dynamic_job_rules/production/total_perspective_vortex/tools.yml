@@ -1554,13 +1554,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
-    cores: 8
-    mem: 31.2
+    cores: 16
+    mem: 62
     params:
       singularity_enabled: true
     scheduling:
       prefer:
-        - pulsar-mel2
+        - pulsar-QLD
         # - cvmfs_cache_100plus
       require:
         - bakta_database
