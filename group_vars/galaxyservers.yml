@@ -234,6 +234,7 @@ group_galaxy_config:
     file_sources_config_file: "{{ galaxy_config_dir }}/file_sources_conf.yml"
     file_source_templates_config_file: "{{ galaxy_config_dir }}/file_source_templates.yml"
     vault_config_file: "{{ galaxy_config_dir }}/vault_conf.yml"
+    auth_config_file: "{{ galaxy_config_dir }}/auth_conf.xml"
 
     galaxy_data_manager_data_path: "{{ galaxy_custom_indices_dir }}"
     shed_tool_data_path: "{{ galaxy_tools_indices_dir }}/tool-data/shed_tool_data"
@@ -338,6 +339,8 @@ group_galaxy_config_templates:
     dest: "{{ galaxy_config['galaxy']['file_sources_config_file'] }}"
   - src: "{{ galaxy_config_template_src_dir }}/config/file_source_templates.yml.j2"
     dest: "{{ galaxy_config['galaxy']['file_source_templates_config_file'] }}"
+  - src: "{{ galaxy_config_template_src_dir }}/config/auth_conf.xml.j2"
+    dest: "{{ galaxy_config['galaxy']['auth_config_file'] }}"
 
 
 galaxy_config_templates: "{{ group_galaxy_config_templates + host_galaxy_config_templates|d([]) }}"
