@@ -1,0 +1,12 @@
+<auth>
+{% if not aai_enabled or not aai_logins_only %}
+    <authenticator>
+        <type>localdb</type>
+        <options>
+            <!-- Whether users are allowed to change their password. Default is
+                 False. -->
+            <allow-password-change>true</allow-password-change>
+        </options>
+    </authenticator>
+{% endif %}
+</auth>
