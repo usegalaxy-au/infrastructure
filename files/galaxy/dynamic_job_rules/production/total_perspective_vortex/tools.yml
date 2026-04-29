@@ -4315,7 +4315,7 @@ tools:
   CONVERTER_interval_to_bigwig_0:
     inherits: wig_to_bigWig
   CONVERTER_mdconvert:  # TODO: linear input size rule
-    mem: 8
+    mem: 20
   CONVERTER_wig_to_bigwig:
     inherits: wig_to_bigWig  
   fgenesh_tool:
