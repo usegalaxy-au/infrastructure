@@ -4344,15 +4344,19 @@ tools:
         user and any([role.name.startswith('training') for role in user.all_roles() if not role.deleted])
       cores: 4
       mem: 25
-  fgenesh_merge:
-    inherits: fgenesh_tool
-  fgenesh_split:
-    inherits: fgenesh_tool
-  fgenesh_to_genbank:
+  fgenesh_check:
     inherits: fgenesh_tool
   fgenesh_get_mrnas_gc:
     inherits: fgenesh_tool
   fgenesh_get_proteins:
+    inherits: fgenesh_tool
+  fgenesh_merge:
+    inherits: fgenesh_tool
+  fgenesh_renumber:
+    inherits: fgenesh_tool
+  fgenesh_split:
+    inherits: fgenesh_tool
+  fgenesh_to_genbank:
     inherits: fgenesh_tool
   gtdbtk_classify_wf_test:
     cores: 16
