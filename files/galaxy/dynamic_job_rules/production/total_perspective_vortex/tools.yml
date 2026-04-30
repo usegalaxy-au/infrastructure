@@ -2994,6 +2994,9 @@ tools:
     mem: 23
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/plink/plink/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/polypolish/polypolish/.*:
     mem: 23
     params:
