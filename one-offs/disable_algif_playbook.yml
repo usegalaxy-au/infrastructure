@@ -1,0 +1,32 @@
+- name: Disable algif_aead kernel module
+  hosts:
+    - galaxy_group
+    - production_pulsars
+    - pulsar_workers
+    - dev_group
+    - staging_group
+    - qaai_group
+    - stats
+    - jenkins
+    - pulsar-qld-gpu-dev
+    - pulsar-nci-test
+    - pulsar_nci_test_workers
+  become: true
+
+  tasks:
+    - name: Prevent algif_aead from loading
+      copy:
+        dest: /etc/modprobe.d/disable-algif.conf
+        content: "install algif_aead /bin/false\n"
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Check if algif_aead is loaded
+      command: lsmod
+      register: lsmod_output
+      changed_when: false
+
+    - name: Unload algif_aead if loaded
+      command: rmmod algif_aead
+      when: "'algif_aead' in lsmod_output.stdout"
