@@ -119,7 +119,7 @@ destinations:
     params:
       submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
       docker_enabled: true
-      docker_volumes: "{{ slurm_docker_volumes }}"
+      docker_volumes: "{{ slurm_gxit_docker_volumes }}"
       docker_sudo: false
       docker_net: bridge
       docker_auto_rm: true

@@ -640,6 +640,10 @@ slurm_singularity_volumes_list:
   - /cvmfs/data.galaxyproject.org:ro
   - /tmp:rw
 
+slurm_gxit_docker_volumes_list:
+  - $job_directory:rw
+  - /tmp:rw
+
 pulsar_singularity_volumes_list:
   - $job_directory:rw
   - $tool_directory:ro
@@ -653,6 +657,7 @@ pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
 # comma separated strings for the job conf
 slurm_singularity_volumes: "{{ slurm_singularity_volumes_list | join(',') }}"
 pulsar_singularity_volumes: "{{ pulsar_singularity_volumes_list | join(',') }}"
+slurm_gxit_docker_volumes: "{{ slurm_gxit_docker_volumes_list | join(',') }}"
 slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
 pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
 
