@@ -1,0 +1,34 @@
+#User running stats collection
+stats_collection_user: ubuntu
+
+#Directory to copy the scripts to
+stats_dir: ~/stats_collection
+
+#Virtualenv
+virtualenv_dir: "{{ stats_dir }}/stats_venv"
+
+# Influx settings
+influx_url: "localhost"
+influx_db_utilisation: "utilisation-db"
+influx_db_queue: "queue-db"
+influx_db_stats: "stats-db"
+
+#Galaxy Database settings
+stats_db_server: localhost
+stats_database: galaxy
+stats_db_user: galaxy
+stats_db_port: 5432 
+
+# S3 destination settings
+vector_s3_bucket: ""
+vector_s3_endpoint: ""
+vector_s3_region: us-east-1  # Not used by openstack, but has to be valid AWS
+vector_s3_key_prefix: ""
+vector_s3_compression: gzip
+
+# Should be defined in a vault file:
+vector_s3_access_key_id: ""
+vector_s3_secret_access_key: ""
+
+#variable to switch off posting to influx
+stats_dry_run_only: False

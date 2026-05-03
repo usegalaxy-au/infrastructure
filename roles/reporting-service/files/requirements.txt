@@ -1,0 +1,7 @@
+boto3
+influxdb
+psycopg2-binary
+pyyaml
+pycryptodome
+python-dotenv
+sqlalchemy

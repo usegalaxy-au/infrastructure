@@ -25,13 +25,44 @@
     - Can incorporate into vector config so all-in-one-place
 
 
-# Where to host reporting?
+## Where to host reporting?
 
 Stats VM? Can it live with Grafana/InfluxDB?
 
 - Diff machine as Grafana VM already heavily loaded?
 
-# Data retention on S3?
+## Data retention on S3?
 
 Can we do this in Nectar or do we need a Python script to do cleanup?
 How much disk is required for 1 year of Nginx? About 100GB gzipped.
+
+---
+
+# Nginx log phrases to exclude
+
+```
+SentryUptimeBot
+
+Applebot
+
+GET /vendor
+
+POST /cgi-bin/
+
+POST [HTTP 40*]
+
+phpunit
+
+libredtail-http
+
+.php?
+
+CensysInspect
+
+/wp-content/
+```
+
+Also:
+
+- No http_referer
+- No user_agent

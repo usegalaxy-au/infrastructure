@@ -1,0 +1,28 @@
+---
+- name: Load workflows reporting defaults
+  include_vars:
+    file: workflows_reporting.yml
+
+- name: Create stats files and cron jobs for stats collection user
+  become: true
+  become_user: "{{ stats_collection_user }}"
+  block:
+  - name: Create stats dir
+    file:
+      path: "{{ stats_dir }}"
+      state: directory
+
+  - name: Copy requirements file
+    copy:
+      src: files/requirements.txt
+      dest: "{{ stats_dir }}/requirements.txt"
+      mode: 0755
+
+  - name: Create virtualenv
+    pip:
+      virtualenv: "{{ virtualenv_dir }}"
+      requirements: "{{ stats_dir }}/requirements.txt"
+
+- name: Include workflows reporting tasks
+  include_tasks: workflows_reporting.yml
+  when: workflows_reporting_enabled

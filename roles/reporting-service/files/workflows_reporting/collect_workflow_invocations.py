@@ -1,17 +1,17 @@
-"""Collect workflow invocation data from Nginx logs.
+"""Collect workflow invocation data from S3 nginx logs.
 
-Reads a filtered Nginx access log file containing workflow invocation
-requests, tracks file position between runs, and for each new line:
+Downloads pre-formatted JSON nginx logs from S3 for a given date range,
+and for each workflow invocation request:
 
 - Decodes the StoredWorkflow ID using Galaxy's IdEncodingHelper algorithm
 - Queries the Galaxy database for workflow name and source_metadata
 - Resolves a canonical workflow identity (TRS tool ID if available)
 - Sends the data point to InfluxDB via the HTTP write API
 
-Designed to run as a cron job.
-
 Usage:
-    collect_workflow_invocations.py /var/log/nginx/workflows.access.log
+    collect_workflow_invocations.py <start_date> <end_date>
+
+    Dates are in YYYY-MM-DD format (both inclusive).
 """
 
 import codecs
@@ -21,12 +21,14 @@ import os
 import re
 import sys
 import urllib.request
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 from Crypto.Cipher import Blowfish
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
+
+from s3_logs import date_range_from_args, iter_log_records
 
 load_dotenv(Path(__file__).parent / '.env')
 
@@ -40,16 +42,11 @@ INFLUX_URL = os.environ['INFLUX_URL']
 INFLUX_DB = os.environ['INFLUX_DB']
 INFLUX_TOKEN = os.environ['INFLUX_TOKEN']
 MEASUREMENT_NAME = 'workflow_invocation'
-POSITION_FILE = Path(__file__).parent / '.collect_position'
+DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
 
-# Regex patterns for Nginx combined log format
 INVOCATION_PATTERN = re.compile(
     r'POST /api/workflows/([a-f0-9]+)/invocations'
 )
-DATETIME_PATTERN = re.compile(
-    r'\[(\d{2}/\w{3}/\d{4}:\d{2}:\d{2}:\d{2})'
-)
-DATETIME_FORMAT = '%d/%b/%Y:%H:%M:%S'
 DOMAIN_PATTERN = re.compile(
     r'https?://([^/"\s]+)'
 )
@@ -73,23 +70,29 @@ def decode_galaxy_id(encoded_id: str, id_cipher) -> int:
     return int(decrypted.decode('utf-8').lstrip('!'))
 
 
-def parse_log_line(line: str) -> dict | None:
-    """Extract workflow invocation data from an Nginx log line.
+def parse_log_record(record: dict) -> dict | None:
+    """Extract workflow invocation data from a JSON log record.
 
     Returns a dict with 'encoded_id', 'datetime', and 'domain' keys,
-    or None if the line does not match a workflow invocation request.
+    or None if the record does not match a workflow invocation request.
     """
-    inv_match = INVOCATION_PATTERN.search(line)
+    parsed = record.get('parsed', {})
+    request = parsed.get('request', '')
+
+    inv_match = INVOCATION_PATTERN.search(request)
     if not inv_match:
         return None
 
-    dt_match = DATETIME_PATTERN.search(line)
-    if not dt_match:
-        logger.warning("No datetime found in line: %s", line.strip())
+    ts_str = parsed.get('timestamp', '')
+    try:
+        dt = datetime.strptime(ts_str, DATETIME_FORMAT).replace(
+            tzinfo=timezone.utc)
+    except ValueError:
+        logger.warning("Unparseable timestamp in record: %s", ts_str)
         return None
-    dt = datetime.strptime(dt_match.group(1), DATETIME_FORMAT)
 
-    domain_match = DOMAIN_PATTERN.search(line)
+    referer = parsed.get('referer', '-')
+    domain_match = DOMAIN_PATTERN.search(referer)
     domain = domain_match.group(1) if domain_match else 'unknown'
 
     return {
@@ -168,20 +171,6 @@ def format_line_protocol(
     return f"{measurement},{tag_str} {field_str} {ts}"
 
 
-def read_position(log_path: str) -> tuple[int, int]:
-    """Read saved file position (inode, offset) from position file."""
-    try:
-        data = POSITION_FILE.read_text().strip().split()
-        return int(data[0]), int(data[1])
-    except (FileNotFoundError, ValueError, IndexError):
-        return 0, 0
-
-
-def save_position(inode: int, offset: int):
-    """Save file position (inode, offset) for next run."""
-    POSITION_FILE.write_text(f"{inode} {offset}\n")
-
-
 def write_to_influxdb(lines: list[str]):
     """Write line protocol data points to InfluxDB via the HTTP write API."""
     payload = '\n'.join(lines).encode('utf-8')
@@ -206,55 +195,30 @@ def write_to_influxdb(lines: list[str]):
         sys.exit(1)
 
 
-def read_new_lines(log_path: str) -> list[str]:
-    """Read lines added since last run, tracking position by inode."""
-    stat = os.stat(log_path)
-    current_inode = stat.st_ino
-    current_size = stat.st_size
-
-    saved_inode, saved_offset = read_position(log_path)
-
-    # If inode changed (log rotated) or file is smaller, read from start
-    if current_inode != saved_inode or current_size < saved_offset:
-        saved_offset = 0
-
-    with open(log_path) as f:
-        f.seek(saved_offset)
-        lines = f.readlines()
-        new_offset = f.tell()
-
-    save_position(current_inode, new_offset)
-    return lines
-
-
 def main():
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 3:
         print(
-            f"Usage: {sys.argv[0]} <nginx_workflows_log>",
+            f"Usage: {sys.argv[0]} <start_date> <end_date>",
             file=sys.stderr,
         )
         sys.exit(1)
 
-    log_path = sys.argv[1]
-    if not os.path.exists(log_path):
-        logger.warning("Log file not found: %s", log_path)
-        sys.exit(0)
+    try:
+        start_date, end_date = date_range_from_args(sys.argv[1], sys.argv[2])
+    except ValueError as e:
+        logger.error("Invalid date argument: %s", e)
+        sys.exit(1)
 
     id_cipher = Blowfish.new(
         GALAXY_ID_SECRET.encode('utf-8'),
         mode=Blowfish.MODE_ECB,
     )
     engine = create_engine(GALAXY_DATABASE_URL)
-
-    lines = read_new_lines(log_path)
-    if not lines:
-        sys.exit(0)
-
     data_points = []
 
     with engine.connect() as conn:
-        for line in lines:
-            parsed = parse_log_line(line)
+        for record in iter_log_records(start_date, end_date):
+            parsed = parse_log_record(record)
             if not parsed:
                 continue
 
