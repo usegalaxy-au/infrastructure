@@ -2,8 +2,18 @@ from bioblend.galaxy import GalaxyInstance
 import argparse
 import slack
 
+
+"""
+Look at Galaxy Australia's data table entries with Galaxy API to detect
+duplicate values. Duplicate values can lead to errors in job command lines,
+e.g. --ref_path /path/to/ref1,/path/to/ref2 if both paths correspond to the
+same value.
+"""
+
+
 # Tables to skip during duplicate checks
 SKIP_TABLES = [
+    "busco_database_options",  # does not contain file paths
     "indexed_maf_files",
 ]
 

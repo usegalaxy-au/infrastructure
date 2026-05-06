@@ -153,6 +153,7 @@ additional_packages:
   - botocore==1.40.18
   - aiobotocore==2.24.2
   - s3fs==2024.9.0
+  - pkce  # TODO: there is a bug in the conditional dependency checker in release_26.0
 
 galaxy_additional_venv_packages: "{{ tpv_packages + additional_packages }}"
 
@@ -233,6 +234,7 @@ group_galaxy_config:
     file_sources_config_file: "{{ galaxy_config_dir }}/file_sources_conf.yml"
     file_source_templates_config_file: "{{ galaxy_config_dir }}/file_source_templates.yml"
     vault_config_file: "{{ galaxy_config_dir }}/vault_conf.yml"
+    auth_config_file: "{{ galaxy_config_dir }}/auth_conf.xml"
 
     galaxy_data_manager_data_path: "{{ galaxy_custom_indices_dir }}"
     shed_tool_data_path: "{{ galaxy_tools_indices_dir }}/tool-data/shed_tool_data"
@@ -241,6 +243,7 @@ group_galaxy_config:
     library_import_dir: "{{ galaxy_tmp_dir }}/library_import_dir"
     cluster_files_directory: "{{ galaxy_tmp_dir }}/pbs"
     short_term_storage_dir: "{{ galaxy_tmp_dir }}/short_term_web_storage"
+    short_term_storage_default_duration: 259200  # Keep files for 3 days
 
     templates_dir: "{{ galaxy_config_dir }}"
 
@@ -336,6 +339,8 @@ group_galaxy_config_templates:
     dest: "{{ galaxy_config['galaxy']['file_sources_config_file'] }}"
   - src: "{{ galaxy_config_template_src_dir }}/config/file_source_templates.yml.j2"
     dest: "{{ galaxy_config['galaxy']['file_source_templates_config_file'] }}"
+  - src: "{{ galaxy_config_template_src_dir }}/config/auth_conf.xml.j2"
+    dest: "{{ galaxy_config['galaxy']['auth_config_file'] }}"
 
 
 galaxy_config_templates: "{{ group_galaxy_config_templates + host_galaxy_config_templates|d([]) }}"
@@ -410,7 +415,7 @@ gie_proxy_virtualenv: "{{ galaxy_root }}/gie-proxy/venv"
 gie_proxy_setup_service: systemd
 gie_proxy_sessions_path: "{{ galaxy_mutable_data_dir }}/interactivetools_map.sqlite"
 
-# Telegraf extra stuff for statsd
+# Telegraf extra stuff for statsd (Note: nfsclient plugin defined in host_vars)
 telegraf_plugins_extra:
   listen_galaxy_routes:
     plugin: "statsd"

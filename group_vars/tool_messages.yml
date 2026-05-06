@@ -17,12 +17,6 @@ toolmsg_messages:
       to continue using this tool.
     class: warning
 
-  - tool_id: toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold
-    # TODO: Remove this on Feb 28
-    message: >
-      Due to an infrastructure outage, this tool will not be functional on February 27 from 08:00-10:00 AEST.
-    class: warning
-
   - tool_id: toolshed.g2.bx.psu.edu/repos/iuc/ena_upload/ena_upload
     message: >
       Please note, this upload tool is suitable for small datasets only and may not perform well for

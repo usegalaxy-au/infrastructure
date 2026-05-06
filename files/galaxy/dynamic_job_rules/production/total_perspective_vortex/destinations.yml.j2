@@ -119,7 +119,7 @@ destinations:
     params:
       submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
       docker_enabled: true
-      docker_volumes: "{{ slurm_docker_volumes }}"
+      docker_volumes: "{{ slurm_gxit_docker_volumes }}"
       docker_sudo: false
       docker_net: bridge
       docker_auto_rm: true
@@ -164,7 +164,7 @@ destinations:
         - funannotate
         - eggnog
         - medaka_venv_211
-        # - training # Temporary reroute while training pulsar is offline
+        - training # Temporary reroute while training pulsar is offline
         # - pulsar-blast  # alternate location for pulsar blast jobs when pulsar-qld-blast is unavailable
       require:
         - pulsar
@@ -226,7 +226,7 @@ destinations:
     runner: pulsar-qld-high-mem0_runner
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
-    min_accepted_mem: 400
+    min_accepted_mem: 60
     context:
       destination_total_cores: 240
       destination_total_mem: 3845.07
@@ -242,7 +242,6 @@ destinations:
         - eggnog
       require:
         - pulsar
-        - offline
   pulsar-qld-high-mem1:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem1_runner
@@ -262,6 +261,7 @@ destinations:
         - gtdbtk_database
         - verkko_venv
         - medaka_venv_211
+        # - gffread_destination  # while pqhm2 is offline
       require:
         - pulsar
   pulsar-qld-high-mem2:
@@ -283,7 +283,6 @@ destinations:
         - gffread_destination  # special mapping because gffread is a dangerous tool that can take over jwd space
       require:
         - pulsar
-        # - pulsar-qld-high-mem2
   pulsar-nci-training:
     inherits: _pulsar_destination
     runner: pulsar-nci-training_runner
@@ -305,6 +304,7 @@ destinations:
       require:
         - pulsar
         - training
+        - offline
   pulsar-qld-blast:
     inherits: _pulsar_destination
     runner: pulsar-qld-blast_runner
@@ -328,8 +328,8 @@ destinations:
     max_accepted_cores: 16
     max_accepted_mem: 62.5
     context:
-      destination_total_cores: 64  # usually 112, reduced while some workers are in drain for maintenance
-      destination_total_mem: 250 #  usually 437.5, reduced while some workers are in drain for maintenance
+      destination_total_cores: 112
+      destination_total_mem: 437.5
     tags: {{ job_conf_limits.environments['pulsar-QLD'].tags }}
     scheduling:
       accept:
@@ -340,7 +340,7 @@ destinations:
         - eggnog
       require:
         - pulsar
-        - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
+        # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
   pulsar-azure:
     inherits: _pulsar_destination
     runner: pulsar_azure_0_runner

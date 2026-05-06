@@ -1,3 +1,4 @@
+{% if __galaxy_major_version is version('26.0', '<') %}
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/onedata.yml"
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_aws_private_bucket.yml"
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_aws_public_bucket.yml"
@@ -8,6 +9,19 @@
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_rspace.yaml"
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_s3fs.yml"
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_webdav.yml"
+{% else %}
+- include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/onedata.yml"
+- include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_aws_private_bucket.yml"
+- include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_aws_public_bucket.yml"
+- include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_azure.yml"
+- include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_elabftw.yml"
+- include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_ftp.yml"
+- include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_invenio.yml"
+- include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_rspace.yml"
+- include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_s3fs.yml"
+- include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_webdav.yml"
+{% endif %}
+
 {% if inventory_hostname.startswith('dev') %}
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_dropbox.yml"
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_google_drive.yml"

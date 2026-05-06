@@ -1,0 +1,30 @@
+- hosts: galaxy-aust-exports-2026
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/VAULT
+    - group_vars/nfs_servers.yml
+    - host_vars/galaxy-aust-exports.genome.edu.au.yml
+    - secret_group_vars/stats_server_vault
+    - secret_group_vars/ssh_keys
+  pre_tasks:
+    # skip 'Attach volumes' as NON-fungible data on volumes - these will be handled manually
+    # - name: Attach volumes to instance
+    #   include_role:
+    #     name: attached-volumes
+    - name: Ensure nfs directories exist
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items: "{{ nfs_dirs }}"
+  roles:
+      - common
+      - geerlingguy.pip
+      - geerlingguy.nfs
+      - dj-wasabi.telegraf
+  post_tasks:
+    - name: Reload exportfs
+      command: exportfs -ra
+      become: yes
+      become_user: root
+

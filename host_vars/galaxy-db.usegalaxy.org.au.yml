@@ -17,7 +17,7 @@ postgresql_conf:
   #   CPUs num: 8
   #   Connections num: 100
   #   Data Storage: san
-  - max_connections: 300
+  - max_connections: 350
   - listen_addresses: "'*'"   # Allow remote connections
   - data_directory: "'/data/production'"
   - shared_buffers: 16GB
@@ -44,6 +44,7 @@ postgresql_conf:
   # - wal_level: replica
   # - max_wal_senders: 5
   # - wal_keep_size: 2GB
+  - temp_file_limit: 20GB
 
 postgresql_pgdata: "/data/production"
 

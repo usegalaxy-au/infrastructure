@@ -230,6 +230,8 @@
     <label id="miscellaneous_tools" text="MISCELLANEOUS TOOLS"/>
     <section id="imaging" name="Imaging">
     </section>
+    <section id="evolution" name="Evolution">
+    </section>
     <section id="climate_analysis" name="Climate Analysis">
     </section>
     <section id="species_abundance" name="Species abundance">

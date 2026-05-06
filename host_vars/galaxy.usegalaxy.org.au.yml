@@ -33,8 +33,9 @@ nginx_ssl_servers:
 # gie proxy hostname
 interactive_tools_server_name: "usegalaxy.org.au"
 
-galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_25.1
+# Using release_25.1_au_dev branch of AU's fork of the galaxy codebase for AAI compatibility
+galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
+galaxy_commit_id: release_25.1_au_dev
 
 galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
 
@@ -66,7 +67,7 @@ galaxy_job_working_directory: /mnt/scratch/job_working_directory
 
 galaxy_infrastructure_url: https://usegalaxy.org.au
 
-upload_store_volume_dir: /mnt/user-data-volA
+upload_store_volume_dir: /mnt/user-data-volA  # not really used on galaxy VM and overridden on galaxy-handlers
 nginx_upload_store_base_dir: "{{ upload_store_volume_dir }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
@@ -91,6 +92,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_panel_filters/microbiology.yml"
   - src: "{{ galaxy_config_file_src_dir }}/config/error_report.yml"
     dest: "{{ galaxy_config_dir}}/error_report.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/aai/auth0_authnz.py"
+    dest: "{{ galaxy_server_dir }}/lib/galaxy/authnz/auth0_authnz.py"
 
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.yml.j2"
@@ -210,7 +213,7 @@ host_galaxy_config: # renamed from __galaxy_config
 
     celery_conf:
       result_backend: "redis://:{{ vault_redis_requirepass }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:6379/0"
-      result_expires: 259200  # in sec = 3 days (default is 1 day)
+      result_expires: 2419200  # in sec = 28 days (default is 1 day)
       # result_backend: "{{ redis_connection_string }}"
       task_routes:
         galaxy.fetch_data: disabled
@@ -637,6 +640,10 @@ slurm_singularity_volumes_list:
   - /cvmfs/data.galaxyproject.org:ro
   - /tmp:rw
 
+slurm_gxit_docker_volumes_list:
+  - $job_directory:rw
+  - /tmp:rw
+
 pulsar_singularity_volumes_list:
   - $job_directory:rw
   - $tool_directory:ro
@@ -650,6 +657,7 @@ pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
 # comma separated strings for the job conf
 slurm_singularity_volumes: "{{ slurm_singularity_volumes_list | join(',') }}"
 pulsar_singularity_volumes: "{{ pulsar_singularity_volumes_list | join(',') }}"
+slurm_gxit_docker_volumes: "{{ slurm_gxit_docker_volumes_list | join(',') }}"
 slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
 pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
 
@@ -984,3 +992,25 @@ nfs_monitor_servers_galaxy_and_galaxy_handlers:
 nfs_monitor_servers_host: []
 
 nfs_monitor_servers: "{{ nfs_monitor_servers_galaxy_and_galaxy_handlers + nfs_monitor_servers_host }}"
+
+# Telegraf extra stuff for statsd and nfsclient
+telegraf_plugins_extra:
+  listen_galaxy_routes:
+    plugin: "statsd"
+    config:
+      - service_address = ":8125"
+      - metric_separator = "."
+  listen_galaxy_nfs:
+    plugin: "nfsclient"
+    config:
+      - fullstat = true
+      - include_operations = ["READ", "WRITE", "GETATTR", "LOOKUP", "ACCESS"]
+      - include_mounts = ["/mnt/scratch", "/mnt/user-data-volA", "/mnt/user-data-volB","/mnt/user-data-volD"]
+
+# # auth0. # THESE NEED TO EXIST TO ENABLE AAI
+auth0_client_id: "{{ vault_auth0_client_id_production }}"
+auth0_client_secret: "{{ vault_auth0_client_secret_production }}"
+auth0_oidc_endpoint: "{{ vault_auth0_oidc_endpoint_production }}"
+auth0_audience: "{{ vault_auth0_audience_production }}"
+auth0_registration_endpoint: "{{ vault_auth0_registration_endpoint_production }}"
+auth0_profile_url: "{{ vault_auth0_profile_url_production }}"

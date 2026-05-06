@@ -75,7 +75,8 @@ host_galaxy_extra_dirs:
   - "{{ galaxy_root }}/object_store_cache"
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
-galaxy_commit_id: release_25.1_au_dev
+#galaxy_commit_id: release_26.0_au_dev  # the production release is release_26.0_au, this is that plus https://github.com/galaxyproject/galaxy/pull/22477
+galaxy_commit_id: release_26.0_au
 
 galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
 
@@ -178,8 +179,8 @@ host_galaxy_config: # renamed from __galaxy_config
   galaxy:
     activation_email: <activation-noreply@usegalaxy.org.au>
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},{{ uwe_email }},{{ ross_email }}" # everyone is an admin on dev
-    ai_api_key: "{{ vault_biocommons_galaxy_openai_api_key }}"
-    ai_model: gpt-4o  # this is the default but there are many with varied prices
+    ai_api_key: "{{ vault_biocommons_galaxy_openai_api_key }}"  # NEEDS UPDATE IN VAULT (15/4/26, CB)
+    ai_model: gpt-5.4-nano  # CB chose this for no good reason, update me
     amqp_internal_connection: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_dev }}@dev-queue.gvl.org.au:5671//galaxy/galaxy_queues?ssl=1"
     brand: "Australia Dev"
     celery_conf:

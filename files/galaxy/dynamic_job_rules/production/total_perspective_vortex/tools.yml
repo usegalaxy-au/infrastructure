@@ -231,7 +231,6 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/.*:
-    mem: 40  # TODO: this is down from shared db's 90 but it probably needs even less
     params:
       singularity_enabled: true
     scheduling:
@@ -297,7 +296,8 @@ tools:
     scheduling:
       accept:
       - pulsar
-      - pulsar-training-large
+      - training-exempt  # flye will not run on pulsar-nci-training (fails with SIGILL, only on that pulsar cluster) for an unknown reason (CB 22/04/26)
+      # - pulsar-training-large
     rules:
     - id: flye_small_input_rule
       if: input_size < 0.25
@@ -316,6 +316,8 @@ tools:
     params:
       singularity_enabled: true 
   toolshed.g2.bx.psu.edu/repos/bgruening/hicexplorer_.*:
+    cores: 4
+    mem: 15.5
     params:
       singularity_enabled: true 
   toolshed.g2.bx.psu.edu/repos/bgruening/hicexplorer_hicbuildmatrix/hicexplorer_hicbuildmatrix/.*:
@@ -400,6 +402,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/openbabel.*:
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/pileometh/pileometh/.*:
@@ -509,6 +512,7 @@ tools:
       cores: 3
       mem: 11.5
   toolshed.g2.bx.psu.edu/repos/bgruening/wordcloud/wordcloud/.*:
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/chemteam/.*:
@@ -829,7 +833,7 @@ tools:
       accept:
       - pulsar
       prefer:
-      - pulsar-qld-high-mem2
+      - gffread_destination
   toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/.*:
     cores: 5
     mem: 19.1
@@ -1065,6 +1069,8 @@ tools:
       prefer:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/earlhaminst/lotus2/lotus2/.*:
+    cores: 8
+    mem: 31.2
     params:
       singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/ebi-gxa.*:  # singularity for all tools owned by ebi-gxa
@@ -1251,6 +1257,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/metawrapmg_binning/metawrapmg_bin_refinement/*:
+    cores: 4
+    mem: 15.5
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/panaroo/panaroo/.*:
     context:
       minimum_singularity_version: '1.5.2+galaxy0'
@@ -1814,9 +1823,11 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
+    mem: 10
     params:
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/concoct.*:
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/compleasm/compleasm/.*:
@@ -1844,11 +1855,18 @@ tools:
     params:
       singularity_enabled: true
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2.*:
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
-    cores: 8
-    mem: 31
+    cores: 16
+    mem: 62
     params:
       singularity_enabled: true
+    rules:
+    - id: dada2_assignTaxonomyAddspecies_small_input_rule
+      if: input_size < 0.03
+      cores: 8
+      mem: 31
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*:
     cores: 2
     mem: 10
@@ -1975,6 +1993,11 @@ tools:
         if: tool.version.startswith('1.8.17')
         params:
           singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/funannotate:1.8.17--pyhdfd78af_1
+  toolshed.g2.bx.psu.edu/repos/iuc/funannotate_annotate/funannotate_annotate/.*:
+    rules:
+    - id: tpvdb_funannotate_annotate_large_input_rule
+      if: input_size > 3.2
+      mem: 120  # TODO: shared-db has 62 for this, could it be changed to a linear function instead of size rule?
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate_compare/funannotate_compare/.*:
     cores: 8
     mem: 40
@@ -2012,6 +2035,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/geneiobio/gene_iobio_display_generation_iframe/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/genrich/genrich/.*:
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/getorganelle/get_annotated_regions_from_gb/.*:
     params:
       singularity_enabled: true
@@ -2117,6 +2142,8 @@ tools:
       if: input_size >= 12
       cores: 36
       mem: 500
+  toolshed.g2.bx.psu.edu/repos/iuc/humann.*:
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
@@ -2256,6 +2283,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/.*:
     context:
       max_concurrent_job_count_for_tool_user: 3
+      slurm_training_max_cores: 4
+      slurm_training_max_mem: 15.5
     cores: 5
     mem: 19.1
     params:
@@ -2265,6 +2294,9 @@ tools:
       if: input_size < 0.1
       cores: 2
       mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/iuc/kegg_pathways_completeness/kegg_pathways_completeness/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/khmer_.*:
     params:
       singularity_enabled: true
@@ -2293,7 +2325,7 @@ tools:
     context:
       max_concurrent_job_count_for_tool_user: 2  # reduced from 4 on 19/2/26 due to unusually slow jobs causing a queue
     # Galaxy Main's kraken2 memory rule
-    cores: 16
+    cores: 1  # reduced from 16 in an attempt to stop jobs stalling while loading data (27/3/26 CB)
     mem: |
       import os
       mem = 64
@@ -2323,7 +2355,7 @@ tools:
       - pulsar
       - pulsar-training-large
       - pulsar-high-mem2
-      - pulsar-qld-high-mem2
+      - pulsar-quick
       prefer:
       - cvmfs_cache_1600plus
       reject:
@@ -2355,6 +2387,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/liftoff/liftoff/.*:
+    cores: 4
+    mem: 15.5
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/.*:
@@ -2405,6 +2439,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/mash_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_.*:
     params:
       singularity_enabled: true
@@ -2448,6 +2485,8 @@ tools:
       if: input_size < 0.5
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant_pipeline/medaka_variant_pipeline/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant/medaka_variant/.*
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
     context:
       max_concurrent_job_count_for_tool_user: 3  # TODO: this tool could go to high memory pulsars instead
@@ -2478,6 +2517,9 @@ tools:
       if: input_size < 0.001
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
     cores: 60
     mem: 961
@@ -2496,7 +2538,11 @@ tools:
       if: 0.001 <= input_size < 5
       cores: 16
       mem: 62
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_count_kmers/meryl_count_kmers/.*:
+    cores: 2
+    mem : 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/metabat2.*:
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/.*:
@@ -2542,6 +2588,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/mosdepth/mosdepth/.*:
+    cores: 2
+    mem: 7.6
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/mothur.*:
@@ -2824,8 +2872,16 @@ tools:
       scheduling:
         accept:
           - training-exempt
+          - pulsar-qld-high-mem2
         require:
           - ncbi_fcs_gx_db
+  toolshed.g2.bx.psu.edu/repos/iuc/necat/necat/.*:
+    context:
+      test_cores: 2
+    cores: 4
+    mem: 15.5
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/newick_utils/newick_display/.*:
     mem: 12
     params:
@@ -2938,6 +2994,9 @@ tools:
     mem: 23
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/plink/plink/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/polypolish/polypolish/.*:
     mem: 23
     params:
@@ -3001,7 +3060,11 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/prodigal/prodigal/.*:
     params:
-      singularity_enabled: true  
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/progressivemauve/.*:
+    mem: 10
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/purge_dups/purge_dups/.*:
     cores: 8
     mem: 30.7
@@ -3010,6 +3073,8 @@ tools:
     # scheduling:  # moved off pulsar due to very large jobs being staged out, though the pulsar score of this tool is ~1 and it should in theory be worth it to send to pulsar
     #   accept:
     #   - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/pycoqc/pycoqc/.*:
+    mem: 16
   toolshed.g2.bx.psu.edu/repos/iuc/qualimap_.*:
     params:
       singularity_enabled: true  
@@ -3122,6 +3187,9 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/red/red/.*:
     mem: 8
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/reshape2_melt/.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
@@ -3287,6 +3355,14 @@ tools:
       if: 10 <= input_size < 20
       cores: 4
       mem: 15.3
+  toolshed.g2.bx.psu.edu/repos/iuc/seqkit_sort/seqkit_sort/.*:
+    cores: 4
+    mem: 15.5
+    params:
+      tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_subseq/.*:
+    cores: 2
+    mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/seurat.*:
     mem: 20
     params:
@@ -3334,6 +3410,7 @@ tools:
       if: input_size >= 10
       fail: Your input data exceeds 10GB and therefore is not suitable for Shovill.
   toolshed.g2.bx.psu.edu/repos/iuc/sinto_.*:
+    mem: 10
     params:
       singularity_enabled: true 
   toolshed.g2.bx.psu.edu/repos/iuc/snapatac2_.*:
@@ -3569,6 +3646,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/star_fusion/star_fusion/.*:
+    cores: 4
+    mem: 15.5
   toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/.*:
     cores: 5
     mem: 19.1
@@ -3584,8 +3664,14 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie_merge/.*:
     cores: 1
     mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/structure.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/tetoolkit_tetranscripts/tetoolkit_tetranscripts/.*:
     mem: 12
+    params:
+      singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/tooldistillator.*:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/transit_.*:
@@ -3597,6 +3683,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
+    context:
+      input_size_limit: 30
     cores: 60
     mem: 961
     params:
@@ -3610,10 +3698,9 @@ tools:
       if: input_size < 0.1
       cores: 8
       mem: 30.7
-    - id: trinity_fail_rule
-      if: input_size >= 30
-      fail: Too much data, we cannot support such large Trinity assemblies with our
-        backend. Please use another server for your job.
+    - id: tpvdb_trinity_fail_rule
+      if: input_size >= input_size_limit
+      fail: 'Over input size limit. There is a limit of {input_size_limit}GB input data for the tool {tool.id}'
   toolshed.g2.bx.psu.edu/repos/iuc/trinity_abundance_estimates_to_matrix/trinity_abundance_estimates_to_matrix/.*:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/trinity_align_and_estimate_abundance/.*:
@@ -3746,6 +3833,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
+      minimum_singularity_version: '0.4.7.0'
     cores: 16
     mem: 150
     scheduling:
@@ -3755,12 +3843,6 @@ tools:
       - pulsar-training-large
       - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
-    - id: unicycler_singularity_rule
-      if: |
-        minimum_singularity_version = '0.5.0+galaxy0'
-        helpers.tool_version_gte(tool, minimum_singularity_version)
-      params:
-        singularity_enabled: true
     - id: unicycler_small_input_rule
       if: input_size < 0.05
       cores: 2
@@ -4005,6 +4087,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/recetox/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/richard-burhans/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/rnateam/chipseeker/chipseeker/.*:
     params:
       singularity_enabled: true
@@ -4216,14 +4301,24 @@ tools:
     inherits: wig_to_bigWig  
   CONVERTER_bedgraph_to_bigwig:
     inherits: wig_to_bigWig
+  CONVERTER_bam_to_coodinate_sorted_bam:  # TODO: linear input size rule
+    mem: 8
+  CONVERTER_fasta_to_bowtie_base_index:  # TODO: linear input size rule
+    mem: 8
   CONVERTER_fasta_to_fai:
     mem: 10
+  CONVERTER_fasta_to_tabular:  # TODO: linear input size rule, possible mem optimization for tool
+    mem: 8
+  CONVERTER_fastq_to_fqtoc0:  # TODO: linear input size rule
+    mem: 8
   CONVERTER_gff_to_fli_0:
     mem: 12
   CONVERTER_gff_to_interval_index_0:
     mem: 12
   CONVERTER_interval_to_bigwig_0:
     inherits: wig_to_bigWig
+  CONVERTER_mdconvert:  # TODO: linear input size rule
+    mem: 20
   CONVERTER_wig_to_bigwig:
     inherits: wig_to_bigWig  
   fgenesh_tool:
@@ -4252,15 +4347,19 @@ tools:
         user and any([role.name.startswith('training') for role in user.all_roles() if not role.deleted])
       cores: 4
       mem: 25
-  fgenesh_merge:
-    inherits: fgenesh_tool
-  fgenesh_split:
-    inherits: fgenesh_tool
-  fgenesh_to_genbank:
+  fgenesh_check:
     inherits: fgenesh_tool
   fgenesh_get_mrnas_gc:
     inherits: fgenesh_tool
   fgenesh_get_proteins:
+    inherits: fgenesh_tool
+  fgenesh_merge:
+    inherits: fgenesh_tool
+  fgenesh_renumber:
+    inherits: fgenesh_tool
+  fgenesh_split:
+    inherits: fgenesh_tool
+  fgenesh_to_genbank:
     inherits: fgenesh_tool
   gtdbtk_classify_wf_test:
     cores: 16
@@ -4444,3 +4543,18 @@ tools:
     params:
       docker_enabled: true
       singularity_enabled: false
+
+  toolshed.g2.bx.psu.edu/repos/iuc/tiberius/tiberius/.*:
+    mem: 540  # copying this setting from dorado, i think tiberius needs a whole GPU for large genomes
+    gpus: 1
+    params:
+      singularity_enabled: true
+      singularity_run_extra_arguments: --nv
+    scheduling:
+      accept:
+      - pulsar
+      - training-exempt
+      require:
+      - pulsar-qld-gpu5
+      - pulsar-qld-gpu-other
+      - pulsar-qld-gpu
