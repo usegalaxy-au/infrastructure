@@ -135,7 +135,7 @@ sinks:
       method: newline_delimited
     batch:
       timeout_secs: 3600      # 1 hour
-      max_bytes: 100_000_000  # 100 MB
+      max_bytes: 100000000  # 100 MB
 
   s3_filtered:
     inputs:
@@ -157,7 +157,7 @@ sinks:
       method: newline_delimited
     batch:
       timeout_secs: 3600      # 1 hour
-      max_bytes: 100_000_000  # 100 MB
+      max_bytes: 100000000  # 100 MB
 
   s3_workflow_invocations:
     inputs:
@@ -179,7 +179,7 @@ sinks:
       method: newline_delimited
     batch:
       timeout_secs: 3600      # 1 hour
-      max_bytes: 100_000_000  # 100 MB
+      max_bytes: 100000000  # 100 MB
 
   s3_tool_runs:
     inputs:
@@ -201,4 +201,4 @@ sinks:
       method: newline_delimited
     batch:
       timeout_secs: 3600      # 1 hour
-      max_bytes: 100_000_000  # 100 MB
+      max_bytes: 100000000  # 100 MB
