@@ -15,6 +15,59 @@ transforms:
     source: |
       .parsed = parse_nginx_log!(.message, "combined")
 
+  nginx_logs_filtered:
+    inputs:
+      - nginx_logs_data
+    type: filter
+    condition:
+      type: vrl
+      source: |
+        message = string(.parsed.message) ?? ""
+        agent = string(.parsed.agent) ?? "-"
+        referer = string(.parsed.referer) ?? "-"
+        method = string(.parsed.method) ?? ""
+        path = string(.parsed.path) ?? ""
+        status = to_int(.parsed.status) ?? 0
+
+        # Require a user agent and referer
+        if agent == "-" || referer == "-" {
+          false
+        } else if match_any(agent, [
+
+          # Exclude known bot/scanner user agents
+          r'(?i)phpunit',
+          r'(?i)libredtail-http',
+          r'(?i)CensysInspect',
+          r'(?i)spider',
+          r'(?i)bot'
+
+          ]) {
+          false
+        } else if match_any(path, [
+
+          # Exclude spam/malicious paths
+          r'/vendor',
+          r'/phpunit',
+          r'\.php\?',
+          r'/wp-content/',
+          r'/cgi-bin/'
+
+          ]) {
+          false
+        } else if match_any(message, [
+
+          # Exclude noisy Galaxy messages
+          r'GET /api/invocations/',
+          r'GET /api/histories/',
+          r'GET /history/current_history_json/',
+          r'GET /static/',
+
+          ]) {
+          false
+        } else {
+          true
+        }
+
 sinks:
   out:
     inputs:
@@ -28,7 +81,29 @@ sinks:
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
-    key_prefix: "{{ vector_s3_key_prefix }}"
+    key_prefix: "{{ vector_s3_key_prefix }}raw/%Y-%m-%d-"
+    compression: "{{ vector_s3_compression }}"
+{% if vector_s3_endpoint %}
+    endpoint: "{{ vector_s3_endpoint }}"
+{% endif %}
+    auth:
+      access_key_id: "{{ vector_s3_access_key_id }}"
+      secret_access_key: "{{ vector_s3_secret_access_key }}"
+    encoding:
+      codec: json
+    framing:
+      method: newline_delimited
+    batch:
+      timeout_secs: 3600      # 1 hour
+      max_bytes: 100_000_000  # 100 MB
+
+  s3_filtered:
+    inputs:
+      - nginx_logs_filtered
+    type: aws_s3
+    bucket: "{{ vector_s3_bucket }}"
+    region: "{{ vector_s3_region }}"
+    key_prefix: "{{ vector_s3_key_prefix }}filtered/%Y-%m-%d-"
     compression: "{{ vector_s3_compression }}"
 {% if vector_s3_endpoint %}
     endpoint: "{{ vector_s3_endpoint }}"
