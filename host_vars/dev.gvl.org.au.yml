@@ -75,7 +75,8 @@ host_galaxy_extra_dirs:
   - "{{ galaxy_root }}/object_store_cache"
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
-galaxy_commit_id: release_26.0_au_dev  # the production release is release_26.0_au, this is that plus https://github.com/galaxyproject/galaxy/pull/22477
+#galaxy_commit_id: release_26.0_au_dev  # the production release is release_26.0_au, this is that plus https://github.com/galaxyproject/galaxy/pull/22477
+galaxy_commit_id: release_26.0_au
 
 galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
 
@@ -159,11 +160,6 @@ host_galaxy_config_gravity:
   celery:
     enable: false
     enable_beat: false
-  reports:
-    enable: true
-    url_prefix: /reports
-    bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
-    config_file: "{{ galaxy_config_dir }}/reports.yml"
   tusd:
     enable: true
     tusd_path: /usr/local/sbin/tusd

@@ -358,7 +358,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/interproscan/interproscan/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 2
     cores: 8
     mem: 30.7
     params:
@@ -1149,7 +1149,7 @@ tools:
       alphafold_aa_length_max: 3000
       alphafold_max_input_sequences: 10
       alphafold_db: /data/v2.3
-      max_concurrent_job_count_for_tool_user: 4
+      max_concurrent_job_count_for_tool_user: 2
       pulsar_docker_volumes: $job_directory:ro,$job_directory/home:rw,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold:/data:ro
     gpus: 1
     cores: 16
@@ -3100,7 +3100,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 2
     cores: 4
     mem: 16
     rules:
@@ -4543,3 +4543,18 @@ tools:
     params:
       docker_enabled: true
       singularity_enabled: false
+
+  toolshed.g2.bx.psu.edu/repos/iuc/tiberius/tiberius/.*:
+    mem: 540  # copying this setting from dorado, i think tiberius needs a whole GPU for large genomes
+    gpus: 1
+    params:
+      singularity_enabled: true
+      singularity_run_extra_arguments: --nv
+    scheduling:
+      accept:
+      - pulsar
+      - training-exempt
+      require:
+      - pulsar-qld-gpu5
+      - pulsar-qld-gpu-other
+      - pulsar-qld-gpu
