@@ -358,7 +358,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/interproscan/interproscan/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 2
     cores: 8
     mem: 30.7
     params:
@@ -3100,7 +3100,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 2
     cores: 4
     mem: 16
     rules:
