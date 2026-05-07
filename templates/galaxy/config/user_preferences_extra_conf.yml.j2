@@ -91,6 +91,18 @@ preferences:
               type: password
               required: False
 
+    agrf_nextcloud_account:
+        description: Australian Genome Research Facility (AGRF) Nextcloud Credentials
+        inputs:
+            - name: username
+              label: Username
+              type: text
+              required: False
+            - name: password
+              label: App Password
+              type: password
+              required: False
+
 {% if inventory_hostname.startswith('dev') %}
     xnat_account:
         description: Xnat Server and Account
