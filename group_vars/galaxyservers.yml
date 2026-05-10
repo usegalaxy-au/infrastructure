@@ -154,6 +154,7 @@ additional_packages:
   - aiobotocore==2.24.2
   - s3fs==2024.9.0
   - pkce  # TODO: there is a bug in the conditional dependency checker in release_26.0
+  - gravity==1.2.2  # new release fixing with handler restarts
 
 galaxy_additional_venv_packages: "{{ tpv_packages + additional_packages }}"
 
