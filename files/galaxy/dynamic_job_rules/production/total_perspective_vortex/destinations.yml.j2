@@ -164,7 +164,7 @@ destinations:
         - funannotate
         - eggnog
         - medaka_venv_211
-        - training # Temporary reroute while training pulsar is offline
+        # - training # Temporary reroute while training pulsar is offline
         # - pulsar-blast  # alternate location for pulsar blast jobs when pulsar-qld-blast is unavailable
       require:
         - pulsar
@@ -247,7 +247,7 @@ destinations:
     runner: pulsar-qld-high-mem1_runner
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
-    min_accepted_mem: 62.51
+    min_accepted_mem: 30  # usually set to 62.51, 30 is an unusual config value for this due to many small/medium jobs, (2026-05-07 CB)
     context:
       destination_total_cores: 240
       destination_total_mem: 3845.07
@@ -304,7 +304,6 @@ destinations:
       require:
         - pulsar
         - training
-        - offline
   pulsar-qld-blast:
     inherits: _pulsar_destination
     runner: pulsar-qld-blast_runner

@@ -316,6 +316,10 @@ tools:
     scheduling:
       require:
         - slurm
+  ufcg_profile:
+    cores: 4
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iracooke/protk_proteogenomics/.*:
     cores: 1
     params:
