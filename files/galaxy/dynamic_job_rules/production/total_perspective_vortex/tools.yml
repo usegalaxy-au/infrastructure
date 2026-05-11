@@ -282,6 +282,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/find_subsequences/bg_find_subsequences/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/flexynesis/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/fpocket/.*:
     params:
       singularity_enabled: true
