@@ -109,10 +109,9 @@
     - name: Add lines to postrotate task in nginx logrotate conf
       lineinfile:
         path: /etc/logrotate.d/nginx
-        line: "{{ item }}"
+        regexp: '^\s*cp\s+{{ nginx_log_olddir_root | regex_escape }}/\*\s+{{ nginx_long_term_log_dir | regex_escape }}/$'
+        line: "\t\tcp {{ nginx_log_olddir_root }}/*.gz {{ nginx_long_term_log_dir }}/"
         insertafter: "\tpostrotate"
-      with_items:
-        - "\t\tcp -up {{ nginx_log_olddir_root }}/* {{ nginx_long_term_log_dir }}/"
     - name: Create labs engine reporting dir
       ansible.builtin.file:
         path: /home/ubuntu/labs_engine_reporting
