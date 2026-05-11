@@ -2891,6 +2891,8 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/novoplasty/novoplasty/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 1
     params:
       singularity_enabled: true
     rules:
