@@ -558,11 +558,3 @@ auth0_oidc_endpoint: "{{ vault_auth0_oidc_endpoint_dev }}"
 auth0_audience: "{{ vault_auth0_audience_dev }}"
 auth0_registration_endpoint: "{{ vault_auth0_registration_endpoint_dev }}"
 auth0_profile_url: "{{ vault_auth0_profile_url_dev }}"
-
-# Vector log shipping
-vector_nginx_log_file: /var/log/nginx/access.log
-vector_s3_bucket: cam-logs-test
-vector_s3_endpoint: https://object-store.rc.nectar.org.au
-vector_s3_key_prefix: "{{ inventory_hostname }}/nginx-logs/"
-vector_s3_access_key_id: "{{ vault_vector_s3_access_key_id }}"
-vector_s3_secret_access_key: "{{ vault_vector_s3_secret_access_key }}"
