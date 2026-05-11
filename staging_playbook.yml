@@ -50,8 +50,6 @@
     - postfix-mail-relay
     - role: usegalaxy_eu.walle
       tags: walle
-    - role: vector
-      tags: vector
 
   post_tasks:
     - name: Ensure object store paths exist
