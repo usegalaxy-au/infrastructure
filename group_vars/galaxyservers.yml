@@ -170,7 +170,7 @@ galaxy_process_env:  # environment variables for gunicorn and handlers processes
 group_galaxy_config:
   galaxy:
     # Config options that vary with AAI rollout
-    allow_local_account_creation: "{{ not aai_enabled }}"
+    allow_local_account_creation: "{{ not aai_enabled or not aai_logins_only }}"
     disable_local_accounts: "{{ aai_enabled and aai_logins_only }}"
     enable_account_interface: "{{ not aai_enabled }}"
     user_activation_on: "{{ not aai_enabled }}"
