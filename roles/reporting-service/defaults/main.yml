@@ -1,10 +1,13 @@
-#User running stats collection
+# User running stats collection
 stats_collection_user: ubuntu
 
-#Directory to copy the scripts to
+# Directory to copy the scripts to
 stats_dir: ~/stats_collection
 
-#Virtualenv
+# Where we'll write our program logs to
+logs_dir: "{{ stats_dir }}/logs"
+
+# Virtualenv
 virtualenv_dir: "{{ stats_dir }}/stats_venv"
 
 # Influx settings
@@ -13,7 +16,7 @@ influx_db_utilisation: "utilisation-db"
 influx_db_queue: "queue-db"
 influx_db_stats: "stats-db"
 
-#Galaxy Database settings
+# Galaxy Database settings
 stats_db_server: localhost
 stats_database: galaxy
 stats_db_user: galaxy
@@ -30,7 +33,7 @@ vector_s3_compression: gzip
 vector_s3_access_key_id: ""
 vector_s3_secret_access_key: ""
 
-#variable to switch off posting to influx
+# Variable to switch off posting to influx
 stats_dry_run_only: False
 
 # S3 log data retention policy (days). null means keep forever.

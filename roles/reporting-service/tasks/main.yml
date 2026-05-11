@@ -3,25 +3,38 @@
   include_vars:
     file: workflows_reporting.yml
 
-- name: Create stats files and cron jobs for stats collection user
-  become: true
-  become_user: "{{ stats_collection_user }}"
-  block:
-  - name: Create stats dir
-    file:
-      path: "{{ stats_dir }}"
-      state: directory
+- name: Create stats dir
+  file:
+    path: "{{ stats_dir }}"
+    state: directory
 
-  - name: Copy requirements file
-    copy:
-      src: files/requirements.txt
-      dest: "{{ stats_dir }}/requirements.txt"
-      mode: 0755
+- name: Copy requirements file
+  copy:
+    src: files/requirements.txt
+    dest: "{{ stats_dir }}/requirements.txt"
+    mode: 0755
 
-  - name: Create virtualenv
-    pip:
-      virtualenv: "{{ virtualenv_dir }}"
-      requirements: "{{ stats_dir }}/requirements.txt"
+- name: Create virtualenv
+  pip:
+    virtualenv: "{{ virtualenv_dir }}"
+    requirements: "{{ stats_dir }}/requirements.txt"
+
+- name: Copy S3 cleanup script
+  ansible.builtin.copy:
+    src: s3_cleanup.py
+    dest: "{{ stats_dir }}/s3_cleanup.py"
+    mode: "0755"
+    owner: ubuntu
+
+- name: Add cron job to run S3 log cleanup daily
+  ansible.builtin.cron:
+    name: "S3 log data retention cleanup"
+    minute: "0"
+    hour: "2"
+    job: >-
+      {{ virtualenv_dir }}/bin/python {{ stats_dir }}/s3_cleanup.py
+      --policy '{{ s3_data_retention_days | to_json }}'
+      >> {{ logs_dir }}/s3_cleanup.log 2>&1
 
 - name: Include workflows reporting tasks
   include_tasks: workflows_reporting.yml

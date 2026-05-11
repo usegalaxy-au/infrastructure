@@ -22,13 +22,6 @@
     - collect_workflow_invocations.py
     - s3_logs.py
 
-- name: Copy S3 cleanup script
-  ansible.builtin.copy:
-    src: s3_cleanup.py
-    dest: "{{ workflow_invocations_dir }}/s3_cleanup.py"
-    mode: "0755"
-    owner: ubuntu
-
 - name: Add cron job to run workflow invocations collection script
   ansible.builtin.cron:
     name: "Collect workflow invocations every quarter hour"
@@ -40,13 +33,3 @@
       {{ nginx_workflows_log }}
       >> workflow_invocations.log 2>&1
     when: workflows_reporting_enabled
-
-- name: Add cron job to run S3 log cleanup daily
-  ansible.builtin.cron:
-    name: "S3 log data retention cleanup"
-    minute: "0"
-    hour: "2"
-    job: >-
-      {{ virtualenv_dir }}/bin/python {{ workflow_invocations_dir }}/s3_cleanup.py
-      --policy '{{ s3_data_retention_days | to_json }}'
-      >> {{ workflow_invocations_dir }}/s3_cleanup.log 2>&1
