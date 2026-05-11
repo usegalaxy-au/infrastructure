@@ -1,4 +1,3 @@
 ---
 workflows_reporting_enabled: true
-workflow_invocations_dir: "{{ galaxy_root }}/workflows_reporting"
-nginx_workflows_log: /var/log/nginx/workflows.access.log
+workflow_invocations_dir: "{{ reporting_dir }}/workflows_reporting"

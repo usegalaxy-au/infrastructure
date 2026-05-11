@@ -1,26 +1,25 @@
 # User running stats collection
-stats_collection_user: ubuntu
+reporting_user: ubuntu
 
 # Directory to copy the scripts to
-stats_dir: ~/stats_collection
+reporting_dir: ~/reporting
 
 # Where we'll write our program logs to
-logs_dir: "{{ stats_dir }}/logs"
+logs_dir: "{{ reporting_dir }}/logs"
 
 # Virtualenv
-virtualenv_dir: "{{ stats_dir }}/stats_venv"
+virtualenv_dir: "{{ reporting_dir }}/stats_venv"
 
 # Influx settings
-influx_url: "localhost"
-influx_db_utilisation: "utilisation-db"
-influx_db_queue: "queue-db"
-influx_db_stats: "stats-db"
+influx_url: "{{ hostvars['stats']['internal_ip'] }}"
+influx_db_reporting: reporting
 
 # Galaxy Database settings
-stats_db_server: localhost
-stats_database: galaxy
-stats_db_user: galaxy
-stats_db_port: 5432 
+galaxy_db_server: "{{ hostvars['galaxy-db']['internal_ip'] }}"
+galaxy_db_hostname: galaxy
+galaxy_db_port: 5432
+galaxy_db_user: reader
+galaxy_db_password: "{{ galaxy_db_reader_password }}"
 
 # S3 destination settings
 vector_s3_bucket: ""
@@ -34,10 +33,13 @@ vector_s3_access_key_id: ""
 vector_s3_secret_access_key: ""
 
 # Variable to switch off posting to influx
-stats_dry_run_only: False
+# reporting_dry_run_only: False
 
 # S3 log data retention policy (days). null means keep forever.
 s3_data_retention_days:
   cleaned: 1825   # 5 years
   raw: 30
   selected: null  # Keep forever
+
+enabled_reporting_services:
+  - workflows
