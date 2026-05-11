@@ -10,7 +10,7 @@
 
 - name: Copy requirements file
   copy:
-    src: files/requirements.txt
+    src: requirements.txt
     dest: "{{ reporting_dir }}/requirements.txt"
     mode: 0755
 
@@ -38,4 +38,3 @@
 
 - name: Include workflows reporting tasks
   include_tasks: workflows_reporting.yml
-  when: workflows_reporting_enabled

@@ -11,12 +11,12 @@ logs_dir: "{{ reporting_dir }}/logs"
 virtualenv_dir: "{{ reporting_dir }}/stats_venv"
 
 # Influx settings
-influx_url: "{{ hostvars['stats']['internal_ip'] }}"
-influx_db_reporting: reporting
+influxdb_url: "{{ hostvars['stats']['internal_ip'] }}"
+influxdb_reporting_db: reporting
 
 # Galaxy Database settings
-galaxy_db_server: "{{ hostvars['galaxy-db']['internal_ip'] }}"
-galaxy_db_hostname: galaxy
+galaxy_db_hostname: "{{ hostvars['galaxy-db']['internal_ip'] }}"
+galaxy_db_name: galaxy
 galaxy_db_port: 5432
 galaxy_db_user: reader
 galaxy_db_password: "{{ galaxy_db_reader_password }}"

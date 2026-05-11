@@ -1,3 +1,2 @@
 ---
-workflows_reporting_enabled: true
 workflow_invocations_dir: "{{ reporting_dir }}/workflows_reporting"
