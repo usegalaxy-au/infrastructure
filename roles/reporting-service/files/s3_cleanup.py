@@ -5,7 +5,7 @@ Object categories are identified by path segment
 ('cleaned', 'raw', 'selected').
 Objects whose category has a null retention value are kept forever.
 
-Retention policy is passed as JSON via --policy, e.g.:
+Retention policy (days) is passed as JSON via --policy, e.g.:
     {"cleaned": 1825, "raw": 30, "selected": null}
 
 Designed to run daily by cron.
