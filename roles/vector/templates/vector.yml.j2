@@ -22,7 +22,7 @@ transforms:
     condition:
       type: vrl
       source: |
-        message = string(.parsed.message) ?? ""
+        request = string(.parsed.request) ?? ""
         agent = string(.parsed.agent) ?? "-"
         referer = string(.parsed.referer) ?? "-"
         method = string(.parsed.method) ?? ""
@@ -54,13 +54,13 @@ transforms:
 
           ]) {
           false
-        } else if match_any(message, [
+        } else if match_any(request, [
 
           # Exclude noisy Galaxy messages
           r'GET /api/invocations/',
           r'GET /api/histories/',
           r'GET /history/current_history_json/',
-          r'GET /static/',
+          r'GET /static/'
 
           ]) {
           false
