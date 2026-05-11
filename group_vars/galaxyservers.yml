@@ -147,12 +147,6 @@ tpv_packages: |
 
 additional_packages:
   - flower
-  # specific pinnings of packages so that boto3 installation will work
-  # boto3 is used for s3 file sources
-  - boto3==1.40.18
-  - botocore==1.40.18
-  - aiobotocore==2.24.2
-  - s3fs==2024.9.0
   - pkce  # TODO: there is a bug in the conditional dependency checker in release_26.0
 
 galaxy_additional_venv_packages: "{{ tpv_packages + additional_packages }}"
