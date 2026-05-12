@@ -121,7 +121,7 @@ sinks:
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
-    key_prefix: "{{ vector_s3_key_prefix }}raw/%Y-%m-%d-"
+    key_prefix: "{{ vector_s3_key_prefix }}raw/%Y-%m-%d-%H%M%S-"
     compression: "{{ vector_s3_compression }}"
 {% if vector_s3_endpoint %}
     endpoint: "{{ vector_s3_endpoint }}"
@@ -143,7 +143,7 @@ sinks:
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
-    key_prefix: "{{ vector_s3_key_prefix }}cleaned/%Y-%m-%d-"
+    key_prefix: "{{ vector_s3_key_prefix }}cleaned/%Y-%m-%d-%H%M%S-"
     compression: "{{ vector_s3_compression }}"
 {% if vector_s3_endpoint %}
     endpoint: "{{ vector_s3_endpoint }}"
@@ -165,7 +165,7 @@ sinks:
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
-    key_prefix: "{{ vector_s3_key_prefix }}workflow_invocations/%Y-%m-%d-"
+    key_prefix: "{{ vector_s3_key_prefix }}workflow_invocations/%Y-%m-%d-%H%M%S-"
     compression: "{{ vector_s3_compression }}"
 {% if vector_s3_endpoint %}
     endpoint: "{{ vector_s3_endpoint }}"
@@ -187,7 +187,7 @@ sinks:
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
-    key_prefix: "{{ vector_s3_key_prefix }}tool_runs/%Y-%m-%d-"
+    key_prefix: "{{ vector_s3_key_prefix }}tool_runs/%Y-%m-%d-%H%M%S-"
     compression: "{{ vector_s3_compression }}"
 {% if vector_s3_endpoint %}
     endpoint: "{{ vector_s3_endpoint }}"
