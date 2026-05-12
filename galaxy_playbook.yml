@@ -65,8 +65,6 @@
     - galaxyproject.tiaas2
     - role: usegalaxy_eu.walle
       tags: walle
-    - role: vector
-      tags: vector
   post_tasks:
     - name: create dir for galaxy's singularity cache
       file:
