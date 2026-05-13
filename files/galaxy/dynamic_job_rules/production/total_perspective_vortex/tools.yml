@@ -368,8 +368,6 @@ tools:
       singularity_enabled: true
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/isescan/isescan/.*:
-    # note about pulsar - this tool does not always produce all files in the wrapper's outputs. It runs ok on pulsar
-    # but then when it comes to postprocessing, retries many times for the absent files making it unattractive to schedule it to pulsar. novoplasty is similar
     cores: 2
     mem: 10
   toolshed.g2.bx.psu.edu/repos/bgruening/itsx/itsx/.*:
