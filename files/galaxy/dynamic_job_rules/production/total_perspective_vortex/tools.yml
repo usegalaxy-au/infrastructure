@@ -1350,6 +1350,7 @@ tools:
     params:
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/fasta_merge_files_and_filter_unique_sequences/fasta_merge_files_and_filter_unique_sequences/.*:
+    mem: 12  # TODO: linear
     params:
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/flashlfq/flashlfq/.*:
