@@ -1,18 +1,4 @@
 - type: webdav
-  id: griffith_owncloud
-  label: Griffith ownCloud
-  doc: Import your files from ownCloud. Configure access in User -> Preferences -> Manage Information
-  url: "https://research-storage.griffith.edu.au"
-  root: "/owncloud/remote.php/nonshib-webdav"
-  login: ${user.preferences['griffith_owncloud_account|username']}
-  password: ${user.preferences['griffith_owncloud_account|password']}
-  writable: true
-  # Set the following settings to avoid loading entire files into memory
-  # useful when dealing with big files
-  use_temp_files: true
-  temp_path: /mnt/tmp
-
-- type: webdav
   id: agrf_nextcloud
   label: AGRF Nextcloud
   doc: Import your files from AGRF's Nextcloud server. Configure access in User -> Preferences -> Manage Information
