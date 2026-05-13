@@ -4290,7 +4290,7 @@ tools:
       tmp_dir: true
   cellranger:
     cores: 6
-    mem: 20
+    mem: 40
     params:
       singularity_enabled: true
     rules:
