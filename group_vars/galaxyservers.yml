@@ -147,13 +147,8 @@ tpv_packages: |
 
 additional_packages:
   - flower
-  # specific pinnings of packages so that boto3 installation will work
-  # boto3 is used for s3 file sources
-  - boto3==1.40.18
-  - botocore==1.40.18
-  - aiobotocore==2.24.2
-  - s3fs==2024.9.0
   - pkce  # TODO: there is a bug in the conditional dependency checker in release_26.0
+  - gravity==1.2.2  # new release fixing with handler restarts
 
 galaxy_additional_venv_packages: "{{ tpv_packages + additional_packages }}"
 
@@ -175,7 +170,7 @@ galaxy_process_env:  # environment variables for gunicorn and handlers processes
 group_galaxy_config:
   galaxy:
     # Config options that vary with AAI rollout
-    allow_local_account_creation: "{{ not aai_enabled }}"
+    allow_local_account_creation: "{{ not aai_enabled or not aai_logins_only }}"
     disable_local_accounts: "{{ aai_enabled and aai_logins_only }}"
     enable_account_interface: "{{ not aai_enabled }}"
     user_activation_on: "{{ not aai_enabled }}"

@@ -282,6 +282,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/find_subsequences/bg_find_subsequences/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/bgruening/flexynesis/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/fpocket/.*:
     params:
       singularity_enabled: true
@@ -365,6 +368,8 @@ tools:
       singularity_enabled: true
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/isescan/isescan/.*:
+    # note about pulsar - this tool does not always produce all files in the wrapper's outputs. It runs ok on pulsar
+    # but then when it comes to postprocessing, retries many times for the absent files making it unattractive to schedule it to pulsar. novoplasty is similar
     cores: 2
     mem: 10
   toolshed.g2.bx.psu.edu/repos/bgruening/itsx/itsx/.*:
@@ -523,21 +528,19 @@ tools:
     scheduling:
       accept:
       - pulsar
+    rules:
+    - id: bio3d_large_input_rule
+      if: input_size > 40
+      mem: 1000  # TODO: This has been set up for an OOM job. If it doesn't work,  set input size limit instead
   toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_pca_visualize/bio3d_pca_visualize/.*:
     mem: 64
     scheduling:
       accept:
       - pulsar
   toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_rmsd/bio3d_rmsd/.*:
-    mem: 500
-    scheduling:
-      accept:
-      - pulsar
+    inherits: toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_pca/bio3d_pca/.*
   toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_rmsf/bio3d_rmsf/.*:
-    mem: 500
-    scheduling:
-      accept:
-      - pulsar
+    inherits: toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_pca/bio3d_pca/.*
   toolshed.g2.bx.psu.edu/repos/chemteam/biopdb_align_and_rmsd/biopdb_align_and_rmsd/.*:
     params:
       singularity_enabled: true  
@@ -886,6 +889,8 @@ tools:
         accept:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     cores: 5
     mem: 19.1
     rules:
@@ -1347,6 +1352,7 @@ tools:
     params:
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/fasta_merge_files_and_filter_unique_sequences/fasta_merge_files_and_filter_unique_sequences/.*:
+    mem: 12  # TODO: linear
     params:
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/galaxyp/flashlfq/flashlfq/.*:
@@ -1980,6 +1986,9 @@ tools:
     mem: 31
     params:
       singularity_enabled: true
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/funannotate.*:
     params:
       singularity_enabled: true
@@ -2889,6 +2898,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/nextclade/nextclade/.*:
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/iuc/novoplasty/novoplasty/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 1
+    params:
+      singularity_enabled: true
+    rules:
+    - id: novoplasty_large_input_rule
+      if: input_size > 9
+      mem: 62  # TODO: smaller file size rules are in shared DB. A linear function would be good instead of these rules
   toolshed.g2.bx.psu.edu/repos/iuc/pairtools_.*:
     params:
       singularity_enabled: true
@@ -3185,6 +3203,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/recentrifuge/recentrifuge/.*:
     params:
       singularity_enabled: true
+    mem: 12  # TODO: check after a month whether linear rule might help (11/5/26) , add to shared db
   toolshed.g2.bx.psu.edu/repos/iuc/red/red/.*:
     mem: 8
     params:
@@ -4279,7 +4298,7 @@ tools:
       tmp_dir: true
   cellranger:
     cores: 6
-    mem: 20
+    mem: 40
     params:
       singularity_enabled: true
     rules:
