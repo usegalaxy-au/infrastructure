@@ -30,7 +30,6 @@ preferences:
             - name: password
               label: Password
               type:  password
-              store: vault
               required: False
 
     zenodo:
@@ -70,20 +69,6 @@ preferences:
             - name: apikey
               label: AARNet FileSender API Key
               type: password
-              store: vault
-              required: False
-
-    griffith_owncloud_account:
-        description: Griffith Research Space OwnCloud Credentials
-        inputs:
-            - name: username
-              label: Username
-              type: text
-              required: False
-            - name: password
-              label: App Password
-              type: password
-              store: vault
               required: False
 
 {% if inventory_hostname.startswith('dev') %}
@@ -110,7 +95,6 @@ preferences:
             - name: password
               label: Password
               type: password
-              store: vault
               required: True
 
     agrf_nextcloud_account:
