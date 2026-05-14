@@ -81,5 +81,5 @@
   # Set the following settings to avoid loading entire files into memory
   # useful when dealing with big files
   use_temp_files: true
-  temp_path: /mnt/temp
+  temp_path: "{{ galaxy_tmp_dir }}/webdav/"
 {% endif %}
