@@ -136,7 +136,8 @@ group_galaxy_extra_privsep_dirs:
 
 galaxy_extra_privsep_dirs: "{{ group_galaxy_extra_privsep_dirs + host_galaxy_extra_privsep_dirs|d([]) }}"
 
-group_galaxy_extra_dirs: []
+group_galaxy_extra_dirs:
+  - "{{ galaxy_tmp_dir }}/webdav"
 
 galaxy_extra_dirs: "{{ group_galaxy_extra_dirs + host_galaxy_extra_dirs|d([]) }}"
 
