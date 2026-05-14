@@ -47,7 +47,7 @@
       become: true
       become_user: galaxy
       tags: miniconda
-    - role: galaxy_extensions
+    - role: galaxyproject.galaxy_extensions
       tags: extensions
     - role: usegalaxy_eu.galaxy_subdomains
       tags: galaxy_subdomains
