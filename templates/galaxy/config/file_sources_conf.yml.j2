@@ -1,3 +1,4 @@
+{% if inventory_hostname.startswith('dev') %}
 - type: webdav
   id: agrf_nextcloud
   label: AGRF Nextcloud
@@ -11,6 +12,7 @@
   # useful when dealing with big files
   use_temp_files: true
   temp_path: /mnt/tmp
+{% endif %}
 
 - type: dropbox
   id: dropbox
