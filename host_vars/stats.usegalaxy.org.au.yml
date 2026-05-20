@@ -384,12 +384,12 @@ grafana_datasources:
     user: "{{ influxdb.grafana.username }}"
     secureJsonData:
       password: "{{ influxdb.grafana.password }}"
-  - name: "workflow_invocations"
+  - name: "reporting"
     type: influxdb
     url: "{{ influxdb.url }}"
     version: 2
     editable: false
-    database: "workflow_invocations"
+    database: "reporting"
     user: "{{ influxdb.grafana.username }}"
     secureJsonData:
       password: "{{ influxdb.grafana.password }}"
