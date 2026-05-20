@@ -67,7 +67,6 @@
     - geerlingguy.docker
     - usegalaxy_eu.apptainer
     - dj-wasabi.telegraf
-    - vector
     - postfix-mail-relay
     - acl-on-startup
     - role: usegalaxy_eu.walle
