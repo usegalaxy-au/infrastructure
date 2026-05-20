@@ -186,7 +186,6 @@ destinations:
         - cvmfs_cache_800plus
       require:
         - pulsar
-        - offline
   pulsar-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-high-mem2_runner
@@ -407,7 +406,6 @@ destinations:
       accept:
         - pulsar-qld-gpu1
         - pulsar-qld-gpu-alphafold
-        - offline
   pulsar-qld-gpu2:
     inherits: _pulsar_qld_gpu
     runner: pulsar-qld-gpu2_runner
@@ -415,7 +413,6 @@ destinations:
       accept:
         - pulsar-qld-gpu2
         - pulsar-qld-gpu-alphafold
-        - offline
   pulsar-qld-gpu3:
     inherits:  _pulsar_qld_gpu
     runner: pulsar-qld-gpu3_runner
