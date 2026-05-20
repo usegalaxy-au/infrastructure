@@ -434,3 +434,11 @@ debug:
 # dirs for nginx logs
 nginx_log_olddir_root: /var/log/nginx/olddir
 nginx_long_term_log_dir: /mnt/var/log/nginx
+
+# Vector log shipping
+vector_nginx_log_file: /var/log/nginx/access.log
+vector_s3_bucket: galaxy-logs
+vector_s3_endpoint: https://object-store.rc.nectar.org.au
+vector_s3_key_prefix: "{{ inventory_hostname }}/nginx-logs/"
+vector_s3_access_key_id: "{{ vault_vector_s3_access_key_id }}"
+vector_s3_secret_access_key: "{{ vault_vector_s3_secret_access_key }}"

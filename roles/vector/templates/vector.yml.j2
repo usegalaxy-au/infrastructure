@@ -1,0 +1,204 @@
+---
+data_dir: /var/lib/vector
+
+sources:
+  nginx_logs:
+    type: file
+    include:
+      - "{{ vector_nginx_log_file }}"
+
+transforms:
+  nginx_logs_data:
+    inputs:
+      - nginx_logs
+    type: remap
+    source: |
+      .parsed = parse_nginx_log!(.message, "combined")
+
+  nginx_logs_cleaned:
+    inputs:
+      - nginx_logs_data
+    type: filter
+    condition:
+      type: vrl
+      source: |
+        agent = string(.parsed.agent) ?? "-"
+        referer = string(.parsed.referer) ?? "-"
+        method = string(.parsed.method) ?? ""
+        request = string(.parsed.request) ?? "-"
+        # status = to_int(.parsed.status) ?? 0
+
+        # Require a user agent and referer
+        if agent == "-" || referer == "-" {
+          false
+        } else if match_any(agent, [
+
+          # Exclude known bot/scanner user agents
+          r'(?i)phpunit',
+          r'(?i)libredtail-http',
+          r'(?i)CensysInspect',
+          r'(?i)spider',
+          r'(?i)bot'
+
+          ]) {
+          false
+        } else if match_any(request, [
+
+          # Exclude spam/malicious paths
+          r'/vendor',
+          r'/phpunit',
+          r'\.php\?',
+          r'/wp-content/',
+          r'/cgi-bin/'
+
+          ]) {
+          false
+        } else if match_any(request, [
+
+          # Exclude noisy Galaxy messages
+          r'GET /api/invocations/',
+          r'GET /api/histories/',
+          r'GET /history/current_history_json',
+          r'GET /api/entry_points?running=true',
+          r'GET /static/'
+
+          ]) {
+          false
+        } else {
+          true
+        }
+
+  nginx_logs_workflow_invocations:
+    inputs:
+      - nginx_logs_data
+    type: filter
+    condition:
+      type: vrl
+      source: |
+        message = string(.parsed.message) ?? ""
+        agent = string(.parsed.agent) ?? "-"
+        referer = string(.parsed.referer) ?? "-"
+        method = string(.parsed.method) ?? ""
+        path = string(.parsed.path) ?? ""
+        status = to_int(.parsed.status) ?? 0
+
+        if method == "POST" && match(path, r'/api/workflows/([a-f0-9]+)/invocations') {
+          true
+        } else {
+          false
+        }
+
+  nginx_logs_tool_runs:
+    inputs:
+      - nginx_logs_data
+    type: filter
+    condition:
+      type: vrl
+      source: |
+        message = string(.parsed.message) ?? ""
+        agent = string(.parsed.agent) ?? "-"
+        referer = string(.parsed.referer) ?? "-"
+        method = string(.parsed.method) ?? ""
+        path = string(.parsed.path) ?? ""
+        status = to_int(.parsed.status) ?? 0
+
+        if method == "POST" && match(path, r'/api/tools/.+/build') {
+          true
+        } else {
+          false
+        }
+
+sinks:
+  out:
+    inputs:
+      - nginx_logs_data
+    type: console
+    encoding:
+      codec: text
+  s3:
+    inputs:
+      - nginx_logs_data
+    type: aws_s3
+    bucket: "{{ vector_s3_bucket }}"
+    region: "{{ vector_s3_region }}"
+    key_prefix: "{{ vector_s3_key_prefix }}raw/%Y-%m-%d-%H%M%S-"
+    compression: "{{ vector_s3_compression }}"
+{% if vector_s3_endpoint %}
+    endpoint: "{{ vector_s3_endpoint }}"
+{% endif %}
+    auth:
+      access_key_id: "{{ vector_s3_access_key_id }}"
+      secret_access_key: "{{ vector_s3_secret_access_key }}"
+    encoding:
+      codec: json
+    framing:
+      method: newline_delimited
+    batch:
+      timeout_secs: 86400   # 1 day
+      max_bytes: 100000000  # 100 MB
+
+  s3_cleaned:
+    inputs:
+      - nginx_logs_cleaned
+    type: aws_s3
+    bucket: "{{ vector_s3_bucket }}"
+    region: "{{ vector_s3_region }}"
+    key_prefix: "{{ vector_s3_key_prefix }}cleaned/%Y-%m-%d-%H%M%S-"
+    compression: "{{ vector_s3_compression }}"
+{% if vector_s3_endpoint %}
+    endpoint: "{{ vector_s3_endpoint }}"
+{% endif %}
+    auth:
+      access_key_id: "{{ vector_s3_access_key_id }}"
+      secret_access_key: "{{ vector_s3_secret_access_key }}"
+    encoding:
+      codec: json
+    framing:
+      method: newline_delimited
+    batch:
+      timeout_secs: 86400   # 1 day
+      max_bytes: 100000000  # 100 MB
+
+  s3_workflow_invocations:
+    inputs:
+      - nginx_logs_workflow_invocations
+    type: aws_s3
+    bucket: "{{ vector_s3_bucket }}"
+    region: "{{ vector_s3_region }}"
+    key_prefix: "{{ vector_s3_key_prefix }}workflow_invocations/%Y-%m-%d-%H%M%S-"
+    compression: "{{ vector_s3_compression }}"
+{% if vector_s3_endpoint %}
+    endpoint: "{{ vector_s3_endpoint }}"
+{% endif %}
+    auth:
+      access_key_id: "{{ vector_s3_access_key_id }}"
+      secret_access_key: "{{ vector_s3_secret_access_key }}"
+    encoding:
+      codec: json
+    framing:
+      method: newline_delimited
+    batch:
+      timeout_secs: 86400   # 1 day
+      max_bytes: 100000000  # 100 MB
+
+  s3_tool_runs:
+    inputs:
+      - nginx_logs_tool_runs
+    type: aws_s3
+    bucket: "{{ vector_s3_bucket }}"
+    region: "{{ vector_s3_region }}"
+    key_prefix: "{{ vector_s3_key_prefix }}tool_runs/%Y-%m-%d-%H%M%S-"
+    compression: "{{ vector_s3_compression }}"
+{% if vector_s3_endpoint %}
+    endpoint: "{{ vector_s3_endpoint }}"
+{% endif %}
+    auth:
+      access_key_id: "{{ vector_s3_access_key_id }}"
+      secret_access_key: "{{ vector_s3_secret_access_key }}"
+    encoding:
+      codec: json
+    framing:
+      method: newline_delimited
+    batch:
+      timeout_secs: 86400   # 1 day
+      max_bytes: 100000000  # 100 MB

@@ -26,7 +26,8 @@ roles/galaxy_extensions
 !roles/jasonroyle.rabbitmq/*
 
 # Track Simon's roles:
-!roles/slg.*/*
+!roles/slg.*/
+!roles/slg.*/**
 
 # Track galactic radiotelescope:
 !roles/usegalaxy-eu.galactic-radio-telescope/*
