@@ -1474,13 +1474,9 @@ tools:
     params:
       singularity_enabled: true
       singularity_run_extra_arguments: --writable-tmpfs
-  toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/.*:  # these jobs can run on pulsar but are not scheduled to pulsar because they are typically very small
     cores: 8
     mem: 30.7
-    # scheduling: # these jobs can run on pulsar but it may not be worth transferring them because the job walltime is much quicker than the transport time
-    #   accept:
-    #   - pulsar
-    #   - pulsar-quick
     rules:
     - id: abricate_small_input_rule
       if: input_size < 0.005
@@ -1531,7 +1527,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
+      - pulsar-high-mem2
   toolshed.g2.bx.psu.edu/repos/iuc/arriba_draw_fusions/arriba_draw_fusions/.*:
     params:
       singularity_enabled: true
@@ -1570,7 +1566,6 @@ tools:
     scheduling:
       prefer:
         - pulsar-QLD
-        # - cvmfs_cache_100plus
       require:
         - bakta_database
     rules:
@@ -1706,28 +1701,11 @@ tools:
       - training-exempt
       prefer:
       - pulsar
-    rules:
+    rules:  # all shared-db file size rules for bwa_mem2 are overridden because they do not have higher enough mem values
     - id: bwa_mem2_singularity_override_rule
       if: helpers.tool_version_eq(tool, "2.2.1+galaxy1")
       params:
         singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/mulled-v2-e5d375990341c5aef3c9aff74f96f66f65375ef6:c5b8c4b7735290369693e2b63cfc1ea0732fde07-0
-    # override all shared-db file size rules for bwa_mem2 because they do not have higher enough mem values
-    # - id: tpvdb_bwa_mem2_small_input_rule
-    #   if: input_size < 0.25
-    #   cores: 4
-    #   mem: 15.5
-    # - id: tpvdb_bwa_mem2_medium_input_rule
-    #   if: 0.25 <= input_size < 16
-    #   cores: 8
-    #   mem: 100
-    # - id: tpvdb_bwa_mem2_large_input_rule
-    #   if: 16 <= input_size < 32
-    #   cores: 20
-    #   mem: 250
-    # - id: tpvdb_bwa_mem2_xlarge_input_rule
-    #   if: 32 <= input_size < 64
-    #   cores: 20
-    #   mem: 250
     - id: bwa_mem2_small_input_rule
       if: input_size < 0.25
       cores: 4
@@ -1939,7 +1917,7 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/ena_upload/ena_upload/.*:
-    params:
+    params:  # 21/5/26 I have no idea what the below note means. Can it run with singularity or not? Assume it can when refactoring unless EU says otherwise.
       singularity_enabled: false  # 21/3/24: testing ena_upload with singularity_enabled not true
   toolshed.g2.bx.psu.edu/repos/iuc/episcanpy_.*:
     params:
@@ -2172,9 +2150,8 @@ tools:
       cores: 7
       mem: 45
     - id: humann_singularity_rule
-      if: |
+      if: |  # Unable to run tool tests on previous versions. They might work. TODO: test these manually
         minimum_singularity_version = '3.7+galaxy0'
-        # Unable to run tool tests on previous versions. They might work. TODO: test these manually
         helpers.tool_version_gte(tool, minimum_singularity_version)
       params:
         singularity_enabled: true
@@ -2192,7 +2169,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
+      - pulsar-high-mem2
   toolshed.g2.bx.psu.edu/repos/iuc/hybpiper/hybpiper/.*:
     params:
       singularity_enabled: true
@@ -2333,33 +2310,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/kraken.*:
     params:
       singularity_enabled: true  
-  toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
+  toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:  # Using memory calculation from tpv-shared-db
     context:
-      max_concurrent_job_count_for_tool_user: 2  # reduced from 4 on 19/2/26 due to unusually slow jobs causing a queue
-    # Galaxy Main's kraken2 memory rule
+      max_concurrent_job_count_for_tool_user: 3
     cores: 1  # reduced from 16 in an attempt to stop jobs stalling while loading data (27/3/26 CB)
-    mem: |
-      import os
-      mem = 64
-      table_name = "kraken2_databases"
-      lookup_column = "value"
-      value_column = "path"
-      value_template = "{value}/hash.k2d"
-      options = job.get_param_values(app)
-      lookup_value = options["kraken2_database"]
-      table_value = app.tool_data_tables.get(table_name).get_entry(lookup_column, lookup_value, value_column)
-      if table_value is not None:
-          table_value = value_template.format(value=table_value)
-          try:
-              mem = int(os.path.getsize(table_value)/1024**3 * 1.2)
-              log.debug("Data table '%s' lookup '%s=%s: %s=%s': %s GB",
-                        table_name, lookup_column, lookup_value, value_column, table_value, mem)
-          except OSError:
-              log.exception("Failed to get size of: %s", table_value)
-      else:
-          log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
-                      table_name, lookup_column, lookup_value, value_column, mem)
-      min(mem + 48, 980)
     params:
       singularity_enabled: true
     scheduling:
@@ -2373,8 +2327,7 @@ tools:
       reject:
       - pulsar-QLD
     rules:
-    - id: kraken2_reference_training_rule
-      # apply training rules exemption unless the database is minikraken2
+    - id: kraken2_reference_training_rule  # apply training rules exemption unless the database is minikraken2
       if: |
         minikraken2_db_key = '2020-02-05T235531Z_minikraken2_v2_8GB'
         not helpers.job_args_match(job, app, {'kraken2_database': minikraken2_db_key})
@@ -2446,6 +2399,7 @@ tools:
     mem: 30.39
     env:
       MAKER_MPI: '1'
+      SINGULARITYENV_MAKER_MPI: '1'
     params:
       singularity_enabled: true
     scheduling:
@@ -2501,7 +2455,7 @@ tools:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant/medaka_variant/.*
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3  # TODO: this tool could go to high memory pulsars instead
+      max_concurrent_job_count_for_tool_user: 3
     cores: 16
     mem: 120
     params:
@@ -2848,11 +2802,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
     cores: 8
     mem: 31
-    # This tool was running on pulsar with singularity_enabled: true until July '25 because the latest version
-    # (4.0.0+galaxy1) does not pass all of its tests with the singularity container but does pass
-    # them with the conda environment, unlike previous versions
-    params:
-      singularity_enabled: false
+    params:  # This tool was running on pulsar with singularity_enabled: true until July '25
+      singularity_enabled: false  # set false because version 4.0.0+galaxy1 does not pass tests with singularity unlike previous versions
     rules:
     - id: mummer_nucmer_small_input_rule
       if: input_size < 0.01
@@ -3034,7 +2985,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
+      - pulsar-high-mem2
     rules:
     - id: porechop_small_input_rule
       if: input_size < 0.8
@@ -3096,9 +3047,9 @@ tools:
     mem: 30.7
     params:
       singularity_enabled: true
-    # scheduling:  # moved off pulsar due to very large jobs being staged out, though the pulsar score of this tool is ~1 and it should in theory be worth it to send to pulsar
-    #   accept:
-    #   - pulsar
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/pycoqc/pycoqc/.*:
     mem: 16
   toolshed.g2.bx.psu.edu/repos/iuc/qualimap_.*:
@@ -3140,9 +3091,7 @@ tools:
         helpers.tool_version_gte(tool, minimum_singularity_version)
       params:
         singularity_enabled: true
-    - id: tpvdb_quast_memory
-      # Quast has a vastly greater memory requirement when it generates alignments between scaffolds and a user-
-      # provided reference. This is particularly true if the ref genome is large.
+    - id: tpvdb_quast_memory  # overriding shared-db rule because GA cannot assign 250GB on non-pulsar
       if: |
         helpers.job_args_match(job, app, {"assembly": {"ref": {"use_ref": "true"}}, "large": True})
       cores: 16
@@ -4209,8 +4158,6 @@ tools:
     cores: 5
     mem: 19.1
   .*data_manager.*:
-    context:
-      singularity_volumes: '$job_directory:rw,$galaxy_root:ro,$tool_directory:ro,/mnt/user-data-volA:ro,/mnt/user-data-volB:ro,/mnt/user-data-volD:ro,/mnt/user-data-qld:ro,/mnt/custom-indices:rw,/cvmfs/data.galaxyproject.org:ro,/tmp:rw'
     cores: 5
     mem: 19.1
     params:
@@ -4287,7 +4234,7 @@ tools:
   alphafold_test.*:
     context:
       alphafold_db: /data
-      pulsar_docker_volumes: $job_directory:ro,$job_directory/home:rw,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold:/data:ro
+      pulsar_docker_volumes: "{{ pulsar_docker_volumes }},/data/alphafold:/data:ro"
     cores: 16
     mem: 130
     params:
@@ -4300,7 +4247,6 @@ tools:
       - pulsar
       - pulsar-qld-gpu
       - pulsar-qld-gpu-alphafold
-
   cat1:
     params:
       tmp_dir: true
@@ -4535,27 +4481,21 @@ tools:
       - pulsar-qld-gpu
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_error_correct/dorado_error_correct/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*
-    
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_pod5_convert/dorado_pod5_convert/.*:
     cores: 8
     params:
       singularity_enabled: true
-
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_trimming/dorado_trimming/.*:
     params:
       singularity_enabled: true
-
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/plot_ragtag_paf/plot_ragtag_paf/.*:
     params:
       singularity_enabled: true
-
   dorado_error_correct_alpha:
     inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*
-
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/aarnet_filesender/aarnet_filesender/.*:
     params:
       singularity_enabled: true
-
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/phastest/phastest/.*:
     params:
       singularity_enabled: false
@@ -4572,7 +4512,6 @@ tools:
     params:
       docker_enabled: true
       singularity_enabled: false
-
   toolshed.g2.bx.psu.edu/repos/iuc/tiberius/tiberius/.*:
     mem: 540  # copying this setting from dorado, i think tiberius needs a whole GPU for large genomes
     gpus: 1
