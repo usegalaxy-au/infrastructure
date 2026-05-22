@@ -24,7 +24,7 @@ certbot_share_key_users:
   - influxdb
 certbot_post_renewal: |
     systemctl restart nginx || true
-    systemctl restart influxdb || true
+    systemctl restart docker || true
 certbot_domains:
  - "{{ hostname }}"
 certbot_agree_tos: --agree-tos
