@@ -342,3 +342,6 @@ aai_enabled: false
 aai_logins_only: "{{ aai_enabled }}"  # finer point of control in order to continue allowing local logins on dev
 
 aaf_enabled: "{{ not aai_enabled }}"  # legacy AAF login option will disappear (I think)
+
+# for any VM using geerlingguy.nginx. This is not for galaxyproject.nginx
+nginx_server_tokens: "off"
