@@ -21,7 +21,7 @@
         <oidc_endpoint>{{ auth0_oidc_endpoint }}</oidc_endpoint>
         <accepted_audiences>{{ auth0_audience }}</accepted_audiences>
         <username_key>https://biocommons.org.au/username</username_key>
-        <extra_scopes>roles,offline_access,https://usegalaxy.org.au/api:*</extra_scopes>
+        <extra_scopes>roles,offline_access,{{ galaxy_config.galaxy.oidc_scope_prefix }}</extra_scopes>
         <custom_button_text>BioCommons Access</custom_button_text>
         <end_user_registration_endpoint>{{ auth0_registration_endpoint }}</end_user_registration_endpoint>
         <profile_url>{{ auth0_profile_url }}</profile_url>
