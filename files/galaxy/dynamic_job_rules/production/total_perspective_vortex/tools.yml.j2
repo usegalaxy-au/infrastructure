@@ -1002,8 +1002,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_markdup/samtools_markdup/.*:
     context:
       test_cores: 2
-    cores: 4
-    mem: 15.3
+    cores: 8
+    mem: 30.7
+    rules:
+    - id: samtools_markdup_small_input_rule
+      if: input_size < 10
+      cores: 4
+      mem: 15.3
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/.*:
     cores: 5
     mem: 19.1
