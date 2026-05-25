@@ -2551,8 +2551,13 @@ tools:
       cores: 16
       mem: 62
   toolshed.g2.bx.psu.edu/repos/iuc/meryl_count_kmers/meryl_count_kmers/.*:
-    cores: 2
-    mem : 7.6
+    cores: 5
+    mem: 19.1
+    rules:
+    - id: meryl_count_kmers_small_input_rule
+      if: input_size < 10
+      cores: 2
+      mem : 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/metabat2.*:
     mem: 10
     params:
