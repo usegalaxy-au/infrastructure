@@ -76,7 +76,7 @@
   url: https://agrf-data.agrf.org.au
   root: /remote.php/dav/files/${user.preferences['agrf_nextcloud_account|username']}/
   login: ${user.preferences['agrf_nextcloud_account|username']}
-  password: ${user.preferences['agrf_nextcloud_account|password']}
+  password: ${user.user_vault.read_secret('preferences/agrf_nextcloud_account/password')}
   writable: true
   # Set the following settings to avoid loading entire files into memory
   # useful when dealing with big files
