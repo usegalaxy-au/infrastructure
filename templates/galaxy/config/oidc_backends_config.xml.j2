@@ -1,48 +1,48 @@
 <?xml version="1.0"?>
 <OIDC>
-    {% if aaf_enabled %}
-        <provider name="Keycloak">
-            <label>AAF</label>
-            <require_create_confirmation>true</require_create_confirmation>
-            <url>{{ aaf_issuer_url }}</url>
-            <client_id>{{ aaf_client_id }}</client_id>
-            <client_secret>{{ aaf_client_secret }}</client_secret>
-            <redirect_uri>{{ galaxy_config['galaxy']['galaxy_infrastructure_url'] }}/authnz/keycloak/callback</redirect_uri>
-            <well_known_oidc_config_uri>{{ aaf_issuer_url }}.well-known/openid-configuration</well_known_oidc_config_uri>
-            <icon>https://swift.rc.nectar.org.au/v1/AUTH_377/public/Galaxy/AAF_BTN_Sign_in_med_gradient_orange_FIN2020.png</icon>
+{% if aaf_enabled %}
+    <provider name="Keycloak">
+        <label>AAF</label>
+        <require_create_confirmation>true</require_create_confirmation>
+        <url>{{ aaf_issuer_url }}</url>
+        <client_id>{{ aaf_client_id }}</client_id>
+        <client_secret>{{ aaf_client_secret }}</client_secret>
+        <redirect_uri>{{ galaxy_config['galaxy']['galaxy_infrastructure_url'] }}/authnz/keycloak/callback</redirect_uri>
+        <well_known_oidc_config_uri>{{ aaf_issuer_url }}.well-known/openid-configuration</well_known_oidc_config_uri>
+        <icon>https://swift.rc.nectar.org.au/v1/AUTH_377/public/Galaxy/AAF_BTN_Sign_in_med_gradient_orange_FIN2020.png</icon>
+    </provider>
+{% endif %}
+{% if aai_enabled %}
+    {% if inventory_hostname.startswith('dev') %}
+        <provider name="auth0">
+            <client_id>{{ auth0_client_id }}</client_id>
+            <client_secret>{{ auth0_client_secret }}</client_secret>
+            <domain>{{ auth0_domain }}</domain>
+            <redirect_uri>{{ galaxy_config['galaxy']['galaxy_infrastructure_url'] }}/authnz/auth0/callback</redirect_uri>
+            <oidc_endpoint>{{ auth0_oidc_endpoint }}</oidc_endpoint>
+            <accepted_audiences>{{ auth0_audience }}</accepted_audiences>
+            <username_key>https://biocommons.org.au/username</username_key>
+            <extra_scopes>roles,offline_access,{{ galaxy_config.galaxy.oidc_scope_prefix }}</extra_scopes>
+            <custom_button_text>BioCommons Access</custom_button_text>
+            <end_user_registration_endpoint>{{ auth0_registration_endpoint }}</end_user_registration_endpoint>
+            <profile_url>{{ auth0_profile_url }}</profile_url>
+            <enable_idp_logout>true</enable_idp_logout>
+            <require_session_refresh>true</require_session_refresh>
+        </provider>
+    {% else %}
+        <provider name="oidc">
+            <client_id>{{ auth0_client_id }}</client_id>
+            <client_secret>{{ auth0_client_secret }}</client_secret>
+            <redirect_uri>{{ galaxy_config['galaxy']['galaxy_infrastructure_url'] }}/authnz/oidc/callback</redirect_uri>
+            <oidc_endpoint>{{ auth0_oidc_endpoint }}</oidc_endpoint>
+            <accepted_audiences>{{ auth0_audience }}</accepted_audiences>
+            <username_key>https://biocommons.org.au/username</username_key>
+            <extra_scopes>roles</extra_scopes>
+            <custom_button_text>BioCommons Access</custom_button_text>
+            <end_user_registration_endpoint>{{ auth0_registration_endpoint }}</end_user_registration_endpoint>
+            <profile_url>{{ auth0_profile_url }}</profile_url>
+            <enable_idp_logout>true</enable_idp_logout>
         </provider>
     {% endif %}
-    {% if aai_enabled %}
-        {% if inventory_hostname.startswith('dev') %}
-            <provider name="auth0">
-                <client_id>{{ auth0_client_id }}</client_id>
-                <client_secret>{{ auth0_client_secret }}</client_secret>
-                <domain>{{ auth0_domain }}</domain>
-                <redirect_uri>{{ galaxy_config['galaxy']['galaxy_infrastructure_url'] }}/authnz/auth0/callback</redirect_uri>
-                <oidc_endpoint>{{ auth0_oidc_endpoint }}</oidc_endpoint>
-                <accepted_audiences>{{ auth0_audience }}</accepted_audiences>
-                <username_key>https://biocommons.org.au/username</username_key>
-                <extra_scopes>roles,offline_access,{{ galaxy_config.galaxy.oidc_scope_prefix }}</extra_scopes>
-                <custom_button_text>BioCommons Access</custom_button_text>
-                <end_user_registration_endpoint>{{ auth0_registration_endpoint }}</end_user_registration_endpoint>
-                <profile_url>{{ auth0_profile_url }}</profile_url>
-                <enable_idp_logout>true</enable_idp_logout>
-                <require_session_refresh>true</require_session_refresh>
-            </provider>
-        {% else %}
-            <provider name="oidc">
-                <client_id>{{ auth0_client_id }}</client_id>
-                <client_secret>{{ auth0_client_secret }}</client_secret>
-                <redirect_uri>{{ galaxy_config['galaxy']['galaxy_infrastructure_url'] }}/authnz/oidc/callback</redirect_uri>
-                <oidc_endpoint>{{ auth0_oidc_endpoint }}</oidc_endpoint>
-                <accepted_audiences>{{ auth0_audience }}</accepted_audiences>
-                <username_key>https://biocommons.org.au/username</username_key>
-                <extra_scopes>roles</extra_scopes>
-                <custom_button_text>BioCommons Access</custom_button_text>
-                <end_user_registration_endpoint>{{ auth0_registration_endpoint }}</end_user_registration_endpoint>
-                <profile_url>{{ auth0_profile_url }}</profile_url>
-                <enable_idp_logout>true</enable_idp_logout>
-            </provider>
-        {% endif %}
-    {% endif %}
+{% endif %}
 </OIDC>
