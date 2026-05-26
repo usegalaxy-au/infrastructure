@@ -16,12 +16,18 @@
     <provider name="auth0">
         <client_id>{{ auth0_client_id }}</client_id>
         <client_secret>{{ auth0_client_secret }}</client_secret>
+{% if auth0_domain is defined %}
         <domain>{{ auth0_domain }}</domain>
+{% endif %}
         <redirect_uri>{{ galaxy_config['galaxy']['galaxy_infrastructure_url'] }}/authnz/auth0/callback</redirect_uri>
         <oidc_endpoint>{{ auth0_oidc_endpoint }}</oidc_endpoint>
         <accepted_audiences>{{ auth0_audience }}</accepted_audiences>
         <username_key>https://biocommons.org.au/username</username_key>
+{% if galaxy_config.galaxy.oidc_scope_prefix is defined %}
         <extra_scopes>roles,offline_access,{{ galaxy_config.galaxy.oidc_scope_prefix }}</extra_scopes>
+{% else %}
+        <extra_scopes>roles,offline_access</extra_scopes>
+{% endif %}
         <custom_button_text>BioCommons Access</custom_button_text>
         <end_user_registration_endpoint>{{ auth0_registration_endpoint }}</end_user_registration_endpoint>
         <profile_url>{{ auth0_profile_url }}</profile_url>
