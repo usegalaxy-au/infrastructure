@@ -1,0 +1,34 @@
+---
+- name: Create workflow invocations directory
+  ansible.builtin.file:
+    path: "{{ workflow_invocations_dir }}"
+    state: directory
+    owner: ubuntu
+
+- name: Template workflow invocations .env file
+  ansible.builtin.template:
+    src: workflows_reporting/env.j2
+    dest: "{{ workflow_invocations_dir }}/.env"
+    mode: "0600"
+    owner: ubuntu
+
+- name: Copy workflow invocations Python scripts
+  ansible.builtin.copy:
+    src: "workflows_reporting/{{ item }}"
+    dest: "{{ workflow_invocations_dir }}/{{ item }}"
+    mode: "0755"
+    owner: ubuntu
+  loop:
+    - collect_workflow_invocations.py
+    - s3_logs.py
+
+- name: Add cron job to run workflow invocations collection script
+  ansible.builtin.cron:
+    name: "Collect workflow invocations every quarter hour"
+    minute: "*/15"
+    hour: "*"
+    job: >-
+      {{ virtualenv_dir }}/bin/python
+      {{ workflow_invocations_dir }}/collect_workflow_invocations.py
+      >> {{ logs_dir }}/workflow_invocations.log 2>&1
+    when: "'workflows' in enabled_reporting_services"

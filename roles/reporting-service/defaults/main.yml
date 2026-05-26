@@ -1,0 +1,45 @@
+# User running stats collection
+reporting_user: ubuntu
+
+# Directory to copy the scripts to
+reporting_dir: ~/reporting
+
+# Where we'll write our program logs to
+logs_dir: "{{ reporting_dir }}/logs"
+
+# Virtualenv
+virtualenv_dir: "{{ reporting_dir }}/stats_venv"
+
+# Influx settings
+influxdb_url: "{{ hostvars['stats']['internal_ip'] }}"
+influxdb_reporting_db: reporting
+
+# Galaxy Database settings
+galaxy_db_hostname: "{{ hostvars['galaxy-db']['internal_ip'] }}"
+galaxy_db_name: galaxy
+galaxy_db_port: 5432
+galaxy_db_user: reader
+galaxy_db_password: "{{ galaxy_db_reader_password }}"
+
+# S3 destination settings
+vector_s3_bucket: ""
+vector_s3_endpoint: ""
+vector_s3_region: us-east-1  # Not used by openstack, but has to be valid AWS
+vector_s3_key_prefix: ""
+vector_s3_compression: gzip
+
+# Should be defined in a vault file:
+vector_s3_access_key_id: ""
+vector_s3_secret_access_key: ""
+
+# Variable to switch off posting to influx
+# reporting_dry_run_only: False
+
+# S3 log data retention policy (days). null means keep forever.
+s3_data_retention_days:
+  cleaned: 1825   # 5 years
+  raw: 30
+  selected: null  # Keep forever
+
+enabled_reporting_services:
+  - workflows

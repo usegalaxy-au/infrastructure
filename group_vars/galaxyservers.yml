@@ -53,6 +53,7 @@ nginx_enable_default_server: false
 nginx_ssl_servers:
   - galaxy
 nginx_conf_http:
+  server_tokens: "off"
   client_max_body_size: 240g
   gzip_proxied: "any"
   gzip_static: "on" # The ngx_http_gzip_static_module module allows sending precompressed files with the ".gz" filename extension instead of regular files.
@@ -136,7 +137,8 @@ group_galaxy_extra_privsep_dirs:
 
 galaxy_extra_privsep_dirs: "{{ group_galaxy_extra_privsep_dirs + host_galaxy_extra_privsep_dirs|d([]) }}"
 
-group_galaxy_extra_dirs: []
+group_galaxy_extra_dirs:
+  - "{{ galaxy_tmp_dir }}/webdav"
 
 galaxy_extra_dirs: "{{ group_galaxy_extra_dirs + host_galaxy_extra_dirs|d([]) }}"
 
@@ -147,13 +149,8 @@ tpv_packages: |
 
 additional_packages:
   - flower
-  # specific pinnings of packages so that boto3 installation will work
-  # boto3 is used for s3 file sources
-  - boto3==1.40.18
-  - botocore==1.40.18
-  - aiobotocore==2.24.2
-  - s3fs==2024.9.0
   - pkce  # TODO: there is a bug in the conditional dependency checker in release_26.0
+  - gravity==1.2.2  # new release fixing with handler restarts
 
 galaxy_additional_venv_packages: "{{ tpv_packages + additional_packages }}"
 
@@ -175,7 +172,7 @@ galaxy_process_env:  # environment variables for gunicorn and handlers processes
 group_galaxy_config:
   galaxy:
     # Config options that vary with AAI rollout
-    allow_local_account_creation: "{{ not aai_enabled }}"
+    allow_local_account_creation: "{{ not aai_enabled or not aai_logins_only }}"
     disable_local_accounts: "{{ aai_enabled and aai_logins_only }}"
     enable_account_interface: "{{ not aai_enabled }}"
     user_activation_on: "{{ not aai_enabled }}"
@@ -438,3 +435,11 @@ debug:
 # dirs for nginx logs
 nginx_log_olddir_root: /var/log/nginx/olddir
 nginx_long_term_log_dir: /mnt/var/log/nginx
+
+# Vector log shipping
+vector_nginx_log_file: /var/log/nginx/access.log
+vector_s3_bucket: galaxy-logs
+vector_s3_endpoint: https://object-store.rc.nectar.org.au
+vector_s3_key_prefix: "{{ inventory_hostname }}/nginx-logs/"
+vector_s3_access_key_id: "{{ vault_vector_s3_access_key_id }}"
+vector_s3_secret_access_key: "{{ vault_vector_s3_secret_access_key }}"

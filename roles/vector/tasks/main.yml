@@ -1,0 +1,26 @@
+---
+- name: Add Vector apt repository
+  ansible.builtin.shell:
+    cmd: bash -c "$(curl -L https://setup.vector.dev)"
+    creates: /etc/apt/sources.list.d/timber-vector.list
+
+- name: Install Vector
+  ansible.builtin.apt:
+    name: vector
+    state: present
+    update_cache: true
+
+- name: Deploy Vector configuration
+  ansible.builtin.template:
+    src: vector.yml.j2
+    dest: "{{ vector_config_file }}"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart vector
+
+- name: Enable and start Vector service
+  ansible.builtin.systemd:
+    name: vector
+    enabled: true
+    state: started

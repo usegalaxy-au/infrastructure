@@ -146,7 +146,7 @@ destinations:
         - eggnog
       require:
         - pulsar
-
+        - offline
   pulsar-mel3:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
@@ -240,6 +240,7 @@ destinations:
         - bakta_database
         - funannotate
         - eggnog
+        # - phastest  # alternative phastest pulsar while phm2 is offline
       require:
         - pulsar
   pulsar-qld-high-mem1:

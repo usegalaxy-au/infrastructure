@@ -1,0 +1,19 @@
+---
+# Vector log shipping role defaults
+
+vector_config_file: /etc/vector/vector.yaml
+vector_installation_path: /usr/bin/vector
+
+# Nginx log directory to ship
+vector_nginx_log_file: /var/log/nginx
+
+# S3 destination settings
+vector_s3_bucket: ""
+vector_s3_endpoint: ""
+vector_s3_region: us-east-1  # Not used by openstack, but has to be valid AWS
+vector_s3_key_prefix: ""
+vector_s3_compression: gzip
+
+# Should be defined in a vault file:
+vector_s3_access_key_id: ""
+vector_s3_secret_access_key: ""

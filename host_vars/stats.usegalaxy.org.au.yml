@@ -24,7 +24,7 @@ certbot_share_key_users:
   - influxdb
 certbot_post_renewal: |
     systemctl restart nginx || true
-    systemctl restart influxdb || true
+    systemctl restart docker || true
 certbot_domains:
  - "{{ hostname }}"
 certbot_agree_tos: --agree-tos
@@ -38,6 +38,7 @@ nginx_ssl_servers:
   #- influxdb-ssl
   - grafana-ssl
 nginx_conf_http:
+  server_tokens: "off"
   client_max_body_size: 1g
 
 # Nginx Letsencrypt bindings
@@ -129,6 +130,7 @@ influxdb_databases:
   - 'dev'
   - 'mdu-phl'
   - 'mdu-research'
+  - 'reporting'
 
 retention_policy_dbs:
   # Clusters
@@ -144,6 +146,7 @@ retention_policy_dbs:
   - 'dev'
   - 'mdu-phl'
   - 'mdu-research'
+  - 'reporting'
 
 influxdb_retention_policy:
   policy_name: twoweeks
@@ -379,6 +382,15 @@ grafana_datasources:
     version: 2
     editable: false
     database: "aarnet-testing"
+    user: "{{ influxdb.grafana.username }}"
+    secureJsonData:
+      password: "{{ influxdb.grafana.password }}"
+  - name: "reporting"
+    type: influxdb
+    url: "{{ influxdb.url }}"
+    version: 2
+    editable: false
+    database: "reporting"
     user: "{{ influxdb.grafana.username }}"
     secureJsonData:
       password: "{{ influxdb.grafana.password }}"

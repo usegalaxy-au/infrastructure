@@ -1,17 +1,20 @@
 - name: Disable algif_aead kernel module
-  hosts:
-    - galaxy_group
-    - production_pulsars
-    - pulsar_workers
-    - dev_group
-    - staging_group
-    - qaai_group
-    - stats
-    - jenkins
-    - pulsar-qld-gpu-dev
-    - pulsar-nci-test
-    - pulsar_nci_test_workers
+  hosts: "{{ target_hosts | default(default_target_hosts) }}"
   become: true
+
+  vars:
+    default_target_hosts:
+      - galaxy_group
+      - production_pulsars
+      - pulsar_workers
+      - dev_group
+      - staging_group
+      - qaai_group
+      - stats
+      - jenkins
+      - pulsar-qld-gpu-dev
+      - pulsar-nci-test
+      - pulsar_nci_test_workers
 
   tasks:
     - name: Prevent algif_aead from loading
