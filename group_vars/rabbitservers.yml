@@ -27,7 +27,7 @@ nginx_enable_default_server: false
 nginx_ssl_servers:
   - rabbitmq
 nginx_conf_http:
-  server_tokens: off
+  server_tokens: "off"
   client_max_body_size: 1g
 nginx_remove_default_vhost: true
 
