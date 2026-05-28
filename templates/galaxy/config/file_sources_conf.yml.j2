@@ -69,6 +69,12 @@
   key: {{ vault_nectar_melbournegvl_cb_ec2_access_key }}
   writable: true
 
+- type: drs
+  id: bpa-dp-drs-dev
+  label: BPA Data Portal DRS (dev)
+  url_regex: '^drs://aaidemo\.bioplatforms\.com/'
+  oidc_auth_provider: auth0
+
 - type: webdav
   id: agrf_nextcloud
   label: AGRF Nextcloud
