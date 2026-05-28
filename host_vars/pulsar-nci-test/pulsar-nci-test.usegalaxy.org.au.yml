@@ -39,3 +39,8 @@ ssh_config_entries:
   user: ubuntu
   hosts: "{{ groups['pulsar_nci_test_workers'] }}"
   ip_field: internal_ip
+
+# geerlingguy.nfs
+nfs_exports:
+    - "{{ pulsar_custom_indices_dir }}  10.0.0.0/22(rw,async,no_root_squash,no_subtree_check)"
+    - "/mnt/pulsar  10.0.0.0/22(rw,async,no_root_squash,no_subtree_check)"
