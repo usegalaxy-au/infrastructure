@@ -75,7 +75,7 @@ roles:
 - name: geerlingguy.java
   version: 2.5.0
 - name: geerlingguy.jenkins
-  version: 5.2.0
+  version: 5.3.1
 - name: galaxyproject.galaxy_extensions
 
 # GMS roles
