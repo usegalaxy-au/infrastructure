@@ -1619,6 +1619,9 @@ tools:
     - id: bandage_large_input_rule
       if: 5 <= input_size < 10
       mem: 42
+  toolshed.g2.bx.psu.edu/repos/iuc/bamutil_.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_info/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/.*
   toolshed.g2.bx.psu.edu/repos/iuc/baredsc_.*:
