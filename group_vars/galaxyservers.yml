@@ -178,6 +178,7 @@ group_galaxy_config:
     user_activation_on: "{{ not aai_enabled }}"
     oidc_auth_pipeline_extra: "{{ aai_enabled | ternary(['galaxy.authnz.auth0_authnz.sync_user_groups'], [])}}"
 
+    conda_auto_init: false
     check_migrate_tools: false
     log_level: TRACE
     new_file_path: "{{ galaxy_tmp_dir }}/scratch"
