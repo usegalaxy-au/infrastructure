@@ -180,21 +180,24 @@ tools:
         - pulsar
     cores: 4
   .*alphafold.*:  # match local or toolshed alphafold
+    context:
+      alphafold_aa_length_max: 3000
+      alphafold_max_input_sequences: 10
+      alphafold_db: /data
+      pulsar_docker_volumes: "$job_directory:rw,$tool_directory:ro,/cvmfs/data.galaxyproject.org:ro,/tmp:rw,/data/alphafold:/data:ro"
     cores: 40
     mem: 107
     gpus: 1
     scheduling:
       accept:
         - pulsar
-        - pulsar-eu-gpu-alpha
       require:
         - alphafold
     params:
       docker_enabled: true
-      docker_volumes: '$job_directory:ro,$tool_directory:ro,$job_directory/outputs:rw,$working_directory:rw,/data/alphafold_databases:/data:ro'
       docker_sudo: false
       require_container: true
-      docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=30 --env ALPHAFOLD_AA_LENGTH_MAX=2000"
+      docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=5 --env ALPHAFOLD_AA_LENGTH_MAX={alphafold_aa_length_max} --env ALPHAFOLD_MAX_SEQUENCES={alphafold_max_input_sequences} --env ALPHAFOLD_DB={alphafold_db}"
       docker_set_user: '1000'
     rules:
       - if: user.email == "pulsar_azure_0@genome.edu.au"
