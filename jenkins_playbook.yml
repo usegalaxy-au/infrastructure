@@ -16,6 +16,9 @@
         validate: 'visudo -cf %s'
         mode: 0440
     - name: Run jenkins role 'configure default users' task
+      # This task only runs in the event that the jenkins admin password needs to be updated,
+      # in which case this playbook would be run with --extra-vars "jenkins_update_admin_password=true".
+      # It templates an init script that would normally only run on installation of jenkins.
       template:
         src: roles/geerlingguy.jenkins/templates/basic-security.groovy.j2
         dest: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
