@@ -45,3 +45,25 @@ backends:
   type: disk
   store_by: uuid
   files_dir: /mnt/test_mount
+{% if dev_object_store_nectar_test_backend_enabled|d(False) %}
+- id: nectar_test
+  type: swift
+  weight: 0
+  store_by: uuid
+  auth:
+    access_key: {{ vault_nectar_melbournegvl_cb_ec2_access_key }}
+    secret_key: {{ vault_nectar_melbournegvl_cb_ec2_secret_key }}
+  bucket:
+    name: usegalaxy-au-object-store-backend-test
+    use_reduced_redundancy: false
+    max_chunk_size: 250
+  connection:
+    host: "swift.rc.nectar.org.au"
+    port: 443
+    is_secure: true
+    conn_path: "/"
+  cache:
+    path: /mnt/galaxy/nectar_test_cache
+    size: 20
+    cache_updated_data: true
+{% endif %}
