@@ -11,15 +11,16 @@ logs_dir: "{{ reporting_dir }}/logs"
 virtualenv_dir: "{{ reporting_dir }}/stats_venv"
 
 # Influx settings
-influxdb_url: "{{ hostvars['stats']['internal_ip'] }}"
+influxdb_url: "{{ hostvars['stats']['ansible_ssh_host'] }}"
 influxdb_reporting_db: reporting
+influxdb_node_password: "{{ vault_influx_node_password }}"
 
 # Galaxy Database settings
-galaxy_db_hostname: "{{ hostvars['galaxy-db']['internal_ip'] }}"
+galaxy_db_hostname: "{{ hostvars['galaxy-db']['ansible_ssh_host'] }}"
 galaxy_db_name: galaxy
 galaxy_db_port: 5432
 galaxy_db_user: reader
-galaxy_db_password: "{{ galaxy_db_reader_password }}"
+galaxy_db_password: "{{ vault_galaxy_db_reader_password }}"
 
 # S3 destination settings
 vector_s3_bucket: ""

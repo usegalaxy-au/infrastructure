@@ -1,7 +1,7 @@
 ---
 - name: Load workflows reporting defaults
   include_vars:
-    file: workflows_reporting.yml
+    file: "{{ role_path }}/defaults/workflows.yml"
 
 - name: Create reporting dir
   file:
@@ -37,4 +37,4 @@
       >> {{ logs_dir }}/s3_cleanup.log 2>&1
 
 - name: Include workflows reporting tasks
-  include_tasks: workflows_reporting.yml
+  include_tasks: workflows.yml
