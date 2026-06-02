@@ -75,6 +75,7 @@ galaxy_pulsar_job_working_directory: "{{ galaxy_tmp_dir }}/pulsar_jwds"
 host_galaxy_extra_dirs:
   - "{{ galaxy_pulsar_job_working_directory }}"
   - "{{ galaxy_root }}/object_store_cache"
+  - "{{ galaxy_root }}/nectar_test_cache"
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
 galaxy_commit_id: release_26.0_au_dev  # the production release is release_26.0_au, this is that plus https://github.com/galaxyproject/galaxy/pull/22477

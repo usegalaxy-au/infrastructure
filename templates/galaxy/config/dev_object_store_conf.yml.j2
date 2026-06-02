@@ -63,7 +63,7 @@ backends:
     is_secure: true
     conn_path: "/"
   cache:
-    path: /mnt/galaxy/nectar_test_cache
+    path: {{ galaxy_root }}/nectar_test_cache
     size: 20
     cache_updated_data: true
 {% endif %}
