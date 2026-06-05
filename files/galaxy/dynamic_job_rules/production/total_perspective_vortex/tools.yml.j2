@@ -101,6 +101,9 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/bioimage_inference/bioimage_inference/.*:
+    context:
+      test_cores: 2  # not multithreaded but there is no override for test_mem
+    mem: 12
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
@@ -1254,6 +1257,8 @@ tools:
     cores: 4
     mem: 15.3
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/metawrapmg_binning/metawrapmg_bin_refinement/*:
+    context:
+      test_cores: 2
     cores: 4
     mem: 15.5
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/metawrapmg_binning/metawrapmg_binning/.*:
@@ -2885,7 +2890,7 @@ tools:
         - pulsar-qld-high-mem2
   toolshed.g2.bx.psu.edu/repos/iuc/necat/necat/.*:
     context:
-      test_cores: 2
+      test_cores: 4
     cores: 4
     mem: 15.5
     params:
@@ -3469,6 +3474,9 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/snapatac2_.*:
+    context:
+      test_cores: 2  # not multithreaded but test_cores controls test memory
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/.*:
