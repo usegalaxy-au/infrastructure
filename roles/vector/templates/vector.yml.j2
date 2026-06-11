@@ -121,7 +121,8 @@ sinks:
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
-    key_prefix: "{{ vector_s3_key_prefix }}raw/%Y-%m-%d-%H%M%S-"
+    key_prefix: "{{ vector_s3_key_prefix }}raw/%Y/%m/%d/"
+    filename_time_format: "%H%M%S"
     compression: "{{ vector_s3_compression }}"
 {% if vector_s3_endpoint %}
     endpoint: "{{ vector_s3_endpoint }}"
@@ -134,7 +135,7 @@ sinks:
     framing:
       method: newline_delimited
     batch:
-      timeout_secs: 86400   # 1 day
+      timeout_secs: 3600    # 1 hour
       max_bytes: 100000000  # 100 MB
 
   s3_cleaned:
@@ -143,7 +144,8 @@ sinks:
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
-    key_prefix: "{{ vector_s3_key_prefix }}cleaned/%Y-%m-%d-%H%M%S-"
+    key_prefix: "{{ vector_s3_key_prefix }}cleaned/%Y/%m/%d/"
+    filename_time_format: "%H%M%S"
     compression: "{{ vector_s3_compression }}"
 {% if vector_s3_endpoint %}
     endpoint: "{{ vector_s3_endpoint }}"
@@ -156,7 +158,7 @@ sinks:
     framing:
       method: newline_delimited
     batch:
-      timeout_secs: 86400   # 1 day
+      timeout_secs: 3600    # 1 hour
       max_bytes: 100000000  # 100 MB
 
   s3_workflow_invocations:
@@ -165,7 +167,8 @@ sinks:
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
-    key_prefix: "{{ vector_s3_key_prefix }}workflow_invocations/%Y-%m-%d-%H%M%S-"
+    key_prefix: "{{ vector_s3_key_prefix }}workflow_invocations/%Y/%m/%d/"
+    filename_time_format: "%H%M%S"
     compression: "{{ vector_s3_compression }}"
 {% if vector_s3_endpoint %}
     endpoint: "{{ vector_s3_endpoint }}"
@@ -178,7 +181,7 @@ sinks:
     framing:
       method: newline_delimited
     batch:
-      timeout_secs: 86400   # 1 day
+      timeout_secs: 3600    # 1 hour
       max_bytes: 100000000  # 100 MB
 
   s3_tool_runs:
@@ -187,7 +190,8 @@ sinks:
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
-    key_prefix: "{{ vector_s3_key_prefix }}tool_runs/%Y-%m-%d-%H%M%S-"
+    key_prefix: "{{ vector_s3_key_prefix }}tool_runs/%Y/%m/%d/"
+    filename_time_format: "%H%M%S"
     compression: "{{ vector_s3_compression }}"
 {% if vector_s3_endpoint %}
     endpoint: "{{ vector_s3_endpoint }}"
@@ -200,5 +204,5 @@ sinks:
     framing:
       method: newline_delimited
     batch:
-      timeout_secs: 86400   # 1 day
+      timeout_secs: 3600    # 1 hour
       max_bytes: 100000000  # 100 MB
