@@ -1,6 +1,7 @@
 """Download pre-formatted nginx log objects from S3 for a date range.
 
-Objects are named with a date prefix: YYYY-MM-DD<uuid>.log.gz
+Objects are stored under a date-partitioned path:
+    <S3_PREFIX>YYYY/MM/DD/HHMMSS-<uuid>.log.gz
 Each object is a gzipped newline-delimited JSON file.
 """
 
@@ -23,7 +24,7 @@ S3_REGION = os.environ['S3_REGION']
 S3_BUCKET = os.environ['S3_BUCKET']
 S3_PREFIX = os.environ['S3_PREFIX']
 
-DATE_LENGTH = 10  # length of YYYY-MM-DD
+DATE_PATH_LENGTH = 10  # length of YYYY/MM/DD
 
 _client = None
 
@@ -45,13 +46,13 @@ def _s3_client():
 def date_from_key(key: str) -> date:
     """Extract the log date from an S3 object key.
 
-    Keys are of the form <S3_PREFIX>YYYY-MM-DD<uuid>.log.gz.
+    Keys are of the form <S3_PREFIX>YYYY/MM/DD/HHMMSS-<uuid>.log.gz.
     """
     if not key.startswith(S3_PREFIX):
         raise ValueError(
             f"Key does not start with S3_PREFIX '{S3_PREFIX}': {key}")
-    date_str = key[len(S3_PREFIX):len(S3_PREFIX) + DATE_LENGTH]
-    return date.fromisoformat(date_str)
+    date_str = key[len(S3_PREFIX):len(S3_PREFIX) + DATE_PATH_LENGTH]
+    return date.fromisoformat(date_str.replace('/', '-'))
 
 
 def iter_keys(start_date: date, end_date: date):
@@ -59,7 +60,7 @@ def iter_keys(start_date: date, end_date: date):
     client = _s3_client()
     current = start_date
     while current <= end_date:
-        date_prefix = S3_PREFIX + current.strftime('%Y-%m-%d')
+        date_prefix = S3_PREFIX + current.strftime('%Y/%m/%d/')
         paginator = client.get_paginator('list_objects_v2')
         pages = paginator.paginate(Bucket=S3_BUCKET, Prefix=date_prefix)
         for page in pages:
