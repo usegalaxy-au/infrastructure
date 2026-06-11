@@ -41,8 +41,9 @@ S3_BUCKET = os.environ['S3_BUCKET']
 
 CATEGORIES = ('cleaned', 'raw', 'selected')
 
-# Object keys contain a date prefix: .../<category>/YYYY-MM-DD<uuid>.log.gz
-DATE_PATTERN = re.compile(r'/(\d{4}-\d{2}-\d{2})[^/]*$')
+# Object keys are date-partitioned:
+#   .../<category>/YYYY/MM/DD/HHMMSS-<uuid>.log.gz
+DATE_PATTERN = re.compile(r'/(\d{4})/(\d{2})/(\d{2})/[^/]+$')
 
 
 def s3_client():
@@ -65,12 +66,16 @@ def object_category(key: str) -> str | None:
 
 
 def object_date(key: str) -> date | None:
-    """Extract the date from the filename portion of an S3 key."""
+    """Extract the date from the path partition of an S3 key."""
     match = DATE_PATTERN.search(key)
     if not match:
         return None
     try:
-        return date.fromisoformat(match.group(1))
+        return date(
+            int(match.group(1)),
+            int(match.group(2)),
+            int(match.group(3)),
+        )
     except ValueError:
         return None
 
