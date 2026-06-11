@@ -9,11 +9,17 @@ and for each workflow invocation request:
 - Sends the data point to InfluxDB via the HTTP write API
 
 Usage:
-    collect_workflow_invocations.py <start_date> <end_date>
+    collect_workflow_invocations.py [--start YYYY-MM-DD] [--end YYYY-MM-DD]
 
-    Dates are in YYYY-MM-DD format (both inclusive).
+    Both arguments are optional and inclusive. --start defaults to
+    7 days ago and --end defaults to today, so with no arguments the
+    script re-lists the last week of S3 objects. State files dedup the
+    keys that have already been ingested, so the redundant LIST calls
+    are cheap; the look-back exists to pick up Vector batches that flush
+    to S3 hours or days after the events they contain.
 """
 
+import argparse
 import codecs
 import json
 import logging
@@ -21,14 +27,14 @@ import os
 import re
 import sys
 import urllib.request
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 from Crypto.Cipher import Blowfish
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 
-from s3_logs import date_range_from_args, iter_log_records
+from s3_logs import date_from_key, iter_keys, read_records
 
 load_dotenv(Path(__file__).parent / '.env')
 
@@ -43,6 +49,8 @@ INFLUX_DB = os.environ['INFLUX_DB']
 INFLUX_TOKEN = os.environ['INFLUX_TOKEN']
 MEASUREMENT_NAME = 'workflow_invocation'
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
+STATE_DIR = Path(__file__).parent / 'state'
+LOOKBACK_DAYS = 7
 
 INVOCATION_PATTERN = re.compile(
     r'POST /api/workflows/([a-f0-9]+)/invocations'
@@ -171,6 +179,40 @@ def format_line_protocol(
     return f"{measurement},{tag_str} {field_str} {ts}"
 
 
+def load_ingested_keys(start_date: date, end_date: date) -> set[str]:
+    """Load the set of S3 keys already ingested for the given date range.
+
+    State files are named YYYY-MM and contain one ingested S3 key per line.
+    A range spanning multiple months reads from all relevant state files.
+    """
+    months = set()
+    current = start_date
+    while current <= end_date:
+        months.add(current.strftime('%Y-%m'))
+        current += timedelta(days=1)
+
+    ingested = set()
+    for month in months:
+        state_file = STATE_DIR / month
+        if not state_file.exists():
+            continue
+        with state_file.open() as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    ingested.add(line)
+    return ingested
+
+
+def mark_ingested(key: str):
+    """Append an S3 key to the state file for the month it belongs to."""
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    month = date_from_key(key).strftime('%Y-%m')
+    state_file = STATE_DIR / month
+    with state_file.open('a') as f:
+        f.write(key + '\n')
+
+
 def write_to_influxdb(lines: list[str]):
     """Write line protocol data points to InfluxDB via the HTTP write API."""
     payload = '\n'.join(lines).encode('utf-8')
@@ -195,79 +237,104 @@ def write_to_influxdb(lines: list[str]):
         sys.exit(1)
 
 
-def main():
-    if len(sys.argv) != 3:
-        print(
-            f"Usage: {sys.argv[0]} <start_date> <end_date>",
-            file=sys.stderr,
-        )
-        sys.exit(1)
+def parse_args() -> tuple[date, date]:
+    parser = argparse.ArgumentParser(
+        description="Collect workflow invocation data from S3 nginx logs.",
+    )
+    parser.add_argument(
+        '--start',
+        type=date.fromisoformat,
+        default=None,
+        help=(
+            "Start date (YYYY-MM-DD, inclusive). Defaults to "
+            f"{LOOKBACK_DAYS} days ago."
+        ),
+    )
+    parser.add_argument(
+        '--end',
+        type=date.fromisoformat,
+        default=None,
+        help="End date (YYYY-MM-DD, inclusive). Defaults to today.",
+    )
+    args = parser.parse_args()
+    today = date.today()
+    start_date = args.start or today - timedelta(days=LOOKBACK_DAYS)
+    end_date = args.end or today
+    if start_date > end_date:
+        parser.error(
+            f"--start ({start_date}) is after --end ({end_date})")
+    return start_date, end_date
 
-    try:
-        start_date, end_date = date_range_from_args(sys.argv[1], sys.argv[2])
-    except ValueError as e:
-        logger.error("Invalid date argument: %s", e)
-        sys.exit(1)
+
+def main():
+    start_date, end_date = parse_args()
 
     id_cipher = Blowfish.new(
         GALAXY_ID_SECRET.encode('utf-8'),
         mode=Blowfish.MODE_ECB,
     )
     engine = create_engine(GALAXY_DATABASE_URL)
-    data_points = []
+    ingested = load_ingested_keys(start_date, end_date)
 
     with engine.connect() as conn:
-        for record in iter_log_records(start_date, end_date):
-            parsed = parse_log_record(record)
-            if not parsed:
+        for key in iter_keys(start_date, end_date):
+            if key in ingested:
+                logger.debug("Skipping already-ingested key: %s", key)
                 continue
 
-            try:
-                workflow_id = decode_galaxy_id(
-                    parsed['encoded_id'], id_cipher)
-            except (ValueError, TypeError) as e:
-                logger.warning(
-                    "Failed to decode ID '%s': %s",
-                    parsed['encoded_id'], e,
+            data_points = []
+            for record in read_records(key):
+                parsed = parse_log_record(record)
+                if not parsed:
+                    continue
+
+                try:
+                    workflow_id = decode_galaxy_id(
+                        parsed['encoded_id'], id_cipher)
+                except (ValueError, TypeError) as e:
+                    logger.warning(
+                        "Failed to decode ID '%s': %s",
+                        parsed['encoded_id'], e,
+                    )
+                    continue
+
+                result = conn.execute(
+                    WORKFLOW_QUERY,
+                    {'id': workflow_id},
+                ).fetchone()
+
+                if not result:
+                    logger.warning(
+                        "StoredWorkflow %d not found in database",
+                        workflow_id,
+                    )
+                    continue
+
+                _, name, user_id, uuid, source_metadata = result
+                canonical_id, trs_server, trs_version_id = (
+                    resolve_canonical_id(source_metadata)
                 )
-                continue
 
-            result = conn.execute(
-                WORKFLOW_QUERY,
-                {'id': workflow_id},
-            ).fetchone()
+                data_points.append(format_line_protocol(
+                    measurement=MEASUREMENT_NAME,
+                    tags={
+                        'domain': parsed['domain'],
+                        'workflow_name': name,
+                        'canonical_id': canonical_id or name,
+                        'trs_server': trs_server,
+                    },
+                    fields={
+                        'count': 1.0,
+                        'workflow_id': workflow_id,
+                        'user_id': user_id,
+                        'trs_version_id': trs_version_id,
+                    },
+                    timestamp=parsed['datetime'],
+                ))
 
-            if not result:
-                logger.warning(
-                    "StoredWorkflow %d not found in database",
-                    workflow_id,
-                )
-                continue
-
-            _, name, user_id, uuid, source_metadata = result
-            canonical_id, trs_server, trs_version_id = (
-                resolve_canonical_id(source_metadata)
-            )
-
-            data_points.append(format_line_protocol(
-                measurement=MEASUREMENT_NAME,
-                tags={
-                    'domain': parsed['domain'],
-                    'workflow_name': name,
-                    'canonical_id': canonical_id or name,
-                    'trs_server': trs_server,
-                },
-                fields={
-                    'count': 1.0,
-                    'workflow_id': workflow_id,
-                    'user_id': user_id,
-                    'trs_version_id': trs_version_id,
-                },
-                timestamp=parsed['datetime'],
-            ))
-
-    if data_points:
-        write_to_influxdb(data_points)
+            if data_points:
+                write_to_influxdb(data_points)
+            mark_ingested(key)
 
 
 if __name__ == '__main__':

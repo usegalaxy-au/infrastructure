@@ -22,12 +22,21 @@
     - collect_workflow_invocations.py
     - s3_logs.py
 
+# With no --start/--end the script re-lists the last 7 days of S3 objects
+# (Vector batches can flush hours or days after the events they contain).
+# A `state/YYYY-MM` file records ingested object keys so repeat runs skip
+# objects already processed; to force a re-ingest, remove the key from the
+# relevant state file. `flock -n` ensures overlapping cron firings (e.g.
+# during a large backfill) no-op rather than race. To backfill manually,
+# run the script with --start YYYY-MM-DD.
 - name: Add cron job to run workflow invocations collection script
   ansible.builtin.cron:
     name: "Collect workflow invocations every quarter hour"
+    user: "{{ reporting_user }}"
     minute: "*/15"
     hour: "*"
     job: >-
+      flock -n {{ reporting_dir }}/workflow_invocations.lock
       {{ virtualenv_dir }}/bin/python
       {{ workflow_invocations_dir }}/collect_workflow_invocations.py
       >> {{ logs_dir }}/workflow_invocations.log 2>&1
