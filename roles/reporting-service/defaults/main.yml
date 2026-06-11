@@ -2,7 +2,7 @@
 reporting_user: ubuntu
 
 # Directory to copy the scripts to
-reporting_dir: ~/reporting
+reporting_dir: /opt/reporting
 
 # Where we'll write our program logs to
 logs_dir: "{{ reporting_dir }}/logs"
