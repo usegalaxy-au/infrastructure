@@ -24,9 +24,7 @@ transforms:
       source: |
         agent = string(.parsed.agent) ?? "-"
         referer = string(.parsed.referer) ?? "-"
-        method = string(.parsed.method) ?? ""
         request = string(.parsed.request) ?? "-"
-        # status = to_int(.parsed.status) ?? 0
 
         # Require a user agent and referer
         if agent == "-" || referer == "-" {
