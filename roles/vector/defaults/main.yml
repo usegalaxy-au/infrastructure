@@ -4,6 +4,9 @@
 vector_config_file: /etc/vector/vector.yaml
 vector_installation_path: /usr/bin/vector
 
+# Local debug logs (one file per transform, rotated by logrotate)
+vector_log_dir: /var/log/vector
+
 # Nginx log directory to ship
 vector_nginx_log_file: /var/log/nginx
 

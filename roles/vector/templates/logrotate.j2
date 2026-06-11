@@ -1,0 +1,9 @@
+{{ vector_log_dir }}/*.log {
+    size 25M
+    rotate 1
+    copytruncate
+    missingok
+    notifempty
+    compress
+    delaycompress
+}

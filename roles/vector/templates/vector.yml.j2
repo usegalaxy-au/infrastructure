@@ -87,12 +87,20 @@ transforms:
         match(request, r'^POST /api/tools/.+/build ')
 
 sinks:
-  out:
+{% for transform in [
+  'nginx_logs_cleaned',
+  'nginx_logs_workflow_invocations',
+  'nginx_logs_tool_runs',
+] %}
+  debug_{{ transform }}:
     inputs:
-      - nginx_logs_data
-    type: console
+      - {{ transform }}
+    type: file
+    path: "{{ vector_log_dir }}/{{ transform }}.log"
     encoding:
-      codec: text
+      codec: json
+{% endfor %}
+
   s3:
     inputs:
       - nginx_logs_data
