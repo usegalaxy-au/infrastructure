@@ -23,28 +23,39 @@ S3_REGION = os.environ['S3_REGION']
 S3_BUCKET = os.environ['S3_BUCKET']
 S3_PREFIX = os.environ['S3_PREFIX']
 
+DATE_LENGTH = 10  # length of YYYY-MM-DD
+
+_client = None
+
 
 def _s3_client():
-    return boto3.client(
-        's3',
-        endpoint_url=S3_ENDPOINT_URL,
-        aws_access_key_id=S3_ACCESS_KEY,
-        aws_secret_access_key=S3_SECRET_KEY,
-        region_name=S3_REGION,
-        config=Config(signature_version='s3v4'),
-    )
+    global _client
+    if _client is None:
+        _client = boto3.client(
+            's3',
+            endpoint_url=S3_ENDPOINT_URL,
+            aws_access_key_id=S3_ACCESS_KEY,
+            aws_secret_access_key=S3_SECRET_KEY,
+            region_name=S3_REGION,
+            config=Config(signature_version='s3v4'),
+        )
+    return _client
 
 
-def iter_log_records(start_date: date, end_date: date):
-    """Yield parsed log record dicts for all objects in the date range.
+def date_from_key(key: str) -> date:
+    """Extract the log date from an S3 object key.
 
-    Both start_date and end_date are inclusive. Each yielded dict is the
-    parsed JSON object from a single log line, i.e.:
-        {
-            "parsed": {"request": ..., "timestamp": ..., "referer": ..., ...},
-            ...
-        }
+    Keys are of the form <S3_PREFIX>YYYY-MM-DD<uuid>.log.gz.
     """
+    if not key.startswith(S3_PREFIX):
+        raise ValueError(
+            f"Key does not start with S3_PREFIX '{S3_PREFIX}': {key}")
+    date_str = key[len(S3_PREFIX):len(S3_PREFIX) + DATE_LENGTH]
+    return date.fromisoformat(date_str)
+
+
+def iter_keys(start_date: date, end_date: date):
+    """Yield S3 object keys for log files in the date range (inclusive)."""
     client = _s3_client()
     current = start_date
     while current <= end_date:
@@ -53,28 +64,24 @@ def iter_log_records(start_date: date, end_date: date):
         pages = paginator.paginate(Bucket=S3_BUCKET, Prefix=date_prefix)
         for page in pages:
             for obj in page.get('Contents', []):
-                key = obj['Key']
-                logger.info("Downloading s3://%s/%s", S3_BUCKET, key)
-                response = client.get_object(Bucket=S3_BUCKET, Key=key)
-                body = response['Body'].read()
-                with gzip.open(io.BytesIO(body)) as f:
-                    for line in f:
-                        line = line.strip()
-                        if not line:
-                            continue
-                        try:
-                            yield json.loads(line)
-                        except json.JSONDecodeError as e:
-                            logger.warning(
-                                "Skipping malformed JSON line in %s: %s",
-                                key, e,
-                            )
+                yield obj['Key']
         current += timedelta(days=1)
 
 
-def date_range_from_args(start_str: str, end_str: str) -> tuple[date, date]:
-    """Parse YYYY-MM-DD date strings into a (start, end) date tuple."""
-    return (
-        date.fromisoformat(start_str),
-        date.fromisoformat(end_str),
-    )
+def read_records(key: str):
+    """Yield parsed JSON records from a single S3 log object."""
+    client = _s3_client()
+    logger.info("Downloading s3://%s/%s", S3_BUCKET, key)
+    response = client.get_object(Bucket=S3_BUCKET, Key=key)
+    body = response['Body'].read()
+    with gzip.open(io.BytesIO(body)) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                yield json.loads(line)
+            except json.JSONDecodeError as e:
+                logger.warning(
+                    "Skipping malformed JSON line in %s: %s", key, e,
+                )

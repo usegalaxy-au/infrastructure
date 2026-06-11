@@ -143,6 +143,7 @@ destinations:
       accept:
         - pulsar-mel2
         - bakta_database
+        - bakta_solo_destination
         - eggnog
       require:
         - pulsar
@@ -336,10 +337,17 @@ destinations:
         - cvmfs_cache_100plus
         - funannotate
         - bakta_database
+        - bakta_solo_destination
         - eggnog
       require:
         - pulsar
         # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
+    rules:
+      - id: bakta_pulsar_QLD_solo_rule  # bakta is prone to OOM errors when two jobs run on the same node
+        if: |
+          'toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta' in tool.id
+        cores: 16
+        mem: 62
   pulsar-azure:
     inherits: _pulsar_destination
     runner: pulsar_azure_0_runner

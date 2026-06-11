@@ -1,0 +1,11 @@
+{{ logs_dir }}/*.log {
+    monthly
+    rotate 6
+    compress
+    delaycompress
+    missingok
+    notifempty
+    dateext
+    create 0644 {{ reporting_user }} {{ reporting_user }}
+    su {{ reporting_user }} {{ reporting_user }}
+}

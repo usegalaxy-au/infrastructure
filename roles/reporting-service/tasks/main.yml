@@ -7,6 +7,24 @@
   file:
     path: "{{ reporting_dir }}"
     state: directory
+    owner: "{{ reporting_user }}"
+    mode: "0755"
+
+- name: Create logs dir
+  ansible.builtin.file:
+    path: "{{ logs_dir }}"
+    state: directory
+    owner: "{{ reporting_user }}"
+    mode: "0755"
+
+- name: Install logrotate config for reporting-service logs
+  ansible.builtin.template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/reporting-service
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
 
 - name: Copy requirements file
   copy:
@@ -29,6 +47,7 @@
 - name: Add cron job to run S3 log cleanup daily
   ansible.builtin.cron:
     name: "S3 log data retention cleanup"
+    user: "{{ reporting_user }}"
     minute: "0"
     hour: "2"
     job: >-

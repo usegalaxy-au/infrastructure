@@ -101,6 +101,9 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/bioimage_inference/bioimage_inference/.*:
+    context:
+      test_cores: 2  # not multithreaded but there is no override for test_mem
+    mem: 12
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
@@ -1220,6 +1223,9 @@ tools:
       accept:
       - pulsar
       - training-exempt
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_demux/.*:
+    params:
+      singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_error_correct/dorado_error_correct/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_pod5_convert/dorado_pod5_convert/.*:
@@ -1251,6 +1257,8 @@ tools:
     cores: 4
     mem: 15.3
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/metawrapmg_binning/metawrapmg_bin_refinement/*:
+    context:
+      test_cores: 2
     cores: 4
     mem: 15.5
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/metawrapmg_binning/metawrapmg_binning/.*:
@@ -1570,7 +1578,7 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 3
     cores: 8
     mem: 31.2
     params:
@@ -1579,7 +1587,7 @@ tools:
       require:
       - bakta_database
       prefer:
-      - pulsar-mel2
+      - bakta_solo_destination
     rules:
     - id: bakta_pulsar_rule
       if: |
@@ -1968,8 +1976,6 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/falco/falco/.*:
-    cores: 6
-    mem: 23
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:
@@ -2884,7 +2890,7 @@ tools:
         - pulsar-qld-high-mem2
   toolshed.g2.bx.psu.edu/repos/iuc/necat/necat/.*:
     context:
-      test_cores: 2
+      test_cores: 4
     cores: 4
     mem: 15.5
     params:
@@ -3468,6 +3474,9 @@ tools:
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/snapatac2_.*:
+    context:
+      test_cores: 2  # not multithreaded but test_cores controls test memory
+    mem: 10
     params:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/.*:
