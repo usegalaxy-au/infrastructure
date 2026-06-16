@@ -1,0 +1,19 @@
+---
+- hosts: reporting_service
+  remote_user: ubuntu
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/VAULT
+    - secret_group_vars/ssh_keys
+    - secret_group_vars/reporting_vault
+    - secret_group_vars/stats_server_vault
+    - host_vars/reporting.usegalaxy.org.au.yml
+  roles:
+    - role: common
+      become: true
+      become_user: root
+    - dj-wasabi.telegraf
+    - role: reporting-service
+      tags:
+      - reporting

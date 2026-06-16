@@ -24,9 +24,7 @@ transforms:
       source: |
         agent = string(.parsed.agent) ?? "-"
         referer = string(.parsed.referer) ?? "-"
-        method = string(.parsed.method) ?? ""
         request = string(.parsed.request) ?? "-"
-        # status = to_int(.parsed.status) ?? 0
 
         # Require a user agent and referer
         if agent == "-" || referer == "-" {
@@ -59,7 +57,7 @@ transforms:
           r'GET /api/invocations/',
           r'GET /api/histories/',
           r'GET /history/current_history_json',
-          r'GET /api/entry_points?running=true',
+          r'GET /api/entry_points\?running=true',
           r'GET /static/'
 
           ]) {
@@ -75,18 +73,8 @@ transforms:
     condition:
       type: vrl
       source: |
-        message = string(.parsed.message) ?? ""
-        agent = string(.parsed.agent) ?? "-"
-        referer = string(.parsed.referer) ?? "-"
-        method = string(.parsed.method) ?? ""
-        path = string(.parsed.path) ?? ""
-        status = to_int(.parsed.status) ?? 0
-
-        if method == "POST" && match(path, r'/api/workflows/([a-f0-9]+)/invocations') {
-          true
-        } else {
-          false
-        }
+        request = string(.parsed.request) ?? ""
+        match(request, r'^POST /api/workflows/[a-f0-9]+/invocations ')
 
   nginx_logs_tool_runs:
     inputs:
@@ -95,33 +83,32 @@ transforms:
     condition:
       type: vrl
       source: |
-        message = string(.parsed.message) ?? ""
-        agent = string(.parsed.agent) ?? "-"
-        referer = string(.parsed.referer) ?? "-"
-        method = string(.parsed.method) ?? ""
-        path = string(.parsed.path) ?? ""
-        status = to_int(.parsed.status) ?? 0
-
-        if method == "POST" && match(path, r'/api/tools/.+/build') {
-          true
-        } else {
-          false
-        }
+        request = string(.parsed.request) ?? ""
+        match(request, r'^POST /api/tools/.+/build ')
 
 sinks:
-  out:
+{% for transform in [
+  'nginx_logs_cleaned',
+  'nginx_logs_workflow_invocations',
+  'nginx_logs_tool_runs',
+] %}
+  debug_{{ transform }}:
     inputs:
-      - nginx_logs_data
-    type: console
+      - {{ transform }}
+    type: file
+    path: "{{ vector_log_dir }}/{{ transform }}.log"
     encoding:
-      codec: text
+      codec: json
+{% endfor %}
+
   s3:
     inputs:
       - nginx_logs_data
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
-    key_prefix: "{{ vector_s3_key_prefix }}raw/%Y-%m-%d-%H%M%S-"
+    key_prefix: "{{ vector_s3_key_prefix }}raw/%Y/%m/%d/"
+    filename_time_format: "%H%M%S"
     compression: "{{ vector_s3_compression }}"
 {% if vector_s3_endpoint %}
     endpoint: "{{ vector_s3_endpoint }}"
@@ -134,7 +121,7 @@ sinks:
     framing:
       method: newline_delimited
     batch:
-      timeout_secs: 86400   # 1 day
+      timeout_secs: 3600    # 1 hour
       max_bytes: 100000000  # 100 MB
 
   s3_cleaned:
@@ -143,7 +130,8 @@ sinks:
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
-    key_prefix: "{{ vector_s3_key_prefix }}cleaned/%Y-%m-%d-%H%M%S-"
+    key_prefix: "{{ vector_s3_key_prefix }}cleaned/%Y/%m/%d/"
+    filename_time_format: "%H%M%S"
     compression: "{{ vector_s3_compression }}"
 {% if vector_s3_endpoint %}
     endpoint: "{{ vector_s3_endpoint }}"
@@ -156,7 +144,7 @@ sinks:
     framing:
       method: newline_delimited
     batch:
-      timeout_secs: 86400   # 1 day
+      timeout_secs: 3600    # 1 hour
       max_bytes: 100000000  # 100 MB
 
   s3_workflow_invocations:
@@ -165,7 +153,8 @@ sinks:
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
-    key_prefix: "{{ vector_s3_key_prefix }}workflow_invocations/%Y-%m-%d-%H%M%S-"
+    key_prefix: "{{ vector_s3_key_prefix }}workflow_invocations/%Y/%m/%d/"
+    filename_time_format: "%H%M%S"
     compression: "{{ vector_s3_compression }}"
 {% if vector_s3_endpoint %}
     endpoint: "{{ vector_s3_endpoint }}"
@@ -178,7 +167,7 @@ sinks:
     framing:
       method: newline_delimited
     batch:
-      timeout_secs: 86400   # 1 day
+      timeout_secs: 3600    # 1 hour
       max_bytes: 100000000  # 100 MB
 
   s3_tool_runs:
@@ -187,7 +176,8 @@ sinks:
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
-    key_prefix: "{{ vector_s3_key_prefix }}tool_runs/%Y-%m-%d-%H%M%S-"
+    key_prefix: "{{ vector_s3_key_prefix }}tool_runs/%Y/%m/%d/"
+    filename_time_format: "%H%M%S"
     compression: "{{ vector_s3_compression }}"
 {% if vector_s3_endpoint %}
     endpoint: "{{ vector_s3_endpoint }}"
@@ -200,5 +190,5 @@ sinks:
     framing:
       method: newline_delimited
     batch:
-      timeout_secs: 86400   # 1 day
+      timeout_secs: 3600    # 1 hour
       max_bytes: 100000000  # 100 MB

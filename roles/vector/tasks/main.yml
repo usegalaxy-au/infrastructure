@@ -10,6 +10,33 @@
     state: present
     update_cache: true
 
+- name: Ensure Vector log directory exists
+  ansible.builtin.file:
+    path: "{{ vector_log_dir }}"
+    state: directory
+    owner: vector
+    group: vector
+    mode: "0755"
+
+- name: Deploy Vector logrotate configuration
+  ansible.builtin.template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/vector
+    owner: root
+    group: root
+    mode: "0644"
+
+# Because Nginx puts out about 500MB logs daily and we only want to keep the last 50MB
+- name: Install hourly logrotate trigger for Vector
+  ansible.builtin.copy:
+    dest: /etc/cron.hourly/vector-logrotate
+    owner: root
+    group: root
+    mode: "0755"
+    content: |
+      #!/bin/sh
+      /usr/sbin/logrotate /etc/logrotate.d/vector
+
 - name: Deploy Vector configuration
   ansible.builtin.template:
     src: vector.yml.j2
