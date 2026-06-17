@@ -78,8 +78,8 @@ host_galaxy_extra_dirs:
   - "{{ galaxy_root }}/nectar_test_cache"
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
-galaxy_commit_id: release_26.1_au_dev  # dev is still initially forked for release_26.1 to include a Marius M PR and the commit that switches of fixed delegated auth check
-
+# galaxy_commit_id: release_26.1_au_dev  # dev is still initially forked for release_26.1 to include a Marius M PR and the commit that switches of fixed delegated auth check
+galaxy_commit_id: release_26.1_au_dev  # fork of above fork containing commits from https://github.com/galaxyproject/galaxy/pull/22895
 tpv_version: "3.2.1"
 
 galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
