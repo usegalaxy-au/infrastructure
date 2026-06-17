@@ -150,6 +150,7 @@ tpv_packages: |
 additional_packages:
   - flower
   - pkce  # TODO: there is a bug in the conditional dependency checker in release_26.0
+  - "gravity{{ galaxy_commit_id.startswith('release_26.0') | ternary('==1.2.2', '') }}"  # remove this when producition is on 26.1
 
 galaxy_fetch_dependencies_with_uv: false  # new in galaxyproject.galaxy role as of 0.12.7 (release_26.1)
 
