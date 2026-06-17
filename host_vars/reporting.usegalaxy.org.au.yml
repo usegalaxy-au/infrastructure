@@ -6,3 +6,5 @@ telegraf_agent_output:
       - precision = "s"
       - username = "node"
       - password = "{{ vault_influx_node_password }}"
+
+vector_s3_key_prefix: galaxy/nginx-logs/
