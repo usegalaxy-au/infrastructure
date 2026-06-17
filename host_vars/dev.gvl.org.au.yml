@@ -558,3 +558,6 @@ auth0_oidc_endpoint: "{{ vault_auth0_oidc_endpoint_dev }}"
 auth0_audience: "{{ vault_auth0_audience_dev }}"
 auth0_registration_endpoint: "{{ vault_auth0_registration_endpoint_dev }}"
 auth0_profile_url: "{{ vault_auth0_profile_url_dev }}"
+
+# for BPA file source
+bpa_data_portal_drs_url_regex: '^drs://aaidemo\.bioplatforms\.com/'
