@@ -69,12 +69,6 @@
   key: {{ vault_nectar_melbournegvl_cb_ec2_access_key }}
   writable: true
 
-- type: drs
-  id: bpa-dp-drs-dev
-  label: BPA Data Portal DRS (dev)
-  url_regex: '^drs://aaidemo\.bioplatforms\.com/'
-  oidc_auth_provider: auth0
-
 # - type: webdav
 #   id: agrf_nextcloud
 #   label: AGRF Nextcloud
@@ -88,4 +82,12 @@
 #   # useful when dealing with big files
 #   use_temp_files: true
 #   temp_path: "{{ galaxy_tmp_dir }}/webdav"
+{% endif %}
+
+{% if aai_enabled and __galaxy_major_version is version('26.1', '>=') %}
+- type: drs
+  id: bpa-dp-drs-dev
+  label: BPA Data Portal DRS (dev)
+  url_regex: '^drs://aaidemo\.bioplatforms\.com/'
+  oidc_auth_provider: auth0
 {% endif %}
