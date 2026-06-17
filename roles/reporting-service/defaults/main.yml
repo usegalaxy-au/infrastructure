@@ -23,15 +23,15 @@ galaxy_db_user: reader
 galaxy_db_password: "{{ vault_galaxy_db_reader_password }}"
 
 # S3 destination settings
-vector_s3_bucket: ""
-vector_s3_endpoint: ""
-vector_s3_region: us-east-1  # Not used by openstack, but has to be valid AWS
-vector_s3_key_prefix: ""
-vector_s3_compression: gzip
+s3_bucket: ""
+s3_endpoint: ""
+s3_region: us-east-1  # Not used by openstack, but has to be valid AWS
+s3_key_prefix: ""
+s3_compression: gzip
 
 # Should be defined in a vault file:
-vector_s3_access_key_id: ""
-vector_s3_secret_access_key: ""
+s3_access_key_id: ""
+s3_secret_access_key: ""
 
 # Variable to switch off posting to influx
 # reporting_dry_run_only: False
