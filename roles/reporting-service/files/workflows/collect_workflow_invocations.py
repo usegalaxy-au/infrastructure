@@ -34,9 +34,12 @@ from Crypto.Cipher import Blowfish
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 
-from s3_logs import date_from_key, iter_keys, read_records
+from s3_logs import S3Storage
 
 load_dotenv(Path(__file__).parent / '.env')
+
+s3 = S3Storage()
+
 
 LOG_FORMAT = '%(asctime)s %(levelname)s: %(message)s'
 logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
@@ -216,7 +219,7 @@ def load_ingested_keys(start_date: date, end_date: date) -> set[str]:
 def mark_ingested(key: str):
     """Append an S3 key to the state file for the month it belongs to."""
     STATE_DIR.mkdir(parents=True, exist_ok=True)
-    month = date_from_key(key).strftime('%Y-%m')
+    month = s3.date_from_key(key).strftime('%Y-%m')
     state_file = STATE_DIR / month
     with state_file.open('a') as f:
         f.write(key + '\n')
@@ -286,13 +289,13 @@ def main():
     ingested = load_ingested_keys(start_date, end_date)
 
     with engine.connect() as conn:
-        for key in iter_keys(start_date, end_date):
+        for key in s3.iter_keys(start_date, end_date):
             if key in ingested:
                 logger.debug("Skipping already-ingested key: %s", key)
                 continue
 
             data_points = []
-            for record in read_records(key):
+            for record in s3.read_records(key):
                 parsed = parse_log_record(record)
                 if not parsed:
                     continue

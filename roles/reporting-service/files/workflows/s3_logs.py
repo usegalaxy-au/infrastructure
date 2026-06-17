@@ -17,72 +17,87 @@ from botocore.client import Config
 
 logger = logging.getLogger(__name__)
 
-S3_ENDPOINT_URL = os.environ['S3_ENDPOINT_URL']
-S3_ACCESS_KEY = os.environ['S3_ACCESS_KEY']
-S3_SECRET_KEY = os.environ['S3_SECRET_KEY']
-S3_REGION = os.environ['S3_REGION']
-S3_BUCKET = os.environ['S3_BUCKET']
-S3_PREFIX = os.environ['S3_PREFIX']
-
 DATE_PATH_LENGTH = 10  # length of YYYY/MM/DD
 
-_client = None
 
+class S3Storage:
+    def __init__(self):
+        self._client = None
 
-def _s3_client():
-    global _client
-    if _client is None:
-        _client = boto3.client(
-            's3',
-            endpoint_url=S3_ENDPOINT_URL,
-            aws_access_key_id=S3_ACCESS_KEY,
-            aws_secret_access_key=S3_SECRET_KEY,
-            region_name=S3_REGION,
-            config=Config(signature_version='s3v4'),
-        )
-    return _client
+    @property
+    def endpoint_url(self):
+        return os.environ['S3_ENDPOINT_URL']
 
+    @property
+    def access_key(self):
+        return os.environ['S3_ACCESS_KEY']
 
-def date_from_key(key: str) -> date:
-    """Extract the log date from an S3 object key.
+    @property
+    def secret_key(self):
+        return os.environ['S3_SECRET_KEY']
 
-    Keys are of the form <S3_PREFIX>YYYY/MM/DD/HHMMSS-<uuid>.log.gz.
-    """
-    if not key.startswith(S3_PREFIX):
-        raise ValueError(
-            f"Key does not start with S3_PREFIX '{S3_PREFIX}': {key}")
-    date_str = key[len(S3_PREFIX):len(S3_PREFIX) + DATE_PATH_LENGTH]
-    return date.fromisoformat(date_str.replace('/', '-'))
+    @property
+    def region(self):
+        return os.environ['S3_REGION']
 
+    @property
+    def bucket(self):
+        return os.environ['S3_BUCKET']
 
-def iter_keys(start_date: date, end_date: date):
-    """Yield S3 object keys for log files in the date range (inclusive)."""
-    client = _s3_client()
-    current = start_date
-    while current <= end_date:
-        date_prefix = S3_PREFIX + current.strftime('%Y/%m/%d/')
-        paginator = client.get_paginator('list_objects_v2')
-        pages = paginator.paginate(Bucket=S3_BUCKET, Prefix=date_prefix)
-        for page in pages:
-            for obj in page.get('Contents', []):
-                yield obj['Key']
-        current += timedelta(days=1)
+    @property
+    def prefix(self):
+        return os.environ['S3_PREFIX']
 
+    def _get_client(self):
+        if self._client is None:
+            self._client = boto3.client(
+                's3',
+                endpoint_url=self.endpoint_url,
+                aws_access_key_id=self.access_key,
+                aws_secret_access_key=self.secret_key,
+                region_name=self.region,
+                config=Config(signature_version='s3v4'),
+            )
+        return self._client
 
-def read_records(key: str):
-    """Yield parsed JSON records from a single S3 log object."""
-    client = _s3_client()
-    logger.info("Downloading s3://%s/%s", S3_BUCKET, key)
-    response = client.get_object(Bucket=S3_BUCKET, Key=key)
-    body = response['Body'].read()
-    with gzip.open(io.BytesIO(body)) as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                yield json.loads(line)
-            except json.JSONDecodeError as e:
-                logger.warning(
-                    "Skipping malformed JSON line in %s: %s", key, e,
-                )
+    def date_from_key(self, key: str) -> date:
+        """Extract the log date from an S3 object key.
+
+        Keys are of the form <S3_PREFIX>YYYY/MM/DD/HHMMSS-<uuid>.log.gz.
+        """
+        if not key.startswith(self.prefix):
+            raise ValueError(
+                f"Key does not start with S3_PREFIX '{self.prefix}': {key}")
+        date_str = key[len(self.prefix):len(self.prefix) + DATE_PATH_LENGTH]
+        return date.fromisoformat(date_str.replace('/', '-'))
+
+    def iter_keys(self, start_date: date, end_date: date):
+        """Yield S3 object keys for log files in the date range (inclusive)."""
+        client = self._get_client()
+        current = start_date
+        while current <= end_date:
+            date_prefix = self.prefix + current.strftime('%Y/%m/%d/')
+            paginator = client.get_paginator('list_objects_v2')
+            pages = paginator.paginate(Bucket=self.bucket, Prefix=date_prefix)
+            for page in pages:
+                for obj in page.get('Contents', []):
+                    yield obj['Key']
+            current += timedelta(days=1)
+
+    def read_records(self, key: str):
+        """Yield parsed JSON records from a single S3 log object."""
+        client = self._get_client()
+        logger.info("Downloading s3://%s/%s", self.bucket, key)
+        response = client.get_object(Bucket=self.bucket, Key=key)
+        body = response['Body'].read()
+        with gzip.open(io.BytesIO(body)) as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    yield json.loads(line)
+                except json.JSONDecodeError as e:
+                    logger.warning(
+                        "Skipping malformed JSON line in %s: %s", key, e,
+                    )
