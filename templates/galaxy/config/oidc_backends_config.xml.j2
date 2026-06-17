@@ -13,12 +13,12 @@
     </provider>
 {% endif %}
 {% if aai_enabled %}
-    {% if inventory_hostname.startswith('dev') %}
+    {% if __galaxy_major_version is version('26.1', '>=') %}
         <provider name="auth0">
             <client_id>{{ auth0_client_id }}</client_id>
             <client_secret>{{ auth0_client_secret }}</client_secret>
             <domain>{{ auth0_domain }}</domain>
-            <redirect_uri>{{ galaxy_config['galaxy']['galaxy_infrastructure_url'] }}/authnz/auth0/callback</redirect_uri>
+            <redirect_uri>{{ galaxy_config.galaxy.galaxy_infrastructure_url }}/authnz/auth0/callback</redirect_uri>
             <oidc_endpoint>{{ auth0_oidc_endpoint }}</oidc_endpoint>
             <accepted_audiences>{{ auth0_audience }}</accepted_audiences>
             <username_key>https://biocommons.org.au/username</username_key>
