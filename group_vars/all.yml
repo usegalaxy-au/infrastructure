@@ -345,3 +345,11 @@ aaf_enabled: "{{ not aai_enabled }}"  # legacy AAF login option will disappear (
 
 # for any VM using geerlingguy.nginx. This is not for galaxyproject.nginx
 nginx_server_tokens: "off"
+
+# Vector log shipping
+vector_nginx_log_file: /var/log/nginx/access.log
+vector_s3_bucket: galaxy-logs
+vector_s3_endpoint: https://object-store.rc.nectar.org.au
+vector_s3_key_prefix: "{{ inventory_hostname }}/nginx-logs/"
+vector_s3_access_key_id: "{{ vault_vector_s3_access_key_id }}"
+vector_s3_secret_access_key: "{{ vault_vector_s3_secret_access_key }}"
