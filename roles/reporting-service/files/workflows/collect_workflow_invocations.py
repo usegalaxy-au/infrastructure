@@ -38,9 +38,18 @@ from s3_logs import date_from_key, iter_keys, read_records
 
 load_dotenv(Path(__file__).parent / '.env')
 
-LOG_FORMAT = '%(levelname)s: %(message)s'
+LOG_FORMAT = '%(asctime)s %(levelname)s: %(message)s'
 logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
 logger = logging.getLogger(__name__)
+
+
+def _log_uncaught(exc_type, exc_value, exc_tb):
+    logger.critical(
+        "Uncaught exception",
+        exc_info=(exc_type, exc_value, exc_tb))
+
+
+sys.excepthook = _log_uncaught
 
 GALAXY_ID_SECRET = os.environ['GALAXY_ID_SECRET']
 GALAXY_DATABASE_URL = os.environ['GALAXY_DATABASE_URL']
