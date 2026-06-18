@@ -26,6 +26,7 @@ import logging
 import os
 import re
 import sys
+import ssl
 import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -130,6 +131,9 @@ def resolve_canonical_id(source_metadata) -> tuple[str, str, str]:
     if not source_metadata:
         return ('', '', '')
 
+    if isinstance(source_metadata, memoryview):
+        source_metadata = bytes(source_metadata).decode('utf-8')
+
     if isinstance(source_metadata, str):
         source_metadata = json.loads(source_metadata)
 
@@ -177,6 +181,7 @@ def format_line_protocol(
     tag_str = ','.join(
         f"{k}={escape_tag_value(str(v))}"
         for k, v in tags.items()
+        if v
     )
     field_parts = []
     for k, v in fields.items():
