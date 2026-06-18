@@ -228,7 +228,7 @@ def mark_ingested(key: str):
 def write_to_influxdb(lines: list[str]):
     """Write line protocol data points to InfluxDB via the HTTP write API."""
     payload = '\n'.join(lines).encode('utf-8')
-    url = f"{INFLUX_URL}/write?db={INFLUX_DB}"
+    url = f"{INFLUX_URL}/write?db={INFLUX_DB}&precision=s"
     req = urllib.request.Request(
         url,
         data=payload,
@@ -238,8 +238,11 @@ def write_to_influxdb(lines: list[str]):
         },
         method='POST',
     )
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
     try:
-        with urllib.request.urlopen(req) as response:
+        with urllib.request.urlopen(req, context=ctx) as response:
             logger.info(
                 "Wrote %d data points to InfluxDB (HTTP %d)",
                 len(lines), response.status,
