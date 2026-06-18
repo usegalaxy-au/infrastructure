@@ -35,9 +35,10 @@ from Crypto.Cipher import Blowfish
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 
-from s3_logs import S3Storage
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from s3 import S3Storage  # noqa: E402
 
-load_dotenv(Path(__file__).parent / '.env')
+load_dotenv(Path(__file__).parent.parent / '.env')
 
 s3 = S3Storage()
 

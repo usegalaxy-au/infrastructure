@@ -1,4 +1,4 @@
-"""Download pre-formatted nginx log objects from S3 for a date range.
+"""S3 client for reading and managing Galaxy log objects.
 
 Objects are stored under a date-partitioned path:
     <S3_PREFIX>YYYY/MM/DD/HHMMSS-<uuid>.log.gz
@@ -59,6 +59,25 @@ class S3Storage:
                 config=Config(signature_version='s3v4'),
             )
         return self._client
+
+    def list_all_objects(self) -> list[dict]:
+        """Return all objects in the bucket."""
+        client = self._get_client()
+        paginator = client.get_paginator('list_objects_v2')
+        objects = []
+        for page in paginator.paginate(Bucket=self.bucket):
+            objects.extend(page.get('Contents', []))
+        return objects
+
+    def delete_objects(self, keys: list[str]):
+        """Delete a batch of S3 objects (max 1000 per request)."""
+        client = self._get_client()
+        for i in range(0, len(keys), 1000):
+            batch = [{'Key': k} for k in keys[i:i + 1000]]
+            client.delete_objects(
+                Bucket=self.bucket,
+                Delete={'Objects': batch},
+            )
 
     def date_from_key(self, key: str) -> date:
         """Extract the log date from an S3 object key.

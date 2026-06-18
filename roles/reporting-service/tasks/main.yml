@@ -37,12 +37,29 @@
     virtualenv: "{{ virtualenv_dir }}"
     requirements: "{{ reporting_dir }}/requirements.txt"
 
-- name: Copy S3 cleanup script
+- name: Template reporting-service .env file
+  ansible.builtin.template:
+    src: env.j2
+    dest: "{{ reporting_dir }}/.env"
+    mode: "0600"
+    owner: ubuntu
+
+- name: Template S3 retention policy
+  ansible.builtin.template:
+    src: s3_retention_policy.json.j2
+    dest: "{{ reporting_dir }}/policy.json"
+    mode: "0644"
+    owner: ubuntu
+
+- name: Copy reporting-service Python modules
   ansible.builtin.copy:
-    src: s3_cleanup.py
-    dest: "{{ reporting_dir }}/s3_cleanup.py"
+    src: "{{ item }}"
+    dest: "{{ reporting_dir }}/{{ item }}"
     mode: "0755"
     owner: ubuntu
+  loop:
+    - s3.py
+    - s3_cleanup.py
 
 - name: Add cron job to run S3 log cleanup daily
   ansible.builtin.cron:
@@ -51,8 +68,9 @@
     minute: "0"
     hour: "2"
     job: >-
-      {{ virtualenv_dir }}/bin/python {{ reporting_dir }}/s3_cleanup.py
-      --policy '{{ s3_data_retention_days | to_json }}'
+      {{ virtualenv_dir }}/bin/python
+      {{ reporting_dir }}/s3_cleanup.py
+      --policy '{{ reporting_dir }}/policy.json'
       >> {{ logs_dir }}/s3_cleanup.log 2>&1
 
 - name: Include workflows reporting tasks
