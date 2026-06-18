@@ -30,7 +30,7 @@
   copy:
     src: requirements.txt
     dest: "{{ reporting_dir }}/requirements.txt"
-    mode: 0755
+    mode: "0644"
 
 - name: Create virtualenv
   pip:
@@ -46,8 +46,8 @@
 
 - name: Template S3 retention policy
   ansible.builtin.template:
-    src: s3_retention_policy.json.j2
-    dest: "{{ reporting_dir }}/policy.json"
+    src: retention-policy.json.j2
+    dest: "{{ reporting_dir }}/retention-policy.json"
     mode: "0644"
     owner: ubuntu
 
@@ -55,7 +55,7 @@
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "{{ reporting_dir }}/{{ item }}"
-    mode: "0755"
+    mode: "0644"
     owner: ubuntu
   loop:
     - s3.py
@@ -70,7 +70,7 @@
     job: >-
       {{ virtualenv_dir }}/bin/python
       {{ reporting_dir }}/s3_cleanup.py
-      --policy '{{ reporting_dir }}/policy.json'
+      --policy '{{ reporting_dir }}/retention-policy.json'
       >> {{ logs_dir }}/s3_cleanup.log 2>&1
 
 - name: Include workflows reporting tasks

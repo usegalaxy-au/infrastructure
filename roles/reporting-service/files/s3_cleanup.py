@@ -5,8 +5,7 @@ Object categories are identified by path segment
 ('cleaned', 'raw', 'selected').
 Objects whose category has a null retention value are kept forever.
 
-Retention policy is read from a JSON file (default: s3_retention_policy.json
-in the same directory), e.g.:
+Retention policy is read from a JSON file e.g.:
     {"cleaned": 1825, "raw": 30, "selected": null}
 
 Designed to run daily by cron.
