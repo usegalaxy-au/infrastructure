@@ -3,6 +3,10 @@
   include_vars:
     file: "{{ role_path }}/defaults/workflows.yml"
 
+- name: Load tools reporting defaults
+  include_vars:
+    file: "{{ role_path }}/defaults/tools.yml"
+
 - name: Create reporting dir
   file:
     path: "{{ reporting_dir }}"
@@ -75,3 +79,6 @@
 
 - name: Include workflows reporting tasks
   include_tasks: workflows.yml
+
+- name: Include tools reporting tasks
+  include_tasks: tools.yml

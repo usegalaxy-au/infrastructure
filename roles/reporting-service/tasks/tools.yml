@@ -1,0 +1,28 @@
+---
+- name: Create tool runs directory
+  ansible.builtin.file:
+    path: "{{ tool_runs_dir }}"
+    state: directory
+    owner: ubuntu
+
+- name: Copy tool runs Python scripts
+  ansible.builtin.copy:
+    src: "tools/{{ item }}"
+    dest: "{{ tool_runs_dir }}/{{ item }}"
+    mode: "0755"
+    owner: ubuntu
+  loop:
+    - tool_runs.py
+
+- name: Add cron job to run tool runs collection script
+  ansible.builtin.cron:
+    name: "Collect tool runs every quarter hour"
+    user: "{{ reporting_user }}"
+    minute: "*/15"
+    hour: "*"
+    job: >-
+      flock -n {{ reporting_dir }}/tool_runs.lock
+      {{ virtualenv_dir }}/bin/python
+      {{ tool_runs_dir }}/tool_runs.py
+      >> {{ logs_dir }}/tool_runs.log 2>&1
+  when: "'tools' in enabled_reporting_services"
