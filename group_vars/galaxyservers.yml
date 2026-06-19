@@ -179,6 +179,7 @@ group_galaxy_config:
     enable_account_interface: "{{ not aai_enabled }}"
     user_activation_on: "{{ not aai_enabled }}"
     oidc_auth_pipeline_extra: "{{ aai_enabled | ternary(['galaxy.authnz.auth0_authnz.sync_user_groups'], [])}}"
+    oidc_scope_prefix: "{{ galaxy_infrastructure_url }}/api"  # this exists in galaxy.yml from release_26.1 onwards
 
     conda_auto_init: false
     check_migrate_tools: false

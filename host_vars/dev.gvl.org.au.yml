@@ -78,8 +78,8 @@ host_galaxy_extra_dirs:
   - "{{ galaxy_root }}/nectar_test_cache"
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
-galaxy_commit_id: release_26.1_au_dev  # dev is still initially forked for release_26.1 to include a Marius M PR and the commit that switches of fixed delegated auth check
-
+# galaxy_commit_id: release_26.1_au_dev  # dev is still initially forked for release_26.1 to include a Marius M PR and the commit that switches of fixed delegated auth check
+galaxy_commit_id: release_26.1_au_dev_s3  # fork of above fork containing commits from https://github.com/galaxyproject/galaxy/pull/22895
 tpv_version: "3.2.1"
 
 galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
@@ -216,7 +216,6 @@ host_galaxy_config: # renamed from __galaxy_config
     object_store_templates_config_file: "{{ galaxy_config_dir }}/object_store_templates.yml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
-    oidc_scope_prefix: "https://dev.gvl.org.au/api"
     panel_views_dir: "{{ galaxy_config_dir }}/tool_panel_filters"
     sentry_dsn: "{{ vault_sentry_dsn_dev }}"
     show_welcome_with_login: false
@@ -559,3 +558,6 @@ auth0_oidc_endpoint: "{{ vault_auth0_oidc_endpoint_dev }}"
 auth0_audience: "{{ vault_auth0_audience_dev }}"
 auth0_registration_endpoint: "{{ vault_auth0_registration_endpoint_dev }}"
 auth0_profile_url: "{{ vault_auth0_profile_url_dev }}"
+
+# for BPA file source
+bpa_data_portal_drs_url_regex: '^drs://aaidemo\.bioplatforms\.com/'
