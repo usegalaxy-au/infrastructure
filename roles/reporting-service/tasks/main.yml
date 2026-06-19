@@ -46,7 +46,7 @@
 
 - name: Template S3 retention policy
   ansible.builtin.template:
-    src: retention-policy.json.j2
+    src: s3-retention-policy.json.j2
     dest: "{{ reporting_dir }}/retention-policy.json"
     mode: "0644"
     owner: ubuntu
