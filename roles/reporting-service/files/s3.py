@@ -21,8 +21,9 @@ DATE_PATH_LENGTH = 10  # length of YYYY/MM/DD
 
 
 class S3Storage:
-    def __init__(self):
+    def __init__(self, prefix: str = None):
         self._client = None
+        self.prefix = prefix
 
     @property
     def endpoint_url(self):
@@ -43,10 +44,6 @@ class S3Storage:
     @property
     def bucket(self):
         return os.environ['S3_BUCKET']
-
-    @property
-    def prefix(self):
-        return os.environ['S3_PREFIX']
 
     def _get_client(self):
         if self._client is None:

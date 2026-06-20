@@ -8,7 +8,7 @@ reporting_dir: /opt/reporting
 logs_dir: "{{ reporting_dir }}/logs"
 
 # Virtualenv
-virtualenv_dir: "{{ reporting_dir }}/stats_venv"
+virtualenv_dir: "{{ reporting_dir }}/venv"
 
 # Influx settings
 influxdb_url: "{{ hostvars['stats']['ansible_ssh_host'] }}"

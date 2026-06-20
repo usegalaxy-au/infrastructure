@@ -40,7 +40,7 @@ from s3 import S3Storage  # noqa: E402
 
 load_dotenv(Path(__file__).parent.parent / '.env')
 
-s3 = S3Storage()
+s3 = S3Storage(prefix=os.environ['S3_PREFIX_WORKFLOW_INVOCATIONS'])
 
 
 LOG_FORMAT = '%(asctime)s %(levelname)s: %(message)s'

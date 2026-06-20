@@ -3,14 +3,14 @@
   ansible.builtin.file:
     path: "{{ tool_runs_dir }}"
     state: directory
-    owner: ubuntu
+    owner: "{{ reporting_user }}"
 
 - name: Copy tool runs Python scripts
   ansible.builtin.copy:
     src: "tools/{{ item }}"
     dest: "{{ tool_runs_dir }}/{{ item }}"
-    mode: "0755"
-    owner: ubuntu
+    mode: "0644"
+    owner: "{{ reporting_user }}"
   loop:
     - tool_runs.py
 

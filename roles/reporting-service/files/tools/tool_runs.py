@@ -35,7 +35,7 @@ from s3 import S3Storage  # noqa: E402
 
 load_dotenv(Path(__file__).parent.parent / '.env')
 
-s3 = S3Storage()
+s3 = S3Storage(prefix=os.environ['S3_PREFIX_TOOL_RUNS'])
 
 
 LOG_FORMAT = '%(asctime)s %(levelname)s: %(message)s'
@@ -238,7 +238,9 @@ def main():
             continue
 
         data_points = []
+        total_records = 0
         for record in s3.read_records(key):
+            total_records += 1
             parsed = parse_log_record(record)
             if not parsed:
                 continue
@@ -256,9 +258,18 @@ def main():
                 timestamp=parsed['datetime'],
             ))
 
+        logger.info(
+            "%s: %d/%d records matched tool pattern",
+            key.split('/')[-1], len(data_points), total_records,
+        )
         if data_points:
             write_to_influxdb(data_points)
-        mark_ingested(key)
+            mark_ingested(key)
+        else:
+            logger.warning(
+                "No tool run records found in %s — key not marked ingested",
+                key,
+            )
 
 
 if __name__ == '__main__':
