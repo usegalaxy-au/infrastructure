@@ -1610,8 +1610,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/chira_collapse/chira_collapse/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/chira_map/chira_map/.*:
-    cores: 10
-    mem: 38.5
+    cores: 16
+    mem: 62
+    scheduling:
+      accept:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/chromeister/chromeister/.*:
     cores: 1
     mem: 3.8
