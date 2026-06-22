@@ -2656,6 +2656,9 @@ tools:
       max_concurrent_job_count_for_tool_user: 2
     cores: 8
     mem: 30.7
+  toolshed.g2.bx.psu.edu/repos/iuc/pairtools_.*:
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/pangolin/pangolin/.*:
     context:
       minimum_singularity_version: 3.1.16+galaxy0
