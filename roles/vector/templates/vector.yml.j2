@@ -2,22 +2,27 @@
 data_dir: /var/lib/vector
 
 sources:
-  nginx_logs:
+  nginx_logs_raw:
     type: file
     include:
       - "{{ vector_nginx_log_file }}"
 
+  nginx_error_logs:
+    type: file
+    include:
+      - "{{ vector_nginx_error_log_file }}"
+
 transforms:
-  nginx_logs_data:
+  parsed_nginx_logs:
     inputs:
-      - nginx_logs
+      - nginx_logs_raw
     type: remap
     source: |
       .parsed = parse_nginx_log!(.message, "combined")
 
   nginx_logs_cleaned:
     inputs:
-      - nginx_logs_data
+      - parsed_nginx_logs
     type: filter
     condition:
       type: vrl
@@ -68,7 +73,7 @@ transforms:
 
   nginx_logs_workflow_invocations:
     inputs:
-      - nginx_logs_data
+      - parsed_nginx_logs
     type: filter
     condition:
       type: vrl
@@ -78,7 +83,7 @@ transforms:
 
   nginx_logs_tool_runs:
     inputs:
-      - nginx_logs_data
+      - parsed_nginx_logs
     type: filter
     condition:
       type: vrl
@@ -101,9 +106,9 @@ sinks:
       codec: json
 {% endfor %}
 
-  s3:
+  s3_raw:
     inputs:
-      - nginx_logs_data
+      - nginx_logs_raw
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
@@ -117,7 +122,7 @@ sinks:
       access_key_id: "{{ vector_s3_access_key_id }}"
       secret_access_key: "{{ vector_s3_secret_access_key }}"
     encoding:
-      codec: json
+      codec: text
     framing:
       method: newline_delimited
     batch:
@@ -187,6 +192,29 @@ sinks:
       secret_access_key: "{{ vector_s3_secret_access_key }}"
     encoding:
       codec: json
+    framing:
+      method: newline_delimited
+    batch:
+      timeout_secs: 3600    # 1 hour
+      max_bytes: 100000000  # 100 MB
+
+  s3_nginx_error_logs:
+    inputs:
+      - nginx_error_logs
+    type: aws_s3
+    bucket: "{{ vector_s3_bucket }}"
+    region: "{{ vector_s3_region }}"
+    key_prefix: "{{ vector_s3_key_prefix }}nginx_error_logs/%Y/%m/%d/"
+    filename_time_format: "%H%M%S"
+    compression: "{{ vector_s3_compression }}"
+{% if vector_s3_endpoint %}
+    endpoint: "{{ vector_s3_endpoint }}"
+{% endif %}
+    auth:
+      access_key_id: "{{ vector_s3_access_key_id }}"
+      secret_access_key: "{{ vector_s3_secret_access_key }}"
+    encoding:
+      codec: text
     framing:
       method: newline_delimited
     batch:

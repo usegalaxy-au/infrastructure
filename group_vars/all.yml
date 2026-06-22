@@ -348,6 +348,7 @@ nginx_server_tokens: "off"
 
 # Vector log shipping
 vector_nginx_log_file: /var/log/nginx/access.log
+vector_nginx_error_log_file: /var/log/nginx/error.log
 vector_s3_bucket: galaxy-logs
 vector_s3_endpoint: https://object-store.rc.nectar.org.au
 vector_s3_key_prefix: "{{ inventory_hostname }}/nginx-logs/"
