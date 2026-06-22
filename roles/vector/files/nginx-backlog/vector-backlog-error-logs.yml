@@ -1,0 +1,22 @@
+---
+sources:
+  nginx_error_logs_raw:
+    type: stdin
+
+sinks:
+  s3_raw:
+    inputs:
+      - nginx_error_logs_raw
+    type: aws_s3
+    bucket: "${S3_BUCKET}"
+    region: "${S3_REGION}"
+    key_prefix: "${S3_PREFIX}/nginx_error_logs/"
+    compression: gzip
+    endpoint: "${S3_ENDPOINT}"
+    auth:
+      access_key_id: "${S3_ACCESS_KEY}"
+      secret_access_key: "${S3_SECRET_KEY}"
+    encoding:
+      codec: text
+    framing:
+      method: newline_delimited

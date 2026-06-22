@@ -1,12 +1,12 @@
 ---
 sources:
-  nginx_logs:
+  nginx_logs_raw:
     type: stdin
 
 transforms:
-  nginx_backlog_dated:
+  parsed_nginx_logs:
     inputs:
-      - nginx_logs
+      - nginx_logs_raw
     type: remap
     source: |
       .parsed = parse_nginx_log!(.message, "combined")
@@ -17,7 +17,7 @@ transforms:
 
   nginx_logs_cleaned:
     inputs:
-      - nginx_backlog_dated
+      - parsed_nginx_logs
     type: filter
     condition:
       type: vrl
@@ -68,7 +68,7 @@ transforms:
 
   nginx_logs_workflow_invocations:
     inputs:
-      - nginx_backlog_dated
+      - parsed_nginx_logs
     type: filter
     condition:
       type: vrl
@@ -78,7 +78,7 @@ transforms:
 
   nginx_logs_tool_runs:
     inputs:
-      - nginx_backlog_dated
+      - parsed_nginx_logs
     type: filter
     condition:
       type: vrl
@@ -111,9 +111,9 @@ sinks:
     encoding:
       codec: json
 
-  s3:
+  s3_raw:
     inputs:
-      - nginx_backlog_dated
+      - parsed_nginx_logs
     type: aws_s3
     bucket: "${S3_BUCKET}"
     region: "${S3_REGION}"
@@ -124,7 +124,7 @@ sinks:
       access_key_id: "${S3_ACCESS_KEY}"
       secret_access_key: "${S3_SECRET_KEY}"
     encoding:
-      codec: json
+      codec: text
     framing:
       method: newline_delimited
 
