@@ -1664,6 +1664,9 @@ tools:
       if: 1 <= input_size < 5
       cores: 9
       mem: 34.5
+  toolshed.g2.bx.psu.edu/repos/iuc/compose_text_param/compose_text_param/.*:
+    params:
+      singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/iuc/concoct.*:
     mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/coverm_.*:
@@ -2217,6 +2220,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/.*:
+    params:
+      singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_.*:
     rules:
     - id: medaka_conda_rule
@@ -2677,6 +2683,9 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/pick_value/pick_value/0.2.0/.*:
+    params:
+      singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/iuc/picrust.*:
     cores: 2
     mem: 10
