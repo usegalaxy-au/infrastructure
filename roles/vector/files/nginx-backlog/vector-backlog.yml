@@ -1,0 +1,180 @@
+---
+sources:
+  nginx_logs:
+    type: stdin
+
+transforms:
+  nginx_backlog_dated:
+    inputs:
+      - nginx_logs
+    type: remap
+    source: |
+      .parsed = parse_nginx_log!(.message, "combined")
+      .log_year  = format_timestamp!(.parsed.timestamp, "%Y")
+      .log_month = format_timestamp!(.parsed.timestamp, "%m")
+      .log_day   = format_timestamp!(.parsed.timestamp, "%d")
+      .log_hour  = format_timestamp!(.parsed.timestamp, "%H")
+
+  nginx_logs_cleaned:
+    inputs:
+      - nginx_backlog_dated
+    type: filter
+    condition:
+      type: vrl
+      source: |
+        agent = string(.parsed.agent) ?? "-"
+        referer = string(.parsed.referer) ?? "-"
+        request = string(.parsed.request) ?? "-"
+
+        # Require a user agent and referer
+        if agent == "-" || referer == "-" {
+          false
+        } else if match_any(agent, [
+
+          # Exclude known bot/scanner user agents
+          r'(?i)phpunit',
+          r'(?i)libredtail-http',
+          r'(?i)CensysInspect',
+          r'(?i)spider',
+          r'(?i)bot'
+
+          ]) {
+          false
+        } else if match_any(request, [
+
+          # Exclude spam/malicious paths
+          r'/vendor',
+          r'/phpunit',
+          r'\.php\?',
+          r'/wp-content/',
+          r'/cgi-bin/'
+
+          ]) {
+          false
+        } else if match_any(request, [
+
+          # Exclude noisy Galaxy messages
+          r'GET /api/invocations/',
+          r'GET /api/histories/',
+          r'GET /history/current_history_json',
+          r'GET /api/entry_points\?running=true',
+          r'GET /static/'
+
+          ]) {
+          false
+        } else {
+          true
+        }
+
+  nginx_logs_workflow_invocations:
+    inputs:
+      - nginx_backlog_dated
+    type: filter
+    condition:
+      type: vrl
+      source: |
+        request = string(.parsed.request) ?? ""
+        match(request, r'^POST /api/workflows/[a-f0-9]+/invocations ')
+
+  nginx_logs_tool_runs:
+    inputs:
+      - nginx_backlog_dated
+    type: filter
+    condition:
+      type: vrl
+      source: |
+        request = string(.parsed.request) ?? ""
+        match(request, r'^POST /api/tools/.+/build ')
+
+sinks:
+  debug_nginx_logs_cleaned:
+    inputs:
+      - nginx_logs_cleaned
+    type: file
+    path: "/tmp/vector-backlog/nginx_logs_cleaned.log"
+    encoding:
+      codec: json
+
+  debug_nginx_logs_workflow_invocations:
+    inputs:
+      - nginx_logs_workflow_invocations
+    type: file
+    path: "/tmp/vector-backlog/nginx_logs_workflow_invocations.log"
+    encoding:
+      codec: json
+
+  debug_nginx_logs_tool_runs:
+    inputs:
+      - nginx_logs_tool_runs
+    type: file
+    path: "/tmp/vector-backlog/nginx_logs_tool_runs.log"
+    encoding:
+      codec: json
+
+  s3:
+    inputs:
+      - nginx_backlog_dated
+    type: aws_s3
+    bucket: "${S3_BUCKET}"
+    region: "${S3_REGION}"
+    key_prefix: "${S3_PREFIX}/raw/{{ log_year }}/{{ log_month }}/{{ log_day }}/{{ log_hour }}0000-"
+    compression: gzip
+    endpoint: "${S3_ENDPOINT}"
+    auth:
+      access_key_id: "${S3_ACCESS_KEY}"
+      secret_access_key: "${S3_SECRET_KEY}"
+    encoding:
+      codec: json
+    framing:
+      method: newline_delimited
+
+  s3_cleaned:
+    inputs:
+      - nginx_logs_cleaned
+    type: aws_s3
+    bucket: "${S3_BUCKET}"
+    region: "${S3_REGION}"
+    key_prefix: "${S3_PREFIX}/cleaned/{{ log_year }}/{{ log_month }}/{{ log_day }}/{{ log_hour }}0000-"
+    compression: gzip
+    endpoint: "${S3_ENDPOINT}"
+    auth:
+      access_key_id: "${S3_ACCESS_KEY}"
+      secret_access_key: "${S3_SECRET_KEY}"
+    encoding:
+      codec: json
+    framing:
+      method: newline_delimited
+
+  s3_workflow_invocations:
+    inputs:
+      - nginx_logs_workflow_invocations
+    type: aws_s3
+    bucket: "${S3_BUCKET}"
+    region: "${S3_REGION}"
+    key_prefix: "${S3_PREFIX}/workflow_invocations/{{ log_year }}/{{ log_month }}/{{ log_day }}/{{ log_hour }}0000-"
+    compression: gzip
+    endpoint: "${S3_ENDPOINT}"
+    auth:
+      access_key_id: "${S3_ACCESS_KEY}"
+      secret_access_key: "${S3_SECRET_KEY}"
+    encoding:
+      codec: json
+    framing:
+      method: newline_delimited
+
+  s3_tool_runs:
+    inputs:
+      - nginx_logs_tool_runs
+    type: aws_s3
+    bucket: "${S3_BUCKET}"
+    region: "${S3_REGION}"
+    key_prefix: "${S3_PREFIX}/tool_runs/{{ log_year }}/{{ log_month }}/{{ log_day }}/{{ log_hour }}0000-"
+    compression: gzip
+    endpoint: "${S3_ENDPOINT}"
+    auth:
+      access_key_id: "${S3_ACCESS_KEY}"
+      secret_access_key: "${S3_SECRET_KEY}"
+    encoding:
+      codec: json
+    framing:
+      method: newline_delimited
