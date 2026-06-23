@@ -198,13 +198,13 @@ sinks:
       timeout_secs: 3600    # 1 hour
       max_bytes: 100000000  # 100 MB
 
-  s3_nginx_error_logs:
+  s3_error_logs:
     inputs:
       - nginx_error_logs
     type: aws_s3
     bucket: "{{ vector_s3_bucket }}"
     region: "{{ vector_s3_region }}"
-    key_prefix: "{{ vector_s3_key_prefix }}nginx_error_logs/%Y/%m/%d/"
+    key_prefix: "{{ vector_s3_key_prefix }}error/%Y/%m/%d/"
     filename_time_format: "%H%M%S"
     compression: "{{ vector_s3_compression }}"
 {% if vector_s3_endpoint %}
