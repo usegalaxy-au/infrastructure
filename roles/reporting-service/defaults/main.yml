@@ -38,9 +38,9 @@ s3_secret_access_key: ""
 
 # S3 log data retention policy (days). null means keep forever.
 s3_data_retention_days:
-  cleaned: 1825   # 5 years
   raw: 30
-  error: 30
+  cleaned: 1825   # 5 years
+  error: 730
   other: null  # Keep forever (filtered logs e.g. workflow invocations)
 
 enabled_reporting_services:
