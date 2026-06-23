@@ -40,7 +40,8 @@ s3_secret_access_key: ""
 s3_data_retention_days:
   cleaned: 1825   # 5 years
   raw: 30
-  selected: null  # Keep forever
+  error: 30
+  other: null  # Keep forever (filtered logs e.g. workflow invocations)
 
 enabled_reporting_services:
   - workflows

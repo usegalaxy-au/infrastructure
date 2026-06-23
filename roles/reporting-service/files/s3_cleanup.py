@@ -1,12 +1,12 @@
 """Enforce S3 log data retention policy.
 
 Deletes objects from S3 whose age exceeds the configured retention period.
-Object categories are identified by path segment
-('cleaned', 'raw', 'selected').
+Object categories are identified by path segment ('cleaned', 'error', 'raw').
+Objects not matching a known category are assigned the 'other' category.
 Objects whose category has a null retention value are kept forever.
 
 Retention policy is read from a JSON file e.g.:
-    {"cleaned": 1825, "raw": 30, "selected": null}
+    {"cleaned": 1825, "error": 30, "raw": 30, "other": null}
 
 Designed to run daily by cron.
 
@@ -32,19 +32,19 @@ LOG_FORMAT = '%(levelname)s: %(message)s'
 logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
 logger = logging.getLogger(__name__)
 
-CATEGORIES = ('cleaned', 'raw', 'selected')
+CATEGORIES = ('cleaned', 'error', 'raw')
 
 # Object keys are date-partitioned:
 #   .../<category>/YYYY/MM/DD/HHMMSS-<uuid>.log.gz
 DATE_PATTERN = re.compile(r'/(\d{4})/(\d{2})/(\d{2})/[^/]+$')
 
 
-def object_category(key: str) -> str | None:
-    """Return the category from an S3 key, or None if not recognised."""
+def object_category(key: str) -> str:
+    """Return the category from an S3 key, or 'other' if not recognised."""
     for category in CATEGORIES:
         if f'/{category}/' in key:
             return category
-    return None
+    return 'other'
 
 
 def object_date(key: str) -> date | None:
@@ -94,9 +94,6 @@ def main():
     for obj in objects:
         key = obj['Key']
         category = object_category(key)
-        if category is None:
-            continue
-
         retention_days = policy.get(category)
         if retention_days is None:
             continue
