@@ -8,7 +8,7 @@ reporting_dir: /opt/reporting
 logs_dir: "{{ reporting_dir }}/logs"
 
 # Virtualenv
-virtualenv_dir: "{{ reporting_dir }}/stats_venv"
+virtualenv_dir: "{{ reporting_dir }}/venv"
 
 # Influx settings
 influxdb_url: "{{ hostvars['stats']['ansible_ssh_host'] }}"
@@ -38,9 +38,11 @@ s3_secret_access_key: ""
 
 # S3 log data retention policy (days). null means keep forever.
 s3_data_retention_days:
-  cleaned: 1825   # 5 years
   raw: 30
-  selected: null  # Keep forever
+  cleaned: 1825   # 5 years
+  error: 730
+  other: null  # Keep forever (filtered logs e.g. workflow invocations)
 
 enabled_reporting_services:
   - workflows
+  - tools

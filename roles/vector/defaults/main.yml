@@ -7,8 +7,9 @@ vector_installation_path: /usr/bin/vector
 # Local debug logs (one file per transform, rotated by logrotate)
 vector_log_dir: /var/log/vector
 
-# Nginx log directory to ship
-vector_nginx_log_file: /var/log/nginx
+# Nginx log files to ship
+vector_nginx_log_file: /var/log/nginx/access.log
+vector_nginx_error_log_file: /var/log/nginx/error.log
 
 # S3 destination settings
 vector_s3_bucket: ""

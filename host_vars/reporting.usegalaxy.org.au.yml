@@ -12,3 +12,7 @@ s3_endpoint: "{{ vector_s3_endpoint }}"
 s3_access_key_id: "{{ vector_s3_access_key_id }}"
 s3_secret_access_key: "{{ vector_s3_secret_access_key }}"
 s3_key_prefix: galaxy/nginx-logs/
+
+enabled_reporting_services:
+  - workflows
+  - tools
