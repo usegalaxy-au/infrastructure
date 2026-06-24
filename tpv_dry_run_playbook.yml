@@ -1,0 +1,57 @@
+- hosts: localhost
+  vars_files:
+    - group_vars/aarnet.yml
+    - group_vars/galaxyservers.yml
+    - host_vars/aarnet.usegalaxy.org.au.yml
+    - group_vars/VAULT
+    - secret_group_vars/stats_server_vault
+  vars:
+    tpv_check_dir: tpv_check
+    venv_path: .tpv_test
+  tasks:
+    - name: Create virtualenv
+      command: "virtualenv {{ venv_path }}"
+    - name: Install tpv
+      command: "{{ venv_path }}/bin/pip install git+https://github.com/galaxyproject/total-perspective-vortex.git galaxy-app"
+    - name: ensure dir exists
+      file: 
+        path: "{{ tpv_check_dir }}/total_perspective_vortex"
+        state: directory
+    - name: copy job_conf file
+      template:
+        src: "{{ galaxy_config_template_src_dir }}/config/aarnet_job_conf.yml.j2"
+        dest: "{{ tpv_check_dir }}/job_conf.yml"
+    - name: Get shared db file
+      get_url:
+        url: "https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/main/tools.yml"
+        dest: "{{ tpv_check_dir }}/shared_tpv_tools.yml"
+    - name: Install dynamic job rules (static) # dynamic job rules tasks copied from https://github.com/galaxyproject/ansible-galaxy/blob/main/tasks/static_setup.yml
+      copy:
+        src: "{{ galaxy_dynamic_job_rules_src_dir }}/{{ item }}"
+        dest: "{{ tpv_check_dir }}/{{ item }}"
+        mode: 0644
+      with_items: "{{ galaxy_dynamic_job_rules }}"
+      when: not item.endswith(".j2")
+    - name: Install dynamic job rules (template)
+      template:
+        src: "{{ galaxy_dynamic_job_rules_src_dir }}/{{ item }}"
+        dest: "{{ tpv_check_dir }}/{{ item | regex_replace(regex) }}"
+        mode: 0644
+      vars:
+        regex: '\.j2$'
+      with_items: "{{ galaxy_dynamic_job_rules }}"
+      when: item.endswith(".j2")
+    - name: Create dry-run bash script
+      vars:
+        regex: '\.j2$'
+      copy:
+        dest : run_dry_run.sh
+        content: |
+          . {{ venv_path }}/bin/activate
+          tpv dry-run "$@" --job-conf {{ tpv_check_dir }}/job_conf.yml \
+          {{ tpv_check_dir }}/shared_tpv_tools.yml \
+          {% for tpv_file in galaxy_dynamic_job_rules %}
+          {% if tpv_file.endswith('.yml.j2') or tpv_file.endswith('.yml') %}
+          {{ tpv_check_dir }}/{{ tpv_file | regex_replace(regex) }} \
+          {% endif %}
+          {% endfor %}
