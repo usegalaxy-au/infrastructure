@@ -2641,10 +2641,6 @@ tools:
     mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/optitype/optitype/.*:
     rules:
-    - id: optitype_singularity_override_rule
-      if: helpers.tool_version_eq(tool, "1.3.5+galaxy0")
-      params:
-        singularity_container_id_override: /cvmfs/singularity.galaxyproject.org/all/optitype:1.3.5--hdfd78af_2
     - id: optitype_large_input
       if: input_size > 1
       cores: 8
