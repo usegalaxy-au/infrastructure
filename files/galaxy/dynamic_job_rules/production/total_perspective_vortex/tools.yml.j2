@@ -423,6 +423,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/.*:
     cores: 8
     mem: 30.7
+    env:
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     params:
       tmp_dir: true
     scheduling:
