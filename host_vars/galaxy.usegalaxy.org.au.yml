@@ -164,7 +164,7 @@ host_galaxy_config: # renamed from __galaxy_config
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
     brand: "Australia"
     database_connection: "postgresql://galaxy:{{ galaxy_db_user_password }}@{{ hostvars['galaxy-db']['internal_ip'] }}:5432/galaxy"
-    id_secret: "{{ vault_aarnet_id_secret }}" # TODO: this need to stay the same wherever production galaxy is running, but the name of the vault variable is misleading
+    id_secret: "{{ vault_prod_id_secret }}" # TODO: this need to stay the same wherever production galaxy is running, but the name of the vault variable is misleading
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.yml"
     smtp_server: localhost
     interactivetools_enable: true
