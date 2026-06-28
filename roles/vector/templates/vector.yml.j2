@@ -89,7 +89,7 @@ transforms:
       type: vrl
       source: |
         request = string(.parsed.request) ?? ""
-        match(request, r'^POST /api/tools/.+/build ')
+        match(request, r'^POST /api/tools ')
 
 sinks:
 {% for transform in [
