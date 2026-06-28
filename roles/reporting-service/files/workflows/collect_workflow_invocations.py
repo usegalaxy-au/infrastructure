@@ -65,6 +65,12 @@ MEASUREMENT_NAME = 'workflow_invocation'
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
 STATE_DIR = Path(__file__).parent / 'state'
 LOOKBACK_DAYS = 7
+DOMAINS_URL = (
+    'https://raw.githubusercontent.com/usegalaxy-au/galaxy-media-site/'
+    'refs/heads/dev/webapp/utils/data/domains.json'
+)
+DOMAINS_CACHE_FILE = STATE_DIR / 'domains.json'
+DOMAINS_CACHE_TTL = timedelta(days=7)
 
 INVOCATION_PATTERN = re.compile(
     r'POST /api/workflows/([a-f0-9]+)/invocations'
@@ -74,9 +80,10 @@ DOMAIN_PATTERN = re.compile(
 )
 
 WORKFLOW_QUERY = text("""
-    SELECT sw.id, sw.name, sw.user_id, w.uuid, w.source_metadata
+    SELECT sw.id, sw.name, sw.user_id, w.uuid, w.source_metadata, u.email
     FROM stored_workflow sw
     JOIN workflow w ON w.id = sw.latest_workflow_id
+    LEFT JOIN galaxy_user u ON u.id = sw.user_id
     WHERE sw.id = :id
 """)
 
@@ -154,6 +161,59 @@ def resolve_canonical_id(source_metadata) -> tuple[str, str, str]:
         return (url, '', '')
 
     return ('', '', '')
+
+
+def load_domain_map() -> dict:
+    """Load email-domain -> institution map, refreshing weekly from GitHub."""
+    needs_refresh = True
+    if DOMAINS_CACHE_FILE.exists():
+        mtime = datetime.fromtimestamp(DOMAINS_CACHE_FILE.stat().st_mtime)
+        if datetime.now() - mtime < DOMAINS_CACHE_TTL:
+            needs_refresh = False
+
+    if needs_refresh:
+        try:
+            with urllib.request.urlopen(DOMAINS_URL) as resp:
+                data = resp.read()
+            json.loads(data)  # validate
+            STATE_DIR.mkdir(parents=True, exist_ok=True)
+            DOMAINS_CACHE_FILE.write_bytes(data)
+            logger.info("Refreshed domains.json cache")
+        except (urllib.error.URLError, json.JSONDecodeError) as e:
+            if DOMAINS_CACHE_FILE.exists():
+                logger.warning(
+                    "Failed to refresh domains.json, using stale cache: %s", e)
+            else:
+                logger.error("Failed to fetch domains.json: %s", e)
+                return {}
+
+    with DOMAINS_CACHE_FILE.open() as f:
+        return json.load(f)
+
+
+def lookup_institution(email: str, domain_map: dict) -> str:
+    """Resolve an institution name from an email address using domain_map.
+
+    domain_map keys are either '@full.domain' (exact) or '*.parent.tld'
+    (suffix wildcard). Exact matches take precedence over wildcards.
+    """
+    if not email or '@' not in email:
+        return ''
+    domain = email.rsplit('@', 1)[1].lower()
+
+    exact = domain_map.get('@' + domain)
+    if exact:
+        return exact
+
+    best_match = ''
+    best_len = 0
+    for pattern, name in domain_map.items():
+        if pattern.startswith('*.'):
+            suffix = pattern[1:]
+            if domain.endswith(suffix) and len(suffix) > best_len:
+                best_match = name
+                best_len = len(suffix)
+    return best_match
 
 
 def escape_tag_value(value: str) -> str:
@@ -301,6 +361,7 @@ def main():
     )
     engine = create_engine(GALAXY_DATABASE_URL)
     ingested = load_ingested_keys(start_date, end_date)
+    domain_map = load_domain_map()
 
     with engine.connect() as conn:
         for key in s3.iter_keys(start_date, end_date):
@@ -336,10 +397,11 @@ def main():
                     )
                     continue
 
-                _, name, user_id, uuid, source_metadata = result
+                _, name, user_id, uuid, source_metadata, email = result
                 canonical_id, trs_server, trs_version_id = (
                     resolve_canonical_id(source_metadata)
                 )
+                institution = lookup_institution(email or '', domain_map)
 
                 data_points.append(format_line_protocol(
                     measurement=MEASUREMENT_NAME,
@@ -348,6 +410,7 @@ def main():
                         'workflow_name': name,
                         'canonical_id': canonical_id or name,
                         'trs_server': trs_server,
+                        'institution': institution,
                     },
                     fields={
                         'count': 1.0,
