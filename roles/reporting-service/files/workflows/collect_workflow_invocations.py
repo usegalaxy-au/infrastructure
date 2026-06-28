@@ -258,7 +258,7 @@ def write_to_influxdb(lines: list[str]):
         sys.exit(1)
 
 
-def parse_args() -> tuple[date, date]:
+def parse_args() -> tuple[date, date, bool]:
     parser = argparse.ArgumentParser(
         description="Collect workflow invocation data from S3 nginx logs.",
     )
@@ -277,6 +277,11 @@ def parse_args() -> tuple[date, date]:
         default=None,
         help="End date (YYYY-MM-DD, inclusive). Defaults to today.",
     )
+    parser.add_argument(
+        '--dry',
+        action='store_true',
+        help="Print line protocol to stdout instead of writing to InfluxDB.",
+    )
     args = parser.parse_args()
     today = date.today()
     start_date = args.start or today - timedelta(days=LOOKBACK_DAYS)
@@ -284,11 +289,11 @@ def parse_args() -> tuple[date, date]:
     if start_date > end_date:
         parser.error(
             f"--start ({start_date}) is after --end ({end_date})")
-    return start_date, end_date
+    return start_date, end_date, args.dry
 
 
 def main():
-    start_date, end_date = parse_args()
+    start_date, end_date, dry_run = parse_args()
 
     id_cipher = Blowfish.new(
         GALAXY_ID_SECRET.encode('utf-8'),
@@ -354,8 +359,13 @@ def main():
                 ))
 
             if data_points:
-                write_to_influxdb(data_points)
-            mark_ingested(key)
+                if dry_run:
+                    for line in data_points:
+                        print(line)
+                else:
+                    write_to_influxdb(data_points)
+            if not dry_run:
+                mark_ingested(key)
 
 
 if __name__ == '__main__':
