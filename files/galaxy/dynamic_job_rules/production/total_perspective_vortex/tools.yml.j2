@@ -1279,11 +1279,23 @@ tools:
     cores: 16
     mem: 62
     params:
-      singularity_container_id_override: docker://teambraker/braker3:v1.0.6
       singularity_run_extra_arguments: --writable-tmpfs
     scheduling:
-      require:
+      prefer:
       - pulsar
+    rules:
+    - id: braker3_v3_0_6_container_rule
+      if: helpers.tool_version_gte(tool, '3.0.6') and helpers.tool_version_lt(tool, '3.0.7')
+      params:
+        singularity_container_id_override: docker://teambraker/braker3:v1.0.6  
+    - id: braker3_v3_0_7_container_rule
+      if: helpers.tool_version_gte(tool, '3.0.7') and helpers.tool_version_lt(tool, '3.0.8')
+      params:
+        singularity_container_id_override: docker://teambraker/braker3:v3.0.7.1
+    - id: braker3_v3_0_8_container_rule
+      if: helpers.tool_version_gte(tool, '3.0.8') and helpers.tool_version_lt(tool, '3.0.9')
+      params:
+         singularity_container_id_override: docker://teambraker/braker3:v3.0.7.4 
   toolshed.g2.bx.psu.edu/repos/genouest/helixer/helixer/*:
     cores: 8
     mem: 69
