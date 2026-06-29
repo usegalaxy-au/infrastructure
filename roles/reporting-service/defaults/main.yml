@@ -1,8 +1,13 @@
 # User running stats collection
 reporting_user: ubuntu
 
-# Directory to copy the scripts to
+# Base directory for the reporting service
 reporting_dir: /opt/reporting
+
+# Reporting-service git repo, cloned into {{ reporting_repo }}
+reporting_service_repo_url: https://github.com/usegalaxy-au/reporting-service.git
+reporting_service_version: main
+reporting_repo: "{{ reporting_dir }}/reporting-service"
 
 # Where we'll write our program logs to
 logs_dir: "{{ reporting_dir }}/logs"
