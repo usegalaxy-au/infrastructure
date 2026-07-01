@@ -1011,4 +1011,4 @@ auth0_registration_endpoint: "{{ vault_auth0_registration_endpoint_production }}
 auth0_profile_url: "{{ vault_auth0_profile_url_production }}"
 
 # for BPA file source
-bpa_data_portal_drs_url_regex: '^drs://bioplatforms\.com/'
+bpa_data_portal_drs_url_regex: '^drs://data\.bioplatforms\.com/'
