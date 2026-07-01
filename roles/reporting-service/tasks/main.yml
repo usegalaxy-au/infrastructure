@@ -1,18 +1,19 @@
 ---
-- name: Load workflows reporting defaults
-  include_vars:
-    file: "{{ role_path }}/defaults/workflows.yml"
-
-- name: Load tools reporting defaults
-  include_vars:
-    file: "{{ role_path }}/defaults/tools.yml"
-
 - name: Create reporting dir
-  file:
+  ansible.builtin.file:
     path: "{{ reporting_dir }}"
     state: directory
     owner: "{{ reporting_user }}"
     mode: "0755"
+
+- name: Clone reporting-service repo
+  ansible.builtin.git:
+    repo: "{{ reporting_service_repo_url }}"
+    dest: "{{ reporting_repo }}"
+    version: "{{ reporting_service_version }}"
+    force: true
+  become: true
+  become_user: "{{ reporting_user }}"
 
 - name: Create logs dir
   ansible.builtin.file:
@@ -30,40 +31,24 @@
     mode: "0644"
   become: true
 
-- name: Copy requirements file
-  copy:
-    src: requirements.txt
-    dest: "{{ reporting_dir }}/requirements.txt"
-    mode: "0644"
-
 - name: Create virtualenv
   pip:
     virtualenv: "{{ virtualenv_dir }}"
-    requirements: "{{ reporting_dir }}/requirements.txt"
+    requirements: "{{ reporting_repo }}/requirements.txt"
 
 - name: Template reporting-service .env file
   ansible.builtin.template:
     src: env.j2
-    dest: "{{ reporting_dir }}/.env"
+    dest: "{{ reporting_repo }}/.env"
     mode: "0600"
-    owner: ubuntu
+    owner: "{{ reporting_user }}"
 
 - name: Template S3 retention policy
   ansible.builtin.template:
     src: s3-retention-policy.json.j2
-    dest: "{{ reporting_dir }}/retention-policy.json"
+    dest: "{{ reporting_repo }}/retention-policy.json"
     mode: "0644"
-    owner: ubuntu
-
-- name: Copy reporting-service Python modules
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "{{ reporting_dir }}/{{ item }}"
-    mode: "0644"
-    owner: ubuntu
-  loop:
-    - s3.py
-    - s3_cleanup.py
+    owner: "{{ reporting_user }}"
 
 - name: Add cron job to run S3 log cleanup daily
   ansible.builtin.cron:
@@ -73,8 +58,8 @@
     hour: "2"
     job: >-
       {{ virtualenv_dir }}/bin/python
-      {{ reporting_dir }}/s3_cleanup.py
-      --policy '{{ reporting_dir }}/retention-policy.json'
+      {{ reporting_repo }}/s3_cleanup.py
+      --policy '{{ reporting_repo }}/retention-policy.json'
       >> {{ logs_dir }}/s3_cleanup.log 2>&1
 
 - name: Include workflows reporting tasks

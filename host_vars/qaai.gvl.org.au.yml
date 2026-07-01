@@ -422,4 +422,4 @@ auth0_profile_url: "{{ vault_auth0_profile_url_qaai }}"
 auth0_domain: "{{ vault_auth0_domain_qaai }}"
 
 # for BPA file source
-bpa_data_portal_drs_url_regex: '^drs://staging\.bioplatforms\.com/'
+bpa_data_portal_drs_url_regex: '^drs://aaiquality\.bioplatforms\.com/'
