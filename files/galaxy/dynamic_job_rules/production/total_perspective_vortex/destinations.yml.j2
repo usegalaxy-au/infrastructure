@@ -248,7 +248,7 @@ destinations:
     runner: pulsar-qld-high-mem1_runner
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
-    min_accepted_mem: 30  # usually set to 62.51, 30 is an unusual config value for this due to many small/medium jobs, (2026-05-07 CB)
+    min_accepted_mem: 40  # allow larger regular-sized jobs to run on this pulsar
     context:
       destination_total_cores: 240
       destination_total_mem: 3845.07
