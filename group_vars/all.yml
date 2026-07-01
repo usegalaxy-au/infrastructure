@@ -23,13 +23,6 @@ __machine_users:
       email: "{{ simon_email }}"
 
     # infrastructure team
-    - name: justin
-      uid: 7011
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/justin.pub
-      email: "{{ justin_email }}"
     - name: cat
       uid: 7012
       roles:
@@ -43,7 +36,6 @@ __machine_users:
         - sudo
         - galaxy_admin
       key: files/keys/nuwan.pub
-      galaxy_admin: true
       email: "{{ nuwan_email }}"
  
     # user support team
@@ -75,13 +67,7 @@ __machine_users:
         - galaxy_admin
       key: files/keys/cameron.pub
       email: "{{ cameron_email }}"
-    - name: tom
-      uid: 7203
-      roles:
-        - galaxy_admin
-      key: files/keys/tom.pub
-      email: "{{ tom_email }}"
-
+ 
     # other
     - name: anna
       uid: 7301
@@ -109,6 +95,19 @@ machine_users: "{{ host_machine_users + (__machine_users | rejectattr('name', 'i
 
 # no longer active accounts to be removed - only name field is required
 remove_machine_users:
+    - name: justin
+    # uid: 7011
+    # roles:
+    #   - sudo
+    #   - galaxy_admin
+    # key: files/keys/justin.pub
+    # email: "{{ justin_email }}"
+    - name: tom
+    # uid: 7203
+    # roles:
+    #   - galaxy_admin
+    # key: files/keys/tom.pub
+    # email: "{{ tom_email }}"
     - name: gavin
     # uid: 7014
     # roles:
