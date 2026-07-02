@@ -79,7 +79,6 @@ nginx_conf_http:
 nginx_ssl_role: usegalaxy_eu.certbot
 nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
 nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
-create_nginx_htpasswd: true
 nginx_conf_user: galaxy # the nginx-with-dynamic-module role uses this (though it is a var for galaxyproject.nginx)
 nginx_upload_limit_rate: 0 # for nginx template: rate in bytes per second.  0 means no limit. (EU has '32k', US has no limit)
 
@@ -273,15 +272,15 @@ group_galaxy_config:
         versionless: true
 
     container_resolvers:
-      - type: explicit
-      - type: cached_explicit_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-      - type: explicit_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
+      - type: explicit  # use Docker if <container type="docker"> and use Singularity if <container type="singularity"> (comment from EU)
+      # CVMFS
+      - type: cached_mulled_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        cache_directory_cacher_type: dir_mtime     
+      # local cache
       - type: cached_mulled_singularity
         cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-      - type: mulled_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
+        cache_directory_cacher_type: dir_mtime
 
     # Taken from usegalaxy.org
     tool_name_boost: 0.1
