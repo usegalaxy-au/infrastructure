@@ -273,6 +273,8 @@ group_galaxy_config:
 
     container_resolvers:
       - type: explicit  # use Docker if <container type="docker"> and use Singularity if <container type="singularity"> (comment from EU)
+      - type: cached_explicit_singularity
+        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
       # CVMFS
       - type: cached_mulled_singularity
         cache_directory: /cvmfs/singularity.galaxyproject.org/all
