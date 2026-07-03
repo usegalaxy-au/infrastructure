@@ -234,6 +234,9 @@ host_galaxy_config: # renamed from __galaxy_config
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
     watch_job_rules: true # important for total perspective vortex
     welcome_directory: plugins/welcome_page/new_user/static/topics/
+    # TO DO: move this to galaxyservers.yml after checking on dev
+    enable_failed_jobs_working_directory_cleanup: true
+    failed_jobs_working_directory_cleanup_days: 7
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
