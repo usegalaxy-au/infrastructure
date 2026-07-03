@@ -32,9 +32,6 @@ tools:
     params:
       singularity_enabled: true
       singularity_run_extra_arguments: --writable-tmpfs
-    scheduling:
-      accept:
-      - pulsar
     rules:
     - id: braker3_v3_0_6_container_rule
       if: helpers.tool_version_gte(tool, '3.0.6') and helpers.tool_version_lt(tool, '3.0.7')
