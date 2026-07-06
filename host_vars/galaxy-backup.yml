@@ -80,16 +80,23 @@ history_mailer_staging_galaxy_api_key: "{{ vault_jenkins_bot_staging_api_key }}"
 
 history_mailer_galaxy_keeplist_group: "History Retention Keeplist"
 
-history_mailer_postal_base_url: "https://mail.usegalaxy.org.au/api/v1/"
-history_mailer_postal_api_key: "{{ vault_history_mailer_postal_api_key }}"
+history_mailer_mail_test_user:
+  username: "cat"
+  email: "{{ cat_email }}"
+
+history_mailer_mail_base_url: "https://api.smtp2go.com/v3/"
+history_mailer_mail_api_key: "{{ vault_smtp2go_api_key }}"
+
+history_mailer_subject_warning: "Galaxy Australia: Upcoming Deletion Notification"
+history_mailer_subject_deletion: "Galaxy Australia: Deletion Notification"
 
 history_mailer_email_template_warning: "{{ history_mailer_email_template_dir }}/email_warning.html"
 history_mailer_email_template_deletion: "{{ history_mailer_email_template_dir }}/email_deletion.html"
 
-history_mailer_mail_from: "Galaxy Australia <no-reply@usegalaxy.org.au>"
+history_mailer_mail_from: "Galaxy Australia <galaxy-no-reply@usegalaxy.org.au>"
 history_mailer_mail_replyto: "help@genome.edu.au"
 
-history_mailer_slack_token: "{{ vault_history_mailer_slack_token }}"
+history_mailer_slack_token: "{{ vault_galaxy_australia_slack_api_token }}"
 history_mailer_slack_alert_channel: "#alerts"
 history_mailer_slack_log_channel: "#galaxy-logs"
 history_mailer_alert_mentions: "<@Catherine>"
@@ -97,9 +104,9 @@ history_mailer_log_mentions: "<@Catherine>"
 
 # settings for ansible role
 history_mailer_user: ubuntu
-history_mailer_dir: "/home/{{ history_mailer_user }}/hm_TEST"
+history_mailer_dir: "/home/{{ history_mailer_user }}/history_mailer"
 
-history_mailer_use_postal: true # Must be true for history mailer to work
+history_mailer_use_mail_api: true # Must be true for history mailer to work
 
 history_mailer_enable_cron_jobs: false # When not enabled, cron jobs will be entered in crontab in a disabled state
 
@@ -125,9 +132,3 @@ history_mailer_cron_jobs:
     - production
     - purge
     - notify
-
-# Delete these and use vault variables
-vault_history_mailer_postal_api_key: nottherealkey # ##
-vault_history_mailer_slack_token: "xoxb"
-vault_jenkins_bot_production_api_key: abcdefg # TODO: add the real one, add these to vault
-vault_jenkins_bot_staging_api_key: xyz # TODO: add the real one, add these to vault
