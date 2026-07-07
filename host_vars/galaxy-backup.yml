@@ -67,6 +67,8 @@ host_machine_users:
 
 ### History mailer
 
+history_mailer_commit_id: c41c3c6637ceb391026e9fee0e88d771eb874479
+
 # config
 history_mailer_warn_days: 365
 history_mailer_delete_days: 379
@@ -74,9 +76,9 @@ history_mailer_email_days_threshold: 14
 history_mailer_purge_days_threshold: 6
 
 history_mailer_galaxy_url: https://usegalaxy.org.au
-history_mailer_galaxy_api_key: "{{ vault_jenkins_bot_production_api_key }}"  # TODO: add this!
+history_mailer_galaxy_api_key: "{{ vault_jenkins_bot_production_api_key }}"
 history_mailer_staging_galaxy_url: https://staging.gvl.org.au
-history_mailer_staging_galaxy_api_key: "{{ vault_jenkins_bot_staging_api_key }}"  # TODO: add this!
+history_mailer_staging_galaxy_api_key: "{{ vault_jenkins_bot_staging_api_key }}"
 
 history_mailer_galaxy_keeplist_group: "History Retention Keeplist"
 
@@ -104,11 +106,11 @@ history_mailer_log_mentions: "<@Catherine>"
 
 # settings for ansible role
 history_mailer_user: ubuntu
-history_mailer_dir: "/home/{{ history_mailer_user }}/history_mailer"
+history_mailer_dir: "/home/{{ history_mailer_user }}/mailer"
 
 history_mailer_use_mail_api: true # Must be true for history mailer to work
 
-history_mailer_enable_cron_jobs: false # When not enabled, cron jobs will be entered in crontab in a disabled state
+history_mailer_enable_cron_jobs: true # When not enabled, cron jobs will be entered in crontab in a disabled state
 
 history_mailer_files:
   - src: templates/history_mailer/email_warning.html
@@ -117,18 +119,9 @@ history_mailer_files:
     dest: "{{ history_mailer_email_template_deletion }}"
 
 history_mailer_cron_jobs:
-- name: warn_and_delete
-  weekday: "3"
-  hour: "11"
-  options:
-    - production
-    - warn
-    - delete
-    - notify
-- name: purge_histories
-  weekday: "2"
-  hour: "12"
-  options:
-    - production
-    - purge
-    - notify
+  warn_and_delete:
+    weekday: "3"
+    hour: "11"
+  purge_histories:
+    weekday: "2"
+    hour: "12"
