@@ -49,8 +49,6 @@
       tags: miniconda
     - role: galaxyproject.galaxy_extensions
       tags: extensions
-    - role: usegalaxy_eu.galaxy_subdomains
-      tags: galaxy_subdomains
     - name: nginx-upload-module
       tags: nginx
     - name: galaxyproject.nginx
