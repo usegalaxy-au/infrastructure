@@ -1,0 +1,6 @@
+- hosts: "{{ target_hosts }}"
+  become: true
+  tasks:
+  - name: Resume slurm nodes
+    command:
+      cmd: "scontrol update node={{ ansible_hostname }} state=resume"
