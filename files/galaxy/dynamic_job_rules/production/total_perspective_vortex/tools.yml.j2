@@ -950,8 +950,13 @@ tools:
     params:
       singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/earlhaminst/lotus2/lotus2/.*:
-    cores: 8
-    mem: 31.2
+    cores: 16
+    mem: 52
+    rules:
+    - id: lotus2_small_input_rule
+      if: input_size < 5 
+      cores: 8
+      mem: 31.2
     params:
       singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/anndata_ops/anndata_ops/.*:
