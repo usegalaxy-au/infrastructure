@@ -31,6 +31,7 @@ certbot_domains:
   - "proteomics.{{ hostname }}"
   - "singlecell.{{ hostname }}"
   - "microbiology.{{ hostname }}"
+  - "edna.{{ hostname }}"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_gvl_api_token }}"
@@ -484,6 +485,24 @@ galaxy_subsites:
       }
       #masthead a.navbar-brand::after {
         content: "Australia - Microbiology Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
+  - name: edna
+    brand: eDNA Lab
+    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/tiffmnelson/galaxy_codex/blob/main/communities/edna/base.yml"
+    wallpaper: false
+    tool_sections: []
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #0d3a6b !important;
+      }
+      #masthead {
+        background: linear-gradient(135deg, #b22222 0%, #1a4b92 100%) !important;
+      }
+      #masthead a.navbar-brand::after {
+          content: "Australia - eDNA Lab";
       }
       #masthead .navbar-text {
         display: none;
