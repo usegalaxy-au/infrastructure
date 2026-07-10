@@ -147,7 +147,6 @@ destinations:
         - eggnog
       require:
         - pulsar
-        - pulsar-quick  # TODO: remove this after MRC hypervisor restarts 13-17 July '26
   pulsar-mel3:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
@@ -169,7 +168,6 @@ destinations:
         # - pulsar-blast  # alternate location for pulsar blast jobs when pulsar-qld-blast is unavailable
       require:
         - pulsar
-        - pulsar-quick  # TODO: remove this after MRC hypervisor restarts 13-17 July '26
   pulsar-high-mem1:
     inherits: _pulsar_destination
     runner: pulsar-high-mem1_runner
@@ -187,7 +185,6 @@ destinations:
         - cvmfs_cache_800plus
       require:
         - pulsar
-        - pulsar-quick  # TODO: remove this after MRC hypervisor restarts 13-17 July '26
   pulsar-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-high-mem2_runner
