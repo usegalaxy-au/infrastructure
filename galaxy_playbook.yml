@@ -37,7 +37,8 @@
         - "{{ qld_file_mounts_path }}"
   roles:
     - common
-    - mounts
+    - role: mounts
+      tags: mounts
     - geerlingguy.pip
     - galaxyproject.galaxy
     # - role: galaxyproject.miniconda # this role is needed for a fresh installation, but for subsequent playbook runs can take far too much time. TODO: fix this somehow

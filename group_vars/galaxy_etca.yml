@@ -78,12 +78,14 @@ galaxy_server_and_worker_shared_mounts: # Everything mounted on galaxy, galaxy_h
     src: "galaxy-aust-exports.genome.edu.au:/Q0028_files"
     fstype: nfs
     opts: 'noatime,rsize=1048576,wsize=1048576,defaults'
-    state: "{{ 'mounted' if qld_file_mounts_available else 'absent_from_fstab' }}"
+    # state: "{{ 'mounted' if qld_file_mounts_available else 'absent_from_fstab' }}"
+    state: absent
   - path: "{{ qld_file_mounts_path }}/files2"
     src: "galaxy-aust-exports.genome.edu.au:/mnt/user-data"
     fstype: nfs
     opts: 'noatime,rsize=1048576,wsize=1048576,defaults'
-    state: "{{ 'mounted' if qld_file_mounts_available else 'absent_from_fstab' }}"
+    # state: "{{ 'mounted' if qld_file_mounts_available else 'absent_from_fstab' }}"
+    state: absent
 
 galaxy_worker_mounts:
   - path: /mnt/galaxy

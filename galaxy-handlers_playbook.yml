@@ -55,7 +55,8 @@
         owner: galaxy
         group: galaxy
   roles:
-        - mounts
+        - role: mounts
+          tags: mounts
         - geerlingguy.pip
         - usegalaxy_eu.apptainer
         - galaxyproject.galaxy
