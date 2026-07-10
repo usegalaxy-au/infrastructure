@@ -243,7 +243,6 @@ destinations:
         # - phastest  # alternative phastest pulsar while phm2 is offline
       require:
         - pulsar
-        - offline
   pulsar-qld-high-mem1:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem1_runner
@@ -266,7 +265,6 @@ destinations:
         # - gffread_destination  # while pqhm2 is offline
       require:
         - pulsar
-        - offline
   pulsar-qld-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem2_runner
@@ -286,7 +284,6 @@ destinations:
         - gffread_destination  # special mapping because gffread is a dangerous tool that can take over jwd space
       require:
         - pulsar
-        - offline
   pulsar-nci-training:
     inherits: _pulsar_destination
     runner: pulsar-nci-training_runner
@@ -344,7 +341,6 @@ destinations:
         - eggnog
       require:
         - pulsar
-        - offline
         # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
     rules:
       - id: bakta_pulsar_QLD_solo_rule  # bakta is prone to OOM errors when two jobs run on the same node
