@@ -337,7 +337,7 @@ tools:
       accept:
       - pulsar
       - pulsar-quick
-      # - pulsar-high-mem2  # # TODO: uncomment this line after MRC hypervisor restarts 13-17 July '26
+      - pulsar-high-mem2
   toolshed.g2.bx.psu.edu/repos/bgruening/salmonquantmerge/salmonquantmerge/.*:
     cores: 2
     mem: 7.6
@@ -732,7 +732,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      # - pulsar-high-mem2  # # TODO: uncomment this line after MRC hypervisor restarts 13-17 July '26
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/.*:
     cores: 1
     mem: 3.8
@@ -1396,7 +1396,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      # - pulsar-high-mem2 # # TODO: uncomment this line after MRC hypervisor restarts 13-17 July '26
+      - pulsar-high-mem2
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
     context:
       max_concurrent_job_count_for_tool_user: 3
@@ -1942,7 +1942,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      # - pulsar-high-mem2  # # TODO: uncomment this line after MRC hypervisor restarts 13-17 July '26
+      - pulsar-high-mem2
     rules:
     - id: get_organelle_from_reads_large_input_rule
       if: input_size > 2
@@ -2079,7 +2079,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      # - pulsar-high-mem2  # # TODO: uncomment this line after MRC hypervisor restarts 13-17 July '26
+      - pulsar-high-mem2
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/.*:
     cores: 16
     mem: 62
@@ -2197,7 +2197,7 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
-      # - pulsar-high-mem2  # # TODO: uncomment this line after MRC hypervisor restarts 13-17 July '26
+      - pulsar-high-mem2
       - pulsar-quick
       reject:
       - pulsar-QLD
@@ -2771,7 +2771,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      # - pulsar-high-mem2  # # TODO: uncomment this line after MRC hypervisor restarts 13-17 July '26
+      - pulsar-high-mem2
     rules:
     - id: porechop_small_input_rule
       if: input_size < 0.8
@@ -3504,7 +3504,7 @@ tools:
       - pulsar
       - pulsar-quick
       - pulsar-training-large
-      # - pulsar-high-mem2  # # TODO: uncomment this line after MRC hypervisor restarts 13-17 July '26
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
     - id: unicycler_small_input_rule
       if: input_size < 0.05
