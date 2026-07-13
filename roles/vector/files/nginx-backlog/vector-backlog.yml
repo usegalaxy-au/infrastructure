@@ -87,13 +87,13 @@ transforms:
         match(request, r'^POST /api/tools ')
 
 sinks:
-  debug_nginx_logs_cleaned:
-    inputs:
-      - nginx_logs_cleaned
-    type: file
-    path: "/tmp/vector-backlog/nginx_logs_cleaned.log"
-    encoding:
-      codec: json
+  # debug_nginx_logs_cleaned:
+  #   inputs:
+  #     - nginx_logs_cleaned
+  #   type: file
+  #   path: "/tmp/vector-backlog/nginx_logs_cleaned.log"
+  #   encoding:
+  #     codec: json
 
   debug_nginx_logs_workflow_invocations:
     inputs:
