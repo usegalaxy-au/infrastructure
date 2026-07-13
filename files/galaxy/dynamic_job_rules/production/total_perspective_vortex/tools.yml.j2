@@ -3109,7 +3109,11 @@ tools:
       cores: 4
       mem: 15.6
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_core/.*:
-    mem: 12
+    mem: 36
+    rules:
+    - id: snippy_core_small_input_rule
+      if: input_size < 50
+      mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/.*:
     cores: 3
     mem: 11.5
