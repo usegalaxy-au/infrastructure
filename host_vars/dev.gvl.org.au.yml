@@ -491,7 +491,7 @@ galaxy_subsites:
       }
   - name: edna
     brand: eDNA Lab
-    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/tiffmnelson/galaxy_codex/blob/main/communities/edna/base.yml"
+    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/tiffmnelson/galaxy_codex/blob/main/communities/edna/dev.gvl.org.au.yml"
     wallpaper: false
     tool_sections: []
     custom_css: |
