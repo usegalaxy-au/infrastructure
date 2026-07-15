@@ -1569,7 +1569,7 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:  # TODO: revisit setting mem based on reference size (https://github.com/usegalaxy-au/infrastructure/issues/1835)
     context:
-      max_concurrent_job_count_for_tool_user: 4
+      max_concurrent_job_count_for_tool_user: 2
       test_cores: 4
     cores: 20
     mem: 250
@@ -3912,6 +3912,8 @@ tools:
     mem: 10
   ^fgenesh_annotate$:
     inherits: fgenesh_tool
+    context:
+      max_concurrent_job_count_for_tool_user: 1
     cores: 60
     mem: 300
     scheduling:
