@@ -141,7 +141,7 @@ group_galaxy_extra_dirs:
 
 galaxy_extra_dirs: "{{ group_galaxy_extra_dirs + host_galaxy_extra_dirs|d([]) }}"
 
-tpv_version: "3.1.3"
+tpv_version: "3.2.1"
 
 tpv_packages: |
   {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
@@ -150,6 +150,8 @@ additional_packages:
   - flower
   - pkce  # TODO: there is a bug in the conditional dependency checker in release_26.0
   - "gravity{{ galaxy_commit_id.startswith('release_26.0') | ternary('==1.2.2', '') }}"  # remove this when producition is on 26.1
+  - "social-auth-core{{ galaxy_commit_id.startswith('release_26.1') | ternary('==5.0.2', '') }}"  # release_26.1 branch pins to 4.9.1, TODO: make this unconditional gte once production is on 26.1 
+  # - "social-auth-core>=5.0.2"
 
 galaxy_fetch_dependencies_with_uv: false  # new in galaxyproject.galaxy role as of 0.12.7 (release_26.1)
 

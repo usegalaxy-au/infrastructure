@@ -80,7 +80,6 @@ host_galaxy_extra_dirs:
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
 galaxy_commit_id: release_26.1_au_dev  # dev is still initially forked for release_26.1 to include two Marius M PRs and the commit that switches of fixed delegated auth check
-tpv_version: "3.2.1"
 
 galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
 
