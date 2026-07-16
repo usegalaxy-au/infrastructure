@@ -146,7 +146,6 @@ retention_policy_dbs:
   - 'dev'
   - 'mdu-phl'
   - 'mdu-research'
-  - 'reporting'
 
 influxdb_retention_policy:
   policy_name: twoweeks
