@@ -18,6 +18,7 @@
     - common
     - geerlingguy.pip
     - slg.db-backup
+    - usegalaxy-au.history_mailer
     - dj-wasabi.telegraf
   post_tasks:
     - name: Ensure desired version of ansible is installed

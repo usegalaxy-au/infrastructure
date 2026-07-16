@@ -31,6 +31,7 @@ certbot_domains:
   - "proteomics.{{ hostname }}"
   - "singlecell.{{ hostname }}"
   - "microbiology.{{ hostname }}"
+  - "edna.{{ hostname }}"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_gvl_api_token }}"
@@ -78,8 +79,7 @@ host_galaxy_extra_dirs:
   - "{{ galaxy_root }}/nectar_test_cache"
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
-# galaxy_commit_id: release_26.1_au_dev  # dev is still initially forked for release_26.1 to include a Marius M PR and the commit that switches of fixed delegated auth check
-galaxy_commit_id: release_26.1_au_dev_s3  # fork of above fork containing commits from https://github.com/galaxyproject/galaxy/pull/22895
+galaxy_commit_id: release_26.1_au_dev  # dev is still initially forked for release_26.1 to include two Marius M PRs and the commit that switches of fixed delegated auth check
 tpv_version: "3.2.1"
 
 galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
@@ -235,6 +235,9 @@ host_galaxy_config: # renamed from __galaxy_config
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
     watch_job_rules: true # important for total perspective vortex
     welcome_directory: plugins/welcome_page/new_user/static/topics/
+    # TO DO: move this to galaxyservers.yml after checking on dev
+    enable_failed_jobs_working_directory_cleanup: true
+    failed_jobs_working_directory_cleanup_days: 7
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
@@ -486,6 +489,24 @@ galaxy_subsites:
       #masthead .navbar-text {
         display: none;
       }
+  - name: edna
+    brand: eDNA Lab
+    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/tiffmnelson/galaxy_codex/blob/main/communities/edna/dev.gvl.org.au.yml"
+    wallpaper: false
+    tool_sections: []
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #0d3a6b !important;
+      }
+      #masthead {
+        background: linear-gradient(135deg, #b22222 0%, #1a4b92 100%) !important;
+      }
+      #masthead a.navbar-brand::after {
+          content: "Australia - eDNA Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
 
 galaxy_scratch_storage_days: 60
 
@@ -561,3 +582,62 @@ auth0_profile_url: "{{ vault_auth0_profile_url_dev }}"
 
 # for BPA file source
 bpa_data_portal_drs_url_regex: '^drs://aaidemo\.bioplatforms\.com/'
+
+### History mailer
+
+history_mailer_commit_id: c41c3c6637ceb391026e9fee0e88d771eb874479
+
+# config
+history_mailer_warn_days: 365
+history_mailer_delete_days: 379
+history_mailer_email_days_threshold: 14
+history_mailer_purge_days_threshold: 6
+
+history_mailer_galaxy_url: https://dev.gvl.org.au
+history_mailer_galaxy_api_key:  "{{ vault_jenkins_bot_dev_api_key }}"
+
+history_mailer_galaxy_keeplist_group: "History Retention Keeplist"
+
+history_mailer_mail_test_user:
+  username: "cat"
+  email: "{{ cat_email }}"
+
+history_mailer_mail_base_url: "https://api.smtp2go.com/v3/"
+history_mailer_mail_api_key: "{{ vault_smtp2go_api_key }}"
+
+history_mailer_subject_warning: "Galaxy Australia: Upcoming Deletion Notification"
+history_mailer_subject_deletion: "Galaxy Australia: Deletion Notification"
+
+history_mailer_email_template_warning: "{{ history_mailer_email_template_dir }}/email_warning.html"
+history_mailer_email_template_deletion: "{{ history_mailer_email_template_dir }}/email_deletion.html"
+
+history_mailer_mail_from: "Galaxy Australia <galaxy-no-reply@usegalaxy.org.au>"
+history_mailer_mail_replyto: "help@genome.edu.au"
+
+history_mailer_slack_token: "{{ vault_galaxy_australia_slack_api_token }}"
+history_mailer_slack_alert_channel: "#alerts"
+history_mailer_slack_log_channel: "#galaxy-logs"
+history_mailer_alert_mentions: "<@Catherine>"
+history_mailer_log_mentions: "<@Catherine>"
+
+# settings for ansible role
+history_mailer_user: ubuntu
+history_mailer_dir: "/home/{{ history_mailer_user }}/hm_TEST"
+
+history_mailer_use_mail_api: true # Must be true for history mailer to work
+
+history_mailer_files:
+  - src: templates/history_mailer/email_warning.html
+    dest: "{{ history_mailer_email_template_warning }}"
+  - src: templates/history_mailer/email_deletion.html
+    dest: "{{ history_mailer_email_template_deletion }}"
+
+history_mailer_enable_cron_jobs: false # When not enabled, cron jobs will be entered in crontab in a disabled state
+
+history_mailer_cron_jobs:
+  warn_and_delete:
+    weekday: "3"
+    hour: "11"
+  purge_histories:
+    weekday: "2"
+    hour: "12"

@@ -3,7 +3,7 @@
   vars:
     default_target_hosts: production_pulsars
   tasks:
-  - name: Start pulsar
+  - name: Restart pulsar
     systemd:
       name: pulsar
-      state: started
+      state: restarted

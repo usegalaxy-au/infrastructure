@@ -9,12 +9,42 @@ tools:
     scheduling:
       require:
         - interactive_pulsar
+  toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/.*:
+    cores: 8
+    mem: 30.7
+    env:
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
+    params:
+      tmp_dir: true
+    scheduling:
+      require:
+        - pulsar
   interactive_tool_rstudio:
     params:
       container_override:
       - type: docker
         shell: /bin/bash
         identifier: quay.io/natefoo/docker-rstudio-notebook:23.1-proxy1
+  toolshed.g2.bx.psu.edu/repos/genouest/braker3/braker3/.*:
+    cores: 2
+    mem: 7.6
+    params:
+      singularity_enabled: true
+      singularity_run_extra_arguments: --writable-tmpfs
+    rules:
+    - id: braker3_v3_0_6_container_rule
+      if: helpers.tool_version_gte(tool, '3.0.6') and helpers.tool_version_lt(tool, '3.0.7')
+      params:
+        singularity_container_id_override: docker://teambraker/braker3:v1.0.6  
+    - id: braker3_v3_0_7_container_rule
+      if: helpers.tool_version_gte(tool, '3.0.7') and helpers.tool_version_lt(tool, '3.0.8')
+      params:
+        singularity_container_id_override: docker://teambraker/braker3:v3.0.7.1
+    - id: braker3_v3_0_8_container_rule
+      if: helpers.tool_version_gte(tool, '3.0.8') and helpers.tool_version_lt(tool, '3.0.9')
+      params:
+         singularity_container_id_override: docker://teambraker/braker3:v3.0.7.4 
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     # memory calculated with rule from shared db
     cores: 16

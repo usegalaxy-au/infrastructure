@@ -1,5 +1,7 @@
-- hosts: production_pulsars
+- hosts: "{{ target_hosts | default(default_target_hosts) }}"
   become: true
+  vars:
+    default_target_hosts: production_pulsars
   tasks:
   - name: Stop pulsar
     systemd:

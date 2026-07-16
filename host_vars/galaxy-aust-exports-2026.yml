@@ -4,8 +4,8 @@ add_galaxy_user: yes
 galaxy_uid: 10010
 galaxy_gid: 10010
 
-Q0028_files_dir: /Q0028_files
-Q0028_files_destinations:
+files1_dir: /mnt/files1  # formerly /Q0028
+files1_destinations:
   - 146.118.64.0/21(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=99) 
   - 138.44.80.40/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=99) 
   - 138.44.80.112/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=99) 
@@ -13,8 +13,8 @@ Q0028_files_destinations:
   - 138.44.7.157/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=99) 
   - 138.44.7.152/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=99)
 
-user-data_dir: /mnt/user-data
-user-data_destinations: 
+files2_dir: /mnt/files2  # formerly /mnt/user-data
+files2_destinations: 
   - 146.118.64.0/21(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=100) 
   - 138.44.80.40/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=100) 
   - 138.44.80.112/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=100) 
@@ -23,12 +23,12 @@ user-data_destinations:
   - 138.44.7.152/32(rw,async,all_squash,anonuid=10010,anongid=10010,no_subtree_check,fsid=100)
 
 nfs_dirs:
-  - "{{ Q0028_files_dir }} "
-  - "{{ user-data_dir }}"
+  - "{{ files1_dir }} "
+  - "{{ files2_dir }}"
 
 nfs_exports:
-  - "{{ Q0028_files_dir }} {{ Q0028_files_destinations | join(' ') }}"
-  - "{{ user-data_dir }} {{ user-data_destinations | join(' ') }}"
+  - "{{ files1_dir }} {{ files1_destinations | join(' ') }}"
+  - "{{ files2_dir }} {{ files2_destinations | join(' ') }}"
 
 # configure Telegraf Monitoring
 telegraf_agent_output:

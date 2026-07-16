@@ -34,13 +34,6 @@ host_machine_users:
         - galaxy_admin
       key: files/keys/mike.pub
       email: "{{ mike_email }}"
-    - name: tom
-      uid: 7203
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/tom.pub
-      email: "{{ tom_email }}"
     - name: jonathan
       uid: 7401
       roles: []
