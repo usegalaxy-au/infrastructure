@@ -24,15 +24,15 @@ if (( $# == 1 )); then
     DRY_RUN=true
 fi
 
-LOGS_DIR=/var/log/nginx
+LOGS_DIR=/mnt/data/nginx_backlog/logs/tools
 CONFIG="$PWD/vector-backlog.yml"
 DEBUG_DIR="$HOME/vector-debug"
 ENV_FILE="$PWD/.env"
-MAX_DATE=20260616
+MAX_DATE=20260630
 
 mkdir -p "$DEBUG_DIR"
 
-for f in "$LOGS_DIR"/access.log-2*.gz; do
+for f in "$LOGS_DIR"/access.log-*.gz; do
     datestamp=$(basename "$f" | grep -oP '\d{8}')
     if (( datestamp <= $MAX_DATE )); then
         echo "Processing: $f"
