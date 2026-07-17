@@ -21,6 +21,8 @@ tools:
       singularity_enabled: true
   toolshed.g2.bx.psu.edu/repos/artbio/cap3/cap3/.*:
     mem: 24
+    params:
+      singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/artbio/concatenate_multiple_datasets/cat_multi_datasets/.*:
     params:
       singularity_enabled: false
@@ -423,9 +425,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/.*:
     cores: 8
     mem: 30.7
-    env:
-      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
-      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     params:
       tmp_dir: true
     scheduling:
@@ -951,8 +950,13 @@ tools:
     params:
       singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/earlhaminst/lotus2/lotus2/.*:
-    cores: 8
-    mem: 31.2
+    cores: 16
+    mem: 62
+    rules:
+    - id: lotus2_small_input_rule
+      if: input_size < 5 
+      cores: 8
+      mem: 31.2
     params:
       singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/anndata_ops/anndata_ops/.*:
@@ -1565,7 +1569,7 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:  # TODO: revisit setting mem based on reference size (https://github.com/usegalaxy-au/infrastructure/issues/1835)
     context:
-      max_concurrent_job_count_for_tool_user: 4
+      max_concurrent_job_count_for_tool_user: 2
       test_cores: 4
     cores: 20
     mem: 250
@@ -1734,7 +1738,7 @@ tools:
       singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     context:
-      minimum_singularity_version: 1.1.0
+      minimum_singularity_version: 1.8+galaxy0
     cores: 1
     mem: 3.8
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.8\+galaxy.:
@@ -2933,6 +2937,9 @@ tools:
       if: 0.005 <= input_size < 2
       cores: 8
       mem: 30.7
+  toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/rna_starsolo/.*:
+    params:
+      tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/roary/roary/.*:
     cores: 8
     mem: 30.7
@@ -3102,7 +3109,11 @@ tools:
       cores: 4
       mem: 15.6
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_core/.*:
-    mem: 12
+    mem: 36
+    rules:
+    - id: snippy_core_small_input_rule
+      if: input_size < 50
+      mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/.*:
     cores: 3
     mem: 11.5
@@ -3321,6 +3332,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/.*:
     cores: 5
     mem: 19.1
+    params:
+      singularity_enabled: false  # switched back to conda because of unexplained job failure, 2/7/26
     rules:
     - id: stringtie_small_input_rule
       if: input_size < 0.2
@@ -3899,7 +3912,9 @@ tools:
     mem: 10
   ^fgenesh_annotate$:
     inherits: fgenesh_tool
-    cores: 60
+    context:
+      max_concurrent_job_count_for_tool_user: 1
+    cores: 40
     mem: 300
     scheduling:
       require:

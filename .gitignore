@@ -30,9 +30,6 @@ roles/galaxy_extensions
 !roles/slg.*/
 !roles/slg.*/**
 
-# Track galactic radiotelescope:
-!roles/usegalaxy-eu.galactic-radio-telescope/*
-
 # integration-testing virtual environment
 integration-testing/venv
 

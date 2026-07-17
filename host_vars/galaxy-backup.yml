@@ -64,3 +64,64 @@ host_machine_users:
       roles: []
       key: files/keys/jonathan.pub
       email: "{{ jonathan_email }}"
+
+### History mailer
+
+history_mailer_commit_id: c41c3c6637ceb391026e9fee0e88d771eb874479
+
+# config
+history_mailer_warn_days: 365
+history_mailer_delete_days: 379
+history_mailer_email_days_threshold: 14
+history_mailer_purge_days_threshold: 6
+
+history_mailer_galaxy_url: https://usegalaxy.org.au
+history_mailer_galaxy_api_key: "{{ vault_jenkins_bot_production_api_key }}"
+history_mailer_staging_galaxy_url: https://staging.gvl.org.au
+history_mailer_staging_galaxy_api_key: "{{ vault_jenkins_bot_staging_api_key }}"
+
+history_mailer_galaxy_keeplist_group: "History Retention Keeplist"
+
+history_mailer_mail_test_user:
+  username: "cat"
+  email: "{{ cat_email }}"
+
+history_mailer_mail_base_url: "https://api.smtp2go.com/v3/"
+history_mailer_mail_api_key: "{{ vault_smtp2go_api_key }}"
+
+history_mailer_subject_warning: "Galaxy Australia: Upcoming Deletion Notification"
+history_mailer_subject_deletion: "Galaxy Australia: Deletion Notification"
+
+history_mailer_email_template_warning: "{{ history_mailer_email_template_dir }}/email_warning.html"
+history_mailer_email_template_deletion: "{{ history_mailer_email_template_dir }}/email_deletion.html"
+
+history_mailer_mail_from: "Galaxy Australia <galaxy-no-reply@usegalaxy.org.au>"
+history_mailer_mail_replyto: "help@genome.edu.au"
+
+history_mailer_slack_token: "{{ vault_galaxy_australia_slack_api_token }}"
+history_mailer_slack_alert_channel: "#alerts"
+history_mailer_slack_log_channel: "#galaxy-logs"
+history_mailer_alert_mentions: "<@Catherine>"
+history_mailer_log_mentions: "<@Catherine>"
+
+# settings for ansible role
+history_mailer_user: ubuntu
+history_mailer_dir: "/home/{{ history_mailer_user }}/mailer"
+
+history_mailer_use_mail_api: true # Must be true for history mailer to work
+
+history_mailer_enable_cron_jobs: true # When not enabled, cron jobs will be entered in crontab in a disabled state
+
+history_mailer_files:
+  - src: templates/history_mailer/email_warning.html
+    dest: "{{ history_mailer_email_template_warning }}"
+  - src: templates/history_mailer/email_deletion.html
+    dest: "{{ history_mailer_email_template_deletion }}"
+
+history_mailer_cron_jobs:
+  warn_and_delete:
+    weekday: "3"
+    hour: "11"
+  purge_histories:
+    weekday: "2"
+    hour: "12"

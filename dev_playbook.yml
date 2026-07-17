@@ -73,6 +73,8 @@
       tags: walle
     - role: vector
       tags: vector
+    - role: usegalaxy-au.history_mailer
+      tags: history_mailer
   post_tasks:
     - name: Ensure object store paths exist
       file:
@@ -100,7 +102,6 @@
       command: exportfs -ra
       become: yes
       become_user: root
-
     # Nginx logrotate: keep nginx logs forever on /mnt disk
     - name: Make sure extra nginx log dirs exist
       file:

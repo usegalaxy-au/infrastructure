@@ -4,7 +4,7 @@
     - group_vars/all.yml
     - group_vars/VAULT
     - group_vars/nfs_servers.yml
-    - host_vars/galaxy-aust-exports.genome.edu.au.yml
+    - host_vars/galaxy-aust-exports-2026.yml
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ssh_keys
   pre_tasks:
