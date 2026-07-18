@@ -75,7 +75,7 @@ nginx_upload_store_set_cleanup_cron_job: true
 
 galaxy_file_source_templates_dir: "{{ galaxy_config_dir }}/file_source_templates"
 file_source_templates_src_dir: files/galaxy/file_source_templates
-custom_file_source_templates:
+custom_file_source_templates:  # templates for Galaxy, not for Ansible
   - src: "{{ file_source_templates_src_dir }}/agrf_webdav.yml"
     dest: "{{ galaxy_file_source_templates_dir }}/agrf_webdav.yml"
 
