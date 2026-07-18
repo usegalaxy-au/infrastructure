@@ -73,9 +73,18 @@ nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
 nginx_upload_store_set_cleanup_cron_job: true
 
+galaxy_file_source_templates_dir: "{{ galaxy_config_dir }}/file_source_templates"
+file_source_templates_src_dir: files/galaxy/file_source_templates
+custom_file_source_templates:
+  - src: "{{ file_source_templates_src_dir }}/agrf_webdav.yml"
+    dest: "{{ galaxy_file_source_templates_dir }}/agrf_webdav.yml"
+
+host_galaxy_extra_dirs:
+  - "{{ galaxy_file_source_templates_dir }}"
+
 # galaxy_virtualenv_python: python3.11 # deferred until release 23.2 probably
 
-host_galaxy_config_files:
+_host_galaxy_config_files_static:
   - src: "{{ galaxy_config_file_src_dir }}/config/trs_servers_conf.yml"
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
   - src: "{{ galaxy_config_file_src_dir }}/config/tool_data_table_conf.xml" # TODO: etca will need this too
@@ -94,6 +103,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir}}/error_report.yml"
   - src: "{{ galaxy_config_file_src_dir }}/aai/auth0_authnz.py"
     dest: "{{ galaxy_server_dir }}/lib/galaxy/authnz/auth0_authnz.py"
+
+host_galaxy_config_files: "{{ _host_galaxy_config_files_static + custom_file_source_templates }}"
 
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.yml.j2"
