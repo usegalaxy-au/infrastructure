@@ -43,7 +43,7 @@ server {
 
     {% if aai_enabled %}
 
-    location = /authnz/oidc/login {
+    location ~ ^/authnz/(oidc|auth0)/login$ {
         proxy_pass http://galaxy;
         # Only add CORS for cross-origin callers we allow
         if ($cors_allow_origin != "") {
