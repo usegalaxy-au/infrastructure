@@ -64,12 +64,6 @@ host_galaxy_config: # renamed from __galaxy_config
 
 common_logrotate_manage_rsyslog: true
 
-# total perspective vortex
-tpv_version: "3.1.2"
-
-tpv_packages: |
-  {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
-
 galaxy_additional_venv_packages: "{{ tpv_packages + additional_packages }}"
 
 # variables for attaching mounted volume to application server
