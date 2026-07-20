@@ -3402,6 +3402,13 @@ tools:
     scheduling:
       accept:
       - pulsar
+  toolshed.g2.bx.psu.edu/repos/iuc/trinity_define_clusters_by_cutting_tree/trinity_define_clusters_by_cutting_tree/.*:
+    rules:
+    - id: trinity_v2_15_1_container_override_rule
+      if: helpers.tool_version_eq(tool, "2.15.1+galaxy0")
+      params:
+        singularity_container_id_override:
+          /cvmfs/singularity.galaxyproject.org/all/trinity:2.15.1--pl5321h146fbdb_3
   toolshed.g2.bx.psu.edu/repos/iuc/trinity_filter_low_expr_transcripts/trinity_filter_low_expr_transcripts/.*:
     scheduling:
       accept:
@@ -3419,6 +3426,12 @@ tools:
     scheduling:
       accept:
       - pulsar
+    rules:
+    - id: trinity_v2_15_1_container_override_rule
+      if: helpers.tool_version_eq(tool, "2.15.1+galaxy0")
+      params:
+        singularity_container_id_override:
+          /cvmfs/singularity.galaxyproject.org/all/trinity:2.15.1--pl5321h146fbdb_3
   toolshed.g2.bx.psu.edu/repos/iuc/trycycler_cluster/trycycler_cluster/.*:
     cores: 9
     mem: 34.5
