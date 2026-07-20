@@ -37,13 +37,6 @@ __machine_users:
       email: "{{ jenkins_bot_email }}" # this is not a real email address and will cause issues if validation is required
 
     # infrastructure team
-    - name: justin
-      uid: 7011
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/justin.pub
-      email: "{{ justin_email }}"
     - name: cat
       uid: 7012
       roles:
