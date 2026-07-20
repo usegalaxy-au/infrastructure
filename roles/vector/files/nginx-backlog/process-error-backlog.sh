@@ -9,16 +9,33 @@
 
 set -euo pipefail
 
-LOGS_DIR=/var/log/nginx
+DRY_RUN=false
+
+if (( $# > 1 )); then
+    echo "Usage: $0 [--dry]" >&2
+    exit 2
+fi
+
+if (( $# == 1 )); then
+    if [[ $1 != --dry ]]; then
+        echo "Usage: $0 [--dry]" >&2
+        exit 2
+    fi
+    DRY_RUN=true
+fi
+
+LOGS_DIR=/mnt/data/nginx_backlog/logs/error/2026
 CONFIG="$PWD/vector-backlog-error-logs.yml"
 ENV_FILE="$PWD/.env"
 
 for f in "$LOGS_DIR"/error*.gz; do
     echo "Processing: $f"
-    zcat "$f" | docker run --rm -i \
-        --env-file "$ENV_FILE" \
-        -v "$CONFIG:/etc/vector/vector.yml:ro" \
-        timberio/vector:latest-debian \
-        --config /etc/vector/vector.yml
+    if ! $DRY_RUN; then
+        zcat "$f" | docker run --rm -i \
+            --env-file "$ENV_FILE" \
+            -v "$CONFIG:/etc/vector/vector.yml:ro" \
+            timberio/vector:latest-debian \
+            --config /etc/vector/vector.yml
+    fi
     echo "Done: $f"
 done

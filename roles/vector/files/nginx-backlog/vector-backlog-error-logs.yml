@@ -3,19 +3,40 @@ sources:
   nginx_error_logs_raw:
     type: stdin
 
-sinks:
-  s3_raw:
+transforms:
+  parsed_error_logs:
     inputs:
       - nginx_error_logs_raw
+    type: remap
+    drop_on_abort: true
+    source: |
+      .parsed = parse_nginx_log!(.message, "error")
+      .log_year  = format_timestamp!(.parsed.timestamp, "%Y")
+      .log_month = format_timestamp!(.parsed.timestamp, "%m")
+      .log_day   = format_timestamp!(.parsed.timestamp, "%d")
+      .log_hour  = format_timestamp!(.parsed.timestamp, "%H")
+
+sinks:
+  # debug:
+  #   inputs:
+  #     - parsed_error_logs
+  #   type: console
+  #   encoding:
+  #     codec: text
+
+  s3_error_logs:
+    inputs:
+      - parsed_error_logs
     type: aws_s3
+    filename_time_format: "%H%M%S"
     bucket: "${S3_BUCKET}"
     region: "${S3_REGION}"
-    key_prefix: "${S3_PREFIX}/nginx_error_logs/"
-    compression: gzip
+    key_prefix: "${S3_PREFIX}/error/{{ log_year }}/{{ log_month }}/{{ log_day }}/{{ log_hour }}0000-"
     endpoint: "${S3_ENDPOINT}"
     auth:
       access_key_id: "${S3_ACCESS_KEY}"
       secret_access_key: "${S3_SECRET_KEY}"
+    compression: gzip
     encoding:
       codec: text
     framing:
