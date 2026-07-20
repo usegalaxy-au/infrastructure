@@ -12,3 +12,7 @@
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_dropbox.yml"
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_google_drive.yml"
 {% endif %}
+
+{% for template in custom_file_source_templates %}
+- include: "{{ template.dest }}"
+{% endfor %}

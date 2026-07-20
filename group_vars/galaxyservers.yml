@@ -129,6 +129,12 @@ galaxy_toolbox_filters_dir: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/fi
 
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.yml"
 
+galaxy_file_source_templates_dir: "{{ galaxy_config_dir }}/file_source_templates"
+file_source_templates_src_dir: files/galaxy/file_source_templates
+custom_file_source_templates:  # templates for Galaxy, not for Ansible
+  - src: "{{ file_source_templates_src_dir }}/agrf_webdav.yml"
+    dest: "{{ galaxy_file_source_templates_dir }}/agrf_webdav.yml"
+
 group_galaxy_extra_privsep_dirs:
   - "{{ galaxy_config_dir }}/mail"
   - "{{ galaxy_config_dir }}/tool_panel_filters"
@@ -138,6 +144,7 @@ galaxy_extra_privsep_dirs: "{{ group_galaxy_extra_privsep_dirs + host_galaxy_ext
 
 group_galaxy_extra_dirs:
   - "{{ galaxy_tmp_dir }}/webdav"
+  - "{{ galaxy_file_source_templates_dir }}"
 
 galaxy_extra_dirs: "{{ group_galaxy_extra_dirs + host_galaxy_extra_dirs|d([]) }}"
 
@@ -372,7 +379,7 @@ group_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/images/au/favicon/favicon.ico"
     dest: "{{ galaxy_server_dir }}/static/favicon.ico"
 
-galaxy_config_files: "{{ group_galaxy_config_files + host_galaxy_config_files|d([]) }}"
+galaxy_config_files: "{{ group_galaxy_config_files + host_galaxy_config_files|d([]) + custom_file_source_templates }}"
 
 # galaxy_config is the combination of group_galaxy_config and host_galaxy_config.  For any variable
 # defined in both group_galaxy_config and host_galaxy_config the value from host_galaxy_config will
