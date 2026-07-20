@@ -1,7 +1,7 @@
 # Specific settings for qaai server
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
-galaxy_commit_id: release_26.1_au_dev
+galaxy_commit_id: release_26.1_au
 
 host_galaxy_config: # renamed from __galaxy_config
   gravity: "{{ host_galaxy_config_gravity }}"
@@ -63,12 +63,6 @@ host_galaxy_config: # renamed from __galaxy_config
     welcome_directory: plugins/welcome_page/new_user/static/topics/
 
 common_logrotate_manage_rsyslog: true
-
-# total perspective vortex
-tpv_version: "3.1.2"
-
-tpv_packages: |
-  {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
 
 galaxy_additional_venv_packages: "{{ tpv_packages + additional_packages }}"
 
