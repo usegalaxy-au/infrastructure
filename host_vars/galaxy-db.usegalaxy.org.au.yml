@@ -53,7 +53,7 @@ postgresql_pg_hba_conf:
   - host all all "{{ hostvars['galaxy-handlers']['internal_ip'] }}/32" md5
   - host all all "{{ hostvars['galaxy-backup']['internal_ip'] }}/32" md5
   - host galaxy reader "{{ hostvars['galaxy-reporting']['ansible_ssh_host'] }}/32" md5
-  # - host replication replicator "{{ hostvars['replicant-galaxy-db']['ansible_ssh_host'] }}/32" md5
+  - host replication replicator "{{ hostvars['replicant-galaxy-db']['ansible_ssh_host'] }}/32" md5
 
 extra_keys:
   - id: internal_hop_key
