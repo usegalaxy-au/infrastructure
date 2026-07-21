@@ -14,6 +14,8 @@ postgresql_version: 14
 postgresql_pgdata: "/data/replicant_db"
 postgresql_conf:
 - data_directory: "'/data/replicant_db'"
+- max_connections: 350  # needs to be the same as the original for some reason
+- listen_addresses: "'*'"   # Allow remote connections
 
 postgresql_pg_hba_conf:
   - host galaxy reader "{{ hostvars['galaxy-reporting']['ansible_ssh_host'] }}/32" md5
