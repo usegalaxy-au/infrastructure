@@ -15,6 +15,9 @@ postgresql_pgdata: "/data/replicant_db"
 postgresql_conf:
 - data_directory: "'/data/replicant_db'"
 
+postgresql_pg_hba_conf:
+  - host galaxy reader "{{ hostvars['galaxy-reporting']['ansible_ssh_host'] }}/32" md5
+
 host_machine_users:
 - name: uwe
   uid: 7400
