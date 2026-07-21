@@ -148,7 +148,7 @@ users:
           if: |
             'fastqc' in tool.id
           cores: 4
-          mem: 0.5
+          mem: 0.25
           env: 
             _JAVA_OPTIONS: -Xmx{int(1024*mem)}m -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
             SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(1024*mem)}m -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
