@@ -150,8 +150,8 @@ users:
           cores: 4
           mem: 0.5
           env: 
-            _JAVA_OPTIONS: -Xmx{int(1024*mem)}m -Xms1G -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
-            SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(1024*mem)}m -Xms1G -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
+            _JAVA_OPTIONS: -Xmx{int(1024*mem)}m -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
+            SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(1024*mem)}m -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
 
     pulsar_mel2_user@usegalaxy.org.au:
       inherits: test_user
