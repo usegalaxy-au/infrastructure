@@ -672,21 +672,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
     context:
       minimum_singularity_version: 0.72+galaxy1
-    cores: 8
-    mem: 30.7
+    cores: 4
+    mem: cores * 0.5
     scheduling:
       accept:
       - pulsar
       - pulsar-quick
-    rules:
-    - id: fastqc_small_input_rule
-      if: input_size < 0.01
-      cores: 2
-      mem: 7.6
-    - id: fastqc_medium_input_rule
-      if: 0.01 <= input_size < 2
-      cores: 4
-      mem: 15.3
   toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
