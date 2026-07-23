@@ -1013,4 +1013,4 @@ auth0_domain: "{{ vault_auth0_domain_production }}"
 
 # for BPA file source
 bpa_data_portal_drs_url_regex: '^drs://data\.bioplatforms\.com/'
-bpa_data_portal_file_source_enabled: false  # assume true unless set to false
+bpa_data_portal_file_source_enabled: true  # assume true unless set to false
