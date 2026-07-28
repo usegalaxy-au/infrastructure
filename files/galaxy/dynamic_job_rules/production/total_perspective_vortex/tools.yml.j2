@@ -2207,8 +2207,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/length_and_gc_content/.*:
     mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/liftoff/liftoff/.*:
-    cores: 4
-    mem: 15.5
+    cores: 8
+    mem: 31
+    rules:
+    - id: liftoff_small_input_rule
+      if: input_size < 1
+      cores: 4
+      mem: 15.5
   toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/.*:
     cores: 7
     mem: 26.8
