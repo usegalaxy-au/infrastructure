@@ -68,3 +68,22 @@ backends:
     size: 20
     cache_updated_data: true
 {% endif %}
+{% if dev_object_store_cloudbridge_test_backend_enabled|d(False) %}
+- id: cloudbridge_test
+  type: cloud
+  provider: openstack
+  auth:
+    project_name: GenomicsVL
+    auth_url: https://swift.rc.nectar.org.au:443/
+    region: Melbourne
+    # user_domain_name: Default  # is this required?
+    # project_domain_name: default  # is this required?
+    application_credential_id: {{ vault_genomicsvl_cloudbridge_test_application_credential_id }}
+    application_credential_secret: {{ vault_genomicsvl_cloudbridge_test_application_credential_secret }}
+  bucket:
+    name: usegalaxy-au-cloudbridge-object-store-backend-test
+    use_reduced_redundancy: false
+  cache:
+    path: {{ galaxy_root }}/cloudbridge_test_cache
+    cache_updated_data: true
+{% endif %}

@@ -5,6 +5,7 @@ add_hosts_handlers: yes
 common_logrotate_manage_rsyslog: true
 
 dev_object_store_nectar_test_backend_enabled: true
+dev_object_store_cloudbridge_test_backend_enabled: true
 
 # total perspective vortex
 # Use tpv_repo and tpv_commit_id variables if running 'install-tpv' role
@@ -77,6 +78,7 @@ host_galaxy_extra_dirs:
   - "{{ galaxy_pulsar_job_working_directory }}"
   - "{{ galaxy_root }}/object_store_cache"
   - "{{ galaxy_root }}/nectar_test_cache"
+  - "{{ galaxy_root }}/cloudbridge_test_cache"
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
 galaxy_commit_id: release_26.1_au_dev_cloudbridge  # release_26.1_au_dev + cloudbridge commits
