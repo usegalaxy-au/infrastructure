@@ -75,18 +75,18 @@ backends:
   auth:
     # username: ...
     # password: ...
-    # project_name: ...
+    project_name: GenomicsVL
     auth_url: https://swift.rc.nectar.org.au:443/
     region: melbourne_qh2
     # user_domain_name: Default  # is this required?
-    # project_domain_name: Default  # is this required?
+    # project_domain_name: default  # is this required?
 
     # Alternatively authenticate with a Keystone application credential
     # instead of username/password/project_name:
-    application_credential_id: {{ vault_nectar_melbournegvl_cb_ec2_access_key }}
-    application_credential_secret: {{ vault_nectar_melbournegvl_cb_ec2_secret_key }}
+    application_credential_id: {{ vault_genomicsvl_cloudbridge_test_application_credential_id }}
+    application_credential_secret: {{ vault_genomicsvl_cloudbridge_test_application_credential_secret }}
   bucket:
-    name: galaxy_dev_cloudbridge_container_test  # TODO: create this
+    name: usegalaxy-au-cloudbridge-object-store-backend-test  # TODO: create this
     use_reduced_redundancy: false
   cache:
     path: {{ galaxy_root }}/cloudbridge_test_cache  # TODO: create and make space for this
