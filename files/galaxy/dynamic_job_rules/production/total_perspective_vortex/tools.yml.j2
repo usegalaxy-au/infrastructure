@@ -333,6 +333,8 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:  # TODO: memory requirements could be a linear function of input_size in shared db
+    context:
+      max_concurrent_job_count_for_tool_user: 2  # imposed on 30/7/26 extreme galaxy-handlers load, TODO, increase this again
     scheduling:
       accept:
       - pulsar
@@ -1989,7 +1991,7 @@ tools:
       fail: Too much data, please don't use the gubbins for this.
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 4
+      max_concurrent_job_count_for_tool_user: 1  # cut down from 4, 30/7/26 extreme galaxy-handlers load, TODO, increase this again
     params:
       singularity_enabled: false
       tmp_dir: true
