@@ -48,7 +48,7 @@ backends:
 {% if dev_object_store_nectar_test_backend_enabled|d(False) %}
 - id: nectar_test
   type: swift
-  enable_direct_download: true
+  # enable_direct_download: true  # this is in release_26.2
   weight: 0
   store_by: uuid
   auth:
@@ -72,7 +72,9 @@ backends:
 - id: cloudbridge_test
   type: cloud
   provider: openstack
+  store_by: uuid
   weight: 0
+  # enable_direct_download: true  # this is in release_26.2
   auth:
     project_name: GenomicsVL
     auth_url: https://identity.rc.nectar.org.au/v3/
