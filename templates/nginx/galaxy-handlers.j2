@@ -1,3 +1,17 @@
+log_format job_files
+    '$remote_addr [$time_local] '
+    '"$request" $status '
+    'bytes=$body_bytes_sent '
+    'request_time=$request_time '
+    'upstream_connect_time=$upstream_connect_time '
+    'upstream_header_time=$upstream_header_time '
+    'upstream_response_time=$upstream_response_time '
+    'upstream_addr=$upstream_addr '
+    'request_length=$request_length '
+    'x_accel="$upstream_http_x_accel_redirect"';
+
+limit_conn_zone $server_name zone=job_file_gets:1m;
+
 upstream galaxy {
 {% for gunicorn_process in galaxy_config.gravity.gunicorn %}
     server {{ gunicorn_process.bind }} weight={{ (100-debug.memray.weight / galaxy_config.gravity.gunicorn|length) | int }};
@@ -17,6 +31,7 @@ server {
     access_log  /var/log/nginx/access.log;
     error_log   /var/log/nginx/error.log;
     sendfile    off;
+    open_file_cache   off;
 
     uwsgi_buffer_size 16k;
     uwsgi_busy_buffers_size 24k;
@@ -24,6 +39,11 @@ server {
     location /_x_accel_redirect/ {
         internal;
         alias /;
+
+        limit_conn job_file_gets 6;
+        limit_conn_dry_run on;
+        limit_conn_log_level notice;
+
         add_header X-Frame-Options SAMEORIGIN;
         add_header X-Content-Type-Options nosniff;
     }
@@ -52,6 +72,8 @@ server {
 {% endif %}
 
     location ~ ^/api/jobs/[^/]+/files$ {
+        access_log /var/log/nginx/job-files.log job_files
+
         proxy_pass         http://galaxy;
         proxy_redirect     off;
         proxy_set_header   Host              $host;
