@@ -284,6 +284,7 @@ destinations:
         - gffread_destination  # special mapping because gffread is a dangerous tool that can take over jwd space
       require:
         - pulsar
+        - offline
   pulsar-nci-training:
     inherits: _pulsar_destination
     runner: pulsar-nci-training_runner
