@@ -68,20 +68,6 @@
   secret: {{ vault_nectar_melbournegvl_cb_ec2_secret_key }}
   key: {{ vault_nectar_melbournegvl_cb_ec2_access_key }}
   writable: true
-
-# - type: webdav
-#   id: agrf_nextcloud
-#   label: AGRF Nextcloud
-#   doc: Import your files from AGRF's Nextcloud server. Configure access in User -> Preferences -> Manage Information
-#   url: https://agrf-data.agrf.org.au
-#   root: /remote.php/dav/files/${user.preferences['agrf_nextcloud_account|username']}/
-#   login: ${user.preferences['agrf_nextcloud_account|username']}
-#   password: ${user.user_vault.read_secret('preferences/agrf_nextcloud_account/password')}
-#   writable: true
-#   # Set the following settings to avoid loading entire files into memory
-#   # useful when dealing with big files
-#   use_temp_files: true
-#   temp_path: "{{ galaxy_tmp_dir }}/webdav"
 {% endif %}
 
 {% if aai_enabled and __galaxy_major_version is version('26.1', '>=') and bpa_data_portal_file_source_enabled|d(true) %}
