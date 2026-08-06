@@ -15,6 +15,7 @@ same value.
 SKIP_TABLES = [
     "busco_database_options",  # does not contain file paths
     "indexed_maf_files",
+    "tiberius_models",  # does not contain file paths
 ]
 
 # Known duplicate entries to ignore for specific tables
