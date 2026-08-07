@@ -259,7 +259,7 @@ tools:
         - pulsar-high-mem1
   toolshed.g2.bx.psu.edu/repos/bgruening/interproscan/interproscan/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 3
     cores: 8
     mem: 30.7
     params:
@@ -334,7 +334,7 @@ tools:
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:  # TODO: memory requirements could be a linear function of input_size in shared db
     context:
-      max_concurrent_job_count_for_tool_user: 2  # imposed on 30/7/26 extreme galaxy-handlers load, TODO, increase this again
+      max_concurrent_job_count_for_tool_user: 5
     scheduling:
       accept:
       - pulsar
@@ -426,7 +426,7 @@ tools:
       singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3  # goes with removing pulsar
+      max_concurrent_job_count_for_tool_user: 4  # goes with removing pulsar
     cores: 8
     mem: 30.7
     params:
@@ -502,7 +502,7 @@ tools:
       mem: 15.3
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     cores: 60
     mem: 961
     scheduling:
@@ -1402,7 +1402,7 @@ tools:
       - pulsar-high-mem2
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 31.2
     scheduling:
@@ -2000,7 +2000,7 @@ tools:
       fail: Too much data, please don't use the gubbins for this.
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 1  # cut down from 4, 30/7/26 extreme galaxy-handlers load, TODO, increase this again
+      max_concurrent_job_count_for_tool_user: 4
     params:
       singularity_enabled: false
       tmp_dir: true
@@ -2101,7 +2101,7 @@ tools:
       mem: 7.6
   toolshed.g2.bx.psu.edu/repos/iuc/iqtree/iqtree/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     cores: 16
     mem: 62
     scheduling:
@@ -2165,7 +2165,7 @@ tools:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/.*
   toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
       slurm_training_max_cores: 4
       slurm_training_max_mem: 15.5
     cores: 5
@@ -3278,7 +3278,7 @@ tools:
     mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fasterq_dump/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 1
+      max_concurrent_job_count_for_tool_user: 2
       minimum_singularity_version: 3.0.5+galaxy3
     cores: 3
     mem: 11.5
@@ -3286,7 +3286,7 @@ tools:
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 1
+      max_concurrent_job_count_for_tool_user: 2
       minimum_singularity_version: 3.0.5+galaxy3
     cores: 3
     mem: 11.5
@@ -3937,7 +3937,7 @@ tools:
     context:
       max_concurrent_job_count_for_tool_user: 1
     cores: 40
-    mem: 300
+    mem: 500
     scheduling:
       require:
       - pulsar-high-mem2
