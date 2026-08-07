@@ -1,5 +1,7 @@
-- hosts: galaxy_workers
+- hosts: "{{ target_hosts | default(default_target_hosts) }}"
   become: true
+  vars:
+    default_target_hosts: galaxy_workers
   vars_files:
       - group_vars/all.yml
       - group_vars/galaxy_etca.yml
@@ -18,44 +20,6 @@
           path: "{{ item }}"
         with_items:
           - "{{ qld_file_mounts_path }}"
-
-      # the following is a workaround for dj-wasabi.telegraf role breaking on new VMs
-      # the issue is that the dj-wasabi.telegraf role is not dearmoring the downloaded key
-      # the dearmored key location is then passed to dj-wasabi.telegraf via a variable
-      - name: Ensure /etc/apt/keyrings exists
-        ansible.builtin.file:
-          path: /etc/apt/keyrings
-          state: directory
-          mode: "0755"
-        become: true
-
-      - name: Fetch InfluxData key (ascii)
-        ansible.builtin.get_url:
-          url: https://repos.influxdata.com/influxdata-archive.key
-          dest: /etc/apt/keyrings/influxdata-archive.asc
-          mode: "0644"
-        register: influx_key
-        until: influx_key is succeeded
-        retries: 3
-        delay: 2
-        become: true
-
-      - name: Dearmor into a binary keyring if key has changed
-        ansible.builtin.command: >
-          gpg --batch --yes --dearmor
-          -o /etc/apt/keyrings/influxdata-archive.gpg
-          /etc/apt/keyrings/influxdata-archive.asc
-        when: influx_key.changed
-        become: true
-
-      - name: Ensure permissions on keyring
-        ansible.builtin.file:
-          path: /etc/apt/keyrings/influxdata-archive.gpg
-          owner: root
-          group: root
-          mode: "0644"
-        become: true
-
   roles:
       - common
       - geerlingguy.pip
@@ -63,8 +27,9 @@
         tags: mounts
       - galaxyproject.repos
       - galaxyproject.slurm
-      - galaxyproject.cvmfs
-      - role: dj-wasabi.telegraf
+      - role: galaxyproject.cvmfs
+        tags: cvmfs
+      - dj-wasabi.telegraf
       - usegalaxy_eu.apptainer
       - geerlingguy.docker
       - acl-on-startup
