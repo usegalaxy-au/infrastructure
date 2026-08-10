@@ -198,6 +198,7 @@ host_galaxy_config: # renamed from __galaxy_config
       microbiology.dev.gvl.org.au: microbiology
     email_from: <galaxy-no-reply@usegalaxy.org.au>
     enable_beta_containers_interface: true
+    enable_mcp_server: true
     enable_beta_tool_formats: true  # user defined tools new as of release_25.0
     enable_celery_tasks: true
     enable_mulled_containers: true

@@ -209,7 +209,6 @@ group_galaxy_config:
     enable_notification_system: true
     expose_potentially_sensitive_job_metrics: true
     load_tool_shed_datatypes: false # Recommended by @Marius as __DATA_FETCH__ tool was stalling.
-    enable_mcp_server: true
     enable_statsd_middleware: false
 
     static_enabled: true
