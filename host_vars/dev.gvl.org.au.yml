@@ -14,11 +14,17 @@ dev_object_store_cloudbridge_test_backend_enabled: false  # cloudbridge imports 
 
 # variables for attaching mounted volume to application server
 attached_volumes:
-  - device: /dev/vdb
+  - device: /dev/vdc
     path: /mnt
     fstype: ext4
+    partition: 1
 
 shared_mounts:
+  - path: /mnt/data
+    src: "{{ hostvars['dev-nfs']['ansible_ssh_host'] }}:/mnt/data"
+    fstype: nfs
+    state: mounted
+    opts: 'noatime,actimeo=1,rsize=1048576,wsize=1048576,defaults'
   - path: /mnt/test_mount
     src: 115.146.87.37:/galaxy-backup-au
     fstype: nfs
@@ -64,9 +70,11 @@ galaxy_systemd_env:
   [DRMAA_LIBRARY_PATH="/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"]
 galaxy_gravity_state_dir: "/opt/galaxy"
 
-galaxy_tools_indices_dir: "{{ galaxy_root }}"
-galaxy_custom_indices_dir: "{{ galaxy_root }}/custom-indices"
-galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
+galaxy_data_path:  /mnt/data
+
+galaxy_tools_indices_dir: "{{ galaxy_data_path }}"
+galaxy_custom_indices_dir: "{{ galaxy_data_path }}/custom-indices"
+galaxy_tmp_dir: "{{ galaxy_data_path }}/tmp"
 galaxy_tus_upload_store: "{{ galaxy_tmp_dir }}/tus"
 
 galaxy_job_working_directory: "{{ galaxy_tmp_dir }}/job_working_directory"
@@ -76,9 +84,9 @@ galaxy_pulsar_job_working_directory: "{{ galaxy_tmp_dir }}/pulsar_jwds"
 
 host_galaxy_extra_dirs:
   - "{{ galaxy_pulsar_job_working_directory }}"
-  - "{{ galaxy_root }}/object_store_cache"
-  - "{{ galaxy_root }}/nectar_test_cache"
-  - "{{ galaxy_root }}/cloudbridge_test_cache"
+  - "{{ galaxy_data_path }}/object_store_cache"
+  - "{{ galaxy_data_path }}/nectar_test_cache"
+  - "{{ galaxy_data_path }}/cloudbridge_test_cache"
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
 galaxy_commit_id: release_26.1_au_dev_cloudbridge  # release_26.1_au_dev + cloudbridge commits
@@ -89,7 +97,7 @@ galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
 # upon upgrade to latest conda
 galaxy_conda_exec: conda
 
-galaxy_file_path: "{{ galaxy_root }}/data-3"
+galaxy_file_path: "{{ galaxy_data_path }}/data-3"
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
@@ -214,7 +222,7 @@ host_galaxy_config: # renamed from __galaxy_config
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
     nginx_upload_path: "/_upload"
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
-    object_store_cache_path: "{{ galaxy_root }}/object_store_cache"  # Note for production: this should be close to current object store rw folder and nginx-upload-store
+    object_store_cache_path: "{{ galaxy_data_path }}/object_store_cache"  # Note for production: this should be close to current object store rw folder and nginx-upload-store
     object_store_cache_size: 50  # Note for production: It might be safe to start with a small amount like 1000 (1TB) but need to be prepared to expand it (EU has 10TB)
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.yml"
     object_store_templates_config_file: "{{ galaxy_config_dir }}/object_store_templates.yml"
@@ -325,6 +333,11 @@ rpc_pulsar_machines:
 extra_keys:
   - id: ubuntu_maintenance_key
     type: private
+  - id: dev_internal_hop_key
+    type: private
+  - id: dev_internal_hop_key
+    type: public
+    from: "{{ hostvars['dev']['ansible_ssh_host'] }},{{ hostvars['dev-handlers']['ansible_ssh_host'] }}"
 
 # Job conf limits (defined here to be available to job conf and tpv)
 job_conf_limits:
@@ -378,13 +391,13 @@ slurm_singularity_volumes_list:
   - "$job_directory:rw"
   - "$galaxy_root:ro"
   - "$tool_directory:ro"
-  - "/mnt/galaxy/data:ro"
-  - "/mnt/galaxy/data-2:ro"
-  - "/mnt/galaxy/data-3:ro"
-  - "/mnt/galaxy/object_store_cache:ro"  # for user defined storage
-  - "/mnt/galaxy/data-scratch:ro"
+  - "{{ galaxy_data_path }}/data-1:ro"
+  - "{{ galaxy_data_path }}/data-2:ro"
+  - "{{ galaxy_data_path }}/data-3:ro"
+  - "{{ galaxy_data_path }}/object_store_cache:ro"  # for user defined storage
+  - "{{ galaxy_data_path }}/data-scratch:ro"
   - "/mnt/test_mount:ro"
-  - "/mnt/galaxy/custom-indices:ro"
+  - "{{ galaxy_data_path }}/custom-indices:ro"
   - "/cvmfs/data.galaxyproject.org:ro"
   - "/mnt/galaxy/local_tools:ro"
   - "/tmp:rw"
@@ -645,3 +658,4 @@ history_mailer_cron_jobs:
   purge_histories:
     weekday: "2"
     hour: "12"
+

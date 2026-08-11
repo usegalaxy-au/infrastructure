@@ -11,3 +11,9 @@ postgresql_conf:
 postgresql_pg_hba_conf:
   - host all all "{{ dev_galaxy_server_address }}" md5 #The allowed connection to the database for the dev galaxy server.
   - host all all "{{ dev_handler_server_address }}" md5 #The allowed connection to the database for the dev handlers server.
+
+# internal ssh keys
+extra_keys:
+  - id: dev_internal_hop_key
+    type: public
+    from: "{{ hostvars['dev']['ansible_ssh_host'] }},{{ hostvars['dev-handlers']['ansible_ssh_host'] }}"

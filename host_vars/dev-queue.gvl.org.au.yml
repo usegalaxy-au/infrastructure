@@ -139,3 +139,9 @@ pip_install_packages:
 
 redis_requirepass: "{{ vault_redis_requirepass_dev }}"
 redis_bind_interface: 0.0.0.0
+
+# internal ssh keys
+extra_keys:
+  - id: dev_internal_hop_key
+    type: public
+    from: "{{ hostvars['dev']['ansible_ssh_host'] }},{{ hostvars['dev-handlers']['ansible_ssh_host'] }}"

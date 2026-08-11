@@ -14,7 +14,8 @@
   roles:
       - common
       - geerlingguy.pip
-      - mounts
+      - role: mounts
+        tags: mounts
       - galaxyproject.repos
       - galaxyproject.slurm
       - geerlingguy.docker
@@ -58,3 +59,6 @@
       - name: Reload cvmfs config
         command:
           cmd: cvmfs_config reload
+      - name: Run disable-cgroups-v2 role
+        include_role:
+          name: disable-cgroups-v2

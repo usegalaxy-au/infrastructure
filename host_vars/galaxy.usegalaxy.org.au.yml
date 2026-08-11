@@ -4,7 +4,7 @@ galaxy_config_file: /opt/galaxy/galaxy.yml
 
 # variables for attaching mounted volume to application server
 attached_volumes: # TODO: check this
-  - device: /dev/vdb
+  - device: /dev/vdc
     path: /mnt
     fstype: ext4
     partition: 1
