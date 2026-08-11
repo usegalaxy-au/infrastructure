@@ -1,9 +1,9 @@
 nfs_data_dir: /mnt/data
 
-# attached_volumes:
-#   - device: /dev/vdb
-#     path: "{{ nfs_data_dir }}"
-#     fstype: ext4
+attached_volumes:
+  - device: /dev/vdb
+    path: "{{ nfs_data_dir }}"
+    fstype: ext4
 
 nfs_dirs:
   - "{{ nfs_data_dir }}"
