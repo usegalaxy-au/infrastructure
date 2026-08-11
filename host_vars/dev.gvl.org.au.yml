@@ -331,6 +331,8 @@ extra_keys:
   - id: ubuntu_maintenance_key
     type: private
   - id: dev_internal_hop_key
+    type: private
+  - id: dev_internal_hop_key
     type: public
     from: "{{ hostvars['dev']['ansible_ssh_host'] }},{{ hostvars['dev-handlers']['ansible_ssh_host'] }}"
 
