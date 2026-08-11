@@ -24,6 +24,7 @@ shared_mounts:
     src: "{{ hostvars['dev-nfs']['ansible_ssh_host'] }}:/mnt/data"
     fstype: nfs
     state: mounted
+    opts: 'noatime,actimeo=1,rsize=1048576,wsize=1048576,defaults'
   - path: /mnt/test_mount
     src: 115.146.87.37:/galaxy-backup-au
     fstype: nfs
