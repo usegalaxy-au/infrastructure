@@ -12,7 +12,7 @@ backends:
     source: scratch
   name: "{{ galaxy_scratch_storage_days }}-day scratch storage"
   description: "Data in {{ galaxy_scratch_storage_days }}-day Storage is scheduled for removal after {{ galaxy_scratch_storage_days }} days, but is afforded a much larger quota than Permanent Storage."
-  files_dir: /mnt/galaxy/data-scratch
+  files_dir: {{ galaxy_data_path }}/data-scratch
   badges:
     - type: not_backed_up
     - type: short_term
@@ -23,23 +23,23 @@ backends:
   weight: 1
   type: disk
   store_by: uuid
-  files_dir: /mnt/galaxy/data-3
+  files_dir: {{ galaxy_data_path }}/data-3
   allow_selection: true
   extra_dirs:
   - type: temp
-    path: /mnt/galaxy/tmp/scratch
+    path: {{ galaxy_data_path }}/tmp/scratch
   - type: job_work
-    path: /mnt/galaxy/tmp/job_working_directory
+    path: {{ galaxy_data_path }}/tmp/job_working_directory
 - id: dev_objects_2
   weight: 0
   type: disk
   store_by: id
-  files_dir: /mnt/galaxy/data-2
+  files_dir: {{ galaxy_data_path }}/data-2
 - id: dev_objects_1
   weight: 0
   type: disk
   store_by: id
-  files_dir: /mnt/galaxy/data
+  files_dir: {{ galaxy_data_path }}/data-1
 - id: dev_aws_test
   weight: 0
   type: disk
@@ -64,7 +64,7 @@ backends:
     is_secure: true
     conn_path: "/"
   cache:
-    path: {{ galaxy_root }}/nectar_test_cache
+    path: {{ galaxy_data_path }}/nectar_test_cache
     size: 20
     cache_updated_data: true
 {% endif %}
@@ -87,6 +87,6 @@ backends:
     name: usegalaxy-au-cloudbridge-object-store-backend-test
     use_reduced_redundancy: false
   cache:
-    path: {{ galaxy_root }}/cloudbridge_test_cache
+    path: {{ galaxy_data_path }}/cloudbridge_test_cache
     cache_updated_data: true
 {% endif %}

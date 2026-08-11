@@ -12,6 +12,10 @@ shared_mounts:
     src: "{{ hostvars['dev']['ansible_ssh_host'] }}:/mnt/galaxy"
     fstype: nfs
     state: mounted
+  - path: /mnt/data
+    src: "{{ hostvars['dev-nfs']['ansible_ssh_host'] }}:/mnt/data"
+    fstype: nfs
+    state: mounted
   - path: /mnt/test_mount
     src: 115.146.87.37:/galaxy-backup-au
     fstype: nfs

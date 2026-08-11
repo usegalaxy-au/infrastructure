@@ -14,7 +14,8 @@
   roles:
       - common
       - geerlingguy.pip
-      - mounts
+      - role: mounts
+        tags: mounts
       - galaxyproject.repos
       - galaxyproject.slurm
       - geerlingguy.docker

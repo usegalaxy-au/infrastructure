@@ -177,6 +177,7 @@ dev_handlers_server
 dev_slurm_head
 dev_workers
 dev_pulsar_head
+dev_nfs_server
 
 [dev_db_server]
 dev-db ansible_ssh_host=45.113.232.252
@@ -186,6 +187,9 @@ dev ansible_ssh_host=45.113.232.186
 
 [dev_handlers_server]
 dev-handlers ansible_ssh_host=103.6.254.142
+
+[dev_nfs_server]
+dev-nfs ansible_ssh_host=172.26.129.201
 
 [dev_slurm_head]
 dev-queue ansible_ssh_host=45.113.232.149

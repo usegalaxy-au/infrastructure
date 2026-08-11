@@ -35,7 +35,8 @@
         - "{{ galaxy_user_singularity_tmpdir }}"
   roles:
     - galaxyproject.repos
-    - mounts
+    - role: mounts
+      tags: mounts
     - geerlingguy.pip
     - galaxyproject.galaxy
     # - role: galaxyproject.miniconda  # maybe this is never needed from the handlers playbook, will see
