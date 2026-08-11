@@ -209,6 +209,7 @@ group_galaxy_config:
     enable_notification_system: true
     expose_potentially_sensitive_job_metrics: true
     load_tool_shed_datatypes: false # Recommended by @Marius as __DATA_FETCH__ tool was stalling.
+    enable_statsd_middleware: false
 
     static_enabled: true
     show_welcome_with_login: false
@@ -302,33 +303,6 @@ group_galaxy_config:
     tool_help_boost: 1
     tool_search_limit: 160
 
-    # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
-
-    # data_manager_config_file: /mnt/galaxy-app/config/data_manager_conf.xml.sample  # should we be templating these?
-
-    # migrated_tools_config: /mnt/galaxy/var/migrated_tools_conf.xml
-    # datatypes_config_file: /mnt/galaxy-app/config/datatypes_conf.xml
-
-    # interactive_environment_plugins_directory: config/plugins/interactive_environments
-
-    # dynamic_proxy_prefix: galaxy/gie_proxy
-    # dynamic_proxy_external_proxy: true
-    # dynamic_proxy_debug: true
-    # dynamic_proxy_manage: false
-    #
-    # use_pbkdf2: false
-    # smtp_server: localhost
-    # set_metadata_externally: true
-    # retry_metadata_internally: true
-
-    # ftp_upload_dir: /mnt/ftp/galaxy_prod  # prob not relevant to dev, or if we want this for dev we need to configure something
-    # ftp_upload_site: 'ftp.usegalaxy.org.au'
-    # enable_openid: true
-    # slow_query_log_threshold: .5
-
-    # collect_outputs_from: job_working_directory # surely this is not a real path?  Relative to something?
-    # rsync_url: 'rsync://scofield.bx.psu.edu/indexes'
-    # len_file_path: /mnt/galaxy-app/tool-data/len
 
 # galaxy_config_template_src_dir: templates/galaxy  ## this var has been moved to all.yml
 group_galaxy_config_templates:
