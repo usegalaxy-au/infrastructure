@@ -5,7 +5,7 @@ add_hosts_handlers: yes
 common_logrotate_manage_rsyslog: true
 
 dev_object_store_nectar_test_backend_enabled: true
-dev_object_store_cloudbridge_test_backend_enabled: false  # cloudbridge imports failing
+dev_object_store_cloudbridge_test_backend_enabled: true
 
 # total perspective vortex
 # Use tpv_repo and tpv_commit_id variables if running 'install-tpv' role
@@ -329,6 +329,12 @@ rpc_pulsar_machines:
     keep_error_days: 7
     cron_hour: "07"
     cron_minute: "32"
+
+ssh_config_entries:
+  - id_file: /home/ubuntu/.ssh/dev_internal_hop_key
+    user: ubuntu
+    hosts: "{{ groups['dev_group'] }}"
+    ip_field: ansible_ssh_host
 
 extra_keys:
   - id: ubuntu_maintenance_key
