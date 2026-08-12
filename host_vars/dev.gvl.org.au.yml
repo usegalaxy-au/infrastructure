@@ -397,6 +397,7 @@ slurm_singularity_volumes_list:
   - "$job_directory:rw"
   - "$galaxy_root:ro"
   - "$tool_directory:ro"
+  - "{{ galaxy_data_path }}:ro"
   - "{{ galaxy_data_path }}/data-1:ro"
   - "{{ galaxy_data_path }}/data-2:ro"
   - "{{ galaxy_data_path }}/data-3:ro"
