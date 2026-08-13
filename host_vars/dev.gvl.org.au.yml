@@ -196,7 +196,7 @@ host_galaxy_config: # renamed from __galaxy_config
       task_routes:
         galaxy.fetch_data: disabled
         galaxy.set_job_metadata: galaxy.external
-    cleanup_job: never
+    cleanup_job: onsuccess
     conda_auto_install: true  # false on production (default)
     database_connection: "postgresql://galaxy:{{ vault_dev_db_user_password }}@dev-db.gvl.org.au:5432/galaxy"
     datatypes_config_file: "{{ galaxy_server_dir }}/lib/galaxy/config/sample/datatypes_conf.xml.sample,{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
