@@ -3979,8 +3979,7 @@ tools:
     cores: 3
     mem: 11.5
   Grouping1:
-    cores: 1
-    mem: 3.8
+    mem: 8  #  TODO: establish rule because this rarely needs more than 3.8
   Remove beginning1:
     cores: 1
     mem: 3.8
@@ -4080,8 +4079,6 @@ tools:
     mem: 60
     params:
       singularity_enabled: true
-  Grouping1:
-    mem: 8  #  TODO: establish rule because this rarely needs more than 3.8
   interactive_tool_.*:
     context:
       require_login: true
