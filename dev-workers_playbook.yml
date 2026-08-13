@@ -14,14 +14,16 @@
   roles:
       - common
       - geerlingguy.pip
-      - mounts
+      - role: mounts
+        tags: mounts
       - galaxyproject.repos
       - galaxyproject.slurm
       - geerlingguy.docker
       - usegalaxy_eu.apptainer
       - galaxyproject.cvmfs
       - dj-wasabi.telegraf
-      - acl-on-startup
+      - role: acl-on-startup
+        tags: setfacl
       - clean-tmpdisk
   post_tasks:
       - name: restart munge
@@ -58,3 +60,6 @@
       - name: Reload cvmfs config
         command:
           cmd: cvmfs_config reload
+      - name: Run disable-cgroups-v2 role
+        include_role:
+          name: disable-cgroups-v2

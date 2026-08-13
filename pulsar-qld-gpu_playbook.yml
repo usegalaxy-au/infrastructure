@@ -24,7 +24,8 @@
         group: "{{ pulsar_user.name }}"
   roles:
     - common
-    - mounts
+    - role: mounts
+      tags: mounts
     - geerlingguy.pip
     - galaxyproject.repos
     - pulsar-pre-tasks
@@ -38,7 +39,8 @@
     - usegalaxy_eu.apptainer
     - geerlingguy.docker
     - nvidia-ctk
-    - acl-on-startup
+    - role: acl-on-startup
+      tags: setfacl
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks

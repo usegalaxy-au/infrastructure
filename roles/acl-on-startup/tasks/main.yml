@@ -6,4 +6,4 @@
   systemd:
     name: start-acl
     enabled: true  # will start on reboot
-    state: started  # will start now if not running
+    state: restarted  # will start (run setfacl command) any time this is run

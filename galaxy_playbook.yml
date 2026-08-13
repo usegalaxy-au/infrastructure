@@ -54,7 +54,8 @@
     - galaxyproject.cvmfs
     - usegalaxy_eu.apptainer
     - geerlingguy.docker
-    - acl-on-startup
+    - role: acl-on-startup
+      tags: setfacl
     - dj-wasabi.telegraf
     - geerlingguy.nfs
     - galaxyproject.gxadmin
