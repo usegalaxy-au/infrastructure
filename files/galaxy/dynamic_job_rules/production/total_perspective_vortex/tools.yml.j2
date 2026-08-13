@@ -1417,6 +1417,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate_list/.*:
     context:
       minimum_singularity_version: '0.8'
+  toolshed.g2.bx.psu.edu/repos/iuc/abritamr/abritamr/.*:
+    mem: 12  # TODO: add to shared-db
   toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
     cores: 20
     mem: 320
@@ -2380,6 +2382,8 @@ tools:
       if: input_size < 0.001
       cores: 1
       mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl.*:
+    mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
     cores: 60
     mem: 961
@@ -3810,6 +3814,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/r-lannes/cut_include_exclude/cut_fr/.*:
     params:
       singularity_enabled: false
+  toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_fcs_adaptor/ncbi_fcs_adaptor/.*:
+    mem: 15.6
   toolshed.g2.bx.psu.edu/repos/richard-burhans/rdeval/rdeval_report/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/.*:
@@ -4074,6 +4080,8 @@ tools:
     mem: 60
     params:
       singularity_enabled: true
+  Grouping1:
+    mem: 8  #  TODO: establish rule because this rarely needs more than 3.8
   interactive_tool_.*:
     context:
       require_login: true
