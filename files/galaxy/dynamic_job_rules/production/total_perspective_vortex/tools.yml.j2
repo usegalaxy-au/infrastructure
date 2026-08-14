@@ -380,6 +380,8 @@ tools:
       cores: 1
       mem: 3.8
   toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/.*:  # TODO: memory requirements could be a linear function of input_size in shared db
+    cores: 8
+    mem: 120  # increase from shared-db's 70 (14/08/26)
     context:
       max_concurrent_job_count_for_tool_user: 5
     scheduling:
@@ -390,6 +392,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/salmonquantmerge/salmonquantmerge/.*:
     cores: 2
     mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/bgruening/sylph_.*:  # TODO: Add to shared-db after some auditing (14/8/26)
+    cores: 4
+    mem: 15.5
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/.*:
     params:
       tmp_dir: true
@@ -1171,7 +1176,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/metawrapmg_binning/metawrapmg_bin_refinement/*:
     context:
       test_cores: 2
-    mem: 31.2
+    cores: 12  # TODO: Add to shared db
+    mem: 46
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/metawrapmg_binning/metawrapmg_binning/.*:
     context:
       test_cores: 10
