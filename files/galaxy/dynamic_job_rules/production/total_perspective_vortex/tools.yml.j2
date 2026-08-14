@@ -3090,6 +3090,8 @@ tools:
       if: input_size < 0.5
       mem: 16
   toolshed.g2.bx.psu.edu/repos/iuc/semibin.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 2
     cores: 16
     mem: 62  # TODO: shared db has cores 16 mem 16, review this when we have more data
   toolshed.g2.bx.psu.edu/repos/iuc/seqkit_sort/seqkit_sort/.*:
