@@ -72,7 +72,7 @@ server {
 {% endif %}
 
     location ~ ^/api/jobs/[^/]+/files$ {
-        access_log /var/log/nginx/job-files.log job_files
+        access_log /var/log/nginx/job-files.log job_files;
 
         proxy_pass         http://galaxy;
         proxy_redirect     off;
