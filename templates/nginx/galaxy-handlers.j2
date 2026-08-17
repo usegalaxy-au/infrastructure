@@ -51,6 +51,8 @@ server {
 {% if galaxy_config['galaxy']['nginx_upload_job_files_store'] is defined %}
 
     location /_job_files {
+        client_body_timeout 600s;  # default 60s, affects only POST requests because they have a client body
+
         if ($request_method != POST) {
                 rewrite "" /api/jobs/$arg_job_id/files last;
         }
