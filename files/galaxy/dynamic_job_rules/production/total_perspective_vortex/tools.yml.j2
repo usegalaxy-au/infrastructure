@@ -1213,6 +1213,8 @@ tools:
       - pulsar
       accept:
       - pulsar-high-mem2
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/plot_ragtag_paf/plot_ragtag_paf/.*:
+    mem: 12  # TODO: add to shared-db (17/08/26)
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/smudgeplot/smudgeplot/.*:
     cores: 8
     mem: 500
@@ -1994,6 +1996,8 @@ tools:
       minimum_singularity_version: 0.18.1.1
   toolshed.g2.bx.psu.edu/repos/iuc/genrich/genrich/.*:
     mem: 10
+  toolshed.g2.bx.psu.edu/repos/iuc/getorganelle/get_annotated_regions_from_gb/.*:
+    mem: 12  # TODO: add to shared-db (17/08/26)
   toolshed.g2.bx.psu.edu/repos/iuc/getorganelle/get_organelle_from_reads/.*:
     mem: 70
     scheduling:
@@ -2886,6 +2890,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/poretools_yield_plot/poretools_yield_plot/.*:
     cores: 3
     mem: 11.5
+  toolshed.g2.bx.psu.edu/repos/iuc/pretext_map/pretext_map/.*:
+    context:
+      test_cores: 2
+    mem: 12  # TODO: add to shared-db (17/8/26)
   toolshed.g2.bx.psu.edu/repos/iuc/progressivemauve/.*:
     mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/purge_dups/purge_dups/.*:
@@ -3187,6 +3195,8 @@ tools:
     - id: snippy_core_small_input_rule
       if: input_size < 50
       mem: 12
+  toolshed.g2.bx.psu.edu/repos/iuc/snp_sites/snp_sites/.*:
+    mem: 12  # TODO: add to shared-db (17/08/26(
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/.*:
     cores: 3
     mem: 11.5
@@ -3437,6 +3447,8 @@ tools:
       accept:
       - pulsar
       - training-exempt
+  toolshed.g2.bx.psu.edu/repos/iuc/transdecoder/transdecoder/.*:
+    mem: 15.5  # TODO: this is 8 in shared-db, update this (17/08/26)
   toolshed.g2.bx.psu.edu/repos/iuc/trinity.*:
     context:
       max_concurrent_job_count_for_tool_user: 2
