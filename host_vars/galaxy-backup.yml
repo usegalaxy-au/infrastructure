@@ -37,6 +37,7 @@ weekly_backup_day: 6  #Weekly backups will run on this day of the week
 retention_day: 6       #Keep daily backups for this many days (6 days)
 retention_week: 21     #Keep weekly backups for this many days (21 days = 3 weeks)
 retention_month: 61    #Keep monthly backups for this many days (61 days ~ 2 months)
+retention_disk: 3      #Keep backups on disk for this many days
 
 extra_keys:
   - id: internal_hop_key
