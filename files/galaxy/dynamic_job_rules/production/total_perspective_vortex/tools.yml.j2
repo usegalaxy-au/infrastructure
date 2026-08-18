@@ -1759,11 +1759,11 @@ tools:
     mem: 62
     rules:
     - id: compleasm_small_input_rule
-      if: input_size < 1
+      if: input_size < 0.2
       cores: 1
       mem: 3.8
     - id: compleasm_medium_input_rule
-      if: 1 <= input_size < 5
+      if: 0.2 <= input_size < 5
       cores: 9
       mem: 34.5
   toolshed.g2.bx.psu.edu/repos/iuc/compose_text_param/compose_text_param/.*:
