@@ -44,7 +44,8 @@
     - gantsign.golang
     - cyverse-ansible.singularity
     - geerlingguy.docker
-    - acl-on-startup
+    - role: acl-on-startup
+      tags: setfacl
     - galaxyproject.gxadmin
     - dj-wasabi.telegraf
     - postfix-mail-relay

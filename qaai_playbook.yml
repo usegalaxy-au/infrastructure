@@ -70,7 +70,8 @@
     - usegalaxy_eu.apptainer
     # - dj-wasabi.telegraf
     # - postfix-mail-relay
-    - acl-on-startup
+    - role: acl-on-startup
+      tags: setfacl
     # - role: usegalaxy_eu.walle
     #   tags: walle
   post_tasks:
