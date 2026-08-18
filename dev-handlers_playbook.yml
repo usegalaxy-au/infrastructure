@@ -34,6 +34,7 @@
         - "{{ galaxy_user_singularity_cachedir }}"
         - "{{ galaxy_user_singularity_tmpdir }}"
   roles:
+    - attached-volumes
     - galaxyproject.repos
     - role: mounts
       tags: mounts
