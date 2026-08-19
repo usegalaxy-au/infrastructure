@@ -2063,8 +2063,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
+      minimum_singularity_version: '2.2.3+galaxy0'
     params:
-      singularity_enabled: false
       tmp_dir: true
     scheduling:
       accept:
