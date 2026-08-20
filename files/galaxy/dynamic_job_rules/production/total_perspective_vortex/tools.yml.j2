@@ -477,16 +477,14 @@ tools:
     params:
       singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/.*:
-    context:
-      max_concurrent_job_count_for_tool_user: 4  # goes with removing pulsar
     cores: 8
     mem: 30.7
     params:
       tmp_dir: true
-    # scheduling:  # 30/7/26, prokka need not go to pulsar, too many preprocessing jobs
-    #   accept:
-    #   - pulsar
-    #  - pulsar-quick
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-quick
     rules:
     - id: prokka_small_input_rule
       if: input_size < 0.001
