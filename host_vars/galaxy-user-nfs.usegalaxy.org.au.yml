@@ -30,7 +30,6 @@ nfs_data32_dir: "{{ volD_path }}/data32"
 nfs_data34_dir: "{{ volD_path }}/data34"
 nfs_data38_dir: "{{ volD_path }}/data38"
 nfs_data41_dir: "{{ volD_path }}/data41"
-nfs_data42_dir: "{{ volD_path }}/data42"
 
 attached_volumes:
   - device: /dev/vdb
