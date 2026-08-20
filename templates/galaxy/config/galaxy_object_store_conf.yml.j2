@@ -1,16 +1,8 @@
 type: distributed
 search_for_missing: false
 backends:
-- id: data42
-  weight: 0
-  type: disk
-  store_by: uuid
-  files_dir: /mnt/user-data-volD/data42
-  extra_dirs:
-    - type: job_work
-      path: {{ pulsar_job_working_directory }}
 - id: data41
-  weight: 0
+  weight: 1
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volD/data41
