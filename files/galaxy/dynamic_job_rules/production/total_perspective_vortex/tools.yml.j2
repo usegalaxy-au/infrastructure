@@ -4093,15 +4093,11 @@ tools:
   fgenesh_to_genbank:
     inherits: fgenesh_tool
   fgenesh_tool:
+    abstract: true
+    context:
+      require_login: true
     params:
       singularity_enabled: true
-    rules:
-    - id: fgenesh_group_access_rule
-      if: |
-        not user or not 'Fgenesh' in [role.name for role in user.all_roles() if not role.deleted]
-      fail: Your account has not been given access to fgenesh. Contact 
-        help@genome.edu.au if you think this is in error.
-    abstract: true
   gtdbtk_classify_wf_test:
     cores: 16
     mem: 60
