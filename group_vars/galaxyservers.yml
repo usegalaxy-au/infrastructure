@@ -210,6 +210,7 @@ group_galaxy_config:
     expose_potentially_sensitive_job_metrics: true
     load_tool_shed_datatypes: false # Recommended by @Marius as __DATA_FETCH__ tool was stalling.
     enable_statsd_middleware: false
+    enable_sse_updates: true
 
     static_enabled: true
     show_welcome_with_login: false
