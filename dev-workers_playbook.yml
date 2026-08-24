@@ -23,39 +23,13 @@
       - galaxyproject.cvmfs
       - dj-wasabi.telegraf
       - acl-on-startup
+      - tmp-relocation
       - clean-tmpdisk
   post_tasks:
       - name: restart munge
         systemd:
             name: munge
             state: restarted
-      - name: Move /tmp to /mnt
-        block:
-          - name: Create worker tmpdir on /mnt
-            file:
-                path: /mnt/tmpdisk
-                state: directory
-                owner: root
-                group: root
-                mode: '1777'
-          - name: stat links
-            stat:
-                path: /tmp
-            register: links
-          - name: remove old tmp
-            file:
-                path: /tmp
-                state: absent
-            when: links.stat.islnk is defined and not links.stat.islnk
-          - name: Link /tmp to /mnt/tmpdisk
-            file:
-                src: /mnt/tmpdisk
-                dest: /tmp
-                state: link
-            become: yes
-            become_user: root
-            when: links.stat.islnk is defined and not links.stat.islnk
-        when: attached_volumes is defined
       - name: Reload cvmfs config
         command:
           cmd: cvmfs_config reload
