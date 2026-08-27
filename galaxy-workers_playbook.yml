@@ -32,7 +32,8 @@
       - dj-wasabi.telegraf
       - usegalaxy_eu.apptainer
       - geerlingguy.docker
-      - acl-on-startup
+      - role: acl-on-startup
+        tags: setfacl
       - clean-tmpdisk
   post_tasks:
       - name: restart munge
