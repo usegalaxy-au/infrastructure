@@ -238,6 +238,18 @@ galaxy_job_metrics_plugins:
   - type: meminfo
   - type: uname
   - type: cgroup
+    version: 1
+    params:
+      - cpuacct.usage
+      - memory.failcnt
+      - memory.limit_in_bytes
+      - memory.max_usage_in_bytes
+      - memory.memsw.limit_in_bytes
+      - memory.memsw.max_usage_in_bytes
+      - memory.oom_control.oom_kill_disable
+      - memory.oom_control.oom_kill
+      - memory.oom_control.under_oom
+      - memory.soft_limit_in_bytes
   - type: env
     variables: 'HOSTNAME,SLURM_CPUS_ON_NODE,SLURM_JOB_ID'
 
