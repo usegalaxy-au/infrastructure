@@ -2711,6 +2711,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/nanoplot/.*:
     cores: 3
     mem: 11.5
+    rules:
+    - id: nanoplot_singularity_rule  # no container in cvmfs (28/08/26)
+      if: helpers.tool_version_gte(tool, "1.47.2+galaxy0")
+      params:
+        singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/iuc/ncbi_acc_download/ncbi_acc_download/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
