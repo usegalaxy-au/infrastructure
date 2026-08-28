@@ -53,19 +53,6 @@ ssh_config_entries:
   hosts: "{{ groups['galaxy_group'] }}"
   ip_field: internal_ip
 
-# Extra users who can access db backups
-host_machine_users:
-    - name: uwe
-      uid: 7400
-      roles: []
-      key: files/keys/uwe.pub
-      email: "{{ uwe_email }}"
-    - name: jonathan
-      uid: 7401
-      roles: []
-      key: files/keys/jonathan.pub
-      email: "{{ jonathan_email }}"
-
 ### History mailer
 
 history_mailer_commit_id: c41c3c6637ceb391026e9fee0e88d771eb874479

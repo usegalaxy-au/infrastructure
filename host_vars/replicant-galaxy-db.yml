@@ -20,15 +20,4 @@ postgresql_conf:
 postgresql_pg_hba_conf:
   - host galaxy reader "{{ hostvars['galaxy-reporting']['ansible_ssh_host'] }}/32" md5
 
-host_machine_users:
-- name: uwe
-  uid: 7400
-  roles: []
-  key: files/keys/uwe.pub
-  email: "{{ uwe_email }}"
-- name: jonathan
-  uid: 7401
-  roles: []
-  key: files/keys/jonathan.pub
-  email: "{{ jonathan_email }}"
   
