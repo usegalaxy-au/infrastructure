@@ -289,8 +289,8 @@ group_galaxy_config:
       - type: cached_mulled_singularity
         cache_directory: /cvmfs/singularity.galaxyproject.org/all
         cache_directory_cacher_type: dir_mtime     
-      # local cache
-      - type: cached_mulled_singularity
+      # local cache (fetch if not present)
+      - type: mulled_singularity
         cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
         cache_directory_cacher_type: dir_mtime
 
