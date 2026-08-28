@@ -10,7 +10,7 @@ host_galaxy_config: # renamed from __galaxy_config
     # Allow cross-subdomain cookie sharing:
     cookie_domain: qaai.gvl.org.au
 
-    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},{{ uwe_email }},{{ ross_email }}" # everyone is an admin on dev
+    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},{{ ross_email }}" # everyone is an admin on dev
     brand: "AAI QA"  # or something
     celery_conf:
       task_routes:

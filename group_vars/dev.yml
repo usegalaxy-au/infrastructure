@@ -34,11 +34,6 @@ host_machine_users:
         - galaxy_admin
       key: files/keys/mike.pub
       email: "{{ mike_email }}"
-    - name: jonathan
-      uid: 7401
-      roles: []
-      key: files/keys/jonathan.pub
-      email: "{{ jonathan_email }}"
 
 
 # Control whether AAI settings are being used

@@ -95,6 +95,8 @@ machine_users: "{{ host_machine_users + (__machine_users | rejectattr('name', 'i
 
 # no longer active accounts to be removed - only name field is required
 remove_machine_users:
+    - name: uwe  # unprivileged user on several VMs
+    - name: jonathan  # unprivileged user on several VMs
     - name: justin
     # uid: 7011
     # roles:
