@@ -8,25 +8,7 @@ Galaxy Australia can be accessed at: [**https://usegalaxy.org.au**](https://useg
 
 If you wish to use Ansible and Terraform for your own Galaxy server then head over to the [Galaxy Project's Git Hub](https://github.com/galaxyproject/) for more resources or checkout the amazing range of [Galaxy Administration with Ansible tutorials](https://training.galaxyproject.org/training-material/topics/admin/) located at the [Galaxy Training Network's site](https://training.galaxyproject.org).
 
-Galaxy Australia currently runs a number of instances and nodes, mostly on cloud resources using Openstack. They currently are: 
-
-* **Galaxy Australia** - the main server
-    * Located at the Pawsey Supercomputing Centre
-    * Playbooks predicated with "pawsey-"
-* **Galaxy Australia Staging** - the tool testing server
-    * Located at the University of Melbourne
-    * Playbooks predicated with "staging-"
-* **Galaxy Australia Dev** - the development server
-    * Located at the University of Melbourne
-    * Playbooks predicated with "dev-"
-* **Pulsar Mel** - Pulsar cluster dedicated to training jobs
-    * Located at the University of Melbourne
-* **Pulsar Mel3** - Pulsar cluster dedicated to long running and large jobs
-    * Located at the University of Melbourne
-* **Pulsar Paw** - Pulsar cluster dedicated to COVID-19 analysis
-    * Located at the Pawsey Supercomputing Centre
-* **Pulsar NCI** - Pulsar cluster used for various jobs ranging from training to general capacity
-    * Located at NCI in Canberra  (National Computational Infrastructure)
+Galaxy Australia currently runs a number of instances and nodes, mostly on cloud resources using Openstack. The head node of Galaxy Australia runs on [AARNet](https://www.aarnet.edu.au/) virtual machines in Sydney, with additional infrastructure deployed at the University of Queensland, the University of Melbourne and NCI.
 
 ## Operation/Running the Playbooks
 
@@ -72,17 +54,6 @@ They are all listed in the `requirements.yml` file. They can be installed locall
 ```bash
 ansible-galaxy install -p roles -r requirements.yml
 ```
-
-There are a few custom roles associated with these playbooks. They are:
-
-| Role name | Purpose |
-|-----------|---------|
-| common    | Performs common tasks on our virtual machines including setting up users, installing some required packages amongst other tasks |
-| mariadb | Sets up MariaDB for Slurm accounting on various clusters |
-| mounts | Sets up NFS mounts for various clusters |
-| slg.db-backup | Role to setup database backups for Galaxy Australia |
-| slg.galaxy_stats | Sets up collection of statistics from Galaxy for Grafana |
-
 #### Running the playbooks
 
 Each playbook can be run with:
@@ -98,7 +69,7 @@ All contributions to these playbooks are to be made by pull request.
 
 We strongly suggest you fork the repository.
 
-Detailed instructions on modifying the tool destinations for jobs is located [here](docs/instructions_for_tool_destinations.md)
+Jobs are scheduled using the [Total Perspective Vortex](https://github.com/galaxyproject/total-perspective-vortex) (TPV) job scheduler. See also: [TPV by example](docs/topics/tpv_by_example.rst).
 
 ## Maintenance
 
@@ -111,8 +82,7 @@ This repository is maintained by the Galaxy Australia team.
 
 ### TIaaS Documentation
 
-The documentation/instructions for the Galaxy Australia implementation of Galaxy Europe's TIaaS system can be found [here](docs/TIaaS.md)
-
+The documentation/instructions for the Galaxy Australia implementation of Galaxy Europe's TIaaS (Training Infrastructure as a Service) system can be found [here](docs/TIaaS.md)
 
 
 | [![melbourne_bioinformatics_logo.png](images/melbourne_bio.png)](https://melbournebioinformatics.org.au) | [![QFAB_logo_2020.png](images/QFAB_logo_2020.png)](https://www.qcif.edu.au/services/bioinformatics/) |
