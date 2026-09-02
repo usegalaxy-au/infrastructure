@@ -2082,6 +2082,11 @@ tools:
       if: input_size >= 12
       cores: 36
       mem: 500
+    - id: hisat2_new_versions_training_exempt_rule
+      if: helpers.tool_version_gte(tool, "2.2.3+galaxy0")
+      scheduling:
+        accept:
+        - training-exempt
   toolshed.g2.bx.psu.edu/repos/iuc/hmmer3/hmmer_alimask/.*:
     params:
       singularity_enabled: false
