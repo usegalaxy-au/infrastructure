@@ -385,7 +385,7 @@ tools:
     cores: 8
     mem: 120  # increase from shared-db's 70 (14/08/26)
     context:
-      max_concurrent_job_count_for_tool_user: 5
+      max_concurrent_job_count_for_tool_user: 2
     scheduling:
       accept:
       - pulsar
@@ -517,7 +517,7 @@ tools:
     mem: 7.6
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 4
+      max_concurrent_job_count_for_tool_user: 1
     cores: 12
     mem: 46.0
     scheduling:
@@ -1632,7 +1632,7 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:  # TODO: revisit setting mem based on reference size (https://github.com/usegalaxy-au/infrastructure/issues/1835)
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 1
       test_cores: 4
     cores: 20
     mem: 250
@@ -3001,7 +3001,7 @@ tools:
     mem: 8
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 4
+      max_concurrent_job_count_for_tool_user: 2
     cores: 12
     mem: 46.0
     scheduling:
