@@ -3912,6 +3912,14 @@ tools:
   toolshed.g2.bx.psu.edu/repos/thanhlv/clinker/clinker/.*:
     cores: 1
     mem: 3.8
+  toolshed.g2.bx.psu.edu/repos/iuc/feelnc/feelnc/.*:
+    cores: 8
+    mem: 30.7
+    rules:
+    - id: feelnc_small_input_rule
+      if: input_size < 3
+      cores: 3
+      mem: 11.5
   toolshed.g2.bx.psu.edu/repos/ufz/genomad_end_to_end/genomad_end_to_end/.*:
     mem: 23
   toolshed.g2.bx.psu.edu/repos/wolma/mimodd_aln/mimodd_align/.*:
