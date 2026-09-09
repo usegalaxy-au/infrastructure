@@ -226,7 +226,7 @@ destinations:
     runner: pulsar-qld-high-mem0_runner
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
-    min_accepted_mem: 60
+    min_accepted_mem: 42
     context:
       destination_total_cores: 240
       destination_total_mem: 3845.07
@@ -248,7 +248,7 @@ destinations:
     runner: pulsar-qld-high-mem1_runner
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
-    min_accepted_mem: 60
+    min_accepted_mem: 42
     context:
       destination_total_cores: 240
       destination_total_mem: 3845.07
@@ -265,13 +265,12 @@ destinations:
         # - gffread_destination  # while pqhm2 is offline
       require:
         - pulsar
-        - offline
   pulsar-qld-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem2_runner
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
-    min_accepted_mem: 58
+    min_accepted_mem: 62.51
     context:
       destination_total_cores: 240
       destination_total_mem: 3845.07
