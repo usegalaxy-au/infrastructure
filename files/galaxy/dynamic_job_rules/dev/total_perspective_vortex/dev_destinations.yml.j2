@@ -84,11 +84,11 @@ destinations:
     scheduling:
       accept:
         - slurm
-  legacy_slurm:  # conda in singularity
+  conda_singularity:  # conda in singularity
     inherits: _slurm_destination
     runner: slurm
     context:
-      slurm_singularity_volumes: '{{ slurm_singularity_volumes }},/mnt/galaxy/tool_dependencies/_conda:rw'
+      slurm_singularity_volumes: '{{ slurm_singularity_volumes }},/mnt/data/tool_dependencies/_conda:rw'
     params:
       singularity_enabled: true
       singularity_volumes: '{ slurm_singularity_volumes }'
@@ -97,10 +97,10 @@ destinations:
       - type: singularity
         shell: /bin/bash
         resolve_dependencies: true
-        identifier: '{ conda_singularity_base_id }'
+        identifier: '{ singularity_default_container_id }'  # is that possible?
     scheduling:
       require:
-        - legacy_slurm
+        - conda_singularity
   interactive_pulsar:
     runner: pulsar_embedded
     context:
