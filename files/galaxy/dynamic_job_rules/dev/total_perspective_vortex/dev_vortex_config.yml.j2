@@ -1,15 +1,13 @@
 tools:
   __DATA_FETCH__:
-    # context:
-    #   conda_singularity_base_id: /cvmfs/main.galaxyproject.org/singularity/rockylinux:9.5.20241118--0
     params:
       tmp_dir: True
     # env: # these env vars are because a container is being used now and the galaxy venv is no longer active
     #   SINGULARITYENV_PREPEND_PATH: /mnt/galaxy/venv/bin
     #   SINGULARITYENV_PYTHONPATH: /mnt/galaxy/galaxy-app/lib
-    # scheduling:
-    #   require:
-    #     - conda_singularity
+    scheduling:
+      require:
+        - conda_singularity
   interactive_tool_.*:
     context:
       require_login: true
@@ -439,7 +437,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_uniq_tool/.*:
     scheduling:
       require:
-        - conda_singularity
+        - pulsar_conda_singularity
 
   toolshed.g2.bx.psu.edu/repos/iuc/shovill/shovill/.*:
     cores: 4
