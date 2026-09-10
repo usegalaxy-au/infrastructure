@@ -165,6 +165,7 @@ host_galaxy_config: # renamed from __galaxy_config
     brand: "Australia"
     database_connection: "postgresql://galaxy:{{ galaxy_db_user_password }}@{{ hostvars['galaxy-db']['internal_ip'] }}:5432/galaxy"
     id_secret: "{{ vault_prod_id_secret }}" # TODO: this need to stay the same wherever production galaxy is running, but the name of the vault variable is misleading
+    require_login: false
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.yml"
     smtp_server: localhost
     interactivetools_enable: true
