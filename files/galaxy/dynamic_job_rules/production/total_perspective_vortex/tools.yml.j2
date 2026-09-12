@@ -4203,6 +4203,9 @@ tools:
     inherits: wig_to_bigWig
     params:
       singularity_enabled: true
+  upload1:
+    params:
+      tmp_dir: true
   wig_to_bigWig:
     mem: min(max(input_size * 20, 28), 58)
     scheduling:
