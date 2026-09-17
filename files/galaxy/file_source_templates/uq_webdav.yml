@@ -1,0 +1,23 @@
+- id: uq_webdav
+  version: 0
+  name: University of Queensland RDM
+  description: |
+    Connect to the University of Queensland NextCloud server to fetch/store your data. Please note that users have reported issues connecting to accounts with large amounts of data.
+  variables:
+    login:
+      label: Username
+      type: string
+      help: |
+        Your University of Queensland username.
+  secrets:
+    password:
+      label: Password
+      help: |
+        Your App Password (different to your normal password - generated in the UQ RDM portal https://cloud.rdm.uq.edu.au).
+  configuration:
+    type: webdav
+    url: https://cloud.rdm.uq.edu.au
+    root: '/remote.php/dav/files/{{ variables.login }}/'
+    login: '{{ variables.login }}'
+    writable: true
+    password: '{{ secrets.password }}'
