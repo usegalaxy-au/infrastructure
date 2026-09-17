@@ -37,7 +37,14 @@ __machine_users:
         - galaxy_admin
       key: files/keys/nuwan.pub
       email: "{{ nuwan_email }}"
- 
+    - name: swarupa
+      uid: 7016
+      roles: []
+      #   - sudo
+      #   - galaxy_admin
+      key: files/keys/swarupa.pub
+      email: "{{ swarupa_email }}"
+
     # user support team
     - name: igor
       uid: 7101
