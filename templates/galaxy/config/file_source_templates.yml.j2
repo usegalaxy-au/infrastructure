@@ -4,6 +4,7 @@
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_s3fs.yml"
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_webdav.yml"
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_ftp.yml"
+- include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_invenio.yml"
 {% if inventory_hostname.startswith('dev') %}
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_dropbox.yml"
 - include: "{{ galaxy_server_dir }}/lib/galaxy/files/templates/examples/production_google_drive.yml"
