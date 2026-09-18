@@ -91,6 +91,8 @@ galaxy_user_singularity_cachedir: "{{ galaxy_tools_indices_dir }}/singularity_da
 galaxy_user_singularity_tmpdir: "{{ galaxy_user_singularity_cachedir }}/tmp"
 
 # Galaxy
+galaxy_gravity_graceful_start_if_stopped: true
+
 galaxy_manage_errordocs: yes
 galaxy_errordocs_dest: "/etc/nginx/error"
 galaxy_errordocs_server_name: "{{ galaxy_config.galaxy.galaxy_infrastructure_url }}"
