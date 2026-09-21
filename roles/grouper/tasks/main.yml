@@ -7,12 +7,16 @@
       owner: "{{ grouper_user }}"
       group: "{{ grouper_user }}"
 
-  - name: Copy grouper script files
+  - name: Copy grouper package
+    copy:
+      src: grouper/
+      dest: "{{ grouper_dir }}/grouper/"
+
+  - name: Copy grouper support files
     copy:
       src: "{{ item }}"
       dest: "{{ grouper_dir }}/{{ item }}"
     loop:
-      - groups.py
       - notify_failure.py
       - config.py
       - approved_domains.json

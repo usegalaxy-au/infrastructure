@@ -28,7 +28,7 @@ fi
 
 cd "$GROUPER_DIR" || exit 1
 
-"$VENV_PYTHON" groups.py "${RUN_ARGS[@]:-}"
+"$VENV_PYTHON" -m grouper "${RUN_ARGS[@]:-}"
 exit_code=$?
 
 if [ "$exit_code" -ne 0 ]; then
