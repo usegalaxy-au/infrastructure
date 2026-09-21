@@ -14,14 +14,16 @@
   roles:
       - common
       - geerlingguy.pip
-      - mounts
+      - role: mounts
+        tags: mounts
       - galaxyproject.repos
       - galaxyproject.slurm
       - galaxyproject.cvmfs
       - gantsign.golang
       - cyverse-ansible.singularity
       - geerlingguy.docker
-      - acl-on-startup
+      - role: acl-on-startup
+        tags: setfacl
       - dj-wasabi.telegraf
   post_tasks:
       - name: restart munge

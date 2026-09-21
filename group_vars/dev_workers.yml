@@ -13,7 +13,11 @@ attached_volumes:
 
 shared_mounts:
     - path: /mnt/galaxy
-      src: dev:/mnt/galaxy
+      src: "{{ hostvars['dev']['ansible_ssh_host'] }}:/mnt/galaxy"
+      fstype: nfs
+      state: mounted
+    - path: /mnt/data
+      src: "{{ hostvars['dev-nfs']['ansible_ssh_host'] }}:/mnt/data"
       fstype: nfs
       state: mounted
     - path: /mnt/test_mount
@@ -47,3 +51,8 @@ s3fs:
       prefix: /galaxy/v1/data.galaxyproject.org
       options: "allow_other,use_cache={{ s3fs_cache_base }},max_stat_cache_size=100000,uid=33,gid=33,umask=002,url=https://s3.ap-southeast-2.amazonaws.com,endpoint=ap-southeast-2,public_bucket=1,enable_noobj_cache,no_check_certificate,kernel_cache,ensure_diskfree={{ s3fs_ensure_diskfree }}"
 
+# internal ssh keys
+extra_keys:
+  - id: dev_internal_hop_key
+    type: public
+    from: "{{ hostvars['dev']['ansible_ssh_host'] }},{{ hostvars['dev-handlers']['ansible_ssh_host'] }}"

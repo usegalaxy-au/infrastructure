@@ -4,21 +4,27 @@ add_hosts_handlers: yes
 
 common_logrotate_manage_rsyslog: true
 
+dev_object_store_nectar_test_backend_enabled: true
+dev_object_store_cloudbridge_test_backend_enabled: false
+
 # total perspective vortex
-tpv_version: "3.1.2"
+# Use tpv_repo and tpv_commit_id variables if running 'install-tpv' role
 # tpv_repo: https://github.com/usegalaxy-au/total-perspective-vortex
 # tpv_commit_id: d8e336b1cc889237c155d0ad318051c36e5636e6
 
-tpv_packages: |
-  {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
-
 # variables for attaching mounted volume to application server
 attached_volumes:
-  - device: /dev/vdb
+  - device: /dev/vdc
     path: /mnt
     fstype: ext4
+    partition: 1
 
 shared_mounts:
+  - path: /mnt/data
+    src: "{{ hostvars['dev-nfs']['ansible_ssh_host'] }}:/mnt/data"
+    fstype: nfs
+    state: mounted
+    opts: 'noatime,actimeo=1,rsize=1048576,wsize=1048576,defaults'
   - path: /mnt/test_mount
     src: 115.146.87.37:/galaxy-backup-au
     fstype: nfs
@@ -32,6 +38,7 @@ certbot_domains:
   - "proteomics.{{ hostname }}"
   - "singlecell.{{ hostname }}"
   - "microbiology.{{ hostname }}"
+  - "edna.{{ hostname }}"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_gvl_api_token }}"
@@ -51,7 +58,7 @@ galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/dev
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
   - total_perspective_vortex/dev_default_tool.yml.j2
-  - total_perspective_vortex/dev_vortex_config.yml
+  - total_perspective_vortex/dev_vortex_config.yml.j2
   - total_perspective_vortex/dev_destinations.yml.j2
   - total_perspective_vortex/dev_tools.yml.j2
   - readme.txt
@@ -63,9 +70,11 @@ galaxy_systemd_env:
   [DRMAA_LIBRARY_PATH="/usr/lib/slurm-drmaa/lib/libdrmaa.so.1"]
 galaxy_gravity_state_dir: "/opt/galaxy"
 
-galaxy_tools_indices_dir: "{{ galaxy_root }}"
-galaxy_custom_indices_dir: "{{ galaxy_root }}/custom-indices"
-galaxy_tmp_dir: "{{ galaxy_root }}/tmp"
+galaxy_data_path:  /mnt/data
+
+galaxy_tools_indices_dir: "{{ galaxy_data_path }}"
+galaxy_custom_indices_dir: "{{ galaxy_data_path }}/custom-indices"
+galaxy_tmp_dir: "{{ galaxy_data_path }}/tmp"
 galaxy_tus_upload_store: "{{ galaxy_tmp_dir }}/tus"
 
 galaxy_job_working_directory: "{{ galaxy_tmp_dir }}/job_working_directory"
@@ -75,17 +84,20 @@ galaxy_pulsar_job_working_directory: "{{ galaxy_tmp_dir }}/pulsar_jwds"
 
 host_galaxy_extra_dirs:
   - "{{ galaxy_pulsar_job_working_directory }}"
-  - "{{ galaxy_root }}/object_store_cache"
+  - "{{ galaxy_data_path }}/object_store_cache"
+  - "{{ galaxy_data_path }}/nectar_test_cache"
+  - "{{ galaxy_data_path }}/cloudbridge_test_cache"
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
-galaxy_commit_id: release_25.1_au_dev
+galaxy_commit_id: release_26.2_au_dev  # galaxy dev branch as of 17/09/2026 + one commit that makes Biocommons Access things work on dev even though username/password are allowed
+# galaxy_commit_id: release_26.1_au_dev  # dev is still initially forked for release_26.1 to include two Marius M PRs and the commit that switches of fixed delegated auth check
 
 galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
 
 # upon upgrade to latest conda
 galaxy_conda_exec: conda
 
-galaxy_file_path: "{{ galaxy_root }}/data-3"
+galaxy_file_path: "{{ galaxy_data_path }}/data-3"
 nginx_upload_store_base_dir: "{{ galaxy_file_path }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
@@ -162,11 +174,6 @@ host_galaxy_config_gravity:
   celery:
     enable: false
     enable_beat: false
-  reports:
-    enable: true
-    url_prefix: /reports
-    bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
-    config_file: "{{ galaxy_config_dir }}/reports.yml"
   tusd:
     enable: true
     tusd_path: /usr/local/sbin/tusd
@@ -181,15 +188,15 @@ host_galaxy_config: # renamed from __galaxy_config
   galaxy:
     activation_email: <activation-noreply@usegalaxy.org.au>
     admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},{{ uwe_email }},{{ ross_email }}" # everyone is an admin on dev
-    ai_api_key: "{{ vault_biocommons_galaxy_openai_api_key }}"
-    ai_model: gpt-4o  # this is the default but there are many with varied prices
+    ai_api_key: "{{ vault_biocommons_galaxy_openai_api_key }}"  # NEEDS UPDATE IN VAULT (15/4/26, CB)
+    ai_model: gpt-5.4-nano  # CB chose this for no good reason, update me
     amqp_internal_connection: "pyamqp://galaxy_queues:{{ vault_rabbitmq_password_galaxy_dev }}@dev-queue.gvl.org.au:5671//galaxy/galaxy_queues?ssl=1"
     brand: "Australia Dev"
     celery_conf:
       task_routes:
         galaxy.fetch_data: disabled
         galaxy.set_job_metadata: galaxy.external
-    cleanup_job: never
+    cleanup_job: onsuccess
     conda_auto_install: true  # false on production (default)
     database_connection: "postgresql://galaxy:{{ vault_dev_db_user_password }}@dev-db.gvl.org.au:5432/galaxy"
     datatypes_config_file: "{{ galaxy_server_dir }}/lib/galaxy/config/sample/datatypes_conf.xml.sample,{{ galaxy_config_dir }}/additional_datatypes_conf.xml"
@@ -199,11 +206,13 @@ host_galaxy_config: # renamed from __galaxy_config
       microbiology.dev.gvl.org.au: microbiology
     email_from: <galaxy-no-reply@usegalaxy.org.au>
     enable_beta_containers_interface: true
+    enable_mcp_server: true
     enable_beta_tool_formats: true  # user defined tools new as of release_25.0
     enable_celery_tasks: true
     enable_mulled_containers: true
     enable_notification_system: true
     enable_oidc: true
+    enable_tool_requests: true
     file_path: "{{ galaxy_file_path }}"
     id_secret: "{{ vault_dev_id_secret }}"
     interactivetools_enable: true
@@ -213,7 +222,7 @@ host_galaxy_config: # renamed from __galaxy_config
     nginx_upload_job_files_store: "{{ nginx_upload_job_files_store_dir }}"
     nginx_upload_path: "/_upload"
     nginx_upload_store: "{{ nginx_upload_store_dir }}"
-    object_store_cache_path: "{{ galaxy_root }}/object_store_cache"  # Note for production: this should be close to current object store rw folder and nginx-upload-store
+    object_store_cache_path: "{{ galaxy_data_path }}/object_store_cache"  # Note for production: this should be close to current object store rw folder and nginx-upload-store
     object_store_cache_size: 50  # Note for production: It might be safe to start with a small amount like 1000 (1TB) but need to be prepared to expand it (EU has 10TB)
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.yml"
     object_store_templates_config_file: "{{ galaxy_config_dir }}/object_store_templates.yml"
@@ -238,6 +247,9 @@ host_galaxy_config: # renamed from __galaxy_config
     tus_upload_store: "{{ galaxy_tus_upload_store }}"
     watch_job_rules: true # important for total perspective vortex
     welcome_directory: plugins/welcome_page/new_user/static/topics/
+    # TO DO: move this to galaxyservers.yml after checking on dev
+    enable_failed_jobs_working_directory_cleanup: true
+    failed_jobs_working_directory_cleanup_days: 7
 
 galaxy_handler_count: 2 ############# europe uses 5, this could be host specific
 
@@ -318,9 +330,20 @@ rpc_pulsar_machines:
     cron_hour: "07"
     cron_minute: "32"
 
+ssh_config_entries:
+  - id_file: /home/ubuntu/.ssh/dev_internal_hop_key
+    user: ubuntu
+    hosts: "{{ groups['dev_group'] }}"
+    ip_field: ansible_ssh_host
+
 extra_keys:
   - id: ubuntu_maintenance_key
     type: private
+  - id: dev_internal_hop_key
+    type: private
+  - id: dev_internal_hop_key
+    type: public
+    from: "{{ hostvars['dev']['ansible_ssh_host'] }},{{ hostvars['dev-handlers']['ansible_ssh_host'] }}"
 
 # Job conf limits (defined here to be available to job conf and tpv)
 job_conf_limits:
@@ -374,13 +397,14 @@ slurm_singularity_volumes_list:
   - "$job_directory:rw"
   - "$galaxy_root:ro"
   - "$tool_directory:ro"
-  - "/mnt/galaxy/data:ro"
-  - "/mnt/galaxy/data-2:ro"
-  - "/mnt/galaxy/data-3:ro"
-  - "/mnt/galaxy/object_store_cache:ro"  # for user defined storage
-  - "/mnt/galaxy/data-scratch:ro"
+  - "{{ galaxy_data_path }}:ro"
+  - "{{ galaxy_data_path }}/data-1:ro"
+  - "{{ galaxy_data_path }}/data-2:ro"
+  - "{{ galaxy_data_path }}/data-3:ro"
+  - "{{ galaxy_data_path }}/object_store_cache:ro"  # for user defined storage
+  - "{{ galaxy_data_path }}/data-scratch:ro"
   - "/mnt/test_mount:ro"
-  - "/mnt/galaxy/custom-indices:ro"
+  - "{{ galaxy_data_path }}/custom-indices:ro"
   - "/cvmfs/data.galaxyproject.org:ro"
   - "/mnt/galaxy/local_tools:ro"
   - "/tmp:rw"
@@ -489,6 +513,24 @@ galaxy_subsites:
       #masthead .navbar-text {
         display: none;
       }
+  - name: edna
+    brand: eDNA Lab
+    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/tiffmnelson/galaxy_codex/blob/main/communities/edna/dev.gvl.org.au.yml"
+    wallpaper: false
+    tool_sections: []
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #0d3a6b !important;
+      }
+      #masthead {
+        background: linear-gradient(135deg, #b22222 0%, #1a4b92 100%) !important;
+      }
+      #masthead a.navbar-brand::after {
+          content: "Australia - eDNA Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
 
 galaxy_scratch_storage_days: 60
 
@@ -496,7 +538,6 @@ galaxy_scratch_storage_days: 60
 galaxy_extensions_dir: "{{ group_galaxy_config.galaxy.webhooks_dir }}"
 galaxy_extensions_enabled:
   - gtn
-  - news
   - lab_switcher
   - toolmsg
   - tips
@@ -557,6 +598,71 @@ walle_extra_env_vars:
 # auth0
 auth0_client_id: "{{ vault_auth0_client_id_dev }}"
 auth0_client_secret: "{{ vault_auth0_client_secret_dev }}"
+auth0_domain: "{{ vault_auth0_domain_dev }}"
 auth0_oidc_endpoint: "{{ vault_auth0_oidc_endpoint_dev }}"
 auth0_audience: "{{ vault_auth0_audience_dev }}"
 auth0_registration_endpoint: "{{ vault_auth0_registration_endpoint_dev }}"
+auth0_profile_url: "{{ vault_auth0_profile_url_dev }}"
+
+# for BPA file source
+bpa_data_portal_drs_url_regex: '^drs://aaidemo\.bioplatforms\.com/'
+
+### History mailer
+
+history_mailer_commit_id: c41c3c6637ceb391026e9fee0e88d771eb874479
+
+# config
+history_mailer_warn_days: 365
+history_mailer_delete_days: 379
+history_mailer_email_days_threshold: 14
+history_mailer_purge_days_threshold: 6
+
+history_mailer_galaxy_url: https://dev.gvl.org.au
+history_mailer_galaxy_api_key:  "{{ vault_jenkins_bot_dev_api_key }}"
+
+history_mailer_galaxy_keeplist_group: "History Retention Keeplist"
+
+history_mailer_mail_test_user:
+  username: "cat"
+  email: "{{ cat_email }}"
+
+history_mailer_mail_base_url: "https://api.smtp2go.com/v3/"
+history_mailer_mail_api_key: "{{ vault_smtp2go_api_key }}"
+
+history_mailer_subject_warning: "Galaxy Australia: Upcoming Deletion Notification"
+history_mailer_subject_deletion: "Galaxy Australia: Deletion Notification"
+
+history_mailer_email_template_warning: "{{ history_mailer_email_template_dir }}/email_warning.html"
+history_mailer_email_template_deletion: "{{ history_mailer_email_template_dir }}/email_deletion.html"
+
+history_mailer_mail_from: "Galaxy Australia <galaxy-no-reply@usegalaxy.org.au>"
+history_mailer_mail_replyto: "help@genome.edu.au"
+
+history_mailer_slack_token: "{{ vault_galaxy_australia_slack_api_token }}"
+history_mailer_slack_alert_channel: "#alerts"
+history_mailer_slack_log_channel: "#galaxy-logs"
+history_mailer_alert_mentions: "<@Catherine>"
+history_mailer_log_mentions: "<@Catherine>"
+
+# settings for ansible role
+history_mailer_user: ubuntu
+history_mailer_dir: "/home/{{ history_mailer_user }}/hm_TEST"
+
+history_mailer_use_mail_api: true # Must be true for history mailer to work
+
+history_mailer_files:
+  - src: templates/history_mailer/email_warning.html
+    dest: "{{ history_mailer_email_template_warning }}"
+  - src: templates/history_mailer/email_deletion.html
+    dest: "{{ history_mailer_email_template_deletion }}"
+
+history_mailer_enable_cron_jobs: false # When not enabled, cron jobs will be entered in crontab in a disabled state
+
+history_mailer_cron_jobs:
+  warn_and_delete:
+    weekday: "3"
+    hour: "11"
+  purge_histories:
+    weekday: "2"
+    hour: "12"
+

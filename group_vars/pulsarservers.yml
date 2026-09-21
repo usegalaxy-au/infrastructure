@@ -7,7 +7,7 @@ mariadb_password_slurm: "{{ vault_mariadb_password_slurm }}"
 
 # Pulsar
 # pulsar_package_name: git+https://github.com/galaxyproject/pulsar  # uncomment this if specifying a commit hash as 'pulsar_package_version'
-pulsar_package_version: 0.15.11
+pulsar_package_version: 0.15.14
 
 pulsar_root: /mnt/pulsar
 pulsar_server_dir: /mnt/pulsar/server

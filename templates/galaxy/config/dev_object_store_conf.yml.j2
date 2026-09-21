@@ -12,36 +12,94 @@ backends:
     source: scratch
   name: "{{ galaxy_scratch_storage_days }}-day scratch storage"
   description: "Data in {{ galaxy_scratch_storage_days }}-day Storage is scheduled for removal after {{ galaxy_scratch_storage_days }} days, but is afforded a much larger quota than Permanent Storage."
-  files_dir: /mnt/galaxy/data-scratch
+  files_dir: {{ galaxy_data_path }}/data-scratch
   badges:
     - type: not_backed_up
     - type: short_term
       message: "Data stored here is scheduled for removal after {{ galaxy_scratch_storage_days }} days of inactivity"
+- id: dev_objects_4_pulsar
+  name: Dev object store folder 4 for pulsar outputs only
+  device: dev_volume
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: {{ galaxy_data_path }}/data-4-pulsar
+  allow_selection: true
+  extra_dirs:
+  - type: temp
+    path: {{ galaxy_data_path }}/tmp/scratch
+  - type: job_work
+    path: {{ galaxy_pulsar_job_working_directory }}  # this is accessible from dev-handlers but not dev
 - id: dev_objects_3
   name: Dev object store folder 3
   device: dev_volume
   weight: 1
   type: disk
   store_by: uuid
-  files_dir: /mnt/galaxy/data-3
+  files_dir: {{ galaxy_data_path }}/data-3
   allow_selection: true
   extra_dirs:
   - type: temp
-    path: /mnt/galaxy/tmp/scratch
+    path: {{ galaxy_data_path }}/tmp/scratch
   - type: job_work
-    path: /mnt/galaxy/tmp/job_working_directory
+    path: {{ galaxy_data_path }}/tmp/job_working_directory
 - id: dev_objects_2
   weight: 0
   type: disk
   store_by: id
-  files_dir: /mnt/galaxy/data-2
+  files_dir: {{ galaxy_data_path }}/data-2
 - id: dev_objects_1
   weight: 0
   type: disk
   store_by: id
-  files_dir: /mnt/galaxy/data
+  files_dir: {{ galaxy_data_path }}/data-1
 - id: dev_aws_test
   weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/test_mount
+{% if dev_object_store_nectar_test_backend_enabled|d(False) %}
+- id: nectar_test
+  type: swift
+  enable_direct_download: true  # this is in release_26.2
+  weight: 0
+  store_by: uuid
+  auth:
+    access_key: {{ vault_nectar_melbournegvl_cb_ec2_access_key }}
+    secret_key: {{ vault_nectar_melbournegvl_cb_ec2_secret_key }}
+  bucket:
+    name: usegalaxy-au-object-store-backend-test
+    use_reduced_redundancy: false
+    max_chunk_size: 250
+  connection:
+    host: "swift.rc.nectar.org.au"
+    port: 443
+    is_secure: true
+    conn_path: "/"
+  cache:
+    path: {{ galaxy_data_path }}/nectar_test_cache
+    size: 20
+    cache_updated_data: true
+{% endif %}
+{% if dev_object_store_cloudbridge_test_backend_enabled|d(False) %}
+- id: cloudbridge_test
+  type: cloud
+  provider: openstack
+  store_by: uuid
+  weight: 0
+  enable_direct_download: true  # this is in release_26.2
+  auth:
+    project_name: GenomicsVL
+    auth_url: https://identity.rc.nectar.org.au/v3/
+    region: Melbourne
+    # user_domain_name: Default  # is this required?
+    # project_domain_name: default  # is this required?
+    application_credential_id: {{ vault_genomicsvl_cloudbridge_test_application_credential_id }}
+    application_credential_secret: {{ vault_genomicsvl_cloudbridge_test_application_credential_secret }}
+  bucket:
+    name: usegalaxy-au-cloudbridge-object-store-backend-test
+    use_reduced_redundancy: false
+  cache:
+    path: {{ galaxy_data_path }}/cloudbridge_test_cache
+    cache_updated_data: true
+{% endif %}

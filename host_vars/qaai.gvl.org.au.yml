@@ -1,7 +1,7 @@
 # Specific settings for qaai server
 
 galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
-galaxy_commit_id: release_25.1_au_dev
+galaxy_commit_id: release_26.1_au
 
 host_galaxy_config: # renamed from __galaxy_config
   gravity: "{{ host_galaxy_config_gravity }}"
@@ -10,7 +10,7 @@ host_galaxy_config: # renamed from __galaxy_config
     # Allow cross-subdomain cookie sharing:
     cookie_domain: qaai.gvl.org.au
 
-    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},{{ uwe_email }},{{ ross_email }}" # everyone is an admin on dev
+    admin_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | join(',') }},{{ ross_email }}" # everyone is an admin on dev
     brand: "AAI QA"  # or something
     celery_conf:
       task_routes:
@@ -64,21 +64,6 @@ host_galaxy_config: # renamed from __galaxy_config
 
 common_logrotate_manage_rsyslog: true
 
-# total perspective vortex
-tpv_version: "3.1.2"
-
-tpv_packages: |
-  {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
-
-additional_packages:
-  - flower
-  # specific pinnings of packages so that boto3 installation will work
-  # boto3 is used for s3 file sources on dev, not used on production yet
-  - boto3==1.40.18
-  - botocore==1.40.18
-  - aiobotocore==2.24.2
-  - s3fs==2024.9.0
-
 galaxy_additional_venv_packages: "{{ tpv_packages + additional_packages }}"
 
 # variables for attaching mounted volume to application server
@@ -118,9 +103,10 @@ interactive_tools_server_name: "{{ hostname }}"
 galaxy_db_user_password: "{{ vault_qaai_db_user_password }}"
 
 # # ansible-galaxy
-# galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/dev
-# galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
-# galaxy_dynamic_job_rules:
+galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/qaai
+galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
+galaxy_dynamic_job_rules:
+  - total_perspective_vortex/qaai_vortex_config.yml
 #   - total_perspective_vortex/dev_default_tool.yml.j2
 #   - total_perspective_vortex/dev_vortex_config.yml
 #   - total_perspective_vortex/dev_destinations.yml.j2
@@ -210,11 +196,6 @@ host_galaxy_config_gravity:
   #   port: "{{ gie_proxy_port }}"
   #   sessions: "{{ gie_proxy_sessions_path }}"
   #   verbose: true
-  reports:
-    enable: true
-    url_prefix: /reports
-    bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
-    config_file: "{{ galaxy_config_dir }}/reports.yml"
   tusd:
     enable: true
     tusd_path: /usr/local/sbin/tusd
@@ -431,3 +412,8 @@ auth0_client_secret: "{{ vault_auth0_client_secret_qaai }}"
 auth0_oidc_endpoint: "{{ vault_auth0_oidc_endpoint_qaai }}"
 auth0_audience: "{{ vault_auth0_audience_qaai }}"
 auth0_registration_endpoint: "{{ vault_auth0_registration_endpoint_qaai }}"
+auth0_profile_url: "{{ vault_auth0_profile_url_qaai }}"
+auth0_domain: "{{ vault_auth0_domain_qaai }}"
+
+# for BPA file source
+bpa_data_portal_drs_url_regex: '^drs://aaiquality\.bioplatforms\.com/'

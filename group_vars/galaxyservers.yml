@@ -53,6 +53,7 @@ nginx_enable_default_server: false
 nginx_ssl_servers:
   - galaxy
 nginx_conf_http:
+  server_tokens: "off"
   client_max_body_size: 240g
   gzip_proxied: "any"
   gzip_static: "on" # The ngx_http_gzip_static_module module allows sending precompressed files with the ".gz" filename extension instead of regular files.
@@ -78,7 +79,6 @@ nginx_conf_http:
 nginx_ssl_role: usegalaxy_eu.certbot
 nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
 nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
-create_nginx_htpasswd: true
 nginx_conf_user: galaxy # the nginx-with-dynamic-module role uses this (though it is a var for galaxyproject.nginx)
 nginx_upload_limit_rate: 0 # for nginx template: rate in bytes per second.  0 means no limit. (EU has '32k', US has no limit)
 
@@ -91,6 +91,8 @@ galaxy_user_singularity_cachedir: "{{ galaxy_tools_indices_dir }}/singularity_da
 galaxy_user_singularity_tmpdir: "{{ galaxy_user_singularity_cachedir }}/tmp"
 
 # Galaxy
+galaxy_gravity_graceful_start_if_stopped: true
+
 galaxy_manage_errordocs: yes
 galaxy_errordocs_dest: "/etc/nginx/error"
 galaxy_errordocs_server_name: "{{ galaxy_config.galaxy.galaxy_infrastructure_url }}"
@@ -129,6 +131,14 @@ galaxy_toolbox_filters_dir: "{{ galaxy_server_dir }}/lib/galaxy/tools/toolbox/fi
 
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.yml"
 
+galaxy_file_source_templates_dir: "{{ galaxy_config_dir }}/file_source_templates"
+file_source_templates_src_dir: files/galaxy/file_source_templates
+custom_file_source_templates:  # templates for Galaxy, not for Ansible
+  - src: "{{ file_source_templates_src_dir }}/agrf_webdav.yml"
+    dest: "{{ galaxy_file_source_templates_dir }}/agrf_webdav.yml"
+  - src: "{{ file_source_templates_src_dir }}/uq_webdav.yml"
+    dest: "{{ galaxy_file_source_templates_dir }}/uq_webdav.yml"
+
 group_galaxy_extra_privsep_dirs:
   - "{{ galaxy_config_dir }}/mail"
   - "{{ galaxy_config_dir }}/tool_panel_filters"
@@ -136,23 +146,25 @@ group_galaxy_extra_privsep_dirs:
 
 galaxy_extra_privsep_dirs: "{{ group_galaxy_extra_privsep_dirs + host_galaxy_extra_privsep_dirs|d([]) }}"
 
-group_galaxy_extra_dirs: []
+group_galaxy_extra_dirs:
+  - "{{ galaxy_tmp_dir }}/webdav"
+  - "{{ galaxy_file_source_templates_dir }}"
 
 galaxy_extra_dirs: "{{ group_galaxy_extra_dirs + host_galaxy_extra_dirs|d([]) }}"
 
-tpv_version: "2.5.0"
+tpv_version: "3.2.1"
 
 tpv_packages: |
   {{ tpv_version is defined | ternary(['total-perspective-vortex==' + tpv_version|d('X')], []) }}
 
 additional_packages:
   - flower
-  # specific pinnings of packages so that boto3 installation will work
-  # boto3 is used for s3 file sources
-  - boto3==1.40.18
-  - botocore==1.40.18
-  - aiobotocore==2.24.2
-  - s3fs==2024.9.0
+  - pkce  # TODO: there is a bug in the conditional dependency checker in release_26.0
+  - "gravity{{ galaxy_commit_id.startswith('release_26.0') | ternary('==1.2.2', '') }}"  # remove this when producition is on 26.1
+  - "social-auth-core{{ galaxy_commit_id.startswith('release_26.1') | ternary('==5.0.2', '') }}"  # release_26.1 branch pins to 4.9.1, TODO: make this unconditional gte once production is on 26.1 
+  # - "social-auth-core>=5.0.2"
+
+galaxy_fetch_dependencies_with_uv: false  # new in galaxyproject.galaxy role as of 0.12.7 (release_26.1)
 
 galaxy_additional_venv_packages: "{{ tpv_packages + additional_packages }}"
 
@@ -174,11 +186,14 @@ galaxy_process_env:  # environment variables for gunicorn and handlers processes
 group_galaxy_config:
   galaxy:
     # Config options that vary with AAI rollout
-    allow_local_account_creation: "{{ not aai_enabled }}"
+    allow_local_account_creation: "{{ not aai_enabled or not aai_logins_only }}"
     disable_local_accounts: "{{ aai_enabled and aai_logins_only }}"
+    enable_account_interface: "{{ not aai_enabled }}"
     user_activation_on: "{{ not aai_enabled }}"
     oidc_auth_pipeline_extra: "{{ aai_enabled | ternary(['galaxy.authnz.auth0_authnz.sync_user_groups'], [])}}"
+    oidc_scope_prefix: "{{ galaxy_infrastructure_url }}/api"  # this exists in galaxy.yml from release_26.1 onwards
 
+    conda_auto_init: false
     check_migrate_tools: false
     log_level: TRACE
     new_file_path: "{{ galaxy_tmp_dir }}/scratch"
@@ -198,6 +213,9 @@ group_galaxy_config:
     enable_notification_system: true
     expose_potentially_sensitive_job_metrics: true
     load_tool_shed_datatypes: false # Recommended by @Marius as __DATA_FETCH__ tool was stalling.
+    enable_statsd_middleware: false
+    enable_sse_updates: true
+    require_login: true  # Do not allow anonymous access. new default as of September '26. host_vars (such as production) can override this
 
     static_enabled: true
     show_welcome_with_login: false
@@ -232,6 +250,7 @@ group_galaxy_config:
     file_sources_config_file: "{{ galaxy_config_dir }}/file_sources_conf.yml"
     file_source_templates_config_file: "{{ galaxy_config_dir }}/file_source_templates.yml"
     vault_config_file: "{{ galaxy_config_dir }}/vault_conf.yml"
+    auth_config_file: "{{ galaxy_config_dir }}/auth_conf.xml"
 
     galaxy_data_manager_data_path: "{{ galaxy_custom_indices_dir }}"
     shed_tool_data_path: "{{ galaxy_tools_indices_dir }}/tool-data/shed_tool_data"
@@ -240,6 +259,7 @@ group_galaxy_config:
     library_import_dir: "{{ galaxy_tmp_dir }}/library_import_dir"
     cluster_files_directory: "{{ galaxy_tmp_dir }}/pbs"
     short_term_storage_dir: "{{ galaxy_tmp_dir }}/short_term_web_storage"
+    short_term_storage_default_duration: 259200  # Keep files for 3 days
 
     templates_dir: "{{ galaxy_config_dir }}"
 
@@ -268,15 +288,17 @@ group_galaxy_config:
         versionless: true
 
     container_resolvers:
-      - type: explicit
+      - type: explicit  # use Docker if <container type="docker"> and use Singularity if <container type="singularity"> (comment from EU)
       - type: cached_explicit_singularity
         cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
-      - type: explicit_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
+      # CVMFS
       - type: cached_mulled_singularity
-        cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        cache_directory_cacher_type: dir_mtime     
+      # local cache (fetch if not present)
       - type: mulled_singularity
         cache_directory: "{{ galaxy_tools_indices_dir }}/cache/singularity"
+        cache_directory_cacher_type: dir_mtime
 
     # Taken from usegalaxy.org
     tool_name_boost: 0.1
@@ -287,40 +309,11 @@ group_galaxy_config:
     tool_help_boost: 1
     tool_search_limit: 160
 
-    # amqp_internal_connection: 'pyamqp://galaxy_internal:more_queues@localhost:5672/galaxy_internal' # this needs configuration
-
-    # data_manager_config_file: /mnt/galaxy-app/config/data_manager_conf.xml.sample  # should we be templating these?
-
-    # migrated_tools_config: /mnt/galaxy/var/migrated_tools_conf.xml
-    # datatypes_config_file: /mnt/galaxy-app/config/datatypes_conf.xml
-
-    # interactive_environment_plugins_directory: config/plugins/interactive_environments
-
-    # dynamic_proxy_prefix: galaxy/gie_proxy
-    # dynamic_proxy_external_proxy: true
-    # dynamic_proxy_debug: true
-    # dynamic_proxy_manage: false
-    #
-    # use_pbkdf2: false
-    # smtp_server: localhost
-    # set_metadata_externally: true
-    # retry_metadata_internally: true
-
-    # ftp_upload_dir: /mnt/ftp/galaxy_prod  # prob not relevant to dev, or if we want this for dev we need to configure something
-    # ftp_upload_site: 'ftp.usegalaxy.org.au'
-    # enable_openid: true
-    # slow_query_log_threshold: .5
-
-    # collect_outputs_from: job_working_directory # surely this is not a real path?  Relative to something?
-    # rsync_url: 'rsync://scofield.bx.psu.edu/indexes'
-    # len_file_path: /mnt/galaxy-app/tool-data/len
 
 # galaxy_config_template_src_dir: templates/galaxy  ## this var has been moved to all.yml
 group_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/static/welcome.html.j2"
     dest: "{{ galaxy_server_dir }}/static/welcome.html"
-  - src: "{{ galaxy_config_template_src_dir }}/config/reports.yml.j2"
-    dest: "{{ galaxy_config_dir }}/reports.yml"
   - src: "{{ galaxy_config_template_src_dir }}/config/tool_conf_interactive.xml.j2"
     dest: "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
   - src: "{{ galaxy_config_template_src_dir }}/config/pulsar_app.yml.j2"
@@ -335,6 +328,8 @@ group_galaxy_config_templates:
     dest: "{{ galaxy_config['galaxy']['file_sources_config_file'] }}"
   - src: "{{ galaxy_config_template_src_dir }}/config/file_source_templates.yml.j2"
     dest: "{{ galaxy_config['galaxy']['file_source_templates_config_file'] }}"
+  - src: "{{ galaxy_config_template_src_dir }}/config/auth_conf.xml.j2"
+    dest: "{{ galaxy_config['galaxy']['auth_config_file'] }}"
 
 
 galaxy_config_templates: "{{ group_galaxy_config_templates + host_galaxy_config_templates|d([]) }}"
@@ -364,7 +359,7 @@ group_galaxy_config_files:
   - src: "{{ galaxy_config_file_src_dir }}/images/au/favicon/favicon.ico"
     dest: "{{ galaxy_server_dir }}/static/favicon.ico"
 
-galaxy_config_files: "{{ group_galaxy_config_files + host_galaxy_config_files|d([]) }}"
+galaxy_config_files: "{{ group_galaxy_config_files + host_galaxy_config_files|d([]) + custom_file_source_templates }}"
 
 # galaxy_config is the combination of group_galaxy_config and host_galaxy_config.  For any variable
 # defined in both group_galaxy_config and host_galaxy_config the value from host_galaxy_config will
@@ -409,7 +404,7 @@ gie_proxy_virtualenv: "{{ galaxy_root }}/gie-proxy/venv"
 gie_proxy_setup_service: systemd
 gie_proxy_sessions_path: "{{ galaxy_mutable_data_dir }}/interactivetools_map.sqlite"
 
-# Telegraf extra stuff for statsd
+# Telegraf extra stuff for statsd (Note: nfsclient plugin defined in host_vars)
 telegraf_plugins_extra:
   listen_galaxy_routes:
     plugin: "statsd"

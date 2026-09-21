@@ -40,9 +40,6 @@ rabbitmq_users:
   - user: galaxy_nci_test
     password: "{{ rabbitmq_password_galaxy_nci_test }}"
     vhost: /pulsar/galaxy_nci_test
-  - user: galaxy_eu_gpu
-    password: "{{ rabbitmq_password_galaxy_eu_gpu }}"
-    vhost:  /pulsar/galaxy_eu_gpu
   - user: galaxy_azure_0
     password: "{{ rabbitmq_password_galaxy_azure_0 }}"
     vhost: /pulsar/galaxy_azure_0
@@ -67,7 +64,6 @@ rabbitmq_vhosts:
   - galaxy
   - /pulsar/galaxy_au
   - /pulsar/galaxy_nci_test
-  - /pulsar/galaxy_eu_gpu
   - /pulsar/galaxy_azure_0
   - /pulsar/galaxy_reservation_g2_xlarge_A
   - /pulsar/galaxy_reservation_g2_xlarge_B
@@ -81,7 +77,6 @@ rabbitmq_password_telegraf: "{{ vault_rabbitmq_password_telegraf_dev }}"
 rabbitmq_password_galaxy: "{{ vault_rabbitmq_password_galaxy_dev }}"
 rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_au_dev }}"
 rabbitmq_password_galaxy_nci_test: "{{ vault_rabbitmq_password_galaxy_nci_test }}"
-rabbitmq_password_galaxy_eu_gpu: "{{ vault_rabbitmq_password_galaxy_eu_gpu }}"
 rabbitmq_password_galaxy_azure_0: "{{ vault_rabbitmq_password_galaxy_azure_0 }}"
 rabbitmq_password_galaxy_reservation_g2_xlarge_A: "{{ vault_rabbitmq_password_galaxy_reservation_g2_xlarge_A }}"
 rabbitmq_password_galaxy_reservation_g2_xlarge_B: "{{ vault_rabbitmq_password_galaxy_reservation_g2_xlarge_B }}"
@@ -106,6 +101,7 @@ nginx_enable_default_server: false
 nginx_ssl_servers:
   - rabbitmq
 nginx_conf_http:
+  server_tokens: "off"
   client_max_body_size: 1g
 nginx_remove_default_vhost: true
 
@@ -143,3 +139,9 @@ pip_install_packages:
 
 redis_requirepass: "{{ vault_redis_requirepass_dev }}"
 redis_bind_interface: 0.0.0.0
+
+# internal ssh keys
+extra_keys:
+  - id: dev_internal_hop_key
+    type: public
+    from: "{{ hostvars['dev']['ansible_ssh_host'] }},{{ hostvars['dev-handlers']['ansible_ssh_host'] }}"

@@ -1,0 +1,53 @@
+---
+- name: Add Vector apt repository
+  ansible.builtin.shell:
+    cmd: bash -c "$(curl -L https://setup.vector.dev)"
+    creates: /etc/apt/sources.list.d/timber-vector.list
+
+- name: Install Vector
+  ansible.builtin.apt:
+    name: vector
+    state: present
+    update_cache: true
+
+- name: Ensure Vector log directory exists
+  ansible.builtin.file:
+    path: "{{ vector_log_dir }}"
+    state: directory
+    owner: vector
+    group: vector
+    mode: "0755"
+
+- name: Deploy Vector logrotate configuration
+  ansible.builtin.template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/vector
+    owner: root
+    group: root
+    mode: "0644"
+
+# Because Nginx puts out about 500MB logs daily and we only want to keep the last 50MB
+- name: Install hourly logrotate trigger for Vector
+  ansible.builtin.copy:
+    dest: /etc/cron.hourly/vector-logrotate
+    owner: root
+    group: root
+    mode: "0755"
+    content: |
+      #!/bin/sh
+      /usr/sbin/logrotate /etc/logrotate.d/vector
+
+- name: Deploy Vector configuration
+  ansible.builtin.template:
+    src: vector.yml.j2
+    dest: "{{ vector_config_file }}"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: restart vector
+
+- name: Enable and start Vector service
+  ansible.builtin.systemd:
+    name: vector
+    enabled: true
+    state: started

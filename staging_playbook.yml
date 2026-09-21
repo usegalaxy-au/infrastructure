@@ -33,7 +33,7 @@
       become: true
       become_user: galaxy
     - usegalaxy_eu.galaxy_subdomains
-    - role: galaxy_extensions
+    - role: galaxyproject.galaxy_extensions
       tags: extensions
     - nginx-upload-module
     - galaxyproject.nginx
@@ -44,7 +44,8 @@
     - gantsign.golang
     - cyverse-ansible.singularity
     - geerlingguy.docker
-    - acl-on-startup
+    - role: acl-on-startup
+      tags: setfacl
     - galaxyproject.gxadmin
     - dj-wasabi.telegraf
     - postfix-mail-relay

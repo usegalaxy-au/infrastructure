@@ -33,20 +33,21 @@ nginx_ssl_servers:
 # gie proxy hostname
 interactive_tools_server_name: "usegalaxy.org.au"
 
-galaxy_repo: https://github.com/galaxyproject/galaxy.git
-galaxy_commit_id: release_25.0
+# Using release_25.1_au_dev branch of AU's fork of the galaxy codebase for AAI compatibility
+galaxy_repo: https://github.com/usegalaxy-au/galaxy.git
+galaxy_commit_id: release_26.1_au
 
 galaxy_virtualenv_command: "/usr/bin/python3.11 -m venv"
 
 # TODO: check list concatenation with versions of ansible > 2.12
 shared_mounts: "{{ galaxy_server_and_worker_shared_mounts + galaxy_web_server_mounts }}" # sourced from galaxy_etca.yml
-galaxy_user_data_nfs_opts: 'noatime,actimeo=1,defaults' # galaxy VM needs to be able to see files as soon as they arrive in user data folders
+galaxy_user_data_nfs_opts: 'noatime,actimeo=1,rsize=1048576,wsize=1048576,defaults' # galaxy VM needs to be able to see files as soon as they arrive in user data folders
 
 # ansible-galaxy
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/production
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
-  - total_perspective_vortex/tools.yml
+  - total_perspective_vortex/tools.yml.j2
   - total_perspective_vortex/destinations.yml.j2
   - total_perspective_vortex/tool_pulsar_scores.yml
   - total_perspective_vortex/users.yml.j2
@@ -66,7 +67,7 @@ galaxy_job_working_directory: /mnt/scratch/job_working_directory
 
 galaxy_infrastructure_url: https://usegalaxy.org.au
 
-upload_store_volume_dir: /mnt/user-data-volB
+upload_store_volume_dir: /mnt/user-data-volA  # not really used on galaxy VM and overridden on galaxy-handlers
 nginx_upload_store_base_dir: "{{ upload_store_volume_dir }}/upload_store"
 nginx_upload_store_dir: "{{ nginx_upload_store_base_dir }}/uploads"
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/job_files"
@@ -91,6 +92,8 @@ host_galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_panel_filters/microbiology.yml"
   - src: "{{ galaxy_config_file_src_dir }}/config/error_report.yml"
     dest: "{{ galaxy_config_dir}}/error_report.yml"
+  - src: "{{ galaxy_config_file_src_dir }}/aai/auth0_authnz.py"
+    dest: "{{ galaxy_server_dir }}/lib/galaxy/authnz/auth0_authnz.py"
 
 host_galaxy_config_templates:
   - src: "{{ galaxy_config_template_src_dir }}/config/galaxy_object_store_conf.yml.j2"
@@ -112,7 +115,7 @@ host_galaxy_config_gravity:
     enable_beat: false
   gunicorn:
     - bind: "0.0.0.0:8888"
-      workers: 3
+      workers: 6
       # Other options that will be passed to gunicorn
       extra_args: '--forwarded-allow-ips="*"'
       timeout: 1800
@@ -120,7 +123,7 @@ host_galaxy_config_gravity:
       preload: true
       environment: "{{ galaxy_process_env }}"
     - bind: "0.0.0.0:8889"
-      workers: 3
+      workers: 6
       # Other options that will be passed to gunicorn
       extra_args: '--forwarded-allow-ips="*"'
       timeout: 1800
@@ -137,11 +140,6 @@ host_galaxy_config_gravity:
     port: "{{ gie_proxy_port }}"
     sessions: "{{ gie_proxy_sessions_path }}"
     verbose: true
-  reports:
-    enable: true
-    url_prefix: /reports
-    bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
-    config_file: "{{ galaxy_config_dir }}/reports.yml"
   ##& handlers and celery are on galaxy-handlers VM with 2-VM galaxy server. Uncomment these entries when using a single VM
   # celery:
   #   concurrency: 2
@@ -166,7 +164,8 @@ host_galaxy_config: # renamed from __galaxy_config
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }},{{ bpa_email }}"
     brand: "Australia"
     database_connection: "postgresql://galaxy:{{ galaxy_db_user_password }}@{{ hostvars['galaxy-db']['internal_ip'] }}:5432/galaxy"
-    id_secret: "{{ vault_aarnet_id_secret }}" # TODO: this need to stay the same wherever production galaxy is running, but the name of the vault variable is misleading
+    id_secret: "{{ vault_prod_id_secret }}" # TODO: this need to stay the same wherever production galaxy is running, but the name of the vault variable is misleading
+    require_login: false
     object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.yml"
     smtp_server: localhost
     interactivetools_enable: true
@@ -210,6 +209,7 @@ host_galaxy_config: # renamed from __galaxy_config
 
     celery_conf:
       result_backend: "redis://:{{ vault_redis_requirepass }}@{{ hostvars['galaxy-queue']['internal_ip'] }}:6379/0"
+      result_expires: 2419200  # in sec = 28 days (default is 1 day)
       # result_backend: "{{ redis_connection_string }}"
       task_routes:
         galaxy.fetch_data: disabled
@@ -521,7 +521,7 @@ job_conf_limits:
     value: 80
   - type: destination_user_concurrent_jobs
     id: slurm
-    value: 5
+    value: 7
 
   - type: destination_total_concurrent_jobs
     id: slurm-training
@@ -636,6 +636,10 @@ slurm_singularity_volumes_list:
   - /cvmfs/data.galaxyproject.org:ro
   - /tmp:rw
 
+slurm_gxit_docker_volumes_list:
+  - $job_directory:rw
+  - /tmp:rw
+
 pulsar_singularity_volumes_list:
   - $job_directory:rw
   - $tool_directory:ro
@@ -649,6 +653,7 @@ pulsar_docker_volumes_list: "{{ pulsar_singularity_volumes_list }}"
 # comma separated strings for the job conf
 slurm_singularity_volumes: "{{ slurm_singularity_volumes_list | join(',') }}"
 pulsar_singularity_volumes: "{{ pulsar_singularity_volumes_list | join(',') }}"
+slurm_gxit_docker_volumes: "{{ slurm_gxit_docker_volumes_list | join(',') }}"
 slurm_docker_volumes: "{{ slurm_docker_volumes_list | join(',') }}"
 pulsar_docker_volumes: "{{ pulsar_docker_volumes_list | join(',') }}"
 
@@ -928,7 +933,6 @@ galaxy_subsites:
 galaxy_extensions_dir: "{{ group_galaxy_config.galaxy.webhooks_dir }}"
 galaxy_extensions_enabled:
   - gtn
-  - news
   - lab_switcher
   - toolmsg
   - tips
@@ -936,9 +940,15 @@ galaxy_base_domain: "{{ galaxy_subsite_base_domain }}"
 galaxy_labs: "{{ galaxy_subsites }}"
 
 # ssh config, only for ubuntu
-ssh_config_id_file: "/home/{{ ssh_config_user }}/.ssh/internal_hop_key"
-ssh_config_user: ubuntu
-ssh_config_hosts: "{{ groups['galaxy_group'] }}"
+ssh_config_entries:
+- id_file: /home/ubuntu/.ssh/internal_hop_key
+  user: ubuntu
+  hosts: "{{ groups['galaxy_group'] }}"
+  ip_field: internal_ip
+- id_file: /home/ubuntu/.ssh/ubuntu_maintenance_key
+  user: ubuntu
+  hosts: "{{ groups['production_pulsars'] }}"
+  ip_field: ansible_ssh_host
 
 walle_user_name: ubuntu
 walle_user_group: ubuntu
@@ -958,3 +968,50 @@ walle_extra_env_vars:
   GALAXY_PULSAR_APP_CONF: "{{ galaxy_config_dir }}/pulsar_app.yml"
   PGHOST: "{{ db_address }}"
   GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
+
+nfs_monitor_slack_channel: "#alerts"
+nfs_monitor_slack_token: "{{ vault_galaxy_australia_slack_api_token }}"
+# nfs_monitor_cron_enabled: false
+
+nfs_monitor_servers_galaxy_and_galaxy_handlers:
+  - identifier: "galaxy-aust-exports.genome.edu.au"
+    name: "galaxy-aust-exports"
+  - identifier: "{{ hostvars['galaxy-user-nfs']['internal_ip'] }}"
+    name: "galaxy-user-nfs"
+  - identifier: "{{ hostvars['galaxy-misc-nfs']['internal_ip'] }}"
+    name: "galaxy-misc-nfs"
+  - identifier: "{{ hostvars['galaxy-job-nfs']['internal_ip'] }}"
+    name: "galaxy-job-nfs"
+  - identifier: "nsw-etca-pfnfs1.aarnet.net.au"
+    name: "nsw-etca-pfnfs1"
+
+nfs_monitor_servers_host: []
+
+nfs_monitor_servers: "{{ nfs_monitor_servers_galaxy_and_galaxy_handlers + nfs_monitor_servers_host }}"
+
+# Telegraf extra stuff for statsd and nfsclient
+telegraf_plugins_extra:
+  listen_galaxy_routes:
+    plugin: "statsd"
+    config:
+      - service_address = ":8125"
+      - metric_separator = "."
+  listen_galaxy_nfs:
+    plugin: "nfsclient"
+    config:
+      - fullstat = true
+      - include_operations = ["READ", "WRITE", "GETATTR", "LOOKUP", "ACCESS"]
+      - include_mounts = ["/mnt/scratch", "/mnt/user-data-volA", "/mnt/user-data-volB","/mnt/user-data-volD"]
+
+# # auth0. # THESE NEED TO EXIST TO ENABLE AAI
+auth0_client_id: "{{ vault_auth0_client_id_production }}"
+auth0_client_secret: "{{ vault_auth0_client_secret_production }}"
+auth0_oidc_endpoint: "{{ vault_auth0_oidc_endpoint_production }}"
+auth0_audience: "{{ vault_auth0_audience_production }}"
+auth0_registration_endpoint: "{{ vault_auth0_registration_endpoint_production }}"
+auth0_profile_url: "{{ vault_auth0_profile_url_production }}"
+auth0_domain: "{{ vault_auth0_domain_production }}"
+
+# for BPA file source
+bpa_data_portal_drs_url_regex: '^drs://data\.bioplatforms\.com/'
+bpa_data_portal_file_source_enabled: true  # assume true unless set to false

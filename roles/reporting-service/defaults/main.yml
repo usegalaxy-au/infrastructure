@@ -1,0 +1,53 @@
+# User running stats collection
+reporting_user: ubuntu
+
+# Base directory for the reporting service
+reporting_dir: /opt/reporting
+
+# Reporting-service git repo, cloned into {{ reporting_repo }}
+reporting_service_repo_url: https://github.com/usegalaxy-au/reporting-service.git
+reporting_service_version: main
+reporting_repo: "{{ reporting_dir }}/reporting-service"
+
+# Where we'll write our program logs to
+logs_dir: "{{ reporting_dir }}/logs"
+
+# Virtualenv
+virtualenv_dir: "{{ reporting_dir }}/venv"
+
+# Influx settings
+influxdb_url: "{{ hostvars['stats']['ansible_ssh_host'] }}"
+influxdb_reporting_db: reporting
+influxdb_node_password: "{{ vault_influx_node_password }}"
+
+# Galaxy Database settings
+galaxy_db_hostname: "{{ hostvars['galaxy-db']['ansible_ssh_host'] }}"
+galaxy_db_name: galaxy
+galaxy_db_port: 5432
+galaxy_db_user: reader
+galaxy_db_password: "{{ vault_galaxy_db_reader_password }}"
+
+# S3 destination settings
+s3_bucket: ""
+s3_endpoint: ""
+s3_region: us-east-1  # Not used by openstack, but has to be valid AWS
+s3_key_prefix: ""
+s3_compression: gzip
+
+# Should be defined in a vault file:
+s3_access_key_id: ""
+s3_secret_access_key: ""
+
+# Variable to switch off posting to influx
+# reporting_dry_run_only: False
+
+# S3 log data retention policy (days). null means keep forever.
+s3_data_retention_days:
+  raw: 30
+  cleaned: 1825   # 5 years
+  error: 730
+  other: null  # Keep forever (filtered logs e.g. workflow invocations)
+
+enabled_reporting_services:
+  - workflows
+  - tools

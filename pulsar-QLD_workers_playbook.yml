@@ -16,12 +16,14 @@
   roles:
       - common
       - galaxyproject.slurm
-      - mounts
+      - role: mounts
+        tags: mounts
       - galaxyproject.repos
       - galaxyproject.cvmfs
       - usegalaxy_eu.apptainer
       - geerlingguy.docker
-      - acl-on-startup
+      - role: acl-on-startup
+        tags: setfacl
       - dj-wasabi.telegraf
       - tmp-relocation
       - clean-tmpdisk

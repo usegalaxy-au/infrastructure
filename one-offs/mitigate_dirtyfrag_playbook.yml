@@ -1,0 +1,39 @@
+- name: Mitigate DirtyFrag
+  hosts: "{{ target_hosts | default(default_target_hosts) }}"
+  become: true
+
+  vars:
+    default_target_hosts:
+      - galaxy_group
+      - production_pulsars
+      - pulsar_workers
+      - dev_group
+      - staging_group
+      - qaai_group
+      - stats
+      - jenkins
+      - pulsar-qld-gpu-dev
+      - pulsar-nci-test
+      - pulsar_nci_test_workers
+
+  tasks:
+    - name: Disable loading of DirtyFrag-related modules
+      ansible.builtin.copy:
+        dest: /etc/modprobe.d/dirtyfrag.conf
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          install esp4 /bin/false
+          install esp6 /bin/false
+          install rxrpc /bin/false
+
+    - name: Unload DirtyFrag-related modules if currently loaded
+      ansible.builtin.command: "modprobe -r {{ item }}"
+      loop:
+        - esp4
+        - esp6
+        - rxrpc
+      register: dirtyfrag_rmmod
+      changed_when: dirtyfrag_rmmod.rc == 0
+      failed_when: false

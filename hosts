@@ -40,6 +40,9 @@ galaxy-labs ansible_ssh_host=138.44.7.160 internal_ip=192.168.205.41 ansible_con
 [gms_webservers]
 galaxy-media ansible_ssh_host=138.44.7.159 internal_ip=192.168.205.199 ansible_connection=ssh ansible_user=ubuntu
 
+[reporting_service]
+galaxy-reporting ansible_ssh_host=115.146.86.129 ansible_connection=ssh ansible_user=ubuntu
+
 # GenomicsVL pulsar
 [pulsar_mel3_head]
 pulsar-mel3 ansible_ssh_host=115.146.84.200
@@ -111,7 +114,7 @@ pulsar-qld-gpu-dev ansible_ssh_host=203.101.227.161
 nci-build ansible_ssh_host=130.56.245.173 internal_ip=10.0.3.96
 
 [pulsar_nci_training_head]
-pulsar-nci-training ansible_ssh_host=130.56.245.74 internal_ip=10.0.2.119
+pulsar-nci-training ansible_ssh_host=130.56.245.74 internal_ip=10.0.1.121
 
 [pulsar_nci_training_workers]
 pulsar-nci-training-w1 ansible_ssh_host=10.0.2.52 internal_ip=10.0.2.52
@@ -174,6 +177,7 @@ dev_handlers_server
 dev_slurm_head
 dev_workers
 dev_pulsar_head
+dev_nfs_server
 
 [dev_db_server]
 dev-db ansible_ssh_host=45.113.232.252
@@ -183,6 +187,9 @@ dev ansible_ssh_host=45.113.232.186
 
 [dev_handlers_server]
 dev-handlers ansible_ssh_host=103.6.254.142
+
+[dev_nfs_server]
+dev-nfs ansible_ssh_host=172.26.129.201
 
 [dev_slurm_head]
 dev-queue ansible_ssh_host=45.113.232.149
@@ -236,18 +243,18 @@ replicant-galaxy-db ansible_ssh_host=115.146.84.74
 [qld_ref_nfs]
 qld-ref-nfs ansible_ssh_host=203.101.226.198 # aka cjh-20220906-alphafold-dev
 
+[qld_nfs_exports]
+galaxy-aust-exports-2026 ansible_ssh_host=203.101.227.234
+
 [nvme]
 qld-nvme ansible_ssh_host=203.101.231.166
 
 [stats_servers]
-stats.usegalaxy.org.au ansible_ssh_host=115.146.84.128
-stats-2025 ansible_ssh_host=115.146.87.139
+stats-2021 ansible_ssh_host=115.146.84.128
+stats ansible_ssh_host=115.146.87.139
 
 [failover_servers]
 failover.usegalaxy.org.au ansible_ssh_host=203.101.225.168
-
-[galactic_radio_telescope]
-telescope ansible_ssh_host=115.146.86.144
 
 [jenkins_servers]
 jenkins ansible_ssh_host=115.146.87.250

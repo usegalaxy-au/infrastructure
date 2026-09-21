@@ -1,0 +1,23 @@
+- id: agrf_webdav
+  version: 0
+  name: AGRF
+  description: |
+    Connect to the AGRF NextCloud server to retrieve your sequencing data.
+  variables:
+    login:
+      label: Username
+      type: string
+      help: |
+        The username to use to connect to the AGRF NextCloud server.
+  secrets:
+    password:
+      label: Password
+      help: |
+        The password for your AGRF NextCloud account.
+  configuration:
+    type: webdav
+    url: https://agrf-data.agrf.org.au
+    root: '/remote.php/dav/files/{{ variables.login }}/'
+    login: '{{ variables.login }}'
+    writable: false
+    password: '{{ secrets.password }}'

@@ -85,6 +85,8 @@ destinations:
         - funannotate
         - eggnog
         - verkko_venv
+        - phastest
+        - medaka_venv_211
   slurm-training:
     inherits: _slurm_destination
     runner: slurm
@@ -102,6 +104,8 @@ destinations:
         - funannotate
         - eggnog
         - verkko_venv
+        - phastest
+        - medaka_venv_211
       require:
         - training
   interactive_pulsar:
@@ -115,7 +119,7 @@ destinations:
     params:
       submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --mem={round(mem*1024)} --partition={partition}"
       docker_enabled: true
-      docker_volumes: "{{ slurm_docker_volumes }}"
+      docker_volumes: "{{ slurm_gxit_docker_volumes }}"
       docker_sudo: false
       docker_net: bridge
       docker_auto_rm: true
@@ -139,9 +143,11 @@ destinations:
       accept:
         - pulsar-mel2
         - bakta_database
+        - bakta_solo_destination
         - eggnog
       require:
         - pulsar
+        - offline
   pulsar-mel3:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
@@ -158,10 +164,12 @@ destinations:
         - bakta_database
         - funannotate
         - eggnog
-        - training # Temporary reroute while training pulsar is offline
+        - medaka_venv_211
+        # - training # Temporary reroute while training pulsar is offline
         # - pulsar-blast  # alternate location for pulsar blast jobs when pulsar-qld-blast is unavailable
       require:
         - pulsar
+        - offline
   pulsar-high-mem1:
     inherits: _pulsar_destination
     runner: pulsar-high-mem1_runner
@@ -179,6 +187,7 @@ destinations:
         - cvmfs_cache_800plus
       require:
         - pulsar
+        - offline
   pulsar-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-high-mem2_runner
@@ -193,6 +202,7 @@ destinations:
       accept:
         - cvmfs_cache_100plus
         - cvmfs_cache_800plus
+        - phastest
       require:
         - pulsar
         - pulsar-high-mem2
@@ -219,7 +229,7 @@ destinations:
     runner: pulsar-qld-high-mem0_runner
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
-    min_accepted_mem: 62.51
+    min_accepted_mem: 42
     context:
       destination_total_cores: 240
       destination_total_mem: 3845.07
@@ -229,9 +239,11 @@ destinations:
         - pulsar-qld-high-mem0
         - cvmfs_cache_100plus
         - cvmfs_cache_800plus
+        - cvmfs_cache_1600plus
         - bakta_database
         - funannotate
         - eggnog
+        - phastest  # alternative phastest pulsar while phm2 is offline
       require:
         - pulsar
   pulsar-qld-high-mem1:
@@ -239,7 +251,7 @@ destinations:
     runner: pulsar-qld-high-mem1_runner
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
-    min_accepted_mem: 62.51
+    min_accepted_mem: 42
     context:
       destination_total_cores: 240
       destination_total_mem: 3845.07
@@ -252,9 +264,10 @@ destinations:
         - funannotate
         - gtdbtk_database
         - verkko_venv
+        - medaka_venv_211
+        # - gffread_destination  # while pqhm2 is offline
       require:
         - pulsar
-        - pulsar-quick
   pulsar-qld-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem2_runner
@@ -267,13 +280,13 @@ destinations:
     tags: {{ job_conf_limits.environments['pulsar-qld-high-mem2'].tags }}
     scheduling:
       accept:
-        - pulsar-qld-high-mem2
+        - pulsar-qld-high-mem2  # normally this is accepted and not required, except when the machine needs a rest
         - cvmfs_cache_100plus
         - cvmfs_cache_800plus
         - ncbi_fcs_gx_db
+        - gffread_destination  # special mapping because gffread is a dangerous tool that can take over jwd space
       require:
         - pulsar
-        - pulsar-qld-high-mem2
   pulsar-nci-training:
     inherits: _pulsar_destination
     runner: pulsar-nci-training_runner
@@ -291,11 +304,10 @@ destinations:
         - bakta_database
         - funannotate
         - eggnog
+        - medaka_venv_211
       require:
         - pulsar
         - training
-        - offline
-
   pulsar-qld-blast:
     inherits: _pulsar_destination
     runner: pulsar-qld-blast_runner
@@ -328,9 +340,17 @@ destinations:
         - cvmfs_cache_100plus
         - funannotate
         - bakta_database
+        - bakta_solo_destination
+        - eggnog
       require:
         - pulsar
         # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
+    rules:
+      - id: bakta_pulsar_QLD_solo_rule  # bakta is prone to OOM errors when two jobs run on the same node
+        if: |
+          'toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta' in tool.id
+        cores: 16
+        mem: 62
   pulsar-azure:
     inherits: _pulsar_destination
     runner: pulsar_azure_0_runner

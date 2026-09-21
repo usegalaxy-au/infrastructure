@@ -1,3 +1,5 @@
+# `store: vault` requires setting up vault_config_file in galaxy.yml
+
 preferences:
     # the key you can refer to
     use_cached_job:
@@ -36,7 +38,7 @@ preferences:
             - name: token
               label: Personal Access Token used to create draft records and to upload files. You can manage your tokens at https://zenodo.org/account/settings/applications/
               type: secret
-              store: vault # Requires setting up vault_config_file in your galaxy.yml
+              store: vault
               required: False
             - name: public_name
               label: Creator name to associate with new records (formatted as "Last name, First name"). If left blank "Anonymous Galaxy User" will be used. You can always change this by editing your record directly.
@@ -49,23 +51,13 @@ preferences:
             - name: token
               label: Personal Access Token used to create draft records and to upload files. You can manage your tokens at https://sandbox.zenodo.org/account/settings/applications/
               type: secret
-              store: vault # Requires setting up vault_config_file in your galaxy.yml
+              store: vault
               required: False
             - name: public_name
               label: Creator name to associate with new records (formatted as "Last name, First name"). If left blank "Anonymous Galaxy User" will be used. You can always change this by editing your record directly.
               type: text
               required: False
 
-{% if inventory_hostname.startswith('dev') %}
-    chatgpt:
-        description: Your OpenAI API key. This will be used for example for ChatGPT.
-        inputs:
-            - name: api_key
-              label: API Key
-              type: password
-              store: vault
-              required: False   
-{% endif %}
 
     aarnet_filesender_account:
         description: AARNet FileSender Account Info
@@ -79,19 +71,16 @@ preferences:
               type: password
               required: False
 
-    griffith_owncloud_account:
-        description: Griffith Research Space OwnCloud Credentials
+{% if inventory_hostname.startswith('dev') %}
+    chatgpt:
+        description: Your OpenAI API key. This will be used for example for ChatGPT.
         inputs:
-            - name: username
-              label: Username
-              type: text
-              required: False
-            - name: password
-              label: App Password
+            - name: api_key
+              label: API Key
               type: password
+              store: vault
               required: False
 
-{% if inventory_hostname.startswith('dev') %}
     xnat_account:
         description: Xnat Server and Account
         inputs:
@@ -107,6 +96,17 @@ preferences:
               label: Password
               type: password
               required: True
-{% endif %}
-              
 
+    agrf_nextcloud_account:
+        description: Australian Genome Research Facility (AGRF) Nextcloud Credentials
+        inputs:
+            - name: username
+              label: Username
+              type: text
+              required: False
+            - name: password
+              label: App Password
+              type: password
+              store: vault
+              required: False
+{% endif %}

@@ -4,7 +4,8 @@ collections:
 
 roles:
 - name: galaxyproject.galaxy
-  version: 0.12.0
+  src: https://github.com/galaxyproject/ansible-galaxy
+  version: 2ce315d8d15e4a58b5d98c302925c638582d8a0a
 - name: galaxyproject.nginx
   version: 0.7.1  # NOTE: version 1.0.0 exists but fails on dev (16/09/2025)
 - name: galaxyproject.postgresql
@@ -74,10 +75,11 @@ roles:
 - name: geerlingguy.java
   version: 2.5.0
 - name: geerlingguy.jenkins
-  version: 5.2.0
-- name: galaxy_extensions
-  src: https://github.com/usegalaxy-au/extensions-ansible-role
-  version: main
+  version: 5.3.1
+- name: galaxyproject.galaxy_extensions
+- name: usegalaxy-au.history_mailer
+  src: https://github.com/usegalaxy-au/ansible-history-mailer
+  version: 364d3aecd77fc2a674890b92ba496e3c51a8e216
 
 # GMS roles
 - name: geerlingguy.nginx

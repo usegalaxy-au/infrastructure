@@ -55,7 +55,8 @@
         owner: galaxy
         group: galaxy
   roles:
-        - mounts
+        - role: mounts
+          tags: mounts
         - geerlingguy.pip
         - usegalaxy_eu.apptainer
         - galaxyproject.galaxy
@@ -72,7 +73,9 @@
         - geerlingguy.docker
         - dj-wasabi.telegraf
         - usegalaxy_eu.flower
-        - acl-on-startup
+        - role: acl-on-startup
+          tags: setfacl
+        - nfs-monitor
   post_tasks:
     - name: Make local_tool directory group-writable by machine users
       # TODO: This path is problematic because the galaxyproject.galaxy role will chown it to root:root

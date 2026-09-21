@@ -1,8 +1,38 @@
 type: distributed
 search_for_missing: false
 backends:
-- id: data35
+- id: data41
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volD/data41
+- id: data40
   weight: 1
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volA/data40
+- id: data39
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volA/data39
+- id: data38
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volD/data38
+- id: data37
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volA/data37
+- id: data36
+  weight: 0
+  type: disk
+  store_by: uuid
+  files_dir: /mnt/user-data-volA/data36
+- id: data35
+  weight: 0
   type: disk
   store_by: uuid
   files_dir: /mnt/user-data-volB/data35
@@ -82,42 +112,42 @@ backends:
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ qld_file_mounts_path }}/files/qldNFS1
+  files_dir: {{ qld_file_mounts_path }}/files1/qldNFS1
 - id: qldNFS2
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ qld_file_mounts_path }}/files/qldNFS2
+  files_dir: {{ qld_file_mounts_path }}/files1/qldNFS2
 - id: perthNFS1
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ qld_file_mounts_path }}/files/perthNFS1
+  files_dir: {{ qld_file_mounts_path }}/files1/perthNFS1
 - id: perthNFS2
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ qld_file_mounts_path }}/files/perthNFS2
+  files_dir: {{ qld_file_mounts_path }}/files1/perthNFS2
 - id: perthNFS3
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ qld_file_mounts_path }}/files/perthNFS3
+  files_dir: {{ qld_file_mounts_path }}/files1/perthNFS3
 - id: perthNFS4
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ qld_file_mounts_path }}/files/perthNFS4
+  files_dir: {{ qld_file_mounts_path }}/files1/perthNFS4
 - id: aarnetNFS5
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ qld_file_mounts_path }}/files/aarnetNFS5
+  files_dir: {{ qld_file_mounts_path }}/files1/aarnetNFS5
 - id: aarnetNFS6
   weight: 0
   type: disk
   store_by: id
-  files_dir: {{ qld_file_mounts_path }}/files/aarnetNFS6
+  files_dir: {{ qld_file_mounts_path }}/files1/aarnetNFS6
 - id: aarnetNFS7
   weight: 0
   type: disk

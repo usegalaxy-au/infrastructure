@@ -1,0 +1,30 @@
+global:
+  default_inherits: default
+
+tools:
+  default:
+    cores: 1
+    mem: cores * 3.8
+    gpus: 0
+    scheduling:
+      reject:
+        - offline
+
+roles:
+  default:
+    rules:
+    - id: alphafold_tsi_role_rule
+      if: |
+        'alphafold' in tool.id
+      fail: "Not authorized to run alphafold because you do not have required role: biocommons/group/tsi."
+  biocommons/group/tsi:
+    rules:
+    - id: alphafold_tsi_role_rule
+      if: |
+        'alphafold' in tool.id
+      fail: "You are authorized to run alphafold because you are in biocommons/group/tsi."
+
+
+destinations:
+  default:
+    runner: local

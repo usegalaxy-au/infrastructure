@@ -42,3 +42,5 @@ labs_labs_django_log_levels:
 
 # Set this to enable logging to sentry
 labs_labs_django_sentry_dns: null
+
+labs_openai_api_key: null

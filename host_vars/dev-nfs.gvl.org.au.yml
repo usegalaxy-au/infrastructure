@@ -1,0 +1,25 @@
+nfs_data_dir: /mnt/data
+
+attached_volumes:
+  - device: /dev/vdb
+    path: "{{ nfs_data_dir }}"
+    fstype: ext4
+
+nfs_dirs:
+  - "{{ nfs_data_dir }}"
+
+nfs_export_opts: "rw,async,no_root_squash,no_subtree_check"
+nfs_export_hosts:
+    - dev
+    - dev-handlers
+    - dev-w1
+    - dev-w2
+
+nfs_exports:
+  - "{{ nfs_data_dir }}{% for nfs_export_host in nfs_export_hosts %} {{ hostvars[nfs_export_host].ansible_ssh_host }}({{ nfs_export_opts }}){% endfor %}"
+
+# internal ssh keys
+extra_keys:
+  - id: dev_internal_hop_key
+    type: public
+    from: "{{ hostvars['dev']['ansible_ssh_host'] }},{{ hostvars['dev-handlers']['ansible_ssh_host'] }}"

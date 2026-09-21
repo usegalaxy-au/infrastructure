@@ -23,13 +23,6 @@ __machine_users:
       email: "{{ simon_email }}"
 
     # infrastructure team
-    - name: justin
-      uid: 7011
-      roles:
-        - sudo
-        - galaxy_admin
-      key: files/keys/justin.pub
-      email: "{{ justin_email }}"
     - name: cat
       uid: 7012
       roles:
@@ -43,9 +36,15 @@ __machine_users:
         - sudo
         - galaxy_admin
       key: files/keys/nuwan.pub
-      galaxy_admin: true
       email: "{{ nuwan_email }}"
- 
+    - name: swarupa
+      uid: 7016
+      roles: []
+      #   - sudo
+      #   - galaxy_admin
+      key: files/keys/swarupa.pub
+      email: "{{ swarupa_email }}"
+
     # user support team
     - name: igor
       uid: 7101
@@ -75,13 +74,7 @@ __machine_users:
         - galaxy_admin
       key: files/keys/cameron.pub
       email: "{{ cameron_email }}"
-    - name: tom
-      uid: 7203
-      roles:
-        - galaxy_admin
-      key: files/keys/tom.pub
-      email: "{{ tom_email }}"
-
+ 
     # other
     - name: anna
       uid: 7301
@@ -109,6 +102,21 @@ machine_users: "{{ host_machine_users + (__machine_users | rejectattr('name', 'i
 
 # no longer active accounts to be removed - only name field is required
 remove_machine_users:
+    - name: uwe  # unprivileged user on several VMs
+    - name: jonathan  # unprivileged user on several VMs
+    - name: justin
+    # uid: 7011
+    # roles:
+    #   - sudo
+    #   - galaxy_admin
+    # key: files/keys/justin.pub
+    # email: "{{ justin_email }}"
+    - name: tom
+    # uid: 7203
+    # roles:
+    #   - galaxy_admin
+    # key: files/keys/tom.pub
+    # email: "{{ tom_email }}"
     - name: gavin
     # uid: 7014
     # roles:
@@ -178,6 +186,7 @@ common_packages:
     - iftop
     - sysstat
     - dstat
+    - sqlite3
 
 problematic_packages_ubuntu_24_04:
     - libgl1-mesa-glx
@@ -224,6 +233,9 @@ telegraf_agent_package_state: latest
 telegraf_agent_package_method: repo
 telegraf_agent_hostname: "{{ inventory_hostname }}"
 
+influxdata_key_path: /usr/share/keyrings/influxdata-archive_compat.gpg
+telegraf_repository_params: "[signed-by={{ influxdata_key_path }}]"
+
 # enable tools with 'test' tag for certain users
 test_tool_users: "{{ machine_users | selectattr('email', 'defined') | map(attribute='email') | list + [anna_email] }}"
 
@@ -254,6 +266,10 @@ internal_ssh_keys:
   pulsar_internal_hop_key:
     private_key_content: "{{ vault_pulsar_internal_hop_key }}"
     public_key_src: files/keys/pulsar_internal_hop_key.pub
+    user: ubuntu
+  dev_internal_hop_key:
+    private_key_content: "{{ vault_dev_internal_hop_key }}"
+    public_key_src: files/keys/dev_internal_hop_key.pub
     user: ubuntu
 
 # Golang
@@ -339,3 +355,15 @@ aai_enabled: false
 aai_logins_only: "{{ aai_enabled }}"  # finer point of control in order to continue allowing local logins on dev
 
 aaf_enabled: "{{ not aai_enabled }}"  # legacy AAF login option will disappear (I think)
+
+# for any VM using geerlingguy.nginx. This is not for galaxyproject.nginx
+nginx_server_tokens: "off"
+
+# Vector log shipping
+vector_nginx_log_file: /var/log/nginx/access.log
+vector_nginx_error_log_file: /var/log/nginx/error.log
+vector_s3_bucket: galaxy-logs
+vector_s3_endpoint: https://object-store.rc.nectar.org.au
+vector_s3_key_prefix: "{{ inventory_hostname }}/nginx-logs/"
+vector_s3_access_key_id: "{{ vault_vector_s3_access_key_id }}"
+vector_s3_secret_access_key: "{{ vault_vector_s3_secret_access_key }}"

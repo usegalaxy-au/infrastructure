@@ -29,8 +29,8 @@ users:
               )
               training_job_matches_specs = slurm_preferred_for_training or helpers.tag_values_match(entity, include_tags, exclude_tags)
             training_job_matches_specs
-          max_cores: 2
-          max_mem: max_cores * 3.8
+          max_cores: slurm_training_max_cores
+          max_mem: slurm_training_max_mem
           context:
             partition: training
           scheduling:
@@ -144,16 +144,15 @@ users:
         require:
           - slurm
       rules:
-        - id: star_minio_test_rule
+        - id: star_fastqc_test_rule
           if: |
             'fastqc' in tool.id
-          params:
-            object_store_id: minio_test
-        - id: star_aws_gateway_test_rule
-          if: |
-            'samtools_merge' in tool.id
-          params:
-            object_store_id: aws_gateway_test
+          cores: 4
+          mem: 0.25
+          env: 
+            _JAVA_OPTIONS: -Xmx{int(1024*mem)}m -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
+            SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(1024*mem)}m -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
+
     pulsar_mel2_user@usegalaxy.org.au:
       inherits: test_user
       rules:

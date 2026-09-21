@@ -1,0 +1,12 @@
+- hosts: "{{ target_hosts | default(default_target_hosts) }}"
+  become: true
+  vars:
+    default_target_hosts: all
+  tasks:
+  - name: Remove old machine user accounts
+    user:
+      name: "{{ item.name }}"
+      state: "absent"
+      remove: yes 
+      force: yes 
+    with_items: "{{ remove_machine_users }}"

@@ -32,6 +32,7 @@ galaxy_build_client: false
 
 galaxy_celery_tmp_dir: /pvol/celery_tmp
 
+upload_store_volume_dir: /pvol2
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/handlers_job_files"
 nginx_ssl_servers:
   - galaxy-handlers
@@ -114,3 +115,21 @@ smtp_password: "{{ vault_smtp_password_prod }}"
 # CVMFS
 cvmfs_cache_base: /pvol/var/lib/cvmfs
 cvmfs_quota_limit: 40000
+
+nfs_monitor_servers_host:
+- identifier: "{{ hostvars['galaxy']['internal_ip'] }}"
+  name: galaxy
+
+# Telegraf extra stuff for statsd and nfsclient
+telegraf_plugins_extra:
+  listen_galaxy_routes:
+    plugin: "statsd"
+    config:
+      - service_address = ":8125"
+      - metric_separator = "."
+  listen_galaxy_nfs:
+    plugin: "nfsclient"
+    config:
+      - fullstat = true
+      - include_operations = ["READ", "WRITE", "GETATTR", "LOOKUP", "ACCESS"]
+      - include_mounts = ["/mnt/galaxy", "/mnt/scratch", "/mnt/user-data-volA", "/mnt/user-data-volB","/mnt/user-data-volD"]

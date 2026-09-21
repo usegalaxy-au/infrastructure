@@ -1,0 +1,13 @@
+---
+- name: Add cron job to run workflow invocations collection script
+  ansible.builtin.cron:
+    name: "Collect workflow invocations every quarter hour"
+    user: "{{ reporting_user }}"
+    minute: "*/15"
+    hour: "*"
+    job: >-
+      flock -n {{ reporting_dir }}/workflow_invocations.lock
+      {{ virtualenv_dir }}/bin/python
+      {{ reporting_repo }}/report.py workflows
+      >> {{ logs_dir }}/workflow_invocations.log 2>&1
+  when: "'workflows' in enabled_reporting_services"

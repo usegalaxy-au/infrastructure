@@ -5,13 +5,22 @@ add_hosts_head: yes
 add_hosts_workers: yes
 add_hosts_handlers: no
 
-attached_volumes: []
+attached_volumes:
+  - device: /dev/vdb
+    path: /pvol
+    fstype: ext4
+    partition: 1
 
 shared_mounts:
   - path: /mnt/galaxy
     src: "{{ hostvars['dev']['ansible_ssh_host'] }}:/mnt/galaxy"
     fstype: nfs
     state: mounted
+  - path: /mnt/data
+    src: "{{ hostvars['dev-nfs']['ansible_ssh_host'] }}:/mnt/data"
+    fstype: nfs
+    state: mounted
+    opts: 'noatime,actimeo=1,rsize=1048576,wsize=1048576,defaults'
   - path: /mnt/test_mount
     src: 115.146.87.37:/galaxy-backup-au
     fstype: nfs
@@ -20,15 +29,22 @@ shared_mounts:
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
 # galaxy role applied to dev-handlers machine is only needed for gravity and the galaxy config files. Skip other tasks
-galaxy_manage_paths: false
+galaxy_manage_paths: true  # we want dirs on dev-handlers created by the galaxy role
 galaxy_manage_clone: false
 galaxy_fetch_dependencies: false
 galaxy_manage_mutable_setup: false
 galaxy_build_client: false
 
+nginx_upload_store_base_dir: /pvol/upload_store
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/handlers_job_files"
 nginx_ssl_servers:
   - galaxy-handlers
+
+pulsar_job_working_directory: /pvol/pulsar_job_working_directory
+
+host_galaxy_extra_dirs:
+  - "{{ galaxy_data_path }}/data-4-pulsar"
+  - "{{ pulsar_job_working_directory }}"
 
 host_galaxy_config_gravity:  # overridden from entry in dev.usegalaxy.org.au
   process_manager: systemd

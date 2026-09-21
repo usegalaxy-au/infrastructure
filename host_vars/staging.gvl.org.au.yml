@@ -35,14 +35,17 @@ nfs_exports:
 # ansible-galaxy
 galaxy_repo: https://github.com/galaxyproject/galaxy.git
 galaxy_commit_id: release_24.2
+galaxy_gravity_graceful_start_if_stopped: false  # set false because of old galaxy version, needs release_26.1+
+
+tpv_version: "2.5.0"
 
 galaxy_infrastructure_url: "https://staging.gvl.org.au"
 
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_job_rules/staging
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_job_rules"
 galaxy_dynamic_job_rules:
-  - total_perspective_vortex/staging_tools.yml  # symlink to production tools.yml
-  - total_perspective_vortex/staging_vortex_config.yml
+  - total_perspective_vortex/staging_tools.yml.j2  # symlink to production tools.yml.j2
+  - total_perspective_vortex/staging_vortex_config.yml.j2
   - total_perspective_vortex/staging_destinations.yml.j2
   - readme.txt
 
@@ -125,11 +128,6 @@ host_galaxy_config: # renamed from __galaxy_config
       port: "{{ gie_proxy_port }}"
       sessions: "{{ gie_proxy_sessions_path }}"
       verbose: true
-    reports:
-      enable: true
-      url_prefix: /reports
-      bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
-      config_file: "{{ galaxy_config_dir }}/reports.yml"
 
   galaxy:
     admin_users: "{{ machine_users | selectattr('email', 'defined') | selectattr('roles', 'contains', 'galaxy_admin') | map(attribute='email') | join(',') }}"
@@ -336,7 +334,6 @@ galaxy_subsites:
 galaxy_extensions_dir: "{{ group_galaxy_config.galaxy.webhooks_dir }}"
 galaxy_extensions_enabled:
   - gtn
-  - news
   - lab_switcher
   - toolmsg
   - tips

@@ -29,7 +29,8 @@
     - gantsign.golang
     - cyverse-ansible.singularity
     - geerlingguy.docker
-    - acl-on-startup
+    - role: acl-on-startup
+      tags: setfacl
     - dj-wasabi.telegraf
     - pulsar-post-tasks
     - slurm-post-tasks

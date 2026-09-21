@@ -1,0 +1,12 @@
+- name: Run apt updates and reboot
+  hosts: "{{ target_hosts }}"
+  become: true
+
+  tasks:
+  - name: Update the apt repos and base OS
+    apt:
+      upgrade: dist
+      update_cache: yes
+  - name: Reboot VM
+    reboot:
+      msg: "Rebooting VM"

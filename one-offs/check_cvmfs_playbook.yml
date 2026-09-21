@@ -1,0 +1,11 @@
+- name: Check that CVMFS data path can be reached
+  hosts: "{{ target_hosts }}"
+  become: true
+  tasks:
+  - name: Stat /cvmfs/data.galaxyproject.org
+    stat:
+      path: /cvmfs/data.galaxyproject.org
+    register: cvmfs_data
+  - name: Assert it exists
+    assert:
+      that: cvmfs_data.stat.exists

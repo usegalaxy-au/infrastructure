@@ -11,19 +11,6 @@
     - secret_group_vars/stats_server_vault
     - secret_group_vars/dev_secrets
     - secret_group_vars/sentry_vault
-  vars:
-    # These variable are workarounds while deploying dev with new release_25.1 (19/10/25) before
-    # the galaxy role has been updated to handle having nodejs already in galaxy's venv
-
-    # How to build the client on dev while this workaround is in place:
-    # As root user:
-    # cd /mnt/galaxy/galaxy-app
-    # . /mnt/galaxy/venv/bin/activate
-    # export PATH="/mnt/galaxy/venv/lib/python3.11/site-packages/nodejs_wheel/bin:$PATH"
-    # make client-production-maps
-
-    - galaxy_node_version: '22.20.0'
-    - galaxy_build_client: false
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -51,7 +38,8 @@
   roles:
     - geerlingguy.nfs
     - galaxyproject.repos
-    - mounts
+    - role: mounts
+      tags: mounts
     # - install-tpv # todo: this needs a when clause
     - geerlingguy.pip
     - role: galaxyproject.galaxy
@@ -59,8 +47,9 @@
     - role: galaxyproject.miniconda
       become: true
       become_user: galaxy
-    - role: galaxy_extensions
-      tags: extensions
+      tags: miniconda
+    # - role: galaxyproject.galaxy_extensions
+    #   tags: extensions
     - role: usegalaxy_eu.galaxy_subdomains
       tags: galaxy_subdomains
     - name: nginx-upload-module
@@ -71,7 +60,8 @@
     - geerlingguy.nfs
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - galaxyproject.gxadmin
+    - role: galaxyproject.gxadmin
+      tags: gxadmin
     - remote-pulsar-cron
     - galaxy-pg-cleanup
     - galaxyproject.tiaas2
@@ -79,21 +69,15 @@
     - usegalaxy_eu.apptainer
     - dj-wasabi.telegraf
     - postfix-mail-relay
-    - acl-on-startup
+    - role: acl-on-startup
+      tags: setfacl
     - role: usegalaxy_eu.walle
       tags: walle
+    - role: vector
+      tags: vector
+    - role: usegalaxy-au.history_mailer
+      tags: history_mailer
   post_tasks:
-    - name: Ensure object store paths exist
-      file:
-        state: directory
-        path: "{{ item }}"
-        owner: galaxy
-        group: galaxy
-      with_items:
-        - /mnt/galaxy/data
-        - /mnt/galaxy/data-2
-        - /mnt/galaxy/data-3
-        - /mnt/galaxy/data-scratch
     - name: Make local_tool directory group-writable by machine users
       file:
         path: /mnt/galaxy/local_tools
@@ -101,6 +85,7 @@
         group: devs
         mode: 0775
         state: directory
+      tags: galaxy
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa1
@@ -108,7 +93,6 @@
       command: exportfs -ra
       become: yes
       become_user: root
-
     # Nginx logrotate: keep nginx logs forever on /mnt disk
     - name: Make sure extra nginx log dirs exist
       file:
@@ -130,8 +114,7 @@
     - name: Add lines to postrotate task in nginx logrotate conf
       lineinfile:
         path: /etc/logrotate.d/nginx
-        line: "{{ item }}"
+        regexp: '^\s*cp\s+{{ nginx_log_olddir_root | regex_escape }}/\*\s+{{ nginx_long_term_log_dir | regex_escape }}/$'
+        line: "\t\tcp {{ nginx_log_olddir_root }}/*.gz {{ nginx_long_term_log_dir }}/"
         insertafter: "\tpostrotate"
-      with_items:
-        - "\t\tcp {{ nginx_log_olddir_root }}/* {{ nginx_long_term_log_dir }}/"
       tags: nginx

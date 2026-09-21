@@ -8,8 +8,8 @@ tools:
     env: 
       HDF5_USE_FILE_LOCKING: "FALSE"
       SINGULARITYENV_HDF5_USE_FILE_LOCKING: "FALSE"
-      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
-      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G
+      _JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
+      SINGULARITYENV__JAVA_OPTIONS: -Xmx{int(mem)}G -Xms1G -XX:-UsePerfData -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     context:
       partition: main
       test_cores: 1  # TODO: test_mem?
@@ -33,6 +33,10 @@ tools:
       pulsar_singularity_volumes: "{{ pulsar_singularity_volumes }}"
       pulsar_docker_volumes: "{{ pulsar_docker_volumes }}"
       singularity_default_container_id: "{{ singularity_default_container_id }}"
+
+      # training destination overridable cores/mem values
+      slurm_training_max_cores: 2
+      slurm_training_max_mem: 7.6
 
     scheduling:
       reject:

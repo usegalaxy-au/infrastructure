@@ -1,0 +1,8 @@
+- hosts: "{{ target_hosts }}"
+  become: true
+  vars:
+    default_reason: "maintenance"
+  tasks:
+  - name: Drain slurm nodes
+    command:
+      cmd: "scontrol update node={{ ansible_hostname }} state=drain reason={{ reason|d(default_reason) }}"

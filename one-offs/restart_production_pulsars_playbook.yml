@@ -1,0 +1,9 @@
+- hosts: "{{ target_hosts | default(default_target_hosts) }}"
+  become: true
+  vars:
+    default_target_hosts: production_pulsars
+  tasks:
+  - name: Restart pulsar
+    systemd:
+      name: pulsar
+      state: restarted
