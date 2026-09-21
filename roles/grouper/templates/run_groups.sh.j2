@@ -1,0 +1,46 @@
+#!/bin/bash
+##
+## This file is managed by Ansible. ALL CHANGES WILL BE OVERWRITTEN.
+##
+## Runs groups.py under flock so only one instance executes at a time.
+## If groups.py exits non-zero, future runs are blocked (until BLOCKFILE
+## is removed by an operator) and a Slack alert is sent.
+set -uo pipefail
+
+GROUPER_DIR="{{ grouper_dir }}"
+VENV_PYTHON="{{ grouper_venv }}/bin/python"
+LOCKFILE="{{ grouper_dir }}/.run_groups.lock"
+BLOCKFILE="{{ grouper_dir }}/.run_groups.blocked"
+RUN_ARGS=({{ grouper_run_args }})
+
+exec 200>"$LOCKFILE"
+if ! flock -n 200; then
+    echo "$(date -Iseconds) Another run_groups.sh is already running. Exiting."
+    exit 0
+fi
+
+if [ -f "$BLOCKFILE" ]; then
+    echo "$(date -Iseconds) Runs are blocked due to a previous failure:"
+    cat "$BLOCKFILE"
+    echo "Remove $BLOCKFILE to resume scheduled runs."
+    exit 1
+fi
+
+cd "$GROUPER_DIR" || exit 1
+
+"$VENV_PYTHON" groups.py "${RUN_ARGS[@]:-}"
+exit_code=$?
+
+if [ "$exit_code" -ne 0 ]; then
+    echo "$(date -Iseconds) groups.py failed with exit code $exit_code. Blocking future runs."
+
+    {
+        echo "groups.py failed at $(date -Iseconds) with exit code $exit_code."
+        echo "Remove this file to allow scheduled runs to resume."
+    } > "$BLOCKFILE"
+
+    "$VENV_PYTHON" notify_failure.py \
+        "grouper: groups.py failed (exit code $exit_code) on $(hostname). Future runs are blocked until $BLOCKFILE is removed."
+fi
+
+exit "$exit_code"

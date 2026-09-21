@@ -1,0 +1,10 @@
+# Runtime dependencies for groups.py.
+# Pinned so that a host rebuild cannot pull a breaking release.
+
+requests==2.32.5
+python-dotenv==1.0.1
+
+# NOTE: slackclient is end-of-life (2.9.4 is the final release) and has been
+# superseded by slack_sdk. Migrating means changing `import slack` to
+# `import slack_sdk` in groups.py - see refactoring-plan.md, stage 3.
+slackclient==2.9.4
