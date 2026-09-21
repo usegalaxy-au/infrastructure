@@ -1,0 +1,14 @@
+[
+  {
+    "id": "u1",
+    "email": "alice@uq.edu.au"
+  },
+  {
+    "id": "u2",
+    "email": "bob@uq.edu.au"
+  },
+  {
+    "id": "u3",
+    "email": "carol@usegalaxy.org.au"
+  }
+]
