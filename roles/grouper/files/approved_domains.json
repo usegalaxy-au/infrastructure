@@ -1,4 +1,4 @@
-approved_domains = {
+{
   "AGRF": [
     "agrf.org.au"
   ],
@@ -116,10 +116,11 @@ approved_domains = {
     "biocommons.org.au",
     "bioplatforms.com",
     "ccia.org.au",
-    "microbialscreening.com",
+    "gebri.usc.edu.eg",
     "myco.org.au",
     "parrastu.catholic.edu.au",
     "pawsey.org.au",
+    "qcif.edu.au",
     "qfab.org",
     "sims.org.au",
     "smu.org.au",
@@ -127,7 +128,6 @@ approved_domains = {
     "student.kings.edu.au",
     "students.aih.edu.au",
     "vcgs.org.au",
-    "victorchang.edu.au",
     "vidrl.org.au"
   ],
   "Baker_Heart_and_Diabetes_Institute": [
@@ -161,9 +161,6 @@ approved_domains = {
   ],
   "Charles_Sturt_University": [
     "csu.edu.au"
-  ],
-  "Children's Medical Research Institute": [
-    "cmri.org.au"
   ],
   "Curtin_users": [
     "curtin.edu.au",
@@ -312,8 +309,6 @@ approved_domains = {
     "cai.uq.edu.au",
     "imb.uq.edu.au",
     "mater.uq.edu.au",
-    "me.com",
-    "qcif.edu.au",
     "student.uq.edu.au",
     "student.uqconnect.edu.au",
     "tri.edu.au",
@@ -380,8 +375,8 @@ approved_domains = {
     "sydney.edu.au",
     "uni.sydney.edu.au"
   ],
-  "Victoria University": [
-    "vu.edu.au"
+  "Victor_Chang_CRI": [
+    "victorchang.edu.au"
   ],
   "Walter_and_Eliza_Hall_Institute": [
     "wehi.edu.au"
