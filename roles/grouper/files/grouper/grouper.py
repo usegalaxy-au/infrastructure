@@ -64,6 +64,8 @@ class Grouper:
         groups = self._galaxy.get_groups()
         current_user_ids = sorted(user.id for user in users)
 
+        self.warn_missing_groups(groups)
+
         if self.check_users(users, groups) and not self._params.all_users:
             logger.info(
                 "No new users detected and all users flag not set. "
@@ -128,6 +130,28 @@ class Grouper:
         self._state.save(current_user_ids)
         return True
 
+    def warn_missing_groups(self, groups: list) -> list:
+        """Warn about managed groups that don't exist on this server.
+
+        Groups are created by hand in Galaxy, so a name can be added to
+        approved_domains.json before (or without) the group existing -
+        most often on staging, which carries few groups. Those names are
+        skipped rather than fatal; returns them for the caller's use.
+        """
+        existing = {group.name for group in groups}
+        missing = [
+            name for name in self._domains.managed_groups()
+            if name not in existing
+        ]
+
+        if missing:
+            logger.warning(
+                "%d group/s in approved_domains.json do not exist on this "
+                "Galaxy server and will be skipped: %s",
+                len(missing), ', '.join(missing))
+
+        return missing
+
     def check_users(self, users: list, groups: list) -> bool:
         """Diff current users against the saved state, notify on change.
 
@@ -169,7 +193,16 @@ class Grouper:
                 continue
 
             for group_name in self._domains.groups_for_email(user.email):
-                group = group_by_name[group_name]
+                group = group_by_name.get(group_name)
+
+                if group is None:
+                    # Named in approved_domains.json but absent from this
+                    # Galaxy server - run() has already warned about it.
+                    logger.debug(
+                        "Skipping user %s for missing group '%s'",
+                        user.id, group_name)
+                    continue
+
                 in_group = any(
                     guser.id == user.id for guser in group.users)
 

@@ -31,6 +31,48 @@ def test_identify_add_users_adds_only_missing_groups(
     assert ret == {'bob@shared.edu.au': ['Also Multi Group']}
 
 
+def test_identify_add_users_skips_group_missing_from_galaxy(
+    grouper, fake_galaxy, make_user,
+):
+    """A group named in approved_domains.json but absent from the Galaxy
+    server is skipped, not a KeyError. Hit on staging, which carries
+    few/no groups.
+    """
+    user = make_user('u1', 'alice@uq.edu.au')
+
+    assert grouper.identify_add_users([user], []) == {}
+    assert fake_galaxy.add_calls == []
+
+
+def test_warn_missing_groups_names_the_absent_groups(
+    grouper, make_group, caplog,
+):
+    caplog.set_level(logging.WARNING)
+    present = make_group('g1', 'AU Researchers', users=[])
+
+    missing = grouper.warn_missing_groups([present])
+
+    assert 'AU Researchers' not in missing
+    assert missing  # the rest of the test rules are unrepresented
+    assert 'do not exist on this Galaxy server' in caplog.text
+
+
+def test_run_with_no_groups_on_server_does_not_raise(
+    params, make_galaxy, fake_slack, domains, make_user,
+):
+    """The reported staging failure end to end: 0 groups on the server."""
+    user = make_user('u1', 'alice@uq.edu.au')
+    galaxy = make_galaxy(groups=[], users=[user])
+
+    state = UserStateStore(params.grouper_dir / 'users.json')
+    state.save([])
+    p = replace(params, add=True, remove=True, all_users=True)
+    grouper = Grouper(p, galaxy, fake_slack, domains, state)
+
+    assert grouper.run([user]) is True
+    assert galaxy.add_calls == []
+
+
 # -- identify_remove_users (Stage 3 bug 1, fixed) ------------------------
 
 def test_identify_remove_users_processes_every_group(

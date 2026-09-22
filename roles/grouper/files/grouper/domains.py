@@ -93,6 +93,10 @@ class DomainRules:
         """Whether this group is under automatic assignment."""
         return group_name in self._approved_domains
 
+    def managed_groups(self) -> list:
+        """Every group name under automatic assignment."""
+        return sorted(self._approved_domains)
+
     @staticmethod
     def _domain(email: str) -> Optional[str]:
         if not email or email.count('@') != 1:
