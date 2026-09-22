@@ -83,14 +83,18 @@ class GalaxyClient:
         for i, group_data in enumerate(groups_data, start=1):
             if sys.stdout.isatty():
                 sys.stdout.write(
-                    f"Populating group: {group_data['name']} "
-                    f"({i}/{len(groups_data)})   \r")
+                    f"\rPopulating group: {group_data['name']} "
+                    f"({i}/{len(groups_data)})\033[K")
                 sys.stdout.flush()
 
             users_data = self._get(
                 config.GALAXY_GROUP_EP + group_data['id']
                 + config.GALAXY_GROUP_USER_EP).json()
             groups.append(Group.from_api(group_data, users_data))
+
+        if sys.stdout.isatty() and groups_data:
+            sys.stdout.write("\n")
+            sys.stdout.flush()
 
         logger.info(
             "%d groups queried. Total query time: %s",

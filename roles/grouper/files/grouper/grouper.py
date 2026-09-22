@@ -127,7 +127,8 @@ class Grouper:
 
         # Saved last, so a failure anywhere above leaves the previous
         # state in place and those users get reprocessed next run.
-        self._state.save(current_user_ids)
+        if not self._params.dry_run:
+            self._state.save(current_user_ids)
         return True
 
     def warn_missing_groups(self, groups: list) -> list:

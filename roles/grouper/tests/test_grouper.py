@@ -291,7 +291,7 @@ def test_run_saves_state_after_a_successful_pass(
     state = UserStateStore(params.grouper_dir / 'users.json')
     state.save(['u1'])
 
-    p = replace(params, add=True)
+    p = replace(params, dry_run=False, add=True)
     grouper = Grouper(p, fake_galaxy, fake_slack, domains, state)
 
     user1 = make_user('u1', 'alice@uq.edu.au')
@@ -303,6 +303,26 @@ def test_run_saves_state_after_a_successful_pass(
     grouper.run([user1, user2])
 
     assert state.load() == ['u1', 'u2']
+
+
+def test_dry_run_does_not_save_state(
+    params, fake_galaxy, fake_slack, domains, make_user, make_group,
+):
+    state = UserStateStore(params.grouper_dir / 'users.json')
+    state.save(['u1'])
+
+    p = replace(params, dry_run=True, add=True)
+    grouper = Grouper(p, fake_galaxy, fake_slack, domains, state)
+
+    user1 = make_user('u1', 'alice@uq.edu.au')
+    user2 = make_user('u2', 'bob@uq.edu.au')
+    group = make_group('g1', 'AU Researchers', users=[])
+
+    fake_galaxy._groups = [group]
+
+    grouper.run([user1, user2])
+
+    assert state.load() == ['u1']
 
 
 # -- Stage 4: --limit safety valve ---------------------------------------
