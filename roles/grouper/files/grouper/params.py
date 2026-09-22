@@ -10,6 +10,10 @@ import config
 # module from any working directory still finds them.
 DEFAULT_GROUPER_DIR = Path(__file__).resolve().parent.parent
 
+# Refuse to act on more than this many group membership changes in one run
+# without --force - see build_arg_parser's --limit help text.
+DEFAULT_CHANGE_LIMIT = 50
+
 
 def build_arg_parser() -> argparse.ArgumentParser:
     """Build the grouper CLI argument parser."""
@@ -42,6 +46,18 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         '--all', action='store_const', const=True, default=False,
         help="Check all Galaxy users, not just new ones")
+    parser.add_argument(
+        '--limit', type=int, default=DEFAULT_CHANGE_LIMIT,
+        help="Refuse to add/remove more than this many group memberships "
+             f"in one run without --force (default: {DEFAULT_CHANGE_LIMIT})")
+    parser.add_argument(
+        '--force', action='store_true',
+        help="Act even if the number of changes exceeds --limit")
+    parser.add_argument(
+        '--grouper-dir', type=Path, default=None,
+        help="Directory containing approved_domains.json and users.json, "
+             "and where grouper.log is written (default: the directory "
+             "containing this package)")
     return parser
 
 
@@ -60,6 +76,8 @@ class Params:
     notify: bool = False
     all_users: bool = False
     generate: bool = False
+    limit: int = DEFAULT_CHANGE_LIMIT
+    force: bool = False
 
     @classmethod
     def from_args(cls, args: argparse.Namespace) -> 'Params':
@@ -74,7 +92,7 @@ class Params:
         return cls(
             galaxy_baseurl=galaxy_baseurl,
             galaxy_api_key=galaxy_api_key,
-            grouper_dir=DEFAULT_GROUPER_DIR,
+            grouper_dir=args.grouper_dir or DEFAULT_GROUPER_DIR,
             dry_run=not args.commit,
             production=args.production,
             list_domains=args.list,
@@ -83,4 +101,6 @@ class Params:
             notify=args.notify,
             all_users=args.all,
             generate=args.generate,
+            limit=args.limit,
+            force=args.force,
         )

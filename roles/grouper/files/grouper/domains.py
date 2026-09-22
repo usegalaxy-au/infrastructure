@@ -1,8 +1,15 @@
 """Email-domain to group eligibility rules."""
 import json
+import logging
 from collections import defaultdict
 from pathlib import Path
 from typing import Optional
+
+logger = logging.getLogger(__name__)
+
+
+class DomainRulesError(ValueError):
+    """Raised when approved_domains.json is not well-formed."""
 
 
 class DomainRules:
@@ -14,18 +21,51 @@ class DomainRules:
     """
 
     def __init__(self, approved_domains: dict):
+        self._validate(approved_domains)
         self._approved_domains = approved_domains
         self._domains_by_group = {
             group: {domain.lower() for domain in domains}
             for group, domains in approved_domains.items()
         }
         self._groups_by_domain = self._invert(self._domains_by_group)
+        self._warn_on_shared_domains()
 
     @classmethod
     def from_file(cls, path: Path) -> 'DomainRules':
         """Load approved domain rules from a JSON file."""
         with open(path) as f:
             return cls(json.load(f))
+
+    @staticmethod
+    def _validate(approved_domains: dict) -> None:
+        if not isinstance(approved_domains, dict):
+            raise DomainRulesError(
+                "approved_domains.json must be a JSON object mapping "
+                "group names to lists of domains")
+
+        for group, domains in approved_domains.items():
+            if not isinstance(domains, list) or not all(
+                isinstance(domain, str) for domain in domains
+            ):
+                raise DomainRulesError(
+                    f"Group '{group}' must map to a list of domain "
+                    "strings")
+
+            for domain in domains:
+                if '@' in domain:
+                    raise DomainRulesError(
+                        f"Domain '{domain}' for group '{group}' looks "
+                        "like an email address - list bare domains "
+                        "(e.g. 'uq.edu.au'), not '@'-addresses")
+
+    def _warn_on_shared_domains(self) -> None:
+        # Legal - a domain can grant several groups - but usually a typo.
+        for domain, groups in self._groups_by_domain.items():
+            if len(groups) > 1:
+                logger.warning(
+                    "Domain '%s' is approved for multiple groups: %s - "
+                    "confirm this is intentional.",
+                    domain, ', '.join(sorted(groups)))
 
     @staticmethod
     def _invert(domains_by_group: dict) -> dict:

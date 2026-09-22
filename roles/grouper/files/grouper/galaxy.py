@@ -1,4 +1,5 @@
 """Galaxy API client."""
+import logging
 import sys
 from dataclasses import dataclass, field
 from datetime import timedelta
@@ -10,6 +11,8 @@ import requests
 import config
 
 REQUEST_TIMEOUT = 30  # seconds
+
+logger = logging.getLogger(__name__)
 
 
 class GalaxyAPIError(Exception):
@@ -71,26 +74,27 @@ class GalaxyClient:
 
     def get_groups(self) -> list:
         """Fetch all groups, each populated with its member users."""
-        print("Retrieving all groups")
+        logger.info("Retrieving all groups")
         groups_data = self._get(config.GALAXY_GROUP_EP).json()
-        print(f"Found {len(groups_data)} groups")
+        logger.info("Found %d groups", len(groups_data))
         start = time()
 
         groups = []
         for i, group_data in enumerate(groups_data, start=1):
-            sys.stdout.write(
-                f"Populating group: {group_data['name']} "
-                f"({i}/{len(groups_data)})   \r")
-            sys.stdout.flush()
+            if sys.stdout.isatty():
+                sys.stdout.write(
+                    f"Populating group: {group_data['name']} "
+                    f"({i}/{len(groups_data)})   \r")
+                sys.stdout.flush()
 
             users_data = self._get(
                 config.GALAXY_GROUP_EP + group_data['id']
                 + config.GALAXY_GROUP_USER_EP).json()
             groups.append(Group.from_api(group_data, users_data))
 
-        print(
-            f"{len(groups_data)} groups queried. Total query time: "
-            f"{timedelta(seconds=time() - start)}")
+        logger.info(
+            "%d groups queried. Total query time: %s",
+            len(groups_data), timedelta(seconds=time() - start))
         return groups
 
     def get_users(self) -> list:
@@ -99,9 +103,9 @@ class GalaxyClient:
         users_data = self._get(config.GALAXY_USER_EP).json()
         users = [User.from_api(data) for data in users_data]
 
-        print(
-            f"{len(users)} users returned. Query took: "
-            f"{timedelta(seconds=time() - start)}")
+        logger.info(
+            "%d users returned. Query took: %s",
+            len(users), timedelta(seconds=time() - start))
         return users
 
     def add_user_to_group(self, user_id: str, group_id: str) -> bool:

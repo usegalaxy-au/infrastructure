@@ -1,7 +1,9 @@
 """Tests for grouper.domains.DomainRules."""
+import logging
+
 import pytest
 
-from grouper.domains import DomainRules
+from grouper.domains import DomainRules, DomainRulesError
 
 
 def test_domain_maps_to_one_group(domains):
@@ -58,3 +60,35 @@ def test_from_file_loads_rules(tmp_path):
     path.write_text('{"Group A": ["example.com"]}')
     rules = DomainRules.from_file(path)
     assert rules.groups_for_email('x@example.com') == ['Group A']
+
+
+# -- Stage 4: validation on load ------------------------------------------
+
+def test_rejects_non_object_top_level():
+    with pytest.raises(DomainRulesError):
+        DomainRules(["not", "a", "dict"])
+
+
+def test_rejects_non_list_group_value():
+    with pytest.raises(DomainRulesError):
+        DomainRules({'Group A': 'example.com'})
+
+
+def test_rejects_non_string_domain():
+    with pytest.raises(DomainRulesError):
+        DomainRules({'Group A': [123]})
+
+
+def test_rejects_email_looking_domain():
+    with pytest.raises(DomainRulesError):
+        DomainRules({'Group A': ['someone@example.com']})
+
+
+def test_warns_on_domain_shared_across_groups(caplog):
+    caplog.set_level(logging.WARNING)
+    DomainRules({
+        'Group A': ['shared.example.com'],
+        'Group B': ['shared.example.com'],
+    })
+    assert 'shared.example.com' in caplog.text
+    assert 'multiple groups' in caplog.text

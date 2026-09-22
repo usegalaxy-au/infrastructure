@@ -1,9 +1,12 @@
 """Slack notifications for the grouper Slack channel."""
 import json
+import logging
 
 import slack
 
 import config
+
+logger = logging.getLogger(__name__)
 
 
 class SlackNotifier:
@@ -19,7 +22,7 @@ class SlackNotifier:
             return
 
         if self._dry_run:
-            print(f"[dry run] Would notify Slack: {title}\n{msg}")
+            logger.info("[dry run] Would notify Slack: %s\n%s", title, msg)
             return
 
         data = {

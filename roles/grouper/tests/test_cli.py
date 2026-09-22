@@ -9,6 +9,7 @@ def test_flags_land_on_params_fields():
     parser = build_arg_parser()
     args = parser.parse_args([
         '--commit', '--list', '--notify', '--add', '--remove', '--all',
+        '--limit', '10', '--force',
     ])
 
     params = Params.from_args(args)
@@ -21,6 +22,36 @@ def test_flags_land_on_params_fields():
     assert params.all_users is True
     assert params.generate is False
     assert params.production is False
+    assert params.limit == 10
+    assert params.force is True
+
+
+def test_limit_defaults(tmp_path):
+    parser = build_arg_parser()
+    args = parser.parse_args([])
+
+    params = Params.from_args(args)
+
+    assert params.limit == 50
+    assert params.force is False
+
+
+def test_grouper_dir_defaults_to_package_parent():
+    parser = build_arg_parser()
+    args = parser.parse_args([])
+
+    params = Params.from_args(args)
+
+    assert params.grouper_dir.name == 'files'
+
+
+def test_grouper_dir_override(tmp_path):
+    parser = build_arg_parser()
+    args = parser.parse_args(['--grouper-dir', str(tmp_path)])
+
+    params = Params.from_args(args)
+
+    assert params.grouper_dir == tmp_path
 
 
 def test_generate_flag():
@@ -70,13 +101,19 @@ def test_commit_flag_disables_dry_run():
     assert Params.from_args(args).dry_run is False
 
 
-def test_galaxy_api_error_propagates_from_main(monkeypatch):
+def test_galaxy_api_error_propagates_from_main(monkeypatch, tmp_path):
     """A GalaxyAPIError isn't caught anywhere, so it tracebacks out of
     main() uncaught - which is what gives run_groups.sh a non-zero exit
     code via the interpreter's own crash handling.
+
+    --grouper-dir points at tmp_path (with a canned approved_domains.json)
+    so this test doesn't depend on the real files/approved_domains.json -
+    previously an undeclared dependency, noted in refactoring-plan.md.
     """
     from grouper import __main__ as entrypoint
     from grouper.galaxy import GalaxyAPIError
+
+    (tmp_path / 'approved_domains.json').write_text('{}')
 
     class BoomGalaxyClient:
         def __init__(self, *args, **kwargs):
@@ -88,4 +125,4 @@ def test_galaxy_api_error_propagates_from_main(monkeypatch):
     monkeypatch.setattr(entrypoint, 'GalaxyClient', BoomGalaxyClient)
 
     with pytest.raises(GalaxyAPIError):
-        entrypoint.main([])
+        entrypoint.main(['--grouper-dir', str(tmp_path)])

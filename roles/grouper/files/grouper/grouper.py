@@ -1,4 +1,5 @@
 """Orchestrates checking, adding and removing Galaxy group members."""
+import logging
 from collections import defaultdict
 
 from .domains import DomainRules
@@ -6,6 +7,8 @@ from .galaxy import GalaxyClient
 from .params import Params
 from .slack_notify import SlackNotifier
 from .state import UserStateStore
+
+logger = logging.getLogger(__name__)
 
 
 class Grouper:
@@ -25,27 +28,36 @@ class Grouper:
         self._domains = domains
         self._state = state
 
-    def main(self) -> None:
-        """Fetch users, then generate initial state or run a full pass."""
+    def main(self) -> bool:
+        """Fetch users, then generate initial state or run a full pass.
+
+        Returns whether the invocation succeeded - `__main__` uses this to
+        set the process exit code.
+        """
         if self._params.production:
-            print("Production Galaxy server selected.")
+            logger.info("Production Galaxy server selected.")
         else:
-            print("Staging Galaxy server selected.")
+            logger.info("Staging Galaxy server selected.")
 
         users = self._galaxy.get_users()
 
         if not users:
-            print("Unable to fetch users. Quiting without any work.")
-            return
+            logger.error("Unable to fetch users. Exiting without any work.")
+            return False
 
         if self._params.generate:
             self._state.save([user.id for user in users])
-            return
+            return True
 
-        self.run(users)
+        return self.run(users)
 
-    def run(self, users: list) -> None:
-        """Check for user changes, then add/remove/notify as requested."""
+    def run(self, users: list) -> bool:
+        """Check for user changes, then add/remove/notify as requested.
+
+        Returns False if the run was refused by the change-limit safety
+        valve (see identify_add_users/identify_remove_users totals below),
+        True otherwise.
+        """
         rem_users = {}
         add_users = {}
 
@@ -53,35 +65,57 @@ class Grouper:
         current_user_ids = sorted(user.id for user in users)
 
         if self.check_users(users, groups) and not self._params.all_users:
-            print("No new users detected and all users flag not set. "
-                  "Exiting.")
-            return
+            logger.info(
+                "No new users detected and all users flag not set. "
+                "Exiting.")
+            return True
 
         if self._params.list_domains:
             group_domains, no_email_users, bad_email_users = (
                 self.list_group_domains(groups))
 
             if no_email_users:
-                print("Users with no email:")
-                print(no_email_users)
+                logger.info("Users with no email: %s", no_email_users)
 
             if bad_email_users:
-                print("Users with bad email:")
-                print(bad_email_users)
+                logger.info("Users with bad email: %s", bad_email_users)
 
-            print("Domains associated with groups:")
-            print(group_domains)
-            return
+            logger.info("Domains associated with groups: %s", group_domains)
+            return True
 
         if self._params.remove:
-            rem_users = self.identify_remove_users(groups)
-            print("Users to be removed from groups:")
-            print(rem_users)
+            rem_users = self.identify_remove_users(groups, dummy=True)
+            logger.info("Users to be removed from groups: %s", rem_users)
 
         if self._params.add:
-            add_users = self.identify_add_users(users, groups)
-            print("Users to be added to groups:")
-            print(add_users)
+            add_users = self.identify_add_users(users, groups, dummy=True)
+            logger.info("Users to be added to groups: %s", add_users)
+
+        total_changes = (
+            sum(len(v) for v in rem_users.values())
+            + sum(len(v) for v in add_users.values()))
+
+        if (
+            not self._params.dry_run
+            and total_changes > self._params.limit
+            and not self._params.force
+        ):
+            msg = (
+                f"Refusing to act on {total_changes} group membership "
+                f"changes in one run (limit is {self._params.limit}). "
+                "Re-run with --force to proceed, or check "
+                "approved_domains.json and the Galaxy user list for a "
+                "truncation before doing so.")
+            logger.error(msg)
+            self._slack.notify(
+                "Grouper safety valve triggered", msg, colour='danger')
+            return False
+
+        if not self._params.dry_run:
+            if self._params.remove:
+                self.identify_remove_users(groups)
+            if self._params.add:
+                self.identify_add_users(users, groups)
 
         if self._params.notify:
             if rem_users:
@@ -92,6 +126,7 @@ class Grouper:
         # Saved last, so a failure anywhere above leaves the previous
         # state in place and those users get reprocessed next run.
         self._state.save(current_user_ids)
+        return True
 
     def check_users(self, users: list, groups: list) -> bool:
         """Diff current users against the saved state, notify on change.
@@ -105,14 +140,12 @@ class Grouper:
             return True
 
         if removed:
-            print("Newly removed users: ")
-            print(removed)
+            logger.info("Newly removed users: %s", removed)
             if self._params.notify:
                 self.notify_new_users(removed, users, groups, new=False)
 
         if added and self._params.notify:
-            print("Newly added users:")
-            print(added)
+            logger.info("Newly added users: %s", added)
             self.notify_new_users(added, users, groups, new=True)
 
         return False
@@ -126,12 +159,13 @@ class Grouper:
 
         for user in users:
             if user.email is None:
-                print(f"No email associated with user: {user}. Skipping")
+                logger.warning(
+                    "No email associated with user: %s. Skipping", user)
                 continue
 
             if user.email.count('@') != 1:
-                print(
-                    f"Malformed email address for user: {user}. Skipping")
+                logger.warning(
+                    "Malformed email address for user: %s. Skipping", user)
                 continue
 
             for group_name in self._domains.groups_for_email(user.email):
@@ -160,14 +194,15 @@ class Grouper:
 
         for group in groups:
             if not self._domains.is_managed(group.name):
-                print(
-                    f"Group '{group.name}' not set for automatic "
-                    "assignment. Skipping")
+                logger.warning(
+                    "Group '%s' not set for automatic assignment. "
+                    "Skipping", group.name)
                 continue
 
             for user in group.users:
                 if user.email is None or user.email.count('@') != 1:
-                    print(f"Bad email for user {user.id}. Skipping")
+                    logger.warning(
+                        "Bad email for user %s. Skipping", user.id)
                     continue
 
                 if not self._domains.domain_approved_for(
