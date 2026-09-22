@@ -10,8 +10,16 @@ DATA_DIR = Path(__file__).resolve().parent / 'data'
 # before anything below imports (directly or transitively) the grouper
 # package, so a dev machine or CI runner needs no real secrets to test.
 os.environ.setdefault('STAGING_GALAXY_API_KEY', 'test-staging-key')
+os.environ.setdefault(
+    'STAGING_GALAXY_BASEURL', 'https://staging.example.invalid/api/')
 os.environ.setdefault('PROD_GALAXY_API_KEY', 'test-prod-key')
+os.environ.setdefault(
+    'PROD_GALAXY_BASEURL', 'https://example.invalid/api/')
 os.environ.setdefault('SLACK_TOKEN', 'test-slack-token')
+os.environ.setdefault('SLACK_ALERT_CHANNEL', '#test-alerts')
+os.environ.setdefault('SLACK_LOG_CHANNEL', '#test-logs')
+os.environ.setdefault('SLACK_ALERT_MENTIONS', '')
+os.environ.setdefault('SLACK_LOG_MENTIONS', '')
 
 from grouper.domains import DomainRules  # noqa: E402
 from grouper.galaxy import Group, User  # noqa: E402

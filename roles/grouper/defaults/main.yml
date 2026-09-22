@@ -13,6 +13,14 @@ grouper_cron_minute: "0"
 grouper_cron_hour: "*"
 grouper_enable_cron_jobs: false  # cron entry is created disabled by default
 
+grouper_staging_galaxy_baseurl: "https://staging.gvl.org.au/api/"
+grouper_prod_galaxy_baseurl: "https://usegalaxy.org.au/api/"
+
+grouper_slack_alert_channel: "#alerts"
+grouper_slack_log_channel: "#galaxy-logs"
+grouper_slack_alert_mentions: ""
+grouper_slack_log_mentions: ""
+
 # Secrets, sourced from ansible-vault. Declared here (rather than only in
 # templates/env.j2) so that role consumers can see which vault vars this
 # role expects to be defined.
