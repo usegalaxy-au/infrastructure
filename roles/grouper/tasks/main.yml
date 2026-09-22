@@ -1,4 +1,11 @@
 ---
+- name: Ensure python3-venv is installed
+  apt:
+    name: python3-venv
+    state: present
+    update_cache: true
+  become: true
+
 - block:
   - name: Ensure grouper directory exists
     file:
@@ -34,6 +41,7 @@
     pip:
       requirements: "{{ grouper_dir }}/requirements.txt"
       virtualenv: "{{ grouper_venv }}"
+      virtualenv_command: "{{ ansible_python_interpreter | default('/usr/bin/python3') }} -m venv"
     environment:
       VIRTUAL_ENV: "{{ grouper_venv }}"
 
