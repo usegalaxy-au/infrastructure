@@ -52,6 +52,28 @@ Run from `grouper_dir` via the venv: `python -m grouper [flags]`.
 | `--grouper-dir PATH` | Override where `approved_domains.json`/`users.json`/`grouper.log` are read/written (default: alongside the installed package) |
 | `-g`, `--generate` | Write the current Galaxy user id list to `users.json` without adding/removing/notifying anything |
 
+## Approved domains
+
+`files/approved_domains.json` maps group names to lists of email domains:
+
+```json
+{
+  "AU Researchers": ["uq.edu.au"],
+  "Australian_government": ["*.gov.au", "aims.gov.au"]
+}
+```
+
+Most entries are **exact**: `student.uq.edu.au` does not match
+`uq.edu.au` unless it's listed in its own right. An entry beginning with
+`*.` is a **wildcard** and matches any domain with one or more labels
+under that suffix - `health.gov.au` and `dst.defence.gov.au` both match
+`*.gov.au`, but the bare suffix `gov.au` does not match its own wildcard.
+
+**A user is assigned to every group whose rules match their email
+domain.** There is no precedence between exact and wildcard entries, or
+between overlapping wildcards - the result is the plain union of every
+match. A domain matched by five separate rules joins five groups.
+
 ## First run
 
 Before the first real pass, `users.json` doesn't exist, so there's nothing
