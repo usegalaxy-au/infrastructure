@@ -20,6 +20,27 @@ tools:
       pulsar_singularity_volumes: "{{ pulsar_singularity_volumes }}"
       pulsar_docker_volumes: "{{ pulsar_docker_volumes }}"
 
+      # job resubmission logic from usegalaxy.eu
+      OOM_RESUBMIT_JOBS: false
+      OOM_RESUBMIT_MAX_ATTEMPTS: 2
+      OOM_SCALING_FACTOR: 2  # This works as an integer (logic in oom_resubmit_increase_memory casts stored value as int)
+      OOM_SCALING_CAP: 62.5  # 125 on production
+    resubmit:
+      oom_retry:
+        condition: |
+          # TODO: double check this logic
+          (OOM_RESUBMIT_JOBS and memory_limit_reached
+          and attempt <= OOM_RESUBMIT_MAX_ATTEMPTS
+          and (mem * OOM_SCALING_FACTOR ** (attempt - 2)) < OOM_SCALING_CAP)
+        environment: tpv_dispatcher
+        # Delay is in seconds before Galaxy dispatches the resubmitted job.
+        delay: 60
+    params:
+      # We persist OOM_MEM_SCALE across resubmissions by using job.destination_params.
+      # On the first run this records the base factor (OOM_SCALING_FACTOR).
+      # On each resubmit TPV re-evaluates this expression, reading the
+      # previously persisted value and multiplying by OOM_SCALING_FACTOR.
+      OOM_MEM_SCALE: "{OOM_SCALING_FACTOR * int(job.destination_params.get('OOM_MEM_SCALE', OOM_SCALING_FACTOR)) if job.destination_params else OOM_SCALING_FACTOR}"
     scheduling:
       reject:
         - offline
@@ -27,6 +48,18 @@ tools:
     - id: login_required_rule
       if: require_login and user is None
       fail: 'Please log in to use {tool.id}'
+        # The accumulated scaling factor is read from the
+        # persisted OOM_MEM_SCALE destination param,
+        # which Galaxy carries across resubmissions.
+      - id: oom_resubmit_increase_memory
+        if: job is not None and job.state == "resubmitted"
+        execute: |
+          _scale = (
+            int(job.destination_params.get('OOM_MEM_SCALE', OOM_SCALING_FACTOR))
+            if job.destination_params else 1
+          )
+          # save entity.mem as a string to delay evaluation
+          entity.mem = f"min(({entity.mem}) * {_scale}, {OOM_SCALING_CAP})"
     - id: max_concurrent_job_count_for_tool_rule
       if: |
         total_limit_exceeded = False
