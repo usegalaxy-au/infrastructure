@@ -185,3 +185,22 @@ def test_malformed_users_json_returns_1_without_traceback(
     assert exit_code == 1
     assert str(users_path) in out
     assert 'not valid JSON' in out
+
+
+def test_missing_env_var_returns_1_without_traceback(
+    monkeypatch, tmp_path, capsys,
+):
+    """A missing .env value is caught the same way as the JSON errors
+    above, rather than a bare KeyError traceback out of config.py.
+    """
+    from grouper import __main__ as entrypoint
+
+    (tmp_path / 'approved_domains.json').write_text('{}')
+    monkeypatch.delenv('SLACK_TOKEN', raising=False)
+
+    exit_code = entrypoint.main(['--grouper-dir', str(tmp_path)])
+    out = capsys.readouterr().out
+
+    assert exit_code == 1
+    assert 'SLACK_TOKEN' in out
+    assert 'ERROR' in out

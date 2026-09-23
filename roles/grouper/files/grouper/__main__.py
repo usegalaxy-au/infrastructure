@@ -22,22 +22,24 @@ def main(argv: list = None) -> int:
 
     Returns 0 on success, 1 on a handled failure (e.g. Galaxy returned no
     users, the change-limit safety valve refused to act, or a
-    GrouperUserError from a malformed JSON file). Unhandled exceptions -
-    e.g. a GalaxyAPIError from a failed request - traceback uncaught,
-    which is what gives run_groups.sh a non-zero exit code via the
-    interpreter's own crash handling.
+    GrouperUserError from a malformed JSON file or missing .env variable).
+    Unhandled exceptions - e.g. a GalaxyAPIError from a failed request -
+    traceback uncaught, which is what gives run_groups.sh a non-zero exit
+    code via the interpreter's own crash handling.
     """
     args = build_arg_parser().parse_args(argv)
     params = Params.from_args(args)
     configure_logging(params.grouper_dir / LOG_FILENAME)
 
-    galaxy = GalaxyClient(params.galaxy_baseurl, params.galaxy_api_key)
-    slack = SlackNotifier(config.SLACK_TOKEN, dry_run=params.dry_run)
-    state = UserStateStore(params.grouper_dir / USERS_FILENAME)
-
     try:
+        config.check_required_vars()
+
+        galaxy = GalaxyClient(params.galaxy_baseurl, params.galaxy_api_key)
+        slack = SlackNotifier(config.SLACK_TOKEN, dry_run=params.dry_run)
+        state = UserStateStore(params.grouper_dir / USERS_FILENAME)
         domains = DomainRules.from_file(
             params.grouper_dir / APPROVED_DOMAINS_FILENAME)
+
         grouper = Grouper(params, galaxy, slack, domains, state)
         return 0 if grouper.main() else 1
     except GrouperUserError as exc:
