@@ -4,6 +4,7 @@ import logging
 import pytest
 
 from grouper.domains import DomainRules, DomainRulesError
+from grouper.errors import GrouperUserError
 
 
 def test_domain_maps_to_one_group(domains):
@@ -60,6 +61,21 @@ def test_from_file_loads_rules(tmp_path):
     path.write_text('{"Group A": ["example.com"]}')
     rules = DomainRules.from_file(path)
     assert rules.groups_for_email('x@example.com') == ['Group A']
+
+
+def test_from_file_malformed_json_raises_clear_error(tmp_path):
+    path = tmp_path / 'approved_domains.json'
+    path.write_text('{"Group A": ["example.com"],}')  # trailing comma
+
+    with pytest.raises(DomainRulesError) as exc_info:
+        DomainRules.from_file(path)
+
+    assert str(path) in str(exc_info.value)
+
+
+def test_domain_rules_error_is_a_grouper_user_error():
+    """main() catches the base class, so the subclass must derive from it."""
+    assert issubclass(DomainRulesError, GrouperUserError)
 
 
 # -- Stage 4: validation on load ------------------------------------------

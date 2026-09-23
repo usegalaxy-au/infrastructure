@@ -3,6 +3,12 @@ import json
 import os
 from pathlib import Path
 
+from .errors import GrouperUserError
+
+
+class UserStateError(GrouperUserError):
+    """Raised when users.json exists but is not well-formed."""
+
 
 class UserStateStore:
     """Owns users.json: the ids of users seen on a previous run."""
@@ -13,7 +19,11 @@ class UserStateStore:
     def load(self) -> list:
         """Return the user ids recorded on the previous run."""
         with open(self._path) as f:
-            return json.load(f)
+            try:
+                return json.load(f)
+            except json.JSONDecodeError as e:
+                raise UserStateError(
+                    f"{self._path} is not valid JSON: {e}") from e
 
     def save(self, user_ids: list) -> None:
         """Atomically write the given user ids as the new state."""

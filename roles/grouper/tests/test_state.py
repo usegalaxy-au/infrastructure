@@ -3,7 +3,24 @@ import json
 
 import pytest
 
-from grouper.state import UserStateStore
+from grouper.errors import GrouperUserError
+from grouper.state import UserStateError, UserStateStore
+
+
+def test_load_malformed_json_raises_user_error(tmp_path):
+    path = tmp_path / 'users.json'
+    path.write_text('["u1", "u2",]')  # trailing comma
+    store = UserStateStore(path)
+
+    with pytest.raises(UserStateError) as exc_info:
+        store.load()
+
+    assert str(path) in str(exc_info.value)
+
+
+def test_user_state_error_is_a_grouper_user_error():
+    """main() catches the base class, so the subclass must derive from it."""
+    assert issubclass(UserStateError, GrouperUserError)
 
 
 def test_load_missing_file_raises(tmp_path):

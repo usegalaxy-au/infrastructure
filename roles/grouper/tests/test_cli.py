@@ -2,6 +2,7 @@
 import pytest
 
 import config
+from grouper.galaxy import User
 from grouper.params import Params, build_arg_parser
 
 
@@ -126,3 +127,61 @@ def test_galaxy_api_error_propagates_from_main(monkeypatch, tmp_path):
 
     with pytest.raises(GalaxyAPIError):
         entrypoint.main(['--grouper-dir', str(tmp_path)])
+
+
+# -- expected user errors are reported, not tracebacked -------------------
+
+def test_malformed_approved_domains_returns_1_without_traceback(
+    tmp_path, capsys,
+):
+    """A GrouperUserError is caught by main() and reported as one ERROR
+    line, unlike the GalaxyAPIError above which tracebacks out.
+
+    Asserts on stdout rather than caplog because configure_logging calls
+    basicConfig(force=True), which evicts caplog's handler - stdout is
+    where the console handler writes, and what an operator actually sees.
+    """
+    from grouper import __main__ as entrypoint
+
+    path = tmp_path / 'approved_domains.json'
+    path.write_text('{"Group A": ["example.com"],}')  # trailing comma
+
+    exit_code = entrypoint.main(['--grouper-dir', str(tmp_path)])
+    out = capsys.readouterr().out
+
+    assert exit_code == 1
+    assert str(path) in out
+    assert 'not valid JSON' in out
+    assert 'ERROR' in out
+
+
+def test_malformed_users_json_returns_1_without_traceback(
+    monkeypatch, tmp_path, capsys,
+):
+    """The state file is read deep inside Grouper.run(), so this covers
+    the other end of the try block in main().
+    """
+    from grouper import __main__ as entrypoint
+
+    (tmp_path / 'approved_domains.json').write_text('{}')
+    users_path = tmp_path / 'users.json'
+    users_path.write_text('["u1",]')  # trailing comma
+
+    class FakeGalaxyClient:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def get_users(self):
+            return [User(id='u1', email='alice@uq.edu.au')]
+
+        def get_groups(self):
+            return []
+
+    monkeypatch.setattr(entrypoint, 'GalaxyClient', FakeGalaxyClient)
+
+    exit_code = entrypoint.main(['--grouper-dir', str(tmp_path)])
+    out = capsys.readouterr().out
+
+    assert exit_code == 1
+    assert str(users_path) in out
+    assert 'not valid JSON' in out

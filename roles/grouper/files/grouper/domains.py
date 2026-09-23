@@ -5,10 +5,12 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Optional
 
+from .errors import GrouperUserError
+
 logger = logging.getLogger(__name__)
 
 
-class DomainRulesError(ValueError):
+class DomainRulesError(GrouperUserError):
     """Raised when approved_domains.json is not well-formed."""
 
 
@@ -34,7 +36,12 @@ class DomainRules:
     def from_file(cls, path: Path) -> 'DomainRules':
         """Load approved domain rules from a JSON file."""
         with open(path) as f:
-            return cls(json.load(f))
+            try:
+                data = json.load(f)
+            except json.JSONDecodeError as e:
+                raise DomainRulesError(
+                    f"{path} is not valid JSON: {e}") from e
+        return cls(data)
 
     @staticmethod
     def _validate(approved_domains: dict) -> None:
