@@ -27,11 +27,10 @@ tools:
       OOM_SCALING_CAP: 62.5  # 125 on production
     resubmit:
       oom_retry:
-        condition: |
-          # TODO: double check this logic
-          (OOM_RESUBMIT_JOBS and memory_limit_reached
-          and attempt <= OOM_RESUBMIT_MAX_ATTEMPTS
-          and (mem * OOM_SCALING_FACTOR ** (attempt - 2)) < OOM_SCALING_CAP)
+        # TODO: double check this logic
+        condition: '{OOM_RESUBMIT_JOBS is True} and memory_limit_reached and attempt <= {OOM_RESUBMIT_MAX_ATTEMPTS}'
+        # condition: OOM_RESUBMIT_JOBS and memory_limit_reached
+        # condition: (OOM_RESUBMIT_JOBS and memory_limit_reached and attempt <= OOM_RESUBMIT_MAX_ATTEMPTS and (mem * OOM_SCALING_FACTOR ** (attempt - 2)) < OOM_SCALING_CAP)
         environment: tpv_dispatcher
         # Delay is in seconds before Galaxy dispatches the resubmitted job.
         delay: 60
@@ -51,15 +50,15 @@ tools:
         # The accumulated scaling factor is read from the
         # persisted OOM_MEM_SCALE destination param,
         # which Galaxy carries across resubmissions.
-      - id: oom_resubmit_increase_memory
-        if: job is not None and job.state == "resubmitted"
-        execute: |
-          _scale = (
-            int(job.destination_params.get('OOM_MEM_SCALE', OOM_SCALING_FACTOR))
-            if job.destination_params else 1
-          )
-          # save entity.mem as a string to delay evaluation
-          entity.mem = f"min(({entity.mem}) * {_scale}, {OOM_SCALING_CAP})"
+    - id: oom_resubmit_increase_memory
+      if: job is not None and job.state == "resubmitted"
+      execute: |
+        _scale = (
+          int(job.destination_params.get('OOM_MEM_SCALE', OOM_SCALING_FACTOR))
+          if job.destination_params else 1
+        )
+        # save entity.mem as a string to delay evaluation
+        entity.mem = f"min(({entity.mem}) * {_scale}, {OOM_SCALING_CAP})"
     - id: max_concurrent_job_count_for_tool_rule
       if: |
         total_limit_exceeded = False
