@@ -54,14 +54,25 @@ Run from `grouper_dir` via the venv: `python -m grouper [flags]`.
 
 ## Approved domains
 
-`files/approved_domains.json` maps group names to lists of email domains:
+`files/approved_domains.json` maps group names to a display `name` and a
+list of email domains:
 
 ```json
 {
-  "AU Researchers": ["uq.edu.au"],
-  "Australian_government": ["*.gov.au", "aims.gov.au"]
+  "AU Researchers": {
+    "name": "AU Researchers",
+    "domains": ["uq.edu.au"]
+  },
+  "Australian_government": {
+    "name": "Australian Government",
+    "domains": ["*.gov.au", "aims.gov.au"]
+  }
 }
 ```
+
+The key is the Galaxy group name grouper matches against - never renamed
+independently of Galaxy. `name` is a display name for the media site;
+grouper itself only parses and validates it.
 
 Most entries are **exact**: `student.uq.edu.au` does not match
 `uq.edu.au` unless it's listed in its own right. An entry beginning with

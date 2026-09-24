@@ -30,28 +30,42 @@ class DomainRules:
     A user is assigned to every group whose rules match their email
     domain: the result is the plain union of the exact match and all
     matching wildcards, with no precedence between them.
+
+    Each group maps to an object with a `name` (display name, used by
+    the media site - grouper itself only parses and validates it) and
+    `domains` (the approved email domains):
+
+        {"UQ_users": {"name": "University of Queensland",
+                       "domains": ["uq.edu.au"]}}
     """
+
+    VALID_GROUP_KEYS = {'name', 'domains'}
 
     def __init__(self, approved_domains: dict):
         self._validate(approved_domains)
         self._approved_domains = approved_domains
+        self._names_by_group = {
+            group: value['name'] for group, value in approved_domains.items()
+        }
         self._exact_by_group = {
             group: {
-                domain.lower() for domain in domains
+                domain.lower() for domain in value['domains']
                 if not domain.startswith(WILDCARD_PREFIX)
             }
-            for group, domains in approved_domains.items()
+            for group, value in approved_domains.items()
         }
         self._wildcards_by_group = {
             group: {
-                domain.lower()[len(WILDCARD_PREFIX):] for domain in domains
+                domain.lower()[len(WILDCARD_PREFIX):]
+                for domain in value['domains']
                 if domain.startswith(WILDCARD_PREFIX)
             }
-            for group, domains in approved_domains.items()
+            for group, value in approved_domains.items()
         }
         self._groups_by_domain = self._invert(self._exact_by_group)
         self._groups_by_wildcard = self._invert(self._wildcards_by_group)
         self._warn_on_shared_domains()
+        self._warn_on_shared_names()
 
     @classmethod
     def from_file(cls, path: Path) -> 'DomainRules':
@@ -69,15 +83,39 @@ class DomainRules:
         if not isinstance(approved_domains, dict):
             raise DomainRulesError(
                 "approved_domains.json must be a JSON object mapping "
-                "group names to lists of domains")
+                "group names to {name, domains} objects")
 
-        for group, domains in approved_domains.items():
+        for group, value in approved_domains.items():
+            if not isinstance(value, dict):
+                raise DomainRulesError(
+                    f"Group '{group}' must map to an object with 'name' "
+                    "and 'domains' keys")
+
+            unknown_keys = set(value) - DomainRules.VALID_GROUP_KEYS
+            if unknown_keys:
+                raise DomainRulesError(
+                    f"Group '{group}' has unknown key/s: "
+                    f"{', '.join(sorted(unknown_keys))}")
+
+            name = value.get('name')
+            if not name:
+                raise DomainRulesError(
+                    f"Group '{group}' is missing a non-empty 'name'")
+            if not isinstance(name, str):
+                raise DomainRulesError(
+                    f"Group '{group}' has a 'name' that is not a string")
+
+            domains = value.get('domains')
+            if not domains:
+                raise DomainRulesError(
+                    f"Group '{group}' is missing a non-empty 'domains' "
+                    "list")
             if not isinstance(domains, list) or not all(
                 isinstance(domain, str) for domain in domains
             ):
                 raise DomainRulesError(
-                    f"Group '{group}' must map to a list of domain "
-                    "strings")
+                    f"Group '{group}' must map 'domains' to a list of "
+                    "domain strings")
 
             for domain in domains:
                 if '@' in domain:
@@ -141,6 +179,20 @@ class DomainRules:
                     "confirm this is intentional.",
                     WILDCARD_PREFIX, wildcard, ', '.join(sorted(groups)))
 
+    def _warn_on_shared_names(self) -> None:
+        # Legal for grouper - only `group.name` is matched against Galaxy -
+        # but the media site would render two identical rows.
+        groups_by_name = defaultdict(list)
+        for group, name in self._names_by_group.items():
+            groups_by_name[name].append(group)
+
+        for name, groups in groups_by_name.items():
+            if len(groups) > 1:
+                logger.warning(
+                    "Display name '%s' is shared by multiple groups: %s - "
+                    "confirm this is intentional.",
+                    name, ', '.join(sorted(groups)))
+
     @staticmethod
     def _invert(domains_by_group: dict) -> dict:
         inverse = defaultdict(list)
@@ -169,6 +221,10 @@ class DomainRules:
     def domain_approved_for(self, group_name: str, email: str) -> bool:
         """Whether this email's domain is approved for the given group."""
         return group_name in self.groups_for_email(email)
+
+    def display_name(self, group_name: str) -> str:
+        """Human-readable name for a group."""
+        return self._names_by_group[group_name]
 
     def is_managed(self, group_name: str) -> bool:
         """Whether this group is under automatic assignment."""
