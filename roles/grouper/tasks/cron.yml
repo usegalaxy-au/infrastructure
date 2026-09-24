@@ -1,0 +1,17 @@
+---
+- name: Template run_groups.sh wrapper script
+  template:
+    src: run_groups.sh.j2
+    dest: "{{ grouper_run_script_path }}"
+    owner: "{{ grouper_user }}"
+    group: "{{ grouper_user }}"
+    mode: "0750"
+
+- name: Set up hourly cron job for grouper
+  cron:
+    name: "grouper: run_groups"
+    user: "{{ grouper_user }}"
+    disabled: "{{ not grouper_enable_cron_jobs }}"
+    minute: "{{ grouper_cron_minute }}"
+    hour: "{{ grouper_cron_hour }}"
+    job: "{{ grouper_run_script_path }} > {{ grouper_run_log_path }} 2>&1"
