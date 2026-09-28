@@ -1,0 +1,51 @@
+---
+- name: Ensure python3-venv is installed
+  apt:
+    name: python3-venv
+    state: present
+    update_cache: true
+  become: true
+
+- block:
+  - name: Ensure grouper directory exists
+    file:
+      state: directory
+      path: "{{ grouper_dir }}"
+      owner: "{{ grouper_user }}"
+      group: "{{ grouper_user }}"
+
+  - name: Copy grouper package
+    copy:
+      src: grouper/
+      dest: "{{ grouper_dir }}/grouper/"
+
+  - name: Copy grouper support files
+    copy:
+      src: "{{ item }}"
+      dest: "{{ grouper_dir }}/{{ item }}"
+    loop:
+      - notify_failure.py
+      - config.py
+      - approved_domains.json
+      - requirements.txt
+
+  - name: Template grouper .env file
+    template:
+      src: env.j2
+      dest: "{{ grouper_dir }}/.env"
+      owner: "{{ grouper_user }}"
+      group: "{{ grouper_user }}"
+      mode: "0600"
+
+  - name: Create venv and install grouper dependencies
+    pip:
+      requirements: "{{ grouper_dir }}/requirements.txt"
+      virtualenv: "{{ grouper_venv }}"
+      virtualenv_command: "{{ ansible_python_interpreter | default('/usr/bin/python3') }} -m venv"
+    environment:
+      VIRTUAL_ENV: "{{ grouper_venv }}"
+
+  - name: Set up cron job
+    include_tasks: cron.yml
+  become: true
+  become_user: "{{ grouper_user }}"
