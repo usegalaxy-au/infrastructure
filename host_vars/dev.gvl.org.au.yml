@@ -14,7 +14,7 @@ dev_object_store_cloudbridge_test_backend_enabled: false
 
 # variables for attaching mounted volume to application server
 attached_volumes:
-  - device: /dev/vdc
+  - device: /dev/vdb
     path: /mnt
     fstype: ext4
     partition: 1
