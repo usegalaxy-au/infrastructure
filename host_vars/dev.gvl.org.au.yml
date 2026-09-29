@@ -39,6 +39,7 @@ certbot_domains:
   - "singlecell.{{ hostname }}"
   - "microbiology.{{ hostname }}"
   - "edna.{{ hostname }}"
+  - "agrf.{{ hostname }}"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_gvl_api_token }}"
@@ -527,6 +528,82 @@ galaxy_subsites:
       }
       #masthead a.navbar-brand::after {
           content: "Australia - eDNA Lab";
+      }
+      #masthead .navbar-text {
+        display: none;
+      }
+  - name: agrf
+    brand: AGRF Lab
+    iframe: "https://labs.usegalaxy.org.au/?content_root=https://github.com/AGRF/testlab/blob/main/agrf/base.yml"
+    wallpaper: false
+    tool_sections:
+      - annotation
+      - assembly
+      - bacterial_typing
+      - bb_tools
+      - bed
+      - blast
+      - chemicaltoolbox
+      - chip_seq
+      - climate_analysis
+      - collection_operations
+      - convert_formats
+      - deeptools
+      - dna_metabarcoding
+      - emboss
+      - epigenetics
+      - evolution
+      - fastafastq
+      - fastq_quality_control
+      - fetch_alignmentssequences
+      - filter_and_sort
+      - gemini_tools
+      - genome_editing
+      - get_data
+      - graphdisplay_data
+      - hca_single_cell
+      - hicexplorer
+      - imaging
+      - ivar
+      - join_subtract_and_group
+      - machine_learning
+      - mapping
+      - metabolomics
+      - metagenomic_analysis
+      - mimodd
+      - mothur
+      - multiple_alignments
+      - nanopore
+      - none
+      - operate_on_genomic_intervals
+      - other_tools
+      - phylogenetics
+      - picard
+      - presto
+      - proteomic_ai
+      - proteomics
+      - qiime_2
+      - rad_seq
+      - rna_seq
+      - rseqc
+      - sambam
+      - send_data
+      - single_cell
+      - species_abundance
+      - statistics
+      - text_manipulation
+      - variant_calling
+      - vcfbcf
+      - viral_tools
+    custom_css: |
+      #masthead .navbar-nav>li.active {
+        background: #0683b6 !important;
+      }
+      #masthead {
+        background: #05a9ec !important;
+      }
+      #masthead a.navbar-brand::after {
+          content: "Australia - AGRF Lab";
       }
       #masthead .navbar-text {
         display: none;
