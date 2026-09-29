@@ -1,27 +1,18 @@
 tools:
-  default:
-    resubmit:
-      oom_retry:
-        # TODO: double check this logic
-        condition: '{OOM_RESUBMIT_JOBS is True} and memory_limit_reached and attempt <= {OOM_RESUBMIT_MAX_ATTEMPTS}'
-        # condition: OOM_RESUBMIT_JOBS and memory_limit_reached
-        # condition: (OOM_RESUBMIT_JOBS and memory_limit_reached and attempt <= OOM_RESUBMIT_MAX_ATTEMPTS and (mem * OOM_SCALING_FACTOR ** (attempt - 2)) < OOM_SCALING_CAP)
-        environment: tpv_dispatcher
-        # Delay is in seconds before Galaxy dispatches the resubmitted job.
-        delay: 15  # EU uses 60, use 15 for testing
-    params:
-      # We persist OOM_MEM_SCALE across resubmissions by using job.destination_params.
-      # On the first run this records the base factor (OOM_SCALING_FACTOR).
-      # On each resubmit TPV re-evaluates this expression, reading the
-      # previously persisted value and multiplying by OOM_SCALING_FACTOR.
-      OOM_MEM_SCALE: "{OOM_SCALING_FACTOR * int(job.destination_params.get('OOM_MEM_SCALE', OOM_SCALING_FACTOR)) if job.destination_params else OOM_SCALING_FACTOR}"
+  .*:  # ANY TOOL
     rules:
-    - id: oom_resubmit_increase_memory
-      if: job is not None and job.state == "resubmitted"
+    # - id: oom_resubmit_increase_memory
+    #   if: job is not None and job.state == "resubmitted" and hasattr(job, "resubmission_count")
+    #   execute: |
+    #     # save entity.mem as a string to delay evaluation
+    #     entity.mem = f"min(({entity.mem}) * ({OOM_SCALING_FACTOR} ** {job.resubmission_count}), {OOM_SCALING_CAP})"
+    - id: oom_resubmit_increase_memory_pre_26.2
+      if: job is not None and job.state == "resubmitted" # and not hasattr(job, "resubmission_count")
       execute: |
-        _scale = (
-          int(job.destination_params.get('OOM_MEM_SCALE', OOM_SCALING_FACTOR))
-          if job.destination_params else 1
-        )
+        _resubmission_count = (
+          int(job.destination_params.get('tpv_resubmission_count', 0))
+          if job.destination_params else 0
+        ) + 1
+        entity.params['tpv_resubmission_count'] = _resubmission_count
         # save entity.mem as a string to delay evaluation
-        entity.mem = f"min(({entity.mem}) * {_scale}, {OOM_SCALING_CAP})"
+        entity.mem = f"min(({entity.mem}) * ({OOM_SCALING_FACTOR} ** {_resubmission_count}), {OOM_SCALING_CAP})"
