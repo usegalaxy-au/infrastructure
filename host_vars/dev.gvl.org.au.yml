@@ -39,6 +39,7 @@ certbot_domains:
   - "singlecell.{{ hostname }}"
   - "microbiology.{{ hostname }}"
   - "edna.{{ hostname }}"
+  - "agrf.{{ hostname }}"
 certbot_dns_provider: cloudflare
 certbot_dns_credentials:
   api_token: "{{ vault_dns_cloudflare_gvl_api_token }}"
