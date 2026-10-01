@@ -22,17 +22,10 @@ tools:
 
       # job resubmission logic from usegalaxy.eu
       # resubmit parameters are set last in tool_resubmit.yml
-      OOM_RESUBMIT_JOBS: false
-      OOM_RESUBMIT_MAX_ATTEMPTS: 3
-      OOM_SCALING_FACTOR: 2
+      OOM_RESUBMIT_JOBS: false  # Initially have this as an opt-in variable
+      OOM_RESUBMIT_MAX_ATTEMPTS: 2  # Job will run at most 3 times
+      OOM_SCALING_FACTOR: 2  # Each succssive attempt will use 2x the memory of the previous attempt
       OOM_SCALING_CAP: 62.5  # 125 on production
-    resubmit:
-        oom_retry:
-          # condition is a string that will be evaluated by the galaxy job runner
-          condition: '{OOM_RESUBMIT_JOBS is True} and memory_limit_reached and attempt <= {OOM_RESUBMIT_MAX_ATTEMPTS} + 1'
-          environment: tpv_dispatcher
-          # Delay is in seconds before Galaxy dispatches the resubmitted job.
-          delay: 60
     scheduling:
       reject:
         - offline
