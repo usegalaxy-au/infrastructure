@@ -3034,6 +3034,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/samtools.*:
     params:
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/iuc/samtools_coverage/samtools_coverage/.*:
+    context:
+      OOM_RESUBMIT_JOBS: true
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
     cores: 8
     mem: 31
