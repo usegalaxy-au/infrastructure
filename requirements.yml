@@ -1,88 +1,31 @@
+# requirements file for ansible core 2.17
 collections:
-- ansible.posix
-- community.general
+  - name: ansible.posix
+  - name: community.general
+  - name: community.docker
+    version: 3.12.1
+    source: https://galaxy.ansible.com
+    type: galaxy
+  - name: grafana.grafana
+    version: 5.3.0
+  - name: community.grafana # NOTE: used by grafana.grafana
+  - name: ansible.windows # NOTE: used by dj-wasabi.telegraf
+    version: 1.14.0
+    source: https://galaxy.ansible.com
+  - name: amazon.aws # NOTE: used by dj-wasabi.telegraf
+  - name: ansible.mysql # NOTE: used by mariadb local role
+    version: 5.2.0
 
 roles:
-- name: galaxyproject.galaxy
-  src: https://github.com/galaxyproject/ansible-galaxy
-  version: 2ce315d8d15e4a58b5d98c302925c638582d8a0a
-- name: galaxyproject.nginx
-  version: 0.7.1  # NOTE: version 1.0.0 exists but fails on dev (16/09/2025)
-- name: galaxyproject.postgresql
-  version: 1.1.8
-- name: galaxyproject.postgresql_objects
-  version: 1.2.1
-- name: geerlingguy.pip
-  version: 1.3.0
-- name: geerlingguy.nfs
-  version: 2.1.0
-- src: usegalaxy_eu.galaxy_systemd
-  version: 2.1.0
-- src: usegalaxy_eu.certbot
-  version: 0.1.11
-#- src: jasonroyle.rabbitmq - Had to modify download URL for rabbitMQ
-#  version: 0.0.4
-- src: galaxyproject.slurm
-  version: 1.0.5
-- name: galaxyproject.s3fs
-  src: https://github.com/usegalaxy-au/ansible-s3fs
-  version: main
-- src: galaxyproject.cvmfs
-  version: 0.3.2
-- src: galaxyproject.repos
-  version: 0.0.3
-- src: galaxyproject.pulsar
-  version: 1.0.11
-- name: dj-wasabi.telegraf
-  src: https://github.com/dj-wasabi/ansible-telegraf
-  version: 17cb94c1fb92a00f3d50786c73d97bc2baae8f91
-- src: galaxyproject.gxadmin
-  version: 0.0.14
-- src: galaxyproject.tiaas2
-  version: 2.2.4
+  # roles used by stats-2025
+  - name: galaxyproject.nginx
+    version: 0.7.1  # NOTE: version 1.0.0 exists but fails on dev (16/09/2025)
+  - name: dj-wasabi.telegraf
+    src: https://github.com/dj-wasabi/ansible-telegraf
+    version: 17cb94c1fb92a00f3d50786c73d97bc2baae8f91
+  - src: geerlingguy.docker  # TODO: test upgrading to latest version
+    version: 4.1.3
+  - name: usegalaxy-au.influxdbserver
+    src: https://github.com/usegalaxy-au/ansible-influxdb-container
+    version: 2669ec8
 
-- src: geerlingguy.docker  # TODO: test upgrading to latest version
-  version: 4.1.3
-- name: galaxyproject.miniconda
-  version: 0.3.4
-- name: usegalaxy_eu.influxdb
-  version: v6.0.8
-- name: cloudalchemy.grafana
-  version: 0.18.0
-- src: cyverse-ansible.singularity
-  version: 048c4f178077d05c1e67ae8d9893809aac9ab3b7
-- src: gantsign.golang
-  version: 2.6.3
-- name: galaxyproject.tusd
-  version: 0.0.1
-- name: usegalaxy_eu.flower
-  version: 1.0.2
-- name: usegalaxy_eu.galaxy_subdomains
-  src: https://github.com/cat-bro/ansible-galaxy-subdomains
-  version: make_a_variable_of_base_css_path
-  # version: 0.0.13
-- src: usegalaxy_eu.apptainer
-  version: 0.0.1
-- name: usegalaxy_eu.rabbitmqserver
-  src: https://github.com/cat-bro/ansible-rabbitmq
-  version: main
-- name: usegalaxy_eu.walle
-  src: https://github.com/usegalaxy-eu/WallE
-  version: main
-- name: geerlingguy.redis
-  version: 1.8.0
-# jenkins server roles
-- name: geerlingguy.java
-  version: 2.5.0
-- name: geerlingguy.jenkins
-  version: 5.3.1
-- name: galaxyproject.galaxy_extensions
-- name: usegalaxy-au.history_mailer
-  src: https://github.com/usegalaxy-au/ansible-history-mailer
-  version: 364d3aecd77fc2a674890b92ba496e3c51a8e216
-
-# GMS roles
-- name: geerlingguy.nginx
-  version: 3.2.0
-- name: geerlingguy.postgresql
-  version: 4.0.0

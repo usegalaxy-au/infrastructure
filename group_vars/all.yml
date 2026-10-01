@@ -1,6 +1,9 @@
 # append domain to ansible_hostname (from hosts file) for hostname variable
 hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
 
+# python ansible version to install in virtual environments for running playbooks
+ansible_runner_python_ansible_version: '10.7.0'
+
 #List of users to install and setup /homes for
 __machine_users:
     # special users range
