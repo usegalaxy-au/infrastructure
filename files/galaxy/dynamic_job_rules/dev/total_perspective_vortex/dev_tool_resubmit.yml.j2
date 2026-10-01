@@ -1,0 +1,42 @@
+---
+# tool resubmit rules
+# tool pattern matches any tool
+# this should be the last tool/user/role entity listed in the job conf
+# so that its rules will be the last applied
+tools:
+  .*:  # ANY TOOL
+    rules:
+    - id : include_resubmit_in_job_wrapper_rule
+      if: |
+        include_resubmit = False
+        if OOM_RESUBMIT_JOBS:
+          # Check if (pulsar not in job friendly tags) or (slurm in job friendly tags)
+          # These jobs only go to slurm. Jobs that only go to slurm can be resubmitted.
+          # Jobs that run on pulsar do not have "memory_limit_reached" to set to true, this needs to be followed up with galaxy/pulsar
+          if (not helpers.tag_values_match(entity, match_tag_values=['pulsar'])) or helpers.tag_values_match(entity, match_tag_values=['slurm']):
+            include_resubmit = True
+          # To do: It would be also useful to assess whether a resubmitted job has already used OOM_SCALING_CAP memory value
+          # and avoid sending jobs that would get no increase in mem from resubmit
+        include_resubmit
+      resubmit:
+        oom_retry:
+          # condition is a string that will be evaluated by the galaxy job runner
+          condition: '{OOM_RESUBMIT_JOBS is True} and memory_limit_reached and attempt <= {OOM_RESUBMIT_MAX_ATTEMPTS}'
+          environment: tpv_dispatcher
+          # Delay is in seconds before Galaxy dispatches the resubmitted job.
+          delay: 30
+    # - id: oom_resubmit_increase_memory_rule  # this will work from release_26.2 onwards
+    #   if: OOM_RESUBMIT_JOBS and job is not None and job.state == "resubmitted" and hasattr(job, "resubmission_count")
+    #   execute: |
+    #     # save entity.mem as a string to delay evaluation
+    #     entity.mem = f"min(({entity.mem}) * ({OOM_SCALING_FACTOR} ** {job.resubmission_count}), {OOM_SCALING_CAP})"
+    - id: oom_resubmit_increase_memory_pre_26.2_rule
+      if: OOM_RESUBMIT_JOBS and job is not None and job.state == "resubmitted" # and not hasattr(job, "resubmission_count")
+      execute: |
+        _resubmission_count = (
+          int(job.destination_params.get('tpv_resubmission_count', 0))
+          if job.destination_params else 0
+        ) + 1
+        entity.params['tpv_resubmission_count'] = _resubmission_count
+        # save entity.mem as a string to delay evaluation
+        entity.mem = f"min(({entity.mem}) * ({OOM_SCALING_FACTOR} ** {_resubmission_count}), {OOM_SCALING_CAP})"
