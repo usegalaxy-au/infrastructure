@@ -729,7 +729,7 @@ EOF
     fi
 }
 
-local_query-oom-jobs() { ##? <limit> : Show most recent jobs with 'Killed' in tool_stderr or 'terminated because it used more memory' in info
+local_query-oom-jobs() { ##? <limit> : Show most recent jobs that failed due to an OOM condition
 	[ ! "$1" ] && limit="50" || limit="$1"
 	handle_help "$@" <<-EOF
 
@@ -737,21 +737,21 @@ local_query-oom-jobs() { ##? <limit> : Show most recent jobs with 'Killed' in to
 	Optional argument of number of rows to return (default: 50).
 
 	$ gxadmin local query-oom-jobs 3
-	   id    | username |        create_time         |                             tool_id                             | cores | mem_mb |   input_size   |    destination_id
-	---------+----------+----------------------------+-----------------------------------------------------------------+-------+--------+----------------+----------------------
-	 6994190 | anthony  | 2023-08-30 22:26:38.904458 | toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/2.20+galaxy2 | 16    | 62874  | 8947 MB        | pulsar-QLD
-	 6993519 | bob      | 2023-08-30 16:16:13.27616  | toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_pca/bio3d_pca/2.3.4 | 1     | 65536  | 5667 MB        | pulsar-qld-high-mem1
-	 6993500 | julia    | 2023-08-30 16:01:10.09834  | toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/2.3.6+galaxy0   | 16    | 62874  | 22 MB          | pulsar-mel3
+	   id    | username |        create_time         |                             tool_id                             | cores | mem_mb |   input_size   | resubmission_count |   destination_id
+	---------+----------+----------------------------+-----------------------------------------------------------------+-------+--------+----------------+--------------------+----------------------
+	 6994190 | anthony  | 2023-08-30 22:26:38.904458 | toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/2.20+galaxy2 | 16    | 62874  | 8947 MB        | 0                  | pulsar-QLD
+	 6993519 | bob      | 2023-08-30 16:16:13.27616  | toolshed.g2.bx.psu.edu/repos/chemteam/bio3d_pca/bio3d_pca/2.3.4 | 1     | 65536  | 5667 MB        | 0				  | pulsar-qld-high-mem1
+	 6993500 | julia    | 2023-08-30 16:01:10.09834  | toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/2.3.6+galaxy0   | 16    | 62874  | 22 MB          | 0                  | pulsar-mel3
 	EOF
 
 	read -r -d '' QUERY <<-EOF
 			SELECT
 				j.id as job_id,
 				u.username,
-				j.update_time as updated,
+				date_trunc('second', j.update_time) AS updated,
 				j.tool_id as tool_id,
-				(REGEXP_MATCHES(encode(j.destination_params, 'escape'), 'ntasks=(\d+)'))[1] as cores,
-				(REGEXP_MATCHES(encode(j.destination_params, 'escape'), 'mem=(\d+)'))[1] as mem,
+				(convert_from(j.destination_params, 'UTF8')::jsonb ->> 'tpv_cores')::numeric as cores,
+				ROUND((convert_from(j.destination_params, 'UTF8')::jsonb ->> 'tpv_mem')::numeric, 2) AS mem_gb,
 				(
 					SELECT pg_size_pretty(SUM(total_size))
 					FROM (
@@ -762,9 +762,13 @@ local_query-oom-jobs() { ##? <limit> : Show most recent jobs with 'Killed' in to
 						AND hda.id = jtid.dataset_id
 					) as foo
 				) as input_size,
+				COALESCE(
+					(convert_from(j.destination_params, 'UTF8')::jsonb ->> 'tpv_resubmission_count')::integer,
+					0
+				) as resubmissions,
 				j.destination_id as destination
 			FROM job j
-			FULL OUTER JOIN galaxy_user u ON j.user_id = u.id
+			JOIN galaxy_user u ON j.user_id = u.id
 			WHERE j.user_id = u.id
 			AND (
 				position('This job was terminated because it used more memory' in j.info)>0
@@ -772,6 +776,61 @@ local_query-oom-jobs() { ##? <limit> : Show most recent jobs with 'Killed' in to
 				OR position('Some of your processes may have been killed' in j.tool_stderr)>0
 				OR position('Some of your processes may have been killed' in j.job_stderr)>0
 			)
+			ORDER BY j.update_time desc
+			LIMIT $limit
+	EOF
+}
+
+local_query-resubmitted-jobs() { ##? <limit> : Show most recent jobs that were resubmitted by TPV
+	[ ! "$1" ] && limit="50" || limit="$1"
+	handle_help "$@" <<-EOF
+
+	Produces a table of jobs that have been resubmitted by TPV.
+	Optional argument of number of rows to return (default: 50).
+
+	$ gxadmin local query-resubmitted-jobs 1
+      job_id  | username     |       updated       |                                      tool_id                                      | cores | mem_gb | input_size | resubmissions | oom | destination
+    ----------+--------------+---------------------+-----------------------------------------------------------------------------------+-------+--------+------------+---------------+-----+-------------
+     15551027 | cat-stevens  | 2026-10-02 01:34:24 | toolshed.g2.bx.psu.edu/repos/iuc/samtools_coverage/samtools_coverage/1.22+galaxy3 |     1 |  15.20 | 12 GB      |             2 | f   | slurm
+
+	EOF
+
+	read -r -d '' QUERY <<-EOF
+			SELECT
+				j.id as job_id,
+				u.username,
+				date_trunc('second', j.update_time) AS updated,
+				j.tool_id as tool_id,
+				(convert_from(j.destination_params, 'UTF8')::jsonb ->> 'tpv_cores')::numeric as cores,
+				ROUND((convert_from(j.destination_params, 'UTF8')::jsonb ->> 'tpv_mem')::numeric, 2) AS mem_gb,
+				(
+					SELECT pg_size_pretty(SUM(total_size))
+					FROM (
+						SELECT DISTINCT hda.id as hda_id, d.total_size as total_size
+						FROM dataset d, history_dataset_association hda, job_to_input_dataset jtid
+						WHERE hda.dataset_id = d.id
+						AND jtid.job_id = j.id
+						AND hda.id = jtid.dataset_id
+					) as foo
+				) as input_size,
+				COALESCE(
+					(convert_from(j.destination_params, 'UTF8')::jsonb ->> 'tpv_resubmission_count')::integer,
+					0
+				) as resubmissions,
+				(
+					position('This job was terminated because it used more memory' in j.info)>0
+					OR position('Killed' in j.tool_stderr)>0
+					OR position('Some of your processes may have been killed' in j.tool_stderr)>0
+					OR position('Some of your processes may have been killed' in j.job_stderr)>0
+				) as oom,
+				j.destination_id as destination
+			FROM job j
+			JOIN galaxy_user u ON j.user_id = u.id
+			WHERE j.user_id = u.id
+			AND COALESCE(
+				(convert_from(j.destination_params, 'UTF8')::jsonb ->> 'tpv_resubmission_count')::integer,
+				0
+			) > 0
 			ORDER BY j.update_time desc
 			LIMIT $limit
 	EOF
