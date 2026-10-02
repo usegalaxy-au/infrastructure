@@ -2,12 +2,6 @@
 - name: Adjust systemwide ulimits
   import_tasks: ulimits.yml
 
-- name: Add hosts to hosts template file
-  import_tasks: add_hosts.yml
-  vars:
-    hosts_filename: "{{ hosts_template_file }}"
-  when: hosts_template_file is defined
-
 - name: Remove problematic CernVM GPG key from legacy keyring
   ansible.builtin.apt_key:
     url: https://cvmrepo.web.cern.ch/cvmrepo/apt/cernvm.gpg
@@ -35,14 +29,9 @@
       update_cache: yes
   when: not skip_upgrade_dist|d(false)
 
-- name: Adjust packages for Ubuntu 24.04 and later
-  set_fact:
-      ubuntu_packages: "{{ (common_packages | difference(problematic_packages_ubuntu_24_04)) | union(additional_packages_ubuntu_24_04) }}"
-  when: ansible_distribution == "Ubuntu" and (ansible_distribution_version is version('24.04', '>='))
-
 - name: Install some common packages
   apt:
-      name: "{{ ubuntu_packages | default(common_packages) }}"
+      name: "{{ common_packages }}"
       state: latest
 
 - name: Install group specific packages

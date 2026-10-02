@@ -41,8 +41,7 @@
     - geerlingguy.nfs
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - gantsign.golang
-    - cyverse-ansible.singularity
+    - usegalaxy_eu.apptainer
     - geerlingguy.docker
     - role: acl-on-startup
       tags: setfacl

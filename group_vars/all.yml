@@ -1,6 +1,9 @@
 # append domain to ansible_hostname (from hosts file) for hostname variable
 hostname: "{{ ansible_hostname }}.usegalaxy.org.au"
 
+# python ansible version to install in virtual environments for running playbooks
+ansible_runner_python_ansible_version: '10.7.0'
+
 #List of users to install and setup /homes for
 __machine_users:
     # special users range
@@ -159,9 +162,6 @@ common_packages:
     - git
     - build-essential
     - python3-dev
-    - libcurl4-openssl-dev
-    - libgnutls28-dev
-    - libssl-dev
     - python3-virtualenv
     - python3-pip
     - htop
@@ -169,10 +169,8 @@ common_packages:
     - atop
     - speedometer
     - byobu
-    - apt-transport-https
     - tar
     - bzip2
-    - libgl1-mesa-glx
     - unzip
     - tree
     - python3-passlib
@@ -187,15 +185,6 @@ common_packages:
     - sysstat
     - dstat
     - sqlite3
-
-problematic_packages_ubuntu_24_04:
-    - libgl1-mesa-glx
-
-additional_packages_ubuntu_24_04:
-    # NOTE: libgl1 and libglx-mesa0 provides equivalent behaviour as obsolete package (23.10 and later) libgl1-mesa-glx
-    # TODO: if libgl1-mesa-glx package is not actually needed any more, these could be removed
-    - libgl1
-    - libglx-mesa0
 
 #Set pip to be pip3 by default - see roles/geerlingguy.pip/defaults/main.yml
 pip_package: python3-pip
