@@ -40,7 +40,7 @@ tools:
 
       # job resubmission variable
       # resubmit parameters are set last in tool_resubmit.yml
-      OOM_RESUBMIT_JOBS: false  # Initially this is an opt-in variable
+      OOM_RESUBMIT_JOBS: true  # Retry parameters will apply to all non-pulsar jobs (set in tool_resubmit.yml)
       OOM_RESUBMIT_MAX_ATTEMPTS: 2  # Job will run at most 3 times
       OOM_SCALING_FACTOR: 2  # Each succssive attempt will use 2x the memory of the previous attempt
       OOM_SCALING_CAP: 125
