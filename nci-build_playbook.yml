@@ -5,7 +5,6 @@
       - group_vars/VAULT
       - secret_group_vars/ssh_keys
   vars:
-    - build_machines_ansible_version: '5.6.0'
     - build_machines_ansible_venv: /home/ubuntu/venv
   roles:
     - common
@@ -14,7 +13,7 @@
   post_tasks:
     - name: Ensure desired version of ansible is installed
       pip:
-        name: "ansible=={{ build_machines_ansible_version }}"
+        name: "ansible=={{ ansible_runner_python_ansible_version }}"
         umask: "0022"
         virtualenv: "{{ build_machines_ansible_venv }}"
     - name: Clone infrastructure repo

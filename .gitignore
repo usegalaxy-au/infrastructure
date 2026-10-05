@@ -2,7 +2,6 @@
 .vault_password
 .env
 venv
-ansible.cfg
 terraform/terraform*
 terraform/.terraform
 terraform/prod/.terraform
