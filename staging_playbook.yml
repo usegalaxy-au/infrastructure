@@ -28,7 +28,8 @@
     - common
     - install-tpv
     - geerlingguy.pip
-    - galaxyproject.galaxy
+    - role: galaxyproject.galaxy
+      tags: galaxy
     - role: galaxyproject.miniconda
       become: true
       become_user: galaxy
