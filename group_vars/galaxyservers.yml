@@ -194,6 +194,7 @@ group_galaxy_config:
     oidc_scope_prefix: "{{ galaxy_infrastructure_url }}/api"  # this exists in galaxy.yml from release_26.1 onwards
 
     conda_auto_init: false
+    conda_auto_install: true  # install conda envs on demand for few remaining tools that use conda environments
     check_migrate_tools: false
     log_level: TRACE
     new_file_path: "{{ galaxy_tmp_dir }}/scratch"
