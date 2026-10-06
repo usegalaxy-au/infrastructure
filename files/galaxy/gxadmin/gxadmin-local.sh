@@ -775,6 +775,13 @@ local_query-oom-jobs() { ##? <limit> : Show most recent jobs that failed due to 
 				OR position('Killed' in j.tool_stderr)>0
 				OR position('Some of your processes may have been killed' in j.tool_stderr)>0
 				OR position('Some of your processes may have been killed' in j.job_stderr)>0
+				OR EXISTS (
+					SELECT 1
+					FROM job_metric_numeric jmn
+					WHERE jmn.job_id = j.id
+					AND jmn.metric_name = 'memory.oom_control.oom_kill'
+					AND jmn.metric_value > 0
+				)
 			)
 			ORDER BY j.update_time desc
 			LIMIT $limit
@@ -789,9 +796,9 @@ local_query-resubmitted-jobs() { ##? <limit> : Show most recent jobs that were r
 	Optional argument of number of rows to return (default: 50).
 
 	$ gxadmin local query-resubmitted-jobs 1
-      job_id  | username     |       updated       |                                      tool_id                                      | cores | mem_gb | input_size | resubmissions | oom | destination
-    ----------+--------------+---------------------+-----------------------------------------------------------------------------------+-------+--------+------------+---------------+-----+-------------
-     15551027 | cat-stevens  | 2026-10-02 01:34:24 | toolshed.g2.bx.psu.edu/repos/iuc/samtools_coverage/samtools_coverage/1.22+galaxy3 |     1 |  15.20 | 12 GB      |             2 | f   | slurm
+      job_id  | username     |       updated       |                                      tool_id                                      | cores | mem_gb | input_size | resubmissions | state | oom | destination
+    ----------+--------------+---------------------+-----------------------------------------------------------------------------------+-------+--------+------------+---------------+-------+------------------
+     15551027 | cat-stevens  | 2026-10-02 01:34:24 | toolshed.g2.bx.psu.edu/repos/iuc/samtools_coverage/samtools_coverage/1.22+galaxy3 |     1 |  15.20 | 12 GB      |             2 | ok    | f   | slurm
 
 	EOF
 
@@ -817,11 +824,19 @@ local_query-resubmitted-jobs() { ##? <limit> : Show most recent jobs that were r
 					(convert_from(j.destination_params, 'UTF8')::jsonb ->> 'tpv_resubmission_count')::integer,
 					0
 				) as resubmissions,
+				j.state as state,
 				(
 					position('This job was terminated because it used more memory' in j.info)>0
 					OR position('Killed' in j.tool_stderr)>0
 					OR position('Some of your processes may have been killed' in j.tool_stderr)>0
 					OR position('Some of your processes may have been killed' in j.job_stderr)>0
+					OR EXISTS (
+						SELECT 1
+						FROM job_metric_numeric jmn
+						WHERE jmn.job_id = j.id
+						AND jmn.metric_name = 'memory.oom_control.oom_kill'
+						AND jmn.metric_value > 0
+					)
 				) as oom,
 				j.destination_id as destination
 			FROM job j
