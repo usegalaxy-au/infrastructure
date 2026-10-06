@@ -1,0 +1,8 @@
+# Test-only dependencies for the grouper test suite. Not installed on the
+# host venv - see files/requirements.txt for runtime dependencies, which
+# this suite also needs installed to import the grouper package.
+-r files/requirements.txt
+
+pytest==8.3.3
+responses==0.25.3
+flake8==7.1.1

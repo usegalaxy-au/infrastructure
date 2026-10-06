@@ -1,0 +1,18 @@
+{
+  "AU Researchers": {
+    "name": "AU Researchers",
+    "domains": ["uq.edu.au"]
+  },
+  "Multi Group": {
+    "name": "Multi Group",
+    "domains": ["shared.edu.au"]
+  },
+  "Also Multi Group": {
+    "name": "Also Multi Group",
+    "domains": ["shared.edu.au"]
+  },
+  "Staff": {
+    "name": "Staff",
+    "domains": ["usegalaxy.org.au"]
+  }
+}

@@ -1,0 +1,206 @@
+"""Tests for CLI parsing (grouper.params) and the entrypoint."""
+import pytest
+
+import config
+from grouper.galaxy import User
+from grouper.params import Params, build_arg_parser
+
+
+def test_flags_land_on_params_fields():
+    parser = build_arg_parser()
+    args = parser.parse_args([
+        '--commit', '--list', '--notify', '--add', '--remove', '--all',
+        '--limit', '10', '--force',
+    ])
+
+    params = Params.from_args(args)
+
+    assert params.dry_run is False
+    assert params.list_domains is True
+    assert params.notify is True
+    assert params.add is True
+    assert params.remove is True
+    assert params.all_users is True
+    assert params.generate is False
+    assert params.production is False
+    assert params.limit == 10
+    assert params.force is True
+
+
+def test_limit_defaults(tmp_path):
+    parser = build_arg_parser()
+    args = parser.parse_args([])
+
+    params = Params.from_args(args)
+
+    assert params.limit == 50
+    assert params.force is False
+
+
+def test_grouper_dir_defaults_to_package_parent():
+    parser = build_arg_parser()
+    args = parser.parse_args([])
+
+    params = Params.from_args(args)
+
+    assert params.grouper_dir.name == 'files'
+
+
+def test_grouper_dir_override(tmp_path):
+    parser = build_arg_parser()
+    args = parser.parse_args(['--grouper-dir', str(tmp_path)])
+
+    params = Params.from_args(args)
+
+    assert params.grouper_dir == tmp_path
+
+
+def test_generate_flag():
+    parser = build_arg_parser()
+    args = parser.parse_args(['--generate'])
+
+    assert Params.from_args(args).generate is True
+
+
+def test_production_selects_prod_server():
+    parser = build_arg_parser()
+    args = parser.parse_args(['--production'])
+
+    params = Params.from_args(args)
+
+    assert params.production is True
+    assert params.galaxy_baseurl == config.PROD_GALAXY_BASEURL
+    assert params.galaxy_api_key == config.PROD_GALAXY_API_KEY
+
+
+def test_default_selects_staging_server():
+    parser = build_arg_parser()
+    args = parser.parse_args([])
+
+    params = Params.from_args(args)
+
+    assert params.production is False
+    assert params.galaxy_baseurl == config.STAGING_GALAXY_BASEURL
+    assert params.galaxy_api_key == config.STAGING_GALAXY_API_KEY
+
+
+def test_dry_run_default_is_true():
+    """Stage 3 bug 5 (fixed): --dryrun was replaced with an explicit
+    --commit flag, so `groups.py --add` with no other flags now lists
+    changes without acting on them.
+    """
+    parser = build_arg_parser()
+    args = parser.parse_args([])
+
+    assert Params.from_args(args).dry_run is True
+
+
+def test_commit_flag_disables_dry_run():
+    parser = build_arg_parser()
+    args = parser.parse_args(['--commit'])
+
+    assert Params.from_args(args).dry_run is False
+
+
+def test_galaxy_api_error_propagates_from_main(monkeypatch, tmp_path):
+    """A GalaxyAPIError isn't caught anywhere, so it tracebacks out of
+    main() uncaught - which is what gives run_groups.sh a non-zero exit
+    code via the interpreter's own crash handling.
+
+    --grouper-dir points at tmp_path (with a canned approved_domains.json)
+    so this test doesn't depend on the real files/approved_domains.json -
+    previously an undeclared dependency, noted in refactoring-plan.md.
+    """
+    from grouper import __main__ as entrypoint
+    from grouper.galaxy import GalaxyAPIError
+
+    (tmp_path / 'approved_domains.json').write_text('{}')
+
+    class BoomGalaxyClient:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def get_users(self):
+            raise GalaxyAPIError('boom')
+
+    monkeypatch.setattr(entrypoint, 'GalaxyClient', BoomGalaxyClient)
+
+    with pytest.raises(GalaxyAPIError):
+        entrypoint.main(['--grouper-dir', str(tmp_path)])
+
+
+# -- expected user errors are reported, not tracebacked -------------------
+
+def test_malformed_approved_domains_returns_1_without_traceback(
+    tmp_path, capsys,
+):
+    """A GrouperUserError is caught by main() and reported as one ERROR
+    line, unlike the GalaxyAPIError above which tracebacks out.
+
+    Asserts on stdout rather than caplog because configure_logging calls
+    basicConfig(force=True), which evicts caplog's handler - stdout is
+    where the console handler writes, and what an operator actually sees.
+    """
+    from grouper import __main__ as entrypoint
+
+    path = tmp_path / 'approved_domains.json'
+    path.write_text('{"Group A": ["example.com"],}')  # trailing comma
+
+    exit_code = entrypoint.main(['--grouper-dir', str(tmp_path)])
+    out = capsys.readouterr().out
+
+    assert exit_code == 1
+    assert str(path) in out
+    assert 'not valid JSON' in out
+    assert 'ERROR' in out
+
+
+def test_malformed_users_json_returns_1_without_traceback(
+    monkeypatch, tmp_path, capsys,
+):
+    """The state file is read deep inside Grouper.run(), so this covers
+    the other end of the try block in main().
+    """
+    from grouper import __main__ as entrypoint
+
+    (tmp_path / 'approved_domains.json').write_text('{}')
+    users_path = tmp_path / 'users.json'
+    users_path.write_text('["u1",]')  # trailing comma
+
+    class FakeGalaxyClient:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def get_users(self):
+            return [User(id='u1', email='alice@uq.edu.au')]
+
+        def get_groups(self):
+            return []
+
+    monkeypatch.setattr(entrypoint, 'GalaxyClient', FakeGalaxyClient)
+
+    exit_code = entrypoint.main(['--grouper-dir', str(tmp_path)])
+    out = capsys.readouterr().out
+
+    assert exit_code == 1
+    assert str(users_path) in out
+    assert 'not valid JSON' in out
+
+
+def test_missing_env_var_returns_1_without_traceback(
+    monkeypatch, tmp_path, capsys,
+):
+    """A missing .env value is caught the same way as the JSON errors
+    above, rather than a bare KeyError traceback out of config.py.
+    """
+    from grouper import __main__ as entrypoint
+
+    (tmp_path / 'approved_domains.json').write_text('{}')
+    monkeypatch.delenv('SLACK_TOKEN', raising=False)
+
+    exit_code = entrypoint.main(['--grouper-dir', str(tmp_path)])
+    out = capsys.readouterr().out
+
+    assert exit_code == 1
+    assert 'SLACK_TOKEN' in out
+    assert 'ERROR' in out
