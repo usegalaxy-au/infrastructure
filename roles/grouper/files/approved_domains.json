@@ -30,58 +30,17 @@
       "redcrossblood.org.au"
     ]
   },
+  "Australian_Catholic_University": {
+    "name": "Australian Catholic University",
+    "domains": [
+      "myacu.edu.au",
+      "acu.edu.au"
+    ]
+  },
   "Australian_government": {
     "name": "Australian Government",
     "domains": [
-      "aad.gov.au",
-      "act.gov.au",
-      "aff.gov.au",
-      "afp.gov.au",
-      "agriculture.gov.au",
-      "agriculture.vic.gov.au",
-      "aims.gov.au",
-      "ansto.gov.au",
-      "antarctica.gov.au",
-      "austmus.gov.au",
-      "awe.gov.au",
-      "botanicgardens.nsw.gov.au",
-      "daf.qld.gov.au",
-      "dbca.wa.gov.au",
-      "dcceew.gov.au",
-      "deeca.vic.gov.au",
-      "defence.gov.au",
-      "des.qld.gov.au",
-      "detsi.qld.gov.au",
-      "dhhs.vic.gov.au",
-      "dpi.nsw.gov.au",
-      "dpi.qld.gov.au",
-      "dpie.nsw.gov.au",
-      "dpipwe.tas.gov.au",
-      "dpird.wa.gov.au",
-      "dst.defence.gov.au",
-      "ecodev.vic.gov.au",
-      "education.nsw.gov.au",
-      "education.vic.gov.au",
-      "environment.gov.au",
-      "foodstandards.gov.au",
-      "health.gov.au",
-      "health.nsw.gov.au",
-      "health.qld.gov.au",
-      "health.wa.gov.au",
-      "hnehealth.nsw.gov.au",
-      "industry.gov.au",
-      "justice.vic.gov.au",
-      "measurement.gov.au",
-      "museum.vic.gov.au",
-      "museum.wa.gov.au",
-      "nre.tas.gov.au",
-      "nt.gov.au",
-      "phcn.vic.gov.au",
-      "qm.qld.gov.au",
-      "rbg.vic.gov.au",
-      "sa.gov.au",
-      "ths.tas.gov.au",
-      "zoo.nsw.gov.au"
+      "*.gov.au"
     ]
   },
   "Australian_other": {
@@ -151,7 +110,31 @@
       "student.kings.edu.au",
       "students.aih.edu.au",
       "vcgs.org.au",
-      "vidrl.org.au"
+      "vidrl.org.au",
+      "anzac.edu.au",
+      "anzgog.org.au",
+      "australianhearthealth.org.au",
+      "nswcc.org.au",
+      "cancerqld.org.au",
+      "cancervic.org.au",
+      "caac.org.au",
+      "cera.org.au",
+      "cmri.org.au",
+      "earscience.org.au",
+      "hri.org.au",
+      "ludwig.edu.au",
+      "melanoma.org.au",
+      "nari.edu.au",
+      "lowitja.org.au",
+      "rbwhfoundation.com.au",
+      "adri.org.au",
+      "bionicsinstitute.org",
+      "georgeinstitute.org",
+      "saxinstitute.org.au",
+      "trog.com.au",
+      "vcs.org.au",
+      "wesleyresearch.com.au",
+      "woolcock.org.au"
     ]
   },
   "Baker_Heart_and_Diabetes_Institute": {
@@ -438,6 +421,18 @@
       "uon.edu.au"
     ]
   },
+  "The_University_of_Notre_Dame_Australia": {
+    "name": "The University of Notre Dame Australia",
+    "domains": [
+      "nd.edu.au"
+    ]
+  },
+  "Torrens_University_Australia": {
+    "name": "Torrens University Australia",
+    "domains": [
+      "torrens.edu.au"
+    ]
+  },
   "UNSW_users": {
     "name": "University of New South Wales",
     "domains": [
@@ -559,6 +554,12 @@
     "name": "Victor Chang Cardiac Research Institute",
     "domains": [
       "victorchang.edu.au"
+    ]
+  },
+  "Victoria_University": {
+    "name": "Victoria University",
+    "domains": [
+      "vu.edu.au"
     ]
   },
   "Walter_and_Eliza_Hall_Institute": {
