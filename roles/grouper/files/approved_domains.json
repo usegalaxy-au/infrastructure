@@ -30,7 +30,7 @@
       "redcrossblood.org.au"
     ]
   },
-  "Australian_Catholic_University": {
+  "australian_catholic_university": {
     "name": "Australian Catholic University",
     "domains": [
       "myacu.edu.au",
@@ -421,13 +421,13 @@
       "uon.edu.au"
     ]
   },
-  "The_University_of_Notre_Dame_Australia": {
+  "the_university_of_notre_dame_australia": {
     "name": "The University of Notre Dame Australia",
     "domains": [
       "nd.edu.au"
     ]
   },
-  "Torrens_University_Australia": {
+  "torrens_university_australia": {
     "name": "Torrens University Australia",
     "domains": [
       "torrens.edu.au"
@@ -556,7 +556,7 @@
       "victorchang.edu.au"
     ]
   },
-  "Victoria_University": {
+  "victoria_university": {
     "name": "Victoria University",
     "domains": [
       "vu.edu.au"
