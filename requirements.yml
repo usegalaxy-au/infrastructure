@@ -1,6 +1,20 @@
 collections:
-- ansible.posix
-- community.general
+- name: ansible.posix
+  version: 2.2.2
+- name: community.general
+  version: 13.4.0
+- name: community.docker
+  version: 3.12.1
+- name: grafana.grafana
+  version: 5.3.0
+- name: community.grafana # NOTE: used by grafana.grafana
+  version: 2.3.0
+- name: ansible.windows # NOTE: used by dj-wasabi.telegraf
+  version: 1.14.0
+- name: amazon.aws # NOTE: used by dj-wasabi.telegraf
+  version: 11.4.0
+- name: ansible.mysql # NOTE: used by local mariadb role
+  version: 5.2.0
 
 roles:
 - name: galaxyproject.galaxy
@@ -16,12 +30,8 @@ roles:
   version: 1.3.0
 - name: geerlingguy.nfs
   version: 2.1.0
-- src: usegalaxy_eu.galaxy_systemd
-  version: 2.1.0
 - src: usegalaxy_eu.certbot
   version: 0.1.11
-#- src: jasonroyle.rabbitmq - Had to modify download URL for rabbitMQ
-#  version: 0.0.4
 - src: galaxyproject.slurm
   version: 1.0.5
 - name: galaxyproject.s3fs
@@ -45,14 +55,6 @@ roles:
   version: 4.1.3
 - name: galaxyproject.miniconda
   version: 0.3.4
-- name: usegalaxy_eu.influxdb
-  version: v6.0.8
-- name: cloudalchemy.grafana
-  version: 0.18.0
-- src: cyverse-ansible.singularity
-  version: 048c4f178077d05c1e67ae8d9893809aac9ab3b7
-- src: gantsign.golang
-  version: 2.6.3
 - name: galaxyproject.tusd
   version: 0.0.1
 - name: usegalaxy_eu.flower
@@ -60,7 +62,6 @@ roles:
 - name: usegalaxy_eu.galaxy_subdomains
   src: https://github.com/cat-bro/ansible-galaxy-subdomains
   version: make_a_variable_of_base_css_path
-  # version: 0.0.13
 - src: usegalaxy_eu.apptainer
   version: 0.0.1
 - name: usegalaxy_eu.rabbitmqserver
@@ -71,7 +72,6 @@ roles:
   version: main
 - name: geerlingguy.redis
   version: 1.8.0
-# jenkins server roles
 - name: geerlingguy.java
   version: 2.5.0
 - name: geerlingguy.jenkins
@@ -80,6 +80,9 @@ roles:
 - name: usegalaxy-au.history_mailer
   src: https://github.com/usegalaxy-au/ansible-history-mailer
   version: 364d3aecd77fc2a674890b92ba496e3c51a8e216
+- name: usegalaxy-au.influxdbserver  # forked from usegalaxy-eu role
+  src: https://github.com/usegalaxy-au/ansible-influxdb-container
+  version: 2669ec8
 
 # GMS roles
 - name: geerlingguy.nginx

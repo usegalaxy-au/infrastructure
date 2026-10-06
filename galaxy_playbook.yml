@@ -40,7 +40,8 @@
     - role: mounts
       tags: mounts
     - geerlingguy.pip
-    - galaxyproject.galaxy
+    - role: galaxyproject.galaxy
+      tags: galaxy
     # - role: galaxyproject.miniconda # this role is needed for a fresh installation, but for subsequent playbook runs can take far too much time. TODO: fix this somehow
     #   become: true
     #   become_user: galaxy

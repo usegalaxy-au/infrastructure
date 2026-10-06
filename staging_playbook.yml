@@ -28,7 +28,8 @@
     - common
     - install-tpv
     - geerlingguy.pip
-    - galaxyproject.galaxy
+    - role: galaxyproject.galaxy
+      tags: galaxy
     - role: galaxyproject.miniconda
       become: true
       become_user: galaxy
@@ -41,8 +42,7 @@
     - geerlingguy.nfs
     - galaxyproject.slurm
     - galaxyproject.cvmfs
-    - gantsign.golang
-    - cyverse-ansible.singularity
+    - usegalaxy_eu.apptainer
     - geerlingguy.docker
     - role: acl-on-startup
       tags: setfacl

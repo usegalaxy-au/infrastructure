@@ -254,9 +254,10 @@ tools:
     - id: hifiasm_xlarge_input_rule
       if: input_size > 200
       mem: 1922
-      # scheduling:
-      #   prefer:
-      #   - pulsar-high-mem1
+      scheduling:
+        prefer:
+        - pulsar-high-mem1
+        rules:
     - id: tpvdb_hifiasm_expert_memory_rule  # overridden from shared-db to set cores here
       # The memory requirement of Hifiasm depends on the "Estimated haploid genome size" (hg_size).
       # If hg_size is set, and it can be calculated automatically, then we can fit memory more efficiently.
@@ -389,7 +390,7 @@ tools:
       accept:
       - pulsar
       - pulsar-quick
-      # - pulsar-high-mem2
+      - pulsar-high-mem2
   toolshed.g2.bx.psu.edu/repos/bgruening/salmonquantmerge/salmonquantmerge/.*:
     cores: 2
     mem: 7.6
@@ -786,7 +787,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      # - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
   toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/.*:
     cores: 1
     mem: 3.8
@@ -1214,8 +1215,8 @@ tools:
       - phastest
       prefer:
       - pulsar
-      # accept:
-      # - pulsar-high-mem2
+      accept:
+      - pulsar-high-mem2
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/plot_ragtag_paf/plot_ragtag_paf/.*:
     mem: 12  # TODO: add to shared-db (17/08/26)
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/smudgeplot/smudgeplot/.*:
@@ -1458,7 +1459,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      # - pulsar-high-mem2
+      - pulsar-high-mem2
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
     context:
       max_concurrent_job_count_for_tool_user: 4
@@ -2006,7 +2007,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      # - pulsar-high-mem2
+      - pulsar-high-mem2
     rules:
     - id: get_organelle_from_reads_large_input_rule
       if: input_size > 2
@@ -2149,7 +2150,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      # - pulsar-high-mem2
+      - pulsar-high-mem2
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/.*:
     cores: 16
     mem: 62
@@ -2267,7 +2268,7 @@ tools:
       accept:
       - pulsar
       - pulsar-training-large
-      # - pulsar-high-mem2
+      - pulsar-high-mem2
       - pulsar-quick
       reject:
       - pulsar-QLD
@@ -2717,11 +2718,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/nanoplot/.*:
     cores: 3
     mem: 11.5
-    rules:
-    - id: nanoplot_singularity_rule  # no container in cvmfs (28/08/26)
-      if: helpers.tool_version_gte(tool, "1.47.2+galaxy0")
-      params:
-        singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/iuc/ncbi_acc_download/ncbi_acc_download/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
@@ -2856,7 +2852,7 @@ tools:
     scheduling:
       accept:
       - pulsar
-      # - pulsar-high-mem2
+      - pulsar-high-mem2
     rules:
     - id: porechop_small_input_rule
       if: input_size < 0.8
@@ -3038,6 +3034,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/samtools.*:
     params:
       tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/iuc/samtools_coverage/samtools_coverage/.*:
+    context:
+      OOM_RESUBMIT_JOBS: true
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
     cores: 8
     mem: 31
@@ -3619,7 +3618,7 @@ tools:
       - pulsar
       - pulsar-quick
       - pulsar-training-large
-      # - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
+      - pulsar-high-mem2  # TODO: remove tag when other high memory pulsars are back
     rules:
     - id: unicycler_small_input_rule
       if: input_size < 0.05
