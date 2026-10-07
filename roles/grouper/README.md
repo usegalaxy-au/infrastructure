@@ -113,7 +113,12 @@ the log to check for anything older than the last cron tick.
 - `run_groups.sh` uses `flock` so only one instance runs at a time, and
   blocks future runs (writing `.run_groups.blocked` and sending a Slack
   alert via `notify_failure.py`) if grouper exits non-zero. Invalid
-  arguments (argparse exit code 2) don't block. Run
+  arguments (argparse exit code 2) don't block, and neither does Galaxy
+  being temporarily unavailable: GETs that hit a 502/503/504, connection
+  error or timeout are retried with backoff, and if Galaxy is still down
+  grouper exits 75 (`EX_TEMPFAIL`) and the next scheduled run tries
+  again. If this happens on two consecutive runs, a single Slack alert is
+  sent (the count resets once a run reaches Galaxy). Run
   `run_groups.sh --unblock` to resume. With no args it runs grouper with
   `grouper_run_args` (or shows usage if that's empty); pass grouper args
   directly to override them for a manual run, or `--help` for usage.

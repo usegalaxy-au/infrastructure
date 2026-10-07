@@ -129,6 +129,33 @@ def test_galaxy_api_error_propagates_from_main(monkeypatch, tmp_path):
         entrypoint.main(['--grouper-dir', str(tmp_path)])
 
 
+def test_galaxy_unavailable_returns_tempfail(monkeypatch, tmp_path, capsys):
+    """Galaxy still unreachable after retries is transient, not a fault:
+    main() reports it and returns EXIT_TEMPFAIL so run_groups.sh does not
+    block future runs.
+    """
+    from grouper import __main__ as entrypoint
+    from grouper.galaxy import GalaxyUnavailableError
+
+    (tmp_path / 'approved_domains.json').write_text('{}')
+
+    class DownGalaxyClient:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def get_users(self):
+            raise GalaxyUnavailableError('502 Bad Gateway')
+
+    monkeypatch.setattr(entrypoint, 'GalaxyClient', DownGalaxyClient)
+
+    exit_code = entrypoint.main(['--grouper-dir', str(tmp_path)])
+    out = capsys.readouterr().out
+
+    assert exit_code == entrypoint.EXIT_TEMPFAIL
+    assert '502 Bad Gateway' in out
+    assert 'ERROR' in out
+
+
 # -- expected user errors are reported, not tracebacked -------------------
 
 def test_malformed_approved_domains_returns_1_without_traceback(

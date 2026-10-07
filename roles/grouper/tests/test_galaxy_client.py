@@ -4,10 +4,17 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
+import requests
 import responses
 
 import config
-from grouper.galaxy import REQUEST_TIMEOUT, GalaxyAPIError, GalaxyClient
+from grouper.galaxy import (
+    REQUEST_TIMEOUT,
+    RETRY_DELAYS,
+    GalaxyAPIError,
+    GalaxyClient,
+    GalaxyUnavailableError,
+)
 
 DATA_DIR = Path(__file__).resolve().parent / 'data'
 BASEURL = 'https://example.invalid/api/'
@@ -166,3 +173,65 @@ def test_remove_user_from_group_failure():
 
     client = GalaxyClient(BASEURL, 'secret-key')
     assert client.remove_user_from_group('u1', 'g1') is False
+
+
+# -- transient failures are retried ---------------------------------------
+
+@responses.activate
+def test_get_retries_gateway_error_then_succeeds():
+    url = BASEURL + config.GALAXY_USER_EP
+    responses.add(responses.GET, url, body='Bad Gateway', status=502)
+    responses.add(responses.GET, url, json=load('users.json'), status=200)
+    sleeps = []
+
+    client = GalaxyClient(BASEURL, 'secret-key', sleep_fn=sleeps.append)
+    users = client.get_users()
+
+    assert [u.id for u in users] == ['u1', 'u2', 'u3']
+    assert sleeps == [RETRY_DELAYS[0]]
+
+
+@responses.activate
+def test_get_retries_connection_error_then_succeeds():
+    url = BASEURL + config.GALAXY_USER_EP
+    responses.add(
+        responses.GET, url,
+        body=requests.ConnectionError('connection refused'))
+    responses.add(responses.GET, url, json=load('users.json'), status=200)
+    sleeps = []
+
+    client = GalaxyClient(BASEURL, 'secret-key', sleep_fn=sleeps.append)
+    client.get_users()
+
+    assert sleeps == [RETRY_DELAYS[0]]
+
+
+@responses.activate
+def test_get_raises_unavailable_after_retries_exhausted():
+    responses.add(
+        responses.GET, BASEURL + config.GALAXY_USER_EP,
+        body='Service Unavailable', status=503)
+    sleeps = []
+
+    client = GalaxyClient(BASEURL, 'secret-key', sleep_fn=sleeps.append)
+    with pytest.raises(GalaxyUnavailableError):
+        client.get_users()
+
+    assert sleeps == list(RETRY_DELAYS)
+    assert len(responses.calls) == len(RETRY_DELAYS) + 1
+
+
+@responses.activate
+def test_get_does_not_retry_non_transient_error():
+    responses.add(
+        responses.GET, BASEURL + config.GALAXY_USER_EP,
+        body='<html>internal error</html>', status=500)
+    sleeps = []
+
+    client = GalaxyClient(BASEURL, 'secret-key', sleep_fn=sleeps.append)
+    with pytest.raises(GalaxyAPIError) as exc_info:
+        client.get_users()
+
+    assert not isinstance(exc_info.value, GalaxyUnavailableError)
+    assert sleeps == []
+    assert len(responses.calls) == 1

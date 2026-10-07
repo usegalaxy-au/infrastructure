@@ -11,11 +11,17 @@ GROUPER_DIR="{{ grouper_dir }}"
 VENV_PYTHON="{{ grouper_venv }}/bin/python"
 LOCKFILE="{{ grouper_dir }}/.run_groups.lock"
 BLOCKFILE="{{ grouper_dir }}/.run_groups.blocked"
+TEMPFAIL_COUNTFILE="{{ grouper_dir }}/.run_groups.tempfail_count"
 DEFAULT_ARGS=({{ grouper_run_args }})
 SCRIPT="$(basename "$0")"
 
 # argparse exits with this code on a usage error (bad/unknown args)
 ARGPARSE_USAGE_EXIT_CODE=2
+# grouper exits with this (EX_TEMPFAIL) when Galaxy is temporarily
+# unreachable after retries - the next scheduled run tries again
+TEMPFAIL_EXIT_CODE=75
+# Send one Slack alert once this many consecutive runs have hit a tempfail
+TEMPFAIL_ALERT_THRESHOLD=2
 
 usage() {
     cat <<EOF
@@ -28,8 +34,8 @@ Usage:
 
 Default args are set by the grouper_run_args Ansible variable.
 
-If grouper exits non-zero, subsequent runs are blocked and a Slack alert is
-sent. Investigate the failure (see $GROUPER_DIR/grouper.log), then run
+If grouper fails, subsequent runs are blocked and a Slack alert is sent
+(except for invalid arguments, or Galaxy being temporarily unavailable). Investigate the failure (see $GROUPER_DIR/grouper.log), then run
 '$SCRIPT --unblock' to resume.
 
 Grouper usage (GROUPER_ARGS):
@@ -75,8 +81,23 @@ cd "$GROUPER_DIR" || exit 1
 "$VENV_PYTHON" -m grouper "$@"
 exit_code=$?
 
+# Any run that got past arg parsing without a tempfail reached Galaxy
+if [ "$exit_code" -ne "$TEMPFAIL_EXIT_CODE" ] \
+    && [ "$exit_code" -ne "$ARGPARSE_USAGE_EXIT_CODE" ]; then
+    rm -f "$TEMPFAIL_COUNTFILE"
+fi
+
 if [ "$exit_code" -eq "$ARGPARSE_USAGE_EXIT_CODE" ]; then
     echo "$(date -Iseconds) Invalid arguments - not blocking. Run '$SCRIPT --help' for usage."
+elif [ "$exit_code" -eq "$TEMPFAIL_EXIT_CODE" ]; then
+    tempfail_count=$(( $(cat "$TEMPFAIL_COUNTFILE" 2>/dev/null || echo 0) + 1 ))
+    echo "$tempfail_count" > "$TEMPFAIL_COUNTFILE"
+    echo "$(date -Iseconds) Galaxy temporarily unavailable ($tempfail_count consecutive runs) - not blocking. The next run will retry."
+
+    if [ "$tempfail_count" -eq "$TEMPFAIL_ALERT_THRESHOLD" ]; then
+        "$VENV_PYTHON" notify_failure.py \
+            "grouper: Galaxy has been unavailable for $tempfail_count consecutive runs on $(hostname). Runs are not blocked and will keep retrying - see $GROUPER_DIR/grouper.log."
+    fi
 elif [ "$exit_code" -ne 0 ]; then
     echo "$(date -Iseconds) grouper failed with exit code $exit_code. Blocking future runs."
 
