@@ -113,3 +113,6 @@ history_mailer_cron_jobs:
   purge_histories:
     weekday: "2"
     hour: "12"
+
+grouper_enable_cron_jobs: true
+grouper_run_args: --add --all --production --notify --commit

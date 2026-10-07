@@ -2,45 +2,91 @@
 ##
 ## This file is managed by Ansible. ALL CHANGES WILL BE OVERWRITTEN.
 ##
-## Runs groups.py under flock so only one instance executes at a time.
-## If groups.py exits non-zero, future runs are blocked (until BLOCKFILE
-## is removed by an operator) and a Slack alert is sent.
+## Runs grouper under flock so only one instance executes at a time.
+## If grouper exits non-zero, future runs are blocked (until an operator
+## runs `run_groups.sh --unblock`) and a Slack alert is sent.
 set -uo pipefail
 
 GROUPER_DIR="{{ grouper_dir }}"
 VENV_PYTHON="{{ grouper_venv }}/bin/python"
 LOCKFILE="{{ grouper_dir }}/.run_groups.lock"
 BLOCKFILE="{{ grouper_dir }}/.run_groups.blocked"
-RUN_ARGS=({{ grouper_run_args }})
+DEFAULT_ARGS=({{ grouper_run_args }})
+SCRIPT="$(basename "$0")"
+
+# argparse exits with this code on a usage error (bad/unknown args)
+ARGPARSE_USAGE_EXIT_CODE=2
+
+usage() {
+    cat <<EOF
+Usage:
+  $SCRIPT                   Run grouper with the default args (as cron does):
+                              ${DEFAULT_ARGS[*]:-<none set - shows this help>}
+  $SCRIPT [GROUPER_ARGS]    Run grouper with the given args instead
+  $SCRIPT --unblock         Clear a block left by a previous failed run
+  $SCRIPT -h | --help       Show this help
+
+Default args are set by the grouper_run_args Ansible variable.
+
+If grouper exits non-zero, subsequent runs are blocked and a Slack alert is
+sent. Investigate the failure (see $GROUPER_DIR/grouper.log), then run
+'$SCRIPT --unblock' to resume.
+
+Grouper usage (GROUPER_ARGS):
+EOF
+    cd "$GROUPER_DIR" && "$VENV_PYTHON" -m grouper --help
+}
+
+# Args passed on the command line override the default (cron) args
+if [ "$#" -eq 0 ]; then
+    set -- ${DEFAULT_ARGS[@]+"${DEFAULT_ARGS[@]}"}
+fi
+
+case "${1:-}" in
+    "" | -h | --help)
+        usage
+        exit 0
+        ;;
+    --unblock)
+        if [ -f "$BLOCKFILE" ]; then
+            rm -f "$BLOCKFILE"
+            echo "$(date -Iseconds) Removed $BLOCKFILE. Runs will resume."
+        else
+            echo "Runs are not blocked."
+        fi
+        exit 0
+        ;;
+esac
 
 exec 200>"$LOCKFILE"
 if ! flock -n 200; then
-    echo "$(date -Iseconds) Another run_groups.sh is already running. Exiting."
+    echo "$(date -Iseconds) Another $SCRIPT is already running. Exiting."
     exit 0
 fi
 
 if [ -f "$BLOCKFILE" ]; then
     echo "$(date -Iseconds) Runs are blocked due to a previous failure:"
     cat "$BLOCKFILE"
-    echo "Remove $BLOCKFILE to resume scheduled runs."
     exit 1
 fi
 
 cd "$GROUPER_DIR" || exit 1
 
-"$VENV_PYTHON" -m grouper "${RUN_ARGS[@]:-}"
+"$VENV_PYTHON" -m grouper "$@"
 exit_code=$?
 
-if [ "$exit_code" -ne 0 ]; then
-    echo "$(date -Iseconds) groups.py failed with exit code $exit_code. Blocking future runs."
+if [ "$exit_code" -eq "$ARGPARSE_USAGE_EXIT_CODE" ]; then
+    echo "$(date -Iseconds) Invalid arguments - not blocking. Run '$SCRIPT --help' for usage."
+elif [ "$exit_code" -ne 0 ]; then
+    echo "$(date -Iseconds) grouper failed with exit code $exit_code. Blocking future runs."
 
     {
-        echo "groups.py failed at $(date -Iseconds) with exit code $exit_code."
-        echo "Remove this file to allow scheduled runs to resume."
+        echo "grouper failed at $(date -Iseconds) with exit code $exit_code."
+        echo "Run '$0 --unblock' to allow runs to resume."
     } > "$BLOCKFILE"
 
     "$VENV_PYTHON" notify_failure.py \
-        "grouper: groups.py failed (exit code $exit_code) on $(hostname). Future runs are blocked until $BLOCKFILE is removed."
+        "grouper failed (exit code $exit_code) on $(hostname). Future runs are blocked until '$0 --unblock' is run."
 fi
 
 exit "$exit_code"

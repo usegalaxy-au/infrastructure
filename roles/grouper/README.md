@@ -17,7 +17,7 @@ into a host venv, and (optionally) an hourly cron job that runs it under
 | `grouper_venv` | `{{ grouper_dir }}/venv` | Host venv for grouper's runtime dependencies |
 | `grouper_run_script_path` | `/home/{{ grouper_user }}/run_groups.sh` | Cron wrapper script (templated from `run_groups.sh.j2`) |
 | `grouper_run_log_path` | `/home/{{ grouper_user }}/run_groups.log` | Cron stdout/stderr redirect target - overwritten every run; `grouper.log` (in `grouper_dir`) is the durable, rotated log |
-| `grouper_run_args` | `""` | Args passed to `python -m grouper` by `run_groups.sh`, e.g. `"--add --remove --notify --commit"` |
+| `grouper_run_args` | `""` | Args passed to `python -m grouper` by `run_groups.sh` when run without args (as cron does), e.g. `"--add --remove --notify --commit"` |
 | `grouper_cron_minute` / `grouper_cron_hour` | `"0"` / `"*"` | Cron schedule |
 | `grouper_enable_cron_jobs` | `false` | Cron entry is created disabled by default - flip to `true` once `grouper_run_args` is set deliberately |
 
@@ -111,9 +111,12 @@ the log to check for anything older than the last cron tick.
   defaults to `""`, so cron acts on nothing until it's deliberately
   changed.
 - `run_groups.sh` uses `flock` so only one instance runs at a time, and
-  blocks future scheduled runs (writing `.run_groups.blocked` and sending
-  a Slack alert via `notify_failure.py`) if grouper exits non-zero. Remove
-  the block file to resume.
+  blocks future runs (writing `.run_groups.blocked` and sending a Slack
+  alert via `notify_failure.py`) if grouper exits non-zero. Invalid
+  arguments (argparse exit code 2) don't block. Run
+  `run_groups.sh --unblock` to resume. With no args it runs grouper with
+  `grouper_run_args` (or shows usage if that's empty); pass grouper args
+  directly to override them for a manual run, or `--help` for usage.
 - `--limit` (default 50) refuses to act on an unexpectedly large batch of
   changes - e.g. a truncated Galaxy user list or a bad edit to
   `approved_domains.json` - without `--force`, alerting Slack instead.

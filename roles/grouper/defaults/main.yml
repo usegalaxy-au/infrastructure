@@ -7,6 +7,7 @@ grouper_run_script_path: "/home/{{ grouper_user }}/run_groups.sh"
 grouper_run_log_path: "/home/{{ grouper_user }}/run_groups.log"
 # Dry-run by default - grouper.py lists changes but acts on nothing unless
 # --commit is passed here (alongside --add/--remove/--notify as needed).
+# Full prod run: --add --all --production --notify --commit
 grouper_run_args: ""
 
 grouper_cron_minute: "0"
