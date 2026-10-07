@@ -1,11 +1,12 @@
 """Entrypoint: build Params from argv, run a pass, set the exit code."""
+import logging
 import sys
 
 import config
 
 from .domains import DomainRules
 from .errors import GrouperUserError, report_exception
-from .galaxy import GalaxyClient
+from .galaxy import GalaxyClient, GalaxyUnavailableError
 from .grouper import Grouper
 from .logging_setup import configure_logging
 from .params import Params, build_arg_parser
@@ -16,13 +17,20 @@ APPROVED_DOMAINS_FILENAME = 'approved_domains.json'
 USERS_FILENAME = 'users.json'
 LOG_FILENAME = 'grouper.log'
 
+# sysexits.h EX_TEMPFAIL: run_groups.sh treats this as "try again next
+# run" rather than a failure that blocks future runs.
+EXIT_TEMPFAIL = 75
+
+logger = logging.getLogger(__name__)
+
 
 def main(argv: list = None) -> int:
     """Parse argv, wire up collaborators and run a grouper pass.
 
     Returns 0 on success, 1 on a handled failure (e.g. Galaxy returned no
     users, the change-limit safety valve refused to act, or a
-    GrouperUserError from a malformed JSON file or missing .env variable).
+    GrouperUserError from a malformed JSON file or missing .env variable),
+    or EXIT_TEMPFAIL if Galaxy is still unreachable after retries.
     Unhandled exceptions - e.g. a GalaxyAPIError from a failed request -
     traceback uncaught, which is what gives run_groups.sh a non-zero exit
     code via the interpreter's own crash handling.
@@ -45,6 +53,9 @@ def main(argv: list = None) -> int:
     except GrouperUserError as exc:
         report_exception(exc)
         return 1
+    except GalaxyUnavailableError as exc:
+        logger.error("Galaxy is unavailable - will retry next run: %s", exc)
+        return EXIT_TEMPFAIL
 
 
 if __name__ == '__main__':

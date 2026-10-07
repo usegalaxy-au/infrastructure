@@ -3,8 +3,8 @@ import logging
 import sys
 from dataclasses import dataclass, field
 from datetime import timedelta
-from time import time
-from typing import Optional
+from time import sleep, time
+from typing import Callable, Optional
 
 import requests
 
@@ -12,11 +12,26 @@ import config
 
 REQUEST_TIMEOUT = 30  # seconds
 
+# GETs that fail with a gateway error, connection error or timeout are
+# retried after each of these delays (seconds) before giving up - these are
+# usually a Galaxy restart or proxy blip that clears within a minute or two.
+RETRY_DELAYS = (10, 30, 60)
+RETRY_STATUS_CODES = (502, 503, 504)
+
 logger = logging.getLogger(__name__)
 
 
 class GalaxyAPIError(Exception):
     """Raised when the Galaxy API returns a non-200 response."""
+
+
+class GalaxyUnavailableError(GalaxyAPIError):
+    """Raised when Galaxy is still unreachable after all retries.
+
+    A transient condition (gateway error, connection error or timeout)
+    rather than a fault - `__main__` exits with EX_TEMPFAIL so that
+    run_groups.sh does not block future runs.
+    """
 
 
 @dataclass(frozen=True)
@@ -55,22 +70,44 @@ class GalaxyClient:
         baseurl: str,
         api_key: str,
         session: requests.Session = None,
+        retry_delays: tuple = RETRY_DELAYS,
+        sleep_fn: Callable[[float], None] = sleep,
     ):
         self._baseurl = baseurl
         self._session = session or requests.Session()
         self._session.headers.update({'x-api-key': api_key})
+        self._retry_delays = retry_delays
+        self._sleep = sleep_fn
 
     def _get(self, path: str) -> requests.Response:
-        """GET a path, raising GalaxyAPIError on a non-200 response."""
-        res = self._session.get(
-            self._baseurl + path, timeout=REQUEST_TIMEOUT)
+        """GET a path, retrying transient failures.
 
-        if res.status_code != 200:
-            raise GalaxyAPIError(
-                f"Request to {path} did not return ok: {res.reason}: "
-                f"{res.text}")
+        Raises GalaxyUnavailableError if a gateway error, connection error
+        or timeout persists through every retry, and GalaxyAPIError on any
+        other non-200 response.
+        """
+        for delay in (*self._retry_delays, None):
+            try:
+                res = self._session.get(
+                    self._baseurl + path, timeout=REQUEST_TIMEOUT)
+            except (requests.ConnectionError, requests.Timeout) as exc:
+                error = f"Request to {path} failed: {exc}"
+            else:
+                if res.status_code == 200:
+                    return res
+                error = (
+                    f"Request to {path} did not return ok: "
+                    f"{res.status_code} {res.reason}")
+                if res.status_code not in RETRY_STATUS_CODES:
+                    raise GalaxyAPIError(f"{error}: {res.text}")
 
-        return res
+            if delay is None:
+                raise GalaxyUnavailableError(
+                    f"{error} (gave up after "
+                    f"{len(self._retry_delays) + 1} attempts)")
+
+            logger.warning("%s - retrying in %ss", error, delay)
+            self._sleep(delay)
 
     def get_groups(self) -> list:
         """Fetch all groups, each populated with its member users."""
