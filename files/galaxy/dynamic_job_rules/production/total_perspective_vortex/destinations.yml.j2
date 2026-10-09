@@ -331,8 +331,8 @@ destinations:
     max_accepted_cores: 16
     max_accepted_mem: 62.5
     context:
-      destination_total_cores: 80  # 112  (5/7 capacity while w1-w2 are offline 9/10/26)
-      destination_total_mem: 312.5  # 437.5   (5/7 capacity while w1-w2 are offline 9/10/26)
+      destination_total_cores: 112
+      destination_total_mem: 437.5
     tags: {{ job_conf_limits.environments['pulsar-QLD'].tags }}
     scheduling:
       accept:
