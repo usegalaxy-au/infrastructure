@@ -14,4 +14,14 @@
     disabled: "{{ not grouper_enable_cron_jobs }}"
     minute: "{{ grouper_cron_minute }}"
     hour: "{{ grouper_cron_hour }}"
-    job: "{{ grouper_run_script_path }} > {{ grouper_run_log_path }} 2>&1"
+    job: "{{ grouper_run_script_path }} >> {{ grouper_run_log_path }} 2>&1"
+
+- name: Install logrotate config for grouper log
+  template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/grouper
+    owner: root
+    group: root
+    mode: "0644"
+  become: true
+  become_user: root

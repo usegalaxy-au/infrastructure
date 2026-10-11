@@ -10,7 +10,7 @@ grouper_run_log_path: "/home/{{ grouper_user }}/run_groups.log"
 # Full prod run: --add --all --production --notify --commit
 grouper_run_args: ""
 
-grouper_cron_minute: "0"
+grouper_cron_minute: "*/15"
 grouper_cron_hour: "*"
 grouper_enable_cron_jobs: false  # cron entry is created disabled by default
 
