@@ -1,0 +1,10 @@
+{{ grouper_run_log_path }} {
+    su {{ grouper_user }} {{ grouper_user }}
+    monthly
+    rotate 3
+    missingok
+    notifempty
+    compress
+    delaycompress
+    create 0640 {{ grouper_user }} {{ grouper_user }}
+}
