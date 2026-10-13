@@ -200,7 +200,7 @@ destinations:
       accept:
         - cvmfs_cache_100plus
         - cvmfs_cache_800plus
-        # - phastest
+        - phastest
       require:
         - pulsar
         - pulsar-high-mem2
@@ -339,7 +339,7 @@ destinations:
         - bakta_database
         - bakta_solo_destination
         - eggnog
-        - phastest  # while pulsar-high-mem2 is offline
+        # - phastest  # while pulsar-high-mem2 is offline
       require:
         - pulsar
         # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
