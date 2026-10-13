@@ -241,7 +241,6 @@ destinations:
         - bakta_database
         - funannotate
         - eggnog
-        - phastest  # alternative phastest pulsar while phm2 is offline
       require:
         - pulsar
   pulsar-qld-high-mem1:
@@ -340,6 +339,7 @@ destinations:
         - bakta_database
         - bakta_solo_destination
         - eggnog
+        - phastest  # while pulsar-high-mem2 is offline
       require:
         - pulsar
         # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
