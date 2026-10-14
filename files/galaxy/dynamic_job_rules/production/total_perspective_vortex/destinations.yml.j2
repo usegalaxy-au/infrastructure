@@ -262,7 +262,7 @@ destinations:
         - gtdbtk_database
         - verkko_venv
         - medaka_venv_211
-        # - gffread_destination  # while pqhm2 is offline
+        - gffread_destination  # while pqhm2 is offline
       require:
         - pulsar
   pulsar-qld-high-mem2:
@@ -277,13 +277,14 @@ destinations:
     tags: {{ job_conf_limits.environments['pulsar-qld-high-mem2'].tags }}
     scheduling:
       accept:
-        - pulsar-qld-high-mem2  # normally this is accepted and not required, except when the machine needs a rest
+        # - pulsar-qld-high-mem2  # normally this is accepted and not required, except when the machine needs a rest
         - cvmfs_cache_100plus
         - cvmfs_cache_800plus
         - ncbi_fcs_gx_db
-        - gffread_destination  # special mapping because gffread is a dangerous tool that can take over jwd space
+        # - gffread_destination  # special mapping because gffread is a dangerous tool that can take over jwd space
       require:
         - pulsar
+        - pulsar-qld-high-mem2
   pulsar-nci-training:
     inherits: _pulsar_destination
     runner: pulsar-nci-training_runner
