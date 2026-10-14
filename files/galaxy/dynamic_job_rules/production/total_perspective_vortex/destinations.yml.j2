@@ -200,7 +200,7 @@ destinations:
       accept:
         - cvmfs_cache_100plus
         - cvmfs_cache_800plus
-        - phastest
+        # - phastest
       require:
         - pulsar
         - pulsar-high-mem2
@@ -227,7 +227,7 @@ destinations:
     runner: pulsar-qld-high-mem0_runner
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
-    min_accepted_mem: 42
+    min_accepted_mem: 62.51
     context:
       destination_total_cores: 240
       destination_total_mem: 3845.07
@@ -248,7 +248,7 @@ destinations:
     runner: pulsar-qld-high-mem1_runner
     max_accepted_cores: 240
     max_accepted_mem: 3845.07
-    min_accepted_mem: 42
+    min_accepted_mem: 62.51
     context:
       destination_total_cores: 240
       destination_total_mem: 3845.07
@@ -340,7 +340,7 @@ destinations:
         - bakta_database
         - bakta_solo_destination
         - eggnog
-        # - phastest  # while pulsar-high-mem2 is offline
+        - phastest  # while pulsar-high-mem2 is offline
       require:
         - pulsar
         # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
