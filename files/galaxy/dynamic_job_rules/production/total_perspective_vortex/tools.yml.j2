@@ -904,11 +904,6 @@ tools:
     #   accept:
     #   - pulsar
     #   - pulsar-quick
-    rules:
-    - id: picard_small_input_rule
-      if: input_size < 1
-      cores: 1
-      mem: 3.8
   toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/.*:
     params:
       singularity_enabled: false
