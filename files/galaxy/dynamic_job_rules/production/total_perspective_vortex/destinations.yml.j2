@@ -200,6 +200,7 @@ destinations:
         - cvmfs_cache_100plus
         - cvmfs_cache_800plus
         - phastest
+        - gffread_destination  # while pqhm1 and pqhm2 are offline
       require:
         - pulsar
         - pulsar-high-mem2
@@ -261,10 +262,10 @@ destinations:
         - gtdbtk_database
         - verkko_venv
         - medaka_venv_211
-        - gffread_destination  # while pqhm2 is offline
+        # - gffread_destination  # while pqhm2 is offline
       require:
         - pulsar
-        - pulsar-quick
+        - offline
   pulsar-qld-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem2_runner
