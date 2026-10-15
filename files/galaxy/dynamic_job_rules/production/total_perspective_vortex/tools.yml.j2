@@ -3348,8 +3348,17 @@ tools:
       cores: 8
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/spaln/.*:
-    cores: 3
-    mem: 11.5
+    cores: 6
+    mem: 100
+    scheduling:
+      accept:
+      - pulsar
+      - pulsar-quick
+    rules:
+    - id: spaln_small_input_rule
+      if: input_size < 0.2
+      cores: 3
+      mem: 11.5
   toolshed.g2.bx.psu.edu/repos/iuc/sqlite_to_tabular/sqlite_to_tabular/.*:
     context:
       minimum_singularity_version: 3.2.1
