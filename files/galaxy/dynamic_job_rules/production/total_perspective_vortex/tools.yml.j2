@@ -897,14 +897,19 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/picard/.*:
     context:
       minimum_singularity_version: 2.18.2
-    cores: 3
-    mem: 11.5
+    cores: 8
+    mem: 30.7
     params:
       tmp_dir: true
     # scheduling: # these jobs can run on pulsar but it may not be worth transferring them because the job walltime is much quicker than the transport time
     #   accept:
     #   - pulsar
     #   - pulsar-quick
+    rules:
+    - id: picard_small_input_rule
+      if: input_size < 20
+      cores: 3
+      mem: 11.5
   toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/.*:
     params:
       singularity_enabled: false
