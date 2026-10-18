@@ -25,3 +25,8 @@ toolmsg_messages:
       <a href="mailto:help@genome.edu.au">help@genome.edu.au</a>
       for support on how to move large datasets.
     class: info
+
+  - tool_id: toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp
+    message: >
+      Users have reported sporadic job failure for the latest version of fastp. If you encounter issues, please consider using an earlier version or alternative tool (such as Trimmomatic), while we are working on a fix.
+    class: info
