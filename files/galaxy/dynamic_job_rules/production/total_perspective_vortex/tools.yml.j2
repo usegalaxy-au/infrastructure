@@ -212,6 +212,7 @@ tools:
       accept:
       - pulsar
       - pulsar-quick  # temporary 19/10/26 for training
+      - pulsar-high-mem2
       - training-exempt  # flye will not run on pulsar-nci-training (fails with SIGILL, only on that pulsar cluster) for an unknown reason (CB 22/04/26)
       # - pulsar-training-large
     rules:
@@ -2738,6 +2739,7 @@ tools:
         require:
         - ncbi_fcs_gx_db
         accept:
+        - pulsar-quick
         - training-exempt
         - pulsar-qld-high-mem2
   toolshed.g2.bx.psu.edu/repos/iuc/necat/necat/.*:
