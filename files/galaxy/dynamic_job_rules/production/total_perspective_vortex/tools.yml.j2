@@ -211,6 +211,7 @@ tools:
     scheduling:
       accept:
       - pulsar
+      - pulsar-quick  # temporary 19/10/26 for training
       - training-exempt  # flye will not run on pulsar-nci-training (fails with SIGILL, only on that pulsar cluster) for an unknown reason (CB 22/04/26)
       # - pulsar-training-large
     rules:
