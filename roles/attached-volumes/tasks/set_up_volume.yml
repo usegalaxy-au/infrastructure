@@ -67,13 +67,21 @@
       when: part_info.fstype == ""
     when: num_parts2|int > 0 and attached_volume.partition is defined
 
+  - name: Get UUID of device
+    ansible.builtin.command: "blkid -s UUID -o value {{ device_part_name|d(attached_volume.device) }}"
+    register: disk_uuid
+    changed_when: false
+    failed_when:
+      - disk_uuid.rc != 0
+      - disk_uuid.stdout | trim == ""
+
   - name: "Mount {{ device_part_name|d(attached_volume.device) }} on {{ attached_volume.path }} "
     mount:
       path: "{{ attached_volume.path }}"
-      src: "{{ device_part_name|d(attached_volume.device) }}"
+      src: "UUID={{ disk_uuid.stdout | trim }}"
       fstype: "{{ attached_volume.fstype }}"
       opts: "{{ attached_volume.opts|d('defaults') }}"
-      state: mounted    
+      state: "{{ attached_volume.state|d('mounted') }}"
   when: attached_volume.device is defined and attached_volume.fstype is defined and attached_volume.path is defined
   become: yes
   become_user: root
