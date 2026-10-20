@@ -1,0 +1,8 @@
+- hosts: "{{ target_hosts }}"
+  become: true
+  tasks:
+  - name: Update CA certificates
+    ansible.builtin.apt:
+      name: ca-certificates
+      state: latest
+      update_cache: true
