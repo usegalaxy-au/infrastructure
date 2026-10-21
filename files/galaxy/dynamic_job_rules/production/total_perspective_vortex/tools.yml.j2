@@ -1473,6 +1473,8 @@ tools:
       - bakta_database
       prefer:
       - bakta_solo_destination
+      accept:
+      - training-exempt
     rules:
     - id: bakta_pulsar_rule
       if: |
@@ -1712,6 +1714,7 @@ tools:
       accept:
       - pulsar
       - pulsar-quick
+      - pulsar-training-large
   toolshed.g2.bx.psu.edu/repos/iuc/chira_collapse/chira_collapse/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/chira_map/chira_map/.*:
