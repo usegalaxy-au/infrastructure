@@ -2391,7 +2391,10 @@ tools:
     scheduling:
       accept:
       - pulsar
-      - pulsar-training-large
+      - pulsar-quick
+      - pulsar-high-mem2
+      # - pulsar-training-large
+      - training-exempt
     rules:
     - id: megahit_small_input_rule
       if: input_size < 1
