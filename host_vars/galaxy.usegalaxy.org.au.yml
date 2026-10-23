@@ -284,7 +284,7 @@ tiaas_disassociate_training_roles:
   minute: 0 # optional, defaults to 0
 
 tiaas_show_advertising: false
-tiaas_retain_contact_consent: false
+tiaas_retain_contact_require_consent: false
 
 # Templates to override web content:
 tiaas_templates_dir: files/tiaas/html
