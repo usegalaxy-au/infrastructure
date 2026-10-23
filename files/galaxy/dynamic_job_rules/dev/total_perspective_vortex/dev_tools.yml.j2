@@ -1,4 +1,20 @@
 tools:
+  __DATA_FETCH__:
+    params:
+      tmp_dir: True
+  __IMPORT_HISTORY__:
+    params:
+      tmp_dir: true
+  interactive_tool_.*:
+    context:
+      require_login: true
+    cores: 2
+    scheduling:
+      require:
+        - interactive_pulsar
+  toolshed.g2.bx.psu.edu/repos/.*:  # All toolshed tools have singularity enabled by default
+    params:
+      singularity_enabled: true
   aagi_.*:
     cores: 4
     mem: 8
@@ -36,7 +52,6 @@ tools:
     mem: 69
     gpus: 1
     params:
-      singularity_enabled: true
       singularity_run_extra_arguments: --nv
     scheduling:
       accept:
@@ -44,10 +59,187 @@ tools:
       require:
       - pulsar-qld-gpu-dev
 
-  toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_trimming/dorado_trimming/.*:
+  pbgcpp:
+    cores: 2
+    params:
+      singularity_enabled: True
+      singularity_volumes: '$defaults,/cvmfs:ro'
+      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+  pbmm2:
+    cores: 2
+    params:
+      singularity_enabled: True
+      singularity_volumes: '$defaults,/cvmfs:ro'
+      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+  cellranger:
+    cores: 4
+    params:
+      singularity_enabled: True
+      singularity_volumes: '$defaults,/cvmfs:ro'
+  fgenesh:
+    cores: 4
+    params:
+      singularity_enabled: True
+      singularity_volumes: '$defaults,/cvmfs:ro'
+  GlyComboCLI:
+    cores: 4
+    params:
+      singularity_enabled: True
+      singularity_volumes: '$defaults,/cvmfs:ro'
+  phastest:
+    cores: 2
+    context:
+      slurm_docker_volumes: "$defaults,/mnt/galaxy/local_tools/db/phastest:/home/phastest/phastest-app/DB:ro"
+    params:
+      docker_enabled: true
+      docker_sudo: false
+      require_container: true
+    scheduling:
+      require:
+        - slurm
+  phastest_dev:
+    cores: 2
+    context:
+      slurm_docker_volumes: "$defaults,/mnt/galaxy/local_tools/db/phastest:/home/phastest/phastest-app/DB:ro"
+    params:
+      docker_enabled: true
+      docker_sudo: false
+      require_container: true
+    scheduling:
+      require:
+        - slurm
+  ufcg_profile:
+    cores: 4
     params:
       singularity_enabled: true
+      singularity_run_extra_arguments: '--writable-tmpfs'
+  ufcg_tree:
+    cores: 4
+    params:
+      singularity_enabled: true
+      singularity_run_extra_arguments: '--writable-tmpfs'
+  ufcg_align:
+    cores: 4
+    params:
+      singularity_enabled: true
+      singularity_run_extra_arguments: '--writable-tmpfs'
 
-  toolshed.g2.bx.psu.edu/repos/galaxy-australia/plot_ragtag_paf/plot_ragtag_paf/.*:
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_text_file_with_recurring_lines/.*:  # Testing tool resubmission parameters
+    context:
+      OOM_RESUBMIT_JOBS: true
+      OOM_RESUBMIT_MAX_ATTEMPTS: 4
+    mem: 0.005
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/.*:  # Testing tool resubmission parameters with pulsar
+    context:
+      OOM_RESUBMIT_JOBS: true
+      OOM_RESUBMIT_MAX_ATTEMPTS: 2
+    mem: 0.003
+    scheduling:
+      accept:
+        - pulsar
+      require:
+        - dev-pulsar
+
+  toolshed.g2.bx.psu.edu/repos/genouest/braker3/braker3/.*:
+    cores: 2
+    mem: 7.6
     params:
       singularity_enabled: true
+      singularity_run_extra_arguments: --writable-tmpfs
+    rules:
+    - id: braker3_v3_0_6_container_rule
+      if: helpers.tool_version_gte(tool, '3.0.6') and helpers.tool_version_lt(tool, '3.0.7')
+      params:
+        singularity_container_id_override: docker://teambraker/braker3:v1.0.6  
+    - id: braker3_v3_0_7_container_rule
+      if: helpers.tool_version_gte(tool, '3.0.7') and helpers.tool_version_lt(tool, '3.0.8')
+      params:
+        singularity_container_id_override: docker://teambraker/braker3:v3.0.7.1
+    - id: braker3_v3_0_8_container_rule
+      if: helpers.tool_version_gte(tool, '3.0.8') and helpers.tool_version_lt(tool, '3.0.9')
+      params:
+         singularity_container_id_override: docker://teambraker/braker3:v3.0.7.4 
+  toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
+    # memory calculated with rule from shared db
+    cores: 16
+    scheduling:
+      accept:
+        - pulsar
+  toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/.*:
+    context:
+     max_concurrent_job_count_for_tool_user: 1
+    params:
+      docker_enabled: true
+      singularity_enabled: false
+      tmp_dir: true
+  toolshed.g2.bx.psu.edu/repos/galaxyp/fragpipe/fragpipe/.*:
+    cores: 16
+    mem: 32
+    scheduling:
+      accept:
+        - pulsar
+      require:
+        - pulsar-nci-test
+  toolshed.g2.bx.psu.edu/repos/iuc/fasta_stats/fasta-stats/.*:  # storage testing parameters
+    cores: 4
+    mem: 30
+    scheduling:
+      accept:
+        - pulsar
+      require:
+        - pulsar-nci-test
+  toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/.*:  # storage testing parameters
+    cores: 2
+    rules:
+    - if: input_size >= 2
+      cores: 3
+  .*alphafold.*:  # match local or toolshed alphafold
+    context:
+      alphafold_aa_length_max: 3000
+      alphafold_max_input_sequences: 10
+      alphafold_db: /data
+      pulsar_docker_volumes: "$job_directory:rw,$tool_directory:ro,/cvmfs/data.galaxyproject.org:ro,/tmp:rw,/data/alphafold:/data:ro"
+    cores: 40
+    mem: 107
+    gpus: 1
+    scheduling:
+      accept:
+        - pulsar
+      require:
+        - alphafold
+    params:
+      docker_enabled: true
+      singularity_enabled: false
+      docker_sudo: false
+      require_container: true
+      docker_run_extra_arguments: "--gpus all --env ALPHAFOLD_AA_LENGTH_MIN=5 --env ALPHAFOLD_AA_LENGTH_MAX={alphafold_aa_length_max} --env ALPHAFOLD_MAX_SEQUENCES={alphafold_max_input_sequences} --env ALPHAFOLD_DB={alphafold_db}"
+      docker_set_user: '1000'
+
+  toolshed.g2.bx.psu.edu/repos/iracooke/protk_proteogenomics/.*:
+    cores: 1
+    params:
+      singularity_run_extra_arguments: '--writable-tmpfs'
+      dependency_resolution: 'none'
+  toolshed.g2.bx.psu.edu/repos/iracooke/xtandem/.*:
+    cores: 1
+    params:
+      singularity_run_extra_arguments: '--writable-tmpfs'
+      dependency_resolution: 'none'
+  toolshed.g2.bx.psu.edu/repos/iracooke/protk-galaxytools/.*:
+    cores: 1
+    params:
+      singularity_run_extra_arguments: '--writable-tmpfs'
+      dependency_resolution: 'none'
+  toolshed.g2.bx.psu.edu/repos/iracooke/tpp_prophets/.*:
+    cores: 1
+    params:
+      singularity_run_extra_arguments: '--writable-tmpfs'
+      dependency_resolution: 'none'
+  maxquant_test:
+    scheduling:
+       require:
+         - pulsar
+         - pulsar-nci-test
+    cores: 12
+    mem: 48
