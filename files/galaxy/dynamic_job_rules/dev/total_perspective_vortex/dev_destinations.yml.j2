@@ -90,6 +90,7 @@ destinations:
     scheduling:
       accept:
         - slurm
+        - training
   interactive_pulsar:
     runner: pulsar_embedded
     context:
@@ -138,8 +139,8 @@ destinations:
     max_mem: 48.19
     scheduling:
       accept:
-        - general
         - pulsar-nci-test
+        - training
       require:
         - pulsar
   pulsar-qld-gpu-dev:

@@ -1,0 +1,118 @@
+users:
+  default:
+    rules:
+      - id: slurm_training_rule
+        if: |
+          # this block is repeated for every training rule
+          # but it is too specific to AU to be a helper function
+          training_job_matches_specs = False  # return value
+          training_rules_apply = False
+          try:
+            if any([r for r in user.all_roles() if (not r.deleted and r.name.startswith('training'))]):
+              training_rules_apply = True
+            elif 'training' in [hta.user_tname for hta in job.history.tags]:
+              training_rules_apply = True
+          except Exception as e:
+            log.debug('--tpv log debug: Exception checking training status of job')
+            log.debug(str(e))
+
+          if training_rules_apply:
+            include_tags = []
+            exclude_tags = ['pulsar', 'training-exempt']
+            training_job_matches_specs = helpers.tag_values_match(entity, include_tags, exclude_tags)
+          training_job_matches_specs
+        max_cores: slurm_training_max_cores
+        max_mem: slurm_training_max_mem
+        context:
+          partition: training
+        scheduling:
+          require:
+            - slurm
+            - training
+      - id: pulsar_training_rule
+        if: |
+          training_job_matches_specs = False  # return value
+          training_rules_apply = False
+          try:
+            if any([r for r in user.all_roles() if (not r.deleted and r.name.startswith('training'))]):
+              training_rules_apply = True
+            elif 'training' in [hta.user_tname for hta in job.history.tags]:
+              training_rules_apply = True
+          except Exception as e:
+            log.debug('--tpv log debug: Exception checking training status of job')
+            log.debug(str(e))
+            
+          if training_rules_apply:
+            include_tags = ['pulsar']
+            exclude_tags = ['training-exempt']
+            training_job_matches_specs = helpers.tag_values_match(entity, include_tags, exclude_tags)
+          training_job_matches_specs
+        max_cores: 4
+        max_mem: max_cores * 2.9  # ratio for NCI VMs
+        scheduling:
+          require:
+            - pulsar
+            - training
+  test_user:
+    rules:
+      - id: singularity_test_user_rule
+        if: |
+          enable_singularity = False
+          if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+            try:
+              enable_singularity = 'singularity' in [hta.user_tname for hta in job.history.tags]
+            except:
+              pass
+          enable_singularity
+        params:
+          singularity_enabled: True
+          dependency_resolution: none
+      - id: pulsar_test_user_rule
+        if: |
+          require_pulsar = False
+          if tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed'):
+            try:
+              require_pulsar = 'pulsar' in [hta.user_tname for hta in job.history.tags]
+            except:
+              pass
+          require_pulsar
+        scheduling:
+          require:
+            - pulsar
+  star@email.com:
+    inherits: test_user
+    scheduling:
+      require:
+        - slurm
+
+  pulsar_user@usegalaxy.org.au:
+    inherits: test_user
+    max_cores: 2
+    max_mem: 7.5
+    rules:
+      - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')  # this locks out all local tools, might need to make exceptions for these by id
+        scheduling:
+          require:
+            - pulsar  # if pulsar requires the pulsar tag, nothing without the pulsar tag will go there
+            - dev-pulsar
+  pulsar_nci_test_user@usegalaxy.org.au:
+    inherits: test_user
+    rules:
+      - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+        scheduling:
+          require:
+            - pulsar
+            - pulsar-nci-test
+  jenkins_bot@usegalaxy.org.au:
+    inherits: test_user
+    max_cores: 1
+    max_mem: 3.8
+    scheduling:
+      require:
+        - slurm
+  nectar_user@genome.edu.au:
+    params:
+      object_store_id: nectar_test
+  cloudbridge_user@genome.edu.au:
+    params:
+      object_store_id: cloudbridge_test

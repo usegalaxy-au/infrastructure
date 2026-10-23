@@ -20,6 +20,10 @@ tools:
       pulsar_singularity_volumes: "{{ pulsar_singularity_volumes }}"
       pulsar_docker_volumes: "{{ pulsar_docker_volumes }}"
 
+      # training destination overridable cores/mem values
+      slurm_training_max_cores: 2
+      slurm_training_max_mem: 7.6
+
       # job resubmission logic from usegalaxy.eu
       # resubmit parameters are set last in tool_resubmit.yml
       OOM_RESUBMIT_JOBS: false  # Initially have this as an opt-in variable
