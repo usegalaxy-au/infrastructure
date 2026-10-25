@@ -1,0 +1,20 @@
+- hosts: "{{ target_hosts | default(default_target_hosts) }}"
+  become: true
+  vars:
+    - default_target_hosts: production_pulsars
+  vars_files:
+  - "../group_vars/pulsarservers.yml"
+  tasks:
+  - name: Set privilege separation default variables
+    set_fact:
+      __pulsar_remote_user: "{{ ansible_user_id | default(omit) }}"
+      __pulsar_become: "{{ ansible_env.SUDO_USER is defined }}"
+      __pulsar_become_user: "{{ ansible_user_id | default(omit) }}"
+  - name: Include pulsar installation tasks from galaxyproject.pulsar ansible role
+    ansible.builtin.include_role:
+      name: galaxyproject.pulsar
+      tasks_from: virtualenv
+  - name: Restart pulsar
+    systemd:
+      name: pulsar
+      state: restarted
