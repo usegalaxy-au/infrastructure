@@ -243,7 +243,7 @@ destinations:
         - eggnog
       require:
         - pulsar
-        - pulsar-quick
+        - offline
   pulsar-qld-high-mem1:
     inherits: _pulsar_destination
     runner: pulsar-qld-high-mem1_runner
@@ -285,7 +285,7 @@ destinations:
         # - gffread_destination  # special mapping because gffread is a dangerous tool that can take over jwd space
       require:
         - pulsar
-        - pulsar-quick
+        - pulsar-qld-high-mem2
   pulsar-nci-training:
     inherits: _pulsar_destination
     runner: pulsar-nci-training_runner
