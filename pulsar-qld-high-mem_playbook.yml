@@ -1,5 +1,7 @@
-- hosts: pulsar_qld_himems
+- hosts: "{{ target_hosts | default(default_target_hosts) }}"
   become: true
+  vars:
+    default_target_hosts: pulsar_qld_himems
   vars_files:
     - group_vars/all.yml
     - group_vars/pulsarservers.yml
@@ -55,7 +57,7 @@
         state: directory
         owner: "{{ pulsar_user.name }}"
         group: "{{ pulsar_user.name }}"
-      when: inventory_hostname.endswith('high-mem2')
+      when: inventory_hostname.endswith('high-mem2') or inventory_hostname.endswith('high-mem1')
     - name: Run update cgroups task last
       include_role:
         name: disable-cgroups-v2
