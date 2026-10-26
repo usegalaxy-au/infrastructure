@@ -1,5 +1,7 @@
-- hosts: pulsar_qld_himems
+- hosts: "{{ target_hosts | default(default_target_hosts) }}"
   become: true
+  vars:
+    default_target_hosts: pulsar_qld_himems
   vars_files:
     - group_vars/all.yml
     - group_vars/pulsarservers.yml
