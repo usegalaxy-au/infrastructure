@@ -151,7 +151,7 @@ destinations:
     inherits: _pulsar_destination
     runner: pulsar-mel3_runner
     max_accepted_cores: 32
-    max_accepted_mem: 62.5 # can allocate up to 125 but this has been reduced so that those jobs are scheduled to abundant high memory resources
+    max_accepted_mem: 125 # 62.5 # can allocate up to 125 but this has been reduced so that those jobs are scheduled to abundant high memory resources
     context:
       destination_total_cores: 144
       destination_total_mem: 553
