@@ -34,7 +34,13 @@ host_machine_users:
         - galaxy_admin
       key: files/keys/mike.pub
       email: "{{ mike_email }}"
-
+    - name: swarupa
+      uid: 7016
+      roles:
+        - sudo
+        - galaxy_admin
+      key: files/keys/swarupa.pub
+      email: "{{ swarupa_email }}"
 
 # Control whether AAI settings are being used
 aai_enabled: true
