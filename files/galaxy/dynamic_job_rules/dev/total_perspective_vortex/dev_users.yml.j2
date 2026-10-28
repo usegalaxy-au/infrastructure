@@ -23,8 +23,6 @@ users:
           training_job_matches_specs
         max_cores: slurm_training_max_cores
         max_mem: slurm_training_max_mem
-        context:
-          partition: training
         scheduling:
           require:
             - slurm

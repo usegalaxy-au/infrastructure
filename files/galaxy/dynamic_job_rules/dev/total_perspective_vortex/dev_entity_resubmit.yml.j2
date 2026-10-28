@@ -1,10 +1,10 @@
 ---
-# tool resubmit rules
-# tool pattern matches any tool
-# this should be the last tool/user/role entity listed in the job conf
+# job resubmit rules
+# pattern matches any user
+# this should be the last user entity listed in the job conf
 # so that its rules will be the last applied
-tools:
-  .*:  # ANY TOOL
+users:
+  .*:  # ANY USER
     rules:
     - id : include_resubmit_in_job_wrapper_rule
       if: |
@@ -30,6 +30,8 @@ tools:
     #   execute: |
     #     # save entity.mem as a string to delay evaluation
     #     entity.mem = f"min(({entity.mem}) * ({OOM_SCALING_FACTOR} ** {job.resubmission_count}), {OOM_SCALING_CAP})"
+    #     if helpers.tag_values_match(entity, match_tag_values=['training'], exclude_tag_values=['training-exempt']):
+    #       entity.max_mem = f"min(({entity.max_mem}) * ({OOM_SCALING_FACTOR} ** {job.resubmission_count}), {OOM_SCALING_CAP})"
     - id: oom_resubmit_increase_memory_pre_26.2_rule
       if: OOM_RESUBMIT_JOBS and job is not None and job.state == "resubmitted" # and not hasattr(job, "resubmission_count")
       execute: |
@@ -40,3 +42,5 @@ tools:
         entity.params['tpv_resubmission_count'] = _resubmission_count
         # save entity.mem as a string to delay evaluation
         entity.mem = f"min(({entity.mem}) * ({OOM_SCALING_FACTOR} ** {_resubmission_count}), {OOM_SCALING_CAP})"
+        if helpers.tag_values_match(entity, match_tag_values=['training'], exclude_tag_values=['training-exempt']):
+          entity.max_mem = f"min(({entity.max_mem}) * ({OOM_SCALING_FACTOR} ** {_resubmission_count}), {OOM_SCALING_CAP})"
