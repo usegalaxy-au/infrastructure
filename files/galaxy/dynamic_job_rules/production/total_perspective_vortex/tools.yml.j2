@@ -781,6 +781,7 @@ tools:
       accept:
       - pulsar
       - pulsar-high-mem2
+      - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/devteam/histogram/histogram_rpy/1.0.[34]:
     params:
       singularity_enabled: false
@@ -1223,6 +1224,7 @@ tools:
       - pulsar
       accept:
       - pulsar-high-mem2
+      - pulsar-quick
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/plot_ragtag_paf/plot_ragtag_paf/.*:
     mem: 12  # TODO: add to shared-db (17/08/26)
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/smudgeplot/smudgeplot/.*:
@@ -1650,6 +1652,8 @@ tools:
       accept:
       - pulsar-quick
       - training-exempt
+      reject:
+      - pulsar-high-mem2  # not sure if it has the reference data
     rules:  # all shared-db file size rules for bwa_mem2 are overridden because they do not have higher enough mem values
     - id: bwa_mem2_singularity_override_rule
       if: helpers.tool_version_eq(tool, "2.2.1+galaxy1")
@@ -1685,6 +1689,8 @@ tools:
       - pulsar
       - pulsar-quick
       - training-exempt
+      reject:
+      - pulsar-high-mem2  # not sure if it has the reference data
   toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/.*:
     params:
       tmp_dir: true
@@ -4070,6 +4076,7 @@ tools:
       - pulsar-high-mem2
       accept:
       - pulsar
+      - pulsar-quick
       - training-exempt    # skips user training role rules within users.yml
     rules:
     - id: fgenesh_annotate_training_rule  # custom training rule for fgenesh - regular training rules are in users.yml.j2
