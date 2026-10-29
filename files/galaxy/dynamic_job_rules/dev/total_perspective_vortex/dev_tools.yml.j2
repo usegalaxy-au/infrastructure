@@ -15,6 +15,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/.*:  # All toolshed tools have singularity enabled by default
     params:
       singularity_enabled: true
+  toolshed.g2.bx.psu.edu/repos/tinustk/.*:  # Tools owned by tinustk run with conda for now
+    params:
+      singularity_enabled: false
   aagi_.*:
     cores: 4
     mem: 8
