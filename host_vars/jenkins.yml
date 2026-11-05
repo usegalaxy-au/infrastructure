@@ -64,3 +64,13 @@ nginx_ssl_role: usegalaxy_eu.certbot
 nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
 nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
 
+
+# Telegraf
+telegraf_agent_output:
+  - type: influxdb
+    config:
+      - urls = ["{{ grafana_server_url }}"]
+      - database = "ancillary"
+      - precision = "s"
+      - username = "node"
+      - password = "{{ vault_influx_node_password }}"

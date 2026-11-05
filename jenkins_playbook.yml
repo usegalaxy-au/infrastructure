@@ -5,6 +5,7 @@
     - group_vars/all.yml
     - group_vars/jenkins.yml
     - group_vars/VAULT
+    - secret_group_vars/stats_server_vault
     - secret_group_vars/ssh_keys
     - host_vars/jenkins.yml
   pre_tasks:
@@ -32,6 +33,7 @@
     - geerlingguy.java
     - geerlingguy.jenkins
     - galaxyproject.nginx
+    - dj-wasabi.telegraf
   post_tasks:
     - name: Remove Jenkins security init scripts
       file:
