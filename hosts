@@ -77,6 +77,10 @@ pulsar_mel3_workers
 # MelbourneGVL pulsars
 
 # pulsar-mel2
+[pulsar_mel2:children]
+pulsar_mel2_head
+pulsar_mel2_workers
+
 [pulsar_mel2_head]
 pulsar-mel2 ansible_ssh_host=115.146.85.6
 
@@ -89,9 +93,15 @@ pulsar-mel2-w5 ansible_ssh_host=115.146.85.15
 pulsar-mel2-w6 ansible_ssh_host=115.146.85.227
 pulsar-mel2-w7 ansible_ssh_host=115.146.87.253
 
+[pulsar_mel2_slurm:children]
+pulsar_mel2_head
+pulsar_mel2_workers
+
+# pulsar-high-mem1
 [pulsar_high_mem1]
 pulsar-high-mem1 ansible_ssh_host=115.146.86.162
 
+# pulsar-high-mem2
 [pulsar_high_mem2]
 pulsar-high-mem2 ansible_ssh_host=115.146.85.27
 
