@@ -250,7 +250,6 @@ galaxy-aust-exports-2026 ansible_ssh_host=203.101.227.234
 qld-nvme ansible_ssh_host=203.101.231.166
 
 [stats_servers]
-stats-2021 ansible_ssh_host=115.146.84.128
 stats ansible_ssh_host=115.146.87.139
 
 [failover_servers]
