@@ -111,8 +111,15 @@ pulsar-qld-high-mem0 ansible_ssh_host=203.101.227.94
 pulsar-qld-high-mem1 ansible_ssh_host=203.101.227.127
 pulsar-qld-high-mem2 ansible_ssh_host=203.101.227.201
 
+# pulsar-qld-blast
 [pulsar_qld_blast]
 pulsar-qld-blast ansible_ssh_host=203.101.231.87 internal_ip=10.255.137.182
+
+# pulsar-QLD
+[pulsar_QLD:children]
+pulsar_QLD_head
+pulsar_QLD_nfs
+pulsar_QLD_workers
 
 [pulsar_QLD_head]
 pulsar-QLD ansible_ssh_host=203.101.230.151
@@ -129,6 +136,11 @@ pulsar-QLD-w5 ansible_ssh_host=203.101.228.217
 pulsar-QLD-w6 ansible_ssh_host=203.101.227.132
 pulsar-QLD-w7 ansible_ssh_host=203.101.231.146
 
+[pulsar_QLD_slurm:children]
+pulsar_QLD_head
+pulsar_QLD_workers
+
+# QLD GPU pulsars
 [pulsar_qld_gpus]
 pulsar-qld-gpu1 ansible_ssh_host=203.101.224.171
 pulsar-qld-gpu2 ansible_ssh_host=203.101.228.175
@@ -140,6 +152,11 @@ pulsar-qld-gpu-dev ansible_ssh_host=203.101.227.161
 # NCI
 [nci_build]
 nci-build ansible_ssh_host=130.56.245.173 internal_ip=10.0.3.96
+
+# pulsar-nci-training
+[pulsar_nci_training:children]
+pulsar_nci_training_head
+pulsar_nci_training_workers
 
 [pulsar_nci_training_head]
 pulsar-nci-training ansible_ssh_host=130.56.245.74 internal_ip=10.0.1.121
@@ -158,12 +175,25 @@ pulsar-nci-training-w10 ansible_ssh_host=10.0.2.191 internal_ip=10.0.2.191
 pulsar-nci-training-w11 ansible_ssh_host=10.0.3.117 internal_ip=10.0.3.117
 pulsar-nci-training-w12 ansible_ssh_host=10.0.1.187 internal_ip=10.0.1.187
 
+[pulsar_nci_training_slurm:children]
+pulsar_nci_training_head
+pulsar_nci_training_workers
+
+# pulsar-nci-test
+[pulsar_nci_test:children]
+pulsar_nci_test_head
+pulsar_nci_test_workers
+
 [pulsar_nci_test_head]
 pulsar-nci-test ansible_ssh_host=130.56.245.148 internal_ip=10.0.3.181
 
 [pulsar_nci_test_workers]
 pulsar-nci-test-w1 ansible_ssh_host=10.0.0.229 internal_ip=10.0.0.229
 pulsar-nci-test-w2 ansible_ssh_host=10.0.0.213 internal_ip=10.0.0.213
+
+[pulsar_nci_test_slurm:children]
+pulsar_nci_test_head
+pulsar_nci_test_workers
 
 # Production pulsars grouping
 [production_pulsars:children]
@@ -178,7 +208,7 @@ pulsar_qld_gpus
 pulsar_nci_training_head
 
 # All pulsar head nodes
-[pulsar_head_nodes:children]
+[pulsarservers:children]
 production_pulsars
 dev_pulsar_head
 staging_pulsar_head
@@ -191,6 +221,12 @@ pulsar_mel2_workers
 pulsar_QLD_workers
 pulsar_nci_training_workers
 pulsar_nci_test_workers
+
+# Galaxy DB servers (production and test)
+[dbservers_children]
+galaxy_db_server
+staging_db_server
+dev_db_server
 
 # Dev cluster (GenomicsVL_Devt)
 [dev_group:children]
