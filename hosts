@@ -1,10 +1,9 @@
 # galaxy etca
-[galaxy_group]
-galaxy-handlers ansible_ssh_host=138.44.7.157 internal_ip=192.168.205.47
-galaxy-db ansible_ssh_host=138.44.7.155 internal_ip=192.168.205.18
+[galaxy_etca]
 galaxy-backup ansible_ssh_host=138.44.7.156 internal_ip=192.168.205.79
-[galaxy_group:children]
+[galaxy_etca:children]
 galaxy_galaxy_server
+galaxy_db_server
 galaxy_slurm_head
 galaxy_nfs_servers
 galaxy_workers
@@ -13,6 +12,10 @@ gms_webservers
 
 [galaxy_galaxy_server]
 galaxy ansible_ssh_host=138.44.7.153 internal_ip=192.168.205.215
+galaxy-handlers ansible_ssh_host=138.44.7.157 internal_ip=192.168.205.47
+
+[galaxy_db_server]
+galaxy-db ansible_ssh_host=138.44.7.155 internal_ip=192.168.205.18
 
 [galaxy_slurm_head]
 galaxy-queue ansible_ssh_host=138.44.7.154 internal_ip=192.168.205.114
@@ -34,16 +37,25 @@ galaxy-w8 internal_ip=192.168.205.193
 galaxy-w9 internal_ip=192.168.205.181
 galaxy-w10 internal_ip=192.168.205.236
 
+[galaxy_etca_slurm:children]
+galaxy_slurm_head
+galaxy_galaxy_server
+galaxy_workers
+
 [labs_engine]
 galaxy-labs ansible_ssh_host=138.44.7.160 internal_ip=192.168.205.41 ansible_connection=ssh ansible_user=ubuntu
 
 [gms_webservers]
 galaxy-media ansible_ssh_host=138.44.7.159 internal_ip=192.168.205.199 ansible_connection=ssh ansible_user=ubuntu
 
-[reporting_service]
-galaxy-reporting ansible_ssh_host=115.146.86.129 ansible_connection=ssh ansible_user=ubuntu
-
 # GenomicsVL pulsar
+
+# pulsar-mel3
+[pulsar_mel3:children]
+pulsar_mel3_head
+pulsar_mel3_workers
+pulsar_mel3_nfs
+
 [pulsar_mel3_head]
 pulsar-mel3 ansible_ssh_host=115.146.84.200
 
@@ -58,7 +70,13 @@ pulsar-mel3-w4 ansible_ssh_host=115.146.85.209
 pulsar-mel3-w5 ansible_ssh_host=115.146.86.27
 pulsar-mel3-w6 ansible_ssh_host=115.146.85.122
 
+[pulsar_mel3_slurm:children]
+pulsar_mel3_head
+pulsar_mel3_workers
+
 # MelbourneGVL pulsars
+
+# pulsar-mel2
 [pulsar_mel2_head]
 pulsar-mel2 ansible_ssh_host=115.146.85.6
 
@@ -137,10 +155,6 @@ pulsar-nci-test ansible_ssh_host=130.56.245.148 internal_ip=10.0.3.181
 pulsar-nci-test-w1 ansible_ssh_host=10.0.0.229 internal_ip=10.0.0.229
 pulsar-nci-test-w2 ansible_ssh_host=10.0.0.213 internal_ip=10.0.0.213
 
-# Pulsar Azure
-[pulsar_azure_0_head]
-pulsar-azure-0 ansible_ssh_host=20.28.206.42
-
 # Production pulsars grouping
 [production_pulsars:children]
 pulsar_mel3_head
@@ -152,7 +166,6 @@ pulsar_high_mem1
 pulsar_qld_blast
 pulsar_qld_gpus
 pulsar_nci_training_head
-# pulsar_azure_0_head
 
 # All pulsar head nodes
 [pulsar_head_nodes:children]
@@ -251,6 +264,9 @@ qld-nvme ansible_ssh_host=203.101.231.166
 
 [stats_servers]
 stats ansible_ssh_host=115.146.87.139
+
+[reporting_service]
+galaxy-reporting ansible_ssh_host=115.146.86.129 ansible_connection=ssh ansible_user=ubuntu
 
 [failover_servers]
 failover.usegalaxy.org.au ansible_ssh_host=203.101.225.168
