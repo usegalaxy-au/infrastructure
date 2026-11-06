@@ -17,7 +17,6 @@ pulsar_queue_url: "dev-queue.gvl.org.au"
 pulsar_rabbit_username: "galaxy_azure_0"
 pulsar_rabbit_vhost: "/pulsar/galaxy_azure_0"
 
-pulsar_conda_exec: "mamba"  # Use mamba as replacement for conda
 
 galaxy_uid: 10010
 galaxy_gid: 10010
