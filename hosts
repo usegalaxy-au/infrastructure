@@ -260,6 +260,12 @@ dev-w2 ansible_ssh_host=45.113.233.7
 [dev_pulsar_head]
 dev-pulsar ansible_ssh_host=45.113.233.82
 
+[dev_slurm:children]
+dev_galaxy_server
+dev_handlers_server
+dev_slurm_head
+dev_workers
+
 # Staging cluster (GenomicsVL)
 [staging_group:children]
 staging_db_server
@@ -282,6 +288,11 @@ staging-w1 ansible_ssh_host=115.146.87.130
 
 [staging_pulsar_head]
 staging-pulsar ansible_ssh_host=115.146.87.193
+
+[staging_slurm:children]
+staging_galaxy_server
+staging_slurm_head
+staging_workers
 
 [qaai_group]
 qaai ansible_ssh_host=115.146.84.207
