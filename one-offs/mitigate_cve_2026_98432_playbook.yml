@@ -1,0 +1,28 @@
+---
+- name: Temporary mitigation for CVE-2026-98432
+  hosts: "{{ target_hosts }}"
+  become: true
+  tasks:
+    - name: Install nftables
+      ansible.builtin.apt:
+        name: nftables
+        state: present
+
+    - name: Check whether mitigation table exists
+      ansible.builtin.command:
+        cmd: nft list table inet cve_2026_98432
+      register: mitigation_table
+      changed_when: false
+      failed_when: false
+
+    - name: Apply temporary mitigation
+      ansible.builtin.shell: |
+        nft -f - <<'EOF'
+        table inet cve_2026_98432 {
+          chain input {
+            type filter hook input priority -310; policy accept;
+            ip protocol tcp ip hdrlength > 5 counter drop
+          }
+        }
+        EOF
+      when: mitigation_table.rc != 0
