@@ -108,7 +108,7 @@ tools:
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/bgruening/bismark/bismark_bowtie2/*:
     context:
-      max_concurrent_job_count_for_tool_user: 3
+      max_concurrent_job_count_for_tool_user: 4
   toolshed.g2.bx.psu.edu/repos/bgruening/bismark/bismark_deduplicate/.*:
     cores: 4
     mem: 15.6
@@ -148,7 +148,7 @@ tools:
         /cvmfs/singularity.galaxyproject.org/all/openbabel:2.3.2--py27_2                                   # TODO - does this work? Does separate online_data repo tool work?
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 4
+      max_concurrent_job_count_for_tool_user: 5
     cores: 8
     mem: 30.7
     scheduling:
@@ -160,7 +160,7 @@ tools:
       tmp_dir: true
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 4
+      max_concurrent_job_count_for_tool_user: 5
     cores: 8
     mem: 30.7
     scheduling:
@@ -462,8 +462,6 @@ tools:
     context:
       minimum_singularity_version: 3.4.3+galaxy0
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
-    context:
-      max_concurrent_job_count_for_tool_user: 4
     cores: 8
     mem: 30.7
     scheduling:
@@ -833,7 +831,7 @@ tools:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
     cores: 5
     mem: 19.1
     rules:
@@ -1642,7 +1640,7 @@ tools:
       mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:  # TODO: revisit setting mem based on reference size (https://github.com/usegalaxy-au/infrastructure/issues/1835)
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
       test_cores: 4
     cores: 20
     mem: 250
@@ -2270,7 +2268,7 @@ tools:
     mem: 15.6
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:  # Using memory calculation from tpv-shared-db
     context:
-      max_concurrent_job_count_for_tool_user: 1
+      max_concurrent_job_count_for_tool_user: 3
     cores: 1  # reduced from 16 in an attempt to stop jobs stalling while loading data (27/3/26 CB)
     scheduling:
       prefer:
@@ -2421,7 +2419,7 @@ tools:
     mem: 10
   toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 1
+      max_concurrent_job_count_for_tool_user: 2
     cores: 60
     mem: 961
     scheduling:
@@ -2770,7 +2768,7 @@ tools:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/iuc/novoplasty/novoplasty/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 1
+      max_concurrent_job_count_for_tool_user: 2
     rules:
     - id: novoplasty_large_input_rule
       if: input_size > 9
@@ -2795,7 +2793,7 @@ tools:
         - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/orthofinder_onlygroups/orthofinder_onlygroups/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 3
     cores: 8
     mem: 30.7
   toolshed.g2.bx.psu.edu/repos/iuc/pairtools_.*:
@@ -2945,7 +2943,7 @@ tools:
       mem: 19.1
   toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/.*:
     context:
-      max_concurrent_job_count_for_tool_user: 2
+      max_concurrent_job_count_for_tool_user: 4
       minimum_singularity_version: 5.3.0+galaxy0
     cores: 4
     mem: 16
