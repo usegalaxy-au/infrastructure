@@ -1,0 +1,21 @@
+pools:
+  my_first_resource_pool:
+    max_concurrent_cores: 2
+    fail_open: true
+    scheduling:
+      require:
+        - resource-pool-slurm
+  my_second_resource_pool:
+    fail_open: true
+    max_concurrent_cores: 1
+    max_concurrent_mem: 256
+    scheduling:
+      require:
+        - resource-pool-data-fetch
+  my_third_resource_pool:
+    fail_open: true
+    max_concurrent_cores: 2
+    max_concurrent_mem: 256
+    scheduling:
+      require:
+        - resource-pool-fastp

@@ -162,7 +162,7 @@ additional_packages:
   - pkce  # TODO: there is a bug in the conditional dependency checker in release_26.0
   - "gravity{{ galaxy_commit_id.startswith('release_26.0') | ternary('==1.2.2', '') }}"  # remove this when producition is on 26.1
   - "social-auth-core{{ galaxy_commit_id.startswith('release_26.1') | ternary('==5.0.2', '') }}"  # release_26.1 branch pins to 4.9.1, TODO: make this unconditional gte once production is on 26.1 
-  # - "social-auth-core>=5.0.2"
+  - "redis>=5.3.0,<6"  # required for TPV resource pools
 
 galaxy_fetch_dependencies_with_uv: false  # new in galaxyproject.galaxy role as of 0.12.7 (release_26.1)
 
