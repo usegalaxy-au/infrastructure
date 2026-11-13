@@ -1,5 +1,8 @@
 global:
   default_inherits: default
+  resource_pool_store:
+    class: tpv.core.resource_pool.ValkeyAllocationStore
+    url: valkey://localhost:6379/0
 
 tools:
   default:

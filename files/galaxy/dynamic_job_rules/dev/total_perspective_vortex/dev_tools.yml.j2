@@ -2,6 +2,15 @@ tools:
   __DATA_FETCH__:
     params:
       tmp_dir: True
+    scheduling:
+      accept:
+        - resource-pool-data-fetch
+  toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/.*:
+    cores: 1
+    mem: 3.8
+    scheduling:
+      accept:
+        - resource-pool-fastp
   __IMPORT_HISTORY__:
     params:
       tmp_dir: true
