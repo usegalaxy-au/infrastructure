@@ -4,7 +4,7 @@
   vars_files:
     - ../../group_vars/all.yml
     - ../../group_vars/pulsarservers.yml
-    - ../../group_vars/pulsar-nci-test/pulsar-nci-test.yml
+    - ../../group_vars/pulsar_nci_test.yml
     - ../../host_vars/pulsar-nci-test/pulsar-nci-test.usegalaxy.org.au.yml
     - conda_environments.yml
   tasks:

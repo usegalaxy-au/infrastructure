@@ -4,9 +4,9 @@
   vars_files:
     - group_vars/all.yml
     - group_vars/pulsarservers.yml
-    - group_vars/pulsar_nci_training/pulsar-nci-training.yml
-    - group_vars/pulsar_nci_training/pulsar-nci-training_workers.yml
-    - group_vars/pulsar_nci_training/pulsar-nci-training_slurm.yml
+    - group_vars/pulsar_nci_training.yml
+    - group_vars/pulsar_nci_training_workers.yml
+    - group_vars/pulsar_nci_training_slurm.yml
     - group_vars/VAULT
     - secret_group_vars/stats_server_vault
     - secret_group_vars/ssh_keys
