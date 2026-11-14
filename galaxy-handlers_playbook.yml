@@ -48,12 +48,6 @@
         path: "{{ item }}"
       with_items:
         - "{{ qld_file_mounts_path }}"
-    - name: create celery tmp dir
-      file:
-        state: directory
-        path: "{{ galaxy_celery_tmp_dir }}"
-        owner: galaxy
-        group: galaxy
   roles:
         - role: mounts
           tags: mounts

@@ -24,13 +24,19 @@ shared_mounts: "{{ galaxy_mount + galaxy_server_and_worker_shared_mounts }}"
 galaxy_config_file: /opt/galaxy/galaxy.yml
 
 # galaxy role applied to dev-handlers machine is only needed for gravity and the galaxy config files. Skip other tasks
-galaxy_manage_paths: false
+galaxy_manage_paths: true  # manage paths on /pvol, /pvol2
 galaxy_manage_clone: false
 galaxy_fetch_dependencies: false
 galaxy_manage_mutable_setup: false
 galaxy_build_client: false
 
 galaxy_celery_tmp_dir: /pvol/celery_tmp
+
+pulsar_job_working_directory: /pvol2/pulsar_job_working_directory
+
+host_galaxy_extra_dirs:
+  - "{{ galaxy_celery_tmp_dir }}"
+  - "{{ pulsar_job_working_directory }}"
 
 upload_store_volume_dir: /pvol2
 nginx_upload_job_files_store_dir: "{{ nginx_upload_store_base_dir }}/handlers_job_files"

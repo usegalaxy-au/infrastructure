@@ -65,6 +65,13 @@ destinations:
             docker_memory: '{mem}G'
             docker_sudo: false
 
+      # - id: pulsar_jobs_set_object_store_if_unset
+      #   # we have an object store for pulsar jobs
+      #   # but object store set at the user level takes priority
+      #   if: not entity.params.get('object_store_id')
+      #   params:
+      #     object_store_id: data42
+
   slurm:
     inherits: _slurm_destination
     runner: slurm
