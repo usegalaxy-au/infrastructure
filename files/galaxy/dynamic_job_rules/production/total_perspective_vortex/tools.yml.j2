@@ -477,7 +477,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/chemteam/mdanalysis_cosine_analysis/mdanalysis_cosine_analysis/.*:
     mem: 12
   toolshed.g2.bx.psu.edu/repos/chemteam/vmd_hbonds/vmd_hbonds/.*:
+    context:
+      slurm_singularity_volumes: "{{ slurm_singularity_volumes }},/mnt/tools/tool_dependencies/_conda:rw"
     mem: 10
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        resolve_dependencies: true
+        identifier: /cvmfs/singularity.galaxyproject.org/all/galaxy-job-execution:26.1.1
   toolshed.g2.bx.psu.edu/repos/clifinder/clifinder/CLIFinder/.*:
     params:
       singularity_enabled: false
