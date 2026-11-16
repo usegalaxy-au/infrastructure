@@ -248,3 +248,11 @@ miniconda_conda_environments:
         packages:
         - porechop=0.2.4
         - python=3.9 # added
+    __vmd@1.9.3:
+    # added 16/11/26: works outside containers (uses system libGL)
+    # when running with singularity enabled, needs libgl in conda env
+    # so this should always have been in the conda env
+        packages:
+        - vmd=1.9.3
+        - libgl=1.7.0 # added
+    
