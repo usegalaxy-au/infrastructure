@@ -480,6 +480,8 @@ tools:
     context:
       slurm_singularity_volumes: "{{ slurm_singularity_volumes }},/mnt/tools/tool_dependencies/_conda:rw"
     mem: 10
+    env:
+      SINGULARITYENV_LD_LIBRARY_PATH="/mnt/tools/tool_dependencies/_conda/lib:/.singularity.d/libs"
     params:
       container_override:
       - type: singularity
