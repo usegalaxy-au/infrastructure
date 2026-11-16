@@ -2,9 +2,8 @@
   become: true
   vars_files:
     - group_vars/all.yml
-    - group_vars/dev.yml
+    - group_vars/dev_group.yml
     - group_vars/pulsarservers.yml
-    - group_vars/dev_pulsar_slurm.yml
     - group_vars/VAULT
     - host_vars/dev-pulsar.gvl.org.au.yml
     - secret_group_vars/ssh_keys

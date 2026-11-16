@@ -39,9 +39,6 @@ auth_key_user: ubuntu
 
 head_nodes: "{{ groups[ansible_hostname] }}"
 
-# Use mamba as replacement for conda
-pulsar_conda_exec: "mamba"
-
 # SLURM
 slurm_nodes:
     - name: "{{ ansible_hostname }}"

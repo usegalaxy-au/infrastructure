@@ -40,9 +40,6 @@ rabbitmq_users:
   - user: galaxy_nci_test
     password: "{{ rabbitmq_password_galaxy_nci_test }}"
     vhost: /pulsar/galaxy_nci_test
-  - user: galaxy_azure_0
-    password: "{{ rabbitmq_password_galaxy_azure_0 }}"
-    vhost: /pulsar/galaxy_azure_0
   - user: galaxy_reservation_g2_xlarge_A
     password: "{{ rabbitmq_password_galaxy_reservation_g2_xlarge_A }}"
     vhost: /pulsar/galaxy_reservation_g2_xlarge_A
@@ -64,7 +61,6 @@ rabbitmq_vhosts:
   - galaxy
   - /pulsar/galaxy_au
   - /pulsar/galaxy_nci_test
-  - /pulsar/galaxy_azure_0
   - /pulsar/galaxy_reservation_g2_xlarge_A
   - /pulsar/galaxy_reservation_g2_xlarge_B
   - /pulsar/galaxy_qldgpu_dev
@@ -77,7 +73,6 @@ rabbitmq_password_telegraf: "{{ vault_rabbitmq_password_telegraf_dev }}"
 rabbitmq_password_galaxy: "{{ vault_rabbitmq_password_galaxy_dev }}"
 rabbitmq_password_galaxy_au: "{{ vault_rabbitmq_password_galaxy_au_dev }}"
 rabbitmq_password_galaxy_nci_test: "{{ vault_rabbitmq_password_galaxy_nci_test }}"
-rabbitmq_password_galaxy_azure_0: "{{ vault_rabbitmq_password_galaxy_azure_0 }}"
 rabbitmq_password_galaxy_reservation_g2_xlarge_A: "{{ vault_rabbitmq_password_galaxy_reservation_g2_xlarge_A }}"
 rabbitmq_password_galaxy_reservation_g2_xlarge_B: "{{ vault_rabbitmq_password_galaxy_reservation_g2_xlarge_B }}"
 rabbitmq_password_galaxy_qldgpu_dev: "{{ vault_rabbitmq_password_galaxy_qldgpu_dev }}"
