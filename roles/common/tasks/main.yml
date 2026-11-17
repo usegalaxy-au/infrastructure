@@ -45,19 +45,22 @@
   vars:
     hosts_filename: "/etc/hosts"
 
-- name: Install python 3.11
-  block:       
-    - name: Add ppa
-      apt_repository:
+- name: Install additional Python versions
+  when: install_additional_python_versions | default([]) | length > 0
+  become: true
+  block:
+    - name: Add deadsnakes PPA
+      ansible.builtin.apt_repository:
         repo: ppa:deadsnakes/ppa
-        state: present  
-    - name: Install python 3.11
-      apt:
+        state: present
+
+    - name: Install requested Python versions
+      ansible.builtin.apt:
         name:
-          - python3.11
-          - python3.11-venv
-        state: present  
-  when: install_python_311|d(False)
+          - "python{{ item }}"
+          - "python{{ item }}-venv"
+        state: present
+      loop: "{{ install_additional_python_versions }}"
 
 - name: Add Galaxy group to relevant machines
   group:

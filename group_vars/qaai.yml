@@ -8,7 +8,8 @@ use_internal_ips: true
 influx_url: stats.usegalaxy.org.au
 grafana_server_url: "https://{{ influx_url }}:8086"
 
-install_python_311: True
+install_additional_python_versions:
+  - 3.11
 
 # Do not use telegraf for now. If we do, qaai database needs to be created.
 # # Monitoring
