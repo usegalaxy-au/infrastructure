@@ -1,0 +1,25 @@
+---
+- name: Disable SCTP kernel module
+  hosts: "{{ target_hosts }}"
+  become: true
+
+  tasks:
+    - name: Prevent SCTP module from loading
+      ansible.builtin.copy:
+        dest: /etc/modprobe.d/disable-sctp.conf
+        content: |
+          install sctp /bin/false
+          blacklist sctp
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Check whether SCTP module is loaded
+      ansible.builtin.command: lsmod
+      register: loaded_modules
+      changed_when: false
+
+    - name: Report machines with SCTP loaded
+      ansible.builtin.debug:
+        msg: "WARNING: SCTP module is loaded on {{ inventory_hostname }}"
+      when: loaded_modules.stdout is search('(?m)^sctp\\s')
