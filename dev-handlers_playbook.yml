@@ -43,8 +43,10 @@
     # - role: galaxyproject.miniconda  # maybe this is never needed from the handlers playbook, will see
     #   become: true
     #   become_user: galaxy
-    - nginx-upload-module
-    - galaxyproject.nginx
+    - role: nginx-upload-module
+      tags: nginx
+    - role: galaxyproject.nginx
+      tags: nginx
     - galaxyproject.tusd
     - galaxyproject.slurm
     - galaxyproject.cvmfs
