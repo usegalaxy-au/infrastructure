@@ -185,6 +185,7 @@ destinations:
         - cvmfs_cache_800plus
       require:
         - pulsar
+        - pulsar-quick
   pulsar-high-mem2:
     inherits: _pulsar_destination
     runner: pulsar-high-mem2_runner
@@ -200,7 +201,7 @@ destinations:
         - pulsar-high-mem2
         - cvmfs_cache_100plus
         - cvmfs_cache_800plus
-        - phastest
+        # - phastest
         - gffread_destination  # while pqhm1 and pqhm2 are offline
       require:
         - pulsar
@@ -343,7 +344,7 @@ destinations:
         - bakta_database
         - bakta_solo_destination
         - eggnog
-        # - phastest  # while pulsar-high-mem2 is offline
+        - phastest  # while pulsar-high-mem2 is offline
       require:
         - pulsar
         # - pulsar-quick  # tag given to tools where jobs are bound to complete in less than a day
