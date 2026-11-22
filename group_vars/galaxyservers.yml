@@ -51,6 +51,7 @@ nginx_servers:
   - redirect-ssl
 nginx_enable_default_server: false
 nginx_ssl_servers:
+  - reject-unknown-hosts
   - galaxy
 nginx_conf_http:
   server_tokens: "off"
