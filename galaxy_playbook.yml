@@ -48,8 +48,10 @@
     - usegalaxy_eu.galaxy_subdomains
     - role: galaxyproject.galaxy_extensions
       tags: extensions
-    - nginx-upload-module
-    - galaxyproject.nginx
+    - role: nginx-upload-module
+      tags: nginx
+    - role: galaxyproject.nginx
+      tags: nginx
     - galaxyproject.tusd
     - galaxyproject.slurm
     - galaxyproject.cvmfs

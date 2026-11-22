@@ -63,8 +63,10 @@
         # - role: galaxyproject.miniconda
         #   become: true
         #   become_user: galaxy
-        - galaxyproject.nginx
-        - nginx-upload-module
+        - role: galaxyproject.nginx
+          tags: nginx
+        - role: nginx-upload-module
+          tags: nginx
         # - galaxyproject.tusd # TODO: Where is tusd going to run??
         - galaxyproject.slurm
         - galaxyproject.cvmfs
