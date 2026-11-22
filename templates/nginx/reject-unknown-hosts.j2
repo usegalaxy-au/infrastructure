@@ -1,0 +1,6 @@
+server {
+    # Requests for a host that no other server block names end here instead of reaching Galaxy
+    listen        *:443 ssl default_server;
+    server_name   _;
+    return        444;
+}
