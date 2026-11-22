@@ -46,6 +46,7 @@ certbot_dns_credentials:
 certbot_dns_provider_propagation_seconds: 60
 
 nginx_ssl_servers:
+  - reject-unknown-hosts
   - galaxy
   - galaxy-gie-proxy
 
