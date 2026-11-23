@@ -30,6 +30,6 @@ retention_disk: 5      # keep backups on local disk for this many days
 connection_string: "postgres://{{ db_user }}:{{ db_password }}@{{ db_server }}:{{ db_port }}/{{ psql_db }}"
 
 set_backup_cron: true
-backup_run_hour: "18" # 18 UTC = 4am AEST; was 23 UTC = 9am AEST
+backup_run_hour: "16" # 16 UTC = 2am AEST; previously 18 (4am AEST)
 backup_run_minute: "1"
 
