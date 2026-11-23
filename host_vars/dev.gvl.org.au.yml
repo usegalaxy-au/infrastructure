@@ -217,6 +217,7 @@ host_galaxy_config: # renamed from __galaxy_config
     enable_oidc: true
     enable_tool_requests: true
     file_path: "{{ galaxy_file_path }}"
+    file_source_templates_config_file: "{{ galaxy_config_dir }}/file_source_templates.yml"
     id_secret: "{{ vault_dev_id_secret }}"
     interactivetools_enable: true
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
