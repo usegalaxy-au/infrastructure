@@ -4071,26 +4071,6 @@ tools:
     mem: 3.8
   Show tail1:
     mem: 10
-  ^fgenesh_annotate$:
-    inherits: fgenesh_tool
-    context:
-      max_concurrent_job_count_for_tool_user: 1
-    cores: 40
-    mem: 500
-    scheduling:
-      require:
-      - pulsar-high-mem2
-      accept:
-      - pulsar
-      - pulsar-quick
-      - fgenesh
-      - training-exempt    # skips user training role rules within users.yml
-    rules:
-    - id: fgenesh_annotate_training_rule  # custom training rule for fgenesh - regular training rules are in users.yml.j2
-      if: |
-        user and any([role.name.startswith('training') for role in user.all_roles() if not role.deleted])
-      cores: 4
-      mem: 25
   __DATA_FETCH__:
     context:
       max_concurrent_job_count_for_tool_total: 25
@@ -4138,26 +4118,6 @@ tools:
       tmp_dir: true
   dorado_error_correct_alpha:
     inherits: toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado/dorado/.*
-  fgenesh_check:
-    inherits: fgenesh_tool
-  fgenesh_get_mrnas_gc:
-    inherits: fgenesh_tool
-  fgenesh_get_proteins:
-    inherits: fgenesh_tool
-  fgenesh_merge:
-    inherits: fgenesh_tool
-  fgenesh_renumber:
-    inherits: fgenesh_tool
-  fgenesh_split:
-    inherits: fgenesh_tool
-  fgenesh_to_genbank:
-    inherits: fgenesh_tool
-  fgenesh_tool:
-    abstract: true
-    context:
-      require_login: true
-    params:
-      singularity_enabled: true
   gtdbtk_classify_wf_test:
     cores: 16
     mem: 60
