@@ -1163,6 +1163,28 @@ tools:
       singularity_enabled: false
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/dorado_pod5_convert/dorado_pod5_convert/.*:
     cores: 8
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/fgenesh_*:
+    context:
+      require_login: true
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/fgenesh_annotate/fgenesh_annotate/.*:
+    context:
+      max_concurrent_job_count_for_tool_user: 1
+    cores: 40
+    mem: 500
+    scheduling:
+      require:
+      - pulsar-high-mem2
+      accept:
+      - pulsar
+      - pulsar-quick
+      - fgenesh
+      - training-exempt    # skips user training role rules within users.yml
+    rules:
+    - id: fgenesh_annotate_training_rule  # custom training rule for fgenesh - regular training rules are in users.yml.j2
+      if: |
+        user and any([role.name.startswith('training') for role in user.all_roles() if not role.deleted])
+      cores: 4
+      mem: 25
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hapcut2/hapcut2/.*:
     mem: 8  # TODO: this could be linear on input size
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/hifiadapterfilt/hifiadapterfilt/.*:
