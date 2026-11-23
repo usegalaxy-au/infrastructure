@@ -10,7 +10,7 @@
       - host_vars/galaxy-handlers.usegalaxy.org.au.yml
       - secret_group_vars/stats_server_vault
   handlers:
-    - include: handlers/galaxy_handlers.yml
+    - import_tasks: handlers/galaxy_handlers.yml
     - name: galaxy gravity remote restart
       become: true
       become_user: ubuntu
