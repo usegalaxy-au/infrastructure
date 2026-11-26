@@ -7,6 +7,7 @@
       - host_vars/galaxy-backup.yml
       - secret_group_vars/stats_server_vault
       - secret_group_vars/ssh_keys
+      - secret_group_vars/selenium_tests_vault
   pre_tasks:
     - name: Attach volume to instance
       include_role:
@@ -21,6 +22,10 @@
     - role: grouper
       tags: grouper
     - dj-wasabi.telegraf
+    - role: geerlingguy.docker
+      tags: docker
+    - role: selenium-tests
+      tags: selenium-tests
   post_tasks:
     - name: Ensure desired version of ansible is installed
       pip:

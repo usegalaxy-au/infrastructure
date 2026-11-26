@@ -116,3 +116,18 @@ history_mailer_cron_jobs:
 
 grouper_enable_cron_jobs: true
 grouper_run_args: --add --all --production --notify --commit
+
+### Selenium page performance tests
+
+docker_users:
+  - ubuntu
+
+selenium_test_post_token: "{{ vault_selenium_test_post_token }}"
+selenium_test_galaxy_password: "{{ vault_selenium_test_galaxy_password }}"
+selenium_test_target_galaxy_servers:
+  - url: https://usegalaxy.org.au/
+    username: cat1111
+    password: "{{ vault_selenium_test_galaxy_au_password }}"
+  - url: https://usegalaxy.org/
+  - url: https://usegalaxy.eu/
+    username: help@genome.edu.au

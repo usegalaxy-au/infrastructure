@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+{{ selenium_test_log_dir }}/*.log {
+    weekly
+    rotate 4
+    compress
+    delaycompress
+    missingok
+    notifempty
+    su {{ selenium_test_user }} {{ selenium_test_user }}
+}

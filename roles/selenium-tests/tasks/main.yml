@@ -1,0 +1,54 @@
+---
+- name: Check that required secrets are set
+  assert:
+    that:
+      - selenium_test_post_token | default('', true) | length > 0
+      - selenium_test_galaxy_password | default('', true) | length > 0
+    fail_msg: >-
+      selenium_test_post_token and selenium_test_galaxy_password must be set
+      (store them in ansible vault)
+    quiet: true
+
+- name: Create selenium test directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ selenium_test_user }}"
+    group: "{{ selenium_test_user }}"
+    mode: "0750"
+  loop:
+    - "{{ selenium_test_root }}"
+    - "{{ selenium_test_log_dir }}"
+
+- name: Template selenium test runner script
+  template:
+    src: run_selenium_tests.sh.j2
+    dest: "{{ selenium_test_root }}/run_selenium_tests.sh"
+    owner: "{{ selenium_test_user }}"
+    group: "{{ selenium_test_user }}"
+    mode: "0700"  # contains secrets
+  no_log: true
+
+- name: Template logrotate config for selenium test logs
+  template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/selenium_tests
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Set up selenium test cron job
+  vars:
+    cron_fields: "{{ selenium_test_cron_time.split() }}"
+  cron:
+    user: "{{ selenium_test_user }}"
+    name: selenium_tests
+    minute: "{{ cron_fields[0] }}"
+    hour: "{{ cron_fields[1] }}"
+    day: "{{ cron_fields[2] }}"
+    month: "{{ cron_fields[3] }}"
+    weekday: "{{ cron_fields[4] }}"
+    job: >-
+      {{ selenium_test_root }}/run_selenium_tests.sh
+      >> {{ selenium_test_log_dir }}/selenium_tests.log 2>&1
+    disabled: "{{ not selenium_test_cron_enabled }}"
