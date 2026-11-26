@@ -1,0 +1,70 @@
+#!/bin/bash
+# {{ ansible_managed }}
+#
+# Run page performance (selenium) tests against Galaxy servers and post the
+# results to InfluxDB as line protocol.
+
+set -u
+
+IMAGE={{ selenium_test_docker_image | quote }}
+TIMEOUT={{ selenium_test_timeout_seconds | int }}
+POST_URL={{ selenium_test_post_url | quote }}
+POST_TOKEN={{ selenium_test_post_token | quote }}
+OUTFILE={{ (selenium_test_root ~ '/latest.txt') | quote }}
+RESULTFILE={{ (selenium_test_root ~ '/latest_results.txt') | quote }}
+# measurement,tags fields timestamp
+METRIC_PATTERN="^user_flow_performance,[^ ]+ [^ ]+ [0-9]+$"
+
+timestamp() {
+    date '+%Y%m%d_%H:%M:%S'
+}
+
+# Usage: run_perf_timer <galaxy_server> <galaxy_username> <galaxy_password>
+run_perf_timer() {
+    echo "Starting page timings for $1 at $(timestamp)"
+    GALAXY_SERVER="$1" GALAXY_USERNAME="$2" GALAXY_PASSWORD="$3" \
+        timeout "$TIMEOUT" docker run --rm \
+            --env GALAXY_SERVER \
+            --env GALAXY_USERNAME \
+            --env GALAXY_PASSWORD \
+            "$IMAGE" >> "$OUTFILE"
+    local exit_code=$?
+    if [ "$exit_code" -eq 124 ]; then
+        echo "Docker run for $1 timed out after ${TIMEOUT}s"
+    elif [ "$exit_code" -ne 0 ]; then
+        echo "Docker run for $1 failed with exit code $exit_code"
+    fi
+}
+
+echo "Run started at $(timestamp)"
+
+if ! docker pull --quiet "$IMAGE" > /dev/null; then
+    echo "Failed to pull $IMAGE, using cached image if present"
+fi
+
+: > "$OUTFILE"
+
+{% for server in selenium_test_target_galaxy_servers %}
+run_perf_timer \
+    {{ server.url | quote }} \
+    {{ server.username | default(selenium_test_galaxy_username) | quote }} \
+    {{ server.password | default(selenium_test_galaxy_password) | quote }}
+{% endfor %}
+
+# Only post well-formed metric lines (drops partial output from failed runs)
+grep -E "$METRIC_PATTERN" "$OUTFILE" > "$RESULTFILE"
+LINES=$(wc -l < "$RESULTFILE")
+echo "Docker runs complete. Saved output to $OUTFILE. Result lines: $LINES"
+
+if [ "$LINES" -eq 0 ]; then
+    echo "No results to post"
+else
+    echo "Posting results to $POST_URL"
+    cat "$RESULTFILE"
+    curl --silent --show-error --fail -XPOST "$POST_URL" \
+        --header "Authorization: Token $POST_TOKEN" \
+        --data-binary @"$RESULTFILE" \
+        || echo "Failed to post results"
+fi
+
+echo "Processing complete at $(timestamp)"

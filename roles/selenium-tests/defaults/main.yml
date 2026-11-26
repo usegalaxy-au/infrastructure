@@ -1,0 +1,27 @@
+---
+selenium_test_user: ubuntu
+selenium_test_root: /opt/selenium_testing
+selenium_test_log_dir: "{{ selenium_test_root }}/logs"
+
+# Standard 5-field cron expression
+selenium_test_cron_time: "*/15 * * * *"
+# When false, the cron entry is written in a disabled (commented-out) state
+selenium_test_cron_enabled: true
+
+# Image is built from https://github.com/usegalaxy-au/page_performance_timer
+selenium_test_docker_image: usegalaxyau/page_perf_timer:latest
+selenium_test_timeout_seconds: 180
+
+# InfluxDB write endpoint for results (line protocol)
+selenium_test_post_url: https://stats.usegalaxy.org.au:8086/write?db=GA_server
+selenium_test_post_token:  # store in ansible vault
+
+# Default credentials, used unless a server entry overrides them
+selenium_test_galaxy_username: usegalaxy-au-bot
+selenium_test_galaxy_password:  # store in ansible vault
+
+# Each entry requires a url; username/password are optional overrides
+selenium_test_target_galaxy_servers:
+  - url: https://usegalaxy.org.au/
+  - url: https://usegalaxy.org/
+  - url: https://usegalaxy.eu/
