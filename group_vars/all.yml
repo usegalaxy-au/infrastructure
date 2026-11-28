@@ -236,7 +236,6 @@ galaxy_job_metrics_plugins:
   - type: core
   - type: cpuinfo
   - type: meminfo
-  - type: uname
   - type: cgroup
     version: 1
     params:
@@ -251,7 +250,7 @@ galaxy_job_metrics_plugins:
       - memory.oom_control.under_oom
       - memory.soft_limit_in_bytes
   - type: env
-    variables: 'HOSTNAME,SLURM_CPUS_ON_NODE,SLURM_JOB_ID'
+    variables: 'HOSTNAME'
 
 pulsar_job_metrics_plugins: "{{ galaxy_job_metrics_plugins }}"
 
